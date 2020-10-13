@@ -9,7 +9,7 @@ Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) h
 
 
 
-**If You want to learn [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), these are courses that you will study step by step**
+## If You want to learn [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), these are courses that you will study step by step
 
 1 - [Neural Networks and Deep Learning](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Neural%20Networks%20and%20Deep%20Learning)
   - Analysis and discussing [Neural Networks and Deep Learning](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
@@ -29,7 +29,7 @@ Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) h
   
   
   
-**If You want to learn [Advanced Machine Learning Specialization](https://www.coursera.org/specializations/aml), these are courses that you will study step by step**
+## If You want to learn [Advanced Machine Learning Specialization](https://www.coursera.org/specializations/aml), these are courses that you will study step by step
 
 1 - [Introduction to Deep Learning](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Introduction%20to%20Deep%20Learning)
   - Analysis and discussing [Introduction to Deep Learning](http://www.armanbehnam.com/about-me/education/intro-to-dl-hse/) in my website
