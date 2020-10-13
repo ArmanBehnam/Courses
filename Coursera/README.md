@@ -1,7 +1,7 @@
 # Welcome to Arman Behnam Coursera
 
 
-<p align="center"><img width="https://upload.wikimedia.org/wikipedia/en/3/32/Coursera_logo.svg" />
+<p align="center"><img width="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />
 </p> 
 `Coursera` is a **great MOOC** helping me to acheive new goals in my field of study.
 Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) here.
