@@ -8,7 +8,7 @@
 Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) here.
 
 
-If You want to learn [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), these are courses that you will study step by step
+**If You want to learn [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), these are courses that you will study step by step**
 
 1 - [Neural Networks and Deep Learning](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Neural%20Networks%20and%20Deep%20Learning)
   - Analysis and discussing [Neural Networks and Deep Learning](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
