@@ -1,7 +1,7 @@
 # Welcome to Arman Behnam Udemy
 
 
-<p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
+<p align="center"><img width="100" src="https://logos-download.com/wp-content/uploads/2016/06/Udemy_logo.png" />  </p>
 
 `Udemy` is a **great MOOC** helping me to acheive new goals in my field of study.
 
