@@ -3,6 +3,7 @@
 
 <p align="center"><img width="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />
 </p> 
+<p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  <img width="100" src="https://media-thumbs.golden.com/OLqzmrmwAzY1P7Sl29k2T9WjJdM=/200x200/smart/golden-storage-production.s3.amazonaws.com/topic_images/e08914afa10a4179893eeb07cb5e4713.png" /></p>
 `Coursera` is a **great MOOC** helping me to acheive new goals in my field of study.
 Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) here.
 
