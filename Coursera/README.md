@@ -24,5 +24,28 @@ Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) h
 
 5 - Sequence Models
   - Analysis and discussing Sequence Models in my website
+  
+  
+**If You want to learn [Advanced Machine Learning Specialization](https://www.coursera.org/specializations/aml), these are courses that you will study step by step**
 
+1 - [Introduction to Deep Learning](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Introduction%20to%20Deep%20Learning)
+  - Analysis and discussing [Introduction to Deep Learning](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
+
+2 - How to Win a Data Science Competition: Learn from Top Kagglers
+  - Analysis and discussing How to Win a Data Science Competition: Learn from Top Kagglers
+  
+3 - [Bayesian Methods for Machine Learning](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning)
+  - Analysis and discussing [Bayesian Methods for Machine Learning](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+  
+4 - Practical Reinforcement Learning
+  - Analysis and discussing Practical Reinforcement Learning in my website
+
+5 - Deep Learning in Computer Vision
+  - Analysis and discussing Deep Learning in Computer Vision in my website
+  
+6 - [Natural Language Processing](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing)
+  - Analysis and discussing [Natural Language Processing]() in my website
+  
+7 - Addressing Large Hadron Collider Challenges by Machine Learning
+  - Analysis and discussing Addressing Large Hadron Collider Challenges by Machine Learning in my website
 # THANK YOU
