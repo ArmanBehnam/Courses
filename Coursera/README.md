@@ -1,7 +1,6 @@
 # Welcome to Arman Behnam Coursera
 
-http://seekvectorlogo.com/coursera-vector-logo-svg/
-
+https://en.wikipedia.org/wiki/File:Coursera_logo.svg
 `Coursera` is a **great MOOC** helping me to acheive new goals in my field of study.
 Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) here.
 
