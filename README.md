@@ -1,5 +1,5 @@
 # Welcome to Arman Behnam Courses repository
-https://www.google.com/search?q=armanbehnam&rlz=1C1GCEA_enIR920IR920&sxsrf=ALeKk02EBVBEspaZRJtnDcv4y4op57cI6A:1602587980850&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiEi8e6ubHsAhWJTcAKHb90APEQ_AUoAXoECAQQAw&biw=1536&bih=722#imgrc=mKcth5dFWoZ54M
+<p align="center"><img width="100" src="https://www.google.com/search?q=armanbehnam&rlz=1C1GCEA_enIR920IR920&sxsrf=ALeKk02EBVBEspaZRJtnDcv4y4op57cI6A:1602587980850&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiEi8e6ubHsAhWJTcAKHb90APEQ_AUoAXoECAQQAw&biw=1536&bih=722#imgrc=mKcth5dFWoZ54M"
 
 Course can be found in [Coursera](https://www.coursera.org/learn/convolutional-neural-networks)
 
