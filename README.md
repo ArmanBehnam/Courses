@@ -3,11 +3,13 @@
 Here are some courses that I've shared with U to help broaden our knowledge.
 Courses are categorized into four parts: [Coursera](https://www.coursera.org/learn/convolutional-neural-networks), [Udemy](https://www.udemy.com/), [Udacity](https://www.udacity.com/), [Interdisciplinary schools](https://github.com/ArmanBehnam/Courses/tree/master/Interdisciplinary%20schools%20-%20Neuroscience)
 
-`Sharing Lnowledge` is a **sacred** job and I'll appreciate this repository is useful.(Especially in the field of AI and Data science)
+`Sharing Lnowledge` is a **sacred** job and I'll appreciate this repository will be useful.(Especially in the field of AI and Data science)
 
-Quiz and answers are collected for quick search in my blog [SSQ](https://ssq.github.io/2017/08/28/Coursera%20Ng%20Deep%20Learning%20Specialization%20Notebook/#Convolutional-Neural-Networks)
 
-- Week 1 Foundations of Convolutional Neural Networks
+- Reach my [Coursera](https://github.com/ArmanBehnam/Courses/tree/master/Coursera) experience
+- Reach my [Udemy](https://github.com/ArmanBehnam/Courses/tree/master/Udemy) experience
+- Reach my [Udacity](https://github.com/ArmanBehnam/Courses/tree/master/Udacity) experience
+- Reach my [Interdisciplinary schools](https://github.com/ArmanBehnam/Courses/tree/master/Interdisciplinary%20schools%20-%20Neuroscience) experience
   - Understand the convolution operation
   - Understand the pooling operation
   - Remember the vocabulary used in convolutional neural network (padding, stride, filter, ...)
