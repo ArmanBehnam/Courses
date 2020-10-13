@@ -5,7 +5,7 @@
 
 `Coursera` is a **great MOOC** helping me to acheive new goals in my field of study.
 
-Reach [Coursera](https://www.coursera.org/learn/convolutional-neural-networks) here.
+Reach [Coursera](https://www.coursera.org) here.
 
 
 
