@@ -2,7 +2,7 @@
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [onvolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+Analysis and discussing [Convolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
 - Week 1 Foundations of Convolutional Neural Networks
   - Understand the convolution operation
