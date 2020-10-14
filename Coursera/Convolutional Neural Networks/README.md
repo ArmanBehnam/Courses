@@ -7,10 +7,13 @@ Analysis and discussing [Convolutional Neural Networks](http://www.armanbehnam.c
 All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Slides)
 
 - Week 1 Foundations of Convolutional Neural Networks
-  - Understand the convolution operation
-  - Understand the pooling operation
-  - Remember the vocabulary used in convolutional neural network (padding, stride, filter, ...)
-  - Build a convolutional neural network for image multi-class classification
+  1 - Computer Vision [video](https://www.youtube.com/watch?v=ArPaAX_PhIs&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/1%20-%20Computer%20Vision.pdf).
+  2 - Understand the pooling operation
+  
+  3 - Remember the vocabulary used in convolutional neural network (padding, stride, filter, ...)
+  
+  4 - Build a convolutional neural network for image multi-class classification
+  
   - [x] [Convolutional Model: step by step](https://github.com/SSQ/Coursera-Ng-Convolutional-Neural-Networks/tree/master/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
   - [x] [Convolutional Model: application](https://github.com/SSQ/Coursera-Ng-Convolutional-Neural-Networks/tree/master/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
 
