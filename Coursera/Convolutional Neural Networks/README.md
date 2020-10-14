@@ -30,8 +30,8 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
  
   11 - Why Convolutions? [video](https://www.youtube.com/watch?v=ay3zYUeuyhU&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/11%20-%20Why%20Convolutions.pdf).
  
-  - [x] [Convolutional Model: step by step(https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
-  - [x] [Convolutional Model: application(https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
+  - [x] [Convolutional Model: step by step](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
+  - [x] [Convolutional Model: application](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
 
 - Week 2 Deep convolutional models: case studies
   - Understand multiple foundational papers of convolutional neural networks
