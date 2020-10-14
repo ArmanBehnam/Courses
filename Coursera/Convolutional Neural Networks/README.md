@@ -38,9 +38,11 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Deep Learning & Art: Neural Style Transfer](https://github.com/SSQ/Coursera-Ng-Convolutional-Neural-Networks/tree/master/Week%204%20PA%201%20Art%20generation%20with%20Neural%20Style%20Transfer)
   - [x] [Face Recognition for the Happy House](https://github.com/SSQ/Coursera-Ng-Convolutional-Neural-Networks/tree/master/Week%204%20PA%202%20Face%20Recognition%20for%20the%20Happy%20House)
   
-4.9 stars
-36,440 ratings
-350,424 already enrolled
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Coursera%2075KS3KPE4EBP.png).
+
+- 4.9 stars
+- 36,440 ratings
+- 350,424 already enrolled
 
 This course will teach you how to build convolutional neural networks and apply it to image data. Thanks to deep learning, computer vision is working far better than just two years ago, and this is enabling numerous exciting applications ranging from safe autonomous driving, to accurate face recognition, to automatic reading of radiology images.
 
