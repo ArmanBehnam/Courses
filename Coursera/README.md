@@ -21,7 +21,7 @@ Reach [Coursera](https://www.coursera.org) here.
   - Analysis and discussing [Structuring Machine Learning Projects](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
   
 4 - [Convolutional Neural Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
-  - Analysis and discussing Convolutional Neural Networks in my website
+  - Analysis and discussing [onvolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
 5 - Sequence Models
   - Analysis and discussing Sequence Models in my website
