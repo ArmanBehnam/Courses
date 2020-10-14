@@ -4,6 +4,8 @@
 
 Analysis and discussing [Convolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
+All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Slides)
+
 - Week 1 Foundations of Convolutional Neural Networks
   - Understand the convolution operation
   - Understand the pooling operation
