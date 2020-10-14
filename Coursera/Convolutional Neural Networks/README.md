@@ -1,8 +1,8 @@
 # Convolutional Neural Networks by [Coursera](https://www.coursera.org/learn/convolutional-neural-networks)
 
+<p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-
-Quiz and answers are collected for quick search in my blog [SSQ](https://ssq.github.io/2017/08/28/Coursera%20Ng%20Deep%20Learning%20Specialization%20Notebook/#Convolutional-Neural-Networks)
+Analysis and discussing [onvolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
 - Week 1 Foundations of Convolutional Neural Networks
   - Understand the convolution operation
