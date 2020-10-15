@@ -34,12 +34,29 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Convolutional Model: application](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
 
 - Week 2 Deep convolutional models: case studies
-  - Understand multiple foundational papers of convolutional neural networks
-  - Analyze the dimensionality reduction of a volume in a very deep network
-  - Understand and Implement a Residual network
-  - Build a deep neural network using Keras
-  - Implement a skip-connection in your network
-  - Clone a repository from github and use transfer learning
+
+  1 - Why look at case studies? [video](https://www.youtube.com/watch?v=ArPaAX_PhIs&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/1%20-%20Computer%20Vision.pdf).
+  
+  2 - Classic Networks [video](https://www.youtube.com/watch?v=XuD4C8vJzEQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/2%20-%20Edge%20Detection%20Example.pdf).
+  
+  3 - ResNets [video](https://www.youtube.com/watch?v=am36dePheDc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/3%20-%20More%20Edge%20Detection.pdf).
+  
+  4 - Why ResNets Work [video](https://www.youtube.com/watch?v=smHa2442Ah4&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/4%20-%20Padding.pdf).
+  
+  5 - Networks in Networks and 1x1 Convolutions [video](https://www.youtube.com/watch?v=tQYZaDn_kSg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/5%20-%20Strided%20Convolutions.pdf).
+  
+  6 - Inception Network Motivation [video](https://www.youtube.com/watch?v=KTB_OFoAQcc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/6%20-%20Convolutions%20Over%20Volume.pdf).
+  
+  7 - Inception Network [video](https://www.youtube.com/watch?v=jPOAS7uCODQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=7).
+  
+  8 - Using Open-Source Implementation [video](https://www.youtube.com/watch?v=3PyJA9AfwSk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/8%20-%20Simple%20Convolutional%20Network%20Example.pdf). 
+  
+  9 - Transfer Learning [video](https://www.youtube.com/watch?v=8oOgPUO-TBY&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/9%20-%20Pooling%20Layers.pdf).
+  
+  10 - Data Augmentation [video](https://www.youtube.com/watch?v=bXJx7y51cl0&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/10%20-%20CNN%20Example.pdf).
+ 
+  11 - State of Computer Vision [video](https://www.youtube.com/watch?v=ay3zYUeuyhU&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/11%20-%20Why%20Convolutions.pdf).
+  
   - [x] [Keras - Tutorial - Happy House v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%201%20Keras%20-%20Tutorial%20-%20Happy%20House%20v2)
   - [x] [Residual Networks - v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%202%20Residual%20Networks%20-%20v2)
   
