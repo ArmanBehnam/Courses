@@ -62,13 +62,13 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
 - Week 3 Object detection
 
-1 - Computer Vision [video](https://www.youtube.com/watch?v=ArPaAX_PhIs&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/1%20-%20Computer%20Vision.pdf).
+  1 - Object Localization [video](https://www.youtube.com/watch?v=GSwYGkTfOKk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=23) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/24%20-%20Object%20Localization.pdf).
   
-  2 - Edge Detection Example [video](https://www.youtube.com/watch?v=XuD4C8vJzEQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/2%20-%20Edge%20Detection%20Example.pdf).
+  2 - Landmark Detection [video](https://www.youtube.com/watch?v=rRB9iymNy1w&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=24) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/25%20-%20Landmark%20Detection.pdf).
   
-  3 - More Edge Detection [video](https://www.youtube.com/watch?v=am36dePheDc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/3%20-%20More%20Edge%20Detection.pdf).
+  3 - Object Detection [video](https://www.youtube.com/watch?v=5e5pjeojznk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=25) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/26%20-%20Object%20Detection.pdf).
   
-  4 - Padding [video](https://www.youtube.com/watch?v=smHa2442Ah4&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/4%20-%20Padding.pdf).
+  4 - Convolutional Implementation of Sliding Windows [video](https://www.youtube.com/watch?v=XdsmlBGOK-k&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/27%20-%20Convolutional%20Implementation%20of%20Sliding%20Windows.pdf).
   
   5 - Strided Convolutions [video](https://www.youtube.com/watch?v=tQYZaDn_kSg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/5%20-%20Strided%20Convolutions.pdf).
   
