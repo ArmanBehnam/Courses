@@ -70,26 +70,24 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
   4 - Convolutional Implementation of Sliding Windows [video](https://www.youtube.com/watch?v=XdsmlBGOK-k&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/27%20-%20Convolutional%20Implementation%20of%20Sliding%20Windows.pdf).
   
-  5 - Strided Convolutions [video](https://www.youtube.com/watch?v=tQYZaDn_kSg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/5%20-%20Strided%20Convolutions.pdf).
+  5 - Intersection Over Union [video](https://www.youtube.com/watch?v=ANIzQ5G-XPE&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=27) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/29%20-%20Intersection%20Over%20Union.pdf).
   
-  6 - Convolutions Over Volume [video](https://www.youtube.com/watch?v=KTB_OFoAQcc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/6%20-%20Convolutions%20Over%20Volume.pdf).
+  6 - Non-max Suppression [video](https://www.youtube.com/watch?v=VAo84c1hQX8&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=28) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/30%20-%20Non-max%20Suppression.pdf).
   
-  7 - One Layer of a Convolutional Network [video](https://www.youtube.com/watch?v=jPOAS7uCODQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=7).
+  7 - Anchor Boxes [video](https://www.youtube.com/watch?v=RTlwl2bv0Tg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=29) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/31%20-%20Anchor%20Boxes.pdf).
   
-  8 - Simple Convolutional Network Example [video](https://www.youtube.com/watch?v=3PyJA9AfwSk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/8%20-%20Simple%20Convolutional%20Network%20Example.pdf). 
+  8 - YOLO Algorithm [video](https://www.youtube.com/watch?v=9s_FpMpdYW8&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=30) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/32%20-%20YOLO%20Algorithm.pdf). 
   
-  9 - Pooling Layers [video](https://www.youtube.com/watch?v=8oOgPUO-TBY&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/9%20-%20Pooling%20Layers.pdf).
+  9 - (Optional) Region Proposals [video](https://www.youtube.com/watch?v=6ykvU9WuIws&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=31) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/33%20-%20(Optional)%20Region%20Proposals.pdf).
   
-  10 - CNN Example [video](https://www.youtube.com/watch?v=bXJx7y51cl0&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/10%20-%20CNN%20Example.pdf).
- 
-  11 - Why Convolutions? [video](https://www.youtube.com/watch?v=ay3zYUeuyhU&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/11%20-%20Why%20Convolutions.pdf).
+
   - [x] [Car detection with YOLOv2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%203%20PA%201%20Car%20detection%20with%20YOLOv2)
   
 - Week 4 Special applications: Face recognition & Neural style transfer
 
-1 - Computer Vision [video](https://www.youtube.com/watch?v=ArPaAX_PhIs&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/1%20-%20Computer%20Vision.pdf).
-  
-  2 - Edge Detection Example [video](https://www.youtube.com/watch?v=XuD4C8vJzEQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/2%20-%20Edge%20Detection%20Example.pdf).
+  1 - What is face recognition[video](https://www.youtube.com/watch?v=-FfMVnwXrZ0&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=32).
+ 
+  2 - One Shot Learning [video](https://www.youtube.com/watch?v=96b_weTZb2w&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=33) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/35%20-%20One%20Shot%20Learning.pdf).
   
   3 - More Edge Detection [video](https://www.youtube.com/watch?v=am36dePheDc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/3%20-%20More%20Edge%20Detection.pdf).
   
