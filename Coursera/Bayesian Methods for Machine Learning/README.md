@@ -51,7 +51,7 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
   10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
  
-  11 - Example EM for discrete mixture, M step [video]https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
+  11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
   
   12 - Summary of Expectation Maximization [video](https://www.youtube.com/watch?v=HUqY48DOAsA&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=21) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/22%20-%20Summary%20of%20Expectation%20Maximization.pdf).
   
