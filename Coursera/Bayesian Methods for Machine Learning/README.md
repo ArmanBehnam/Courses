@@ -18,17 +18,13 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
   5 - Linear regression [video](https://www.youtube.com/watch?v=-X-q7ClQkx8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/6%20-%20Maximum%20Likelihood%20Estimate.pdf).
   
-  6 - Convolutions Over Volume [video](https://www.youtube.com/watch?v=KTB_OFoAQcc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/6%20-%20Convolutions%20Over%20Volume.pdf).
+  6 - Analytical inference [video](https://www.youtube.com/watch?v=7sC2nXd47Pw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/7%20-%20Analytical%20inference.pdf).
   
-  7 - One Layer of a Convolutional Network [video](https://www.youtube.com/watch?v=jPOAS7uCODQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=7).
+  7 - Conjugate distributions [video](https://www.youtube.com/watch?v=njq0SPmI8oM&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=7) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/8%20-%20Conjugate%20distributions.pdf). 
   
-  8 - Simple Convolutional Network Example [video](https://www.youtube.com/watch?v=3PyJA9AfwSk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/8%20-%20Simple%20Convolutional%20Network%20Example.pdf). 
+  8 - Example Normal, precision [video](https://www.youtube.com/watch?v=288WrDx35j8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/9%20-%20Example%20Normal%2C%20precision.pdf). 
   
-  9 - Pooling Layers [video](https://www.youtube.com/watch?v=8oOgPUO-TBY&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/9%20-%20Pooling%20Layers.pdf).
-  
-  10 - CNN Example [video](https://www.youtube.com/watch?v=bXJx7y51cl0&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/10%20-%20CNN%20Example.pdf).
- 
-  11 - Why Convolutions? [video](https://www.youtube.com/watch?v=ay3zYUeuyhU&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/11%20-%20Why%20Convolutions.pdf).
+  9 - Example Bernoulli [video](https://www.youtube.com/watch?v=ZGtgmApU-W4&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/10%20-%20Example%20Bernoulli.pdf).
  
   - [x] [Convolutional Model: step by step](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
   - [x] [Convolutional Model: application](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
@@ -109,7 +105,7 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Deep Learning & Art: Neural Style Transfer](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%204%20PA%201%20Art%20generation%20with%20Neural%20Style%20Transfer)
   - [x] [Face Recognition for the Happy House](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%204%20PA%202%20Face%20Recognition%20for%20the%20Happy%20House)
   
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Coursera%2075KS3KPE4EBP.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Coursera%2069RMKDDX3KU8.png).
 
 - 4.5 stars
 - 585 ratings
