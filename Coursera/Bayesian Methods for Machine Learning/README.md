@@ -10,13 +10,13 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
 
   1 - Think bayesian & Statistics review [video](https://www.youtube.com/watch?v=QAbPaJQRDrQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/2%20-%20Think%20bayesian%20%26%20Statistics%20review.pdf).
   
-  2 - Edge Detection Example [video](https://www.youtube.com/watch?v=XuD4C8vJzEQ&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/2%20-%20Edge%20Detection%20Example.pdf).
+  2 - Bayesian approach to statistics [video](https://www.youtube.com/watch?v=v4uYrmzH_Cw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/3%20-%20Bayesian%20approach%20to%20statistics.pdf).
   
-  3 - More Edge Detection [video](https://www.youtube.com/watch?v=am36dePheDc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/3%20-%20More%20Edge%20Detection.pdf).
+  3 - How to define a model [video](https://www.youtube.com/watch?v=-jflQb2iP0c&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/4%20-%20How%20to%20define%20a%20model.pdf).
   
-  4 - Padding [video](https://www.youtube.com/watch?v=smHa2442Ah4&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/4%20-%20Padding.pdf).
+  4 - Example thief & alarm [video](https://www.youtube.com/watch?v=D0OfsDpM7Kk&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/5%20-%20Example%20thief%20%26%20alarm.pdf).
   
-  5 - Strided Convolutions [video](https://www.youtube.com/watch?v=tQYZaDn_kSg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/5%20-%20Strided%20Convolutions.pdf).
+  5 - Linear regression [video](https://www.youtube.com/watch?v=-X-q7ClQkx8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/6%20-%20Maximum%20Likelihood%20Estimate.pdf).
   
   6 - Convolutions Over Volume [video](https://www.youtube.com/watch?v=KTB_OFoAQcc&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/6%20-%20Convolutions%20Over%20Volume.pdf).
   
