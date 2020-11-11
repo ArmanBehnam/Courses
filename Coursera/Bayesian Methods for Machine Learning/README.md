@@ -111,12 +111,12 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
 My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Coursera%2075KS3KPE4EBP.png).
 
-- 4.9 stars
-- 36,440 ratings
-- 350,424 already enrolled
+- 4.5 stars
+- 585 ratings
+- 50,605 already enrolled
 
-This course will teach you how to build convolutional neural networks and apply it to image data. Thanks to deep learning, computer vision is working far better than just two years ago, and this is enabling numerous exciting applications ranging from safe autonomous driving, to accurate face recognition, to automatic reading of radiology images.
+People apply Bayesian methods in many areas: from game development to drug discovery. They give superpowers to many machine learning algorithms: handling missing data, extracting much more information from small datasets. Bayesian methods also allow us to estimate uncertainty in predictions, which is a desirable feature for fields like medicine.
 
-You will: – Understand how to build a convolutional neural network, including recent variations such as residual networks. – Know how to apply convolutional networks to visual detection and recognition tasks. – Know to use neural style transfer to generate art. – Be able to apply these algorithms to a variety of image, video, and other 2D or 3D data.
+When applied to deep learning, Bayesian methods allow you to compress your models a hundred folds, and automatically tune hyperparameters, saving your time and money. In six weeks we will discuss the basics of Bayesian methods: from how to define a probabilistic model to how to make predictions from it. We will see how one can automate this workflow and how to speed it up using some advanced techniques. We will also see applications of Bayesian methods to deep learning and how to generate new images with it. We will see how new drugs that cure severe diseases be found with Bayesian methods.
 
 # THANK YOU
