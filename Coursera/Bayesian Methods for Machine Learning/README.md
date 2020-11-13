@@ -68,36 +68,34 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Keras - Tutorial - Happy House v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%201%20Keras%20-%20Tutorial%20-%20Happy%20House%20v2)
   - [x] [Residual Networks - v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%202%20Residual%20Networks%20-%20v2)
   
-- Week 3 Object detection
+- Week 3 Variational Inference & Latent Dirichlet Allocation
 
-  1 - Object Localization [video](https://www.youtube.com/watch?v=GSwYGkTfOKk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=23) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/24%20-%20Object%20Localization.pdf).
+  1 - Why approximate inference [video](https://www.youtube.com/watch?v=Lg7Y0ep9H6A&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=27) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/28%20-%20Why%20approximate%20inference.pdf).
   
-  2 - Landmark Detection [video](https://www.youtube.com/watch?v=rRB9iymNy1w&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=24) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/25%20-%20Landmark%20Detection.pdf).
+  2 - Mean field approximation [video](https://www.youtube.com/watch?v=13fT_cPVGRQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=28) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/29%20-%20Mean%20field%20approximation.pdf).
   
-  3 - Object Detection [video](https://www.youtube.com/watch?v=5e5pjeojznk&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=25) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/26%20-%20Object%20Detection.pdf).
+  3 - Variational EM & Review [video](https://www.youtube.com/watch?v=XPI88mrLNd4&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=29) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/31%20-%20Variational%20EM%20%26%20Review.pdf).
   
-  4 - Convolutional Implementation of Sliding Windows [video](https://www.youtube.com/watch?v=XdsmlBGOK-k&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/27%20-%20Convolutional%20Implementation%20of%20Sliding%20Windows.pdf).
+  4 - Topic modeling [video](https://www.youtube.com/watch?v=mxmfcuN8unY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=30) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/32%20-%20Topic%20modeling.pdf).
   
-  5 - Intersection Over Union [video](https://www.youtube.com/watch?v=ANIzQ5G-XPE&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=27) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/29%20-%20Intersection%20Over%20Union.pdf).
+  5 - Dirichlet distribution [video](https://www.youtube.com/watch?v=DpGkAKdLjdo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=31) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/33%20-%20Dirichlet%20distribution.pdf).
   
-  6 - Non-max Suppression [video](https://www.youtube.com/watch?v=VAo84c1hQX8&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=28) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/30%20-%20Non-max%20Suppression.pdf).
+  6 - Latent Dirichlet Allocation [video](https://www.youtube.com/watch?v=u905jSsYoHo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=32) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/34%20-%20Latent%20Dirichlet%20Allocation.pdf).
   
-  7 - Anchor Boxes [video](https://www.youtube.com/watch?v=RTlwl2bv0Tg&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=29) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/31%20-%20Anchor%20Boxes.pdf).
+  7 - LDA M step & prediction [video](https://www.youtube.com/watch?v=8ADNeFFWCdI&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=33).
   
-  8 - YOLO Algorithm [video](https://www.youtube.com/watch?v=9s_FpMpdYW8&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=30) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/32%20-%20YOLO%20Algorithm.pdf). 
-  
-  9 - (Optional) Region Proposals [video](https://www.youtube.com/watch?v=6ykvU9WuIws&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=31) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/33%20-%20(Optional)%20Region%20Proposals.pdf).
+  8 - Extensions of LDA [video](https://www.youtube.com/watch?v=BYY7Nn803aM&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=34) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/38%20-%20Extensions%20of%20LDA.pdf). 
   
 
   - [x] [Car detection with YOLOv2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%203%20PA%201%20Car%20detection%20with%20YOLOv2)
   
-- Week 4 Special applications: Face recognition & Neural style transfer
+- Week 4 Markov chain Monte Carlo
 
-  1 - What is face recognition[video](https://www.youtube.com/watch?v=-FfMVnwXrZ0&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=32).
+  1 - What is face recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/39%20-%20Monte%20Carlo%20estimation.pdf).
  
-  2 - One Shot Learning [video](https://www.youtube.com/watch?v=96b_weTZb2w&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=33) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/36%20-%20Siamese%20Network.pdf).
+  2 - Sampling from 1 d distributions [video](https://www.youtube.com/watch?v=31LQqqnBehs&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=35) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/40%20-%20Sampling%20from%201-d%20distributions.pdf).
   
-  3 - Siamese Network [video](https://www.youtube.com/watch?v=6jfw8MuKwpI&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=34) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Convolutional%20Neural%20Networks/Slides/3%20-%20More%20Edge%20Detection.pdf).
+  3 - Markov Chains [video](https://www.youtube.com/watch?v=6jfw8MuKwpI&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=34) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/41%20-%20Markov%20Chains.pdf).
   
   4 - Triplet loss [video](https://www.youtube.com/watch?v=d2XB5-tuCWU&list=PLkDaE6sCZn6Gl29AoE31iwdVwSG-KnDzF&index=35).
   
