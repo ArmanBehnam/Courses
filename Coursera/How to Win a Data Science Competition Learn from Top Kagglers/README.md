@@ -8,62 +8,57 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
 
 - Week 1 Competition mechanics, Recap of main ML algorithms, Software/Hardware requirements, Feature preprocessing and generation with respect to models and Feature extraction from text and images
 
-  1 - Think bayesian & Statistics review [video](https://www.youtube.com/watch?v=QAbPaJQRDrQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/2%20-%20Think%20bayesian%20%26%20Statistics%20review.pdf).
+  1 - [Competition Mechanics](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/4%20-%20Competition%20Mechanics.pdf).
   
-  2 - Bayesian approach to statistics [video](https://www.youtube.com/watch?v=v4uYrmzH_Cw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/3%20-%20Bayesian%20approach%20to%20statistics.pdf).
+  2 - [Real World Application vs Competitions](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/6%20-%20Real%20World%20Application%20vs%20Competitions.pdf).
   
-  3 - How to define a model [video](https://www.youtube.com/watch?v=-jflQb2iP0c&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/4%20-%20How%20to%20define%20a%20model.pdf).
+  3 - [Recap of main ML algorithms](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/7%20-%20Recap%20of%20main%20ML%20algorithms.pdf).
   
-  4 - Example thief & alarm [video](https://www.youtube.com/watch?v=D0OfsDpM7Kk&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/5%20-%20Example%20thief%20%26%20alarm.pdf).
+  4 - [Software/Hardware Requirements](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/8%20-%20SoftwareHardware%20Requirements.pdf).
   
-  5 - Linear regression [video](https://www.youtube.com/watch?v=-X-q7ClQkx8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/6%20-%20Maximum%20Likelihood%20Estimate.pdf).
+  5 - [Numeric features](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/10%20-%20Numeric%20features.pdf).
   
-  6 - Analytical inference [video](https://www.youtube.com/watch?v=7sC2nXd47Pw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/7%20-%20Analytical%20inference.pdf).
+  6 - [Categorical and ordinal features](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/11%20-%20Categorical%20and%20ordinal%20features.pdf).
   
-  7 - Conjugate distributions [video](https://www.youtube.com/watch?v=njq0SPmI8oM&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=7) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/8%20-%20Conjugate%20distributions.pdf). 
+  7 - [Datetime and coordinates](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/12%20-%20Datetime%20and%20coordinates.pdf). 
   
-  8 - Example Normal, precision [video](https://www.youtube.com/watch?v=288WrDx35j8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/9%20-%20Example%20Normal%2C%20precision.pdf). 
+  8 - [Bag of words](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/14%20-%20Bag%20of%20words.pdf). 
   
-  9 - Example Bernoulli [video](https://www.youtube.com/watch?v=ZGtgmApU-W4&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/10%20-%20Example%20Bernoulli.pdf).
+  9 - [Word2vec, CNN](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/15%20-%20Word2vec%2C%20CNN.pdf).
+ 
  
   - [x] [Convolutional Model: step by step](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
   - [x] [Convolutional Model: application](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
 
 - Week 2 Exploratory data analysis, EDA examples, Validation and Data leakages
 
-  1 - Latent Variable Models [video](https://www.youtube.com/watch?v=ESZ7MtCHOOg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/11%20-%20Latent%20Variable%20Models.pdf).
+  1 - [Exploratory data analysis](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/17%20-%20Exploratory%20data%20analysis.pdf).
   
-  2 - Probabilistic clustering [video](https://www.youtube.com/watch?v=ogdydTJCk44&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/12%20-%20Probabilistic%20clustering.pdf).
+  2 - [Building intuition about the data](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/18%20-%20Building%20intuition%20about%20the%20data.pdf).
   
-  3 - Gaussian Mixture Model [video](https://www.youtube.com/watch?v=pZR0tLuc5HQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=12) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/13%20-%20Gaussian%20Mixture%20Model.pdf).
+  3 - [Exploring anonymized data](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/19%20-%20Exploring%20anonymized%20data.pdf).
   
-  4 - Training GMM [video](https://www.youtube.com/watch?v=zGQAqgOOGKg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=13) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/14%20-%20Training%20GMM.pdf).
+  4 - [Visualizations](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/20%20-%20Visualizations.pdf).
   
-  5 - Example of GMM training [video](https://www.youtube.com/watch?v=st7nsghbmHo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=14) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/15%20-%20Example%20of%20GMM%20training.pdf).
+  5 - [Dataset cleaning and other things to check](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/21%20-%20Dataset%20cleaning%20and%20other%20things%20to%20check.pdf).
   
-  6 - Jensen's inequality & Kullback Leibler divergence [video](https://www.youtube.com/watch?v=_2PZxw4FzDU&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=15) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/16%20%20Jensen's%20inequality%20%26%20Kullback%20Leibler%20divergence.pdf).
+  6 - [Numerai competition EDA](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/24%20-%20Numerai%20competition%20EDA.pdf).
   
-  7 - Expectation Maximization algorithm [video](https://www.youtube.com/watch?v=YaI2O_e4QpI&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=16) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/17%20-%20Expectation-Maximization%20algorithm.pdf). 
+  7 - [Validation and overfitting](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/25%20-%20Validation%20and%20overfitting.pdf). 
   
-  8 - E step [video](https://www.youtube.com/watch?v=DjRWuZKo9wY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=17) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/18%20-%20E-step%20details.pdf). 
+  8 - [Validation strategies](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/26%20-%20Validation%20strategies.pdf). 
   
-  9 - M step [video](https://www.youtube.com/watch?v=LyX8ODut6gY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=18) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/19%20-%20M-step%20details.pdf).
+  9 - [Data splitting strategies](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/27%20-%20Data%20splitting%20strategies.pdf).
   
-  10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
+  10 - [Problems occurring during validation](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/28%20-%20Problems%20occurring%20during%20validation.pdf).
  
-  11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
+  11 - [Basic data leaks](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/29%20-%20Basic%20data%20leaks.pdf).
   
-  12 - Summary of Expectation Maximization [video](https://www.youtube.com/watch?v=HUqY48DOAsA&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=21) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/22%20-%20Summary%20of%20Expectation%20Maximization.pdf).
+  12 - [Leaderboard probing and examples of rare data leaks](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/30%20-%20Leaderboard%20probing%20and%20examples%20of%20rare%20data%20leaks.pdf).
   
-  13 - General EM for GMM [video](https://www.youtube.com/watch?v=CC5T2ovpBIc&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=22) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/23%20-%20General%20EM%20for%20GMM.pdf).
+  13 - [Expedia challenge](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/31%20-%20Expedia%20challenge.pdf).
   
-  14 - K means from probabilistic perspective [video](https://www.youtube.com/watch?v=o_yqtP_H_J8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=23) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/24%20-%20K-means%20from%20probabilistic%20perspective.pdf).
-  
-  15 - K means, M step [video](https://www.youtube.com/watch?v=uwGidxSvoow&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=24) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/25%20-%20K-means%2C%20M-step.pdf). 
-  
-  16 - Probabilistic PCA [video](https://www.youtube.com/watch?v=6z6yipdfe3o&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=25) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/26%20-%20Probabilistic%20PCA.pdf). 
-  
-  20 - EM for Probabilistic PCA [video](https://www.youtube.com/watch?v=jFFSKXwEOLY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/27%20-%20EM%20for%20Probabilistic%20PCA.pdf).
+  14 - [Motivation](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Slides/32%20-%20Motivation.pdf).
   
   - [x] [Keras - Tutorial - Happy House v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%201%20Keras%20-%20Tutorial%20-%20Happy%20House%20v2)
   - [x] [Residual Networks - v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%202%20Residual%20Networks%20-%20v2)
