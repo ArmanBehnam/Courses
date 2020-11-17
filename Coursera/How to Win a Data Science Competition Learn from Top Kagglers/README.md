@@ -136,7 +136,7 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Deep Learning & Art: Neural Style Transfer](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%204%20PA%201%20Art%20generation%20with%20Neural%20Style%20Transfer)
   - [x] [Face Recognition for the Happy House](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%204%20PA%202%20Face%20Recognition%20for%20the%20Happy%20House)
   
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Coursera%2069RMKDDX3KU8.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/How%20to%20Win%20a%20Data%20Science%20Competition%20Learn%20from%20Top%20Kagglers/Coursera%20BHPEAVXBRRV8.png).
 
 - 4.7 stars
 - 1,012 ratings
