@@ -24,7 +24,7 @@ Reach [Coursera](https://www.coursera.org) here.
   - Analysis and discussing [Convolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
 5 - [Sequence Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models)
-  - Analysis and discussing Sequence Models in my website
+  - Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
   
  ### [My Deep Learning Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
   
