@@ -23,10 +23,10 @@ Reach [Coursera](https://www.coursera.org) here.
 4 - [Convolutional Neural Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
   - Analysis and discussing [Convolutional Neural Networks](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
 
-5 - Sequence Models
+5 - [Sequence Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models)
   - Analysis and discussing Sequence Models in my website
   
-  
+ [My Deep Learning Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
   
   
 ## If You want to learn [Advanced Machine Learning Specialization](https://www.coursera.org/specializations/aml), these are courses that you will study step by step
