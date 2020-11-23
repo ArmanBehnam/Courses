@@ -2,7 +2,7 @@
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/education/bayesian-ml-advanced/) in my website
+Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
 
 All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Slides)
 
@@ -91,12 +91,12 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
 My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Coursera%2069RMKDDX3KU8.png).
 
-- 4.5 stars
-- 585 ratings
-- 50,605 already enrolled
+- 4.8 stars
+- 25324 ratings
+- 92,325 already enrolled
 
-People apply Bayesian methods in many areas: from game development to drug discovery. They give superpowers to many machine learning algorithms: handling missing data, extracting much more information from small datasets. Bayesian methods also allow us to estimate uncertainty in predictions, which is a desirable feature for fields like medicine.
+This course will teach you how to build models for natural language, audio, and other sequence data. Thanks to deep learning, sequence algorithms are working far better than just two years ago, and this is enabling numerous exciting applications in speech recognition, music synthesis, chatbots, machine translation, natural language understanding, and many others.
 
-When applied to deep learning, Bayesian methods allow you to compress your models a hundred folds, and automatically tune hyperparameters, saving your time and money. In six weeks we will discuss the basics of Bayesian methods: from how to define a probabilistic model to how to make predictions from it. We will see how one can automate this workflow and how to speed it up using some advanced techniques. We will also see applications of Bayesian methods to deep learning and how to generate new images with it. We will see how new drugs that cure severe diseases be found with Bayesian methods.
+You will: - Understand how to build and train Recurrent Neural Networks (RNNs), and commonly-used variants such as GRUs and LSTMs. - Be able to apply sequence models to natural language problems, including text synthesis. - Be able to apply sequence models to audio applications, including speech recognition and music synthesis. This is the fifth and final course of the Deep Learning Specialization. deeplearning.ai is also partnering with the NVIDIA Deep Learning Institute (DLI) in Course 5, Sequence Models, to provide a programming assignment on Machine Translation with deep learning. You will have the opportunity to build a deep learning project with cutting-edge, industry-relevant content..
 
 # THANK YOU
