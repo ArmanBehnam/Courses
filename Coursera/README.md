@@ -26,7 +26,7 @@ Reach [Coursera](https://www.coursera.org) here.
 5 - [Sequence Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models)
   - Analysis and discussing Sequence Models in my website
   
- [My Deep Learning Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
+ ### [My Deep Learning Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
   
   
 ## If You want to learn [Advanced Machine Learning Specialization](https://www.coursera.org/specializations/aml), these are courses that you will study step by step
