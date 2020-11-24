@@ -6,7 +6,7 @@ Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/ed
 
 All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Slides)
 
-- Week 1 Recurrent Neural Networks
+- [Week 1 Recurrent Neural Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -34,7 +34,7 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- Week 2 Natural Language Processing & Word Embeddings
+- [Week 2 Natural Language Processing & Word Embeddings](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202)
 
   1 - Latent Variable Models [video](https://www.youtube.com/watch?v=ESZ7MtCHOOg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/11%20-%20Latent%20Variable%20Models.pdf).
   
@@ -70,10 +70,10 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
   20 - EM for Probabilistic PCA [video](https://www.youtube.com/watch?v=jFFSKXwEOLY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/27%20-%20EM%20for%20Probabilistic%20PCA.pdf).
   
-  - [x] [Keras - Tutorial - Happy House v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%201%20Keras%20-%20Tutorial%20-%20Happy%20House%20v2)
-  - [x] [Residual Networks - v2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%202%20PA%202%20Residual%20Networks%20-%20v2)
+  - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
+  - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- Week 3 Sequence models & Attention mechanism
+- [Week 3 Sequence models & Attention mechanism](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
 
   1 - Why approximate inference [video](https://www.youtube.com/watch?v=Lg7Y0ep9H6A&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=27) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/28%20-%20Why%20approximate%20inference.pdf).
   
