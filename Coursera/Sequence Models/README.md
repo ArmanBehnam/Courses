@@ -64,21 +64,23 @@ Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/ed
   
 - [Week 3 Sequence models & Attention mechanism](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
 
-  1 - Why approximate inference [video](https://www.youtube.com/watch?v=Lg7Y0ep9H6A&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=27) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/28%20-%20Why%20approximate%20inference.pdf).
+  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
-  2 - Mean field approximation [video](https://www.youtube.com/watch?v=13fT_cPVGRQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=28) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/29%20-%20Mean%20field%20approximation.pdf).
+  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
   
-  3 - Variational EM & Review [video](https://www.youtube.com/watch?v=XPI88mrLNd4&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=29) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/31%20-%20Variational%20EM%20%26%20Review.pdf).
+  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
   
-  4 - Topic modeling [video](https://www.youtube.com/watch?v=mxmfcuN8unY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=30) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/32%20-%20Topic%20modeling.pdf).
+  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
   
-  5 - Dirichlet distribution [video](https://www.youtube.com/watch?v=DpGkAKdLjdo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=31) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/33%20-%20Dirichlet%20distribution.pdf).
+  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
   
-  6 - Latent Dirichlet Allocation [video](https://www.youtube.com/watch?v=u905jSsYoHo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=32) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/34%20-%20Latent%20Dirichlet%20Allocation.pdf).
+  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
   
-  7 - LDA M step & prediction [video](https://www.youtube.com/watch?v=8ADNeFFWCdI&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=33).
+  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
   
-  8 - Extensions of LDA [video](https://www.youtube.com/watch?v=BYY7Nn803aM&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=34) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/38%20-%20Extensions%20of%20LDA.pdf). 
+  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
+  
+  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
   
 
   - [x] [Car detection with YOLOv2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%203%20PA%201%20Car%20detection%20with%20YOLOv2)
