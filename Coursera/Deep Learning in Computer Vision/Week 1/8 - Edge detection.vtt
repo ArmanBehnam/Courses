@@ -1,0 +1,557 @@
+WEBVTT
+
+1
+00:00:02.870 --> 00:00:09.785
+Usually, we can easily identify objects in images where only a line drawing is given.
+
+2
+00:00:09.785 --> 00:00:13.720
+Lines correspond to edges or sudden changes in images.
+
+3
+00:00:13.720 --> 00:00:19.360
+Intuitively, most semantic and shape information from image can be encoded in the edges.
+
+4
+00:00:19.360 --> 00:00:22.810
+It is more complicated presentation than original images.
+
+5
+00:00:22.810 --> 00:00:27.115
+So, it can be very useful to extract edges from image,
+
+6
+00:00:27.115 --> 00:00:29.020
+to use it for the recognition.
+
+7
+00:00:29.020 --> 00:00:31.990
+The ideal result, is the drawing of an artist.
+
+8
+00:00:31.990 --> 00:00:34.860
+But artist uses object-level knowledge.
+
+9
+00:00:34.860 --> 00:00:37.300
+And in image processing,
+
+10
+00:00:37.300 --> 00:00:40.895
+we really can use object-level knowledge.
+
+11
+00:00:40.895 --> 00:00:45.030
+Now, we'll consider only basic algorithm without machine learning.
+
+12
+00:00:45.030 --> 00:00:46.560
+But I will mention how
+
+13
+00:00:46.560 --> 00:00:50.705
+the machine learning algorithm can be constructed for edge detection.
+
+14
+00:00:50.705 --> 00:00:55.900
+We all can see the edges as points of rapid change in image intensity.
+
+15
+00:00:55.900 --> 00:01:01.270
+Such points can be identified by considering first derivative of image intensity.
+
+16
+00:01:01.270 --> 00:01:04.825
+Edges will correspond to local extrema of derivative.
+
+17
+00:01:04.825 --> 00:01:08.030
+On the slide, I'll give a one-dimensional example,
+
+18
+00:01:08.030 --> 00:01:10.835
+from one row in image.
+
+19
+00:01:10.835 --> 00:01:13.885
+Because image is a two-dimensional function,
+
+20
+00:01:13.885 --> 00:01:16.405
+we need to calculate image gradients as a vector
+
+21
+00:01:16.405 --> 00:01:19.345
+of partial derivative of image intensity function.
+
+22
+00:01:19.345 --> 00:01:21.490
+So, image gradient is a vector,
+
+23
+00:01:21.490 --> 00:01:24.865
+where first element is partial derivative of f by x,
+
+24
+00:01:24.865 --> 00:01:29.640
+and second element is partial derivative of f by y.
+
+25
+00:01:29.640 --> 00:01:33.660
+The gradient direction is given by a tan of partial derivative of
+
+26
+00:01:33.660 --> 00:01:37.795
+f by y over partial derivative of f by x.
+
+27
+00:01:37.795 --> 00:01:41.520
+The edge strength is given by the gradient magnitude.
+
+28
+00:01:41.520 --> 00:01:43.935
+Because images are discrete,
+
+29
+00:01:43.935 --> 00:01:48.580
+we could approximate partial derivative of optical image.
+
+30
+00:01:48.580 --> 00:01:51.355
+This finite difference in discrete images.
+
+31
+00:01:51.355 --> 00:01:55.120
+Finite difference can be easily written as a simple convolution.
+
+32
+00:01:55.120 --> 00:02:00.670
+For example, this 2 by 1 filter canel and Vel is minus 1 and plus 1.
+
+33
+00:02:00.670 --> 00:02:03.915
+Other approximation of derivative filters exists.
+
+34
+00:02:03.915 --> 00:02:05.960
+I put here a Roberts separator,
+
+35
+00:02:05.960 --> 00:02:08.530
+Prewett, Sobel and Sharr operators.
+
+36
+00:02:08.530 --> 00:02:13.880
+These operators both smothens and estimate finite differences in images.
+
+37
+00:02:13.880 --> 00:02:16.735
+They produce visually similar results.
+
+38
+00:02:16.735 --> 00:02:18.830
+Here are the example of edge maps,
+
+39
+00:02:18.830 --> 00:02:21.425
+computed by convolution with these filters.
+
+40
+00:02:21.425 --> 00:02:25.485
+You can see the difference between filter's is mostly small.
+
+41
+00:02:25.485 --> 00:02:28.860
+Consider a single row or column in the real image.
+
+42
+00:02:28.860 --> 00:02:31.185
+Usually, the image contained noise.
+
+43
+00:02:31.185 --> 00:02:34.055
+The plotting intensity as function of position.
+
+44
+00:02:34.055 --> 00:02:37.250
+Finite different filters respond strongly to noise.
+
+45
+00:02:37.250 --> 00:02:41.365
+Noise results in pixels that look very different from the neighborhoods.
+
+46
+00:02:41.365 --> 00:02:46.220
+So, finite difference use a lot of false responses.
+
+47
+00:02:46.220 --> 00:02:48.140
+Generally, the larger the noise,
+
+48
+00:02:48.140 --> 00:02:52.155
+the stronger the response and the larger the number of strong responses.
+
+49
+00:02:52.155 --> 00:02:54.935
+So, if image contain noise,
+
+50
+00:02:54.935 --> 00:02:58.325
+then the real edge can disappear.
+
+51
+00:02:58.325 --> 00:03:01.605
+Like it's demonstrated in this slide.
+
+52
+00:03:01.605 --> 00:03:05.795
+The solution,is to apply Gaussian smooths first to reduce the noise.
+
+53
+00:03:05.795 --> 00:03:10.780
+After smoothen, edge detection kernel can identify the edge in our image.
+
+54
+00:03:10.780 --> 00:03:14.205
+Because convolution is associative operation,
+
+55
+00:03:14.205 --> 00:03:19.040
+we can combine both smooth and edge differentiation kernels into one filter kernel.
+
+56
+00:03:19.040 --> 00:03:22.755
+This save us one operation and produce the same result,
+
+57
+00:03:22.755 --> 00:03:29.290
+as applying smoothen and differentiation operator successively.
+
+58
+00:03:29.290 --> 00:03:32.000
+Here are visualization for derivative of
+
+59
+00:03:32.000 --> 00:03:35.770
+Gaussian filter which can be used for gradient estimation in real images.
+
+60
+00:03:35.770 --> 00:03:38.325
+I give visualization of two filters.
+
+61
+00:03:38.325 --> 00:03:40.890
+One estimate gradients in x direction,
+
+62
+00:03:40.890 --> 00:03:43.815
+and one estimate gradient in y direction.
+
+63
+00:03:43.815 --> 00:03:48.355
+Smooth derivative removes noise but blurs edges in images.
+
+64
+00:03:48.355 --> 00:03:50.335
+The larger the Gaussian filter,
+
+65
+00:03:50.335 --> 00:03:51.640
+the stronger the smoothen.
+
+66
+00:03:51.640 --> 00:03:54.370
+As a result, we find images in different scales
+
+67
+00:03:54.370 --> 00:03:57.375
+and appliance smoothen with different filter kernels.
+
+68
+00:03:57.375 --> 00:03:59.770
+In this example, if use small filter,
+
+69
+00:03:59.770 --> 00:04:02.050
+we get a lot of small edges, small details.
+
+70
+00:04:02.050 --> 00:04:05.010
+When we use a larger filter with the gradients
+
+71
+00:04:05.010 --> 00:04:08.970
+only corresponding to large objects in the image.
+
+72
+00:04:08.970 --> 00:04:13.035
+Gradient magnitude estimation is not a complete edge detector.
+
+73
+00:04:13.035 --> 00:04:17.415
+Edges are usually six stripes or edges of large image gradients,
+
+74
+00:04:17.415 --> 00:04:19.260
+as you can see in this example.
+
+75
+00:04:19.260 --> 00:04:23.655
+Also they receive only if the joint set of points is large gradients,
+
+76
+00:04:23.655 --> 00:04:29.515
+without connectivity information that link neighboring points into real edges.
+
+77
+00:04:29.515 --> 00:04:33.525
+This problems, were addressed by well known canny edge detector.
+
+78
+00:04:33.525 --> 00:04:36.880
+This is probably the most openly used edge detection algorithm
+
+79
+00:04:36.880 --> 00:04:40.120
+despite the fact that this was proposed in 1986.
+
+80
+00:04:40.120 --> 00:04:42.860
+It has two steps for gradient estimation.
+
+81
+00:04:42.860 --> 00:04:45.210
+First, there is non-maximum suppression.
+
+82
+00:04:45.210 --> 00:04:49.875
+During the step, the thin multi-pixel of wide reaches down to a single pixel width.
+
+83
+00:04:49.875 --> 00:04:52.840
+Second, is linking edge pixels together to
+
+84
+00:04:52.840 --> 00:04:56.070
+form continuous boundaries. Here is the example.
+
+85
+00:04:56.070 --> 00:04:58.860
+We take an original image of Lena,
+
+86
+00:04:58.860 --> 00:05:01.695
+and apply gradient estimation first.
+
+87
+00:05:01.695 --> 00:05:04.370
+The obtain map of gradient norm.
+
+88
+00:05:04.370 --> 00:05:07.775
+You can notice a lot of thicker ridges at the edges.
+
+89
+00:05:07.775 --> 00:05:10.615
+Now, we apply non-maximum suppression.
+
+90
+00:05:10.615 --> 00:05:12.925
+This can be done in several ways.
+
+91
+00:05:12.925 --> 00:05:17.320
+The easiest, is just to lose the pixels that a local maxima in the square neighborhood.
+
+92
+00:05:17.320 --> 00:05:19.765
+For example, 3 by 3 pixels.
+
+93
+00:05:19.765 --> 00:05:21.500
+The more complicated way,
+
+94
+00:05:21.500 --> 00:05:26.740
+is to identify the points in either pixel rows along the image gradient vector.
+
+95
+00:05:26.740 --> 00:05:29.160
+At q, We have a maximum if,
+
+96
+00:05:29.160 --> 00:05:34.655
+its value is larger than those of both p and r. To get values in p and r,
+
+97
+00:05:34.655 --> 00:05:39.100
+we should interpolate from neighbour pixels to get these values.
+
+98
+00:05:39.100 --> 00:05:45.200
+So, we found a local maximum along the image gradient vector.
+
+99
+00:05:45.200 --> 00:05:48.030
+Edge linking is performed as following,
+
+100
+00:05:48.030 --> 00:05:50.390
+assume the marked point is an edge point,
+
+101
+00:05:50.390 --> 00:05:52.830
+then reconstruct the tangent to the edge curve,
+
+102
+00:05:52.830 --> 00:05:54.930
+which is normal to the gradient in this point.
+
+103
+00:05:54.930 --> 00:05:57.480
+And use it to predict the next point.
+
+104
+00:05:57.480 --> 00:06:00.720
+This light is either r or s points.
+
+105
+00:06:00.720 --> 00:06:07.410
+We select the point with largest gradient and link it to the current point q.
+
+106
+00:06:07.410 --> 00:06:12.120
+When linking edge points, we use hysteresis.
+
+107
+00:06:12.120 --> 00:06:15.855
+Hysteresis is just two thresholds.
+
+108
+00:06:15.855 --> 00:06:20.885
+We use high threshold to start edge curves and low threshold to continue them.
+
+109
+00:06:20.885 --> 00:06:22.925
+This allows us to trace weak edges,
+
+110
+00:06:22.925 --> 00:06:25.005
+if they're connected to the strong edges.
+
+111
+00:06:25.005 --> 00:06:27.850
+Weak edges themselves won't be detected.
+
+112
+00:06:27.850 --> 00:06:30.135
+This hysteresis threshold.
+
+113
+00:06:30.135 --> 00:06:33.210
+Here is example of thinning on
+
+114
+00:06:33.210 --> 00:06:38.775
+non-maximum suppression applies to the edge map obtained for this particular image.
+
+115
+00:06:38.775 --> 00:06:43.975
+Hysteresis allow us to achieve a balance between the amount of detective edges and noise.
+
+116
+00:06:43.975 --> 00:06:45.815
+If only one threshold is used,
+
+117
+00:06:45.815 --> 00:06:49.220
+we either miss thick edges which are extensions of
+
+118
+00:06:49.220 --> 00:06:54.600
+strong edges or get a lot of noise from weak edges alone.
+
+119
+00:06:54.600 --> 00:06:58.995
+By varying the sigma in gradient computation all the size of
+
+120
+00:06:58.995 --> 00:07:04.840
+Gaussian smoothen or the size of derivative for Gaussian filter.
+
+121
+00:07:04.840 --> 00:07:07.640
+It can detect edges on different scales,
+
+122
+00:07:07.640 --> 00:07:10.080
+large sigma detects large scale edges.
+
+123
+00:07:10.080 --> 00:07:13.070
+Small sigma detects fine features in images.
+
+124
+00:07:13.070 --> 00:07:19.935
+On this example, you can see that by increasing the size of sigma from 1 to 2,
+
+125
+00:07:19.935 --> 00:07:24.855
+removes vertical lines originated from stripes on the row.
+
+126
+00:07:24.855 --> 00:07:30.280
+The change in image intensity is not the only source of edges in real images.
+
+127
+00:07:30.280 --> 00:07:33.745
+As can be seen from the slight change in color or texture,
+
+128
+00:07:33.745 --> 00:07:36.145
+also gives us visible edges in images.
+
+129
+00:07:36.145 --> 00:07:40.955
+But such changes cannot be detected by image gradient or canny operator.
+
+130
+00:07:40.955 --> 00:07:44.730
+Of course there are more advanced methods which can achieve this result.
+
+131
+00:07:44.730 --> 00:07:46.835
+Mostly, they can see that edge detection as
+
+132
+00:07:46.835 --> 00:07:50.300
+pixel classification problem and use machine learning techniques.
+
+133
+00:07:50.300 --> 00:07:56.295
+We create a data set of ground truth labeling of edges and trade
+
+134
+00:07:56.295 --> 00:07:59.155
+in which classifier with classified pixels to
+
+135
+00:07:59.155 --> 00:08:03.130
+either edges or non-edges by considering different features,
+
+136
+00:08:03.130 --> 00:08:05.450
+like texture, color, image, intensity.
+
+137
+00:08:05.450 --> 00:08:10.935
+But for many computer vision tasks canny edge detector proves to be sufficient.
+
+138
+00:08:10.935 --> 00:08:13.000
+For example it's often used as
+
+139
+00:08:13.000 --> 00:08:19.210
+feature extractor and produce features which are later used for image recognition.

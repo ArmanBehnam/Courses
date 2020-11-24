@@ -1,0 +1,325 @@
+WEBVTT
+
+1
+00:00:02.550 --> 00:00:09.710
+Now we'll talk about brightness correction which can improve all contrast in image.
+
+2
+00:00:09.710 --> 00:00:13.150
+Image contrast is one of the common image defects.
+
+3
+00:00:13.150 --> 00:00:14.950
+There are two main reasons for it.
+
+4
+00:00:14.950 --> 00:00:18.395
+First, is the limited range of sense of sensitivity.
+
+5
+00:00:18.395 --> 00:00:21.750
+The second reason is bad sense of transmission function,
+
+6
+00:00:21.750 --> 00:00:26.400
+meaning bad conversion from light energy to perceived pixels brightness.
+
+7
+00:00:26.400 --> 00:00:30.270
+With bad I mean these transmission functions
+
+8
+00:00:30.270 --> 00:00:34.490
+differ from human function which works in the brain.
+
+9
+00:00:34.490 --> 00:00:36.765
+In the specific lighting conditions,
+
+10
+00:00:36.765 --> 00:00:43.595
+you can use different transmission function from brightness to the pixel value.
+
+11
+00:00:43.595 --> 00:00:46.280
+To evaluate the tone transfer in image,
+
+12
+00:00:46.280 --> 00:00:48.900
+we need to first build the brightness histogram.
+
+13
+00:00:48.900 --> 00:00:53.075
+The brightness histogram is the chart of brightness distribution in image.
+
+14
+00:00:53.075 --> 00:00:58.170
+On horizontal axis, brightness varies from black to white, are represented.
+
+15
+00:00:58.170 --> 00:00:59.580
+On the vertical axis,
+
+16
+00:00:59.580 --> 00:01:04.830
+the number of pixels absolute or normalized is the respective brightness value.
+
+17
+00:01:04.830 --> 00:01:08.855
+On the slide I give two examples of images with poor contrast.
+
+18
+00:01:08.855 --> 00:01:10.900
+On the first image from this histogram,
+
+19
+00:01:10.900 --> 00:01:13.420
+we can see that brightness range is not fully used.
+
+20
+00:01:13.420 --> 00:01:18.170
+There are no black or white colors in the image.
+
+21
+00:01:18.170 --> 00:01:19.925
+On the second histogram,
+
+22
+00:01:19.925 --> 00:01:22.245
+full range of brightness is used.
+
+23
+00:01:22.245 --> 00:01:26.125
+But brightness values are concentrated around certain peaks.
+
+24
+00:01:26.125 --> 00:01:31.675
+So, most of the pixels lie with the same brightness values.
+
+25
+00:01:31.675 --> 00:01:34.590
+The most basic image point operator which can
+
+26
+00:01:34.590 --> 00:01:38.150
+improve contrast in image, is point operators.
+
+27
+00:01:38.150 --> 00:01:42.670
+Point operators map input pixel value to output pixel value.
+
+28
+00:01:42.670 --> 00:01:46.215
+All pixels are processed independently and equally.
+
+29
+00:01:46.215 --> 00:01:50.180
+We write the pointer operator function as inverted F,
+
+30
+00:01:50.180 --> 00:01:54.605
+because the color throw brightness from measurement of brightness.
+
+31
+00:01:54.605 --> 00:01:58.975
+The most basic operation is linear correction.
+
+32
+00:01:58.975 --> 00:02:03.725
+It is a point operator that come compensated limited histogram range.
+
+33
+00:02:03.725 --> 00:02:07.005
+The idea is to play such linear transformation that
+
+34
+00:02:07.005 --> 00:02:10.530
+map the lowest brightness value in image to total black,
+
+35
+00:02:10.530 --> 00:02:13.885
+and map the highest brightness value to white.
+
+36
+00:02:13.885 --> 00:02:17.095
+To calculate the parameters of such linear transformation,
+
+37
+00:02:17.095 --> 00:02:22.955
+you must first find the minimum and maximum value of brightness in current image.
+
+38
+00:02:22.955 --> 00:02:26.490
+We can visualize the linear transformation on the chart.
+
+39
+00:02:26.490 --> 00:02:32.815
+You can see that it maps the minimum value of brightness in image to the black value,
+
+40
+00:02:32.815 --> 00:02:37.400
+and the maximum value of brightness in image to the white value.
+
+41
+00:02:37.400 --> 00:02:40.055
+Here's the example of linear correction.
+
+42
+00:02:40.055 --> 00:02:42.635
+We have a test pattern with poor contrast.
+
+43
+00:02:42.635 --> 00:02:46.100
+It consists of several samples of a fixed brightness.
+
+44
+00:02:46.100 --> 00:02:50.700
+The brightness is lowered from left to right of the pattern.
+
+45
+00:02:50.700 --> 00:02:52.140
+After a linear correction,
+
+46
+00:02:52.140 --> 00:02:54.475
+the darkest column has become black.
+
+47
+00:02:54.475 --> 00:02:57.005
+The brightness has become white.
+
+48
+00:02:57.005 --> 00:02:59.950
+See how the difference between neighbor cones has
+
+49
+00:02:59.950 --> 00:03:03.410
+become more prominent after linear correction.
+
+50
+00:03:03.410 --> 00:03:07.400
+Linear correction always improves image perception.
+
+51
+00:03:07.400 --> 00:03:12.735
+This is why it does generally apply to all images in all image processing pipelines.
+
+52
+00:03:12.735 --> 00:03:19.025
+There is no need to not fully use the brightness range in our image.
+
+53
+00:03:19.025 --> 00:03:22.625
+But sometimes simple linear correction can not help.
+
+54
+00:03:22.625 --> 00:03:24.340
+Like in this example,
+
+55
+00:03:24.340 --> 00:03:28.940
+we have a portion of brightly lit water and the rest of the image is very dark.
+
+56
+00:03:28.940 --> 00:03:34.390
+So, simple linear transformation will not improve the contrast in very dark area,
+
+57
+00:03:34.390 --> 00:03:38.770
+because we have very dark and very bright pixels in the image.
+
+58
+00:03:38.770 --> 00:03:41.090
+If linear correction cannot solve the problem,
+
+59
+00:03:41.090 --> 00:03:43.725
+then it can apply nonlinear correction,
+
+60
+00:03:43.725 --> 00:03:46.650
+via a short device the parameters of
+
+61
+00:03:46.650 --> 00:03:51.730
+nonlinear transformation in such a way so that contrast in dark areas should be improved,
+
+62
+00:03:51.730 --> 00:03:53.430
+and in bright areas,
+
+63
+00:03:53.430 --> 00:03:55.990
+the contrast can be reduced or flattened.
+
+64
+00:03:55.990 --> 00:03:59.345
+You can visualize the mapping function with a curve.
+
+65
+00:03:59.345 --> 00:04:04.715
+The most basic parametric form for such curve is Gama transformation.
+
+66
+00:04:04.715 --> 00:04:08.765
+Gamma transformation is often used for contrast enhancement.
+
+67
+00:04:08.765 --> 00:04:12.670
+By controlling the value of parameter Gamma,
+
+68
+00:04:12.670 --> 00:04:16.780
+we can control the Gamma transformation.
+
+69
+00:04:16.780 --> 00:04:21.125
+And we can select the parameter,
+
+70
+00:04:21.125 --> 00:04:25.420
+the value of Gamma to get the most perceptually pleasing result.
+
+71
+00:04:25.420 --> 00:04:31.450
+In this example, the best results of doing these Gamma equal 0.5.
+
+72
+00:04:31.450 --> 00:04:34.060
+In many image processing application,
+
+73
+00:04:34.060 --> 00:04:39.225
+user can specify the contr of brightness making function himself. Here's one example.
+
+74
+00:04:39.225 --> 00:04:41.740
+When contrast in the middle of the histogram is
+
+75
+00:04:41.740 --> 00:04:46.150
+improved by flitting in the areas of both bright and dark pixels.
+
+76
+00:04:46.150 --> 00:04:49.535
+One other example of such free for transformation is
+
+77
+00:04:49.535 --> 00:04:53.825
+automatically estimate called histogram equalization.
+
+78
+00:04:53.825 --> 00:04:57.695
+The goal is to make that commulative brightness histogram near linear.
+
+79
+00:04:57.695 --> 00:04:59.855
+Such transformation can improve
+
+80
+00:04:59.855 --> 00:05:03.250
+the visual perception and automatic recognition of images,
+
+81
+00:05:03.250 --> 00:05:06.980
+and is often used for image recognition.
