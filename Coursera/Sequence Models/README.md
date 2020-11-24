@@ -4,7 +4,6 @@
 
 Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
 
-All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Slides)
 
 - [Week 1 Recurrent Neural Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201)
 
@@ -36,39 +35,29 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
   
 - [Week 2 Natural Language Processing & Word Embeddings](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202)
 
-  1 - Latent Variable Models [video](https://www.youtube.com/watch?v=ESZ7MtCHOOg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/11%20-%20Latent%20Variable%20Models.pdf).
+  1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
-  2 - Probabilistic clustering [video](https://www.youtube.com/watch?v=ogdydTJCk44&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=11) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/12%20-%20Probabilistic%20clustering.pdf).
+  2 - Using word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/13%20-%20Using%20word%20embeddings.pdf).
   
-  3 - Gaussian Mixture Model [video](https://www.youtube.com/watch?v=pZR0tLuc5HQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=12) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/13%20-%20Gaussian%20Mixture%20Model.pdf).
+  3 - Properties of word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/14%20-%20Properties%20of%20word%20embeddings.pdf).
   
-  4 - Training GMM [video](https://www.youtube.com/watch?v=zGQAqgOOGKg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=13) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/14%20-%20Training%20GMM.pdf).
+  4 -  Embedding matrix [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/15%20-%20Embedding%20matrix.pdf).
   
-  5 - Example of GMM training [video](https://www.youtube.com/watch?v=st7nsghbmHo&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=14) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/15%20-%20Example%20of%20GMM%20training.pdf).
+  5 - Learning word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/16%20-%20Learning%20word%20embeddings.pdf).
   
-  6 - Jensen's inequality & Kullback Leibler divergence [video](https://www.youtube.com/watch?v=_2PZxw4FzDU&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=15) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/16%20%20Jensen's%20inequality%20%26%20Kullback%20Leibler%20divergence.pdf).
+  6 - Word2Vec [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/17%20-%20Word2Vec.pdf).
   
-  7 - Expectation Maximization algorithm [video](https://www.youtube.com/watch?v=YaI2O_e4QpI&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=16) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/17%20-%20Expectation-Maximization%20algorithm.pdf). 
+  7 - Negative Sampling [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/18%20-%20Negative%20Sampling.pdf). 
   
-  8 - E step [video](https://www.youtube.com/watch?v=DjRWuZKo9wY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=17) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/18%20-%20E-step%20details.pdf). 
+  8 - GloVe word vectors [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/19%20-%20GloVe%20word%20vectors.pdf). 
   
-  9 - M step [video](https://www.youtube.com/watch?v=LyX8ODut6gY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=18) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/19%20-%20M-step%20details.pdf).
+  9 - Sentiment Classification and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/20%20-%20Sentiment%20Classification.pdf).
   
   10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
  
   11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
   
-  12 - Summary of Expectation Maximization [video](https://www.youtube.com/watch?v=HUqY48DOAsA&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=21) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/22%20-%20Summary%20of%20Expectation%20Maximization.pdf).
-  
-  13 - General EM for GMM [video](https://www.youtube.com/watch?v=CC5T2ovpBIc&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=22) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/23%20-%20General%20EM%20for%20GMM.pdf).
-  
-  14 - K means from probabilistic perspective [video](https://www.youtube.com/watch?v=o_yqtP_H_J8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=23) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/24%20-%20K-means%20from%20probabilistic%20perspective.pdf).
-  
-  15 - K means, M step [video](https://www.youtube.com/watch?v=uwGidxSvoow&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=24) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/25%20-%20K-means%2C%20M-step.pdf). 
-  
-  16 - Probabilistic PCA [video](https://www.youtube.com/watch?v=6z6yipdfe3o&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=25) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/26%20-%20Probabilistic%20PCA.pdf). 
-  
-  20 - EM for Probabilistic PCA [video](https://www.youtube.com/watch?v=jFFSKXwEOLY&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=26) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/27%20-%20EM%20for%20Probabilistic%20PCA.pdf).
+  12 - Debiasing word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/21%20-%20Debiasing%20word%20embeddings.pdf).
   
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
