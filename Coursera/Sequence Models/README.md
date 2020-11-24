@@ -8,27 +8,32 @@ All slides are available [here](https://github.com/ArmanBehnam/Courses/tree/mast
 
 - Week 1 Recurrent Neural Networks
 
-  1 - Think bayesian & Statistics review [video](https://www.youtube.com/watch?v=QAbPaJQRDrQ&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=1) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/2%20-%20Think%20bayesian%20%26%20Statistics%20review.pdf).
+  1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
-  2 - Bayesian approach to statistics [video](https://www.youtube.com/watch?v=v4uYrmzH_Cw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=2) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/3%20-%20Bayesian%20approach%20to%20statistics.pdf).
+  2 - Notation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/2%20-%20Notation.pdf).
   
-  3 - How to define a model [video](https://www.youtube.com/watch?v=-jflQb2iP0c&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=3) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/4%20-%20How%20to%20define%20a%20model.pdf).
+  3 - Recurrent Neural Network Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/3%20-%20Recurrent%20Neural%20Network%20Model.pdf).
   
-  4 - Example thief & alarm [video](https://www.youtube.com/watch?v=D0OfsDpM7Kk&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/5%20-%20Example%20thief%20%26%20alarm.pdf).
+  4 - Backpropagation through time [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/4%20-%20Backpropagation%20through%20time.pdf).
   
-  5 - Linear regression [video](https://www.youtube.com/watch?v=-X-q7ClQkx8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=5) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/6%20-%20Maximum%20Likelihood%20Estimate.pdf).
+  5 - Different types of RNNs [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/5%20-%20Different%20types%20of%20RNNs.pdf).
   
-  6 - Analytical inference [video](https://www.youtube.com/watch?v=7sC2nXd47Pw&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=6) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/7%20-%20Analytical%20inference.pdf).
+  6 - Language model and sequence generation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/6%20-%20Language%20model%20and%20sequence%20generation.pdf).
   
-  7 - Conjugate distributions [video](https://www.youtube.com/watch?v=njq0SPmI8oM&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=7) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/8%20-%20Conjugate%20distributions.pdf). 
+  7 - Sampling novel sequences [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/7%20-%20Sampling%20novel%20sequences.pdf). 
   
-  8 - Example Normal, precision [video](https://www.youtube.com/watch?v=288WrDx35j8&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=8) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/9%20-%20Example%20Normal%2C%20precision.pdf). 
+  8 - Vanishing gradients with RNNs [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/8%20-%20Vanishing%20gradients%20with%20RNNs.pdf). 
   
-  9 - Example Bernoulli [video](https://www.youtube.com/watch?v=ZGtgmApU-W4&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=9) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/10%20-%20Example%20Bernoulli.pdf).
+  9 - Gated Recurrent Unit (GRU) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/9%20-%20Gated%20Recurrent%20Unit%20(GRU).pdf).
  
-  - [x] [Convolutional Model: step by step](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%201%20Convolution%20model%20-%20Step%20by%20Step%20-%20v2)
-  - [x] [Convolutional Model: application](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%201%20PA%202%20Convolution%20model%20-%20Application%20-%20v1)
-
+  10 - Bidirectional RNN [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/10%20-%20Bidirectional%20RNN.pdf). 
+  
+  11 - Deep RNNs [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/11%20-%20Deep%20RNNs.pdf).
+  
+  - [x] [Building a Recurrent Neural Network - Step by Step](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Building%20a%20Recurrent%20Neural%20Network%20-%20Step%20by%20Step)
+  - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
+  - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
+  
 - Week 2 Natural Language Processing & Word Embeddings
 
   1 - Latent Variable Models [video](https://www.youtube.com/watch?v=ESZ7MtCHOOg&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=10) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Slides/11%20-%20Latent%20Variable%20Models.pdf).
