@@ -83,9 +83,10 @@ Analysis and discussing [Sequence Models](http://www.armanbehnam.com/about-me/ed
   9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
   
 
-  - [x] [Car detection with YOLOv2](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks/Week%203%20PA%201%20Car%20detection%20with%20YOLOv2)
+  - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
+  - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
   
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Bayesian%20Methods%20for%20Machine%20Learning/Coursera%2069RMKDDX3KU8.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Coursera%20MFC297Q9JS65.png).
 
 - 4.8 stars
 - 25324 ratings
