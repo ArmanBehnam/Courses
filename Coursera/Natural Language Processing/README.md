@@ -5,7 +5,7 @@
 Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
 
 
-- [Week 1 Recurrent Neural Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201)
+- [Week 1 Intro and text classification](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week1)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Natural Language Processing & Word Embeddings](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202)
+- [Week 2 Language modeling and sequence tagging](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week2)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,31 @@ Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- [Week 3 Sequence models & Attention mechanism](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
+- [Week 3 Vector Space Models of Semantics](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week3)
+
+  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
+  
+  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
+  
+  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
+  
+  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
+  
+  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
+  
+  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
+  
+  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
+  
+  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
+  
+  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
+  
+
+  - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
+  - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
+ 
+- [Week 4 Sequence to sequence tasks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week4)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -86,14 +110,37 @@ Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com
   - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
   
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Coursera%20MFC297Q9JS65.png).
+  - [Week 5 Dialog systems](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week5)
 
-- 4.8 stars
-- 25324 ratings
-- 92,325 already enrolled
+  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
+  
+  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
+  
+  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
+  
+  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
+  
+  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
+  
+  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
+  
+  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
+  
+  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
+  
+  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
+  
 
-This course will teach you how to build models for natural language, audio, and other sequence data. Thanks to deep learning, sequence algorithms are working far better than just two years ago, and this is enabling numerous exciting applications in speech recognition, music synthesis, chatbots, machine translation, natural language understanding, and many others.
+  - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
+  - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/Coursera%20LAMSHUWMSS47.pdf).
 
-You will: - Understand how to build and train Recurrent Neural Networks (RNNs), and commonly-used variants such as GRUs and LSTMs. - Be able to apply sequence models to natural language problems, including text synthesis. - Be able to apply sequence models to audio applications, including speech recognition and music synthesis. This is the fifth and final course of the Deep Learning Specialization. deeplearning.ai is also partnering with the NVIDIA Deep Learning Institute (DLI) in Course 5, Sequence Models, to provide a programming assignment on Machine Translation with deep learning. You will have the opportunity to build a deep learning project with cutting-edge, industry-relevant content..
+- 4.5 stars
+- 732 ratings
+- 92,116 already enrolled
+
+This course covers a wide range of tasks in Natural Language Processing from basic to advanced: sentiment analysis, summarization, dialogue state tracking, to name a few. Upon completing, you will be able to recognize NLP tasks in your day-to-day work, propose approaches, and judge what techniques are likely to work well.  The final project is devoted to one of the most hot topics in today’s NLP. You will build your own conversational chat-bot that will assist with search on StackOverflow website. The project will be based on practical assignments of the course, that will give you hands-on experience with such tasks as text classification, named entities recognition, and duplicates detection. 
+
+Throughout the lectures, we will aim at finding a balance between traditional and deep learning techniques in NLP and cover them in parallel. For example, we will discuss word alignment models in machine translation and see how similar it is to attention mechanism in encoder-decoder neural networks. Core techniques are not treated as black boxes. On the contrary, you will get in-depth understanding of what’s happening inside. To succeed in that, we expect your familiarity with the basics of linear algebra and probability theory, machine learning setup, and deep neural networks. Some materials are based on one-month-old papers and introduce you to the very state-of-the-art in NLP research.
 
 # THANK YOU
