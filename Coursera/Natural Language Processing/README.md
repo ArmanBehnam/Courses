@@ -110,7 +110,7 @@ Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com
   - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
   
-  - [Week 5 Dialog systems](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week5)
+- [Week 5 Dialog systems](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week5)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
