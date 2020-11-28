@@ -1,8 +1,8 @@
-# Natural Language Processing by [Coursera](https://www.coursera.org/learn/nlp-sequence-models)
+# Natural Language Processing by [Coursera](https://www.coursera.org/learn/language-processing)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
+Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com/about-me/education/nlp-hse/) in my website
 
 
 - [Week 1 Intro and text classification](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week1)
