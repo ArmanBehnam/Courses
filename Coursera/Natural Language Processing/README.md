@@ -7,15 +7,15 @@ Analysis and discussing [Natural Language Processing](http://www.armanbehnam.com
 
 - [Week 1 Intro and text classification](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing/week1)
 
-  1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
+  1 - About this course [video](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/1%20-%20About%20this%20course.mp4).
   
-  2 - Notation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/2%20-%20Notation.pdf).
+  2 - Welcome video [video](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/2%20-%20Welcome%20video.mp4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/2%20-%20Welcome%20video.pdf).
   
-  3 - Recurrent Neural Network Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/3%20-%20Recurrent%20Neural%20Network%20Model.pdf).
+  3 - Main approaches in NLP [video](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/3%20-%20Main%20approaches%20in%20NLP.mp4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/3%20-%20Main%20approaches%20in%20NLP.pdf).
   
-  4 - Backpropagation through time [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/4%20-%20Backpropagation%20through%20time.pdf).
+  4 - Brief overview of the next weeks [video](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/4%20-%20Brief%20overview%20of%20the%20next%20weeks.mp4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/4%20-%20Brief%20overview%20of%20the%20next%20weeks.pdf).
   
-  5 - Different types of RNNs [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/5%20-%20Different%20types%20of%20RNNs.pdf).
+  5 - Linguistic knowledge in NLP [video](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/5%20-%20%5BOptional%5D%20Linguistic%20knowledge%20in%20NLP.mp4) and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing/week1/5%20-%20%5BOptional%5D%20Linguistic%20knowledge%20in%20NLP.pdf).
   
   6 - Language model and sequence generation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/6%20-%20Language%20model%20and%20sequence%20generation.pdf).
   
