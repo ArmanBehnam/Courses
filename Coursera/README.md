@@ -54,5 +54,21 @@ Reach [Coursera](https://www.coursera.org) here.
   
   ### [My Advanced Machine Learning Specialization](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Specialization/Advanced%20Machine%20Learning)
 
+## If You want to learn [Natural Language Processing Specialization](https://www.coursera.org/specializations/natural-language-processing), these are courses that you will study step by step
+
+1 - [Natural Language Processing with Classification and Vector Spaces](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Neural%20Networks%20and%20Deep%20Learning)
+  - Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
+
+2 - [Natural Language Processing with Probabilistic Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Improving%20Deep%20Neural%20Networks%20Hyperparameter%20tuning%2C%20Regularization%20and%20Optimization)
+  - Analysis and discussing [Natural Language Processing with Probabilistic Models](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+
+3 - [Natural Language Processing with Sequence Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Structuring%20Machine%20Learning%20Projects)
+  - Analysis and discussing [Natural Language Processing with Sequence Models](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
   
+4 - [Natural Language Processing with Attention Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Natural Language Processing with Attention Models](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+
+  
+ ### [My Natural Language Processing Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
+ 
 # THANK YOU
