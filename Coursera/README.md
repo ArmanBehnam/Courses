@@ -71,4 +71,48 @@ Reach [Coursera](https://www.coursera.org) here.
   
  ### [My Natural Language Processing Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
  
+ ## If You want to learn [An Introduction to Programming the Internet of Things (IOT) Specialization](https://www.coursera.org/specializations/iot), these are courses that you will study step by step
+
+1 - [Introduction to the Internet of Things and Embedded Systems](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Neural%20Networks%20and%20Deep%20Learning)
+  - Analysis and discussing [Introduction to the Internet of Things and Embedded Systems](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
+
+2 - [The Arduino Platform and C Programming](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Improving%20Deep%20Neural%20Networks%20Hyperparameter%20tuning%2C%20Regularization%20and%20Optimization)
+  - Analysis and discussing [The Arduino Platform and C Programming](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+
+3 - [Interfacing with the Arduino](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Structuring%20Machine%20Learning%20Projects)
+  - Analysis and discussing [Interfacing with the Arduino](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+  
+4 - [The Raspberry Pi Platform and Python Programming for the Raspberry Pi](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [The Raspberry Pi Platform and Python Programming for the Raspberry Pi](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+
+5 - [Interfacing with the Raspberry Pi](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Interfacing with the Raspberry Pi](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+
+6 - [Programming for the Internet of Things Project](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Programming for the Internet of Things Project](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website  
+  
+ ### [My An Introduction to Programming the Internet of Things (IOT) Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
+
+ ## If You want to learn [Internet of Things and AI Cloud Specialization](https://www.coursera.org/specializations/internet-of-things), these are courses that you will study step by step
+
+1 - [Internet of Things: How did we get here?](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Neural%20Networks%20and%20Deep%20Learning)
+  - Analysis and discussing [Internet of Things: How did we get here?](http://www.armanbehnam.com/about-me/education/nn-and-dl/) in my website
+
+2 - [Internet of Things V2: DragonBoard™ bring up and community ecosystem](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Improving%20Deep%20Neural%20Networks%20Hyperparameter%20tuning%2C%20Regularization%20and%20Optimization)
+  - Analysis and discussing [Internet of Things V2: DragonBoard™ bring up and community ecosystem](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+
+3 - [Internet of Things V2: Setting up and Using Cloud Services](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Structuring%20Machine%20Learning%20Projects)
+  - Analysis and discussing [Internet of Things V2: Setting up and Using Cloud Services](http://www.armanbehnam.com/about-me/education/improve-nn-strucruting-ml/) in my website
+  
+4 - [Internet of Things: Communication Technologies](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Internet of Things: Communication Technologies](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+
+5 - [Internet of Things: Multimedia Technologies](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Internet of Things: Multimedia Technologies](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website
+
+6 - [Internet of Things Capstone V2: Build a Mobile Surveillance System](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Convolutional%20Neural%20Networks)
+  - Analysis and discussing [Internet of Things Capstone V2: Build a Mobile Surveillance System](http://www.armanbehnam.com/about-me/education/coursera-cnn/) in my website  
+ 
+ ### [My Internet of Things and AI Cloud Specialization](https://coursera.org/share/5f2c5c02993e7a300d2f13f86bbd04b1)
+ 
 # THANK YOU
