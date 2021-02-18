@@ -1,0 +1,673 @@
+WEBVTT
+
+1
+00:00:00.020 --> 00:00:03.420
+Hello, everyone. Welcome to Capstone two,
+
+2
+00:00:03.420 --> 00:00:07.580
+the remote healthcare monitoring system.
+
+3
+00:00:07.580 --> 00:00:11.280
+Let us begin with a description or actually an overview.
+
+4
+00:00:11.280 --> 00:00:14.685
+So, we have the hardware requirements first,
+
+5
+00:00:14.685 --> 00:00:16.470
+and then we have the description after that,
+
+6
+00:00:16.470 --> 00:00:20.985
+and then we'll describe the major components of the system,
+
+7
+00:00:20.985 --> 00:00:23.220
+how it's implemented and after that,
+
+8
+00:00:23.220 --> 00:00:26.485
+we'll show a demo of the project itself.
+
+9
+00:00:26.485 --> 00:00:29.490
+So here, we have hardware requirements.
+
+10
+00:00:29.490 --> 00:00:31.950
+The only thing that you'll need is a computer and the dragonboard.
+
+11
+00:00:31.950 --> 00:00:37.236
+The computer will act as the interface to the website that we'll be connecting to,
+
+12
+00:00:37.236 --> 00:00:46.575
+and the dragon board will act as our medical device that we will be remotely monitoring.
+
+13
+00:00:46.575 --> 00:00:49.980
+And then we'll go to the description.
+
+14
+00:00:49.980 --> 00:00:52.340
+Basically, it demonstrates how the cloud can
+
+15
+00:00:52.340 --> 00:00:55.144
+connect the patient and doctor instantaneously,
+
+16
+00:00:55.144 --> 00:00:57.550
+allowing for near real time analysis of data using
+
+17
+00:00:57.550 --> 00:01:01.920
+cloud resources and feedback through normal communication channels.
+
+18
+00:01:01.920 --> 00:01:06.080
+What that means is we're going to be using
+
+19
+00:01:06.080 --> 00:01:10.835
+the dragonboard as a simulated medical device like a heart rate monitor,
+
+20
+00:01:10.835 --> 00:01:15.661
+and it will stream its data to the cloud which is Amazon Web Services.
+
+21
+00:01:15.661 --> 00:01:17.450
+And there, we can store the data,
+
+22
+00:01:17.450 --> 00:01:19.430
+we can analyze the data,
+
+23
+00:01:19.430 --> 00:01:22.700
+and then we can act on that data by sending a text or
+
+24
+00:01:22.700 --> 00:01:24.650
+an e-mail to the doctor or
+
+25
+00:01:24.650 --> 00:01:27.875
+the patient which is the feedback through normal communication channels.
+
+26
+00:01:27.875 --> 00:01:33.110
+And the real time analysis is checking those anomalies in the heart rate data,
+
+27
+00:01:33.110 --> 00:01:38.210
+which could possibly be fatal or not actually fatal and
+
+28
+00:01:38.210 --> 00:01:44.450
+just something that's just an irregularity but not serious.
+
+29
+00:01:44.450 --> 00:01:47.340
+Here, we have the WaveForm Database.
+
+30
+00:01:47.340 --> 00:01:50.995
+That is the data that will be streaming to AWS.
+
+31
+00:01:50.995 --> 00:01:52.995
+It comes from physionet.org,
+
+32
+00:01:52.995 --> 00:01:56.550
+which is a massive database for medical data.
+
+33
+00:01:56.550 --> 00:01:59.670
+A good thing about this data is that it has annotations of the waveforms,
+
+34
+00:01:59.670 --> 00:02:04.875
+meaning that at certain points in the stream of like heart rate data,
+
+35
+00:02:04.875 --> 00:02:12.163
+you can see where doctors have labeled where there is an anomaly or an arrhythmia.
+
+36
+00:02:12.163 --> 00:02:14.320
+Another thing is that
+
+37
+00:02:14.320 --> 00:02:18.520
+the waveform database is also really good because it has this thing called Wave,
+
+38
+00:02:18.520 --> 00:02:22.915
+which lets you visualize the ECG data as you can see here in the picture.
+
+39
+00:02:22.915 --> 00:02:24.900
+The picture itself is actually lightwave,
+
+40
+00:02:24.900 --> 00:02:26.395
+which is the javascript version,
+
+41
+00:02:26.395 --> 00:02:31.416
+so that you can be used on our web browser.
+
+42
+00:02:31.416 --> 00:02:36.785
+So we'll be using Amazon Web Services which is a major player in cloud computing,
+
+43
+00:02:36.785 --> 00:02:40.910
+and it is used by companies such as Coursera, Yelp, and many more.
+
+44
+00:02:40.910 --> 00:02:43.315
+We will use it to handle IoT communication,
+
+45
+00:02:43.315 --> 00:02:45.410
+which is the dragonboard to the server,
+
+46
+00:02:45.410 --> 00:02:48.215
+database management which is storing that data,
+
+47
+00:02:48.215 --> 00:02:50.480
+and the Java application hosting,
+
+48
+00:02:50.480 --> 00:02:51.980
+which is the lightwave server,
+
+49
+00:02:51.980 --> 00:02:54.095
+lightwave application that we'll be showing.
+
+50
+00:02:54.095 --> 00:02:57.080
+You will be learning how to do all these things in
+
+51
+00:02:57.080 --> 00:03:01.260
+course three which will focus on the cloud and how to use it.
+
+52
+00:03:01.260 --> 00:03:05.330
+Here's the implementation for the entire system itself.
+
+53
+00:03:05.330 --> 00:03:10.295
+At the top, you can see the dragonboard which will be the quote unquote ECG device,
+
+54
+00:03:10.295 --> 00:03:15.200
+and it will send data to the AWS IoT,
+
+55
+00:03:15.200 --> 00:03:20.825
+STK which is just a message broker and it allows us to do
+
+56
+00:03:20.825 --> 00:03:26.150
+various things such as send it to the web server and database.
+
+57
+00:03:26.150 --> 00:03:30.775
+So it just sends it to the database stores that there, which is DNO DB.
+
+58
+00:03:30.775 --> 00:03:33.200
+It also sends it to the EC2 server,
+
+59
+00:03:33.200 --> 00:03:37.970
+which will serve a web application
+
+60
+00:03:37.970 --> 00:03:44.310
+using javascript to show and visualize the data and interact with the system.
+
+61
+00:03:44.310 --> 00:03:45.620
+So as you can see here,
+
+62
+00:03:45.620 --> 00:03:52.460
+it sends it to the front using HTTP and a lightwave front end.
+
+63
+00:03:52.460 --> 00:03:54.887
+So as the data's streaming,
+
+64
+00:03:54.887 --> 00:03:56.020
+if there's no problems connected,
+
+65
+00:03:56.020 --> 00:04:00.370
+it continually visualizes data and just keeps storing it.
+
+66
+00:04:00.370 --> 00:04:02.290
+But if it sees a problem,
+
+67
+00:04:02.290 --> 00:04:04.025
+such as a flag for an arrhythmia,
+
+68
+00:04:04.025 --> 00:04:06.910
+it will send a notification to the doctor and
+
+69
+00:04:06.910 --> 00:04:10.665
+the patient in the form of an email and text.
+
+70
+00:04:10.665 --> 00:04:15.875
+And then from there, the doctor can simply just click on a link wherever he is,
+
+71
+00:04:15.875 --> 00:04:19.963
+and then go to that exact point in the data to see where the problem is,
+
+72
+00:04:19.963 --> 00:04:22.910
+and see for himself if he wants to act on it.
+
+73
+00:04:22.910 --> 00:04:26.270
+Either tell the patient that's a serious problem and they should do something,
+
+74
+00:04:26.270 --> 00:04:29.135
+or just tell them it was nothing and they don't have to worry about it.
+
+75
+00:04:29.135 --> 00:04:37.100
+So from here, we'll go to the dragonboard and run the simulated device streaming to AWS.
+
+76
+00:04:37.100 --> 00:04:41.080
+We'll just be reading a data file and then sending it to AWS.
+
+77
+00:04:41.080 --> 00:04:44.720
+So, just go to the dragonboard,
+
+78
+00:04:44.720 --> 00:04:48.585
+and on the dragonboard,
+
+79
+00:04:48.585 --> 00:04:54.220
+we can read and see that it's the directory for the project itself.
+
+80
+00:04:54.220 --> 00:04:55.325
+It has all the files,
+
+81
+00:04:55.325 --> 00:04:57.890
+even the files that will be running on the web server.
+
+82
+00:04:57.890 --> 00:05:02.015
+But we'll be focusing on the device.py file and just running that.
+
+83
+00:05:02.015 --> 00:05:03.855
+And when we run that, it will start to stream to
+
+84
+00:05:03.855 --> 00:05:07.365
+AWS all the data that we have stored here.
+
+85
+00:05:07.365 --> 00:05:14.295
+And then we can go to my computer and then we can access the web server itself.
+
+86
+00:05:14.295 --> 00:05:17.488
+So here is the application itself.
+
+87
+00:05:17.488 --> 00:05:21.083
+This is nicely created by physionet, all of this front end.
+
+88
+00:05:21.083 --> 00:05:27.143
+I did edit it and add some features specifically for this project.
+
+89
+00:05:27.143 --> 00:05:29.535
+Everything else here is still the same.
+
+90
+00:05:29.535 --> 00:05:32.700
+We're even using data from their database.
+
+91
+00:05:32.700 --> 00:05:34.995
+This section here is different,
+
+92
+00:05:34.995 --> 00:05:37.610
+I added heart rate 77, and major issue,
+
+93
+00:05:37.610 --> 00:05:43.565
+and all clear, that's for the doctor to use and to notify the patient with.
+
+94
+00:05:43.565 --> 00:05:47.265
+So here, we can see the data and we can start streaming the data,
+
+95
+00:05:47.265 --> 00:05:49.460
+pressing play, and you can see here,
+
+96
+00:05:49.460 --> 00:05:52.503
+this little A, that stands for arrhythmia and once it passes center,
+
+97
+00:05:52.503 --> 00:05:56.320
+which is what we're measuring or checking the data for.
+
+98
+00:05:56.320 --> 00:05:59.360
+As you can see here, we'll go to this tab and we'll see if we have
+
+99
+00:05:59.360 --> 00:06:02.653
+an e-mail from AWS certification message,
+
+100
+00:06:02.653 --> 00:06:04.373
+and it says, "Hello, Hari.
+
+101
+00:06:04.373 --> 00:06:06.765
+We've detected a possible problem with your heart.
+
+102
+00:06:06.765 --> 00:06:09.740
+Doctor Watson will notify you if you need take further action."
+
+103
+00:06:09.740 --> 00:06:12.470
+So I just named our patient and doctor.
+
+104
+00:06:12.470 --> 00:06:14.810
+So our patient's Hari, one of our instructors,
+
+105
+00:06:14.810 --> 00:06:17.285
+and our doctor's just Dr. Watson,
+
+106
+00:06:17.285 --> 00:06:21.207
+just because of the IBM Watson.
+
+107
+00:06:21.207 --> 00:06:24.205
+And then here's the message for the doctor, for Dr. Watson.
+
+108
+00:06:24.205 --> 00:06:25.580
+It says, "Hello, Dr. Watson.
+
+109
+00:06:25.580 --> 00:06:29.120
+On your patient Harinath's ECG signal,
+
+110
+00:06:29.120 --> 00:06:30.450
+we have detected a possible arrhythmia.
+
+111
+00:06:30.450 --> 00:06:31.876
+To see the problem in that area,
+
+112
+00:06:31.876 --> 00:06:34.930
+click on the following link."
+
+113
+00:06:35.420 --> 00:06:39.350
+And as you can see here, it takes us directly in
+
+114
+00:06:39.350 --> 00:06:42.240
+the waveform where it detected the problem.
+
+115
+00:06:42.240 --> 00:06:45.325
+This looks exactly where we started on here,
+
+116
+00:06:45.325 --> 00:06:49.600
+but that's just because we jumped on the waveform to the specific point,
+
+117
+00:06:49.600 --> 00:06:52.064
+so that we could easily go for the demo.
+
+118
+00:06:52.064 --> 00:06:54.220
+But normally, this would start at zero and it would just take
+
+119
+00:06:54.220 --> 00:06:57.025
+a whole four minutes to get to the point.
+
+120
+00:06:57.025 --> 00:07:00.485
+So here, it drops us exactly where you want to be.
+
+121
+00:07:00.485 --> 00:07:01.730
+And just a quick note,
+
+122
+00:07:01.730 --> 00:07:04.235
+it also sends a text message,
+
+123
+00:07:04.235 --> 00:07:06.980
+and we'll be showing that on the device.
+
+124
+00:07:06.980 --> 00:07:11.311
+So we can let it zoom in a bit.
+
+125
+00:07:11.311 --> 00:07:13.515
+And you can see here at top,
+
+126
+00:07:13.515 --> 00:07:15.860
+having the doctor's message and the patient's message
+
+127
+00:07:15.860 --> 00:07:19.105
+sent to my phone because I don't have two phones.
+
+128
+00:07:19.105 --> 00:07:22.795
+At the top, you can see it says Dr. Watson the same message and the link,
+
+129
+00:07:22.795 --> 00:07:26.827
+so I can easily just click that and go to the website.
+
+130
+00:07:26.827 --> 00:07:29.715
+And then the bottom is the message for the patient.
+
+131
+00:07:29.715 --> 00:07:34.600
+So if I go back to the website itself on my computer,
+
+132
+00:07:34.600 --> 00:07:36.400
+we can see here.
+
+133
+00:07:36.400 --> 00:07:41.380
+So after the doctor has received the notification through the e-mail or the text,
+
+134
+00:07:41.380 --> 00:07:46.495
+he can go to this link and then either look at this data,
+
+135
+00:07:46.495 --> 00:07:48.580
+see if it's actually a problem.
+
+136
+00:07:48.580 --> 00:07:50.965
+Like maybe this is too close to this and say,
+
+137
+00:07:50.965 --> 00:07:52.570
+"Okay, it is a problem."
+
+138
+00:07:52.570 --> 00:07:56.035
+So when the patient clicks major issue,
+
+139
+00:07:56.035 --> 00:07:58.846
+and then that should send an email and a text to the patient.
+
+140
+00:07:58.846 --> 00:08:02.965
+So you can see here, it just sent a text saying EMERGENCY in big capital letters,
+
+141
+00:08:02.965 --> 00:08:05.875
+saying that Dr. Watson has determined that there is a serious heart.
+
+142
+00:08:05.875 --> 00:08:07.690
+So this is really nice in the fact that
+
+143
+00:08:07.690 --> 00:08:09.445
+you don't have to download a specific app or anything.
+
+144
+00:08:09.445 --> 00:08:10.940
+You just give them your phone number,
+
+145
+00:08:10.940 --> 00:08:12.730
+and then you'd just get a text on,
+
+146
+00:08:12.730 --> 00:08:16.330
+which is something you normally interact with on a daily basis anyways.
+
+147
+00:08:16.330 --> 00:08:20.494
+In addition, you also get an e-mail.
+
+148
+00:08:20.494 --> 00:08:24.625
+Let's check here. It is oops!
+
+149
+00:08:24.625 --> 00:08:30.171
+Emergency as seen.
+
+150
+00:08:30.171 --> 00:08:31.530
+And then let's say,
+
+151
+00:08:31.530 --> 00:08:36.020
+this is just nothing out of the ordinary and it's just not a problem.
+
+152
+00:08:36.020 --> 00:08:37.775
+We can also just click all clear,
+
+153
+00:08:37.775 --> 00:08:43.075
+telling the patient that they don't need to worry anymore and nothing is a problem.
+
+154
+00:08:43.075 --> 00:08:46.805
+So we can see there's a new message here.
+
+155
+00:08:46.805 --> 00:08:52.200
+Oops! It says, "Don't worry.
+
+156
+00:08:52.200 --> 00:08:55.745
+Doctor Watson didn't see any issue. Have a great day."
+
+157
+00:08:55.745 --> 00:08:59.750
+We can also go to my phone and then see that same message.
+
+158
+00:08:59.750 --> 00:09:02.900
+See, there is two messages at
+
+159
+00:09:02.900 --> 00:09:05.360
+the bottom and the last one is don't worry and the one on top
+
+160
+00:09:05.360 --> 00:09:10.555
+has Emergency from before.
+
+161
+00:09:10.555 --> 00:09:11.830
+So there we have it.
+
+162
+00:09:11.830 --> 00:09:13.792
+This is the capstone two.
+
+163
+00:09:13.792 --> 00:09:19.893
+This is just showing the pipeline for if you had an IoT medical device,
+
+164
+00:09:19.893 --> 00:09:22.625
+and you wanted to actually use it in the real world.
+
+165
+00:09:22.625 --> 00:09:26.755
+This is an application or a feature you can add to it to make it more user friendly,
+
+166
+00:09:26.755 --> 00:09:28.870
+and just overall better to use.
+
+167
+00:09:28.870 --> 00:09:31.915
+So take this as your inspiration
+
+168
+00:09:31.915 --> 00:09:35.510
+and think about what you want to build for your own capstone.

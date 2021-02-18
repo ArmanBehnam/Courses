@@ -1,0 +1,501 @@
+WEBVTT
+
+1
+00:00:02.500 --> 00:00:05.780
+So, this is our video for Capstone 1,
+
+2
+00:00:05.780 --> 00:00:08.860
+which is centered around the sonification of movement,
+
+3
+00:00:08.860 --> 00:00:12.200
+which is taking a persons movement in front of the camera and
+
+4
+00:00:12.200 --> 00:00:16.295
+using this to change some audio representation.
+
+5
+00:00:16.295 --> 00:00:22.875
+And let us see how this works in more detail in the future slides.
+
+6
+00:00:22.875 --> 00:00:26.466
+So, the first thing we want to go over is just what you would need for this project.
+
+7
+00:00:26.466 --> 00:00:28.900
+So first, you need the DragonBoard to process everything,
+
+8
+00:00:28.900 --> 00:00:31.645
+you will need the power supply to power that DragonBoard,
+
+9
+00:00:31.645 --> 00:00:33.865
+and you will need a keyboard, mouse,
+
+10
+00:00:33.865 --> 00:00:37.615
+and monitor to interact with the DragonBoard.
+
+11
+00:00:37.615 --> 00:00:39.160
+There is an important note for the monitor.
+
+12
+00:00:39.160 --> 00:00:43.870
+It should either have its own speakers or you should have audio out on
+
+13
+00:00:43.870 --> 00:00:49.485
+the monitor and have speakers to run the audio portion and actually hear audio back,
+
+14
+00:00:49.485 --> 00:00:53.963
+since this is an audio changing project.
+
+15
+00:00:53.963 --> 00:00:57.965
+And then, you also need a USB webcam to take in video and that will be
+
+16
+00:00:57.965 --> 00:01:03.714
+the video that we would be changing the audio against or comparing it against to.
+
+17
+00:01:03.714 --> 00:01:09.295
+Since we are taking video and changing audio depending on that.
+
+18
+00:01:09.295 --> 00:01:15.067
+A video is just a bunch of frames of pictures and in that picture is a bunch of pixels.
+
+19
+00:01:15.067 --> 00:01:21.085
+So, each sections of the picture control certain aspects of the audio.
+
+20
+00:01:21.085 --> 00:01:25.390
+So, motion on the left side of the picture highlight in green controls
+
+21
+00:01:25.390 --> 00:01:27.640
+the tempo and then motion on the right side of
+
+22
+00:01:27.640 --> 00:01:31.210
+the video highlighted in blue controls the melody.
+
+23
+00:01:31.210 --> 00:01:35.335
+Now, the little red box at the bottom,
+
+24
+00:01:35.335 --> 00:01:38.950
+any motion detected there will control the beat and
+
+25
+00:01:38.950 --> 00:01:45.250
+motion in the overall picture itself will control the volume.
+
+26
+00:01:45.250 --> 00:01:50.785
+So, I will go over the video portions of this project which is covered in more detail
+
+27
+00:01:50.785 --> 00:01:57.100
+in course five and it uses a little bit of stuff from the previous courses as well.
+
+28
+00:01:57.100 --> 00:02:01.195
+So, the first thing it does is it takes RGB values from
+
+29
+00:02:01.195 --> 00:02:06.460
+a frame and it converts every frame into grayscale values,
+
+30
+00:02:06.460 --> 00:02:12.326
+which is basically converting everything to some form of gray colors instead of just RGB.
+
+31
+00:02:12.326 --> 00:02:15.577
+You can think of this kind of like brightness, but it is not.
+
+32
+00:02:15.577 --> 00:02:18.108
+There is a little nuance to it as well,
+
+33
+00:02:18.108 --> 00:02:19.690
+but you guys get the point.
+
+34
+00:02:19.690 --> 00:02:22.480
+So, the next part is that it takes
+
+35
+00:02:22.480 --> 00:02:27.310
+the previous frame and the current frame and it subtracts them.
+
+36
+00:02:27.310 --> 00:02:31.585
+So, if there was a pixel that did not have movement the subtraction would be zero,
+
+37
+00:02:31.585 --> 00:02:34.385
+which means that if you look at the difference,
+
+38
+00:02:34.385 --> 00:02:38.725
+the grayscale value would be zero and it would be completely black.
+
+39
+00:02:38.725 --> 00:02:43.130
+But, if there was some kind of difference between them then you would see gray and
+
+40
+00:02:43.130 --> 00:02:48.000
+the frame that is the difference between the previous and current frame.
+
+41
+00:02:48.000 --> 00:02:51.745
+And this is how we detect whether there was motion
+
+42
+00:02:51.745 --> 00:02:57.205
+and to what extent the person moved as well.
+
+43
+00:02:57.205 --> 00:02:59.200
+So, the next part is MIDI,
+
+44
+00:02:59.200 --> 00:03:02.620
+which will be covered in more detail in course four,
+
+45
+00:03:02.620 --> 00:03:09.880
+which is going over some kind of communication aspects of the DragonBoard.
+
+46
+00:03:09.880 --> 00:03:14.795
+MIDI is one way we can communicate audio.
+
+47
+00:03:14.795 --> 00:03:19.771
+It is packaged into a binary message and it is labeled by dot mid.
+
+48
+00:03:19.771 --> 00:03:27.280
+And you put this into a synthesizer and the synthesizer knows this binary message,
+
+49
+00:03:27.280 --> 00:03:31.115
+it represents audio, but I can edit some parts of it as well.
+
+50
+00:03:31.115 --> 00:03:34.132
+So, I can turn off the piano parts of
+
+51
+00:03:34.132 --> 00:03:38.155
+the music or I can adjust the tempo or just the volume.
+
+52
+00:03:38.155 --> 00:03:41.695
+And you do not have this much freedom with file formats such as MP3 because
+
+53
+00:03:41.695 --> 00:03:46.765
+MP3 is just one music file and that is all it is.
+
+54
+00:03:46.765 --> 00:03:49.007
+But, this like binary message.
+
+55
+00:03:49.007 --> 00:03:54.655
+So you can just change individual parts of the message itself.
+
+56
+00:03:54.655 --> 00:03:58.990
+And then the next part is how we took the video parts and the audio parts
+
+57
+00:03:58.990 --> 00:04:03.654
+and put them together to complete this program.
+
+58
+00:04:03.654 --> 00:04:06.670
+The first thing we did was we made it so that
+
+59
+00:04:06.670 --> 00:04:12.185
+the difference between the two frames so as how to grayscale
+
+60
+00:04:12.185 --> 00:04:16.480
+value up to a certain threshold because if you barely
+
+61
+00:04:16.480 --> 00:04:20.910
+moved into frame or like some dust moved into frame as well,
+
+62
+00:04:20.910 --> 00:04:28.448
+this should not cost the music to change because the amount of movement was insufficient.
+
+63
+00:04:28.448 --> 00:04:35.985
+So, we had the person reach a certain threshold of movement before it affected anything.
+
+64
+00:04:35.985 --> 00:04:44.695
+Afterwards, we saw how much changed in the overall frame and how many pixels had reached
+
+65
+00:04:44.695 --> 00:04:52.390
+that much threshold and if there were a lot of pixels that changed from
+
+66
+00:04:52.390 --> 00:04:56.325
+the previous image then we would make it so that it would change
+
+67
+00:04:56.325 --> 00:05:01.903
+volume but if there is like a normal amount of movement,
+
+68
+00:05:01.903 --> 00:05:06.610
+we just said this value is considered
+
+69
+00:05:06.610 --> 00:05:12.490
+normal movement then we would just maintain volume at 50 percent.
+
+70
+00:05:12.490 --> 00:05:15.545
+Afterwards, we adjusted tempo discretely.
+
+71
+00:05:15.545 --> 00:05:20.290
+So, in the picture where we showed the diagram by a grid,
+
+72
+00:05:20.290 --> 00:05:25.985
+you saw that the tempo was shown in like a shade of green.
+
+73
+00:05:25.985 --> 00:05:32.420
+So, each shade of green means that is how much the tempo was at that point.
+
+74
+00:05:32.420 --> 00:05:33.420
+So, if you moved into
+
+75
+00:05:33.420 --> 00:05:42.620
+upper left hand corner
+
+76
+00:05:42.620 --> 00:05:50.120
+of your frame then that means that the tempo would increase to the maximum level.
+
+77
+00:05:50.120 --> 00:05:55.540
+If you just placed your hand in the bottom left hand corner then it would slow down.
+
+78
+00:05:55.540 --> 00:05:56.915
+We will demonstrate this later.
+
+79
+00:05:56.915 --> 00:06:02.090
+We just made it so that each tempo box had
+
+80
+00:06:02.090 --> 00:06:08.094
+a discrete amount of tempo difference instead of changing continuously.
+
+81
+00:06:08.094 --> 00:06:11.990
+Afterwards, we made it so that the movement in the right portion and
+
+82
+00:06:11.990 --> 00:06:18.283
+the bottom portion just turned on or off the melody and beat respectively.
+
+83
+00:06:18.283 --> 00:06:26.570
+So, there was not like a degree to which they showed in the audio,
+
+84
+00:06:26.570 --> 00:06:29.927
+its is just it is on or it is off.
+
+85
+00:06:29.927 --> 00:06:37.460
+And afterwards, we will show you a quick demo of how this works in person.
+
+86
+00:06:37.460 --> 00:06:41.395
+Simon will be showing us how it is done.
+
+87
+00:06:41.395 --> 00:06:45.366
+So, let us get on to our demo of Capstone
+
+88
+00:06:45.366 --> 00:06:47.330
+1 and we are going to have Simon demonstrate
+
+89
+00:06:47.330 --> 00:06:50.340
+how it works and I will just narrate over it.
+
+90
+00:06:50.340 --> 00:06:53.695
+So let us start off the program.
+
+91
+00:06:53.695 --> 00:07:01.010
+It will take a moment to load.
+
+92
+00:07:01.010 --> 00:07:04.160
+So as you start off,
+
+93
+00:07:04.160 --> 00:07:08.545
+the sound starts playing but you cannot hear the melody anymore.
+
+94
+00:07:08.545 --> 00:07:10.328
+Just ignore the blue circle in the middle,
+
+95
+00:07:10.328 --> 00:07:12.164
+that was specific for me,
+
+96
+00:07:12.164 --> 00:07:17.500
+just to see where I should be positioned but if Simon starts moving his right hand,
+
+97
+00:07:17.500 --> 00:07:22.911
+you will see that the melody starts playing again.
+
+98
+00:07:22.911 --> 00:07:29.637
+Let us have Simon stop moving his right hand and the music stops playing.
+
+99
+00:07:29.637 --> 00:07:37.104
+So, let us have Simon put on his left hand at the very top left hand corner.
+
+100
+00:07:37.104 --> 00:07:40.657
+Let us have him stop doing that and then let us
+
+101
+00:07:40.657 --> 00:07:44.830
+have him start moving his right hand again.
+
+102
+00:07:44.830 --> 00:07:50.393
+You can see that the music is significantly faster now.
+
+103
+00:07:50.393 --> 00:07:56.080
+And let us have Simon move his hand to the bottom left hand corner
+
+104
+00:07:56.080 --> 00:08:03.626
+now and then start moving his right hand.
+
+105
+00:08:03.626 --> 00:08:08.123
+You can see that the music is significantly slower now.
+
+106
+00:08:08.123 --> 00:08:14.070
+Let us have Simon start moving his legs.
+
+107
+00:08:14.070 --> 00:08:17.589
+You can see that the beats start playing now.
+
+108
+00:08:17.589 --> 00:08:26.885
+Let us have Simon just move a lot on the camera so that the volume increases.
+
+109
+00:08:26.885 --> 00:08:32.650
+You can see that the volume gradually increases but if Simon moves a lot more,
+
+110
+00:08:32.650 --> 00:08:39.526
+we can see that the volume will increase significantly.
+
+111
+00:08:39.526 --> 00:08:44.245
+So, Simon has basically reached the maximum volume levels.
+
+112
+00:08:44.245 --> 00:08:47.200
+But, if Simon stops moving like all of a sudden,
+
+113
+00:08:47.200 --> 00:08:51.990
+you will see that the volume would decrease significantly as well.
+
+114
+00:08:51.990 --> 00:08:54.650
+You can see that volume starts to decrease.
+
+115
+00:08:54.650 --> 00:08:57.174
+So, this is the basic idea of Capstone 1.
+
+116
+00:08:57.174 --> 00:09:00.225
+So, in conclusion, what this
+
+117
+00:09:00.225 --> 00:09:04.530
+demonstrates is that there is a potential to help out people,
+
+118
+00:09:04.530 --> 00:09:07.090
+who are having trouble with movement.
+
+119
+00:09:07.090 --> 00:09:10.470
+So, it is just a fun way to have them practice
+
+120
+00:09:10.470 --> 00:09:16.150
+some muscle memory and to practice how they can psychologically move again.
+
+121
+00:09:16.150 --> 00:09:21.420
+So, this is just an entertaining way for them to help themselves
+
+122
+00:09:21.420 --> 00:09:27.698
+and it also an entertaining way to just play around with music.
+
+123
+00:09:27.698 --> 00:09:33.630
+We are very excited to what you guys can create using this as
+
+124
+00:09:33.630 --> 00:09:41.200
+a platform and just show us cool stuff that you can do.
+
+125
+00:09:41.200 --> 00:09:44.000
+We will see you guys next time.
