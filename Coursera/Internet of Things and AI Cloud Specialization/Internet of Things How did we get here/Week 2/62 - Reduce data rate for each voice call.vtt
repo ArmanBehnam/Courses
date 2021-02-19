@@ -1,0 +1,487 @@
+WEBVTT
+
+1
+00:00:05.290 --> 00:00:11.317
+It's not enough to make
+the wireless access digital,
+
+2
+00:00:11.317 --> 00:00:16.165
+because as you saw in
+the previous section,
+
+3
+00:00:16.165 --> 00:00:19.965
+when the telephone goes digital,
+
+4
+00:00:19.965 --> 00:00:25.180
+you need 64 kilobits per second per user.
+
+5
+00:00:25.180 --> 00:00:33.490
+And you could not put so much of
+the voice traffic on the air interface.
+
+6
+00:00:33.490 --> 00:00:38.680
+This is where some of the early
+work at AT&T to reduce
+
+7
+00:00:38.680 --> 00:00:43.560
+64 kilobits per second
+per voice to fall to
+
+8
+00:00:43.560 --> 00:00:48.790
+12 kilobits per second for
+each voice call.
+
+9
+00:00:49.930 --> 00:00:52.780
+The way this can be done is
+
+10
+00:00:54.490 --> 00:00:59.330
+there is this source filter model credited
+
+11
+00:00:59.330 --> 00:01:04.222
+to Gunnar Fant of the Royal Institute
+of Technology in Stockholm.
+
+12
+00:01:04.222 --> 00:01:11.600
+He provided a model of how
+speech production works.
+
+13
+00:01:11.600 --> 00:01:17.160
+And a practical use of this for
+compressing speech from 64
+
+14
+00:01:17.160 --> 00:01:22.060
+kilobits per second down to 8
+kilobits per second was laid
+
+15
+00:01:22.060 --> 00:01:27.480
+down in late 60s at AT&T by Bishnu Atal.
+
+16
+00:01:27.480 --> 00:01:31.755
+And this is called
+Linear Predictive Coding theory.
+
+17
+00:01:31.755 --> 00:01:35.001
+This actually became workhorse for
+
+18
+00:01:35.001 --> 00:01:40.411
+the speech compression in all
+cellular telephone networks
+
+19
+00:01:40.411 --> 00:01:44.966
+starting from 2G up to 4G and
+possibly even 5G.
+
+20
+00:01:44.966 --> 00:01:49.767
+These principles apply to many other
+speech processing tasks besides
+
+21
+00:01:49.767 --> 00:01:51.870
+speech compression.
+
+22
+00:01:51.870 --> 00:01:56.460
+And when we apply this for
+speech compression,
+
+23
+00:01:56.460 --> 00:02:03.900
+the common term that people use is
+vocoder, that is, voice coder and decoder.
+
+24
+00:02:03.900 --> 00:02:04.400
+Vocorder.
+
+25
+00:02:05.820 --> 00:02:11.940
+So briefly this is how
+the source filter theory works.
+
+26
+00:02:13.300 --> 00:02:18.325
+If you think of all the body
+parts that are involved in making
+
+27
+00:02:18.325 --> 00:02:22.960
+speech sounds,
+there are voiced sounds like ee.
+
+28
+00:02:22.960 --> 00:02:30.460
+If you keep your hand on your throat and
+say ahh, you can feel the vibrations.
+
+29
+00:02:30.460 --> 00:02:32.980
+These are voiced sounds.
+
+30
+00:02:32.980 --> 00:02:37.230
+And when you say sounds like sam or
+farther,
+
+31
+00:02:37.230 --> 00:02:42.370
+the s or f, there is no such vibration.
+
+32
+00:02:42.370 --> 00:02:44.240
+So this is the source.
+
+33
+00:02:44.240 --> 00:02:47.640
+The lungs and the glottis form the source.
+
+34
+00:02:47.640 --> 00:02:51.030
+And when you say a word like cat,
+
+35
+00:02:51.030 --> 00:02:54.910
+you're stopping the vocal tract
+at the back of your mouth.
+
+36
+00:02:54.910 --> 00:02:58.670
+And when you say pat,
+the closure is right in the front.
+
+37
+00:02:58.670 --> 00:03:03.684
+So the vocal tract is changing
+a lot more slowly than the input
+
+38
+00:03:03.684 --> 00:03:10.298
+that's come into the system, so that's
+why we have the source and the filter.
+
+39
+00:03:10.298 --> 00:03:14.430
+We'll get in more detail
+of this in course four.
+
+40
+00:03:14.430 --> 00:03:19.008
+But the takeaway message right now is,
+
+41
+00:03:19.008 --> 00:03:25.680
+you can map the human speech production
+
+42
+00:03:25.680 --> 00:03:32.800
+into a block diagram of the vocal tract
+that varies very slowly and the input,
+
+43
+00:03:32.800 --> 00:03:37.830
+either periodic or noisy,
+that drives the system.
+
+44
+00:03:38.930 --> 00:03:45.980
+And using this information,
+the linear predictive coding computes
+
+45
+00:03:45.980 --> 00:03:52.900
+a small set of parameters that can
+be used to reconstruct this signal.
+
+46
+00:03:52.900 --> 00:03:57.300
+So the challenge is, if you're given
+a short segment of the signal, let's say
+
+47
+00:03:57.300 --> 00:04:04.460
+roughly 20 milliseconds, how do you
+compute the best possible parameters for
+
+48
+00:04:04.460 --> 00:04:11.450
+the all-pole filter shown by A(z) here,
+the gain of the filter?
+
+49
+00:04:11.450 --> 00:04:15.360
+And what exactly in the import
+that would go in at a given time?
+
+50
+00:04:15.360 --> 00:04:19.320
+The pitch period,
+which is an impulse generator or
+
+51
+00:04:19.320 --> 00:04:23.820
+a white noise, and
+a switch that toggles between these two.
+
+52
+00:04:23.820 --> 00:04:30.930
+So this mathematical model takes the
+signal and comes up with these parameters.
+
+53
+00:04:30.930 --> 00:04:32.120
+This is only a model.
+
+54
+00:04:32.120 --> 00:04:38.700
+It will not capture the richness of speech
+signals spoken by different people.
+
+55
+00:04:38.700 --> 00:04:39.990
+So there is an error.
+
+56
+00:04:39.990 --> 00:04:42.030
+We call this the error signal.
+
+57
+00:04:42.030 --> 00:04:46.210
+And sometimes we call
+them the innovation and
+
+58
+00:04:46.210 --> 00:04:50.350
+the signal,
+also called ignorance modeling.
+
+59
+00:04:50.350 --> 00:04:57.740
+Whatever we did not capture using our
+model, we take that ignorance and
+
+60
+00:04:57.740 --> 00:05:04.610
+send that information using certain
+number of parameters to the receiver.
+
+61
+00:05:04.610 --> 00:05:10.494
+So depending on the computational
+resources of the sender and
+
+62
+00:05:10.494 --> 00:05:15.586
+how much data rate you want for
+the ignorance signal,
+
+63
+00:05:15.586 --> 00:05:20.940
+you can get about 0.5
+to 1.5 bits per sample.
+
+64
+00:05:20.940 --> 00:05:26.636
+This translates to about 4 to
+12 kilobits per second instead
+
+65
+00:05:26.636 --> 00:05:32.875
+of 64 kilobits per second used in
+the digital wire line telephony.
+
+66
+00:05:34.953 --> 00:05:39.937
+The reconstruction quality depends
+on how much resources you put in
+
+67
+00:05:39.937 --> 00:05:42.740
+in estimating these parameters.
+
+68
+00:05:42.740 --> 00:05:44.380
+That's the CPU,
+
+69
+00:05:44.380 --> 00:05:48.438
+the complexity of the hardware that
+you would have in your cell phone.
+
+70
+00:05:48.438 --> 00:05:53.580
+And the compression ratio,
+how much did you squeeze it?
+
+71
+00:05:54.810 --> 00:06:02.030
+The goal is always to maintain call
+quality, but sometimes people cut corners.
+
+72
+00:06:02.030 --> 00:06:06.641
+They use half-rate coders
+instead of full-rate
+
+73
+00:06:06.641 --> 00:06:11.260
+coder when you have heavy
+traffic in your system.
+
+74
+00:06:13.210 --> 00:06:18.270
+The other multiple access technique
+
+75
+00:06:18.270 --> 00:06:23.190
+that came in the 2G timeframe
+
+76
+00:06:23.190 --> 00:06:27.870
+is something called CDMA,
+code division multiple access.
+
+77
+00:06:27.870 --> 00:06:34.990
+Here each user is assigned a specific
+orthogonal code, like a code.
+
+78
+00:06:36.710 --> 00:06:40.260
+If you're interested, look it up in wiki.
+
+79
+00:06:40.260 --> 00:06:43.790
+If you don't get it,
+it's not relevant for the main story.
+
+80
+00:06:43.790 --> 00:06:48.810
+The main story is each user is occupying
+
+81
+00:06:51.280 --> 00:06:55.280
+all the multiple channels
+allocated to the carrier
+
+82
+00:06:55.280 --> 00:06:57.500
+all the time when they're on the phone.
+
+83
+00:06:58.900 --> 00:07:04.918
+So how do you differentiate each user,
+the user that you are interested in?
+
+84
+00:07:04.918 --> 00:07:06.670
+When somebody's calling you,
+
+85
+00:07:06.670 --> 00:07:12.250
+they give you the specific code that
+they are using to transmit their voice.
+
+86
+00:07:12.250 --> 00:07:17.960
+And using that, you can filter
+away all the other users and
+
+87
+00:07:17.960 --> 00:07:22.482
+hear only the person that
+you're interested in.
+
+88
+00:07:22.482 --> 00:07:26.950
+The reason I'm talking about this is,
+the two ways you get more
+
+89
+00:07:26.950 --> 00:07:32.270
+capacity in CDMA compared to the TDMA.
+
+90
+00:07:32.270 --> 00:07:39.300
+One is, you have better spectral
+efficiency of the modulation schemes.
+
+91
+00:07:39.300 --> 00:07:44.460
+And the second one is
+statistical multiplexing gate.
+
+92
+00:07:44.460 --> 00:07:49.997
+What we mean by that is when
+I'm saying words like ee,
+
+93
+00:07:49.997 --> 00:07:54.404
+you need more bits to
+represent call quality,
+
+94
+00:07:54.404 --> 00:07:59.491
+as opposed to when I'm saying
+[SOUND] in statistical.
+
+95
+00:07:59.491 --> 00:08:05.066
+And so when my speech doesn't
+require that many bits,
+
+96
+00:08:05.066 --> 00:08:12.850
+I drop my vocoder rate accordingly,
+based on source characteristics.
+
+97
+00:08:12.850 --> 00:08:16.580
+And this is called variable rate vocoders,
+VBR.
+
+98
+00:08:17.780 --> 00:08:24.515
+Compared to the constant bit rate
+vocoders that were being used in TDMA.
+
+99
+00:08:25.850 --> 00:08:31.010
+So what this means is,
+as they drop the rate that I need,
+
+100
+00:08:31.010 --> 00:08:37.790
+I'm causing less interference for
+the people in the system.
+
+101
+00:08:37.790 --> 00:08:43.030
+So this is how CDMA gets more capacity.
+
+102
+00:08:43.030 --> 00:08:47.962
+It's more spectrally
+efficient than the TDMA
+
+103
+00:08:47.962 --> 00:08:52.013
+that was the competing 2G standard.
