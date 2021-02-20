@@ -1,0 +1,436 @@
+WEBVTT
+
+1
+00:00:01.570 --> 00:00:02.410
+Welcome back.
+
+2
+00:00:02.410 --> 00:00:06.730
+In this section, we're going to be going
+over how to configure ADB to be done
+
+3
+00:00:06.730 --> 00:00:09.160
+wirelessly or via wi-fi.
+
+4
+00:00:09.160 --> 00:00:15.760
+Now, the Dragonboard 410C has its OTG port
+and the USB ports mutually exclusive.
+
+5
+00:00:15.760 --> 00:00:19.320
+In other words,
+if you have the OTG plugged in,
+
+6
+00:00:19.320 --> 00:00:22.420
+you can't use your USB devices.
+
+7
+00:00:22.420 --> 00:00:27.520
+So let's say you're making an android
+application and you try and upload
+
+8
+00:00:27.520 --> 00:00:32.050
+it to your board, but you need to interact
+with it with your mouse or keyboard.
+
+9
+00:00:32.050 --> 00:00:37.000
+Turns out you can't,
+because the serial device is actually
+
+10
+00:00:37.000 --> 00:00:40.250
+getting in the way of that, and that's
+just the way that dragon ware is designed.
+
+11
+00:00:40.250 --> 00:00:44.318
+So it's going to be a really pain in
+the butt to kind of like keep un-plugging,
+
+12
+00:00:44.318 --> 00:00:47.370
+re-plugging, and especially because
+if you want to interact with it
+
+13
+00:00:47.370 --> 00:00:49.290
+you won't be able to get
+into the log messages.
+
+14
+00:00:49.290 --> 00:00:53.900
+>> And so to work around that we're
+going to show you how to connect
+
+15
+00:00:53.900 --> 00:00:57.220
+your Dragon Board to your
+local host over wi-fi.
+
+16
+00:00:57.220 --> 00:01:00.350
+So lets dive right into the screen.
+
+17
+00:01:00.350 --> 00:01:04.040
+>> So first things first, make sure
+that you have a serial connection
+
+18
+00:01:04.040 --> 00:01:07.700
+via the USB and OTG,
+just a standard USB cable.
+
+19
+00:01:09.260 --> 00:01:15.600
+>> And first we are currently
+in our platform tools directory,
+
+20
+00:01:15.600 --> 00:01:21.080
+which is where our ADB is located, and
+so first you want to run ADB as root.
+
+21
+00:01:21.080 --> 00:01:22.550
+So we're gonna run that.
+
+22
+00:01:24.290 --> 00:01:26.580
+And we are already running as root.
+
+23
+00:01:26.580 --> 00:01:29.500
+Next you want to re-mount your board.
+
+24
+00:01:29.500 --> 00:01:33.600
+>> You're gonna start
+overwriting some files in it so
+
+25
+00:01:33.600 --> 00:01:35.700
+you'll need to be able
+to have access to that.
+
+26
+00:01:35.700 --> 00:01:40.604
+>> And next what you want to do is you
+want to run this specific command so
+
+27
+00:01:40.604 --> 00:01:45.441
+that you're able to open up a port for
+the host to the Dragon Board.
+
+28
+00:01:45.441 --> 00:01:52.727
+So it's ./adb shell and
+we're gonna issue the command,
+
+29
+00:01:52.727 --> 00:01:58.412
+echo service.adb.tcp.port=5555,
+
+30
+00:01:58.412 --> 00:02:03.511
+and we're gonna append that to a specific
+
+31
+00:02:03.511 --> 00:02:09.193
+file in your Dragon Board
+located at /data and
+
+32
+00:02:09.193 --> 00:02:11.981
+called local.prop.
+
+33
+00:02:11.981 --> 00:02:16.240
+>> And just remember guys that if you guys
+don't know already, a port is essentially
+
+34
+00:02:16.240 --> 00:02:20.560
+a way that your device or computer is able
+to communicate with the outside world, so
+
+35
+00:02:20.560 --> 00:02:24.634
+by opening up this port we are allowing
+the Dragon Board to communicate via that
+
+36
+00:02:24.634 --> 00:02:26.021
+port to other computers.
+
+37
+00:02:26.021 --> 00:02:29.380
+>> So we're going to go ahead and
+issue the command.
+
+38
+00:02:29.380 --> 00:02:34.454
+And after that command,
+we need to call CH mod on that file,
+
+39
+00:02:34.454 --> 00:02:39.743
+so we do ./adb shell chmod
+0644 /data/local.prop.
+
+40
+00:02:39.743 --> 00:02:46.410
+>> At this point in time you're gonna
+need to restart your Dragon Board so
+
+41
+00:02:46.410 --> 00:02:53.940
+that it can actually read the file and
+configure the ports accordingly.
+
+42
+00:02:53.940 --> 00:02:57.280
+>> So we're gonna go ahead and
+do that via the command line.
+
+43
+00:02:57.280 --> 00:03:03.220
+>> However in our case we already had
+it configured to have the port open so
+
+44
+00:03:03.220 --> 00:03:05.530
+we don't need to reboot
+at this moment in time.
+
+45
+00:03:05.530 --> 00:03:08.602
+>> But
+if you did want to you want to call ./adb
+
+46
+00:03:08.602 --> 00:03:10.510
+reboot
+>> Perfect.
+
+47
+00:03:13.000 --> 00:03:13.590
+>> So
+
+48
+00:03:13.590 --> 00:03:19.160
+now what you're gonna need to do is you're
+gonna need access to your Dragon Board.
+
+49
+00:03:19.160 --> 00:03:24.120
+So what we're gonna do first is
+disable this connection, and
+
+50
+00:03:24.120 --> 00:03:27.810
+as you can see on the screen,
+what we need for
+
+51
+00:03:27.810 --> 00:03:30.689
+our host to connect to
+the Dragon Board is the IP address.
+
+52
+00:03:31.700 --> 00:03:35.880
+>> So make sure that you have
+a Dragon Board connected to your internet.
+
+53
+00:03:35.880 --> 00:03:39.410
+This will not work if you do not
+have internet on your Dragon Board.
+
+54
+00:03:39.410 --> 00:03:40.720
+So let's go ahead and go to our settings.
+
+55
+00:03:45.260 --> 00:03:50.170
+>> So, as you can see here, we
+are already connected to UCSD-protected.
+
+56
+00:03:50.170 --> 00:03:53.630
+We're going to do a long hold and
+click modify network, and
+
+57
+00:03:53.630 --> 00:03:56.420
+that will show us the IP address.
+
+58
+00:03:56.420 --> 00:04:03.230
+What we're going to do is to
+check if your computer is able to
+
+59
+00:04:03.230 --> 00:04:08.200
+contact the Dragon Board, you're going
+to issue this command in the screen.
+
+60
+00:04:08.200 --> 00:04:15.170
+You're going to ping the IP address, so
+for us that would be that IP address.
+
+61
+00:04:16.910 --> 00:04:21.960
+And as you can see we are receiving and
+able to communicate with it.
+
+62
+00:04:21.960 --> 00:04:23.850
+We can end that command.
+
+63
+00:04:23.850 --> 00:04:27.890
+And that's just to notify you that
+you're able to make the connection.
+
+64
+00:04:27.890 --> 00:04:33.400
+Now, if you want to be able to connect to
+your Dragon Board via wirelessly, right?
+
+65
+00:04:33.400 --> 00:04:39.305
+You would do ./ADB connect,
+and enter in the IP address,
+
+66
+00:04:39.305 --> 00:04:45.510
+137.130.04.120.
+
+67
+00:04:45.510 --> 00:04:53.690
+And you want to add a colon with
+the port number which is 5555.
+
+68
+00:04:53.690 --> 00:04:54.690
+Enter.
+
+69
+00:04:54.690 --> 00:04:57.230
+And this should show you
+that it's connected.
+
+70
+00:04:57.230 --> 00:05:03.000
+Now to test your device we will
+run the command dot/adb devices,
+
+71
+00:05:03.000 --> 00:05:06.235
+and as you can see we
+are connected to the Dragon Board.
+
+72
+00:05:06.235 --> 00:05:09.580
+>> That's really cool, so
+I'm not a firm believer yet.
+
+73
+00:05:09.580 --> 00:05:13.606
+Can you go into the shell and
+see if you can actually play around in it?
+
+74
+00:05:13.606 --> 00:05:14.194
+>> Sure.
+
+75
+00:05:14.194 --> 00:05:15.326
+./adb shell.
+
+76
+00:05:15.326 --> 00:05:16.930
+>> Wow.
+>> We're there.
+
+77
+00:05:18.100 --> 00:05:23.360
+>> So now we're able to communicate
+via WiFi to the DragonBoard.
+
+78
+00:05:23.360 --> 00:05:24.940
+That's really cool.
+
+79
+00:05:24.940 --> 00:05:27.240
+Now, note that the commands
+that we just issued,
+
+80
+00:05:27.240 --> 00:05:29.450
+you do not need to do every single time.
+
+81
+00:05:29.450 --> 00:05:34.345
+The beginning commands with the adb root
+all the way to appending that one file and
+
+82
+00:05:34.345 --> 00:05:38.428
+ch modding it you only need to do
+that one time and just reboot.
+
+83
+00:05:38.428 --> 00:05:41.820
+Now because it's saved inside that file,
+on every single subsequent reboot it
+
+84
+00:05:41.820 --> 00:05:47.100
+will automatically open up port 5555 for
+us or any other port that you choose.
+
+85
+00:05:47.100 --> 00:05:49.910
+So all we need to do is just
+figure out the IP address and
+
+86
+00:05:49.910 --> 00:05:53.530
+just issue that adb connect and
+then we're done.
+
+87
+00:05:53.530 --> 00:05:56.760
+And what's even cooler is that
+Android Studio will automatically
+
+88
+00:05:56.760 --> 00:05:58.220
+see that in our device list.
+
+89
+00:05:58.220 --> 00:05:58.720
+>> Yeah.
+
+90
+00:06:00.720 --> 00:06:01.300
+And with that,
+
+91
+00:06:02.800 --> 00:06:06.910
+in the next section we'll give you a brief
+rundown on what we learned with adb.
+
+92
+00:06:06.910 --> 00:06:08.360
+So we'll see you then.
