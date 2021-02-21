@@ -1,0 +1,490 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.650
+Now that you have your data,
+
+2
+00:00:01.650 --> 00:00:05.175
+you will use this data to
+predict our new data points.
+
+3
+00:00:05.175 --> 00:00:07.080
+For example, given a new tweet,
+
+4
+00:00:07.080 --> 00:00:09.030
+you will use this
+data to say whether
+
+5
+00:00:09.030 --> 00:00:11.340
+this tweet is
+positive or negative.
+
+6
+00:00:11.340 --> 00:00:13.680
+In doing so, you want to analyze
+
+7
+00:00:13.680 --> 00:00:16.380
+whether your model
+generalizes well or not.
+
+8
+00:00:16.380 --> 00:00:18.375
+In this video, we will show you
+
+9
+00:00:18.375 --> 00:00:20.630
+whether your model
+generalizes well or not,
+
+10
+00:00:20.630 --> 00:00:22.770
+and specifically,
+we'll show you how
+
+11
+00:00:22.770 --> 00:00:25.125
+to compute the accuracy
+of your model.
+
+12
+00:00:25.125 --> 00:00:27.525
+Let's take a look at
+how you can do this.
+
+13
+00:00:27.525 --> 00:00:30.810
+For this, you will
+need X_val and Y_val.
+
+14
+00:00:30.810 --> 00:00:33.570
+Data that was set-aside
+during trainings,
+
+15
+00:00:33.570 --> 00:00:37.180
+also known as the
+validation sets and Theta,
+
+16
+00:00:37.180 --> 00:00:39.260
+the sets of optimum parameters
+
+17
+00:00:39.260 --> 00:00:41.465
+that you got from
+training on your data.
+
+18
+00:00:41.465 --> 00:00:43.340
+First, you will compute
+
+19
+00:00:43.340 --> 00:00:47.150
+the sigmoid function for
+X_val with parameters Theta,
+
+20
+00:00:47.150 --> 00:00:51.050
+then you will evaluate
+if each value of h of
+
+21
+00:00:51.050 --> 00:00:54.890
+Theta is greater than or
+equal to a threshold value,
+
+22
+00:00:54.890 --> 00:00:57.425
+often set to 0.5.
+
+23
+00:00:57.425 --> 00:01:01.280
+For example, if your
+h X Theta is equal
+
+24
+00:01:01.280 --> 00:01:06.895
+to the following
+vector, 0.3, 0.8, 0.5,
+
+25
+00:01:06.895 --> 00:01:09.410
+etc., up to the number
+
+26
+00:01:09.410 --> 00:01:11.750
+of examples from
+your validation set,
+
+27
+00:01:11.750 --> 00:01:14.930
+you're going to assert if
+each of its components is
+
+28
+00:01:14.930 --> 00:01:18.290
+greater than or equal to 0.5.
+
+29
+00:01:18.290 --> 00:01:23.215
+So is 0.3 greater
+than or equal to 0.5?
+
+30
+00:01:23.215 --> 00:01:27.095
+No. So our first
+prediction is equal to 0.
+
+31
+00:01:27.095 --> 00:01:31.645
+Is 0.8 greater than
+or equal to 0.5?
+
+32
+00:01:31.645 --> 00:01:36.140
+Yes. So our prediction for
+the second example is 1.
+
+33
+00:01:36.140 --> 00:01:40.345
+Is 0.5 greater than
+or equal to 0.5?
+
+34
+00:01:40.345 --> 00:01:46.175
+Yes. So our third prediction
+is equal to 1, and so on.
+
+35
+00:01:46.175 --> 00:01:48.260
+At the end, you
+will have a vector
+
+36
+00:01:48.260 --> 00:01:50.225
+populated with zeros and ones
+
+37
+00:01:50.225 --> 00:01:52.460
+indicating predicted negative and
+
+38
+00:01:52.460 --> 00:01:55.075
+positive examples, respectively.
+
+39
+00:01:55.075 --> 00:01:57.830
+After building the
+predictions vector,
+
+40
+00:01:57.830 --> 00:01:59.540
+you can compute the accuracy of
+
+41
+00:01:59.540 --> 00:02:01.745
+your model over the
+validation sets.
+
+42
+00:02:01.745 --> 00:02:03.680
+To do so, you will compare
+
+43
+00:02:03.680 --> 00:02:05.240
+the predictions
+you have made with
+
+44
+00:02:05.240 --> 00:02:06.500
+the true value for
+
+45
+00:02:06.500 --> 00:02:09.455
+each observation from
+your validation data.
+
+46
+00:02:09.455 --> 00:02:13.490
+If the values are equal and
+your prediction is correct,
+
+47
+00:02:13.490 --> 00:02:16.910
+you'll get a value of
+1 and 0 otherwise.
+
+48
+00:02:16.910 --> 00:02:20.780
+For instance, if your
+prediction was correct,
+
+49
+00:02:20.780 --> 00:02:22.760
+like in this case
+where your prediction
+
+50
+00:02:22.760 --> 00:02:25.145
+and your label are
+both equal to 0,
+
+51
+00:02:25.145 --> 00:02:27.335
+your vector will have a value
+
+52
+00:02:27.335 --> 00:02:29.830
+equal to 1 in the first position.
+
+53
+00:02:29.830 --> 00:02:34.205
+Conversely, if your second
+prediction wasn't correct,
+
+54
+00:02:34.205 --> 00:02:36.950
+because your prediction
+and label disagree,
+
+55
+00:02:36.950 --> 00:02:39.920
+your vector will
+have a value of 0 in
+
+56
+00:02:39.920 --> 00:02:43.480
+the second position and
+so on and so forth.
+
+57
+00:02:43.480 --> 00:02:45.980
+After you have
+compared the values of
+
+58
+00:02:45.980 --> 00:02:47.870
+every prediction
+with the true labels
+
+59
+00:02:47.870 --> 00:02:49.580
+of your validation set,
+
+60
+00:02:49.580 --> 00:02:52.370
+you can get the total times
+that your predictions were
+
+61
+00:02:52.370 --> 00:02:56.425
+correct by summing up the
+vector of the comparisons.
+
+62
+00:02:56.425 --> 00:02:59.450
+Finally, you'll divide
+that number over
+
+63
+00:02:59.450 --> 00:03:00.815
+the total number m of
+
+64
+00:03:00.815 --> 00:03:03.470
+observations from
+your validation sets.
+
+65
+00:03:03.470 --> 00:03:06.350
+This metric gives an
+estimate of the times that's
+
+66
+00:03:06.350 --> 00:03:08.240
+your logistic regression
+will correctly
+
+67
+00:03:08.240 --> 00:03:10.780
+work on unseen data.
+
+68
+00:03:10.780 --> 00:03:13.925
+So if your accuracy
+is equal to 0.5,
+
+69
+00:03:13.925 --> 00:03:16.100
+it means that 50
+percent of the time,
+
+70
+00:03:16.100 --> 00:03:18.505
+your model is expected
+to work well.
+
+71
+00:03:18.505 --> 00:03:21.620
+For instance, if your Y_val
+and prediction vectors
+
+72
+00:03:21.620 --> 00:03:23.915
+for five observations
+look like this,
+
+73
+00:03:23.915 --> 00:03:26.015
+you'll compare each
+of their values
+
+74
+00:03:26.015 --> 00:03:28.750
+and determine whether
+they match or not.
+
+75
+00:03:28.750 --> 00:03:30.590
+After that, you'll have
+
+76
+00:03:30.590 --> 00:03:32.840
+the following vector
+with a single
+
+77
+00:03:32.840 --> 00:03:34.670
+0 in the third position
+
+78
+00:03:34.670 --> 00:03:37.465
+where the prediction
+and the label disagree.
+
+79
+00:03:37.465 --> 00:03:39.980
+Next, you have to sum the number
+
+80
+00:03:39.980 --> 00:03:42.080
+of times that your
+predictions were right and
+
+81
+00:03:42.080 --> 00:03:44.165
+divide that number by
+the total number of
+
+82
+00:03:44.165 --> 00:03:46.730
+observations in your
+validation sets.
+
+83
+00:03:46.730 --> 00:03:51.710
+For example, you get an
+accuracy equal to 80 percent.
+
+84
+00:03:51.710 --> 00:03:53.630
+Congratulations on finishing
+
+85
+00:03:53.630 --> 00:03:55.745
+the first week of
+this specialization.
+
+86
+00:03:55.745 --> 00:03:57.775
+You learned many
+concepts this week.
+
+87
+00:03:57.775 --> 00:03:59.340
+The first thing you
+learned is you learned how
+
+88
+00:03:59.340 --> 00:04:01.215
+to preprocess a text.
+
+89
+00:04:01.215 --> 00:04:04.160
+You learned how to extract
+features from that text.
+
+90
+00:04:04.160 --> 00:04:06.740
+You learned how to use
+those extracted features
+
+91
+00:04:06.740 --> 00:04:09.065
+and train a model using those.
+
+92
+00:04:09.065 --> 00:04:11.465
+Then you learned how
+to test your model.
+
+93
+00:04:11.465 --> 00:04:13.430
+In this week's
+programming exercise,
+
+94
+00:04:13.430 --> 00:04:15.065
+you're going to get a
+chance to implement
+
+95
+00:04:15.065 --> 00:04:17.180
+all these concepts
+that we spoke about.
+
+96
+00:04:17.180 --> 00:04:20.195
+Feel free to go ahead and do
+the programming exercise.
+
+97
+00:04:20.195 --> 00:04:21.920
+There's also an optional video at
+
+98
+00:04:21.920 --> 00:04:23.660
+the end of this week which covers
+
+99
+00:04:23.660 --> 00:04:24.860
+the intuition behind
+
+100
+00:04:24.860 --> 00:04:27.245
+the cost function for
+logistic regression.
+
+101
+00:04:27.245 --> 00:04:29.120
+If you don't want to
+watch that video,
+
+102
+00:04:29.120 --> 00:04:30.770
+feel free to go to next week,
+
+103
+00:04:30.770 --> 00:04:31.895
+where you will learn about
+
+104
+00:04:31.895 --> 00:04:36.510
+a new classification algorithm
+known as naive Bayes.

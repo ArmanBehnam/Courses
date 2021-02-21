@@ -1,0 +1,330 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.045
+You will now get an overview
+of logistic regression.
+
+2
+00:00:03.045 --> 00:00:05.760
+Previously, you learned
+to extract features,
+
+3
+00:00:05.760 --> 00:00:06.960
+and now you will use
+
+4
+00:00:06.960 --> 00:00:09.300
+those extracted features
+to predict whether
+
+5
+00:00:09.300 --> 00:00:13.005
+a tweet has a positive sentiment
+or a negative sentiment.
+
+6
+00:00:13.005 --> 00:00:15.735
+Logistic regression makes
+use of a sigmoid function
+
+7
+00:00:15.735 --> 00:00:19.215
+which outputs a probability
+between zero and one.
+
+8
+00:00:19.215 --> 00:00:22.935
+Let's take a look at the
+overview of logistic regression.
+
+9
+00:00:22.935 --> 00:00:24.375
+Just a quick recap.
+
+10
+00:00:24.375 --> 00:00:26.070
+In supervised machine learning,
+
+11
+00:00:26.070 --> 00:00:29.295
+you have input features
+and a sets of labels.
+
+12
+00:00:29.295 --> 00:00:31.360
+To make predictions
+based on your data,
+
+13
+00:00:31.360 --> 00:00:33.389
+you use a function
+with some parameters
+
+14
+00:00:33.389 --> 00:00:35.865
+to map your features
+to output labels.
+
+15
+00:00:35.865 --> 00:00:39.170
+To get an optimum mapping
+from your features to labels,
+
+16
+00:00:39.170 --> 00:00:40.790
+you minimize the cost function
+
+17
+00:00:40.790 --> 00:00:42.650
+which works by
+comparing how closely
+
+18
+00:00:42.650 --> 00:00:46.960
+your output Y hat is to the
+true labels Y from your data.
+
+19
+00:00:46.960 --> 00:00:49.820
+After which the parameters
+are updated and
+
+20
+00:00:49.820 --> 00:00:52.805
+you repeat the process until
+your cost is minimized.
+
+21
+00:00:52.805 --> 00:00:55.295
+For logistic regression,
+this function
+
+22
+00:00:55.295 --> 00:00:58.885
+F is equal to the
+sigmoid function.
+
+23
+00:00:58.885 --> 00:01:00.870
+The function used to classify in
+
+24
+00:01:00.870 --> 00:01:04.940
+logistic regression H is
+the sigmoid function and
+
+25
+00:01:04.940 --> 00:01:07.580
+it depends on the parameters
+Theta and then the
+
+26
+00:01:07.580 --> 00:01:10.890
+features vector X superscripts i,
+
+27
+00:01:10.890 --> 00:01:12.380
+where i is used to denote
+
+28
+00:01:12.380 --> 00:01:14.810
+the ith observation
+or data points.
+
+29
+00:01:14.810 --> 00:01:16.510
+In the context of tweets,
+
+30
+00:01:16.510 --> 00:01:17.855
+that's the ith tweets.
+
+31
+00:01:17.855 --> 00:01:19.890
+Visually, the
+sigmoid function has
+
+32
+00:01:19.890 --> 00:01:21.900
+this form and it approaches
+
+33
+00:01:21.900 --> 00:01:26.145
+zero as the dot product
+of Theta transpose X,
+
+34
+00:01:26.145 --> 00:01:28.670
+over here, approaches minus
+
+35
+00:01:28.670 --> 00:01:33.340
+infinity and one as it
+approaches infinity.
+
+36
+00:01:33.340 --> 00:01:36.805
+For classification, a
+threshold is needed.
+
+37
+00:01:36.805 --> 00:01:39.350
+Usually, it is set to be
+
+38
+00:01:39.350 --> 00:01:42.350
+0.5 and this value corresponds to
+
+39
+00:01:42.350 --> 00:01:44.300
+a dot product between
+
+40
+00:01:44.300 --> 00:01:48.055
+Theta transpose and
+X equal to zero.
+
+41
+00:01:48.055 --> 00:01:49.740
+So whenever the dot product is
+
+42
+00:01:49.740 --> 00:01:51.900
+greater or equal than zero,
+
+43
+00:01:51.900 --> 00:01:53.805
+the prediction is positive,
+
+44
+00:01:53.805 --> 00:01:56.670
+and whenever the dot
+product is less than zero,
+
+45
+00:01:56.670 --> 00:01:59.470
+the prediction is negative.
+
+46
+00:02:00.170 --> 00:02:02.600
+So let's look at an example in
+
+47
+00:02:02.600 --> 00:02:03.950
+the now familiar context of
+
+48
+00:02:03.950 --> 00:02:05.900
+tweets and sentiment analysis.
+
+49
+00:02:05.900 --> 00:02:07.445
+Look at the following tweet.
+
+50
+00:02:07.445 --> 00:02:09.080
+After a preprocessing, you should
+
+51
+00:02:09.080 --> 00:02:10.930
+end up with a list like this.
+
+52
+00:02:10.930 --> 00:02:12.905
+Note that handles are deleted,
+
+53
+00:02:12.905 --> 00:02:14.900
+everything is in
+lowercase and the word
+
+54
+00:02:14.900 --> 00:02:17.885
+tuning is reduced
+to its stem, tun.
+
+55
+00:02:17.885 --> 00:02:21.005
+Then you would be able to
+extract features given
+
+56
+00:02:21.005 --> 00:02:23.150
+a frequencies dictionary and
+
+57
+00:02:23.150 --> 00:02:26.110
+arrive at a vector
+similar to the following.
+
+58
+00:02:26.110 --> 00:02:28.530
+With a bias units over here
+
+59
+00:02:28.530 --> 00:02:31.175
+and two features that are the sum
+
+60
+00:02:31.175 --> 00:02:33.560
+of positive and
+negative frequencies
+
+61
+00:02:33.560 --> 00:02:36.035
+of all the words in
+your processed tweets.
+
+62
+00:02:36.035 --> 00:02:37.550
+Now assuming that
+you already have
+
+63
+00:02:37.550 --> 00:02:40.715
+an optimum sets of
+parameters Theta,
+
+64
+00:02:40.715 --> 00:02:42.980
+you would be able to
+
+65
+00:02:42.980 --> 00:02:45.320
+get the value of the
+sigmoid function,
+
+66
+00:02:45.320 --> 00:02:47.765
+in this case, equal to 4.92,
+
+67
+00:02:47.765 --> 00:02:51.385
+and finally, predict
+a positive sentiment.
+
+68
+00:02:51.385 --> 00:02:54.470
+Now that you know the notation
+for logistic regression,
+
+69
+00:02:54.470 --> 00:02:57.590
+you can use it to train
+a weight factor Theta.
+
+70
+00:02:57.590 --> 00:02:58.745
+In the next video,
+
+71
+00:02:58.745 --> 00:03:01.175
+you will learn about the
+mechanics behind training
+
+72
+00:03:01.175 --> 00:03:04.590
+such a logistic
+regression classifier.

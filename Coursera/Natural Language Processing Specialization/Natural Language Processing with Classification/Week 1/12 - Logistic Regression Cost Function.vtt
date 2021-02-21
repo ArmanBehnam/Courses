@@ -1,0 +1,353 @@
+WEBVTT
+
+1
+00:00:00.170 --> 00:00:01.560
+Good to see you again.
+
+2
+00:00:01.560 --> 00:00:04.450
+In this optional video,
+you're going to learn about the intuition
+
+3
+00:00:04.450 --> 00:00:07.470
+behind the logistic
+regression cost function.
+
+4
+00:00:07.470 --> 00:00:10.671
+Specifically, you will understand why
+the cost function is designed that way.
+
+5
+00:00:10.671 --> 00:00:14.102
+You will see what happens when
+you predict the true label and
+
+6
+00:00:14.102 --> 00:00:18.120
+you'll see what happens,
+when you predict the wrong label.
+
+7
+00:00:18.120 --> 00:00:22.920
+Let's dive in and see how this logistic
+regression cost function is designed.
+
+8
+00:00:22.920 --> 00:00:26.210
+Let's have a look now at
+the equation of the cost function,
+
+9
+00:00:26.210 --> 00:00:29.400
+while this might look like
+a big complicated equation,
+
+10
+00:00:29.400 --> 00:00:33.700
+it's actually rather straightforward, once
+you break it down into its components.
+
+11
+00:00:33.700 --> 00:00:38.140
+First, have a look at the left hand side
+of the equation where you find a sum over
+
+12
+00:00:38.140 --> 00:00:43.430
+the variable m, which is just the number
+of training examples in your training set.
+
+13
+00:00:43.430 --> 00:00:48.610
+This indicates that you're going to sum
+over the cost of each training example.
+
+14
+00:00:48.610 --> 00:00:52.020
+Out front, there is a -1/m,
+
+15
+00:00:52.020 --> 00:00:57.040
+indicating that when combined with the
+sum, this will be some kind of average.
+
+16
+00:00:57.040 --> 00:01:02.070
+The minus sign ensures that your overall
+costs will always be a positive number
+
+17
+00:01:02.070 --> 00:01:05.010
+as you'll see clearly later in this video.
+
+18
+00:01:05.010 --> 00:01:09.770
+Inside the square brackets, the equation
+has two terms that are added together.
+
+19
+00:01:09.770 --> 00:01:13.120
+To consider what each of these terms
+contribute to the cost function for
+
+20
+00:01:13.120 --> 00:01:17.935
+each training example, let's have
+a look at each of them separately.
+
+21
+00:01:17.935 --> 00:01:23.775
+The term on the left is the product of
+y superscript i, which is the label for
+
+22
+00:01:23.775 --> 00:01:27.885
+each training example,
+most applied by the log of the prediction,
+
+23
+00:01:27.885 --> 00:01:32.645
+which is the logistic regression function
+applied to each training example.
+
+24
+00:01:32.645 --> 00:01:37.200
+Represented as h of superscript i,
+and a parameter theta.
+
+25
+00:01:38.300 --> 00:01:42.190
+Now, consider the case
+when your label is 0.
+
+26
+00:01:42.190 --> 00:01:45.910
+In this case,
+the function h can return any value, and
+
+27
+00:01:45.910 --> 00:01:50.280
+the entire term will be 0 because
+0 times anything is just 0.
+
+28
+00:01:50.280 --> 00:01:53.140
+What about the case when your label is 1?
+
+29
+00:01:53.140 --> 00:01:58.430
+If your prediction is close to 1, then the
+log of your prediction will be close to 0,
+
+30
+00:01:58.430 --> 00:02:01.455
+because, as you may recall,
+the log of 1 is 0.
+
+31
+00:02:01.455 --> 00:02:05.730
+And the product will also be near 0.
+
+32
+00:02:05.730 --> 00:02:09.480
+If your label is 1, and
+your prediction is close to 0,
+
+33
+00:02:09.480 --> 00:02:14.255
+then this term blows up and
+approaches negative infinity.
+
+34
+00:02:14.255 --> 00:02:18.892
+Intuitively, now, you can see that this is
+the relevant term in your cost function
+
+35
+00:02:18.892 --> 00:02:20.159
+when your label is 1.
+
+36
+00:02:20.159 --> 00:02:24.799
+When your prediction is close to
+the label value, the loss is small,
+
+37
+00:02:24.799 --> 00:02:29.685
+and when your label and prediction
+disagree, the overall cost goes up.
+
+38
+00:02:30.710 --> 00:02:34.910
+Now consider the term on the right hand
+side of the cost function equation,
+
+39
+00:02:34.910 --> 00:02:40.320
+in this case, if your label is 1,
+then the 1- y term goes to 0.
+
+40
+00:02:40.320 --> 00:02:45.490
+And so any value returned by the logistic
+regression function will result in a 0 for
+
+41
+00:02:45.490 --> 00:02:50.400
+the entire term, because again,
+0 times anything is just 0.
+
+42
+00:02:50.400 --> 00:02:55.270
+If your label is 0, and the logistic
+regression function returns a value close
+
+43
+00:02:55.270 --> 00:02:59.260
+to 0, then the products in this
+term will again be close to 0.
+
+44
+00:02:59.260 --> 00:03:05.050
+If on the other hand your label is 0 and
+your prediction is close to 1, then
+
+45
+00:03:05.050 --> 00:03:09.660
+the log term will blow up and the overall
+term will approach to negative infinity.
+
+46
+00:03:12.540 --> 00:03:15.270
+From this exercise you
+can see now that there is
+
+47
+00:03:15.270 --> 00:03:18.500
+one term in the cost function that
+is relevant when your label is 0,
+
+48
+00:03:18.500 --> 00:03:22.306
+and another that is relevant
+when the label is 1.
+
+49
+00:03:22.306 --> 00:03:27.854
+In each of these terms, you're taking
+the log of a value between 0 and
+
+50
+00:03:27.854 --> 00:03:33.080
+1, which will always return a negative
+number, and so the minus sign out front
+
+51
+00:03:33.080 --> 00:03:38.000
+ensures that the overall cost
+will always be a positive number.
+
+52
+00:03:38.000 --> 00:03:41.120
+Now, let's have a look at what
+the cost function looks like for
+
+53
+00:03:41.120 --> 00:03:42.464
+each of the labels.
+
+54
+00:03:42.464 --> 00:03:45.719
+0 and 1,
+overall possible prediction values.
+
+55
+00:03:45.719 --> 00:03:50.450
+First, we're going to look at
+the loss when the label is 1.
+
+56
+00:03:50.450 --> 00:03:55.180
+In this plot, you have your prediction
+value on the horizontal axis and
+
+57
+00:03:55.180 --> 00:04:00.150
+the cost associated with a single
+training example on the vertical axis.
+
+58
+00:04:00.150 --> 00:04:07.060
+In this case J, of theta simplifies
+to just negative log h(x(theta).
+
+59
+00:04:07.060 --> 00:04:10.800
+When your prediction is close to 1,
+the loss is close to 0.
+
+60
+00:04:10.800 --> 00:04:13.830
+Because your prediction
+agrees well with the label.
+
+61
+00:04:13.830 --> 00:04:18.340
+And when the prediction is close to 0,
+the loss approaches infinity,
+
+62
+00:04:18.340 --> 00:04:22.210
+because your prediction and
+the label disagree strongly.
+
+63
+00:04:22.210 --> 00:04:23.633
+The opposite is true when the label is 0.
+
+64
+00:04:23.633 --> 00:04:32.090
+In this case J(theta) reduces to
+just minus log(1- h(x, theta).
+
+65
+00:04:32.090 --> 00:04:36.780
+Now when your prediction is close to 0,
+the loss is also close to 0.
+
+66
+00:04:36.780 --> 00:04:41.360
+And when your prediction is close to 1,
+the loss approaches infinity.
+
+67
+00:04:41.360 --> 00:04:44.890
+You now understand how the logistic
+regression cost function works.
+
+68
+00:04:44.890 --> 00:04:49.100
+You saw what happened when you predicted
+a 1 and the true label was a 1.
+
+69
+00:04:49.100 --> 00:04:53.840
+You also saw what happened when you
+predicted a 0, and the true label was a 0.
+
+70
+00:04:53.840 --> 00:04:56.360
+In the next week,
+you will learn about Naive Bayes,
+
+71
+00:04:56.360 --> 00:04:59.290
+which is a different type of
+classification algorithm,
+
+72
+00:04:59.290 --> 00:05:03.260
+which also allows you to predict whether
+a tweet is positive or negative.
