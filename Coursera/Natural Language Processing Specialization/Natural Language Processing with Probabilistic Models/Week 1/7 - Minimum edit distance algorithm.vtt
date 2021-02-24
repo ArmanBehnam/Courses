@@ -1,0 +1,548 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.765
+Welcome. This week I will
+teach you dynamic programming.
+
+2
+00:00:03.765 --> 00:00:05.535
+We will go through one example,
+
+3
+00:00:05.535 --> 00:00:07.080
+but once you understand that,
+
+4
+00:00:07.080 --> 00:00:10.140
+you'll be able to apply dynamic
+programming to anything.
+
+5
+00:00:10.140 --> 00:00:13.035
+So you start by laying out
+the problem like this,
+
+6
+00:00:13.035 --> 00:00:14.940
+where you have the
+source wordplay
+
+7
+00:00:14.940 --> 00:00:16.800
+here down the left column,
+
+8
+00:00:16.800 --> 00:00:19.260
+and then the target
+words to transform into
+
+9
+00:00:19.260 --> 00:00:22.590
+stay along the top row here and
+
+10
+00:00:22.590 --> 00:00:24.900
+an empty string
+placeholder presented by
+
+11
+00:00:24.900 --> 00:00:28.380
+the hashtag symbol at the
+start of each string here.
+
+12
+00:00:28.380 --> 00:00:29.820
+The reason for this will make
+
+13
+00:00:29.820 --> 00:00:31.635
+more sense in the steps ahead.
+
+14
+00:00:31.635 --> 00:00:33.990
+There are also some
+row and column indices
+
+15
+00:00:33.990 --> 00:00:37.305
+here just to make things a
+bit easier to follow along.
+
+16
+00:00:37.305 --> 00:00:40.885
+Now the goal is to fill out
+this distance matrix D,
+
+17
+00:00:40.885 --> 00:00:44.615
+such that the element
+D(2,3), for example,
+
+18
+00:00:44.615 --> 00:00:49.820
+refers to the minimum edit
+distance from pl to sta,
+
+19
+00:00:49.820 --> 00:00:52.700
+which is the first two
+letters of the word play
+
+20
+00:00:52.700 --> 00:00:55.780
+to the first three letters
+of the target word stay.
+
+21
+00:00:55.780 --> 00:00:58.460
+More generally for any element
+
+22
+00:00:58.460 --> 00:01:00.485
+in the matrix by
+using this formula
+
+23
+00:01:00.485 --> 00:01:05.515
+for the element at row i and
+column j being i equals 2,
+
+24
+00:01:05.515 --> 00:01:10.800
+and j equals 3 in the
+example pl to sta.
+
+25
+00:01:10.800 --> 00:01:13.295
+From the previous few slides,
+
+26
+00:01:13.295 --> 00:01:15.190
+you know, each D of i,
+
+27
+00:01:15.190 --> 00:01:17.900
+j will be the minimum
+at the distance
+
+28
+00:01:17.900 --> 00:01:21.740
+between the beginning of
+the source word to index i,
+
+29
+00:01:21.740 --> 00:01:25.310
+and the beginning of the
+targets word to index j.
+
+30
+00:01:25.310 --> 00:01:27.140
+So that's for a source of
+
+31
+00:01:27.140 --> 00:01:30.350
+length m and a
+target of length n,
+
+32
+00:01:30.350 --> 00:01:32.705
+when you get to the
+bottom right corner,
+
+33
+00:01:32.705 --> 00:01:34.790
+D (m, n), you have
+
+34
+00:01:34.790 --> 00:01:37.565
+the minimum edit distance
+between the two strings.
+
+35
+00:01:37.565 --> 00:01:39.200
+You will compute this from
+
+36
+00:01:39.200 --> 00:01:41.420
+the shortest sub-string
+to the full string,
+
+37
+00:01:41.420 --> 00:01:44.390
+that is starting with
+the shortest string in
+
+38
+00:01:44.390 --> 00:01:48.085
+the top left corner and working
+down then to the right.
+
+39
+00:01:48.085 --> 00:01:50.405
+The intuition is that
+you can build upon
+
+40
+00:01:50.405 --> 00:01:53.375
+each sub-problem by
+combining solutions.
+
+41
+00:01:53.375 --> 00:01:56.060
+For example, finding the
+minimum edit distance
+
+42
+00:01:56.060 --> 00:01:57.890
+between two letters is easy.
+
+43
+00:01:57.890 --> 00:02:01.055
+Then you increase the problem
+size one letter at a time,
+
+44
+00:02:01.055 --> 00:02:03.245
+building on what
+you already know.
+
+45
+00:02:03.245 --> 00:02:06.320
+If this seems confusing
+at first, don't worry,
+
+46
+00:02:06.320 --> 00:02:08.330
+it is, but it will start to
+
+47
+00:02:08.330 --> 00:02:10.745
+make more sense as you
+work through the example.
+
+48
+00:02:10.745 --> 00:02:13.355
+But first, before
+you get started,
+
+49
+00:02:13.355 --> 00:02:15.425
+recall the cost for each edit.
+
+50
+00:02:15.425 --> 00:02:19.825
+One for insert and delete
+and two for replace.
+
+51
+00:02:19.825 --> 00:02:23.120
+So the first step is to
+transform the source
+
+52
+00:02:23.120 --> 00:02:26.345
+empty string into the
+targets empty string.
+
+53
+00:02:26.345 --> 00:02:28.490
+The edit distance
+between the source
+
+54
+00:02:28.490 --> 00:02:31.505
+empty string and the targets
+empty string is zero.
+
+55
+00:02:31.505 --> 00:02:32.960
+There is no formula here is
+
+56
+00:02:32.960 --> 00:02:36.495
+just a special case.
+So far, so good.
+
+57
+00:02:36.495 --> 00:02:39.080
+To change nothing to nothing,
+
+58
+00:02:39.080 --> 00:02:41.300
+you do nothing good.
+
+59
+00:02:41.300 --> 00:02:43.640
+Then you can move on to p to
+
+60
+00:02:43.640 --> 00:02:46.955
+empty string and you can
+do this with a delete,
+
+61
+00:02:46.955 --> 00:02:49.870
+edit operation at a cost of one.
+
+62
+00:02:49.870 --> 00:02:52.990
+Then empty string to s,
+
+63
+00:02:52.990 --> 00:02:55.190
+which you can do
+with an insert at
+
+64
+00:02:55.190 --> 00:02:57.875
+its operation at a cost of one.
+
+65
+00:02:57.875 --> 00:03:00.710
+Now look at p to s. There is
+
+66
+00:03:00.710 --> 00:03:03.680
+more than one possible way
+to make this transformation.
+
+67
+00:03:03.680 --> 00:03:07.300
+Each possible sequence of
+edit is known as a path.
+
+68
+00:03:07.300 --> 00:03:12.660
+Starting with p, you can
+insert s on the end to get ps.
+
+69
+00:03:12.660 --> 00:03:16.500
+Then the leads p from the
+beginning to get to s. This has
+
+70
+00:03:16.500 --> 00:03:20.805
+a cost of one insert and
+one delete at this point.
+
+71
+00:03:20.805 --> 00:03:23.600
+Notice that you've already
+calculated the cost of
+
+72
+00:03:23.600 --> 00:03:26.630
+inserting a letter s. It's
+
+73
+00:03:26.630 --> 00:03:28.100
+found in this red box here on
+
+74
+00:03:28.100 --> 00:03:30.545
+top when you calculate
+how to get from
+
+75
+00:03:30.545 --> 00:03:32.435
+empty string two s.
+
+76
+00:03:32.435 --> 00:03:35.030
+So you actually just
+calculate the cost of
+
+77
+00:03:35.030 --> 00:03:37.520
+deleting the p and add it onto
+
+78
+00:03:37.520 --> 00:03:40.280
+the cost that you've stored
+in the red box above.
+
+79
+00:03:40.280 --> 00:03:42.740
+This is 1 plus 1 equals
+
+80
+00:03:42.740 --> 00:03:47.285
+2 and the second possible
+path starting with p,
+
+81
+00:03:47.285 --> 00:03:48.530
+you can delete p to,
+
+82
+00:03:48.530 --> 00:03:52.505
+get hashtag and then
+insert s to get
+
+83
+00:03:52.505 --> 00:03:55.640
+s. Notice again
+that you've already
+
+84
+00:03:55.640 --> 00:03:57.350
+calculated the cost of deleting
+
+85
+00:03:57.350 --> 00:03:59.945
+p in this blue box in the left.
+
+86
+00:03:59.945 --> 00:04:03.290
+The blue box is the
+cost of going from p to
+
+87
+00:04:03.290 --> 00:04:06.290
+hashtag by deleting p. So you
+
+88
+00:04:06.290 --> 00:04:09.290
+can calculate the cost of
+inserting p and add it
+
+89
+00:04:09.290 --> 00:04:10.865
+to the cost that you've stored
+
+90
+00:04:10.865 --> 00:04:12.680
+in the blue box on the left.
+
+91
+00:04:12.680 --> 00:04:16.450
+This is 1 plus 1 equals 2.
+
+92
+00:04:16.450 --> 00:04:19.575
+The third way is to
+replace p with s,
+
+93
+00:04:19.575 --> 00:04:21.810
+so that you go from p to s in
+
+94
+00:04:21.810 --> 00:04:25.905
+one step at the cost of
+two for replacement.
+
+95
+00:04:25.905 --> 00:04:27.860
+Visually, you can
+think of going from
+
+96
+00:04:27.860 --> 00:04:31.940
+this green box and jumping
+directly into the orange box.
+
+97
+00:04:31.940 --> 00:04:34.160
+The green box is the
+cost of not doing
+
+98
+00:04:34.160 --> 00:04:36.530
+any edit, which is zero.
+
+99
+00:04:36.530 --> 00:04:38.765
+A replacement has a cost of two,
+
+100
+00:04:38.765 --> 00:04:41.365
+so 0 plus 2 equals 2.
+
+101
+00:04:41.365 --> 00:04:45.260
+Then you take the minimum of
+all three of these paths,
+
+102
+00:04:45.260 --> 00:04:47.740
+which is a 2 in this case.
+
+103
+00:04:47.740 --> 00:04:49.700
+Then place that
+value in the cell,
+
+104
+00:04:49.700 --> 00:04:52.580
+which gives you the minimum
+added distance from p to
+
+105
+00:04:52.580 --> 00:04:56.105
+s. So working off what
+you've already filled out,
+
+106
+00:04:56.105 --> 00:04:57.920
+you will notice that
+to fill in a cell,
+
+107
+00:04:57.920 --> 00:04:59.750
+you need to know
+the cell above to
+
+108
+00:04:59.750 --> 00:05:01.685
+the left and adjacent upper-left,
+
+109
+00:05:01.685 --> 00:05:04.310
+shown in red, blue,
+and green here.
+
+110
+00:05:04.310 --> 00:05:06.290
+In doing so, you can benefit from
+
+111
+00:05:06.290 --> 00:05:08.285
+some calculations
+already performed.
+
+112
+00:05:08.285 --> 00:05:10.610
+Soon, I'll show you
+how to generalize
+
+113
+00:05:10.610 --> 00:05:13.775
+this in a formula to fill
+out the rest of the matrix.
+
+114
+00:05:13.775 --> 00:05:16.550
+But first I will show
+you how to fill out
+
+115
+00:05:16.550 --> 00:05:18.440
+the first column and
+the first row so that
+
+116
+00:05:18.440 --> 00:05:20.540
+every cell remaining
+has it's own red,
+
+117
+00:05:20.540 --> 00:05:23.885
+blue, and green cells
+available as dependencies.
+
+118
+00:05:23.885 --> 00:05:26.520
+This is what's coming up next.

@@ -1,0 +1,302 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.655
+Now that you have a
+list of actual words,
+
+2
+00:00:02.655 --> 00:00:03.890
+you can move on to step
+
+3
+00:00:03.890 --> 00:00:07.265
+four; calculate
+word probabilities.
+
+4
+00:00:07.265 --> 00:00:09.330
+The final step is to calculate
+
+5
+00:00:09.330 --> 00:00:10.890
+word probabilities and find
+
+6
+00:00:10.890 --> 00:00:13.004
+the most likely word
+from the candidates.
+
+7
+00:00:13.004 --> 00:00:15.510
+For example, the word
+"and" is more common than
+
+8
+00:00:15.510 --> 00:00:18.015
+the word "ant" in any
+given body of texts,
+
+9
+00:00:18.015 --> 00:00:19.935
+also called a corpus.
+
+10
+00:00:19.935 --> 00:00:21.750
+This is how AutoCorrect knows
+
+11
+00:00:21.750 --> 00:00:24.495
+which word to substitute
+for the incorrect one.
+
+12
+00:00:24.495 --> 00:00:26.460
+To understand this better,
+
+13
+00:00:26.460 --> 00:00:28.470
+look at this example sentence,
+
+14
+00:00:28.470 --> 00:00:31.005
+"I am happy because
+I am learning."
+
+15
+00:00:31.005 --> 00:00:34.205
+To calculate the probability
+of a word in the sentence,
+
+16
+00:00:34.205 --> 00:00:37.060
+you need to first calculate
+the word frequencies.
+
+17
+00:00:37.060 --> 00:00:40.160
+In addition, you want to
+count the total number
+
+18
+00:00:40.160 --> 00:00:43.375
+of words in the body
+of texts or corpus,
+
+19
+00:00:43.375 --> 00:00:46.430
+normally a corpus
+would be much larger.
+
+20
+00:00:46.430 --> 00:00:49.220
+Imagine every issue of
+a certain magazine ever
+
+21
+00:00:49.220 --> 00:00:52.460
+published all of the
+Harry Potter books,
+
+22
+00:00:52.460 --> 00:00:55.085
+to keep this example
+as simple as possible,
+
+23
+00:00:55.085 --> 00:00:58.550
+the corpus here is defined
+as this one sentence.
+
+24
+00:00:58.550 --> 00:01:01.815
+For example, the word
+"I" appears twice,
+
+25
+00:01:01.815 --> 00:01:04.700
+the word "m" appears twice also,
+
+26
+00:01:04.700 --> 00:01:07.235
+and so on for the
+rest of the words.
+
+27
+00:01:07.235 --> 00:01:10.940
+The total number of words
+in this corpus is seven,
+
+28
+00:01:10.940 --> 00:01:12.850
+the probability of any word
+
+29
+00:01:12.850 --> 00:01:14.560
+within the corpus
+is the number of
+
+30
+00:01:14.560 --> 00:01:16.210
+times the word appears divided
+
+31
+00:01:16.210 --> 00:01:18.245
+by the total number of words.
+
+32
+00:01:18.245 --> 00:01:21.010
+For example, the word "m"
+
+33
+00:01:21.010 --> 00:01:23.875
+appears twice and the size
+of the corpus is seven.
+
+34
+00:01:23.875 --> 00:01:27.220
+For AutoCorrect, you find
+the word candidate with
+
+35
+00:01:27.220 --> 00:01:29.710
+the highest
+probability and choose
+
+36
+00:01:29.710 --> 00:01:33.060
+that word as the
+replacement, and that's it.
+
+37
+00:01:33.060 --> 00:01:37.315
+In summary, to implement
+AutoCorrect, do the following.
+
+38
+00:01:37.315 --> 00:01:39.520
+You entered a word to correct,
+
+39
+00:01:39.520 --> 00:01:42.090
+for example the
+misspelled word deah,
+
+40
+00:01:42.090 --> 00:01:44.680
+D-E-A-H, then you follow
+
+41
+00:01:44.680 --> 00:01:45.820
+the four steps inside
+
+42
+00:01:45.820 --> 00:01:48.490
+the AutoCorrect's model
+to get its replacement.
+
+43
+00:01:48.490 --> 00:01:50.380
+You identify deah as being
+
+44
+00:01:50.380 --> 00:01:53.015
+misspelled by checking
+it against known words.
+
+45
+00:01:53.015 --> 00:01:55.065
+Then you made a list of
+
+46
+00:01:55.065 --> 00:01:57.600
+all the strings that
+are n edits away,
+
+47
+00:01:57.600 --> 00:02:00.470
+you filter these lists
+of strings to include
+
+48
+00:02:00.470 --> 00:02:01.685
+only the ones that are
+
+49
+00:02:01.685 --> 00:02:04.360
+actual words in a
+given dictionary.
+
+50
+00:02:04.360 --> 00:02:07.190
+Then you calculated
+the word probabilities
+
+51
+00:02:07.190 --> 00:02:09.050
+for each of these words,
+
+52
+00:02:09.050 --> 00:02:12.140
+you selected the word with
+the highest probability as
+
+53
+00:02:12.140 --> 00:02:15.605
+the AutoCorrect replacement,
+and that was it.
+
+54
+00:02:15.605 --> 00:02:17.160
+That's a lot to cover,
+
+55
+00:02:17.160 --> 00:02:19.610
+but breaking it down
+step-by-step gives you
+
+56
+00:02:19.610 --> 00:02:22.990
+a good intuition for how
+to implement AutoCorrect.
+
+57
+00:02:22.990 --> 00:02:25.250
+This is something that
+will come in very handy
+
+58
+00:02:25.250 --> 00:02:27.640
+for the assignment, so well done.
+
+59
+00:02:27.640 --> 00:02:30.290
+Also, you now understand
+edit and edit
+
+60
+00:02:30.290 --> 00:02:32.060
+distance and how they can be
+
+61
+00:02:32.060 --> 00:02:34.585
+used to measure
+similarity between words.
+
+62
+00:02:34.585 --> 00:02:36.830
+Next, get ready to apply
+
+63
+00:02:36.830 --> 00:02:40.280
+these concepts to building a
+metric very common in NLP,
+
+64
+00:02:40.280 --> 00:02:42.515
+for measuring similarity
+between words,
+
+65
+00:02:42.515 --> 00:02:45.270
+strings, and many more.

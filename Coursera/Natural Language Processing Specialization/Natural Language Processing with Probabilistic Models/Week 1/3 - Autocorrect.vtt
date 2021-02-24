@@ -1,0 +1,250 @@
+WEBVTT
+
+1
+00:00:00.140 --> 00:00:02.640
+What is autocorrect?
+
+2
+00:00:02.640 --> 00:00:04.860
+Autocorrect is an
+application that
+
+3
+00:00:04.860 --> 00:00:07.710
+changes misspelled words
+into the correct ones.
+
+4
+00:00:07.710 --> 00:00:10.380
+You probably know it
+very well already.
+
+5
+00:00:10.380 --> 00:00:13.140
+You have it on your
+phone, tablet,
+
+6
+00:00:13.140 --> 00:00:14.640
+and on your computer inside
+
+7
+00:00:14.640 --> 00:00:18.105
+your document editors,
+and email applications.
+
+8
+00:00:18.105 --> 00:00:21.225
+For example, it takes a
+sentence like this one,
+
+9
+00:00:21.225 --> 00:00:24.375
+happy birthday deah friend,
+
+10
+00:00:24.375 --> 00:00:26.400
+and corrects the misspelled word
+
+11
+00:00:26.400 --> 00:00:30.585
+deah to a word that you
+probably intended to write,
+
+12
+00:00:30.585 --> 00:00:33.330
+which in this context
+would be dear,
+
+13
+00:00:33.330 --> 00:00:37.275
+correctly spelled D-E-A-R.
+
+14
+00:00:37.275 --> 00:00:40.750
+But what if you typed
+deer instead of dear?
+
+15
+00:00:40.750 --> 00:00:43.325
+Here you see the word
+is spelled correctly,
+
+16
+00:00:43.325 --> 00:00:45.695
+but its context is incorrect.
+
+17
+00:00:45.695 --> 00:00:49.050
+Well, unless your friend
+happens to be an actual deer,
+
+18
+00:00:49.050 --> 00:00:51.890
+you will not test for
+this contextual error
+
+19
+00:00:51.890 --> 00:00:55.160
+this week as it's a more
+sophisticated problem.
+
+20
+00:00:55.160 --> 00:00:57.695
+You'll get to learn
+about that another time.
+
+21
+00:00:57.695 --> 00:01:00.920
+Instead, this week you'll
+only look for words that have
+
+22
+00:01:00.920 --> 00:01:04.130
+been misspelled and make
+corrections to these.
+
+23
+00:01:04.130 --> 00:01:05.720
+This involves a simple yet
+
+24
+00:01:05.720 --> 00:01:08.120
+powerful model as you will see.
+
+25
+00:01:08.120 --> 00:01:11.405
+Let me show you an overview
+of how autocorrect works.
+
+26
+00:01:11.405 --> 00:01:13.220
+There are four key steps.
+
+27
+00:01:13.220 --> 00:01:16.340
+First, identify an
+incorrect word,
+
+28
+00:01:16.340 --> 00:01:18.740
+misspelling is one
+way to do this.
+
+29
+00:01:18.740 --> 00:01:21.900
+Second, find strings 1, 2,
+
+30
+00:01:21.900 --> 00:01:25.485
+3, or any n edit distances away.
+
+31
+00:01:25.485 --> 00:01:27.080
+Don't worry, you will learn
+
+32
+00:01:27.080 --> 00:01:29.405
+about minimum edit
+distance shortly.
+
+33
+00:01:29.405 --> 00:01:32.270
+For now, what's important
+to know is that if a string
+
+34
+00:01:32.270 --> 00:01:35.150
+is one edit distance away from
+the string that you typed,
+
+35
+00:01:35.150 --> 00:01:37.280
+it's more similar to
+your string compared to
+
+36
+00:01:37.280 --> 00:01:39.680
+a string that is two
+edit distances away.
+
+37
+00:01:39.680 --> 00:01:41.660
+Third, filter the strings for
+
+38
+00:01:41.660 --> 00:01:44.410
+real words that are
+spelled correctly.
+
+39
+00:01:44.410 --> 00:01:47.690
+Fourth, calculate
+word probabilities,
+
+40
+00:01:47.690 --> 00:01:50.570
+which tell you how likely
+each word is to appear in
+
+41
+00:01:50.570 --> 00:01:52.160
+this context and choose
+
+42
+00:01:52.160 --> 00:01:54.680
+the most likely candidate
+to be the replacement.
+
+43
+00:01:54.680 --> 00:01:56.900
+So now you have a better
+intuition for what is
+
+44
+00:01:56.900 --> 00:02:00.475
+autocorrect and how it
+works. That's good.
+
+45
+00:02:00.475 --> 00:02:02.330
+Next, you'll take a closer look
+
+46
+00:02:02.330 --> 00:02:04.055
+at the details for implementing
+
+47
+00:02:04.055 --> 00:02:05.930
+each step so that you can begin
+
+48
+00:02:05.930 --> 00:02:08.395
+to build the autocorrect model.
+
+49
+00:02:08.395 --> 00:02:11.385
+Now you know how
+autocorrect works.
+
+50
+00:02:11.385 --> 00:02:13.655
+In the coding exercise
+of this week,
+
+51
+00:02:13.655 --> 00:02:15.380
+you will implement it and see for
+
+52
+00:02:15.380 --> 00:02:17.645
+yourself that it
+works really well.
+
+53
+00:02:17.645 --> 00:02:19.520
+Next, I'll show you how to speed
+
+54
+00:02:19.520 --> 00:02:22.050
+up edit distance computation.
