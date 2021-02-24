@@ -1,0 +1,284 @@
+WEBVTT
+
+1
+00:00:00.550 --> 00:00:01.050
+Welcome back.
+
+2
+00:00:02.170 --> 00:00:05.530
+No matter what NLP method you use,
+you will one day find yourself
+
+3
+00:00:05.530 --> 00:00:08.960
+faced with an error, for example,
+a misclassified sentence.
+
+4
+00:00:08.960 --> 00:00:12.520
+In this video,
+I'll show you how to analyze such errors.
+
+5
+00:00:12.520 --> 00:00:15.665
+Let us consider some possible
+errors in the model prediction that
+
+6
+00:00:15.665 --> 00:00:17.725
+can be caused by these issues.
+
+7
+00:00:17.725 --> 00:00:21.618
+One, semantic meaning lost
+in the pre-processing step.
+
+8
+00:00:21.618 --> 00:00:25.905
+Two, how word order affects
+the meaning of a sentence.
+
+9
+00:00:25.905 --> 00:00:30.340
+And three, some quirks of languages
+come naturally to humans but
+
+10
+00:00:30.340 --> 00:00:32.170
+confuse naive Bayes models.
+
+11
+00:00:32.170 --> 00:00:33.570
+So let's start.
+
+12
+00:00:33.570 --> 00:00:38.290
+One of your main considerations when
+analyzing errors in NLP systems
+
+13
+00:00:38.290 --> 00:00:42.050
+is what the processed version
+of the text actually looks like.
+
+14
+00:00:42.050 --> 00:00:43.820
+Let's look at this tweet.
+
+15
+00:00:43.820 --> 00:00:48.480
+My beloved grandmother, with some
+punctuation indicating a sad face.
+
+16
+00:00:48.480 --> 00:00:52.290
+The sad face punctuation in this case
+is very important to the sentiment
+
+17
+00:00:52.290 --> 00:00:55.910
+of the tweet because it
+tells you what's happening.
+
+18
+00:00:55.910 --> 00:01:00.870
+But if you're removing punctuation, then
+the processed tweet will leave behind only
+
+19
+00:01:00.870 --> 00:01:05.070
+beloved grandmother,
+which looks like a very positive tweet.
+
+20
+00:01:05.070 --> 00:01:09.890
+My beloved grandmother, exclamation mark
+would be a very different sentiment.
+
+21
+00:01:09.890 --> 00:01:13.860
+So remember, always check what
+the actual text looks like.
+
+22
+00:01:13.860 --> 00:01:16.530
+It's not just about punctuation either.
+
+23
+00:01:16.530 --> 00:01:18.150
+Check out this tweet.
+
+24
+00:01:18.150 --> 00:01:22.740
+This is not good, because your attitude
+is not even close to being nice.
+
+25
+00:01:22.740 --> 00:01:25.610
+If you remove neutral words like not and
+
+26
+00:01:25.610 --> 00:01:28.760
+this, what you're left
+with is the following.
+
+27
+00:01:28.760 --> 00:01:32.120
+Good, attitude, close, nice.
+
+28
+00:01:32.120 --> 00:01:33.395
+From this set of words,
+
+29
+00:01:33.395 --> 00:01:37.400
+any classifier will infer that
+this is something very positive.
+
+30
+00:01:37.400 --> 00:01:41.060
+I'll talk later on about handling nots and
+word orders.
+
+31
+00:01:41.060 --> 00:01:44.610
+But remember, double check what
+your process text looks like
+
+32
+00:01:44.610 --> 00:01:48.810
+to make sure your model will be
+able to get an accurate read.
+
+33
+00:01:48.810 --> 00:01:52.450
+The inputs pipeline isn't the only
+potential source of trouble.
+
+34
+00:01:52.450 --> 00:01:54.100
+Look at these tweets.
+
+35
+00:01:54.100 --> 00:01:56.380
+I'm happy because I did not go.
+
+36
+00:01:56.380 --> 00:01:58.890
+This is a purely positive tweet.
+
+37
+00:01:58.890 --> 00:02:03.470
+I'm not happy because I did not go,
+with a negative sentiment.
+
+38
+00:02:03.470 --> 00:02:06.980
+In this case,
+the not is important to the sentiment but
+
+39
+00:02:06.980 --> 00:02:09.610
+gets missed by your
+naive Bayes classifier.
+
+40
+00:02:09.610 --> 00:02:12.940
+So word order can be as
+important to spelling.
+
+41
+00:02:12.940 --> 00:02:16.830
+There are many other factors to consider
+as well, and you will see more and
+
+42
+00:02:16.830 --> 00:02:21.260
+more ways to build systems that
+handle them in the weeks to come.
+
+43
+00:02:21.260 --> 00:02:25.610
+Another problem of naive Bayes is
+something called an adversarial attack.
+
+44
+00:02:25.610 --> 00:02:30.190
+The term adversarial attack describes
+some common language phenomenon,
+
+45
+00:02:30.190 --> 00:02:34.500
+like sarcasm, irony, and euphemism.
+
+46
+00:02:34.500 --> 00:02:38.580
+Humans pick these up quickly but
+machines are terrible at it.
+
+47
+00:02:38.580 --> 00:02:42.360
+This tweet,
+this is a ridiculously powerful movie.
+
+48
+00:02:42.360 --> 00:02:47.300
+The plot was gripping and I cried right
+through until the ending, contains
+
+49
+00:02:47.300 --> 00:02:51.725
+a somewhat positive movie review, but
+pre-processing might suggest otherwise.
+
+50
+00:02:51.725 --> 00:02:57.340
+If you pre-process this tweet, you'll
+get a list of mostly negative words, but
+
+51
+00:02:57.340 --> 00:03:02.840
+as you can see, they were actually used to
+describe a movie that the author enjoyed.
+
+52
+00:03:02.840 --> 00:03:06.380
+If you use naive Bayes
+on this list of words,
+
+53
+00:03:06.380 --> 00:03:09.600
+it would end up giving a very
+negative score regardless.
+
+54
+00:03:11.340 --> 00:03:14.825
+Now you know how to apply the naive
+Bayes method to text classification.
+
+55
+00:03:14.825 --> 00:03:18.980
+It makes the independence assumption,
+which can lead to errors, but
+
+56
+00:03:18.980 --> 00:03:20.600
+you know how to analyze them.
+
+57
+00:03:20.600 --> 00:03:23.150
+It's still a very powerful baseline.
+
+58
+00:03:23.150 --> 00:03:26.260
+As you know,
+it relies on word frequency counts.
+
+59
+00:03:26.260 --> 00:03:29.680
+Next week, we learn how to use a different
+form of word vectors that can give
+
+60
+00:03:29.680 --> 00:03:30.580
+better results.

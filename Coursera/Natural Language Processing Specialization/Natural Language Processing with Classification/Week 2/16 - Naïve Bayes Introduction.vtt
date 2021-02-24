@@ -1,0 +1,604 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.280
+Welcome. Last week,
+you learned how
+
+2
+00:00:02.280 --> 00:00:04.740
+to classify tweets using
+logistic regression.
+
+3
+00:00:04.740 --> 00:00:06.540
+This week, we'll solve
+the same problem
+
+4
+00:00:06.540 --> 00:00:08.460
+using a method called
+the Naive Bayes.
+
+5
+00:00:08.460 --> 00:00:10.500
+It's a very good, quick,
+and dirty baseline
+
+6
+00:00:10.500 --> 00:00:12.675
+for many text
+classification tasks,
+
+7
+00:00:12.675 --> 00:00:14.670
+and the concepts
+you learned will be
+
+8
+00:00:14.670 --> 00:00:17.250
+use later throughout
+the specialization.
+
+9
+00:00:17.250 --> 00:00:21.480
+Naive Bayes is an example of
+supervised machine learning,
+
+10
+00:00:21.480 --> 00:00:23.430
+and shares many similarities with
+
+11
+00:00:23.430 --> 00:00:25.095
+the logistic regression method
+
+12
+00:00:25.095 --> 00:00:27.479
+you used in the
+previous assignment.
+
+13
+00:00:27.479 --> 00:00:29.490
+It's called naive because
+
+14
+00:00:29.490 --> 00:00:31.230
+this method makes
+the assumption that
+
+15
+00:00:31.230 --> 00:00:32.580
+the features you're using for
+
+16
+00:00:32.580 --> 00:00:35.145
+classification are
+all independent,
+
+17
+00:00:35.145 --> 00:00:38.530
+which in reality is
+rarely the case.
+
+18
+00:00:38.530 --> 00:00:40.465
+As you will see, however,
+
+19
+00:00:40.465 --> 00:00:41.990
+it still works nicely as
+
+20
+00:00:41.990 --> 00:00:44.345
+a simple method for
+sentiment analysis.
+
+21
+00:00:44.345 --> 00:00:47.615
+So as before, you will
+begin with two corporal,
+
+22
+00:00:47.615 --> 00:00:49.790
+one for the positive tweets
+
+23
+00:00:49.790 --> 00:00:51.800
+and one for the negative tweets.
+
+24
+00:00:51.800 --> 00:00:54.410
+You need to extract
+the vocabulary or
+
+25
+00:00:54.410 --> 00:00:56.390
+all the different
+words that appear in
+
+26
+00:00:56.390 --> 00:00:59.015
+your corpus along
+with their counts.
+
+27
+00:00:59.015 --> 00:01:00.725
+You get the word counts for
+
+28
+00:01:00.725 --> 00:01:04.055
+each occurrence of a word
+in the positive corpus,
+
+29
+00:01:04.055 --> 00:01:06.710
+then do the same for
+the negative corpus,
+
+30
+00:01:06.710 --> 00:01:08.410
+just like you did before.
+
+31
+00:01:08.410 --> 00:01:10.415
+Then, you're going to get
+
+32
+00:01:10.415 --> 00:01:12.440
+a total count of all the words in
+
+33
+00:01:12.440 --> 00:01:14.390
+your positive corpus and do the
+
+34
+00:01:14.390 --> 00:01:16.685
+same again for your
+negative corpus.
+
+35
+00:01:16.685 --> 00:01:20.765
+That is, you're just summing
+over the rows of this table.
+
+36
+00:01:20.765 --> 00:01:24.605
+For positive tweets, there's
+a total of 13 words,
+
+37
+00:01:24.605 --> 00:01:26.165
+and for negative tweets,
+
+38
+00:01:26.165 --> 00:01:28.025
+a total of 12 words.
+
+39
+00:01:28.025 --> 00:01:30.585
+This is the first new
+step for Naive Bayes,
+
+40
+00:01:30.585 --> 00:01:33.980
+and it's very important because
+it allows you to compute
+
+41
+00:01:33.980 --> 00:01:36.065
+the conditional probabilities of
+
+42
+00:01:36.065 --> 00:01:39.680
+each word given the class
+as you're about to see.
+
+43
+00:01:39.680 --> 00:01:42.590
+Now divide the frequency
+of each word in
+
+44
+00:01:42.590 --> 00:01:45.995
+a class by its corresponding
+sum of words in the class.
+
+45
+00:01:45.995 --> 00:01:49.580
+So for the word I, the
+conditional probability
+
+46
+00:01:49.580 --> 00:01:53.435
+for the positive class
+would be 3 over 13.
+
+47
+00:01:53.435 --> 00:01:56.090
+You store that value
+in a new table with
+
+48
+00:01:56.090 --> 00:01:59.455
+the corresponding value, 0.24.
+
+49
+00:01:59.455 --> 00:02:02.565
+Now for the word I, in
+the negative glass,
+
+50
+00:02:02.565 --> 00:02:04.415
+you get 3 over 12.
+
+51
+00:02:04.415 --> 00:02:06.860
+So you store that in
+your new table with
+
+52
+00:02:06.860 --> 00:02:10.235
+the corresponding value, 0.25.
+
+53
+00:02:10.235 --> 00:02:13.190
+Now apply the same
+procedure for each word in
+
+54
+00:02:13.190 --> 00:02:15.140
+your vocabulary to complete
+
+55
+00:02:15.140 --> 00:02:17.840
+the table of conditional
+probabilities.
+
+56
+00:02:17.840 --> 00:02:21.560
+One key property of this
+table is that if you sum
+
+57
+00:02:21.560 --> 00:02:23.420
+over all the probabilities for
+
+58
+00:02:23.420 --> 00:02:25.865
+each class, you'll get one.
+
+59
+00:02:25.865 --> 00:02:28.040
+Let's investigate this table
+
+60
+00:02:28.040 --> 00:02:30.790
+further to see what
+these numbers mean.
+
+61
+00:02:30.790 --> 00:02:33.950
+First, note how many words
+
+62
+00:02:33.950 --> 00:02:37.465
+have a nearly identical
+conditional probability.
+
+63
+00:02:37.465 --> 00:02:42.675
+Like I, am, learning, and NLP.
+
+64
+00:02:42.675 --> 00:02:45.935
+The interesting thing
+here is words that are
+
+65
+00:02:45.935 --> 00:02:50.045
+equally probable don't add
+anything to the sentiment.
+
+66
+00:02:50.045 --> 00:02:52.685
+In contrast to these
+neutral words,
+
+67
+00:02:52.685 --> 00:02:54.845
+look at some of these
+other words like
+
+68
+00:02:54.845 --> 00:02:57.485
+happy, sad, and not.
+
+69
+00:02:57.485 --> 00:03:00.635
+They have a significant
+difference between probabilities.
+
+70
+00:03:00.635 --> 00:03:03.200
+These are your
+power words tending
+
+71
+00:03:03.200 --> 00:03:05.780
+to express one
+sentiment or the other.
+
+72
+00:03:05.780 --> 00:03:07.790
+These words carry a lot of weight
+
+73
+00:03:07.790 --> 00:03:10.009
+in determining your
+tweet sentiments.
+
+74
+00:03:10.009 --> 00:03:12.425
+Now let's take a look at because.
+
+75
+00:03:12.425 --> 00:03:16.220
+As you can see, it only appears
+in the positive corpus.
+
+76
+00:03:16.220 --> 00:03:18.019
+So its conditional probability
+
+77
+00:03:18.019 --> 00:03:20.165
+for the negative class is zero.
+
+78
+00:03:20.165 --> 00:03:22.400
+When this happens, you have
+
+79
+00:03:22.400 --> 00:03:25.100
+no way of comparing
+between the two corpora,
+
+80
+00:03:25.100 --> 00:03:28.160
+which will become a problem
+for your calculations.
+
+81
+00:03:28.160 --> 00:03:32.195
+To avoid this, you will smooth
+your probability function.
+
+82
+00:03:32.195 --> 00:03:34.730
+Say you get a new
+tweet from one of
+
+83
+00:03:34.730 --> 00:03:38.225
+your friends and the tweet
+says, "I'm happy today,
+
+84
+00:03:38.225 --> 00:03:41.420
+I'm learning," and you
+want to use the table of
+
+85
+00:03:41.420 --> 00:03:42.830
+probabilities to
+
+86
+00:03:42.830 --> 00:03:45.425
+predict the sentiments
+of the whole tweet.
+
+87
+00:03:45.425 --> 00:03:47.390
+This expression is called
+
+88
+00:03:47.390 --> 00:03:49.820
+the Naive Bayes
+inference condition rule
+
+89
+00:03:49.820 --> 00:03:51.700
+for binary classification.
+
+90
+00:03:51.700 --> 00:03:54.290
+This expression says that
+you're going to take
+
+91
+00:03:54.290 --> 00:03:57.050
+the product across
+all of the words in
+
+92
+00:03:57.050 --> 00:04:00.260
+your tweets of the
+probability for each word in
+
+93
+00:04:00.260 --> 00:04:02.420
+the positive class divided
+
+94
+00:04:02.420 --> 00:04:05.030
+by the probability in
+the negative class.
+
+95
+00:04:05.030 --> 00:04:07.745
+Let's calculate this
+product for this tweet.
+
+96
+00:04:07.745 --> 00:04:11.840
+For each word, select its
+probabilities from the table.
+
+97
+00:04:11.840 --> 00:04:16.190
+So for I, you get a
+positive probability
+
+98
+00:04:16.190 --> 00:04:20.540
+of 0.2 and a negative
+probability of 0.2.
+
+99
+00:04:20.540 --> 00:04:22.250
+So the ratio that goes into
+
+100
+00:04:22.250 --> 00:04:26.000
+the products is
+just 0.2 over 0.2.
+
+101
+00:04:26.000 --> 00:04:30.170
+For am, you also
+get 0.2 over 0.2.
+
+102
+00:04:30.170 --> 00:04:35.175
+For happy, you get
+0.14 over 0.10.
+
+103
+00:04:35.175 --> 00:04:38.515
+For today, you don't
+find any word in table,
+
+104
+00:04:38.515 --> 00:04:40.810
+meaning this word is
+not in your vocabulary,
+
+105
+00:04:40.810 --> 00:04:43.480
+so you won't include
+any term in this score.
+
+106
+00:04:43.480 --> 00:04:45.765
+For the second occurrence of I,
+
+107
+00:04:45.765 --> 00:04:48.900
+again, you'll have 0.2 over 0.2.
+
+108
+00:04:48.900 --> 00:04:51.180
+For the second occurrence of am,
+
+109
+00:04:51.180 --> 00:04:54.025
+you'll have 0.2 over 0.2,
+
+110
+00:04:54.025 --> 00:04:58.555
+and learning gets 0.10 over 0.10.
+
+111
+00:04:58.555 --> 00:05:01.885
+Now note that all the neutral
+words in the tweet like
+
+112
+00:05:01.885 --> 00:05:05.890
+I and am just cancel
+out in the expression.
+
+113
+00:05:05.890 --> 00:05:07.570
+What you end up is with
+
+114
+00:05:07.570 --> 00:05:12.570
+0.14 over 0.10 which
+is equal to 1.4.
+
+115
+00:05:12.570 --> 00:05:14.750
+This value is higher than one,
+
+116
+00:05:14.750 --> 00:05:17.045
+which means that overall,
+
+117
+00:05:17.045 --> 00:05:19.160
+the words in the
+tweets are more likely
+
+118
+00:05:19.160 --> 00:05:21.529
+to correspond to a
+positive sentiment,
+
+119
+00:05:21.529 --> 00:05:24.365
+so you conclude that
+the tweet is positive.
+
+120
+00:05:24.365 --> 00:05:27.170
+So far, you've created a table to
+
+121
+00:05:27.170 --> 00:05:29.870
+store the conditional
+probabilities of words in
+
+122
+00:05:29.870 --> 00:05:32.270
+your vocabulary and applied
+
+123
+00:05:32.270 --> 00:05:34.760
+the Naive Bayes
+inference condition rule
+
+124
+00:05:34.760 --> 00:05:37.280
+for binary classification
+of a tweet.
+
+125
+00:05:37.280 --> 00:05:40.070
+Great. Next, you'll look into
+
+126
+00:05:40.070 --> 00:05:43.760
+some issues with this
+implementation and how to fix them.
+
+127
+00:05:43.760 --> 00:05:46.295
+Now, you have seen
+how Naive Bayes
+
+128
+00:05:46.295 --> 00:05:48.740
+can be used to classify
+the sentiment of a tweet.
+
+129
+00:05:48.740 --> 00:05:50.570
+In the next video,
+we will simplify
+
+130
+00:05:50.570 --> 00:05:53.670
+the calculations before
+we implement it.

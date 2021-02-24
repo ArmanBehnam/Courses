@@ -1,0 +1,627 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.405
+In this video, I will introduce
+you to log likelihoods.
+
+2
+00:00:03.405 --> 00:00:04.890
+These are just logarithms of
+
+3
+00:00:04.890 --> 00:00:07.590
+the probabilities we're
+calculating from the last video.
+
+4
+00:00:07.590 --> 00:00:09.570
+But they are way more
+convenient to work with
+
+5
+00:00:09.570 --> 00:00:12.825
+and they appear throughout
+deep-learning and NLP.
+
+6
+00:00:12.825 --> 00:00:16.290
+Okay, so let's go back
+to the table you saw
+
+7
+00:00:16.290 --> 00:00:18.030
+previously that contains
+
+8
+00:00:18.030 --> 00:00:20.640
+the conditional
+probabilities of each word,
+
+9
+00:00:20.640 --> 00:00:23.325
+for positive or
+negative sentiment.
+
+10
+00:00:23.325 --> 00:00:26.355
+Words can have many shades
+of emotional meaning.
+
+11
+00:00:26.355 --> 00:00:29.175
+But for the purpose of
+sentiment classification,
+
+12
+00:00:29.175 --> 00:00:31.875
+they're simplified
+into three categories:
+
+13
+00:00:31.875 --> 00:00:35.295
+neutral, positive, and negative.
+
+14
+00:00:35.295 --> 00:00:37.140
+All can be identified by
+
+15
+00:00:37.140 --> 00:00:39.615
+using their conditional
+probabilities.
+
+16
+00:00:39.615 --> 00:00:43.940
+These categories can be
+numerically estimated just by
+
+17
+00:00:43.940 --> 00:00:46.100
+dividing the
+corresponding conditional
+
+18
+00:00:46.100 --> 00:00:48.575
+probabilities of this table.
+
+19
+00:00:48.575 --> 00:00:51.080
+Now, let's see how this ratio
+
+20
+00:00:51.080 --> 00:00:53.915
+looks for the words
+in your vocabulary.
+
+21
+00:00:53.915 --> 00:00:57.410
+So the ratio for the word i is
+
+22
+00:00:57.410 --> 00:01:01.370
+0.2 divided by 0.2, or one.
+
+23
+00:01:01.370 --> 00:01:04.685
+The ratio for the
+word m is again one.
+
+24
+00:01:04.685 --> 00:01:07.310
+The ratio for the word happy is
+
+25
+00:01:07.310 --> 00:01:11.660
+0.14 divided by 0.1 or 1.4.
+
+26
+00:01:11.660 --> 00:01:14.150
+Do the same for
+because, learning,
+
+27
+00:01:14.150 --> 00:01:17.040
+and NLP, the ratio is one.
+
+28
+00:01:17.040 --> 00:01:18.810
+For sad and not,
+
+29
+00:01:18.810 --> 00:01:24.585
+their ratio is 0.1
+divided by 0.15 or 0.6.
+
+30
+00:01:24.585 --> 00:01:28.400
+Again, neutral words have
+already shown you one.
+
+31
+00:01:28.400 --> 00:01:31.715
+Positive words have a
+ratio larger than one.
+
+32
+00:01:31.715 --> 00:01:33.470
+The larger the ratio,
+
+33
+00:01:33.470 --> 00:01:35.905
+the more positive the
+word's going to be.
+
+34
+00:01:35.905 --> 00:01:38.480
+On the other hand, negative words
+
+35
+00:01:38.480 --> 00:01:40.600
+have a ratio smaller than one.
+
+36
+00:01:40.600 --> 00:01:42.260
+The smaller the value,
+
+37
+00:01:42.260 --> 00:01:44.065
+the more negative the word.
+
+38
+00:01:44.065 --> 00:01:45.590
+In this week's assignment,
+
+39
+00:01:45.590 --> 00:01:48.290
+you'll implement a function
+that filters words
+
+40
+00:01:48.290 --> 00:01:51.685
+depending on their
+positivity or negativity.
+
+41
+00:01:51.685 --> 00:01:53.450
+You will find the
+expression shown
+
+42
+00:01:53.450 --> 00:01:55.550
+here to be very
+helpful with that.
+
+43
+00:01:55.550 --> 00:01:57.650
+These ratios are essential in
+
+44
+00:01:57.650 --> 00:02:00.140
+Naive Bayes' for
+binary classification.
+
+45
+00:02:00.140 --> 00:02:03.505
+I'll illustrate why using an
+example you've seen before.
+
+46
+00:02:03.505 --> 00:02:05.685
+Recall earlier where you used
+
+47
+00:02:05.685 --> 00:02:08.944
+the formula to categorize
+a tweet as positive
+
+48
+00:02:08.944 --> 00:02:11.630
+if the products of the
+corresponding ratios of
+
+49
+00:02:11.630 --> 00:02:14.945
+every word appears in the
+tweet is bigger than one.
+
+50
+00:02:14.945 --> 00:02:18.110
+We said it was negative
+if it was less than one.
+
+51
+00:02:18.110 --> 00:02:20.900
+This is called the likelihood.
+
+52
+00:02:20.900 --> 00:02:22.880
+If you're to take a ratio
+
+53
+00:02:22.880 --> 00:02:25.220
+between the positive
+and negative tweets,
+
+54
+00:02:25.220 --> 00:02:28.160
+you'd have what's
+called the prior ratio.
+
+55
+00:02:28.160 --> 00:02:29.660
+I haven't mentioned it till
+
+56
+00:02:29.660 --> 00:02:31.879
+now because in this
+small example,
+
+57
+00:02:31.879 --> 00:02:33.635
+you had exactly the same number
+
+58
+00:02:33.635 --> 00:02:35.660
+of positive and negative tweets,
+
+59
+00:02:35.660 --> 00:02:37.475
+making the ratio one.
+
+60
+00:02:37.475 --> 00:02:39.260
+In this week's assignments,
+
+61
+00:02:39.260 --> 00:02:41.120
+you'll have a balanced datasets,
+
+62
+00:02:41.120 --> 00:02:43.615
+so you'll be working
+with a ratio of one.
+
+63
+00:02:43.615 --> 00:02:45.145
+In the future though,
+
+64
+00:02:45.145 --> 00:02:47.195
+when you're building
+your own application,
+
+65
+00:02:47.195 --> 00:02:48.710
+remember that this term becomes
+
+66
+00:02:48.710 --> 00:02:51.250
+important for
+unbalanced datasets.
+
+67
+00:02:51.250 --> 00:02:53.670
+With the addition
+of the prior ratio,
+
+68
+00:02:53.670 --> 00:02:56.090
+you now have the full
+Naive Bayes' formula
+
+69
+00:02:56.090 --> 00:02:57.845
+for binary classification,
+
+70
+00:02:57.845 --> 00:03:00.680
+a simple, fast, and
+powerful method that you
+
+71
+00:03:00.680 --> 00:03:03.475
+can use to establish
+a baseline quickly.
+
+72
+00:03:03.475 --> 00:03:04.910
+Now it's a good time to mention
+
+73
+00:03:04.910 --> 00:03:06.680
+some other important
+considerations
+
+74
+00:03:06.680 --> 00:03:08.830
+for your implementation
+of Naive Bayes'.
+
+75
+00:03:08.830 --> 00:03:12.020
+Sentiments probability
+calculation requires
+
+76
+00:03:12.020 --> 00:03:13.850
+multiplication of many numbers
+
+77
+00:03:13.850 --> 00:03:15.845
+with values between zero and one.
+
+78
+00:03:15.845 --> 00:03:18.080
+Carrying out such multiplications
+
+79
+00:03:18.080 --> 00:03:20.180
+on their computer
+runs the risk of
+
+80
+00:03:20.180 --> 00:03:22.865
+numerical underflow when
+the number returned
+
+81
+00:03:22.865 --> 00:03:25.820
+is so small it can't be
+stored on your device.
+
+82
+00:03:25.820 --> 00:03:29.270
+Luckily, there's a mathematical
+trick to solve this.
+
+83
+00:03:29.270 --> 00:03:32.375
+It involves using a
+property of logarithms.
+
+84
+00:03:32.375 --> 00:03:33.860
+Recall that the formula you're
+
+85
+00:03:33.860 --> 00:03:35.720
+using to calculate a score for
+
+86
+00:03:35.720 --> 00:03:39.715
+Naive Bayes' is the prior
+multiplied by the likelihood.
+
+87
+00:03:39.715 --> 00:03:41.990
+The trick is to use a log of
+
+88
+00:03:41.990 --> 00:03:44.615
+the score instead
+of the raw score.
+
+89
+00:03:44.615 --> 00:03:47.990
+This allows you to write
+the previous expression as
+
+90
+00:03:47.990 --> 00:03:51.965
+the sum of the log prior
+and the log likelihood,
+
+91
+00:03:51.965 --> 00:03:54.380
+which is a sum of
+the logarithms of
+
+92
+00:03:54.380 --> 00:03:56.495
+the conditional probability ratio
+
+93
+00:03:56.495 --> 00:03:59.120
+of all unique words
+in your corpus.
+
+94
+00:03:59.120 --> 00:04:01.955
+Let's use this method
+to classify the tweets.
+
+95
+00:04:01.955 --> 00:04:04.300
+I'm happy because I'm learning.
+
+96
+00:04:04.300 --> 00:04:07.355
+Remember how you use the Naive
+Bayes' inference condition
+
+97
+00:04:07.355 --> 00:04:10.460
+earlier to get the sentiment
+score for your tweets.
+
+98
+00:04:10.460 --> 00:04:12.530
+Now you're going to do something
+
+99
+00:04:12.530 --> 00:04:15.205
+very similar to get
+the log of your score.
+
+100
+00:04:15.205 --> 00:04:17.330
+What you'll need to
+calculate the log of
+
+101
+00:04:17.330 --> 00:04:19.480
+the score is called the Lambda.
+
+102
+00:04:19.480 --> 00:04:21.440
+This is the log of the ratio of
+
+103
+00:04:21.440 --> 00:04:23.450
+the probability that your word is
+
+104
+00:04:23.450 --> 00:04:25.640
+positive and you divide that
+
+105
+00:04:25.640 --> 00:04:28.130
+by the probability that
+the word is negative.
+
+106
+00:04:28.130 --> 00:04:30.005
+Now let's calculate Lambda for
+
+107
+00:04:30.005 --> 00:04:32.150
+every word in our vocabulary.
+
+108
+00:04:32.150 --> 00:04:35.525
+So for the word I,
+you get the logarithm
+
+109
+00:04:35.525 --> 00:04:39.820
+of 0.05 divided by 0.05.
+
+110
+00:04:39.820 --> 00:04:41.850
+Or the logarithm of one,
+
+111
+00:04:41.850 --> 00:04:43.425
+which is equal to zero.
+
+112
+00:04:43.425 --> 00:04:45.720
+Remember, the tweet
+will be labeled
+
+113
+00:04:45.720 --> 00:04:48.750
+positive if the product
+is larger than one.
+
+114
+00:04:48.750 --> 00:04:53.885
+By this logic, I would be
+classified as neutral at zero.
+
+115
+00:04:53.885 --> 00:04:59.570
+For am, you take the
+log of 0.04 over 0.04,
+
+116
+00:04:59.570 --> 00:05:02.090
+which again is equal to zero.
+
+117
+00:05:02.090 --> 00:05:04.835
+So you enter zero in the table.
+
+118
+00:05:04.835 --> 00:05:08.990
+For happy, you get
+a Lambda of 2.2,
+
+119
+00:05:08.990 --> 00:05:10.970
+which is greater than zero,
+
+120
+00:05:10.970 --> 00:05:13.405
+indicating a positive sentiment.
+
+121
+00:05:13.405 --> 00:05:15.080
+From here on out,
+
+122
+00:05:15.080 --> 00:05:16.970
+you can calculate
+the log score of
+
+123
+00:05:16.970 --> 00:05:20.590
+the entire corpus just by
+summing out the Lambdas.
+
+124
+00:05:20.590 --> 00:05:23.010
+You're almost done with
+the log likelihood.
+
+125
+00:05:23.010 --> 00:05:24.350
+Let's stop here and take
+
+126
+00:05:24.350 --> 00:05:26.825
+a quick look back at
+what you did so far.
+
+127
+00:05:26.825 --> 00:05:28.520
+Words are often emotionally
+
+128
+00:05:28.520 --> 00:05:31.340
+ambiguous but you can
+simplify them into
+
+129
+00:05:31.340 --> 00:05:34.415
+three categories and
+then measure exactly
+
+130
+00:05:34.415 --> 00:05:36.470
+where they fall within
+those categories
+
+131
+00:05:36.470 --> 00:05:38.165
+for binary classification.
+
+132
+00:05:38.165 --> 00:05:39.860
+You do so by dividing
+
+133
+00:05:39.860 --> 00:05:41.390
+the conditional probabilities of
+
+134
+00:05:41.390 --> 00:05:43.975
+the words in each category.
+
+135
+00:05:43.975 --> 00:05:46.730
+This ratio can be expressed as
+
+136
+00:05:46.730 --> 00:05:49.400
+a logarithm as well,
+called Lambda.
+
+137
+00:05:49.400 --> 00:05:51.800
+You can use that to reduce
+
+138
+00:05:51.800 --> 00:05:54.690
+the risk of numerical underflow.
