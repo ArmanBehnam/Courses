@@ -1,0 +1,279 @@
+WEBVTT
+
+1
+00:00:00.310 --> 00:00:01.600
+Welcome back.
+
+2
+00:00:01.600 --> 00:00:05.360
+You will now learn about eigenvalues and
+eigenvectors, and
+
+3
+00:00:05.360 --> 00:00:09.870
+you will see how you can use them to
+reduce the dimension of your features.
+
+4
+00:00:09.870 --> 00:00:11.390
+Let's get started.
+
+5
+00:00:11.390 --> 00:00:16.050
+First, I'll show you how to get
+uncorrelated features for your data, and
+
+6
+00:00:16.050 --> 00:00:20.060
+then how to reduce the dimensions
+of your word representations
+
+7
+00:00:20.060 --> 00:00:25.050
+while trying to keep as much information
+as possible from your original embedding.
+
+8
+00:00:25.050 --> 00:00:28.230
+To perform dimensionality
+reduction using PCA,
+
+9
+00:00:28.230 --> 00:00:30.760
+begin with your original vector space.
+
+10
+00:00:30.760 --> 00:00:34.580
+Then you get uncorrelated features for
+your data.
+
+11
+00:00:34.580 --> 00:00:37.100
+And finally, you project your data
+
+12
+00:00:37.100 --> 00:00:41.280
+to a number of desired features
+that retain the most information.
+
+13
+00:00:41.280 --> 00:00:47.220
+You may recall from algebra that matrices
+have eigenvectors and eigenvalues.
+
+14
+00:00:47.220 --> 00:00:50.270
+You do not need to remember
+how to get those right now.
+
+15
+00:00:50.270 --> 00:00:54.530
+But you should keep in mind that in PCA,
+they are useful,
+
+16
+00:00:54.530 --> 00:00:58.720
+because the eigenvectors of
+the covariance matrix from your data,
+
+17
+00:00:58.720 --> 00:01:01.600
+they give directions of
+uncorrelated features.
+
+18
+00:01:01.600 --> 00:01:05.640
+And the eigenvalues are the variance
+of your data sets in each
+
+19
+00:01:05.640 --> 00:01:07.370
+of those new features.
+
+20
+00:01:07.370 --> 00:01:11.040
+So to perform PCA,
+you will need to get the eigenvectors and
+
+21
+00:01:11.040 --> 00:01:14.960
+eigenvalues from the covariance
+matrix of your data.
+
+22
+00:01:14.960 --> 00:01:19.490
+The first step is to get a set
+of uncorrelated features.
+
+23
+00:01:19.490 --> 00:01:22.930
+For this step,
+you will mean normalize your data,
+
+24
+00:01:22.930 --> 00:01:26.340
+then get the covariance matrix,
+and finally,
+
+25
+00:01:26.340 --> 00:01:30.847
+perform a singular value decomposition
+to get a set of three matrices.
+
+26
+00:01:32.030 --> 00:01:36.810
+The first of those matrices contain
+the eigenvector stacked column wise.
+
+27
+00:01:36.810 --> 00:01:40.610
+And the second one has
+the eigenvalues on the diagonal.
+
+28
+00:01:40.610 --> 00:01:44.140
+The singular vector decomposition
+is already implemented
+
+29
+00:01:44.140 --> 00:01:46.260
+in many programming libraries.
+
+30
+00:01:46.260 --> 00:01:49.300
+So you don't have to
+worry about how it works.
+
+31
+00:01:49.300 --> 00:01:53.600
+The next step is to project your
+data to a new set of features.
+
+32
+00:01:53.600 --> 00:01:57.650
+You will be using the eigenvectors and
+eigenvalues in this step.
+
+33
+00:01:57.650 --> 00:02:02.910
+Let's denote the eigenvectors with U,
+and the eigenvalues with S.
+
+34
+00:02:02.910 --> 00:02:06.940
+First, you will perform the dot products
+between the matrix containing your
+
+35
+00:02:06.940 --> 00:02:11.680
+word embeddings and the first and
+columns of the U Matrix,
+
+36
+00:02:11.680 --> 00:02:16.670
+where n equals the number of dimensions
+that you want to have at the end.
+
+37
+00:02:16.670 --> 00:02:21.000
+For visualization, it's common
+practice to have two dimensions.
+
+38
+00:02:21.000 --> 00:02:26.230
+Then you will get the percentage of
+variance retained in the new vector space.
+
+39
+00:02:26.230 --> 00:02:29.050
+As an important side note,
+your eigenvectors and
+
+40
+00:02:29.050 --> 00:02:34.400
+eigenvalues should be organized according
+to the eigenvalues in descending order.
+
+41
+00:02:34.400 --> 00:02:39.030
+This condition will ensure that you
+retain as much information as possible
+
+42
+00:02:39.030 --> 00:02:41.120
+from your original embedding.
+
+43
+00:02:41.120 --> 00:02:44.588
+However, most libraries order
+those matrices for you.
+
+44
+00:02:44.588 --> 00:02:49.470
+Wrapping up,
+eigenvectors from the covariance matrix
+
+45
+00:02:49.470 --> 00:02:53.792
+of your normalized data give
+the directions of uncorrelated features.
+
+46
+00:02:53.792 --> 00:02:58.120
+The eigenvalues associated
+with those eigenvectors
+
+47
+00:02:58.120 --> 00:03:00.812
+tell you the variance of
+your data on those features.
+
+48
+00:03:00.812 --> 00:03:05.510
+The dot products between your word
+embeddings and the matrix of eigenvectors
+
+49
+00:03:05.510 --> 00:03:11.290
+will project your data onto a new vector
+space of the dimension that you choose.
+
+50
+00:03:11.290 --> 00:03:14.770
+You are now ready to implement
+PCA in this week's assignment
+
+51
+00:03:14.770 --> 00:03:17.240
+to visualize word representations.
+
+52
+00:03:17.240 --> 00:03:18.500
+Good luck with that.
+
+53
+00:03:18.500 --> 00:03:19.610
+And remember to have fun.
+
+54
+00:03:20.790 --> 00:03:22.100
+Congratulations.
+
+55
+00:03:22.100 --> 00:03:25.660
+You now know all about PCA and
+you know all the steps required for
+
+56
+00:03:25.660 --> 00:03:27.290
+you to implement it.
+
+57
+00:03:27.290 --> 00:03:31.060
+Next week, you will learn about
+vector spaces, and Lucas will
+
+58
+00:03:31.060 --> 00:03:35.030
+show you how you can use them to build
+a simple machine translation system.

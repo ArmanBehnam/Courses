@@ -1,0 +1,490 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.590
+Good to see you again.
+
+2
+00:00:01.590 --> 00:00:04.290
+In this video, you will
+learn how you can construct
+
+3
+00:00:04.290 --> 00:00:07.440
+your vectors based off
+a co-occurrence matrix.
+
+4
+00:00:07.440 --> 00:00:08.460
+Specifically,
+
+5
+00:00:08.460 --> 00:00:10.665
+depending on the task
+you're trying to solve,
+
+6
+00:00:10.665 --> 00:00:12.990
+you can have several
+possible designs.
+
+7
+00:00:12.990 --> 00:00:14.790
+You will also see
+how you can encode
+
+8
+00:00:14.790 --> 00:00:17.760
+a word or a document as a vector.
+
+9
+00:00:17.760 --> 00:00:20.160
+Let me show you how
+you can do this.
+
+10
+00:00:20.160 --> 00:00:24.060
+To get a vector space model
+using a word by word design,
+
+11
+00:00:24.060 --> 00:00:26.790
+you'll make a co-occurrence
+matrix and extract
+
+12
+00:00:26.790 --> 00:00:30.045
+vector presentations for
+the words in your corpus.
+
+13
+00:00:30.045 --> 00:00:33.015
+You'll be able to get a
+vector space model using
+
+14
+00:00:33.015 --> 00:00:36.820
+a word by document design
+using a similar approach.
+
+15
+00:00:36.820 --> 00:00:40.370
+Finally, I'll show you
+how in a vector space you
+
+16
+00:00:40.370 --> 00:00:43.730
+can find relationships
+between words and vectors,
+
+17
+00:00:43.730 --> 00:00:46.340
+also known as their similarity.
+
+18
+00:00:46.340 --> 00:00:49.160
+The co-occurrence of
+two different words
+
+19
+00:00:49.160 --> 00:00:51.530
+is the number of times
+that they appear in
+
+20
+00:00:51.530 --> 00:00:53.870
+your corpus together
+within a certain word
+
+21
+00:00:53.870 --> 00:00:56.825
+distance k. For instance,
+
+22
+00:00:56.825 --> 00:01:00.545
+suppose that your corpus has
+the following two sentences.
+
+23
+00:01:00.545 --> 00:01:02.914
+The row of the
+co-occurrence matrix
+
+24
+00:01:02.914 --> 00:01:05.120
+corresponding to the word data
+
+25
+00:01:05.120 --> 00:01:07.550
+with a k value equal to two
+
+26
+00:01:07.550 --> 00:01:10.405
+would be populated with
+the following values.
+
+27
+00:01:10.405 --> 00:01:13.580
+For the column corresponding
+to the word simple,
+
+28
+00:01:13.580 --> 00:01:16.010
+you'd get a value equal to two.
+
+29
+00:01:16.010 --> 00:01:18.405
+Because data and simple
+
+30
+00:01:18.405 --> 00:01:20.150
+co-occur in the first sentence
+
+31
+00:01:20.150 --> 00:01:22.190
+within a distance of one word,
+
+32
+00:01:22.190 --> 00:01:23.890
+and in the second sentence
+
+33
+00:01:23.890 --> 00:01:26.075
+within a distance of two words.
+
+34
+00:01:26.075 --> 00:01:28.579
+The row of the
+co-occurrence matrix
+
+35
+00:01:28.579 --> 00:01:30.635
+corresponding to the word data
+
+36
+00:01:30.635 --> 00:01:32.480
+would look like this
+if you consider
+
+37
+00:01:32.480 --> 00:01:35.465
+the co-occurrence with
+the words simple,
+
+38
+00:01:35.465 --> 00:01:38.120
+raw, like, and I.
+
+39
+00:01:38.120 --> 00:01:41.030
+In this case, the vector
+representation of
+
+40
+00:01:41.030 --> 00:01:45.785
+the word data would be
+equal to 2, 1, 1, 0.
+
+41
+00:01:45.785 --> 00:01:48.005
+With a word by word design,
+
+42
+00:01:48.005 --> 00:01:51.230
+you can get a representation
+with n entries,
+
+43
+00:01:51.230 --> 00:01:53.060
+with n between one
+
+44
+00:01:53.060 --> 00:01:56.250
+and the size of your
+entire vocabulary.
+
+45
+00:01:57.140 --> 00:01:59.930
+For a word by document design,
+
+46
+00:01:59.930 --> 00:02:01.595
+the process is quite similar.
+
+47
+00:02:01.595 --> 00:02:04.850
+In this case, you'll count
+the times that words from
+
+48
+00:02:04.850 --> 00:02:06.770
+your vocabulary appear in
+
+49
+00:02:06.770 --> 00:02:09.740
+documents that belong
+to specific categories.
+
+50
+00:02:09.740 --> 00:02:13.160
+For instance, you could
+have a corpus consisting of
+
+51
+00:02:13.160 --> 00:02:17.135
+documents between different
+topics like entertainment,
+
+52
+00:02:17.135 --> 00:02:19.675
+economy, and machine learning.
+
+53
+00:02:19.675 --> 00:02:21.530
+Here, you'd have to
+
+54
+00:02:21.530 --> 00:02:23.465
+count the number of
+times that your words
+
+55
+00:02:23.465 --> 00:02:25.310
+appear on the document that
+
+56
+00:02:25.310 --> 00:02:27.515
+belong to each of the
+three categories.
+
+57
+00:02:27.515 --> 00:02:31.520
+In this example, suppose
+that the word data appears
+
+58
+00:02:31.520 --> 00:02:33.530
+500 times in documents
+
+59
+00:02:33.530 --> 00:02:36.140
+from your corpus related
+to entertainment,
+
+60
+00:02:36.140 --> 00:02:40.415
+6,620 times in economy documents,
+
+61
+00:02:40.415 --> 00:02:45.875
+and 9,320 in documents
+related to machine learning.
+
+62
+00:02:45.875 --> 00:02:50.375
+The word film appears in each
+document's category 7,000,
+
+63
+00:02:50.375 --> 00:02:53.465
+4,000, and 1,000
+times respectively.
+
+64
+00:02:53.465 --> 00:02:57.065
+Can you get a sense of where
+this is going already?
+
+65
+00:02:57.065 --> 00:02:59.990
+Once you've constructed
+the representations
+
+66
+00:02:59.990 --> 00:03:02.525
+for multiple sets of
+documents or words,
+
+67
+00:03:02.525 --> 00:03:04.580
+you'll get your vector space.
+
+68
+00:03:04.580 --> 00:03:07.270
+Let's take the matrix
+from the last example.
+
+69
+00:03:07.270 --> 00:03:10.040
+Here, you could take
+a representation for
+
+70
+00:03:10.040 --> 00:03:13.475
+the words data and film
+from the rows of the table.
+
+71
+00:03:13.475 --> 00:03:16.100
+However, I'll take the
+representation for
+
+72
+00:03:16.100 --> 00:03:19.465
+every category of documents
+by looking at the columns.
+
+73
+00:03:19.465 --> 00:03:22.550
+So the vector space will
+have two dimensions.
+
+74
+00:03:22.550 --> 00:03:23.810
+The number of times that
+
+75
+00:03:23.810 --> 00:03:27.755
+the words data and film appear
+on the type of document.
+
+76
+00:03:27.755 --> 00:03:29.645
+For the entertainment corpus,
+
+77
+00:03:29.645 --> 00:03:32.290
+you'd have the following
+vector representation.
+
+78
+00:03:32.290 --> 00:03:34.890
+This one for the
+economy category,
+
+79
+00:03:34.890 --> 00:03:37.505
+and that for the machine
+learning category.
+
+80
+00:03:37.505 --> 00:03:39.720
+Note that in this space,
+
+81
+00:03:39.720 --> 00:03:40.940
+it is easy to see that
+
+82
+00:03:40.940 --> 00:03:43.820
+the economy and machine
+learning documents are much
+
+83
+00:03:43.820 --> 00:03:47.240
+more similar than they are to
+the entertainment category.
+
+84
+00:03:47.240 --> 00:03:49.040
+Coming up soon, you'll make
+
+85
+00:03:49.040 --> 00:03:51.530
+comparisons between vector
+representations using
+
+86
+00:03:51.530 --> 00:03:53.240
+the cosine similarity and
+
+87
+00:03:53.240 --> 00:03:55.370
+the Euclidean
+distance in order to
+
+88
+00:03:55.370 --> 00:03:58.135
+get the angle and
+distance between them.
+
+89
+00:03:58.135 --> 00:03:59.930
+So far, you've seen how to get
+
+90
+00:03:59.930 --> 00:04:02.265
+vector spaces by two
+different designs,
+
+91
+00:04:02.265 --> 00:04:05.184
+word by word and
+word by document,
+
+92
+00:04:05.184 --> 00:04:07.745
+by either counting the
+co-occurrence of words
+
+93
+00:04:07.745 --> 00:04:10.820
+or the co-occurrence of words
+in the document's corpora.
+
+94
+00:04:10.820 --> 00:04:13.970
+I also showed you that
+in vector spaces,
+
+95
+00:04:13.970 --> 00:04:15.860
+you can determine
+relationships between
+
+96
+00:04:15.860 --> 00:04:18.625
+types of documents
+like similarity.
+
+97
+00:04:18.625 --> 00:04:20.420
+Now you're becoming more and more
+
+98
+00:04:20.420 --> 00:04:22.415
+familiar with these
+vector spaces.
+
+99
+00:04:22.415 --> 00:04:24.740
+You've seen several possible
+designs that you can
+
+100
+00:04:24.740 --> 00:04:27.305
+use to solve a specific task.
+
+101
+00:04:27.305 --> 00:04:29.180
+You've also seen
+how you can encode
+
+102
+00:04:29.180 --> 00:04:32.120
+words or tweets as vectors.
+
+103
+00:04:32.120 --> 00:04:34.940
+In the next video, you will
+learn about a new similarity
+
+104
+00:04:34.940 --> 00:04:38.120
+metric that will allow you to
+compare these two vectors.
+
+105
+00:04:38.120 --> 00:04:42.660
+The similarity metric is known
+as the Euclidean distance.
