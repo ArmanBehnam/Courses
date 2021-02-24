@@ -1,0 +1,540 @@
+WEBVTT
+
+1
+00:00:00.370 --> 00:00:03.958
+Welcome back, last week,
+you learned about word vectors and
+
+2
+00:00:03.958 --> 00:00:07.500
+you saw that they can capture
+important properties of words.
+
+3
+00:00:07.500 --> 00:00:10.560
+This week, you will make use of word
+vectors to learn to align words in two
+
+4
+00:00:10.560 --> 00:00:15.170
+different languages, which will give you
+your first basic translation program.
+
+5
+00:00:15.170 --> 00:00:18.290
+Later, I will teach you locality
+sensitive hashing to speed it up.
+
+6
+00:00:19.340 --> 00:00:23.790
+>> Let's first get an overview of machine
+translation by starting with an example of
+
+7
+00:00:23.790 --> 00:00:25.910
+English to French translation.
+
+8
+00:00:25.910 --> 00:00:30.235
+In order to translate an English word
+to a French word, one way would be to
+
+9
+00:00:30.235 --> 00:00:34.100
+generate an extensive list of English
+words and their associated French word.
+
+10
+00:00:35.110 --> 00:00:36.831
+If you ask the human to do this,
+
+11
+00:00:36.831 --> 00:00:40.820
+you would find someone who knows both
+languages to start making a list.
+
+12
+00:00:40.820 --> 00:00:45.693
+If you want a machine to learn how to do
+this, you would calculate word embeddings
+
+13
+00:00:45.693 --> 00:00:50.010
+associated with English and
+word embeddings associated with French.
+
+14
+00:00:50.010 --> 00:00:55.889
+Next, retrieve the English word embedding
+of a particular English word such as cats,
+
+15
+00:00:55.889 --> 00:01:00.478
+then find some way to transform
+the English word embedding into word
+
+16
+00:01:00.478 --> 00:01:04.690
+embedding that has a meaning in
+the French word vector space.
+
+17
+00:01:05.860 --> 00:01:09.890
+We will see how to convert from
+the English word vector space
+
+18
+00:01:09.890 --> 00:01:12.020
+to the French word vector
+space in a moment.
+
+19
+00:01:13.250 --> 00:01:16.150
+Next, you'll take
+the transformed word vector and
+
+20
+00:01:16.150 --> 00:01:20.810
+search for word vectors in the French word
+vector space that are most similar to it.
+
+21
+00:01:20.810 --> 00:01:24.980
+The most similar words are candidates
+words for your translation.
+
+22
+00:01:24.980 --> 00:01:28.330
+If your machine does a good job,
+it's may find the word chat,
+
+23
+00:01:28.330 --> 00:01:30.560
+which is the French word for cats.
+
+24
+00:01:30.560 --> 00:01:33.460
+You'll want to find the matrix that
+can do this transformation for you.
+
+25
+00:01:33.460 --> 00:01:37.690
+So let's talk about transforming
+vectors using matrices.
+
+26
+00:01:37.690 --> 00:01:41.149
+To try this out for yourself,
+you can write the following code,
+
+27
+00:01:41.149 --> 00:01:44.433
+which is also in the notebook
+associated with this lecture.
+
+28
+00:01:44.433 --> 00:01:49.745
+Define the matrix R, then define the
+vector x, multiply x by R using np.dot,
+
+29
+00:01:49.745 --> 00:01:56.220
+and the result is another two dimensional
+vector, which is what you saw earlier.
+
+30
+00:01:56.220 --> 00:01:58.190
+Please try this out for yourself.
+
+31
+00:01:58.190 --> 00:02:01.322
+Now that we know that there can
+be a matrix that transforms
+
+32
+00:02:01.322 --> 00:02:04.716
+our English word vectors into
+relevant French word vectors,
+
+33
+00:02:04.716 --> 00:02:08.711
+how do we define this transformation
+matrix, which we'll denote as R?
+
+34
+00:02:08.711 --> 00:02:12.399
+We can start with a randomly
+selected matrix R and then see how
+
+35
+00:02:12.399 --> 00:02:16.739
+it performs when you try to translate
+the English vectors in matrix x and
+
+36
+00:02:16.739 --> 00:02:21.251
+compare that to the actual French word
+vectors, which is in the matrix Y.
+
+37
+00:02:21.251 --> 00:02:26.190
+In order for this to work, you will first
+need to get a subset of English words and
+
+38
+00:02:26.190 --> 00:02:30.174
+different equivalence,
+get the respective word vectors, and
+
+39
+00:02:30.174 --> 00:02:34.480
+stack the word vectors in their
+respective matrices X and Y.
+
+40
+00:02:34.480 --> 00:02:38.960
+The key here is to keep the rows lined
+up or to align the word vectors.
+
+41
+00:02:38.960 --> 00:02:43.310
+This means that if the first row of matrix
+X contains the word cat, then the first
+
+42
+00:02:43.310 --> 00:02:48.720
+row of the matrix y should contain
+the French word for cats, which is chat.
+
+43
+00:02:48.720 --> 00:02:53.220
+Now you may be asking, wait a minute,
+if I already have the English words and
+
+44
+00:02:53.220 --> 00:02:57.640
+their French translations, why do I
+need to train the model to do this?
+
+45
+00:02:57.640 --> 00:03:00.680
+Why not just save this information
+in a key value mapping,
+
+46
+00:03:00.680 --> 00:03:02.400
+like a python dictionary?
+
+47
+00:03:02.400 --> 00:03:06.360
+Well, the nice thing is that
+you can just collect a subset
+
+48
+00:03:06.360 --> 00:03:09.360
+of these words to find your
+transformation matrix.
+
+49
+00:03:09.360 --> 00:03:13.330
+And if it works well, then the model can
+be used to translate words that are not
+
+50
+00:03:13.330 --> 00:03:15.620
+part of your original training set.
+
+51
+00:03:15.620 --> 00:03:20.360
+So you only need to train on a subset
+of the English French vocabulary and
+
+52
+00:03:20.360 --> 00:03:22.920
+not the entire vocabulary.
+
+53
+00:03:22.920 --> 00:03:24.872
+So let's see how to find a good matrix R.
+
+54
+00:03:24.872 --> 00:03:28.743
+First, we compare the translation X
+times R with the actual French word
+
+55
+00:03:28.743 --> 00:03:29.720
+embeddings in Y.
+
+56
+00:03:29.720 --> 00:03:36.120
+We do this by taking the X matrix times
+the R matrix and subtracting the Y matrix.
+
+57
+00:03:36.120 --> 00:03:39.121
+I'll explain in more detail
+what this expression means and
+
+58
+00:03:39.121 --> 00:03:41.289
+also what this capital F subscript means.
+
+59
+00:03:41.289 --> 00:03:45.481
+But for now, think of it as a measure
+of how far apart the attempt to
+
+60
+00:03:45.481 --> 00:03:48.623
+translation and
+the actual French vectors are.
+
+61
+00:03:48.623 --> 00:03:51.100
+If you start with a random matrix R,
+
+62
+00:03:51.100 --> 00:03:54.580
+you can gradually improve
+this matrix R in a loop.
+
+63
+00:03:54.580 --> 00:03:58.982
+First, compute the gradient by taking
+the derivative of this loss function with
+
+64
+00:03:58.982 --> 00:04:00.351
+respect to the matrix R.
+
+65
+00:04:00.351 --> 00:04:03.917
+Next, update the matrix R by
+subtracting the gradient,
+
+66
+00:04:03.917 --> 00:04:08.165
+but note that it's the gradient
+rated by the learning grade alpha.
+
+67
+00:04:08.165 --> 00:04:11.536
+You can either pick a fixed number
+of times to go through the loop or
+
+68
+00:04:11.536 --> 00:04:13.376
+check the loss at each iteration and
+
+69
+00:04:13.376 --> 00:04:17.680
+break out of the loop when the loss
+falls between a certain threshold.
+
+70
+00:04:17.680 --> 00:04:21.650
+Now, let's explain what this notation
+with the double vertical lines means.
+
+71
+00:04:21.650 --> 00:04:25.580
+This is measuring the magnitude or
+the norm of a matrix.
+
+72
+00:04:25.580 --> 00:04:30.090
+Let's see an example of calculating this
+norm and then see the general formula.
+
+73
+00:04:30.090 --> 00:04:34.815
+Let's say that the results
+of XR- Y is a matrix.
+
+74
+00:04:34.815 --> 00:04:38.830
+We'll pretend for this example that
+there's only two words in this dictionary,
+
+75
+00:04:38.830 --> 00:04:41.170
+which is the number of
+rows in the matrix and
+
+76
+00:04:41.170 --> 00:04:43.470
+the word embeddings have two dimensions.
+
+77
+00:04:43.470 --> 00:04:45.674
+So that's the number of
+columns in the matrix.
+
+78
+00:04:45.674 --> 00:04:51.344
+So matrices X, R, Y and
+A are all 2 by 2 matrices.
+
+79
+00:04:51.344 --> 00:04:55.856
+If the matrix A looks like this,
+then to calculate its norm,
+
+80
+00:04:55.856 --> 00:05:00.283
+we take 2 squared + 2 squared
++ 2 squared + 2 squared,
+
+81
+00:05:00.283 --> 00:05:03.480
+then take square roots, this gives us 4.
+
+82
+00:05:03.480 --> 00:05:07.701
+Here's the actual formula, you just
+take all the elements in the matrix,
+
+83
+00:05:07.701 --> 00:05:09.800
+square them, and add them up.
+
+84
+00:05:09.800 --> 00:05:14.753
+This norm has the subscript F because
+this is called the Frobenius norm.
+
+85
+00:05:14.753 --> 00:05:17.537
+Now, let's calculate
+the Frobenius norm in code.
+
+86
+00:05:17.537 --> 00:05:24.440
+You start with a matrix A,
+use np.square to square all the elements,
+
+87
+00:05:24.440 --> 00:05:28.780
+then use np.sum, then np.sqrt to get 4.
+
+88
+00:05:28.780 --> 00:05:29.962
+Try it out for yourself.
+
+89
+00:05:29.962 --> 00:05:34.800
+Know that in practice, it's easier to
+minimize the square of the Frobenius norm.
+
+90
+00:05:34.800 --> 00:05:39.090
+In other words, we can cancel out
+the square root by taking the square.
+
+91
+00:05:39.090 --> 00:05:42.820
+I'll explain in a moment why it's easier
+to work with the square of the norm.
+
+92
+00:05:42.820 --> 00:05:47.799
+If we go back to our example with matrix
+A, the square root of Frobenius norm
+
+93
+00:05:47.799 --> 00:05:51.770
+is just 2 squared + 2 squared
++ 2 squared + 2 squared.
+
+94
+00:05:51.770 --> 00:05:55.916
+Then we take the square root, but
+then cancel it out by squaring that sum.
+
+95
+00:05:55.916 --> 00:05:58.990
+So the square of the Frobenius norm is 16.
+
+96
+00:05:58.990 --> 00:06:03.270
+Now, let's also go into detail on how
+you can calculate the gradient of
+
+97
+00:06:03.270 --> 00:06:04.320
+the loss function.
+
+98
+00:06:04.320 --> 00:06:07.660
+The loss is defined as the square
+of the Frobenius norm.
+
+99
+00:06:07.660 --> 00:06:11.850
+The gradient is the derivative of
+the loss with respect to the matrix R.
+
+100
+00:06:11.850 --> 00:06:15.690
+If it looks like this,
+the scalar m is the number of rows or
+
+101
+00:06:15.690 --> 00:06:18.600
+words in the subset that we're using for
+training.
+
+102
+00:06:18.600 --> 00:06:22.840
+If you remember from calculus, this may
+look familiar to you if you pretend that R
+
+103
+00:06:22.840 --> 00:06:27.880
+is a single variable instead of
+a matrix and X and Y are constants.
+
+104
+00:06:27.880 --> 00:06:32.120
+If you don't recognize this, don't worry,
+you won't need to know calculus here.
+
+105
+00:06:32.120 --> 00:06:35.830
+You'll be able to look up these
+derivatives online if you ever need to.
+
+106
+00:06:35.830 --> 00:06:39.740
+Now going back to Y, it helps to use
+the square of the Frobenius norm.
+
+107
+00:06:39.740 --> 00:06:42.360
+It's easier to take
+the derivative of this expression
+
+108
+00:06:42.360 --> 00:06:46.030
+rather than dealing with the square
+root that's in the Frobenius norm.
+
+109
+00:06:46.030 --> 00:06:48.170
+You will implement this
+formula in the assignment.
+
+110
+00:06:49.770 --> 00:06:52.420
+>> You have seen how with
+just one rainbow matrix
+
+111
+00:06:52.420 --> 00:06:56.380
+you can learn to align word vectors
+from one language with another.
+
+112
+00:06:56.380 --> 00:06:58.670
+We will next go into K nearest neighbors.

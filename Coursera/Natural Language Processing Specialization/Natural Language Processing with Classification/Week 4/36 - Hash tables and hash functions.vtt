@@ -1,0 +1,253 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.313
+So let us say you have
+several data items and
+
+2
+00:00:02.313 --> 00:00:05.731
+you want to group them into buckets
+by some kind of similarity.
+
+3
+00:00:05.731 --> 00:00:08.815
+One bucket can hold more than one item and
+
+4
+00:00:08.815 --> 00:00:12.538
+each item is always assigned
+to the same bucket.
+
+5
+00:00:12.538 --> 00:00:16.684
+So the results would be these blue
+ovals and up in bucket number one,
+
+6
+00:00:16.684 --> 00:00:18.221
+these gray rectangles.
+
+7
+00:00:18.221 --> 00:00:20.302
+And up in bucket number two, and
+
+8
+00:00:20.302 --> 00:00:24.009
+these magenta triangles
+are assigned to buckets three.
+
+9
+00:00:24.009 --> 00:00:28.086
+Now let's think about how we'd
+like to do this with word vectors.
+
+10
+00:00:28.086 --> 00:00:32.832
+First, let's assume that the word
+vectors have just 1 dimension instead
+
+11
+00:00:32.832 --> 00:00:34.427
+the 300 dimensions.
+
+12
+00:00:34.427 --> 00:00:39.696
+So each word is represented
+by a single number
+
+13
+00:00:39.696 --> 00:00:45.111
+such as 100, 14 ,17, 10 and 97.
+
+14
+00:00:45.111 --> 00:00:49.596
+You need to find a way to give each vector
+a hash value which is a key that tells it
+
+15
+00:00:49.596 --> 00:00:51.539
+which bucket it's assigned to.
+
+16
+00:00:51.539 --> 00:00:54.698
+A function that assigns a hash
+value is called a hash function.
+
+17
+00:00:54.698 --> 00:00:59.183
+In this example, here is a hash
+table which is a set of buckets.
+
+18
+00:00:59.183 --> 00:01:01.927
+In this case,
+the hash table has ten buckets.
+
+19
+00:01:01.927 --> 00:01:06.583
+Notice how the word vectors 100 and
+10 are assigned to bucket 0.
+
+20
+00:01:06.583 --> 00:01:10.415
+The word vector 14 is
+assigned to buckets 4 and
+
+21
+00:01:10.415 --> 00:01:14.930
+the word vectors 17 and
+97 are assigned to bucket 7.
+
+22
+00:01:14.930 --> 00:01:16.040
+Do you notice a pattern?
+
+23
+00:01:17.300 --> 00:01:20.300
+This formula here is the hash
+function that's being used to
+
+24
+00:01:20.300 --> 00:01:23.440
+assign the word vectors to
+their respective buckets.
+
+25
+00:01:23.440 --> 00:01:27.070
+The modulo operator takes
+the remainder after dividing by ten.
+
+26
+00:01:27.070 --> 00:01:31.781
+The remainder is the hash value that tells
+us where the word vector should be stored.
+
+27
+00:01:31.781 --> 00:01:38.832
+For example, 14 divided by 10 has
+a remainder of 4, so it goes to buckets 4.
+
+28
+00:01:38.832 --> 00:01:41.356
+Now let's build a basic
+hash table in code.
+
+29
+00:01:41.356 --> 00:01:44.984
+Here is a definition of a function
+that takes in a list of values.
+
+30
+00:01:44.984 --> 00:01:48.102
+You can think of each value
+as a one-dimensional vector.
+
+31
+00:01:48.102 --> 00:01:50.695
+It also takes in the number of pockets.
+
+32
+00:01:50.695 --> 00:01:54.990
+Define the hash function
+used in the modulo operator.
+
+33
+00:01:56.220 --> 00:02:00.867
+Then you create the hash table, notice
+that this is a dictionary comprehension.
+
+34
+00:02:00.867 --> 00:02:04.509
+The key is an integer and
+the value is an empty list,
+
+35
+00:02:04.509 --> 00:02:07.581
+which you'll use as a bucket for storage.
+
+36
+00:02:07.581 --> 00:02:10.822
+For each word vector,
+calculate its hash value,
+
+37
+00:02:10.822 --> 00:02:13.452
+then append it to the appropriate list.
+
+38
+00:02:13.452 --> 00:02:17.906
+The hash table that is returned can be
+seen in the notebook that's goes with this
+
+39
+00:02:17.906 --> 00:02:18.470
+vector.
+
+40
+00:02:18.470 --> 00:02:22.450
+You will see that the hash table
+is the same as what you saw in
+
+41
+00:02:22.450 --> 00:02:24.200
+the previous slide.
+
+42
+00:02:24.200 --> 00:02:27.520
+Now let's take another look
+at this basic hash table.
+
+43
+00:02:27.520 --> 00:02:33.370
+Recall that your original goal was to put
+similar word vectors into the same bucket,
+
+44
+00:02:33.370 --> 00:02:37.290
+but here it doesn't look like
+numbers that are close to each other
+
+45
+00:02:37.290 --> 00:02:38.950
+are in the same bucket.
+
+46
+00:02:38.950 --> 00:02:43.450
+For instance, 10, 14 and
+17 are in different buckets.
+
+47
+00:02:44.530 --> 00:02:47.530
+Ideally, you want to
+have a hash function that
+
+48
+00:02:47.530 --> 00:02:50.630
+puts similar word vectors in
+the same bucket like this.
+
+49
+00:02:51.870 --> 00:02:56.580
+To do this you'll need to use what's
+called locality sensitive hashing.
+
+50
+00:02:56.580 --> 00:03:01.950
+Locality is another word for location,
+sensitive is another word for caring.
+
+51
+00:03:01.950 --> 00:03:06.590
+So locality sensitive hashing is
+a hashing method that's cares very deeply
+
+52
+00:03:06.590 --> 00:03:11.770
+about assigning items based on where
+they're located in vector space.
+
+53
+00:03:11.770 --> 00:03:14.070
+You'll learn about locality
+sensitive hashing next.

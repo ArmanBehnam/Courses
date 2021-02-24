@@ -1,0 +1,262 @@
+WEBVTT
+
+1
+00:00:00.700 --> 00:00:05.090
+In this section, you will learn about
+combining information from multiple planes
+
+2
+00:00:05.090 --> 00:00:06.740
+into a single hash value.
+
+3
+00:00:08.170 --> 00:00:12.508
+In the last video, you saw how by
+the sign of the dot product between
+
+4
+00:00:12.508 --> 00:00:16.770
+the normal vector of a plane and
+a vector representing your data,
+
+5
+00:00:16.770 --> 00:00:20.592
+you could get a relative
+position relative to that plane.
+
+6
+00:00:20.592 --> 00:00:25.271
+In this lecture, I'm going to show
+you how to use this information for
+
+7
+00:00:25.271 --> 00:00:30.960
+multiple planes to get a hash value for
+your data in your vector space.
+
+8
+00:00:30.960 --> 00:00:34.890
+In order to divide your vector
+space into manageable regions,
+
+9
+00:00:34.890 --> 00:00:36.650
+you'll want to use more than one plane.
+
+10
+00:00:37.720 --> 00:00:42.590
+For each plane, you can find out
+whether a vector is on the positive or
+
+11
+00:00:42.590 --> 00:00:44.940
+negative side of that plane.
+
+12
+00:00:44.940 --> 00:00:49.233
+So you'll get multiple signals,
+one for each plane and
+
+13
+00:00:49.233 --> 00:00:55.182
+you want to find a way to combine all of
+those signals into a single hash value.
+
+14
+00:00:55.182 --> 00:01:00.633
+This has value will define a particular
+region within the vector space.
+
+15
+00:01:00.633 --> 00:01:02.630
+Let's walk through an example.
+
+16
+00:01:02.630 --> 00:01:07.461
+Then you will see the general formula for
+combining signals from multiple planes.
+
+17
+00:01:07.461 --> 00:01:13.358
+So for a single vector, let's say that
+it's dot product with plane 1 is 3,
+
+18
+00:01:13.358 --> 00:01:15.535
+so the sign is positive, and
+
+19
+00:01:15.535 --> 00:01:20.472
+the hash value is set to 1 to
+indicate that the sign is positive.
+
+20
+00:01:20.472 --> 00:01:24.556
+For the second plane,
+the dot product is 5, so
+
+21
+00:01:24.556 --> 00:01:28.962
+the sign is again positive and
+the hash value is 1.
+
+22
+00:01:28.962 --> 00:01:32.857
+For the third plane,
+the dot product is -2, so
+
+23
+00:01:32.857 --> 00:01:37.797
+the sign is -1 and the hash value
+is set to 0 to Iindicate that
+
+24
+00:01:37.797 --> 00:01:41.603
+the vector v is on
+the negative side of plane 3.
+
+25
+00:01:41.603 --> 00:01:45.792
+To combine these intermediates hash
+values into a single hash value,
+
+26
+00:01:45.792 --> 00:01:47.431
+you'll do the following.
+
+27
+00:01:47.431 --> 00:01:52.325
+Take 2 to the power of 0
+times h1 + 2 to the power of
+
+28
+00:01:52.325 --> 00:01:56.552
+1 times h2 + 2 to the power of 2 times h3,
+
+29
+00:01:56.552 --> 00:02:00.244
+it gives us a combined hash value of 3.
+
+30
+00:02:00.244 --> 00:02:03.729
+So just as a reminder you
+have multiple planes and
+
+31
+00:02:03.729 --> 00:02:08.750
+it helps us to divide the vector
+space into smaller sub regions.
+
+32
+00:02:08.750 --> 00:02:11.286
+But you want to have a single hash value,
+so
+
+33
+00:02:11.286 --> 00:02:14.392
+you will know which bucket
+to assign the vectoring.
+
+34
+00:02:14.392 --> 00:02:20.062
+You do this by combining the signals from
+all the planes into a single hash value.
+
+35
+00:02:20.062 --> 00:02:25.247
+Here are the rules you applied written
+out, if the sign of the dot product
+
+36
+00:02:25.247 --> 00:02:30.470
+is greater than or equal to 0,
+assign the intermediate has value of 1.
+
+37
+00:02:30.470 --> 00:02:34.013
+Otherwise if the dot
+product is less than 0,
+
+38
+00:02:34.013 --> 00:02:37.382
+assign the intermediate hash value of 0.
+
+39
+00:02:37.382 --> 00:02:41.812
+To combine the intermediate as values,
+use this formula,
+
+40
+00:02:41.812 --> 00:02:45.452
+this is how you get
+locality sensitive hashing.
+
+41
+00:02:45.452 --> 00:02:46.920
+Let's implement this in code.
+
+42
+00:02:48.000 --> 00:02:52.716
+Given a list of planes and vector,
+starts with a hash_value of 0,
+
+43
+00:02:52.716 --> 00:02:57.623
+which you'll use to accumulate
+the sum of intermediate hash values.
+
+44
+00:02:57.623 --> 00:03:02.685
+Then for each plane, you want to
+calculate the sign of the dot product.
+
+45
+00:03:02.685 --> 00:03:08.254
+Set the intermediate hash_value to 1 if
+the sign is greater than or equal to 0.
+
+46
+00:03:08.254 --> 00:03:13.222
+I'll set it to 0 then you multiply
+the intermediate add value by
+
+47
+00:03:13.222 --> 00:03:17.670
+2 raised to the 8th power and
+added to the hash_value.
+
+48
+00:03:17.670 --> 00:03:19.505
+Finally, you return the hash_value.
+
+49
+00:03:20.540 --> 00:03:23.407
+So if you run code in
+the lecture notes book,
+
+50
+00:03:23.407 --> 00:03:28.923
+you'll get the same results as the example
+you saw earlier, go ahead and try it out.
+
+51
+00:03:28.923 --> 00:03:33.286
+>> Now you have seen what it means for
+a hash function to be locality sensitive,
+
+52
+00:03:33.286 --> 00:03:36.390
+and examples of such hash functions.
+
+53
+00:03:36.390 --> 00:03:38.589
+Next, you will see how this is useful for
+
+54
+00:03:38.589 --> 00:03:41.443
+speeding up the k-nearest
+neighbor computation.
+
+55
+00:03:41.443 --> 00:03:42.870
+Let's go to the next video.

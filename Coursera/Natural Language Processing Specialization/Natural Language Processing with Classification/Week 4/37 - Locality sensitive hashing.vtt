@@ -1,0 +1,540 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.180
+Welcome back. One key method
+
+2
+00:00:03.180 --> 00:00:05.610
+that you will use to reduce
+the computational cost
+
+3
+00:00:05.610 --> 00:00:07.320
+of finding k-nearest neighbors in
+
+4
+00:00:07.320 --> 00:00:11.055
+high-dimensional spaces is
+locality-sensitive hashing.
+
+5
+00:00:11.055 --> 00:00:13.200
+In this video, I
+will teach you what
+
+6
+00:00:13.200 --> 00:00:15.405
+hashes are and where
+they are used.
+
+7
+00:00:15.405 --> 00:00:18.930
+To start thinking about
+locality-sensitive hashing,
+
+8
+00:00:18.930 --> 00:00:20.820
+let's first assume
+that you're using
+
+9
+00:00:20.820 --> 00:00:23.175
+word vectors with
+just two dimensions.
+
+10
+00:00:23.175 --> 00:00:26.940
+I'll depict each vector as
+a circle instead of arrows.
+
+11
+00:00:26.940 --> 00:00:29.580
+So let's say you want to
+find a way to know that
+
+12
+00:00:29.580 --> 00:00:32.550
+these blue dots are somehow
+close to each other,
+
+13
+00:00:32.550 --> 00:00:35.535
+and that these gray dots are
+also related to each other.
+
+14
+00:00:35.535 --> 00:00:39.415
+First, divide the space
+using these dashed lines,
+
+15
+00:00:39.415 --> 00:00:41.265
+which I'll call planes.
+
+16
+00:00:41.265 --> 00:00:44.095
+I'll explain why I called
+them planes in a bit.
+
+17
+00:00:44.095 --> 00:00:46.910
+Notice how the blue
+plane slices up
+
+18
+00:00:46.910 --> 00:00:50.090
+the space into vectors that
+are above it or below it.
+
+19
+00:00:50.090 --> 00:00:52.430
+The blue vectors all happen to
+
+20
+00:00:52.430 --> 00:00:54.955
+be on the same side
+of the blue plane.
+
+21
+00:00:54.955 --> 00:00:57.890
+Similarly, the gray vectors
+
+22
+00:00:57.890 --> 00:01:00.425
+happen to be above
+the gray plane.
+
+23
+00:01:00.425 --> 00:01:03.140
+It looks like the planes
+can help us bucket
+
+24
+00:01:03.140 --> 00:01:06.125
+the vectors into subsets
+based on their location.
+
+25
+00:01:06.125 --> 00:01:08.110
+This is exactly what you want.
+
+26
+00:01:08.110 --> 00:01:10.490
+A hashing function
+that is sensitive to
+
+27
+00:01:10.490 --> 00:01:12.230
+the location of the items
+
+28
+00:01:12.230 --> 00:01:14.180
+that it's assigning into buckets.
+
+29
+00:01:14.180 --> 00:01:15.770
+You're working your way towards
+
+30
+00:01:15.770 --> 00:01:18.045
+locality-sensitive hashing.
+
+31
+00:01:18.045 --> 00:01:21.785
+Now, let's see why I'm calling
+these dashed lines planes.
+
+32
+00:01:21.785 --> 00:01:23.360
+A plane would be
+
+33
+00:01:23.360 --> 00:01:26.345
+this magenta line into
+two-dimensional space,
+
+34
+00:01:26.345 --> 00:01:27.815
+and it actually represents
+
+35
+00:01:27.815 --> 00:01:29.329
+all the possible vectors
+
+36
+00:01:29.329 --> 00:01:31.355
+that would be sitting
+on that plane.
+
+37
+00:01:31.355 --> 00:01:35.060
+In other words, they would
+be parallel to the plane,
+
+38
+00:01:35.060 --> 00:01:38.720
+such as this blue vector
+or this orange vector.
+
+39
+00:01:38.720 --> 00:01:41.570
+You can define a plane
+with a single vector.
+
+40
+00:01:41.570 --> 00:01:44.870
+This magenta vector is
+perpendicular to the plane,
+
+41
+00:01:44.870 --> 00:01:47.860
+and it's called the normal
+vector to that plane.
+
+42
+00:01:47.860 --> 00:01:50.060
+The normal vector
+is perpendicular
+
+43
+00:01:50.060 --> 00:01:52.790
+to any vectors that
+lie on the plane.
+
+44
+00:01:52.790 --> 00:01:56.405
+It might help to think about
+this in three dimensions.
+
+45
+00:01:56.405 --> 00:01:59.395
+Find a sheet of paper
+and find a pencil.
+
+46
+00:01:59.395 --> 00:02:04.550
+Place the paper on the table
+and draw some vectors on it,
+
+47
+00:02:04.550 --> 00:02:07.580
+then hold the pencil
+vertically over the paper.
+
+48
+00:02:07.580 --> 00:02:11.740
+Any vectors on the paper are
+perpendicular to the pencil.
+
+49
+00:02:11.740 --> 00:02:14.510
+Let's go back to two dimensions.
+
+50
+00:02:14.510 --> 00:02:16.460
+You are able to see visually when
+
+51
+00:02:16.460 --> 00:02:19.150
+the vector is on one side
+of the plane or the other,
+
+52
+00:02:19.150 --> 00:02:21.805
+but how do you do
+this mathematically?
+
+53
+00:02:21.805 --> 00:02:26.135
+Here are three sample vectors
+in blue, orange, and green.
+
+54
+00:02:26.135 --> 00:02:28.475
+The normal vector to
+the plane is labeled
+
+55
+00:02:28.475 --> 00:02:31.785
+P. Let's focus on vector 1.
+
+56
+00:02:31.785 --> 00:02:35.475
+What if you take the dot
+product of P with vector one?
+
+57
+00:02:35.475 --> 00:02:37.850
+You get three. I'll explain
+
+58
+00:02:37.850 --> 00:02:39.830
+in a bit why you're doing this.
+
+59
+00:02:39.830 --> 00:02:42.305
+Now, let's look at the vector 2.
+
+60
+00:02:42.305 --> 00:02:44.360
+If you take the dot
+product of P with
+
+61
+00:02:44.360 --> 00:02:46.310
+vector 2, you get zero.
+
+62
+00:02:46.310 --> 00:02:48.940
+Finally, let's look at vector 3.
+
+63
+00:02:48.940 --> 00:02:52.275
+If you take the dot product
+of P with vector 3,
+
+64
+00:02:52.275 --> 00:02:54.360
+you get negative three.
+
+65
+00:02:54.360 --> 00:02:57.045
+So the dot products are 3,
+
+66
+00:02:57.045 --> 00:02:59.610
+0, and negative 3.
+
+67
+00:02:59.610 --> 00:03:02.840
+Do you notice something
+about the signs and how
+
+68
+00:03:02.840 --> 00:03:04.385
+they're related to their position
+
+69
+00:03:04.385 --> 00:03:06.220
+relative to the red plane?
+
+70
+00:03:06.220 --> 00:03:08.819
+When the dot product is positive,
+
+71
+00:03:08.819 --> 00:03:11.225
+the vector is on one
+side of the plane.
+
+72
+00:03:11.225 --> 00:03:13.580
+If the dot product is negative,
+
+73
+00:03:13.580 --> 00:03:16.265
+the vector is on the
+opposite side of the plane.
+
+74
+00:03:16.265 --> 00:03:18.230
+If the dot product is zero,
+
+75
+00:03:18.230 --> 00:03:20.260
+the vector is on the plane.
+
+76
+00:03:20.260 --> 00:03:22.830
+So what's the dot product doing?
+
+77
+00:03:22.830 --> 00:03:25.290
+To visualize the dot product,
+
+78
+00:03:25.290 --> 00:03:27.780
+imagine one of the
+vectors such as P,
+
+79
+00:03:27.780 --> 00:03:29.910
+as if it's the
+surface of the Earth.
+
+80
+00:03:29.910 --> 00:03:31.970
+Gravity pulls all objects
+
+81
+00:03:31.970 --> 00:03:34.220
+straight down towards the
+surface of the Earth.
+
+82
+00:03:34.220 --> 00:03:36.230
+Next, pretend you're standing at
+
+83
+00:03:36.230 --> 00:03:38.795
+the end of the vector, V1.
+
+84
+00:03:38.795 --> 00:03:41.150
+You tie a string to a rock and
+
+85
+00:03:41.150 --> 00:03:43.400
+let gravity pull the
+rock to the surface of
+
+86
+00:03:43.400 --> 00:03:48.620
+vector P. The string is
+perpendicular to vector P. Now,
+
+87
+00:03:48.620 --> 00:03:50.420
+if you draw a vector that's in
+
+88
+00:03:50.420 --> 00:03:53.690
+the same direction of P
+but ends up at the rock,
+
+89
+00:03:53.690 --> 00:03:55.640
+you'll have what's
+called the projection of
+
+90
+00:03:55.640 --> 00:04:00.170
+vector V1 onto vector P.
+The magnitude or length
+
+91
+00:04:00.170 --> 00:04:03.320
+of that vector is equal
+to the dot product of
+
+92
+00:04:03.320 --> 00:04:06.910
+V1 and P. Furthermore,
+
+93
+00:04:06.910 --> 00:04:09.350
+if you had this
+other green vector
+
+94
+00:04:09.350 --> 00:04:12.320
+and projected it onto vector P,
+
+95
+00:04:12.320 --> 00:04:14.660
+the projected vector
+would be pointing in
+
+96
+00:04:14.660 --> 00:04:16.670
+the parallel but
+opposite direction of
+
+97
+00:04:16.670 --> 00:04:21.065
+P. The dot product would
+be a negative number.
+
+98
+00:04:21.065 --> 00:04:24.620
+This means that the sign of
+the dot product indicates
+
+99
+00:04:24.620 --> 00:04:26.375
+the direction of the projection
+
+100
+00:04:26.375 --> 00:04:28.855
+with respect to the
+purple normal vector.
+
+101
+00:04:28.855 --> 00:04:31.550
+So whether the dot product
+
+102
+00:04:31.550 --> 00:04:33.590
+is positive or
+negative can tell you
+
+103
+00:04:33.590 --> 00:04:35.870
+whether the vector V1 or V2 are
+
+104
+00:04:35.870 --> 00:04:38.570
+on one side of the
+plane or the other.
+
+105
+00:04:38.570 --> 00:04:40.040
+Let's use code to check
+
+106
+00:04:40.040 --> 00:04:42.170
+which side of the plane
+the vector is on.
+
+107
+00:04:42.170 --> 00:04:46.400
+The function side of plane
+takes in the normal vector P,
+
+108
+00:04:46.400 --> 00:04:52.035
+and the vector v. Use numpy
+dot to take the dot products.
+
+109
+00:04:52.035 --> 00:04:54.560
+Use numpy.sign to get a
+
+110
+00:04:54.560 --> 00:04:57.185
+plus one if the dot
+product is positive,
+
+111
+00:04:57.185 --> 00:04:59.930
+minus one if the dot
+product is negative,
+
+112
+00:04:59.930 --> 00:05:02.585
+or zero if the dot
+product is zero.
+
+113
+00:05:02.585 --> 00:05:05.280
+I'm using numpy.asscalar.
+
+114
+00:05:05.280 --> 00:05:08.520
+Notice the pronunciation
+of that function.
+
+115
+00:05:08.520 --> 00:05:12.065
+If a vector can be represented
+as a single scalar,
+
+116
+00:05:12.065 --> 00:05:15.485
+this function retrieves
+that scalar, and that's it.
+
+117
+00:05:15.485 --> 00:05:18.240
+Please try it out for yourself.
