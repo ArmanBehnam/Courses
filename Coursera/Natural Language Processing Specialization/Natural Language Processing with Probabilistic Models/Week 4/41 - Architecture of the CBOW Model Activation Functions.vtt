@@ -1,0 +1,287 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.449
+Before jumping into the softmax function,
+I want to to talk a little
+
+2
+00:00:04.449 --> 00:00:08.433
+bit about the ReLU function or
+the rectified linear units.
+
+3
+00:00:08.433 --> 00:00:11.717
+Apart from the input neurons,
+which are used as is,
+
+4
+00:00:11.717 --> 00:00:16.421
+each layer first calculates the weighted
+sum of its inputs and adds a bias,
+
+5
+00:00:16.421 --> 00:00:19.870
+then passes the results into
+an activation function.
+
+6
+00:00:19.870 --> 00:00:26.806
+So for the hidden layer you
+first calculate z1 = W1x + b1.
+
+7
+00:00:26.806 --> 00:00:30.624
+And to get h,
+you pass z1 into an activation function,
+
+8
+00:00:30.624 --> 00:00:35.350
+which is the rectified linear units
+function or ReLU for this layer.
+
+9
+00:00:35.350 --> 00:00:39.982
+ReLU is a popular general purpose
+activation function that only activates
+
+10
+00:00:39.982 --> 00:00:43.581
+the neuron every sum of its
+weighted inputs is positive and
+
+11
+00:00:43.581 --> 00:00:46.842
+passes through this results,
+if that's the case.
+
+12
+00:00:46.842 --> 00:00:53.204
+Mathematically, ReLU(x), where x is a real
+number is equal to the maximum of (0,
+
+13
+00:00:53.204 --> 00:00:56.964
+x), you can see the graph for
+this function here.
+
+14
+00:00:56.964 --> 00:01:00.299
+Here's an example for
+vectors z1, to get the vector h,
+
+15
+00:01:00.299 --> 00:01:05.042
+it's representing the value of the hidden
+layer, you apply the ReLU function.
+
+16
+00:01:05.042 --> 00:01:09.755
+The rows from z1 that are negative,
+like -0.3 and
+
+17
+00:01:09.755 --> 00:01:15.390
+-4.6 becomes 0s in h, and
+the positive values stay as is, so
+
+18
+00:01:15.390 --> 00:01:20.937
+for instance 5.1 stays as 5.1 and
+0.2 is still 0.2.
+
+19
+00:01:20.937 --> 00:01:25.267
+Now for the output layer, you calculate
+the weighted sum of the values from
+
+20
+00:01:25.267 --> 00:01:27.686
+the hidden layer and add the bias vector.
+
+21
+00:01:27.686 --> 00:01:33.604
+That's w2h + b2 which I'll call z
+instead of z2 in the previous slides for
+
+22
+00:01:33.604 --> 00:01:36.801
+reasons that will soon become apparent.
+
+23
+00:01:36.801 --> 00:01:39.534
+You then passes into
+the activation function,
+
+24
+00:01:39.534 --> 00:01:44.660
+which is the softmax function for
+this layer to get the output vector y hat.
+
+25
+00:01:44.660 --> 00:01:47.438
+The softmax function works as follows,
+
+26
+00:01:47.438 --> 00:01:51.276
+its input is a vector of real
+numbers as opposed to ReLU,
+
+27
+00:01:51.276 --> 00:01:55.707
+which in its original form is
+a function of a single real number.
+
+28
+00:01:55.707 --> 00:02:01.638
+It's output's a vector of real numbers in
+the interval 0 to 1 which sum up to 1 and
+
+29
+00:02:01.638 --> 00:02:05.904
+can be interpreted as
+probabilities of exclusive events.
+
+30
+00:02:05.904 --> 00:02:09.144
+In the case of the continuous
+bag of words model,
+
+31
+00:02:09.144 --> 00:02:14.046
+when you apply softmax to z, you obtain
+an output vector y hat with v rows,
+
+32
+00:02:14.046 --> 00:02:18.651
+where each row corresponds to a word
+of the vocabulary of the corpus.
+
+33
+00:02:18.651 --> 00:02:21.270
+The values of the vector
+can be interpreted
+
+34
+00:02:21.270 --> 00:02:25.780
+as the probability that the center word
+which is what the model is trying to
+
+35
+00:02:25.780 --> 00:02:29.217
+predict is the word that is
+assigned to each of the rows.
+
+36
+00:02:29.217 --> 00:02:33.797
+Mathematically, if the input
+to softmax is vector zi
+
+37
+00:02:33.797 --> 00:02:37.458
+with element zi with i
+ranging from 1 to V,
+
+38
+00:02:37.458 --> 00:02:42.371
+and the resulting vector is y
+hat with elements y hat of i.
+
+39
+00:02:42.371 --> 00:02:47.054
+Then y hat i = e to the zi divided
+
+40
+00:02:47.054 --> 00:02:51.567
+by the sum over j of e to the zj.
+
+41
+00:02:51.567 --> 00:02:56.298
+The exponential transforms all our
+inputs two positive numbers and
+
+42
+00:02:56.298 --> 00:03:00.699
+the divisor normalizes the vector so
+that the rols sum up to 1.
+
+43
+00:03:00.699 --> 00:03:05.496
+To illustrate softmax with a numerical
+example, let's say that z is equal to this
+
+44
+00:03:05.496 --> 00:03:09.749
+vector, taking the exponential of
+these values gives you this vector.
+
+45
+00:03:09.749 --> 00:03:12.498
+And the row sum up to 97,899,
+
+46
+00:03:12.498 --> 00:03:17.520
+which will be the denominator
+in the softmax function.
+
+47
+00:03:17.520 --> 00:03:22.088
+You can now get the values of the y hat
+vector by dividing the previous vector by
+
+48
+00:03:22.088 --> 00:03:23.570
+the sum of its elements.
+
+49
+00:03:23.570 --> 00:03:29.794
+So the first element will
+be 8,103 divided 97,899,
+
+50
+00:03:29.794 --> 00:03:33.713
+which is 0.083, and similarly for
+
+51
+00:03:33.713 --> 00:03:38.802
+the other rows, and
+the sum is of course equal to 1.
+
+52
+00:03:38.802 --> 00:03:43.998
+So mapping the rows to the vocabulary,
+you would interpret this output
+
+53
+00:03:43.998 --> 00:03:49.204
+vector as meaning that given a specific
+inputs context words vector x.
+
+54
+00:03:49.204 --> 00:03:54.508
+The probability that the center
+word is am is 0.0 is 3,
+
+55
+00:03:54.508 --> 00:03:59.178
+for because the probability is 0.03 and
+so on.
+
+56
+00:03:59.178 --> 00:04:05.450
+Now the highest you in the vector is
+0.61 for the row corresponding to happy.
+
+57
+00:04:05.450 --> 00:04:09.990
+So this would mean that the model is
+predicting that the center word is happy.
+
+58
+00:04:09.990 --> 00:04:12.170
+You'll get to implement both relu and
+
+59
+00:04:12.170 --> 00:04:14.220
+softmax function in
+this week's assignment.

@@ -1,0 +1,370 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.790
+The Continuous Bag of
+Words model is based on
+
+2
+00:00:02.790 --> 00:00:06.180
+the shallow dense neural
+network with an input layer,
+
+3
+00:00:06.180 --> 00:00:09.150
+a single hidden layer,
+and output layer.
+
+4
+00:00:09.150 --> 00:00:11.250
+As you remember, the inputs of
+
+5
+00:00:11.250 --> 00:00:13.710
+the model is a vector
+of contexts words,
+
+6
+00:00:13.710 --> 00:00:15.475
+which I'll call X, and
+
+7
+00:00:15.475 --> 00:00:18.465
+the output is the vector of
+the predicted center word,
+
+8
+00:00:18.465 --> 00:00:20.295
+which I'll call Y hat.
+
+9
+00:00:20.295 --> 00:00:22.020
+The size of these vectors is
+
+10
+00:00:22.020 --> 00:00:24.105
+equal to the size
+of the vocabulary,
+
+11
+00:00:24.105 --> 00:00:27.285
+which I'll call V.
+So the inputs and
+
+12
+00:00:27.285 --> 00:00:29.220
+output size of this
+neural network is
+
+13
+00:00:29.220 --> 00:00:31.579
+equal to V. For instance,
+
+14
+00:00:31.579 --> 00:00:32.795
+if the corpus is,
+
+15
+00:00:32.795 --> 00:00:34.670
+I'm happy because I'm learning,
+
+16
+00:00:34.670 --> 00:00:36.845
+you have a five word vocabulary,
+
+17
+00:00:36.845 --> 00:00:38.750
+so V equals five,
+
+18
+00:00:38.750 --> 00:00:40.670
+and you'll create a
+neural network where
+
+19
+00:00:40.670 --> 00:00:44.140
+the input and output layers
+each have five neurons.
+
+20
+00:00:44.140 --> 00:00:46.204
+In the real world corporal,
+
+21
+00:00:46.204 --> 00:00:48.935
+this number will typically
+be in the thousands.
+
+22
+00:00:48.935 --> 00:00:50.780
+Next is the hidden layer.
+
+23
+00:00:50.780 --> 00:00:52.325
+If you remember from the lesson
+
+24
+00:00:52.325 --> 00:00:54.110
+on the word embedding process,
+
+25
+00:00:54.110 --> 00:00:55.490
+the size or dimension of
+
+26
+00:00:55.490 --> 00:00:58.460
+the word embeddings is a
+hyperparameter of the model,
+
+27
+00:00:58.460 --> 00:00:59.970
+which you select yourself.
+
+28
+00:00:59.970 --> 00:01:02.955
+Let's call the size of
+the word embedding N,
+
+29
+00:01:02.955 --> 00:01:07.350
+where N can typically be
+hundred to a thousand.
+
+30
+00:01:07.350 --> 00:01:09.695
+You will choose the size
+of the hidden layer to
+
+31
+00:01:09.695 --> 00:01:12.620
+equal the size of the
+expected word, embedding.
+
+32
+00:01:12.620 --> 00:01:15.875
+If you choose the size of
+the word embedding to be N,
+
+33
+00:01:15.875 --> 00:01:17.900
+then you will choose
+the hidden layer for
+
+34
+00:01:17.900 --> 00:01:20.405
+this networks to have N neurons.
+
+35
+00:01:20.405 --> 00:01:22.895
+I'll call the vector
+presenting the hidden layer
+
+36
+00:01:22.895 --> 00:01:26.135
+H. This is a regular
+feed-forward network,
+
+37
+00:01:26.135 --> 00:01:28.850
+also called a dense
+neural network.
+
+38
+00:01:28.850 --> 00:01:31.235
+So the three layers
+are fully connected.
+
+39
+00:01:31.235 --> 00:01:33.080
+I'll call the weights
+matrix between
+
+40
+00:01:33.080 --> 00:01:35.630
+the input layer and
+the hidden layer W_1,
+
+41
+00:01:35.630 --> 00:01:38.440
+and the bias vector of
+the hidden layer is b_1.
+
+42
+00:01:38.440 --> 00:01:41.810
+Similarly, W_2 is
+the weighting matrix
+
+43
+00:01:41.810 --> 00:01:44.675
+between the hidden layer
+and the output layer,
+
+44
+00:01:44.675 --> 00:01:47.900
+and b_2 is the bias vector
+of the output layer.
+
+45
+00:01:47.900 --> 00:01:49.820
+These are the matrices
+in vectors that
+
+46
+00:01:49.820 --> 00:01:52.555
+the neural network will be
+learning as you train it.
+
+47
+00:01:52.555 --> 00:01:55.100
+To give you a little preview
+of where you're going,
+
+48
+00:01:55.100 --> 00:01:57.170
+you will derive the
+word embeddings
+
+49
+00:01:57.170 --> 00:01:59.510
+from the weight of matrices
+of this neural network.
+
+50
+00:01:59.510 --> 00:02:01.370
+You will see more
+about this later.
+
+51
+00:02:01.370 --> 00:02:03.260
+You now need activation functions
+
+52
+00:02:03.260 --> 00:02:05.470
+for the hidden layer
+and output layer.
+
+53
+00:02:05.470 --> 00:02:07.100
+The results of the activation of
+
+54
+00:02:07.100 --> 00:02:09.770
+the hidden layer is what
+gets sent to the next layer,
+
+55
+00:02:09.770 --> 00:02:12.155
+which in this case
+is the output layer.
+
+56
+00:02:12.155 --> 00:02:15.230
+Similarly, the outcome
+of the activation of
+
+57
+00:02:15.230 --> 00:02:16.970
+the output layer is what
+
+58
+00:02:16.970 --> 00:02:19.105
+will be shown as the
+model's prediction.
+
+59
+00:02:19.105 --> 00:02:20.310
+For the hidden layer,
+
+60
+00:02:20.310 --> 00:02:24.045
+you will use the rectified
+linear unit function, or ReLU.
+
+61
+00:02:24.045 --> 00:02:25.340
+For the output layer,
+
+62
+00:02:25.340 --> 00:02:27.095
+you will use the
+softmax function.
+
+63
+00:02:27.095 --> 00:02:28.970
+The activation
+functions themselves
+
+64
+00:02:28.970 --> 00:02:30.440
+deserve a proper discussion,
+
+65
+00:02:30.440 --> 00:02:33.235
+so I'll describe them in
+one of the next videos.
+
+66
+00:02:33.235 --> 00:02:35.629
+There you have it,
+the architecture
+
+67
+00:02:35.629 --> 00:02:37.940
+of the Continuous
+Bag of Words model.
+
+68
+00:02:37.940 --> 00:02:39.830
+Next up, I'll go through
+
+69
+00:02:39.830 --> 00:02:42.830
+the dimensions of the matrices
+in vectors I mentioned,
+
+70
+00:02:42.830 --> 00:02:45.050
+another important
+components you'll need for
+
+71
+00:02:45.050 --> 00:02:47.560
+completing this week's
+fun assignments.
+
+72
+00:02:47.560 --> 00:02:49.250
+In this video, you have seen
+
+73
+00:02:49.250 --> 00:02:51.590
+the overall structure
+of your algorithm.
+
+74
+00:02:51.590 --> 00:02:54.200
+You were trying to predict
+the middle word given
+
+75
+00:02:54.200 --> 00:02:56.780
+the words outside or
+the context words.
+
+76
+00:02:56.780 --> 00:03:00.185
+However, you have V possible
+ways that you can predict.
+
+77
+00:03:00.185 --> 00:03:01.580
+You can not use a logistic
+
+78
+00:03:01.580 --> 00:03:02.990
+regression in this case because
+
+79
+00:03:02.990 --> 00:03:07.290
+a logistic regression
+outputs two possibilities.

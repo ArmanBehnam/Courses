@@ -1,0 +1,496 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.950
+If you already have experience in
+
+2
+00:00:01.950 --> 00:00:03.810
+machine learning,
+unstructured data,
+
+3
+00:00:03.810 --> 00:00:06.660
+such as numerical and
+categorical data,
+
+4
+00:00:06.660 --> 00:00:09.495
+you know about techniques
+to clean your datasets.
+
+5
+00:00:09.495 --> 00:00:11.865
+Now, I want to introduce you to
+
+6
+00:00:11.865 --> 00:00:15.000
+a few fundamental techniques
+for cleaning text data.
+
+7
+00:00:15.000 --> 00:00:17.640
+I'll give you some
+practical advice on how to
+
+8
+00:00:17.640 --> 00:00:20.340
+clean a corpus and
+split it into words,
+
+9
+00:00:20.340 --> 00:00:22.530
+or more accurately, tokens,
+
+10
+00:00:22.530 --> 00:00:25.125
+through a process
+known as tokenization.
+
+11
+00:00:25.125 --> 00:00:28.875
+In Course 1, I previously
+spoke about data preparation,
+
+12
+00:00:28.875 --> 00:00:30.765
+cleaning, and tokenization,
+
+13
+00:00:30.765 --> 00:00:33.300
+but now I'll go into
+some more details.
+
+14
+00:00:33.300 --> 00:00:35.250
+First, you should
+consider the words of
+
+15
+00:00:35.250 --> 00:00:37.290
+your corpus as case insensitive.
+
+16
+00:00:37.290 --> 00:00:39.480
+For instance, the
+word "The" should be
+
+17
+00:00:39.480 --> 00:00:42.165
+represented identically
+regardless of its case.
+
+18
+00:00:42.165 --> 00:00:44.960
+For example, whether it
+begins with a capital T,
+
+19
+00:00:44.960 --> 00:00:47.420
+say at the beginning of
+the sentence or not.
+
+20
+00:00:47.420 --> 00:00:49.985
+You can do this by
+converting the corpus to
+
+21
+00:00:49.985 --> 00:00:52.640
+either all lowercase
+or all uppercase.
+
+22
+00:00:52.640 --> 00:00:55.570
+Secondly, you should
+handle punctuation.
+
+23
+00:00:55.570 --> 00:00:57.185
+You could, for
+instance, represents
+
+24
+00:00:57.185 --> 00:00:59.195
+all interrupting
+punctuation marks,
+
+25
+00:00:59.195 --> 00:01:01.445
+such as full stops, commas,
+
+26
+00:01:01.445 --> 00:01:02.690
+and question marks, as
+
+27
+00:01:02.690 --> 00:01:05.135
+a single special word
+of the vocabulary.
+
+28
+00:01:05.135 --> 00:01:07.700
+You could ignore non
+interrupting punctuation marks,
+
+29
+00:01:07.700 --> 00:01:09.155
+such as quotation marks.
+
+30
+00:01:09.155 --> 00:01:11.000
+You could collapse
+multi-sign marks,
+
+31
+00:01:11.000 --> 00:01:12.605
+such as triple question marks
+
+32
+00:01:12.605 --> 00:01:14.870
+into a single mark and so on.
+
+33
+00:01:14.870 --> 00:01:17.420
+Next, you want to handle numbers.
+
+34
+00:01:17.420 --> 00:01:19.670
+For example, if numbers do not
+
+35
+00:01:19.670 --> 00:01:22.280
+carry an important
+meaning in your use case,
+
+36
+00:01:22.280 --> 00:01:24.200
+you could drop all
+of the numbers.
+
+37
+00:01:24.200 --> 00:01:26.270
+However, numbers may have
+
+38
+00:01:26.270 --> 00:01:29.650
+significant meaning that is
+relevant to your use case.
+
+39
+00:01:29.650 --> 00:01:33.630
+For instance, 3.14 is
+the number for Pi,
+
+40
+00:01:33.630 --> 00:01:35.840
+90210 is the name of
+
+41
+00:01:35.840 --> 00:01:37.430
+a television show and
+
+42
+00:01:37.430 --> 00:01:40.250
+the area code for Beverly
+Hills, California.
+
+43
+00:01:40.250 --> 00:01:43.430
+So you can keep these numbers
+in your corpora as is.
+
+44
+00:01:43.430 --> 00:01:45.845
+If you're corpora has
+many unique numbers,
+
+45
+00:01:45.845 --> 00:01:47.615
+such as many area codes,
+
+46
+00:01:47.615 --> 00:01:50.165
+you may find that it makes
+more sense to replace
+
+47
+00:01:50.165 --> 00:01:54.190
+all the numbers with a special
+token, such as number.
+
+48
+00:01:54.190 --> 00:01:55.970
+This allows the
+model to note that
+
+49
+00:01:55.970 --> 00:01:58.475
+the important thing is
+that it's a number.
+
+50
+00:01:58.475 --> 00:02:00.140
+Instead of trying to distinguish
+
+51
+00:02:00.140 --> 00:02:03.950
+between 90210 and other area
+codes or phone numbers.
+
+52
+00:02:03.950 --> 00:02:06.470
+You also need to handle
+special characters,
+
+53
+00:02:06.470 --> 00:02:08.270
+such as mathematical symbols,
+
+54
+00:02:08.270 --> 00:02:11.434
+currency symbols, section
+and paragraph signs,
+
+55
+00:02:11.434 --> 00:02:14.000
+and line markup signs and so on.
+
+56
+00:02:14.000 --> 00:02:16.160
+It's usually safe to drop them.
+
+57
+00:02:16.160 --> 00:02:18.020
+Finally, and especially if you're
+
+58
+00:02:18.020 --> 00:02:20.270
+working on modern
+corpus of user inputs,
+
+59
+00:02:20.270 --> 00:02:22.385
+such as tweets or
+consumer reviews,
+
+60
+00:02:22.385 --> 00:02:24.200
+you should handle special words,
+
+61
+00:02:24.200 --> 00:02:28.665
+such as emojis and
+hashtags, #nlp.
+
+62
+00:02:28.665 --> 00:02:30.440
+Depending on if and how you want
+
+63
+00:02:30.440 --> 00:02:32.315
+your model to confirm
+meaning to them.
+
+64
+00:02:32.315 --> 00:02:35.420
+You could, for example,
+consider that each emoji or
+
+65
+00:02:35.420 --> 00:02:38.870
+hashtag should be considered
+as an individual word.
+
+66
+00:02:38.870 --> 00:02:41.060
+I'll give a basic
+example in Python to
+
+67
+00:02:41.060 --> 00:02:43.700
+demonstrate a few of
+these recommendations.
+
+68
+00:02:43.700 --> 00:02:45.935
+The corpus in this example is,
+
+69
+00:02:45.935 --> 00:02:48.595
+who loves "word
+embeddings" in 2020?
+
+70
+00:02:48.595 --> 00:02:50.945
+I do!!! With an emoji,
+
+71
+00:02:50.945 --> 00:02:53.525
+punctuation marks,
+and the number.
+
+72
+00:02:53.525 --> 00:02:56.405
+Here's the code to import and
+initialize the libraries.
+
+73
+00:02:56.405 --> 00:02:58.910
+I'm using the
+popular NLTK library
+
+74
+00:02:58.910 --> 00:03:00.725
+to perform tokenization.
+
+75
+00:03:00.725 --> 00:03:03.320
+It has a smart
+tokenization module named
+
+76
+00:03:03.320 --> 00:03:06.815
+"punkt" to handle common
+special uses of punctuation.
+
+77
+00:03:06.815 --> 00:03:09.365
+For example, it knows
+that full stops,
+
+78
+00:03:09.365 --> 00:03:12.170
+which are periods and
+abbreviations and
+
+79
+00:03:12.170 --> 00:03:15.635
+middle names do not signify
+the end of a sentence.
+
+80
+00:03:15.635 --> 00:03:18.200
+I'm also using the
+emoji library just
+
+81
+00:03:18.200 --> 00:03:20.915
+to give you an idea of how
+you could handle emojis.
+
+82
+00:03:20.915 --> 00:03:23.115
+Next comes the actual logic.
+
+83
+00:03:23.115 --> 00:03:25.850
+First, using a
+regular expression,
+
+84
+00:03:25.850 --> 00:03:27.650
+I'm collapsing all interrupting
+
+85
+00:03:27.650 --> 00:03:30.715
+punctuation signs and replacing
+them with a full stop.
+
+86
+00:03:30.715 --> 00:03:32.285
+The outcome here is,
+
+87
+00:03:32.285 --> 00:03:35.690
+who loves "word
+embeddings" in 2020, I do.
+
+88
+00:03:35.690 --> 00:03:37.400
+With the question and exclamation
+
+89
+00:03:37.400 --> 00:03:39.700
+marks replaced with
+a single full stop.
+
+90
+00:03:39.700 --> 00:03:41.840
+Next time using NLTK's word
+
+91
+00:03:41.840 --> 00:03:43.670
+tokenize function to split
+
+92
+00:03:43.670 --> 00:03:45.980
+this string into an
+array of tokens.
+
+93
+00:03:45.980 --> 00:03:48.620
+As you can see, the
+punctuation signs
+
+94
+00:03:48.620 --> 00:03:51.540
+have been separated
+as individual tokens,
+
+95
+00:03:51.540 --> 00:03:53.375
+including the quotation marks.
+
+96
+00:03:53.375 --> 00:03:56.150
+Finally, using at
+least comprehension,
+
+97
+00:03:56.150 --> 00:03:58.640
+I'm keeping tokens and
+converting them to
+
+98
+00:03:58.640 --> 00:04:02.335
+lowercase if they are one of
+the following: alphabetical,
+
+99
+00:04:02.335 --> 00:04:04.095
+if full-stops or previously an
+
+100
+00:04:04.095 --> 00:04:06.840
+interrupting punctuation
+mark, an emoji.
+
+101
+00:04:06.840 --> 00:04:08.705
+So this gets rid
+of numbers such as
+
+102
+00:04:08.705 --> 00:04:11.665
+2020 and unknown
+special characters,
+
+103
+00:04:11.665 --> 00:04:13.395
+and this is the resulting array.
+
+104
+00:04:13.395 --> 00:04:15.200
+You can now use this
+array to extract
+
+105
+00:04:15.200 --> 00:04:17.735
+center words and their
+surrounding context words,
+
+106
+00:04:17.735 --> 00:04:21.150
+which you'll dive into
+in more detail next.

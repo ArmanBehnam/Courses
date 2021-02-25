@@ -1,0 +1,241 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:03.460
+Earlier you learned about the cross
+entropy loss function and
+
+2
+00:00:03.460 --> 00:00:06.890
+how it can be used to measure
+the error made by the neural network
+
+3
+00:00:06.890 --> 00:00:11.270
+of a Continuous Bag of Words Model
+when making a single prediction.
+
+4
+00:00:11.270 --> 00:00:14.890
+Now, you'll train the neural
+net using batches of examples.
+
+5
+00:00:14.890 --> 00:00:18.870
+First, you will propagate these
+examples forward into the network.
+
+6
+00:00:18.870 --> 00:00:21.790
+If you don't remember what
+forward propagation is,
+
+7
+00:00:21.790 --> 00:00:23.930
+no worries, I'll cover this in the video.
+
+8
+00:00:23.930 --> 00:00:26.390
+You will then calculate the costs
+
+9
+00:00:26.390 --> 00:00:30.900
+which is an extension of the loss to
+support a batch of training examples.
+
+10
+00:00:30.900 --> 00:00:35.000
+Finally, you will use back propagation and
+gradient descent
+
+11
+00:00:35.000 --> 00:00:40.320
+to optimize the parameters of the network
+and improve its predictive performance.
+
+12
+00:00:40.320 --> 00:00:42.290
+I'll be describing these soon.
+
+13
+00:00:42.290 --> 00:00:44.880
+A quick refresher on forward propagation.
+
+14
+00:00:44.880 --> 00:00:49.290
+It involves taking input values, passing
+them forward through the neural network
+
+15
+00:00:49.290 --> 00:00:53.330
+from input to output through
+each successive layer and
+
+16
+00:00:53.330 --> 00:00:56.920
+calculating the values of
+the layers as you do so.
+
+17
+00:00:56.920 --> 00:01:01.700
+Starting with a batch of
+examples represent it as X AV by
+
+18
+00:01:01.700 --> 00:01:06.450
+m matrix where V is the vocabulary
+size and M is the batch size.
+
+19
+00:01:06.450 --> 00:01:10.290
+You will first propagate X forward
+into the neural network and
+
+20
+00:01:10.290 --> 00:01:15.020
+get the output Matrix y hat,
+which is Av by m Matrix.
+
+21
+00:01:15.020 --> 00:01:19.990
+Remember that the outputs matrix simply
+stacks the m output column vectors
+
+22
+00:01:19.990 --> 00:01:25.180
+corresponding to the m input vectors
+representing each of training examples.
+
+23
+00:01:25.180 --> 00:01:28.660
+Now, let's revisit the formulas for
+forward propagation.
+
+24
+00:01:28.660 --> 00:01:30.040
+To calculate the loss for
+
+25
+00:01:30.040 --> 00:01:33.830
+a single example, you'll use
+the cross entropy loss function.
+
+26
+00:01:33.830 --> 00:01:38.150
+When you're working with batches of
+examples, you will calculate the costs
+
+27
+00:01:38.150 --> 00:01:42.970
+which has the same purpose as the loss and
+is actually based on the loss function.
+
+28
+00:01:42.970 --> 00:01:47.520
+In practice, the terms loss and
+cost are often used interchangeably.
+
+29
+00:01:47.520 --> 00:01:51.340
+But in this course, we will refer
+to loss for a single example and
+
+30
+00:01:51.340 --> 00:01:54.350
+cost to refer to a batch of examples.
+
+31
+00:01:54.350 --> 00:01:59.020
+The cross entropy cost for a batch of
+examples is simply the mean of the cross
+
+32
+00:01:59.020 --> 00:02:03.461
+entropy losses of each of
+the m individual examples.
+
+33
+00:02:03.461 --> 00:02:06.760
+Formally, the formula for
+the cross entropy costs for
+
+34
+00:02:06.760 --> 00:02:12.107
+a batch of training
+examples is J batch equals
+
+35
+00:02:12.107 --> 00:02:16.640
+-1/m times the sum over all the examples.
+
+36
+00:02:16.640 --> 00:02:21.410
+So i from 1 to m of
+the sum over all the rows
+
+37
+00:02:21.410 --> 00:02:26.290
+that each represents a word
+in the vocabulary, which is j
+
+38
+00:02:26.290 --> 00:02:31.660
+from 1 to V of y,
+subscript j, superscripts i,
+
+39
+00:02:31.660 --> 00:02:37.010
+times the logarithm of y hat,
+subscript j, superscript i.
+
+40
+00:02:37.010 --> 00:02:42.330
+You can rewrite this formula
+as J batch equals 1/m
+
+41
+00:02:42.330 --> 00:02:47.365
+times the sum over all
+the examples of J superscripts i.
+
+42
+00:02:47.365 --> 00:02:51.809
+Where J superscript i is the loss for
+example i.
+
+43
+00:02:51.809 --> 00:02:53.055
+By doing it this way,
+
+44
+00:02:53.055 --> 00:02:57.014
+you can visualize the cost as
+the average of the individual losses.
+
+45
+00:02:57.014 --> 00:03:01.658
+Up next you'll use the cost function to
+adjust the parameters of the neural net to
+
+46
+00:03:01.658 --> 00:03:03.790
+improve its predictions.
+
+47
+00:03:03.790 --> 00:03:06.310
+You have seen the cross
+entropy cost function and
+
+48
+00:03:06.310 --> 00:03:09.715
+why it is helpful in predicting
+one of the possible words.
+
+49
+00:03:09.715 --> 00:03:10.790
+In the next video,
+
+50
+00:03:10.790 --> 00:03:14.710
+you're going to learn how to train your
+word vectors using this cost function.

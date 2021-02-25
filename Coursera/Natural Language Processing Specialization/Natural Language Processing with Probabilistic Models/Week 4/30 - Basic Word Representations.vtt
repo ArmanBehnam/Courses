@@ -1,0 +1,264 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:01.820
+Good to see you again.
+
+2
+00:00:01.820 --> 00:00:04.710
+You'll now be able to create
+a matrix to represent
+
+3
+00:00:04.710 --> 00:00:07.150
+all the words in your vocabulary.
+
+4
+00:00:07.150 --> 00:00:11.240
+Each vector of your matrix will
+correspond to one of the words.
+
+5
+00:00:11.240 --> 00:00:13.760
+Let me show you how you
+can build this matrix.
+
+6
+00:00:13.760 --> 00:00:16.670
+The simplest way to represent
+words as numbers is for
+
+7
+00:00:16.670 --> 00:00:21.580
+a given vocabulary to assign
+a unique integer to each word.
+
+8
+00:00:21.580 --> 00:00:26.270
+For example, based on a vocabulary
+of 1,000 basic English words,
+
+9
+00:00:26.270 --> 00:00:31.040
+you could assign the number 1
+to the word a, 2 to able, and
+
+10
+00:00:31.040 --> 00:00:33.840
+so on up to 1000 for zebra.
+
+11
+00:00:33.840 --> 00:00:36.260
+While this numbering scheme is simple,
+
+12
+00:00:36.260 --> 00:00:38.930
+one of the problems is that
+the order of the words,
+
+13
+00:00:38.930 --> 00:00:44.000
+alphabetical in this example, doesn't make
+much sense from a semantic perspective.
+
+14
+00:00:44.000 --> 00:00:48.530
+For example, there is no reason why
+happy should be assigned a greater
+
+15
+00:00:48.530 --> 00:00:51.980
+number than hand for instance or
+a smaller one than zebra.
+
+16
+00:00:53.030 --> 00:00:56.600
+Instead of using a numerical
+index to encode each word,
+
+17
+00:00:56.600 --> 00:00:59.600
+you can represent the words
+using a column vector
+
+18
+00:00:59.600 --> 00:01:03.350
+where each element corresponds
+to a word of the vocabulary.
+
+19
+00:01:03.350 --> 00:01:08.440
+Using the previous example with
+a vocabulary of 1,000 words, each vector
+
+20
+00:01:08.440 --> 00:01:14.440
+would contain 1,000 elements and each row
+would be labeled with one of the words.
+
+21
+00:01:14.440 --> 00:01:19.131
+You can now encode each word with a unique
+column vector by putting a 1 in the row
+
+22
+00:01:19.131 --> 00:01:22.630
+that has the same label and
+a 0 everywhere else.
+
+23
+00:01:22.630 --> 00:01:27.200
+For example, the word happy would be
+represented as a vector with a 1 in
+
+24
+00:01:27.200 --> 00:01:32.150
+the row corresponding to happy and
+zero in all of the other rows and
+
+25
+00:01:32.150 --> 00:01:34.220
+for all the other words in the vocabulary.
+
+26
+00:01:35.390 --> 00:01:38.250
+I'll call these vectors one-hot vectors
+
+27
+00:01:38.250 --> 00:01:42.150
+to distinguish them from other types
+of vectors that you'll encounter.
+
+28
+00:01:42.150 --> 00:01:45.570
+You can consider words as
+a categorical variable.
+
+29
+00:01:45.570 --> 00:01:48.330
+You can easily go from integers
+to one-hot vectors and
+
+30
+00:01:48.330 --> 00:01:53.000
+back by simply mapping the words in the
+rows to their corresponding row number.
+
+31
+00:01:53.000 --> 00:01:58.020
+In this way, happy,
+word number 621 would be represented as
+
+32
+00:01:58.020 --> 00:02:04.110
+a one-hot vector with a 1 in row 621,
+which corresponds to the word happy.
+
+33
+00:02:04.110 --> 00:02:09.170
+Conversely, the vector for
+happy with a 1 in row 621 would
+
+34
+00:02:09.170 --> 00:02:14.344
+be represented by integer 621
+which corresponds to happy.
+
+35
+00:02:14.344 --> 00:02:19.110
+One-hot vectors have an advantage over
+using integers because one-hot vectors do
+
+36
+00:02:19.110 --> 00:02:22.750
+not imply any relationship
+between any two words.
+
+37
+00:02:22.750 --> 00:02:26.635
+Each vector says the word is
+either happy or it's not or
+
+38
+00:02:26.635 --> 00:02:29.343
+the word is either zebra or it's not.
+
+39
+00:02:29.343 --> 00:02:35.225
+However, one-hot vectors have two major
+limitations for most NLP use cases.
+
+40
+00:02:35.225 --> 00:02:37.255
+For one, barring anything but
+
+41
+00:02:37.255 --> 00:02:41.985
+the simplest vocabulary,
+these parts vectors are going to be huge.
+
+42
+00:02:41.985 --> 00:02:45.605
+This means that working with one-hot
+vectors on a computer would require
+
+43
+00:02:45.605 --> 00:02:47.675
+a lot of space and processing time.
+
+44
+00:02:48.873 --> 00:02:52.615
+If your vectors are created with
+English words, you could end up with
+
+45
+00:02:52.615 --> 00:02:57.295
+upwards of a million rows, one row for
+each word in the English vocabulary.
+
+46
+00:02:58.390 --> 00:03:01.030
+Another limitation is that
+this representation doesn't
+
+47
+00:03:01.030 --> 00:03:02.990
+carry the word's meaning.
+
+48
+00:03:02.990 --> 00:03:06.639
+For instance, if you attempt to
+determine how similar two words
+
+49
+00:03:06.639 --> 00:03:10.320
+are by calculating the distance
+between their one-hot vectors,
+
+50
+00:03:10.320 --> 00:03:14.790
+then you will always get the same
+distance between any two pairs of words.
+
+51
+00:03:14.790 --> 00:03:17.590
+For example, using one-hot vectors,
+
+52
+00:03:17.590 --> 00:03:22.770
+the word happy is just as similar to the
+word paper as it is to the word excited.
+
+53
+00:03:22.770 --> 00:03:27.120
+Intuitively, you would think that happy
+is more similar to excited than it is
+
+54
+00:03:27.120 --> 00:03:28.590
+to paper.
+
+55
+00:03:28.590 --> 00:03:32.094
+This is where word embeddings come
+into play as I'll explain next.

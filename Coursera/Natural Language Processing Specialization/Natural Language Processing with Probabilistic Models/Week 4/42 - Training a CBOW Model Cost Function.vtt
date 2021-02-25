@@ -1,0 +1,493 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.130
+Welcome back. I'll now show
+
+2
+00:00:02.130 --> 00:00:04.320
+you the cost function
+for the soft-max.
+
+3
+00:00:04.320 --> 00:00:05.790
+You'll understand why it's as
+
+4
+00:00:05.790 --> 00:00:08.970
+a cost function and you'll
+see why you are learning it.
+
+5
+00:00:08.970 --> 00:00:11.880
+You basically have to predict
+one of the possible words.
+
+6
+00:00:11.880 --> 00:00:13.890
+In order for you to be able to
+
+7
+00:00:13.890 --> 00:00:16.215
+predict one of these
+V possible words,
+
+8
+00:00:16.215 --> 00:00:18.675
+you need to minimize a
+certain cost function.
+
+9
+00:00:18.675 --> 00:00:21.045
+In this video, you'll understand
+
+10
+00:00:21.045 --> 00:00:22.410
+what cost function you are
+
+11
+00:00:22.410 --> 00:00:24.765
+minimizing and why
+you are doing that.
+
+12
+00:00:24.765 --> 00:00:26.655
+So let's take a look.
+
+13
+00:00:26.655 --> 00:00:29.295
+Consider a machine
+learning model,
+
+14
+00:00:29.295 --> 00:00:31.920
+a single training example
+made of an input and
+
+15
+00:00:31.920 --> 00:00:33.630
+a true target and the value
+
+16
+00:00:33.630 --> 00:00:36.150
+predicted by the model
+based on the input.
+
+17
+00:00:36.150 --> 00:00:39.120
+It has a loss function which
+measures the error between
+
+18
+00:00:39.120 --> 00:00:41.005
+the prediction and the true value
+
+19
+00:00:41.005 --> 00:00:43.215
+for a single input
+training example.
+
+20
+00:00:43.215 --> 00:00:45.480
+With the continuous
+bag-of-words model,
+
+21
+00:00:45.480 --> 00:00:46.890
+for a set of inputs
+
+22
+00:00:46.890 --> 00:00:49.820
+context words
+represented by vector x,
+
+23
+00:00:49.820 --> 00:00:51.740
+for which the actual value is
+
+24
+00:00:51.740 --> 00:00:55.280
+the vector y that represents
+the actual central word,
+
+25
+00:00:55.280 --> 00:00:57.695
+the prediction is
+the vector y hat.
+
+26
+00:00:57.695 --> 00:01:00.710
+The objective of the
+learning process is to find
+
+27
+00:01:00.710 --> 00:01:02.300
+the parameters that minimize
+
+28
+00:01:02.300 --> 00:01:05.190
+the loss given the
+training data sets.
+
+29
+00:01:05.190 --> 00:01:07.925
+In the case of the continuous
+bag-of-words model,
+
+30
+00:01:07.925 --> 00:01:11.390
+the parameters being adjusted
+by the learning process
+
+31
+00:01:11.390 --> 00:01:15.320
+are the weighting
+matrices W_1 and W_2,
+
+32
+00:01:15.320 --> 00:01:18.020
+and also the bias
+vectors b_1 and b_2.
+
+33
+00:01:18.020 --> 00:01:19.400
+The loss-function you'll be
+
+34
+00:01:19.400 --> 00:01:21.500
+using is the cross-entropy loss.
+
+35
+00:01:21.500 --> 00:01:23.100
+I won't get into the theory.
+
+36
+00:01:23.100 --> 00:01:24.320
+You should just know that
+
+37
+00:01:24.320 --> 00:01:26.420
+the cross-entropy
+loss function is
+
+38
+00:01:26.420 --> 00:01:28.610
+often used with
+classification models,
+
+39
+00:01:28.610 --> 00:01:30.350
+which often go hand in hand with
+
+40
+00:01:30.350 --> 00:01:33.005
+the softmax output layer
+in neural networks,
+
+41
+00:01:33.005 --> 00:01:34.550
+just like the one
+you are using in
+
+42
+00:01:34.550 --> 00:01:36.325
+the continuous
+bag-of-words model.
+
+43
+00:01:36.325 --> 00:01:38.825
+If you've already worked
+with logistic regression,
+
+44
+00:01:38.825 --> 00:01:40.655
+you probably already know
+
+45
+00:01:40.655 --> 00:01:43.685
+a simple form of the
+cross-entropy loss function,
+
+46
+00:01:43.685 --> 00:01:45.270
+also known as log loss,
+
+47
+00:01:45.270 --> 00:01:46.815
+when there are just two classes.
+
+48
+00:01:46.815 --> 00:01:48.360
+With the notation I used for
+
+49
+00:01:48.360 --> 00:01:50.135
+the continuous
+bag-of-words model,
+
+50
+00:01:50.135 --> 00:01:52.250
+the formula for
+cross-entropy loss for
+
+51
+00:01:52.250 --> 00:01:56.540
+a training example is J
+equals the negative of
+
+52
+00:01:56.540 --> 00:01:59.780
+the sum over k from 1 to v of
+
+53
+00:01:59.780 --> 00:02:03.845
+y_k times the log of y
+hat k. As an example,
+
+54
+00:02:03.845 --> 00:02:07.815
+consider the input context
+words I am because I,
+
+55
+00:02:07.815 --> 00:02:10.005
+where the actual
+central word is, happy.
+
+56
+00:02:10.005 --> 00:02:12.845
+The corresponding
+vector is this vector y
+
+57
+00:02:12.845 --> 00:02:16.470
+with a one in the row
+corresponding to the word happy.
+
+58
+00:02:16.470 --> 00:02:18.860
+The prediction could
+be this vector y hat.
+
+59
+00:02:18.860 --> 00:02:20.510
+As the largest value is in
+
+60
+00:02:20.510 --> 00:02:22.805
+the row corresponding
+to the word happy,
+
+61
+00:02:22.805 --> 00:02:24.950
+this vector would
+be interpreted as
+
+62
+00:02:24.950 --> 00:02:27.155
+predicting happy as
+the central word,
+
+63
+00:02:27.155 --> 00:02:29.510
+which is the correct
+prediction in this case.
+
+64
+00:02:29.510 --> 00:02:31.940
+So let's calculate the
+cross entropy loss.
+
+65
+00:02:31.940 --> 00:02:34.240
+The log of y hat is this vector,
+
+66
+00:02:34.240 --> 00:02:36.125
+multiplying each element by
+
+67
+00:02:36.125 --> 00:02:39.380
+the corresponding element
+of y gives us this vector.
+
+68
+00:02:39.380 --> 00:02:40.940
+I'm using the circle dot to
+
+69
+00:02:40.940 --> 00:02:43.400
+denote element y's
+multiplication.
+
+70
+00:02:43.400 --> 00:02:45.875
+Note, there is only
+one non-zero value,
+
+71
+00:02:45.875 --> 00:02:48.370
+which is negative 0.49.
+
+72
+00:02:48.370 --> 00:02:50.155
+The sum is therefore,
+
+73
+00:02:50.155 --> 00:02:54.910
+this value and the loss is
+minus the sum, so 0.49.
+
+74
+00:02:54.910 --> 00:02:57.495
+Now, what if the
+prediction was wrong?
+
+75
+00:02:57.495 --> 00:03:00.750
+Say that the predicted
+that vector was 0.96,
+
+76
+00:03:00.750 --> 00:03:06.225
+0.01, 0.01, 0.01, predicting
+"am" instead of happy.
+
+77
+00:03:06.225 --> 00:03:09.480
+The log would be this
+vector multiplying element
+
+78
+00:03:09.480 --> 00:03:12.135
+y's by y would give
+us this vector.
+
+79
+00:03:12.135 --> 00:03:14.965
+Then the sum is negative 4.61,
+
+80
+00:03:14.965 --> 00:03:17.360
+and the loss is
+negative one times
+
+81
+00:03:17.360 --> 00:03:19.900
+this, so positive 4.61.
+
+82
+00:03:19.900 --> 00:03:21.350
+So you can see that the loss is
+
+83
+00:03:21.350 --> 00:03:23.510
+larger when the
+prediction is incorrect.
+
+84
+00:03:23.510 --> 00:03:26.330
+More generally, the
+cross-entropy loss
+
+85
+00:03:26.330 --> 00:03:27.530
+boils down to negative
+
+86
+00:03:27.530 --> 00:03:29.300
+one times the log of the value of
+
+87
+00:03:29.300 --> 00:03:31.430
+the prediction
+element corresponding
+
+88
+00:03:31.430 --> 00:03:33.025
+to the actual central word.
+
+89
+00:03:33.025 --> 00:03:35.930
+So if you plot the cross-entropy
+loss as a function of
+
+90
+00:03:35.930 --> 00:03:39.370
+the value of the prediction
+for the actual central word,
+
+91
+00:03:39.370 --> 00:03:41.630
+you can see that if the
+model is predicting
+
+92
+00:03:41.630 --> 00:03:45.350
+correctly with a y hat
+value closer to one,
+
+93
+00:03:45.350 --> 00:03:47.550
+then your loss will
+be closer to zero.
+
+94
+00:03:47.550 --> 00:03:50.350
+This is because log of
+one is equal to zero.
+
+95
+00:03:50.350 --> 00:03:54.710
+If on the other hand the model
+is predicting incorrectly,
+
+96
+00:03:54.710 --> 00:03:56.150
+then your y hat for
+
+97
+00:03:56.150 --> 00:03:59.000
+the actual word will
+be closer to zero,
+
+98
+00:03:59.000 --> 00:04:01.110
+resulting in a high loss value.
+
+99
+00:04:01.110 --> 00:04:03.800
+The reason for this is that
+the limits of log x as
+
+100
+00:04:03.800 --> 00:04:06.900
+x approaches zero
+is minus infinity.
+
+101
+00:04:06.900 --> 00:04:08.245
+So for the loss,
+
+102
+00:04:08.245 --> 00:04:10.625
+which uses negative
+one times the log,
+
+103
+00:04:10.625 --> 00:04:12.410
+as y hat approaches zero,
+
+104
+00:04:12.410 --> 00:04:14.660
+the loss approaches
+positive infinity.
+
+105
+00:04:14.660 --> 00:04:16.220
+So the loss is rewarding
+
+106
+00:04:16.220 --> 00:04:21.060
+correct predictions and
+penalizing incorrect predictions.

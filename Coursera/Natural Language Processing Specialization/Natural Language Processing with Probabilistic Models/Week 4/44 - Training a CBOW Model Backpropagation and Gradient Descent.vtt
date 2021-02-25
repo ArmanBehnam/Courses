@@ -1,0 +1,331 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.248
+Hello again, in this video, I'll show
+you how you can find the weights for
+
+2
+00:00:04.248 --> 00:00:07.029
+your linear layer and for
+your word embeddings.
+
+3
+00:00:07.029 --> 00:00:12.082
+To minimize these two matrices or weights
+vectors, you'll have to minimize the cost,
+
+4
+00:00:12.082 --> 00:00:15.306
+and to minimize the cost,
+you will use two techniques.
+
+5
+00:00:15.306 --> 00:00:17.652
+The first one is backpropagation.
+
+6
+00:00:17.652 --> 00:00:23.031
+Backpropagation is an algorithm that
+calculates the partial derivatives or
+
+7
+00:00:23.031 --> 00:00:28.833
+gradients of the cost with respect to the
+weights and biases of the neural network.
+
+8
+00:00:28.833 --> 00:00:34.599
+Remember that the cost Jay batch is
+a function of the weights and biases.
+
+9
+00:00:34.599 --> 00:00:38.469
+The back in backpropagation comes
+from the way the formulas for
+
+10
+00:00:38.469 --> 00:00:42.859
+the derivatives are obtained,
+using the chain rule for derivatives.
+
+11
+00:00:42.859 --> 00:00:47.378
+Without going into too much detail, using
+the chain rule involves starting from
+
+12
+00:00:47.378 --> 00:00:51.497
+the output layer, and then working
+your way back through the layers using
+
+13
+00:00:51.497 --> 00:00:54.432
+derivatives that you have
+calculated previously.
+
+14
+00:00:54.432 --> 00:00:58.925
+By the way, backpropagation is a prime
+example of dynamic programming,
+
+15
+00:00:58.925 --> 00:01:02.705
+which you learned about during
+the first week of this course.
+
+16
+00:01:02.705 --> 00:01:06.111
+The second technique you will
+use as gradient descent,
+
+17
+00:01:06.111 --> 00:01:07.921
+which adjusts the weights and
+
+18
+00:01:07.921 --> 00:01:12.690
+biases of the neural network using
+the gradient to minimize the cost.
+
+19
+00:01:12.690 --> 00:01:18.425
+I want to go into the mathematical details
+of backpropagation or gradient descent.
+
+20
+00:01:18.425 --> 00:01:21.882
+But if you're interested in learning more,
+check out a course on neural networks to
+
+21
+00:01:21.882 --> 00:01:23.989
+understand how the various
+formulas are derived.
+
+22
+00:01:23.989 --> 00:01:28.291
+First, let's use back propagation to
+calculate the partial derivatives of
+
+23
+00:01:28.291 --> 00:01:32.008
+the cost function that you'll
+need to perform gradient descent.
+
+24
+00:01:32.008 --> 00:01:36.366
+You'll need the partial derivatives
+of the cost function with respect to
+
+25
+00:01:36.366 --> 00:01:42.360
+the parameters of the neural network,
+which are in this case w1, w2, b1, and b2.
+
+26
+00:01:42.360 --> 00:01:47.146
+The calculations are long-winded, and
+in practice you'll use machine learning
+
+27
+00:01:47.146 --> 00:01:49.893
+libraries to handle backpropagation for
+you.
+
+28
+00:01:49.893 --> 00:01:51.452
+So I'll just give you the formulas,
+
+29
+00:01:51.452 --> 00:01:54.029
+which you'll get to implement
+in this week's assignment.
+
+30
+00:01:54.029 --> 00:01:58.161
+The derivative of the cost function
+with respect to the weight
+
+31
+00:01:58.161 --> 00:02:00.312
+in the matrix w1 is as follows.
+
+32
+00:02:00.312 --> 00:02:03.645
+This is the formula for the partial
+derivative of the cost function
+
+33
+00:02:03.645 --> 00:02:06.993
+with respect to w2, here's the formula for
+the bias vector b1.
+
+34
+00:02:06.993 --> 00:02:10.162
+Let me pause here for a second.
+
+35
+00:02:10.162 --> 00:02:15.903
+In this formula,
+I've introduced the 1 underscore m vector,
+
+36
+00:02:15.903 --> 00:02:20.702
+which is a row vector with
+m elements that are all 1s.
+
+37
+00:02:20.702 --> 00:02:26.339
+If you are multiplying a matrix A that
+has m rows by the 1m vector transposed,
+
+38
+00:02:26.339 --> 00:02:30.850
+you will get the column vector,
+where each element is equal to
+
+39
+00:02:30.850 --> 00:02:34.781
+the sum of the elements in
+the corresponding row of A.
+
+40
+00:02:34.781 --> 00:02:37.752
+Having said that the 1m
+vector is introduced for
+
+41
+00:02:37.752 --> 00:02:42.111
+mostly formal purposes to be able
+to write the mathematical formulas.
+
+42
+00:02:42.111 --> 00:02:47.498
+In practice, when you implement this
+in Python, the easiest way to calculate
+
+43
+00:02:47.498 --> 00:02:53.143
+the sum of the columns is to use NumPy sum
+function, without using the 1m vector.
+
+44
+00:02:53.143 --> 00:02:57.609
+In the sum function, you need to
+specify that you want to get the sum of
+
+45
+00:02:57.609 --> 00:03:00.617
+the columns with
+the parameter axis equal 1.
+
+46
+00:03:00.617 --> 00:03:05.159
+And you will also need to set
+the keepdims parameter to True, so
+
+47
+00:03:05.159 --> 00:03:09.960
+that the results can be broadcasts
+into a matrix of whatever size is
+
+48
+00:03:09.960 --> 00:03:12.811
+necessary later in the calculations.
+
+49
+00:03:12.811 --> 00:03:17.701
+Finally, here is the formula for
+b2, which also uses the 1m vector.
+
+50
+00:03:17.701 --> 00:03:22.137
+Now for the purposes of this course,
+you don't have to understand how these
+
+51
+00:03:22.137 --> 00:03:25.342
+formulas were derived,
+you can just use them, okay?
+
+52
+00:03:25.342 --> 00:03:27.637
+So now that you have these gradients,
+
+53
+00:03:27.637 --> 00:03:32.313
+you can use gradient descent to update
+the weight matrices and bias vectors.
+
+54
+00:03:32.313 --> 00:03:36.885
+The calculations include a learning
+rate alpha, which is a hyper parameter
+
+55
+00:03:36.885 --> 00:03:41.399
+of your model, and here are the formulas
+to update the weights and biases.
+
+56
+00:03:41.399 --> 00:03:43.985
+The idea is to take
+the original parameters and
+
+57
+00:03:43.985 --> 00:03:46.449
+then subtract alpha times their gradient.
+
+58
+00:03:46.449 --> 00:03:51.262
+Since alpha is chosen to be small
+positive number that is less than 1,
+
+59
+00:03:51.262 --> 00:03:55.751
+the effect of multiplying by alpha
+is to reduce the amount by which
+
+60
+00:03:55.751 --> 00:03:58.462
+each variable is updated at each step.
+
+61
+00:03:58.462 --> 00:04:03.817
+A smaller alpha allows for more gradual
+updates to the weights and biases,
+
+62
+00:04:03.817 --> 00:04:08.673
+whereas a larger number allows for
+a faster updates of the weights.
+
+63
+00:04:08.673 --> 00:04:13.771
+So for instance, the new weight in the
+matrix w1 would be equal to the original
+
+64
+00:04:13.771 --> 00:04:18.792
+w1 minus alpha times the partial
+derivative of the cost with respect to w1,
+
+65
+00:04:18.792 --> 00:04:22.516
+which you calculated during
+the backpropagation step.
+
+66
+00:04:22.516 --> 00:04:27.805
+You now know everything you need to
+train a continuous bag of words model.
+
+67
+00:04:27.805 --> 00:04:31.725
+In the next video, you'll learn how to
+extract word embedding vectors from
+
+68
+00:04:31.725 --> 00:04:33.880
+a trained continuous bag of words model.

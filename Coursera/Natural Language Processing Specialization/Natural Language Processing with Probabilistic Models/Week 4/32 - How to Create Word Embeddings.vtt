@@ -1,0 +1,260 @@
+WEBVTT
+
+1
+00:00:00.800 --> 00:00:03.840
+To create word embeddings
+you always need two things.
+
+2
+00:00:03.840 --> 00:00:06.430
+A corpus of text and an embedding method.
+
+3
+00:00:07.460 --> 00:00:10.340
+The corpus contains
+the words you want to embed
+
+4
+00:00:10.340 --> 00:00:15.000
+organized in the same way as they would
+be used in the context of interest.
+
+5
+00:00:15.000 --> 00:00:18.970
+For example, if you want to generate
+word embeddings based on Shakespeare,
+
+6
+00:00:18.970 --> 00:00:23.390
+then your corpus would be the full and
+original text of Shakespeare and
+
+7
+00:00:23.390 --> 00:00:28.160
+not study notes, slide presentations or
+keywords from Shakespeare.
+
+8
+00:00:28.160 --> 00:00:31.133
+The context of a word refers
+towards other words or
+
+9
+00:00:31.133 --> 00:00:35.410
+a combination of words said to
+occur around that particular word.
+
+10
+00:00:35.410 --> 00:00:40.650
+The context is important as this is what
+will give meaning to each word embedding,
+
+11
+00:00:40.650 --> 00:00:44.920
+a simple vocabulary list of
+Shakespeare's most common words
+
+12
+00:00:44.920 --> 00:00:47.470
+would not be enough to create embeddings.
+
+13
+00:00:47.470 --> 00:00:52.420
+The corpus would be a general purpose
+sets of documents such as Wikipedia
+
+14
+00:00:52.420 --> 00:00:57.040
+articles or it could be more
+specialized such as an industry or
+
+15
+00:00:57.040 --> 00:01:01.830
+enterprise specific corpus to
+capture the nuances of the context.
+
+16
+00:01:01.830 --> 00:01:06.470
+For NLP use cases on legal topics,
+you could use contracts and law books as
+
+17
+00:01:06.470 --> 00:01:11.330
+the corpus, the embedding method creates
+the word embeddings from the corpus.
+
+18
+00:01:11.330 --> 00:01:13.430
+There are many types of possible methods.
+
+19
+00:01:13.430 --> 00:01:18.510
+But in this course, I will focus on modern
+methods based on machine learning models
+
+20
+00:01:18.510 --> 00:01:21.630
+which are set to learn
+the word embeddings.
+
+21
+00:01:21.630 --> 00:01:24.660
+The machine learning model
+performs a learning task and
+
+22
+00:01:24.660 --> 00:01:28.220
+the main byproducts of this
+task are the word embeddings.
+
+23
+00:01:28.220 --> 00:01:32.150
+For instance the task would be to learn to
+predict a word based on the surrounding
+
+24
+00:01:32.150 --> 00:01:36.890
+words in a sentence of the corpus, as in
+the case of the continuous bag of words
+
+25
+00:01:36.890 --> 00:01:41.520
+approach that I will describe in the next
+videos that you will implement this week.
+
+26
+00:01:41.520 --> 00:01:45.520
+The specific of the tasks are what
+will ultimately define the meaning
+
+27
+00:01:45.520 --> 00:01:47.560
+of the individual words.
+
+28
+00:01:47.560 --> 00:01:50.650
+I'll get back to this in
+one of the next videos.
+
+29
+00:01:50.650 --> 00:01:53.850
+The task is said to be self supervised.
+
+30
+00:01:53.850 --> 00:02:00.020
+It is both unsupervised in the sense that
+the input data, the corpus, is unlabeled.
+
+31
+00:02:00.020 --> 00:02:04.580
+And supervised in the sense that the data
+itself provides the necessary context
+
+32
+00:02:04.580 --> 00:02:07.980
+which would ordinarily make up the labels.
+
+33
+00:02:07.980 --> 00:02:12.410
+So the corpus is a self-contained
+data set that contains both,
+
+34
+00:02:12.410 --> 00:02:17.050
+the training data and the data that
+enables the supervision of the task.
+
+35
+00:02:17.050 --> 00:02:21.150
+Word embeddings can be tuned by
+a number of hyperparameters.
+
+36
+00:02:21.150 --> 00:02:23.370
+Just like in any machine learning model.
+
+37
+00:02:23.370 --> 00:02:28.070
+One of these hyperparameters is the
+dimension of the word embedding vectors.
+
+38
+00:02:28.070 --> 00:02:31.850
+In practice this dimension
+typically ranges from a few hundred
+
+39
+00:02:31.850 --> 00:02:33.410
+to the low thousands.
+
+40
+00:02:33.410 --> 00:02:36.620
+Using higher dimensions captures
+more nuanced meanings, but
+
+41
+00:02:36.620 --> 00:02:40.720
+is more computationally expensive
+both as training time and
+
+42
+00:02:40.720 --> 00:02:44.400
+later down the line when using
+the word embedding vectors.
+
+43
+00:02:44.400 --> 00:02:47.420
+This eventually leads
+to diminishing returns.
+
+44
+00:02:47.420 --> 00:02:52.220
+Finally, to feed the corpus into
+the machine learning model the contents of
+
+45
+00:02:52.220 --> 00:02:57.590
+the corpus must first be transformed into
+a suitable mathematical representation
+
+46
+00:02:57.590 --> 00:02:59.940
+from words into numbers.
+
+47
+00:02:59.940 --> 00:03:03.770
+The representation depends on
+the specifics of the model, but
+
+48
+00:03:03.770 --> 00:03:08.170
+it is usually based on the simple
+representations that I presented in
+
+49
+00:03:08.170 --> 00:03:14.210
+the previous video, such as integer
+based word indices or one hot vectors.
+
+50
+00:03:14.210 --> 00:03:19.060
+In this video you learned about high level
+process to create context embeddings.
+
+51
+00:03:19.060 --> 00:03:23.490
+For the next step I'll introduce you
+to several word embedding methods
+
+52
+00:03:23.490 --> 00:03:27.100
+including the continuous bag of words
+approach that you will be implementing in
+
+53
+00:03:27.100 --> 00:03:28.710
+this week's assignment.
+
+54
+00:03:28.710 --> 00:03:29.210
+See you later.

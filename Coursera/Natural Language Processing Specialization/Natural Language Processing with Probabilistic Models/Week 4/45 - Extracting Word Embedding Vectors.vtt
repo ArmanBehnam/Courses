@@ -1,0 +1,323 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.859
+You have already implemented
+
+2
+00:00:01.859 --> 00:00:04.395
+forward propagation,
+back propagation,
+
+3
+00:00:04.395 --> 00:00:06.120
+and gradient descent to train
+
+4
+00:00:06.120 --> 00:00:09.405
+the neural network of a
+continuous bag of words model.
+
+5
+00:00:09.405 --> 00:00:10.680
+But how do you get
+
+6
+00:00:10.680 --> 00:00:13.500
+the word embeddings out of
+your trained neural nets?
+
+7
+00:00:13.500 --> 00:00:15.959
+As you may remember,
+word embedding,
+
+8
+00:00:15.959 --> 00:00:18.885
+are not directly outputs
+by the training process.
+
+9
+00:00:18.885 --> 00:00:21.345
+They are a byproduct
+of the process.
+
+10
+00:00:21.345 --> 00:00:23.190
+I'll now explain
+how you can extract
+
+11
+00:00:23.190 --> 00:00:25.830
+word embeddings from
+a trained neural net.
+
+12
+00:00:25.830 --> 00:00:27.570
+Remember, these are vectors
+
+13
+00:00:27.570 --> 00:00:29.250
+that carry the
+meaning of the words
+
+14
+00:00:29.250 --> 00:00:30.960
+of the vocabulary based on
+
+15
+00:00:30.960 --> 00:00:32.835
+the context words in the corpus.
+
+16
+00:00:32.835 --> 00:00:34.800
+Once you've trained
+your neural network,
+
+17
+00:00:34.800 --> 00:00:36.420
+after iterating through all of
+
+18
+00:00:36.420 --> 00:00:39.305
+your training data
+possibly several times,
+
+19
+00:00:39.305 --> 00:00:41.600
+you can extract three
+alternative word
+
+20
+00:00:41.600 --> 00:00:43.250
+embedding representations.
+
+21
+00:00:43.250 --> 00:00:47.150
+The first possibility is
+to consider each column of
+
+22
+00:00:47.150 --> 00:00:49.160
+W_1 as the column vector
+
+23
+00:00:49.160 --> 00:00:52.070
+embedding vector of a
+word of the vocabulary.
+
+24
+00:00:52.070 --> 00:00:56.525
+Recall that matrix W_1
+has v number of columns,
+
+25
+00:00:56.525 --> 00:00:59.810
+so it has one column for
+each word in the vocabulary.
+
+26
+00:00:59.810 --> 00:01:03.260
+The mapping between
+columns of W_1 and words,
+
+27
+00:01:03.260 --> 00:01:05.915
+uses the same order
+as the input rows.
+
+28
+00:01:05.915 --> 00:01:08.075
+For example, with the corpus,
+
+29
+00:01:08.075 --> 00:01:10.340
+I am happy because
+I'm learning and the
+
+30
+00:01:10.340 --> 00:01:12.950
+five rows of the input
+vector or matrix
+
+31
+00:01:12.950 --> 00:01:18.235
+corresponds to m because
+happy, I, and learning.
+
+32
+00:01:18.235 --> 00:01:20.690
+Then in W_1 your
+first column will be
+
+33
+00:01:20.690 --> 00:01:23.240
+the word embedding
+column vector for m,
+
+34
+00:01:23.240 --> 00:01:25.600
+the second for
+because and so forth.
+
+35
+00:01:25.600 --> 00:01:27.200
+The second option to extract
+
+36
+00:01:27.200 --> 00:01:29.945
+word embeddings is
+to use each row
+
+37
+00:01:29.945 --> 00:01:31.970
+of W_2 as the word
+
+38
+00:01:31.970 --> 00:01:34.790
+embedding row vector for
+the corresponding word.
+
+39
+00:01:34.790 --> 00:01:37.600
+Matrix W_2 has v rows,
+
+40
+00:01:37.600 --> 00:01:40.140
+one row for each word
+in the vocabulary.
+
+41
+00:01:40.140 --> 00:01:42.200
+Again, the order is the
+
+42
+00:01:42.200 --> 00:01:44.765
+same as the input
+vector or matrix.
+
+43
+00:01:44.765 --> 00:01:47.285
+So with our sample
+corpus and inputs,
+
+44
+00:01:47.285 --> 00:01:48.920
+the first row would be the word
+
+45
+00:01:48.920 --> 00:01:51.350
+embedding row vector for m,
+
+46
+00:01:51.350 --> 00:01:53.940
+the second for because and so on.
+
+47
+00:01:53.940 --> 00:01:56.630
+The third and final
+option is to take
+
+48
+00:01:56.630 --> 00:01:59.525
+the average of the two
+previous representations.
+
+49
+00:01:59.525 --> 00:02:02.060
+So if you want the word
+embedding column vectors,
+
+50
+00:02:02.060 --> 00:02:04.130
+you would average W_1 and
+
+51
+00:02:04.130 --> 00:02:07.960
+the transpose of
+W_2 to obtain W_3,
+
+52
+00:02:07.960 --> 00:02:10.535
+a new n by v matrix.
+
+53
+00:02:10.535 --> 00:02:13.010
+You can then extract the
+word embedding vectors from
+
+54
+00:02:13.010 --> 00:02:16.250
+each column of W_3 as
+you did previously.
+
+55
+00:02:16.250 --> 00:02:18.035
+So with our visual example,
+
+56
+00:02:18.035 --> 00:02:20.030
+the word embedding for m
+
+57
+00:02:20.030 --> 00:02:22.385
+would be the first column of W_3,
+
+58
+00:02:22.385 --> 00:02:24.170
+which would be the average of
+
+59
+00:02:24.170 --> 00:02:25.700
+the values of the first column
+
+60
+00:02:25.700 --> 00:02:29.135
+of W_1 and of the
+first row of W_2.
+
+61
+00:02:29.135 --> 00:02:30.875
+In this week's assignment,
+
+62
+00:02:30.875 --> 00:02:33.530
+you'll be averaging
+W_1 transpose and
+
+63
+00:02:33.530 --> 00:02:37.340
+W_2 to extracts the word
+embeddings as row vectors.
+
+64
+00:02:37.340 --> 00:02:40.235
+Now that you know how to
+train these word vectors,
+
+65
+00:02:40.235 --> 00:02:41.420
+in next week's video,
+
+66
+00:02:41.420 --> 00:02:42.950
+you'll learn how to test them.
+
+67
+00:02:42.950 --> 00:02:44.630
+Specifically, you
+will learn about
+
+68
+00:02:44.630 --> 00:02:46.730
+two types of evaluation metrics.
+
+69
+00:02:46.730 --> 00:02:49.400
+The first type is
+intrinsic evaluation
+
+70
+00:02:49.400 --> 00:02:53.310
+and the second type is
+extrinsic evaluation.

@@ -1,0 +1,276 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.810
+So far, you've cleaned and
+tokenized corpus and extracted
+
+2
+00:00:03.810 --> 00:00:05.820
+the context words
+and center word from
+
+3
+00:00:05.820 --> 00:00:08.725
+a window that's slides
+across your prepared corpus.
+
+4
+00:00:08.725 --> 00:00:10.880
+Now, you're ready to transform
+
+5
+00:00:10.880 --> 00:00:12.950
+the center words and
+context words into
+
+6
+00:00:12.950 --> 00:00:15.030
+a mathematical form
+that's going to be
+
+7
+00:00:15.030 --> 00:00:17.985
+consumed by the continuous
+bag of words model.
+
+8
+00:00:17.985 --> 00:00:20.100
+Let's start with
+the center words.
+
+9
+00:00:20.100 --> 00:00:21.570
+For the sample corpus,
+
+10
+00:00:21.570 --> 00:00:22.830
+which is the sentence,
+
+11
+00:00:22.830 --> 00:00:24.900
+I'm happy because I'm learning,
+
+12
+00:00:24.900 --> 00:00:26.850
+you first create a vocabulary,
+
+13
+00:00:26.850 --> 00:00:29.700
+which is the sets of unique
+words in the corpus.
+
+14
+00:00:29.700 --> 00:00:33.570
+So here, you get a five
+word vocabulary: am,
+
+15
+00:00:33.570 --> 00:00:36.930
+because, happy, I, and learning.
+
+16
+00:00:36.930 --> 00:00:40.525
+You can now encode each word
+as a column one-hot vector,
+
+17
+00:00:40.525 --> 00:00:42.080
+where each row of the vector
+
+18
+00:00:42.080 --> 00:00:44.495
+corresponds to a word
+of the vocabulary.
+
+19
+00:00:44.495 --> 00:00:46.445
+So five rows in total here.
+
+20
+00:00:46.445 --> 00:00:50.000
+By the way, here the words
+corresponding to the rows are
+
+21
+00:00:50.000 --> 00:00:51.920
+arranged in alphabetical order
+
+22
+00:00:51.920 --> 00:00:54.200
+but any other order
+would be fine.
+
+23
+00:00:54.200 --> 00:00:57.620
+In this way, the vector
+for am will have a one in
+
+24
+00:00:57.620 --> 00:01:01.315
+the row corresponding to am
+and zero everywhere else,
+
+25
+00:01:01.315 --> 00:01:04.580
+because, we'll have a one
+in the row for because and
+
+26
+00:01:04.580 --> 00:01:08.210
+zero in the other rows and so on.
+
+27
+00:01:08.210 --> 00:01:11.620
+This is how you'll input the
+center words into the model.
+
+28
+00:01:11.620 --> 00:01:13.365
+For the context words,
+
+29
+00:01:13.365 --> 00:01:15.860
+you will create a single
+vector that represents
+
+30
+00:01:15.860 --> 00:01:18.740
+the context from all
+of the context words.
+
+31
+00:01:18.740 --> 00:01:21.725
+To create this vector
+for the entire context,
+
+32
+00:01:21.725 --> 00:01:25.890
+take the average of one-hot
+vectors of each context word.
+
+33
+00:01:25.890 --> 00:01:28.790
+For example, if the
+context words are,
+
+34
+00:01:28.790 --> 00:01:30.635
+I am because I,
+
+35
+00:01:30.635 --> 00:01:33.065
+the one-hot vector for
+the individual words
+
+36
+00:01:33.065 --> 00:01:35.780
+are 0, 0, 0, 1,
+
+37
+00:01:35.780 --> 00:01:39.090
+0 for I, 1, 0, 0, 0,
+
+38
+00:01:39.090 --> 00:01:42.120
+0 for m, 0, 1, 0, 0,
+
+39
+00:01:42.120 --> 00:01:45.870
+0 for because and 0, 0, 0, 1,
+
+40
+00:01:45.870 --> 00:01:51.870
+0 again for I and their
+average is 0.25, 0.25, 0,
+
+41
+00:01:51.870 --> 00:01:54.020
+0.5, and 0 which yields
+
+42
+00:01:54.020 --> 00:01:57.260
+the vector presentation
+of I am because I,
+
+43
+00:01:57.260 --> 00:01:59.060
+to be used with a model.
+
+44
+00:01:59.060 --> 00:02:01.040
+So for the first window,
+
+45
+00:02:01.040 --> 00:02:02.540
+I'm happy because I
+
+46
+00:02:02.540 --> 00:02:04.820
+define a vector
+representations that you
+
+47
+00:02:04.820 --> 00:02:06.200
+will actually use to train
+
+48
+00:02:06.200 --> 00:02:09.070
+the continuous bag of words
+model will look like this.
+
+49
+00:02:09.070 --> 00:02:11.305
+These are column
+vectors, by the way.
+
+50
+00:02:11.305 --> 00:02:13.070
+I'm just writing
+them in a single row
+
+51
+00:02:13.070 --> 00:02:14.180
+to make everything fit on
+
+52
+00:02:14.180 --> 00:02:17.960
+the slide and so on for the
+rest of the training dataset.
+
+53
+00:02:17.960 --> 00:02:20.705
+By now you've concluded
+the preparation phase.
+
+54
+00:02:20.705 --> 00:02:22.550
+Starting from the raw corpus,
+
+55
+00:02:22.550 --> 00:02:24.380
+you now have data
+that you can use to
+
+56
+00:02:24.380 --> 00:02:26.675
+train a continuous
+bag of words model.
+
+57
+00:02:26.675 --> 00:02:28.180
+Congratulations.
+
+58
+00:02:28.180 --> 00:02:30.890
+Up next, you'll
+examine the details of
+
+59
+00:02:30.890 --> 00:02:32.840
+this model and get ready to apply
+
+60
+00:02:32.840 --> 00:02:35.970
+your new skills to this
+week's assignments.
