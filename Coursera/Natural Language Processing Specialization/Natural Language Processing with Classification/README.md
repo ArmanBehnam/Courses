@@ -5,7 +5,7 @@
 Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
-- [Week 1 Introduction to image processing and computer vision](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201)
+- [Week 1 Sentiment Analysis with Logistic Regression (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Convolutional features for visual recognition](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202)
+- [Week 2 Sentiment Analysis with Naïve Bayes](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- [Week 3 Object detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
+- [Week 3 Vector Space Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -87,7 +87,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
 
 
-- [Week 4 Object tracking and action recognition](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
+- [Week 4 Machine Translation and Document Search](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -111,30 +111,8 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
   
-  - [Week 5 Image segmentation and synthesis](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203)
 
-  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
-  
-  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
-  
-  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
-  
-  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
-  
-  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
-  
-  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
-  
-  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
-  
-  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
-  
-  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
-  
-
-  - [x] [Neural Machine Translation with Attention](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Neural%20Machine%20Translation%20with%20Attention)
-  - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Coursera%20MFC297Q9JS65.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Coursera%20VFG5JQK5DWVQ.png).
 
 - 4.6 stars
 - 2319 ratings
