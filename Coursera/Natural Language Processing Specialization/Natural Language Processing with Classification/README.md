@@ -5,7 +5,7 @@
 Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
-- [Week 1 Sentiment Analysis with Logistic Regression (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
+- [Week 1 Sentiment Analysis with Logistic Regression](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
