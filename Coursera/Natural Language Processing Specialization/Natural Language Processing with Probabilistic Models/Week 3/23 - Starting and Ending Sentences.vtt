@@ -1,0 +1,911 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.060
+So if conditional
+probabilities are working
+
+2
+00:00:03.060 --> 00:00:05.940
+with a sliding window
+of two or more words,
+
+3
+00:00:05.940 --> 00:00:09.180
+what's happens at the beginning
+or end of a sentence.
+
+4
+00:00:09.180 --> 00:00:11.370
+Let's take a closer look
+at what's happens at
+
+5
+00:00:11.370 --> 00:00:14.280
+the very beginning and the
+very end of a sentence.
+
+6
+00:00:14.280 --> 00:00:15.810
+I'll show you how to modify
+
+7
+00:00:15.810 --> 00:00:18.120
+the sentence using
+two new symbols,
+
+8
+00:00:18.120 --> 00:00:21.090
+which denotes the start
+and end of a sentence.
+
+9
+00:00:21.090 --> 00:00:23.684
+You will see why these new
+symbols are important,
+
+10
+00:00:23.684 --> 00:00:26.115
+then you will add them
+to the beginning and end
+
+11
+00:00:26.115 --> 00:00:28.514
+of your sentences for bigram,
+
+12
+00:00:28.514 --> 00:00:30.585
+and general, and Graham cases.
+
+13
+00:00:30.585 --> 00:00:32.370
+Now I'll explain how to resolve
+
+14
+00:00:32.370 --> 00:00:35.000
+the first term in the
+bigram approximation.
+
+15
+00:00:35.000 --> 00:00:37.340
+Let's revisit the
+previous sentence.
+
+16
+00:00:37.340 --> 00:00:39.040
+The teacher drinks tea,
+
+17
+00:00:39.040 --> 00:00:41.175
+or the first word the.
+
+18
+00:00:41.175 --> 00:00:43.955
+You don't have the context
+of the previous word,
+
+19
+00:00:43.955 --> 00:00:47.045
+so you can't calculate
+a bigram probability,
+
+20
+00:00:47.045 --> 00:00:49.295
+which you'll need to
+make your predictions.
+
+21
+00:00:49.295 --> 00:00:51.875
+So what you'll do is
+add a special term,
+
+22
+00:00:51.875 --> 00:00:54.395
+so that each sentence
+of your corpus
+
+23
+00:00:54.395 --> 00:00:56.180
+becomes a bigram that you can
+
+24
+00:00:56.180 --> 00:00:58.165
+calculate the probabilities for.
+
+25
+00:00:58.165 --> 00:01:01.775
+An example of a start
+token is this S,
+
+26
+00:01:01.775 --> 00:01:03.560
+which you can now
+use to calculate
+
+27
+00:01:03.560 --> 00:01:08.050
+the bigram probability of the
+first word, the like this.
+
+28
+00:01:08.050 --> 00:01:11.445
+A similar principle
+applies to N-grams.
+
+29
+00:01:11.445 --> 00:01:13.705
+For example, with trigrams,
+
+30
+00:01:13.705 --> 00:01:16.460
+the first two words don't
+have enough context,
+
+31
+00:01:16.460 --> 00:01:19.580
+so you don't need to use the
+unigram of the first word,
+
+32
+00:01:19.580 --> 00:01:21.865
+and bigram of the
+first two words.
+
+33
+00:01:21.865 --> 00:01:23.870
+The missing contexts
+can be fixed by
+
+34
+00:01:23.870 --> 00:01:26.825
+adding two starts of
+sentence symbols,
+
+35
+00:01:26.825 --> 00:01:31.105
+bracket S, bracket S to the
+beginning of the sentence.
+
+36
+00:01:31.105 --> 00:01:33.859
+So now the sentence probability
+
+37
+00:01:33.859 --> 00:01:37.025
+becomes a product of
+trigram probabilities.
+
+38
+00:01:37.025 --> 00:01:39.454
+To generalize this for N-grams,
+
+39
+00:01:39.454 --> 00:01:41.840
+add N-1 start tokens,
+
+40
+00:01:41.840 --> 00:01:45.940
+brackets S at the beginning
+of each sentence.
+
+41
+00:01:45.940 --> 00:01:47.360
+So now you can deal with
+
+42
+00:01:47.360 --> 00:01:49.745
+the unigrams in the
+beginning of sentences,
+
+43
+00:01:49.745 --> 00:01:52.280
+what about the end
+of the sentences?
+
+44
+00:01:52.280 --> 00:01:56.240
+Recall that the conditional
+probability of word y given
+
+45
+00:01:56.240 --> 00:02:00.250
+word x was estimated as
+the count of all bigrams.
+
+46
+00:02:00.250 --> 00:02:02.450
+X comma y divided by
+
+47
+00:02:02.450 --> 00:02:05.060
+the counts of all
+bigrams starting with x.
+
+48
+00:02:05.060 --> 00:02:07.100
+You simplify the denominator
+
+49
+00:02:07.100 --> 00:02:09.575
+as the counts of all unigrams x.
+
+50
+00:02:09.575 --> 00:02:12.080
+There is one case where the
+simplification does not
+
+51
+00:02:12.080 --> 00:02:16.175
+work when word X is the
+last word of the sentence.
+
+52
+00:02:16.175 --> 00:02:18.470
+For example, if you look at
+
+53
+00:02:18.470 --> 00:02:20.945
+the word drinks in this corpus,
+
+54
+00:02:20.945 --> 00:02:22.970
+the sum of all bigrams starting
+
+55
+00:02:22.970 --> 00:02:25.000
+with drinks is only equal to one,
+
+56
+00:02:25.000 --> 00:02:27.440
+because the only bigram
+that starts with
+
+57
+00:02:27.440 --> 00:02:30.755
+the word drinks is
+drinks chocolate.
+
+58
+00:02:30.755 --> 00:02:34.280
+On the other hand, the
+word drinks appears
+
+59
+00:02:34.280 --> 00:02:36.110
+twice in the corpus and
+
+60
+00:02:36.110 --> 00:02:38.375
+the other occurrence
+is a unigram.
+
+61
+00:02:38.375 --> 00:02:40.955
+To continue using your
+simplified formula
+
+62
+00:02:40.955 --> 00:02:42.890
+for the conditional probability,
+
+63
+00:02:42.890 --> 00:02:45.545
+you need to add an end
+of sentence token.
+
+64
+00:02:45.545 --> 00:02:48.530
+There's another issue with
+your engram probabilities.
+
+65
+00:02:48.530 --> 00:02:51.410
+Let's say you have a
+very small corpus with
+
+66
+00:02:51.410 --> 00:02:53.540
+only three sentences
+consisting of
+
+67
+00:02:53.540 --> 00:02:56.555
+two unique words, yes and no.
+
+68
+00:02:56.555 --> 00:03:00.180
+The corpus consists of
+three sentences: yes no,
+
+69
+00:03:00.180 --> 00:03:02.115
+yes yes, and no no.
+
+70
+00:03:02.115 --> 00:03:05.120
+These are all possible
+sentences of length two.
+
+71
+00:03:05.120 --> 00:03:08.765
+These can be generated
+from the words yes and no,
+
+72
+00:03:08.765 --> 00:03:12.170
+and starting with the starts
+of sentence symbol brackets
+
+73
+00:03:12.170 --> 00:03:14.060
+S. So to calculate
+
+74
+00:03:14.060 --> 00:03:16.940
+the bigram probability
+of the sentence yes yes,
+
+75
+00:03:16.940 --> 00:03:19.070
+take the probability of yes with
+
+76
+00:03:19.070 --> 00:03:21.560
+the added starts of
+sentence symbol,
+
+77
+00:03:21.560 --> 00:03:23.990
+multiplied by the
+probability of yes being
+
+78
+00:03:23.990 --> 00:03:27.830
+the second word where the
+previous word was also yes.
+
+79
+00:03:27.830 --> 00:03:30.230
+The probability of yes
+with the added start of
+
+80
+00:03:30.230 --> 00:03:34.280
+sentence symbol is the count
+of bigrams with yes at
+
+81
+00:03:34.280 --> 00:03:37.280
+the start of the sentence
+divided by the count of
+
+82
+00:03:37.280 --> 00:03:40.920
+all bigrams starting with the
+start of sentence symbol.
+
+83
+00:03:40.920 --> 00:03:42.620
+You can only use the sum of
+
+84
+00:03:42.620 --> 00:03:44.675
+bigram counts in the denominator.
+
+85
+00:03:44.675 --> 00:03:47.710
+Next, let's handle the
+remaining unigrams.
+
+86
+00:03:47.710 --> 00:03:49.460
+Multiply the first term by
+
+87
+00:03:49.460 --> 00:03:51.530
+the fraction of the
+counts of bigram,
+
+88
+00:03:51.530 --> 00:03:54.685
+yes yes, over the
+counts of all bigram,
+
+89
+00:03:54.685 --> 00:03:56.425
+starting with the word yes.
+
+90
+00:03:56.425 --> 00:03:59.575
+You get two over
+three times one half,
+
+91
+00:03:59.575 --> 00:04:01.805
+which is equal to one over three.
+
+92
+00:04:01.805 --> 00:04:04.340
+So there you have
+the probability of
+
+93
+00:04:04.340 --> 00:04:08.170
+the sentence yes yes
+estimated from your corpus.
+
+94
+00:04:08.170 --> 00:04:09.470
+So you have calculated
+
+95
+00:04:09.470 --> 00:04:11.210
+the probability of
+the sentence yes,
+
+96
+00:04:11.210 --> 00:04:12.725
+yes and goes in one-third.
+
+97
+00:04:12.725 --> 00:04:14.300
+Now, you will calculate
+
+98
+00:04:14.300 --> 00:04:16.535
+the probability of
+the sentence yes no,
+
+99
+00:04:16.535 --> 00:04:18.475
+and gets one-third again.
+
+100
+00:04:18.475 --> 00:04:20.930
+Next, you get the probability of
+
+101
+00:04:20.930 --> 00:04:24.155
+the sentence no no,
+and again, one-third.
+
+102
+00:04:24.155 --> 00:04:27.560
+Finally, the probability
+of the sentence no yes,
+
+103
+00:04:27.560 --> 00:04:29.810
+and this is equal to
+zero because there is
+
+104
+00:04:29.810 --> 00:04:32.080
+no bigram no yes in the corpus.
+
+105
+00:04:32.080 --> 00:04:33.974
+Now here comes a surprise,
+
+106
+00:04:33.974 --> 00:04:37.450
+if you add the probabilities
+of all four sentences,
+
+107
+00:04:37.450 --> 00:04:41.385
+the sum equals to one exactly
+what you were aiming for.
+
+108
+00:04:41.385 --> 00:04:44.765
+That's great work. So
+let's take a look at
+
+109
+00:04:44.765 --> 00:04:46.580
+all possible three
+words sentences
+
+110
+00:04:46.580 --> 00:04:49.240
+generated from words yes and no.
+
+111
+00:04:49.240 --> 00:04:51.529
+Begin by calculating
+the probability
+
+112
+00:04:51.529 --> 00:04:52.870
+of the sentence, yes,
+
+113
+00:04:52.870 --> 00:04:54.630
+yes, yes, then yes,
+
+114
+00:04:54.630 --> 00:04:56.775
+yes, no, and so on.
+
+115
+00:04:56.775 --> 00:04:59.225
+Until you've calculated
+the probabilities of
+
+116
+00:04:59.225 --> 00:05:01.865
+all eight possible
+sentences of length three.
+
+117
+00:05:01.865 --> 00:05:03.500
+Finally, when you add up
+
+118
+00:05:03.500 --> 00:05:04.730
+the probabilities of all the
+
+119
+00:05:04.730 --> 00:05:06.655
+possible sentences
+of length three,
+
+120
+00:05:06.655 --> 00:05:09.455
+you, again, get the sum of one.
+
+121
+00:05:09.455 --> 00:05:12.530
+However, what you really
+want is the sum of
+
+122
+00:05:12.530 --> 00:05:14.674
+the probabilities
+for all sentences
+
+123
+00:05:14.674 --> 00:05:16.435
+of the length to be equal to one,
+
+124
+00:05:16.435 --> 00:05:18.395
+so that you can, for example,
+
+125
+00:05:18.395 --> 00:05:20.030
+compare the probabilities of
+
+126
+00:05:20.030 --> 00:05:22.055
+two sentences of
+different lengths.
+
+127
+00:05:22.055 --> 00:05:23.840
+In other words, you want
+
+128
+00:05:23.840 --> 00:05:26.465
+the probabilities of all
+two-words sentences,
+
+129
+00:05:26.465 --> 00:05:29.555
+what's the probabilities of
+all three-words sentences?
+
+130
+00:05:29.555 --> 00:05:31.160
+What's the probabilities of
+
+131
+00:05:31.160 --> 00:05:33.995
+all other sentences
+of arbitrary length?
+
+132
+00:05:33.995 --> 00:05:35.995
+You want this to be equal to one.
+
+133
+00:05:35.995 --> 00:05:39.245
+There is a surprisingly
+simple fix for this.
+
+134
+00:05:39.245 --> 00:05:42.470
+You can pre-process your
+training corpus to add
+
+135
+00:05:42.470 --> 00:05:44.120
+a special symbol which
+
+136
+00:05:44.120 --> 00:05:46.265
+represents the end
+of the sentence,
+
+137
+00:05:46.265 --> 00:05:48.575
+which you will
+denote with brackets
+
+138
+00:05:48.575 --> 00:05:51.315
+backslash S after each sentence.
+
+139
+00:05:51.315 --> 00:05:54.680
+For example, when using a
+bigram model for the sentence,
+
+140
+00:05:54.680 --> 00:05:55.850
+the teacher drinks tea,
+
+141
+00:05:55.850 --> 00:06:00.070
+append the simple, backslash
+S after the word tea.
+
+142
+00:06:00.070 --> 00:06:02.675
+Now the sentence
+probability calculation
+
+143
+00:06:02.675 --> 00:06:04.150
+contains a new term,
+
+144
+00:06:04.150 --> 00:06:06.440
+the term represents
+the probability that
+
+145
+00:06:06.440 --> 00:06:09.490
+the sentence will end
+after the word tea.
+
+146
+00:06:09.490 --> 00:06:12.380
+This also fixes the issue with
+
+147
+00:06:12.380 --> 00:06:14.300
+probability of the sentences of
+
+148
+00:06:14.300 --> 00:06:16.550
+certain length equal to one.
+
+149
+00:06:16.550 --> 00:06:18.320
+Let's see if this also results
+
+150
+00:06:18.320 --> 00:06:20.915
+your problem with the
+bigram probability formula.
+
+151
+00:06:20.915 --> 00:06:22.880
+Now there are two
+bigrams starting with
+
+152
+00:06:22.880 --> 00:06:26.615
+the word drinks and these
+are drinks, chocolates,
+
+153
+00:06:26.615 --> 00:06:30.755
+and drinks backslash S
+and accounts of unigrams,
+
+154
+00:06:30.755 --> 00:06:32.810
+drinks remains the same.
+
+155
+00:06:32.810 --> 00:06:35.270
+That's great, you can keep using
+
+156
+00:06:35.270 --> 00:06:36.530
+the simplified formula for
+
+157
+00:06:36.530 --> 00:06:38.650
+the bigram probability
+calculation.
+
+158
+00:06:38.650 --> 00:06:41.565
+How would you apply this
+fixed for N-grams in general?
+
+159
+00:06:41.565 --> 00:06:44.020
+It turns out that
+even for N-grams,
+
+160
+00:06:44.020 --> 00:06:45.680
+just adding one symbol per
+
+161
+00:06:45.680 --> 00:06:47.725
+sentence in the corpus is enough.
+
+162
+00:06:47.725 --> 00:06:51.155
+For example, when
+calculating trigram models,
+
+163
+00:06:51.155 --> 00:06:52.640
+the original sentence will be
+
+164
+00:06:52.640 --> 00:06:55.625
+pre-processed to contain
+two start tokens,
+
+165
+00:06:55.625 --> 00:06:57.715
+any single end token.
+
+166
+00:06:57.715 --> 00:06:59.600
+Let's have a look
+at an example of
+
+167
+00:06:59.600 --> 00:07:02.390
+bigram probabilities generated on
+
+168
+00:07:02.390 --> 00:07:04.160
+a slightly larger corpus.
+
+169
+00:07:04.160 --> 00:07:06.500
+Here's the corpus and here are
+
+170
+00:07:06.500 --> 00:07:10.115
+the conditional probabilities
+of some of the bigrams.
+
+171
+00:07:10.115 --> 00:07:12.500
+Now try to calculate
+the probability of
+
+172
+00:07:12.500 --> 00:07:15.330
+Lyn with the start
+of sentence symbol.
+
+173
+00:07:15.330 --> 00:07:17.405
+There are three sentences total,
+
+174
+00:07:17.405 --> 00:07:20.675
+so the start symbol appears
+three times in the corpus.
+
+175
+00:07:20.675 --> 00:07:22.850
+That gives you the denominator,
+
+176
+00:07:22.850 --> 00:07:28.010
+the bigram brackets S Lyn
+appears twice in the corpus,
+
+177
+00:07:28.010 --> 00:07:30.310
+so that gives you the
+numerator of two.
+
+178
+00:07:30.310 --> 00:07:32.600
+So the probability
+of the start token
+
+179
+00:07:32.600 --> 00:07:35.420
+followed by Lyn is
+two over three.
+
+180
+00:07:35.420 --> 00:07:37.220
+Now calculate the probability of
+
+181
+00:07:37.220 --> 00:07:39.655
+the sentence, Lyn
+drinks chocolate.
+
+182
+00:07:39.655 --> 00:07:44.150
+Start with a probability
+of bigram brackets S Lyn,
+
+183
+00:07:44.150 --> 00:07:47.585
+which is two over
+three, then Lyn drinks,
+
+184
+00:07:47.585 --> 00:07:50.869
+which is one-half,
+then drinks chocolate,
+
+185
+00:07:50.869 --> 00:07:53.720
+which is also
+one-half, and finally,
+
+186
+00:07:53.720 --> 00:07:57.765
+chocolate backslash S,
+which is two over two.
+
+187
+00:07:57.765 --> 00:08:00.695
+Note that the result is
+equal to one over six,
+
+188
+00:08:00.695 --> 00:08:02.390
+which is lower than the value of
+
+189
+00:08:02.390 --> 00:08:04.040
+one over three you
+might expect when
+
+190
+00:08:04.040 --> 00:08:06.590
+calculating the
+probability of one
+
+191
+00:08:06.590 --> 00:08:09.370
+of the three sentences
+in the training corpus.
+
+192
+00:08:09.370 --> 00:08:10.460
+This also applies to
+
+193
+00:08:10.460 --> 00:08:12.560
+the other two sentences
+in the corpus,
+
+194
+00:08:12.560 --> 00:08:16.010
+this remaining probability
+can be distributed to
+
+195
+00:08:16.010 --> 00:08:18.290
+other sentences
+possibly generated
+
+196
+00:08:18.290 --> 00:08:20.450
+from the bigrams in this corpus.
+
+197
+00:08:20.450 --> 00:08:24.850
+That's how the model
+generalizes. I'll see you later.

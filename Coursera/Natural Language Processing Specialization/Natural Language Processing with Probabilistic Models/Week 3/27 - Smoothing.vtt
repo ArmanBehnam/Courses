@@ -1,0 +1,733 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.900
+Welcome. When you train
+n-gram on a limited corpus,
+
+2
+00:00:03.900 --> 00:00:06.570
+the probabilities of some
+words may be skewed.
+
+3
+00:00:06.570 --> 00:00:08.640
+In this video, I
+will show you how to
+
+4
+00:00:08.640 --> 00:00:11.145
+remedy that with a
+method called smoothing.
+
+5
+00:00:11.145 --> 00:00:13.080
+First, you'll see an example
+
+6
+00:00:13.080 --> 00:00:14.490
+of how n-gram is missing from
+
+7
+00:00:14.490 --> 00:00:18.315
+the corpus affect the estimation
+of n-gram probability.
+
+8
+00:00:18.315 --> 00:00:21.720
+Next, I'll go over some
+popular smoothing techniques.
+
+9
+00:00:21.720 --> 00:00:23.735
+In the last section,
+I'll touch on
+
+10
+00:00:23.735 --> 00:00:26.815
+other methods such as
+backoff and interpolation.
+
+11
+00:00:26.815 --> 00:00:28.550
+Now that you've
+resolved the issue
+
+12
+00:00:28.550 --> 00:00:30.200
+of completely unknown words,
+
+13
+00:00:30.200 --> 00:00:33.455
+it's time to address another
+case of missing information.
+
+14
+00:00:33.455 --> 00:00:36.635
+For example, how would you
+manage the probability
+
+15
+00:00:36.635 --> 00:00:40.090
+of an n-gram made up of words
+occurring in the corpus,
+
+16
+00:00:40.090 --> 00:00:42.915
+but where the n-gram
+itself is not present?
+
+17
+00:00:42.915 --> 00:00:44.630
+Remember you had the corpus of
+
+18
+00:00:44.630 --> 00:00:47.705
+three sentences earlier
+made up of n-gram like,
+
+19
+00:00:47.705 --> 00:00:49.865
+eat chocolate. John drinks.
+
+20
+00:00:49.865 --> 00:00:52.130
+Notice that both of
+the words John and
+
+21
+00:00:52.130 --> 00:00:54.440
+eats are present in the corpus,
+
+22
+00:00:54.440 --> 00:00:57.130
+but the bigram, John
+eats is missing.
+
+23
+00:00:57.130 --> 00:00:58.785
+The count of the bigram,
+
+24
+00:00:58.785 --> 00:01:01.370
+John eats would be zero and
+
+25
+00:01:01.370 --> 00:01:04.195
+the probability of the bigram
+would be zero as well.
+
+26
+00:01:04.195 --> 00:01:05.900
+Everything that did not occur in
+
+27
+00:01:05.900 --> 00:01:08.380
+the corpus would be
+considered impossible.
+
+28
+00:01:08.380 --> 00:01:10.380
+An estimation of the
+probability from
+
+29
+00:01:10.380 --> 00:01:13.160
+count wouldn't work in this case.
+
+30
+00:01:13.160 --> 00:01:15.920
+Smoothing is a technique
+that is going to help you
+
+31
+00:01:15.920 --> 00:01:18.515
+deal with the situation
+in n-gram models.
+
+32
+00:01:18.515 --> 00:01:20.270
+You might remember smoothing from
+
+33
+00:01:20.270 --> 00:01:22.160
+the previous week where it was
+
+34
+00:01:22.160 --> 00:01:24.080
+used in the transition matrix and
+
+35
+00:01:24.080 --> 00:01:26.320
+probabilities for
+parts of speech.
+
+36
+00:01:26.320 --> 00:01:28.020
+Here, you'll be using
+
+37
+00:01:28.020 --> 00:01:30.425
+this method for
+n-gram probabilities.
+
+38
+00:01:30.425 --> 00:01:32.185
+What does smoothing mean?
+
+39
+00:01:32.185 --> 00:01:35.150
+Let's focus for now
+on add-one smoothing,
+
+40
+00:01:35.150 --> 00:01:37.895
+which is also called
+Laplacian smoothing.
+
+41
+00:01:37.895 --> 00:01:40.550
+Add-one smoothing
+mathematically changes
+
+42
+00:01:40.550 --> 00:01:44.105
+the formula for the n-gram
+probability of the word n,
+
+43
+00:01:44.105 --> 00:01:46.075
+based off its history.
+
+44
+00:01:46.075 --> 00:01:49.310
+Here, you can see the
+bigram probability of
+
+45
+00:01:49.310 --> 00:01:52.955
+the word w_n given
+the previous words,
+
+46
+00:01:52.955 --> 00:01:54.950
+w_n minus 1, but its
+
+47
+00:01:54.950 --> 00:01:57.295
+used in the same way
+to general n-gram.
+
+48
+00:01:57.295 --> 00:01:59.695
+Add-one smoothing just says,
+
+49
+00:01:59.695 --> 00:02:01.190
+let's add one both to
+
+50
+00:02:01.190 --> 00:02:05.210
+the numerator and to each
+bigram in the denominator sum.
+
+51
+00:02:05.210 --> 00:02:06.920
+This change can be
+
+52
+00:02:06.920 --> 00:02:10.015
+interpreted as add-one
+occurrence to each bigram.
+
+53
+00:02:10.015 --> 00:02:12.210
+So bigrams that are missing in
+
+54
+00:02:12.210 --> 00:02:15.465
+the corpus will now have
+a nonzero probability.
+
+55
+00:02:15.465 --> 00:02:17.690
+In the denominator,
+you are adding
+
+56
+00:02:17.690 --> 00:02:20.044
+one for each possible bigram,
+
+57
+00:02:20.044 --> 00:02:23.405
+starting with the
+word w_n minus 1.
+
+58
+00:02:23.405 --> 00:02:27.635
+This corresponds to adding
+one to each cell in the row
+
+59
+00:02:27.635 --> 00:02:32.180
+indexed by the word w_n minus
+1 in the account matrix.
+
+60
+00:02:32.180 --> 00:02:33.860
+Then repeat this for
+
+61
+00:02:33.860 --> 00:02:37.190
+as many times as there are
+words in the vocabulary.
+
+62
+00:02:37.190 --> 00:02:40.010
+You can take the one
+out of the sum and add
+
+63
+00:02:40.010 --> 00:02:42.890
+the size of the vocabulary
+to the denominator.
+
+64
+00:02:42.890 --> 00:02:46.100
+This will only work
+on a corpus where
+
+65
+00:02:46.100 --> 00:02:47.510
+the real counts are large
+
+66
+00:02:47.510 --> 00:02:50.395
+enough to outweigh
+the plus one though.
+
+67
+00:02:50.395 --> 00:02:52.940
+Otherwise, the probabilities of
+
+68
+00:02:52.940 --> 00:02:54.845
+missing words would be too high,
+
+69
+00:02:54.845 --> 00:02:57.785
+but add-one smoothing
+helps quiet a lot
+
+70
+00:02:57.785 --> 00:03:01.210
+because now there are no
+bigrams with zero probability.
+
+71
+00:03:01.210 --> 00:03:03.365
+If you have a larger corpus,
+
+72
+00:03:03.365 --> 00:03:05.315
+you can instead add-k.
+
+73
+00:03:05.315 --> 00:03:07.280
+This technique called add-k
+
+74
+00:03:07.280 --> 00:03:10.415
+smoothing makes the
+probabilities even smoother.
+
+75
+00:03:10.415 --> 00:03:13.760
+The formula is similar
+to add-one smoothing.
+
+76
+00:03:13.760 --> 00:03:16.040
+Simply add k to
+
+77
+00:03:16.040 --> 00:03:19.580
+the numerator in each possible
+n-gram in the denominator,
+
+78
+00:03:19.580 --> 00:03:23.720
+where it sums up to k by
+the size of the vocabulary.
+
+79
+00:03:23.720 --> 00:03:26.330
+So k add smoothing
+can be applied to
+
+80
+00:03:26.330 --> 00:03:29.045
+higher order n-gram
+probabilities as well,
+
+81
+00:03:29.045 --> 00:03:32.330
+like trigrams, four
+grams, and beyond.
+
+82
+00:03:32.330 --> 00:03:34.985
+There are even more
+advanced smoothing methods
+
+83
+00:03:34.985 --> 00:03:37.865
+like the Kneser-Ney
+or Good-Turing.
+
+84
+00:03:37.865 --> 00:03:40.640
+If you'd like to do some
+further investigation,
+
+85
+00:03:40.640 --> 00:03:42.050
+you can find some links in
+
+86
+00:03:42.050 --> 00:03:44.800
+the literature listed at
+the end of this week.
+
+87
+00:03:44.800 --> 00:03:46.560
+Another approach to dealing with
+
+88
+00:03:46.560 --> 00:03:48.410
+n-gram that do not occur in
+
+89
+00:03:48.410 --> 00:03:52.655
+the corpus is to use information
+about N minus 1 grams,
+
+90
+00:03:52.655 --> 00:03:55.060
+N minus 2 grams, and so on.
+
+91
+00:03:55.060 --> 00:03:58.235
+With the backoff, if n-gram
+information is missing,
+
+92
+00:03:58.235 --> 00:04:00.185
+you use N minus 1 gram.
+
+93
+00:04:00.185 --> 00:04:01.880
+If that's also missing,
+
+94
+00:04:01.880 --> 00:04:04.310
+you would use N
+minus 2 gram and so
+
+95
+00:04:04.310 --> 00:04:06.985
+on until you find
+nonzero probability.
+
+96
+00:04:06.985 --> 00:04:09.315
+Using the lower level n-gram,
+
+97
+00:04:09.315 --> 00:04:11.205
+ie N minus 1 gram,
+
+98
+00:04:11.205 --> 00:04:14.219
+N minus 2 gram down to a unigram,
+
+99
+00:04:14.219 --> 00:04:16.920
+it distorts the
+probability distribution.
+
+100
+00:04:16.920 --> 00:04:19.145
+Especially for smaller corporal,
+
+101
+00:04:19.145 --> 00:04:22.190
+some probability needs
+to be discounted from
+
+102
+00:04:22.190 --> 00:04:25.865
+higher level n-gram to use
+it for lower-level n-gram.
+
+103
+00:04:25.865 --> 00:04:29.440
+This Katz backoff method
+uses this counting.
+
+104
+00:04:29.440 --> 00:04:32.115
+In very large web-scale corpuses,
+
+105
+00:04:32.115 --> 00:04:35.735
+a method called stupid
+backoff has been effective.
+
+106
+00:04:35.735 --> 00:04:37.445
+With stupid backoff,
+
+107
+00:04:37.445 --> 00:04:40.030
+no probability
+discounting is applied.
+
+108
+00:04:40.030 --> 00:04:43.545
+If the higher order n-gram
+probability is missing,
+
+109
+00:04:43.545 --> 00:04:46.335
+the lower-order n-gram
+probability is used,
+
+110
+00:04:46.335 --> 00:04:48.675
+just multiplied by a constant.
+
+111
+00:04:48.675 --> 00:04:50.060
+A constant of about
+
+112
+00:04:50.060 --> 00:04:53.510
+0.4 was experimentally
+shown to work well.
+
+113
+00:04:53.510 --> 00:04:56.630
+You can learn more about
+both these backoff methods
+
+114
+00:04:56.630 --> 00:04:59.595
+in the literature included
+at the end of the module.
+
+115
+00:04:59.595 --> 00:05:01.670
+Let's use backoff on an example.
+
+116
+00:05:01.670 --> 00:05:03.170
+If you look at this corpus,
+
+117
+00:05:03.170 --> 00:05:05.045
+the probability of the trigram,
+
+118
+00:05:05.045 --> 00:05:07.265
+John drinks chocolate,
+
+119
+00:05:07.265 --> 00:05:10.540
+can't be directly
+estimated from the corpus.
+
+120
+00:05:10.540 --> 00:05:14.350
+So the probability of the
+bigram, drinks chocolate,
+
+121
+00:05:14.350 --> 00:05:16.670
+multiplied by a constant
+in your scenario,
+
+122
+00:05:16.670 --> 00:05:19.265
+0.4 would be used instead.
+
+123
+00:05:19.265 --> 00:05:22.190
+An alternative approach
+to back off is to use
+
+124
+00:05:22.190 --> 00:05:26.050
+the linear interpolation
+of all orders of n-gram.
+
+125
+00:05:26.050 --> 00:05:28.640
+That means that you
+would always combine
+
+126
+00:05:28.640 --> 00:05:31.375
+the weighted probability
+of the n-gram,
+
+127
+00:05:31.375 --> 00:05:34.510
+N minus 1 gram down to unigrams.
+
+128
+00:05:34.510 --> 00:05:36.530
+For example, when calculating
+
+129
+00:05:36.530 --> 00:05:39.005
+the probability for the trigram,
+
+130
+00:05:39.005 --> 00:05:41.120
+John drinks chocolate,
+you could take
+
+131
+00:05:41.120 --> 00:05:44.765
+70 percent of the estimated
+probability for trigram.
+
+132
+00:05:44.765 --> 00:05:47.660
+So John drinks chocolates
+plus 20 percent
+
+133
+00:05:47.660 --> 00:05:50.555
+of the estimated
+probability for bigram,
+
+134
+00:05:50.555 --> 00:05:52.910
+drinks chocolate,
+and 10 percent of
+
+135
+00:05:52.910 --> 00:05:57.065
+the estimated unigram probability
+of the word, chocolate.
+
+136
+00:05:57.065 --> 00:05:59.585
+More generally, for trigrams,
+
+137
+00:05:59.585 --> 00:06:02.285
+you would combine the
+weighted probabilities
+
+138
+00:06:02.285 --> 00:06:05.330
+of trigram, bigram and unigram.
+
+139
+00:06:05.330 --> 00:06:07.460
+You weigh all these probabilities
+
+140
+00:06:07.460 --> 00:06:09.620
+with constants like Lambda 1,
+
+141
+00:06:09.620 --> 00:06:12.230
+Lambda 2, and Lambda 3.
+
+142
+00:06:12.230 --> 00:06:14.845
+These need to add up to one.
+
+143
+00:06:14.845 --> 00:06:16.640
+The Lambdas are learned from
+
+144
+00:06:16.640 --> 00:06:18.500
+the validation parts
+of the corpus.
+
+145
+00:06:18.500 --> 00:06:20.420
+You can get them by maximizing
+
+146
+00:06:20.420 --> 00:06:24.005
+the probability of sentences
+from the validation set.
+
+147
+00:06:24.005 --> 00:06:26.360
+Use a fixed language model
+
+148
+00:06:26.360 --> 00:06:28.010
+trained from the
+training parts of
+
+149
+00:06:28.010 --> 00:06:29.809
+the corpus to calculate
+
+150
+00:06:29.809 --> 00:06:33.200
+n-gram probabilities and
+optimize the Lambdas.
+
+151
+00:06:33.200 --> 00:06:35.240
+The interpolation
+can be applied to
+
+152
+00:06:35.240 --> 00:06:38.905
+general n-gram by
+using more Lambdas.
+
+153
+00:06:38.905 --> 00:06:42.500
+Now you're an expert in
+n-gram language models.
+
+154
+00:06:42.500 --> 00:06:44.135
+You know how to create them,
+
+155
+00:06:44.135 --> 00:06:46.055
+how to handle auto
+vocabulary words,
+
+156
+00:06:46.055 --> 00:06:48.320
+and how to improve the
+model with smoothing.
+
+157
+00:06:48.320 --> 00:06:50.720
+You will see that they
+work really well in
+
+158
+00:06:50.720 --> 00:06:52.850
+the coding exercise
+where you will write
+
+159
+00:06:52.850 --> 00:06:56.040
+your first program
+that generates text.

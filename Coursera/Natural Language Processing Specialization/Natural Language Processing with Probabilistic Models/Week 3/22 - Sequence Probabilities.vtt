@@ -1,0 +1,398 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:01.716
+Welcome back.
+
+2
+00:00:01.716 --> 00:00:02.536
+In this video,
+
+3
+00:00:02.536 --> 00:00:07.580
+I will show you how you can model whole
+sentences using engram probabilities.
+
+4
+00:00:07.580 --> 00:00:10.730
+This will allow us later to generate text.
+
+5
+00:00:10.730 --> 00:00:15.880
+So let's find the probability of
+a sentence or an entire sequence of words.
+
+6
+00:00:15.880 --> 00:00:21.472
+How would you calculate the probability
+of the sentence, the teacher drinks tea.
+
+7
+00:00:21.472 --> 00:00:26.184
+To get started, let's refresh your memory
+of the conditional probability and
+
+8
+00:00:26.184 --> 00:00:26.967
+chain rule.
+
+9
+00:00:26.967 --> 00:00:31.772
+Here, the conditional probability
+is a probability of word B.
+
+10
+00:00:31.772 --> 00:00:36.489
+If word A appeared just before
+B you can express the rule for
+
+11
+00:00:36.489 --> 00:00:42.170
+the conditional probability in terms
+of the joint probability of A and
+
+12
+00:00:42.170 --> 00:00:44.203
+B, which is P (A,B).
+
+13
+00:00:44.203 --> 00:00:49.517
+So the probability of B given A is
+equal to the probability of A and
+
+14
+00:00:49.517 --> 00:00:52.380
+B divided by the probability of A.
+
+15
+00:00:52.380 --> 00:00:56.430
+You can rearrange this rule so
+the probability of A and
+
+16
+00:00:56.430 --> 00:01:01.562
+B is equal to the probability of
+A times the probability of B given A.
+
+17
+00:01:01.562 --> 00:01:06.491
+This can be generalized to the chain rule
+which describes the joint probability of
+
+18
+00:01:06.491 --> 00:01:07.713
+longer sequences.
+
+19
+00:01:07.713 --> 00:01:12.364
+So the probability of a sentence
+with word A followed by word B
+
+20
+00:01:12.364 --> 00:01:17.392
+followed by word C and word D is
+equal to the probability of word A.
+
+21
+00:01:17.392 --> 00:01:22.158
+Times the probability of word B
+given word A times the probability
+
+22
+00:01:22.158 --> 00:01:25.026
+of word C given the word A followed by B.
+
+23
+00:01:25.026 --> 00:01:30.770
+Times the probability of word D given
+by words A followed by B followed by C.
+
+24
+00:01:30.770 --> 00:01:32.058
+That was a long one, but
+
+25
+00:01:32.058 --> 00:01:36.560
+it should make intuitive sense as
+your eyes follow along the equation.
+
+26
+00:01:36.560 --> 00:01:41.410
+The probability of each successive word
+is the product of the probabilities
+
+27
+00:01:41.410 --> 00:01:44.750
+of all words that came
+before it's in the sequence.
+
+28
+00:01:44.750 --> 00:01:47.490
+You can now apply the chain rule
+to answer your question about
+
+29
+00:01:47.490 --> 00:01:50.550
+the probability of the sentence,
+the teacher drinks tea.
+
+30
+00:01:51.730 --> 00:01:55.090
+The probability of the sentence,
+the teacher drinks tea,
+
+31
+00:01:55.090 --> 00:02:00.520
+is equal to the probability of D
+times the probability of teacher
+
+32
+00:02:00.520 --> 00:02:06.384
+given D times the probability of drinks
+
+33
+00:02:06.384 --> 00:02:08.760
+given the teacher times the probability
+of tea given the teacher drinks.
+
+34
+00:02:08.760 --> 00:02:11.800
+So you see the ideal scenario
+where you actually have
+
+35
+00:02:11.800 --> 00:02:16.330
+enough data in the training corpus to
+calculate all of these probabilities.
+
+36
+00:02:16.330 --> 00:02:22.000
+However, this direct approach to sequence
+probability has its limitations.
+
+37
+00:02:22.000 --> 00:02:26.370
+Since natural language is highly
+variable your query sentence and even
+
+38
+00:02:26.370 --> 00:02:31.580
+longer parts of your sentence are very
+unlikely to appear in the training corpus.
+
+39
+00:02:31.580 --> 00:02:36.340
+Let's use the chain rule probability for
+the sentence, the teacher drinks tea.
+
+40
+00:02:36.340 --> 00:02:38.501
+The formula would look like this.
+
+41
+00:02:38.501 --> 00:02:42.650
+For the final term look for
+the counts of both the input sentence,
+
+42
+00:02:42.650 --> 00:02:47.400
+the teacher drinks tea, and
+its prefix, the teacher drinks.
+
+43
+00:02:47.400 --> 00:02:52.492
+Since neither of them is likely to exist
+in the training corpus their counts are 0.
+
+44
+00:02:52.492 --> 00:02:57.277
+The formula for the probability of the
+entire sentence can't give a probability
+
+45
+00:02:57.277 --> 00:02:59.047
+estimate in this situation.
+
+46
+00:02:59.047 --> 00:03:03.497
+As the sentence gets longer, the
+likelihood that more and more words will
+
+47
+00:03:03.497 --> 00:03:07.974
+occur next to each other in this exact
+order becomes smaller and smaller.
+
+48
+00:03:07.974 --> 00:03:11.551
+So the likelihood that
+the teacher drinks appears in
+
+49
+00:03:11.551 --> 00:03:15.870
+the corpus is smaller than
+the probability of the word drinks.
+
+50
+00:03:15.870 --> 00:03:19.830
+What if instead of looking for
+all the words before tea,
+
+51
+00:03:19.830 --> 00:03:24.472
+you just consider the previous
+word which is drinks in this case.
+
+52
+00:03:24.472 --> 00:03:27.136
+This is what those
+calculations would look like.
+
+53
+00:03:27.136 --> 00:03:30.179
+The probability of teacher given D.
+
+54
+00:03:30.179 --> 00:03:32.593
+The probability of drinks given teacher.
+
+55
+00:03:32.593 --> 00:03:36.100
+And the probability of tea given drinks.
+
+56
+00:03:36.100 --> 00:03:40.725
+If you multiply these together you'd get
+an approximation of the whole sentence,
+
+57
+00:03:40.725 --> 00:03:42.550
+the teacher drinks tea.
+
+58
+00:03:42.550 --> 00:03:44.979
+Once the Bigram approximation is applied,
+
+59
+00:03:44.979 --> 00:03:48.663
+the formula to estimate the sentence
+probability is simplified.
+
+60
+00:03:48.663 --> 00:03:54.376
+So now it's the product of conditional
+probabilities of words and their immediate
+
+61
+00:03:54.376 --> 00:03:59.852
+predecessors, in other words, the product
+of the probabilities of Bigrams.
+
+62
+00:03:59.852 --> 00:04:03.925
+You just apply the Markov assumption
+instead of looking for all the words,
+
+63
+00:04:03.925 --> 00:04:06.001
+you just looked at one previous word.
+
+64
+00:04:06.001 --> 00:04:09.434
+You also could have considered
+the two previous words or
+
+65
+00:04:09.434 --> 00:04:11.413
+any n number of previous words.
+
+66
+00:04:11.413 --> 00:04:16.125
+The Markov assumption states that
+the probability of each word depends
+
+67
+00:04:16.125 --> 00:04:18.807
+only on its limited history of length n.
+
+68
+00:04:18.807 --> 00:04:23.156
+It ignores all the words this
+came before specified length N.
+
+69
+00:04:23.156 --> 00:04:27.516
+So for Bigrams,
+you approximate the conditional
+
+70
+00:04:27.516 --> 00:04:32.494
+probability of a word Wn given
+the history W1 to Wn- 1 by
+
+71
+00:04:32.494 --> 00:04:38.023
+the conditional probability of
+the word Wn given word Wn- 1.
+
+72
+00:04:38.023 --> 00:04:41.591
+That means you only need to
+look at the previous word.
+
+73
+00:04:41.591 --> 00:04:46.115
+With N-grams, you'll only look at n-
+1 previous words when calculating
+
+74
+00:04:46.115 --> 00:04:49.024
+the conditional probability
+in the chain rule.
+
+75
+00:04:49.024 --> 00:04:53.680
+The by ground formula to estimate the
+sentence probability is now the product of
+
+76
+00:04:53.680 --> 00:04:58.213
+conditional probabilities of the words and
+their immediate predecessors.
+
+77
+00:04:58.213 --> 00:05:02.561
+As you may recall, this is in
+contrast with naive Bayes where you
+
+78
+00:05:02.561 --> 00:05:07.811
+approximated sentence probability
+without considering any word history.
+
+79
+00:05:07.811 --> 00:05:12.477
+The first term of the Bigram formula
+relies on the unigram probability of
+
+80
+00:05:12.477 --> 00:05:14.550
+the first word in the sentence.
+
+81
+00:05:14.550 --> 00:05:16.617
+That's coming up next.
+
+82
+00:05:16.617 --> 00:05:20.114
+You now know how to compute
+the probability of a sentence given N-gram
+
+83
+00:05:20.114 --> 00:05:21.600
+probabilities.
+
+84
+00:05:21.600 --> 00:05:25.280
+Next I'll show you how to compute these
+N-gram probabilities from a corpus.
