@@ -5,7 +5,7 @@
 Analysis and discussing [Internet of Things: How did we get here?](http://www.armanbehnam.com/about-me/education/iot-how-get-there/) in my website
 
 
-- [Week 1 Welcome to the Internet of Things, Circuit Switched Networks, and Packet Switched Networks] (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Week%201)
+- [Week 1 Welcome to the Internet of Things, Circuit Switched Networks, and Packet Switched Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -64,7 +64,7 @@ Analysis and discussing [Internet of Things: How did we get here?](http://www.ar
  
   
 
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Coursera%20VFG5JQK5DWVQ.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Coursera%20DK52P4HXDYDV.png).
 
 - 3.9 stars
 - 1029 ratings
