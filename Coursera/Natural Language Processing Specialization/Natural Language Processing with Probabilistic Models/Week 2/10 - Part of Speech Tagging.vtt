@@ -1,0 +1,266 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.385
+Welcome to the second
+week of this course.
+
+2
+00:00:02.385 --> 00:00:04.020
+In this video, you're
+going to learn
+
+3
+00:00:04.020 --> 00:00:05.685
+about parts of speech tagging.
+
+4
+00:00:05.685 --> 00:00:06.990
+Specifically, you will see
+
+5
+00:00:06.990 --> 00:00:09.720
+the difference applications
+that it is used for.
+
+6
+00:00:09.720 --> 00:00:11.730
+You will also learn
+how to compute
+
+7
+00:00:11.730 --> 00:00:14.475
+the accuracy of a part
+of speech tagger.
+
+8
+00:00:14.475 --> 00:00:18.420
+First, I'll go over what
+parts of speech tagging is.
+
+9
+00:00:18.420 --> 00:00:22.710
+Then I'll show you how to
+use so-called Markov chains,
+
+10
+00:00:22.710 --> 00:00:24.450
+and hidden Markov
+models to create
+
+11
+00:00:24.450 --> 00:00:27.060
+parts of speech tags
+for your text corpus.
+
+12
+00:00:27.060 --> 00:00:30.854
+Next, I will introduce
+the Viterbi algorithm,
+
+13
+00:00:30.854 --> 00:00:34.290
+and demonstrates how it's
+used in hidden Markov models.
+
+14
+00:00:34.290 --> 00:00:37.140
+You'll get to try this on
+your own with an example.
+
+15
+00:00:37.140 --> 00:00:38.640
+You're going to apply all of
+
+16
+00:00:38.640 --> 00:00:41.055
+these skills in this
+weeks coding assignments.
+
+17
+00:00:41.055 --> 00:00:43.850
+It's a big week, so
+let's get started.
+
+18
+00:00:43.850 --> 00:00:46.160
+Part-of-speech refers
+to the category of
+
+19
+00:00:46.160 --> 00:00:48.845
+words or the lexical
+terms in the language.
+
+20
+00:00:48.845 --> 00:00:51.050
+Examples of these
+lexical terms in
+
+21
+00:00:51.050 --> 00:00:55.055
+the English language would
+be noun, verb, adjective,
+
+22
+00:00:55.055 --> 00:00:56.495
+adverb, pronoun,
+
+23
+00:00:56.495 --> 00:00:59.595
+preposition, although
+there are many others,
+
+24
+00:00:59.595 --> 00:01:01.565
+let's take a look
+at this sentence.
+
+25
+00:01:01.565 --> 00:01:03.410
+Why not learn something?
+
+26
+00:01:03.410 --> 00:01:05.840
+Rising out, the names of
+these terms can quickly
+
+27
+00:01:05.840 --> 00:01:08.240
+become cumbersome
+drink texts Analysis.
+
+28
+00:01:08.240 --> 00:01:09.635
+So you're going to use
+
+29
+00:01:09.635 --> 00:01:11.600
+a short representation called
+
+30
+00:01:11.600 --> 00:01:14.315
+tags to represent
+these categories.
+
+31
+00:01:14.315 --> 00:01:17.480
+The process of assigning
+these tags to the words of
+
+32
+00:01:17.480 --> 00:01:19.759
+a sentence or your corpus
+
+33
+00:01:19.759 --> 00:01:22.490
+is referred to as parts
+of speech tagging,
+
+34
+00:01:22.490 --> 00:01:25.310
+or POS tagging for short,
+
+35
+00:01:25.310 --> 00:01:27.500
+because POS tags describe
+
+36
+00:01:27.500 --> 00:01:29.150
+the characteristics structure of
+
+37
+00:01:29.150 --> 00:01:31.610
+lexical terms in a
+sentence or text.
+
+38
+00:01:31.610 --> 00:01:35.005
+You can use them to make
+assumptions about semantics.
+
+39
+00:01:35.005 --> 00:01:38.660
+They're used for identifying
+named entities too and
+
+40
+00:01:38.660 --> 00:01:42.860
+a sentence such as the Eiffel
+Tower is located in Paris.
+
+41
+00:01:42.860 --> 00:01:46.480
+Eiffel Tower in Paris
+are both named entities.
+
+42
+00:01:46.480 --> 00:01:49.875
+Tags are also used for
+co-reference resolution.
+
+43
+00:01:49.875 --> 00:01:51.810
+If you have the two sentences,
+
+44
+00:01:51.810 --> 00:01:54.490
+the Eiffel tower is
+located in Paris,
+
+45
+00:01:54.490 --> 00:01:57.770
+it is 324 meters high.
+
+46
+00:01:57.770 --> 00:02:01.235
+You can use parts of speech
+sagging to infer that
+
+47
+00:02:01.235 --> 00:02:05.520
+it's refers in this context
+to the Eiffel Tower.
+
+48
+00:02:05.870 --> 00:02:09.439
+Another application is
+speech recognition,
+
+49
+00:02:09.439 --> 00:02:12.875
+where you use parts of
+speech tags to check
+
+50
+00:02:12.875 --> 00:02:16.570
+if a sequence of words has
+a high probability or not.
+
+51
+00:02:16.570 --> 00:02:18.620
+You know now the
+difference applications
+
+52
+00:02:18.620 --> 00:02:20.300
+of parts of speech sagging.
+
+53
+00:02:20.300 --> 00:02:21.950
+In the next video,
+you're going to learn
+
+54
+00:02:21.950 --> 00:02:24.080
+about Markov chains
+and you'll see how
+
+55
+00:02:24.080 --> 00:02:25.850
+you can use them to decode
+
+56
+00:02:25.850 --> 00:02:29.309
+the parts of speech of
+a certain sentence.

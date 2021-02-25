@@ -1,0 +1,485 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.375
+Now that you've processed
+your text corpus,
+
+2
+00:00:03.375 --> 00:00:06.105
+it's time to populate
+the transition matrix,
+
+3
+00:00:06.105 --> 00:00:08.310
+which holds the
+probabilities of going from
+
+4
+00:00:08.310 --> 00:00:11.085
+one state to another
+in your Markov model.
+
+5
+00:00:11.085 --> 00:00:13.260
+Begin by filling
+the first column of
+
+6
+00:00:13.260 --> 00:00:16.770
+your matrix with the counts
+of the associated tags.
+
+7
+00:00:16.770 --> 00:00:18.480
+Remember, the rows in
+
+8
+00:00:18.480 --> 00:00:20.835
+the matrix represent
+the current states,
+
+9
+00:00:20.835 --> 00:00:23.520
+and the columns represent
+the next states.
+
+10
+00:00:23.520 --> 00:00:26.580
+The values represents the
+transition probabilities
+
+11
+00:00:26.580 --> 00:00:29.280
+of going from the current
+state to the next state.
+
+12
+00:00:29.280 --> 00:00:32.805
+The states for this use case
+is the parts of speech tags.
+
+13
+00:00:32.805 --> 00:00:35.360
+As you can see, the
+defined tags and
+
+14
+00:00:35.360 --> 00:00:37.010
+the elements in the corpus are
+
+15
+00:00:37.010 --> 00:00:39.055
+marked with corresponding colors.
+
+16
+00:00:39.055 --> 00:00:40.475
+For the first column,
+
+17
+00:00:40.475 --> 00:00:42.020
+you will count the occurrences of
+
+18
+00:00:42.020 --> 00:00:44.015
+the following tack combinations.
+
+19
+00:00:44.015 --> 00:00:45.500
+As you see here,
+
+20
+00:00:45.500 --> 00:00:49.640
+a noun following a start token
+occurs once in our corpus.
+
+21
+00:00:49.640 --> 00:00:52.955
+A noun following a noun
+doesn't occur at all.
+
+22
+00:00:52.955 --> 00:00:56.450
+A noun following a verb
+doesn't occur either.
+
+23
+00:00:56.450 --> 00:01:01.625
+A noun following and other
+tag O occurs six times.
+
+24
+00:01:01.625 --> 00:01:05.090
+The rest of the matrix is
+populated accordingly,
+
+25
+00:01:05.090 --> 00:01:07.300
+but I'll take a little shortcut.
+
+26
+00:01:07.300 --> 00:01:11.280
+The corpus as you can see
+is a verbalize high cool.
+
+27
+00:01:11.280 --> 00:01:14.625
+Because there are no tag
+combinations with the tag VB,
+
+28
+00:01:14.625 --> 00:01:16.125
+they are all zero.
+
+29
+00:01:16.125 --> 00:01:18.890
+Unfortunately, there
+is no such shortcuts
+
+30
+00:01:18.890 --> 00:01:20.555
+in the programming assignments.
+
+31
+00:01:20.555 --> 00:01:23.480
+You've been warned. The zero tag,
+
+32
+00:01:23.480 --> 00:01:27.505
+the O tag following a
+starts token occurs twice.
+
+33
+00:01:27.505 --> 00:01:30.120
+The O tag following a noun tag,
+
+34
+00:01:30.120 --> 00:01:32.490
+NN occurs six times.
+
+35
+00:01:32.490 --> 00:01:35.570
+The last entry in the
+transition matrix of
+
+36
+00:01:35.570 --> 00:01:39.265
+an O tag following an O
+tag has a count of eight.
+
+37
+00:01:39.265 --> 00:01:41.390
+In the last line, you have to
+
+38
+00:01:41.390 --> 00:01:43.370
+take into account
+the tagged words
+
+39
+00:01:43.370 --> 00:01:48.965
+on a a wet wet,
+
+40
+00:01:48.965 --> 00:01:53.740
+and, black to calculate
+the correct count.
+
+41
+00:01:53.740 --> 00:01:56.170
+Now because you have calculated
+
+42
+00:01:56.170 --> 00:01:59.139
+the counts of all tag
+combinations in the matrix,
+
+43
+00:01:59.139 --> 00:02:02.005
+you can calculate the
+transition probabilities.
+
+44
+00:02:02.005 --> 00:02:04.270
+So far, you've calculated
+
+45
+00:02:04.270 --> 00:02:06.410
+and entered the
+counts in the matrix,
+
+46
+00:02:06.410 --> 00:02:09.535
+which corresponds to the
+numerator in our formula.
+
+47
+00:02:09.535 --> 00:02:13.150
+Now, you just have to divide
+each counts by the sum,
+
+48
+00:02:13.150 --> 00:02:15.835
+which is actually the
+corresponding row sum.
+
+49
+00:02:15.835 --> 00:02:18.395
+Remember what this
+row sum represents.
+
+50
+00:02:18.395 --> 00:02:20.215
+For the row where
+the current state
+
+51
+00:02:20.215 --> 00:02:21.940
+is a noun parts of speech,
+
+52
+00:02:21.940 --> 00:02:24.220
+the sum across that
+row represents
+
+53
+00:02:24.220 --> 00:02:27.700
+all pairs of words where the
+current state is a noun,
+
+54
+00:02:27.700 --> 00:02:30.310
+and the next state is
+any parts of speech,
+
+55
+00:02:30.310 --> 00:02:32.880
+whether it's a noun,
+a verb, or other.
+
+56
+00:02:32.880 --> 00:02:36.010
+So for the transition
+probability of a noun tag
+
+57
+00:02:36.010 --> 00:02:39.890
+NN following a start
+token, or in other words,
+
+58
+00:02:39.890 --> 00:02:42.640
+the initial probability
+of a NN tag,
+
+59
+00:02:42.640 --> 00:02:44.420
+we divide 1 by 3,
+
+60
+00:02:44.420 --> 00:02:46.670
+or for the transition
+probability of
+
+61
+00:02:46.670 --> 00:02:49.220
+another tag followed
+by a noun tag,
+
+62
+00:02:49.220 --> 00:02:51.350
+we divide 6 by 14.
+
+63
+00:02:51.350 --> 00:02:54.695
+You may have realized that
+there are two problems here.
+
+64
+00:02:54.695 --> 00:02:58.370
+One is that the row sum
+of the VB tag is zero,
+
+65
+00:02:58.370 --> 00:02:59.750
+which would lead to a division
+
+66
+00:02:59.750 --> 00:03:01.745
+by zero using this formula.
+
+67
+00:03:01.745 --> 00:03:03.740
+The other is that a lot of
+
+68
+00:03:03.740 --> 00:03:06.860
+entries in the transition
+matrix are zero,
+
+69
+00:03:06.860 --> 00:03:08.525
+meaning that these transitions
+
+70
+00:03:08.525 --> 00:03:10.505
+will have probability zero.
+
+71
+00:03:10.505 --> 00:03:12.380
+This won't work if
+you want the model
+
+72
+00:03:12.380 --> 00:03:14.375
+to generalize to other equals,
+
+73
+00:03:14.375 --> 00:03:16.510
+which might actually
+contain verbs.
+
+74
+00:03:16.510 --> 00:03:20.390
+To handle this, change your
+formula slightly by adding
+
+75
+00:03:20.390 --> 00:03:22.129
+a small value epsilon
+
+76
+00:03:22.129 --> 00:03:24.740
+to each of the accounts
+in the numerator,
+
+77
+00:03:24.740 --> 00:03:26.750
+and add N times epsilon to
+
+78
+00:03:26.750 --> 00:03:30.455
+the divisor such that the row
+sum still adds up to one.
+
+79
+00:03:30.455 --> 00:03:33.830
+This operation is also
+referred to as smoothing,
+
+80
+00:03:33.830 --> 00:03:36.380
+which you might remember
+from previous lessons.
+
+81
+00:03:36.380 --> 00:03:39.545
+So if you substitute the
+epsilon with a small value,
+
+82
+00:03:39.545 --> 00:03:42.200
+say 0.001, then you
+
+83
+00:03:42.200 --> 00:03:44.485
+will get the following
+transition matrix.
+
+84
+00:03:44.485 --> 00:03:46.560
+The values shown here are
+
+85
+00:03:46.560 --> 00:03:48.915
+shown up to the third
+decimal digits.
+
+86
+00:03:48.915 --> 00:03:50.250
+So don't worry if
+
+87
+00:03:50.250 --> 00:03:52.995
+the row sums don't add
+up to one exactly.
+
+88
+00:03:52.995 --> 00:03:55.805
+The results of smoothing
+is, as you can see,
+
+89
+00:03:55.805 --> 00:03:59.585
+that you no longer have any
+zero value with entries in A.
+
+90
+00:03:59.585 --> 00:04:03.050
+Further, since the transition
+probabilities from
+
+91
+00:04:03.050 --> 00:04:05.090
+the VB states are actually
+
+92
+00:04:05.090 --> 00:04:07.630
+one-third for all
+outgoing transitions,
+
+93
+00:04:07.630 --> 00:04:09.375
+they are equally likely.
+
+94
+00:04:09.375 --> 00:04:11.660
+That's reasonable
+since you didn't have
+
+95
+00:04:11.660 --> 00:04:14.675
+any data to estimate these
+transition probabilities.
+
+96
+00:04:14.675 --> 00:04:16.375
+One more thing before you go.
+
+97
+00:04:16.375 --> 00:04:18.424
+In the real-world example,
+
+98
+00:04:18.424 --> 00:04:20.570
+you might not want to
+apply smoothing to
+
+99
+00:04:20.570 --> 00:04:22.220
+the initial probabilities in
+
+100
+00:04:22.220 --> 00:04:24.845
+the first row of the
+transition matrix.
+
+101
+00:04:24.845 --> 00:04:28.550
+That's because if you apply
+smoothing to that row by
+
+102
+00:04:28.550 --> 00:04:32.210
+adding a small value to
+possibly zeroed valued entries,
+
+103
+00:04:32.210 --> 00:04:34.940
+you'll effectively allow
+a sentence to start with
+
+104
+00:04:34.940 --> 00:04:38.990
+any parts of speech tag,
+including punctuation.

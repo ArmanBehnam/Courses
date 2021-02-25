@@ -1,0 +1,274 @@
+WEBVTT
+
+1
+00:00:00.390 --> 00:00:01.279
+Welcome back.
+
+2
+00:00:01.279 --> 00:00:05.018
+In this video, you're going to learn
+about hidden Markov models and
+
+3
+00:00:05.018 --> 00:00:07.995
+you will use them to decode
+the hidden states of a word.
+
+4
+00:00:07.995 --> 00:00:12.154
+In our case, the hidden states is just
+the parts of speech of that word.
+
+5
+00:00:12.154 --> 00:00:15.652
+You will also learn about emission
+probabilities in this video.
+
+6
+00:00:15.652 --> 00:00:17.030
+So let me show you.
+
+7
+00:00:17.030 --> 00:00:21.268
+The name hidden Markov model
+implies that states are hidden or
+
+8
+00:00:21.268 --> 00:00:23.152
+not directly observable.
+
+9
+00:00:23.152 --> 00:00:27.883
+Going back to the Markov model that has
+the states for the parts of speech,
+
+10
+00:00:27.883 --> 00:00:32.611
+such as noun, verb, or other, you can
+now think of these as hidden states
+
+11
+00:00:32.611 --> 00:00:36.677
+because these are not directly
+observable from the text data.
+
+12
+00:00:36.677 --> 00:00:41.372
+It may seem a little confusing to
+think that this data is hidden because
+
+13
+00:00:41.372 --> 00:00:46.144
+if you look at a certain word such as
+jump, as a human who is familiar with
+
+14
+00:00:46.144 --> 00:00:49.828
+the English language,
+you can see that this is a verb.
+
+15
+00:00:49.828 --> 00:00:54.969
+From a machine's perspective, however,
+it's only sees the text jump and
+
+16
+00:00:54.969 --> 00:00:57.955
+doesn't know whether it is a verb or
+a noun.
+
+17
+00:00:57.955 --> 00:01:00.535
+For a machine looking at the text data,
+
+18
+00:01:00.535 --> 00:01:05.627
+what it's going to observe are the actual
+words, such as jump, run, and fly.
+
+19
+00:01:05.627 --> 00:01:11.795
+These words are said to be observable
+because they can be seen by the machine.
+
+20
+00:01:11.795 --> 00:01:16.805
+The Markov chain model and
+hidden Markov model have transition
+
+21
+00:01:16.805 --> 00:01:21.341
+probabilities, which can be
+represented by a matrix A of
+
+22
+00:01:21.341 --> 00:01:26.364
+dimensions n plus 1 by n where n
+is the number of hidden states.
+
+23
+00:01:26.364 --> 00:01:31.012
+The hidden Markov model also has
+additional probabilities known as
+
+24
+00:01:31.012 --> 00:01:32.895
+emission probabilities.
+
+25
+00:01:32.895 --> 00:01:38.635
+These describe the transition from the
+hidden states of your hidden Markov model,
+
+26
+00:01:38.635 --> 00:01:43.801
+which are parts of speech seen here
+as circles for noun, verb, and other,
+
+27
+00:01:43.801 --> 00:01:49.303
+to the observables or the words of your
+corpus, shown here inside rectangles.
+
+28
+00:01:49.303 --> 00:01:53.124
+Here for example are the observables for
+
+29
+00:01:53.124 --> 00:01:58.862
+the hidden states vb,
+which are the words going, to, eat.
+
+30
+00:01:58.862 --> 00:02:05.370
+The emission probability from the hidden
+states verb to the observable eat is 0.5.
+
+31
+00:02:05.370 --> 00:02:09.490
+This means when the model is currently
+at the hidden state for a verb,
+
+32
+00:02:09.490 --> 00:02:15.490
+there is a 50% chance that the observable
+the model will emit is the word eats.
+
+33
+00:02:15.490 --> 00:02:18.723
+Here's an equivalent
+representation of the emission
+
+34
+00:02:18.723 --> 00:02:20.979
+probabilities in the form of a table.
+
+35
+00:02:20.979 --> 00:02:25.117
+Each row is designated for
+one of the hidden states.
+
+36
+00:02:25.117 --> 00:02:28.004
+A column is designated for
+each of the observables.
+
+37
+00:02:28.004 --> 00:02:29.776
+For example, the row for
+
+38
+00:02:29.776 --> 00:02:35.106
+the hidden state verb intersects with
+the column for the observable eats.
+
+39
+00:02:35.106 --> 00:02:39.851
+The value, 0.5,
+is the emission probability of going from
+
+40
+00:02:39.851 --> 00:02:43.442
+the state verb to emitting
+the observable eat.
+
+41
+00:02:43.442 --> 00:02:48.981
+The emission matrix represents the
+probabilities for the transition of your
+
+42
+00:02:48.981 --> 00:02:55.044
+n hidden states representing your parts of
+speech tags to the n words in your corpus.
+
+43
+00:02:55.044 --> 00:02:58.245
+Again, the row sum of
+probabilities is 1 and
+
+44
+00:02:58.245 --> 00:03:03.215
+what you might have realized in this
+example is that there are emission
+
+45
+00:03:03.215 --> 00:03:08.400
+probabilities greater than 0 for
+all three of our parts of speech tags.
+
+46
+00:03:08.400 --> 00:03:11.970
+This is because words can have
+a different parts of speech tag and
+
+47
+00:03:11.970 --> 00:03:15.580
+sign depending on the context
+in which they appear.
+
+48
+00:03:15.580 --> 00:03:16.626
+For example,
+
+49
+00:03:16.626 --> 00:03:22.563
+the word back should have a different part
+of speech tag in each of the sentences.
+
+50
+00:03:22.563 --> 00:03:27.940
+The noun tag for the sentence,
+he lay on his back,
+
+51
+00:03:27.940 --> 00:03:32.176
+and the adverb tag for, I'll be back.
+
+52
+00:03:32.176 --> 00:03:34.629
+A quick recap of hidden Markov models.
+
+53
+00:03:34.629 --> 00:03:38.012
+They consist of a set of N states, Q.
+
+54
+00:03:38.012 --> 00:03:42.860
+The transition matrix
+A has dimension N by N and
+
+55
+00:03:42.860 --> 00:03:47.342
+the emission matrix B
+has dimension N by V.
+
+56
+00:03:47.342 --> 00:03:50.273
+You have seen the notation for
+hidden Markov models.
+
+57
+00:03:50.273 --> 00:03:54.460
+You've also learned how to compute the
+transition and the emission probabilities.

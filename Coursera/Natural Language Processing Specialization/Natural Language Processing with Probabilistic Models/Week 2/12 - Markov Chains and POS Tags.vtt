@@ -1,0 +1,324 @@
+WEBVTT
+
+1
+00:00:00.423 --> 00:00:03.809
+So far, you've seen Markov
+chains as a graph of states and
+
+2
+00:00:03.809 --> 00:00:06.600
+transitions between these states.
+
+3
+00:00:06.600 --> 00:00:10.392
+Now, I'll show you how to use them for
+parts of speech tagging.
+
+4
+00:00:10.392 --> 00:00:15.002
+If you think about a sentence as a
+sequence of words with associated parts of
+
+5
+00:00:15.002 --> 00:00:19.685
+speech tags, you can represent that
+sequence with a graph where the parts of
+
+6
+00:00:19.685 --> 00:00:24.611
+speech tags are events that can occur
+depicted by the states of our model graph.
+
+7
+00:00:24.611 --> 00:00:30.000
+In this example NN is for
+nouns, VB is for verbs.
+
+8
+00:00:30.000 --> 00:00:32.851
+And other stands for all other tags.
+
+9
+00:00:32.851 --> 00:00:37.617
+The edges of the graph have weights or
+transition probabilities associated
+
+10
+00:00:37.617 --> 00:00:42.830
+with them which define the probability
+of going from one state to another.
+
+11
+00:00:42.830 --> 00:00:47.203
+There is one last important property
+that Markov chains possess, the so
+
+12
+00:00:47.203 --> 00:00:51.002
+called Markov property,
+which states that the probability of
+
+13
+00:00:51.002 --> 00:00:54.101
+the next event only depends
+on the current events.
+
+14
+00:00:54.101 --> 00:00:58.911
+The Markov property helps keep the model
+simple by saying all you need to determine
+
+15
+00:00:58.911 --> 00:01:01.152
+the next state is the current states.
+
+16
+00:01:01.152 --> 00:01:04.820
+It doesn't need information from
+any of the previous states.
+
+17
+00:01:04.820 --> 00:01:09.792
+Going back to the analogy of whether
+water is in solid, liquid, or gas states.
+
+18
+00:01:09.792 --> 00:01:12.963
+If you look at a cup of water
+that is sitting outside,
+
+19
+00:01:12.963 --> 00:01:16.003
+the current states of
+the water is a liquid state.
+
+20
+00:01:16.003 --> 00:01:20.067
+When modeling the probability that
+the water in the cup will transition into
+
+21
+00:01:20.067 --> 00:01:24.083
+the gas states, you don't need to know
+the previous history of the water.
+
+22
+00:01:24.083 --> 00:01:26.475
+Whether it's previously
+came from ice cubes or
+
+23
+00:01:26.475 --> 00:01:29.006
+whether it's previously
+came from rain clouds.
+
+24
+00:01:29.006 --> 00:01:31.442
+That makes sense, right?
+
+25
+00:01:31.442 --> 00:01:34.820
+Let's revisit the sentence
+example from earlier.
+
+26
+00:01:34.820 --> 00:01:37.057
+If you look at this sentence again and
+
+27
+00:01:37.057 --> 00:01:41.677
+want to know the probability that the next
+word following learn is a noun then
+
+28
+00:01:41.677 --> 00:01:45.081
+this just depends on the current
+state that you're in.
+
+29
+00:01:45.081 --> 00:01:49.811
+In this case the verb states denoted
+by VB because the current word
+
+30
+00:01:49.811 --> 00:01:54.714
+learned is a verb, so the probability
+of the next word being a noun is
+
+31
+00:01:54.714 --> 00:02:00.413
+the transition probability for going from
+the verb to the noun and end states.
+
+32
+00:02:00.413 --> 00:02:05.831
+The transition probability is written on
+the arrow that goes from VB to an end.
+
+33
+00:02:05.831 --> 00:02:09.490
+And as you can see it's 0.4.
+
+34
+00:02:09.490 --> 00:02:14.021
+You can also use a table to store
+the states and transition probabilities.
+
+35
+00:02:14.021 --> 00:02:19.471
+A table is an equivalent, but more compact
+representation of the Markov chain model.
+
+36
+00:02:19.471 --> 00:02:23.011
+And this table is called
+a transition matrix.
+
+37
+00:02:23.011 --> 00:02:27.793
+A transition matrix is an n by n matrix
+with n being the number of states
+
+38
+00:02:27.793 --> 00:02:29.670
+in the graph.
+
+39
+00:02:29.670 --> 00:02:34.523
+Each row in the matrix represents
+transition probabilities of one
+
+40
+00:02:34.523 --> 00:02:36.523
+state to all other states.
+
+41
+00:02:36.523 --> 00:02:42.060
+For example, the first row represents the
+case where the current states is a noun.
+
+42
+00:02:42.060 --> 00:02:46.800
+The columns represent the possible
+future states that might come next.
+
+43
+00:02:46.800 --> 00:02:51.876
+The values inside the table represent
+the transition probability of
+
+44
+00:02:51.876 --> 00:02:57.491
+going from a noun to a noun from a noun to
+a verb and a noun to some other states.
+
+45
+00:02:57.491 --> 00:03:01.585
+Notice that for all the odds going
+transition probabilities from a given
+
+46
+00:03:01.585 --> 00:03:06.560
+state, the sum of these transition
+probabilities should always be one.
+
+47
+00:03:06.560 --> 00:03:09.115
+Equivalently in the transition matrix,
+
+48
+00:03:09.115 --> 00:03:13.352
+all of the transition probabilities
+in each row should add up to one.
+
+49
+00:03:13.352 --> 00:03:16.602
+Some of you may have noted one
+little flaw in this model.
+
+50
+00:03:16.602 --> 00:03:20.750
+It doesn't tell you how to assign a part
+of speech tag to the first word in
+
+51
+00:03:20.750 --> 00:03:22.200
+the sentence.
+
+52
+00:03:22.200 --> 00:03:25.701
+This is because all of the states
+in the model correspond towards.
+
+53
+00:03:25.701 --> 00:03:29.697
+But what do you do when there is no
+previous word as in the case when
+
+54
+00:03:29.697 --> 00:03:31.750
+beginning a sentence.
+
+55
+00:03:31.750 --> 00:03:36.666
+To handle this you can introduce what is
+known as an initial state by you include
+
+56
+00:03:36.666 --> 00:03:38.986
+these probabilities in the Table A.
+
+57
+00:03:38.986 --> 00:03:42.660
+So now it has dimensions n plus 1 by n.
+
+58
+00:03:43.730 --> 00:03:50.302
+Notice that the transition matrix can be
+written as an actual matrix like this.
+
+59
+00:03:50.302 --> 00:03:57.993
+To recap, Markov chains consists of a set
+q of n states p1 all the way to qn.
+
+60
+00:03:57.993 --> 00:04:02.895
+The transition matrix a has dimensions
+n plus 1 by n with the initial
+
+61
+00:04:02.895 --> 00:04:05.310
+probabilities in the first row.
+
+62
+00:04:05.310 --> 00:04:07.100
+Nice work so far.
+
+63
+00:04:07.100 --> 00:04:08.140
+I'll see you later.
+
+64
+00:04:08.140 --> 00:04:12.114
+In this video you learned about
+initial probability distributions and
+
+65
+00:04:12.114 --> 00:04:14.772
+you learned about
+transition probabilities.
+
+66
+00:04:14.772 --> 00:04:19.166
+In the next video you're going to learn
+about hidden Markov models which are used
+
+67
+00:04:19.166 --> 00:04:21.244
+to decode the hidden states of a word.
+
+68
+00:04:21.244 --> 00:04:24.750
+In our case that would be
+the parts of speech of that word.

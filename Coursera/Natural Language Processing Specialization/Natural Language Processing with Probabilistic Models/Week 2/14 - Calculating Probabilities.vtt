@@ -1,0 +1,370 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.850
+Hi again. You will now
+learn how to compute
+
+2
+00:00:02.850 --> 00:00:04.260
+the probabilities for
+
+3
+00:00:04.260 --> 00:00:07.155
+your transition and
+emission matrices.
+
+4
+00:00:07.155 --> 00:00:09.135
+Given a corpus, you'll be
+
+5
+00:00:09.135 --> 00:00:11.595
+able to populate
+these two matrices.
+
+6
+00:00:11.595 --> 00:00:13.620
+Let me show you how
+you can do this.
+
+7
+00:00:13.620 --> 00:00:17.239
+Let's start with how to
+populate the transition matrix,
+
+8
+00:00:17.239 --> 00:00:19.940
+which holds all the
+transition probabilities
+
+9
+00:00:19.940 --> 00:00:22.160
+between states of
+your Markov model.
+
+10
+00:00:22.160 --> 00:00:25.040
+First, let's explore
+how to calculate
+
+11
+00:00:25.040 --> 00:00:28.535
+the transition probabilities
+on a conceptual level.
+
+12
+00:00:28.535 --> 00:00:32.480
+Using this very small training
+corpus, as you can see,
+
+13
+00:00:32.480 --> 00:00:33.830
+the associates at parts of
+
+14
+00:00:33.830 --> 00:00:37.300
+speech tags are depicted
+by the background color.
+
+15
+00:00:37.300 --> 00:00:40.250
+To calculate the
+transition probabilities,
+
+16
+00:00:40.250 --> 00:00:42.260
+you actually only
+use the parts of
+
+17
+00:00:42.260 --> 00:00:44.375
+speech tags from your
+training corpus.
+
+18
+00:00:44.375 --> 00:00:46.790
+So to calculate
+the probability of
+
+19
+00:00:46.790 --> 00:00:48.830
+the blue parts of speech tag
+
+20
+00:00:48.830 --> 00:00:50.810
+transitioning to the purple one,
+
+21
+00:00:50.810 --> 00:00:53.540
+you first have to count
+the occurrences of
+
+22
+00:00:53.540 --> 00:00:57.170
+that tag combination in
+your corpus, which is two.
+
+23
+00:00:57.170 --> 00:00:58.970
+The number of all tag pairs
+
+24
+00:00:58.970 --> 00:01:01.340
+starting with a
+blue tag is three,
+
+25
+00:01:01.340 --> 00:01:02.990
+for this corpus at least.
+
+26
+00:01:02.990 --> 00:01:05.600
+So two out of three
+tag sequences in
+
+27
+00:01:05.600 --> 00:01:07.340
+your training corpus starts
+
+28
+00:01:07.340 --> 00:01:09.290
+with the blue parts
+of speech tag.
+
+29
+00:01:09.290 --> 00:01:12.665
+In other words, the
+transition probability for
+
+30
+00:01:12.665 --> 00:01:17.100
+a purple tag following a blue
+tag is two out of three.
+
+31
+00:01:17.100 --> 00:01:19.805
+More formally, in
+order to calculate
+
+32
+00:01:19.805 --> 00:01:23.000
+all the transition probabilities
+of your Markov model,
+
+33
+00:01:23.000 --> 00:01:24.455
+you'd first have to count
+
+34
+00:01:24.455 --> 00:01:28.135
+all occurrences of tag pairs
+in your training corpus.
+
+35
+00:01:28.135 --> 00:01:30.795
+I'll define this
+as the function C
+
+36
+00:01:30.795 --> 00:01:34.170
+of the tags t_i minus 1, t_i,
+
+37
+00:01:34.170 --> 00:01:37.710
+which returns that counts
+for the tag t_i minus
+
+38
+00:01:37.710 --> 00:01:41.780
+1 followed by the tag t_i
+in your training corpus.
+
+39
+00:01:41.780 --> 00:01:45.875
+Next, you calculate the
+probability of a tag t_i
+
+40
+00:01:45.875 --> 00:01:50.810
+following another tag
+t_i minus 1 as P of t_i,
+
+41
+00:01:50.810 --> 00:01:52.630
+given t_i minus 1.
+
+42
+00:01:52.630 --> 00:01:55.500
+This is counts of t_i minus 1,
+
+43
+00:01:55.500 --> 00:01:57.695
+t _i in the numerator,
+
+44
+00:01:57.695 --> 00:02:01.800
+which is the number of
+occurrences of t_i minus 1,
+
+45
+00:02:01.800 --> 00:02:03.785
+t_i in the corpus,
+
+46
+00:02:03.785 --> 00:02:07.430
+divided by the sum of all
+occurrences of the tag t_i
+
+47
+00:02:07.430 --> 00:02:11.395
+minus 1 together with
+all the other tags t_j.
+
+48
+00:02:11.395 --> 00:02:13.960
+This will become more clear
+in the following slides.
+
+49
+00:02:13.960 --> 00:02:15.690
+I'll write this as P for
+
+50
+00:02:15.690 --> 00:02:19.785
+the probability of t_i
+given t_i minus 1.
+
+51
+00:02:19.785 --> 00:02:22.490
+This probability is given
+by the total number of
+
+52
+00:02:22.490 --> 00:02:26.870
+times tag t_i occurred
+after attack t_i minus 1,
+
+53
+00:02:26.870 --> 00:02:30.345
+which is given by the
+function counts of t_i,
+
+54
+00:02:30.345 --> 00:02:33.270
+t_i minus 1 in the numerator.
+
+55
+00:02:33.270 --> 00:02:35.690
+Then divide it by the number of
+
+56
+00:02:35.690 --> 00:02:39.500
+total occurrences of
+the tag t_i minus 1,
+
+57
+00:02:39.500 --> 00:02:41.600
+given by the function count of
+
+58
+00:02:41.600 --> 00:02:44.050
+t_i minus 1 in the divisor.
+
+59
+00:02:44.050 --> 00:02:47.285
+So say you want to train
+a model for Haiku,
+
+60
+00:02:47.285 --> 00:02:49.640
+a type of short Japanese poetry.
+
+61
+00:02:49.640 --> 00:02:52.400
+Your training corpus will
+be the following Haiku
+
+62
+00:02:52.400 --> 00:02:56.230
+from Ezra Pound, written in 1913.
+
+63
+00:02:56.230 --> 00:02:58.130
+In the programming assignments,
+
+64
+00:02:58.130 --> 00:03:00.455
+you'll be given a
+prepared corpus.
+
+65
+00:03:00.455 --> 00:03:03.005
+Here, you will make some
+changes to the corpus
+
+66
+00:03:03.005 --> 00:03:05.705
+in order to calculate the
+correct probabilities.
+
+67
+00:03:05.705 --> 00:03:09.185
+Consider each line of the
+corpus as a separate sentence.
+
+68
+00:03:09.185 --> 00:03:11.270
+First, at the start token
+
+69
+00:03:11.270 --> 00:03:13.475
+to each line or
+sentence in order to be
+
+70
+00:03:13.475 --> 00:03:16.490
+able to calculate the
+initial probabilities
+
+71
+00:03:16.490 --> 00:03:18.520
+using the previous
+defined formula.
+
+72
+00:03:18.520 --> 00:03:22.775
+Then transform all words in
+the corpus to lowercase.
+
+73
+00:03:22.775 --> 00:03:25.250
+So the model becomes
+case insensitive.
+
+74
+00:03:25.250 --> 00:03:27.080
+The punctuation you should leave
+
+75
+00:03:27.080 --> 00:03:29.930
+intact because it doesn't
+make a difference
+
+76
+00:03:29.930 --> 00:03:32.070
+for a toy model and
+there aren't tags
+
+77
+00:03:32.070 --> 00:03:34.700
+for different punctuation
+included here.
+
+78
+00:03:34.700 --> 00:03:36.005
+So there you have it,
+
+79
+00:03:36.005 --> 00:03:38.760
+a nicely prepared corpus.
