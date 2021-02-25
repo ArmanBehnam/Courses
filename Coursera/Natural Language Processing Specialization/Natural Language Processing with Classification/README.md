@@ -1,8 +1,8 @@
-# Deep Learning in Computer Vision by [Coursera](https://www.coursera.org/learn/deep-learning-in-computer-vision?)
+# Natural Language Processing with Classification and Vector Spaces by [Coursera](https://www.coursera.org/learn/classification-vector-spaces-in-nlp)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [Deep Learning in Computer Vision](http://www.armanbehnam.com/about-me/education/seq-models-coursera/) in my website
+Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
 - [Week 1 Introduction to image processing and computer vision](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201)
