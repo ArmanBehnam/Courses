@@ -1,0 +1,629 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.660
+[MUSIC]
+
+2
+00:00:09.660 --> 00:00:14.059
+This lecture will talk about
+the software side a little bit.
+
+3
+00:00:14.059 --> 00:00:17.845
+Specifically how the software is processed
+before it's actually executed in
+
+4
+00:00:17.845 --> 00:00:19.140
+the micro-controller.
+
+5
+00:00:19.140 --> 00:00:22.810
+So key here is that the code
+that you actually write isn't
+
+6
+00:00:22.810 --> 00:00:24.680
+literally processed by
+the micro-controller.
+
+7
+00:00:24.680 --> 00:00:25.970
+It's not executed directly.
+
+8
+00:00:25.970 --> 00:00:29.840
+It has to be processed first
+[COUGH] compiled or interpreted and
+
+9
+00:00:29.840 --> 00:00:30.770
+then it's processed.
+
+10
+00:00:30.770 --> 00:00:31.580
+So we'll talk about that.
+
+11
+00:00:32.740 --> 00:00:33.590
+Software translation.
+
+12
+00:00:33.590 --> 00:00:36.730
+So, in the end, a micro-controller or
+
+13
+00:00:36.730 --> 00:00:40.720
+CPU as we're calling right here,
+micro-controller, it understands.
+
+14
+00:00:40.720 --> 00:00:43.960
+It doesn't understand C,
+or C++, or Java, or
+
+15
+00:00:43.960 --> 00:00:47.380
+Python, or any of those languages
+that most humans program in.
+
+16
+00:00:47.380 --> 00:00:50.345
+It understands its own machine language.
+
+17
+00:00:50.345 --> 00:00:51.990
+So take an Intel processor.
+
+18
+00:00:51.990 --> 00:00:56.320
+It understands Intel machine language,
+X86 machine language it's called.
+
+19
+00:00:56.320 --> 00:01:00.900
+So different processor families
+understand their own machine language.
+
+20
+00:01:00.900 --> 00:01:04.780
+Now, machine language is basically a set
+of really small simple instructions
+
+21
+00:01:04.780 --> 00:01:07.780
+encoded in binary, zeroes and ones.
+
+22
+00:01:07.780 --> 00:01:12.410
+So if you ever look at machine code
+directly, all you see are zeroes and ones,
+
+23
+00:01:12.410 --> 00:01:15.510
+or typically people, when they view it,
+they look at it in hex editor.
+
+24
+00:01:15.510 --> 00:01:18.390
+So they see zeroes and
+ones represented in hexadecimal.
+
+25
+00:01:19.980 --> 00:01:23.040
+But, it doesn't look too readable.
+
+26
+00:01:23.040 --> 00:01:25.130
+Basically, it's a string of characters.
+
+27
+00:01:26.220 --> 00:01:29.039
+Zero through nine, and a through f, right?
+
+28
+00:01:29.039 --> 00:01:30.780
+And you just see them in pairs.
+
+29
+00:01:30.780 --> 00:01:34.000
+So it's not easily readable but that's
+what the machine actually executes is
+
+30
+00:01:34.000 --> 00:01:37.640
+this machine code, which is an encoding
+of very simple instructions.
+
+31
+00:01:37.640 --> 00:01:41.604
+Add, subtract,
+multiply very basic instructions.
+
+32
+00:01:41.604 --> 00:01:44.960
+Now above that [COUGH] is what's
+called assembly language.
+
+33
+00:01:44.960 --> 00:01:49.090
+Now assembly language is basically a one
+to one mapping from the machine code
+
+34
+00:01:49.090 --> 00:01:53.480
+that's actually executed to a pneumonic,
+a simple pneumonic that a human can read.
+
+35
+00:01:54.670 --> 00:01:57.790
+And now, it's not easy to read, but
+it's easier than the zeros and ones.
+
+36
+00:01:57.790 --> 00:02:00.852
+So, instead of having
+a sequence of zeros and ones,
+
+37
+00:02:00.852 --> 00:02:03.439
+assembly code will say add R1, R2, R3.
+
+38
+00:02:03.439 --> 00:02:04.272
+Something like that.
+
+39
+00:02:04.272 --> 00:02:05.900
+So that's readable.
+
+40
+00:02:05.900 --> 00:02:07.510
+But still it's very low level.
+
+41
+00:02:07.510 --> 00:02:09.350
+These instructions are very simple.
+
+42
+00:02:09.350 --> 00:02:11.420
+You can't have four loops, or
+
+43
+00:02:11.420 --> 00:02:14.350
+any of the common constructs that
+you have in programming languages.
+
+44
+00:02:14.350 --> 00:02:17.220
+You can't use any of that,
+these are very simple instructions.
+
+45
+00:02:17.220 --> 00:02:21.040
+So assembly language to machine language
+they are one to one mapping, right.
+
+46
+00:02:21.040 --> 00:02:22.300
+You have an assembly instruction,
+
+47
+00:02:22.300 --> 00:02:26.250
+it is exactly equal to
+a machine language instruction.
+
+48
+00:02:26.250 --> 00:02:28.490
+So it's very simple, but
+at least it's readable.
+
+49
+00:02:28.490 --> 00:02:30.050
+It's in some sort of English like format.
+
+50
+00:02:31.080 --> 00:02:34.320
+So you can write in assembly language, but
+
+51
+00:02:34.320 --> 00:02:37.180
+it's hard and we're certainly
+not doing it in this class.
+
+52
+00:02:37.180 --> 00:02:38.790
+People do it sometimes for
+
+53
+00:02:38.790 --> 00:02:41.010
+certain purposes but
+we're not doing it in this class.
+
+54
+00:02:41.010 --> 00:02:43.276
+What we'll work with
+are high level languages,
+
+55
+00:02:43.276 --> 00:02:45.163
+what we'll call high level languages.
+
+56
+00:02:45.163 --> 00:02:49.120
+The commonly used languages of C,
+C++, Java, dot dot dot.
+
+57
+00:02:49.120 --> 00:02:50.840
+Python, which is what we're gonna look at.
+
+58
+00:02:50.840 --> 00:02:52.623
+We'll focus on C, C++, and python,
+
+59
+00:02:52.623 --> 00:02:56.160
+but there are many high level
+languages that people program in.
+
+60
+00:02:56.160 --> 00:02:57.440
+So these are much easier to use.
+
+61
+00:02:57.440 --> 00:03:00.920
+They give you the regular programming
+constructs that programmers are used to.
+
+62
+00:03:00.920 --> 00:03:05.760
+Loop constructs, variables,
+structures, objects, things like this.
+
+63
+00:03:05.760 --> 00:03:10.310
+So, those languages, high-level languages,
+are what we are actually going to code in.
+
+64
+00:03:10.310 --> 00:03:12.070
+But, that's not what's actually executed.
+
+65
+00:03:12.070 --> 00:03:14.438
+The machine language is
+what's actually executed.
+
+66
+00:03:14.438 --> 00:03:18.970
+So, this high-level language,
+that you write in,
+
+67
+00:03:18.970 --> 00:03:22.440
+it has to be converted into
+machine language before execution.
+
+68
+00:03:22.440 --> 00:03:26.390
+So all the software that you write in
+a high-level language has to be translated
+
+69
+00:03:26.390 --> 00:03:29.590
+into machine language, into the machine
+language of the micro-controller
+
+70
+00:03:29.590 --> 00:03:31.980
+before you can actually execute it.
+
+71
+00:03:31.980 --> 00:03:33.500
+So there's always that process.
+
+72
+00:03:33.500 --> 00:03:36.160
+You're gonna write the code,
+then you're gonna do the translation and
+
+73
+00:03:36.160 --> 00:03:37.070
+then it gets executed.
+
+74
+00:03:38.310 --> 00:03:40.770
+Now there are two ways that this can go.
+
+75
+00:03:40.770 --> 00:03:44.080
+Depending on if it's a compiled
+language or an interpretive language.
+
+76
+00:03:44.080 --> 00:03:49.270
+So compiled language, what happens is
+compilation happens where the language,
+
+77
+00:03:49.270 --> 00:03:54.776
+the instructions, get translated into
+machine code, before execution, one time.
+
+78
+00:03:54.776 --> 00:03:58.276
+And you get what's called an executable at
+the end, which is basically the machine
+
+79
+00:03:58.276 --> 00:04:00.930
+code and plus some extra data,
+but essentially machine code.
+
+80
+00:04:00.930 --> 00:04:04.870
+And this executable is what is
+run every time you run the code.
+
+81
+00:04:04.870 --> 00:04:09.040
+So the compilation, the translation from
+the high-level language to the machine
+
+82
+00:04:09.040 --> 00:04:14.020
+code happened one time before
+you executed it, and then
+
+83
+00:04:14.020 --> 00:04:17.640
+every time you execute it after that, you
+don't have to do that conversion, okay.
+
+84
+00:04:17.640 --> 00:04:24.640
+So compile languages include C,
+C++, Java halfway.
+
+85
+00:04:24.640 --> 00:04:27.100
+There are other languages too
+that are compiled languages.
+
+86
+00:04:27.100 --> 00:04:30.750
+So when we work with the arduino,
+we'll be working in c++ essentially.
+
+87
+00:04:30.750 --> 00:04:32.530
+So that's a compiled language.
+
+88
+00:04:32.530 --> 00:04:36.420
+So this translation,
+this compilation process, it happens once.
+
+89
+00:04:36.420 --> 00:04:39.459
+It realistically happens many
+times because you compile it and
+
+90
+00:04:39.459 --> 00:04:42.430
+then you realize you had a bug,
+and you fix it, compile it again.
+
+91
+00:04:42.430 --> 00:04:45.170
+But essentially you finish compiling
+it and once you're done and
+
+92
+00:04:45.170 --> 00:04:47.060
+it works, then you never compile it again.
+
+93
+00:04:47.060 --> 00:04:49.990
+You just execute it, okay.
+
+94
+00:04:49.990 --> 00:04:53.380
+Now, as compared to compilation,
+there's also interpretation.
+
+95
+00:04:53.380 --> 00:04:57.660
+So you can have an interpretative
+language like Java, Basic, Visual Basic.
+
+96
+00:04:57.660 --> 00:05:01.320
+Python is an interpretative language,
+or a scripting language but
+
+97
+00:05:01.320 --> 00:05:02.790
+it also interpretive language.
+
+98
+00:05:02.790 --> 00:05:06.389
+So in interpretive language,
+what happens is the instructions,
+
+99
+00:05:06.389 --> 00:05:10.695
+the Python instructions I say, are
+converted into machine code at runtime, so
+
+100
+00:05:10.695 --> 00:05:15.258
+every time you execute that code, you have
+to convert the Python into machine code,
+
+101
+00:05:15.258 --> 00:05:17.475
+unlike the compiled language, right?
+
+102
+00:05:17.475 --> 00:05:20.374
+Compile language, you compiled it once and
+you got the machine code, and
+
+103
+00:05:20.374 --> 00:05:23.100
+then every time you executed it,
+you didn't have to compile again.
+
+104
+00:05:23.100 --> 00:05:26.250
+But with interpretive languages,
+you have to compile every single time.
+
+105
+00:05:27.260 --> 00:05:29.300
+Or you call it an interpretation,
+but its' the same thing.
+
+106
+00:05:29.300 --> 00:05:31.700
+You have to convert into
+machine code every single time.
+
+107
+00:05:32.720 --> 00:05:35.600
+Now there are advantages and
+disadvantages.
+
+108
+00:05:35.600 --> 00:05:38.100
+The disadvantages is that it's slow.
+
+109
+00:05:38.100 --> 00:05:40.700
+Compared to compiled code,
+it's slow because you
+
+110
+00:05:40.700 --> 00:05:45.020
+have to do that whole conversion from
+high-level to low-level every single time.
+
+111
+00:05:45.020 --> 00:05:48.190
+But it has a lot of advantages
+because it allows you,
+
+112
+00:05:48.190 --> 00:05:51.080
+as a programmer,
+it relieves you of certain burdens.
+
+113
+00:05:51.080 --> 00:05:53.812
+So certain things you, the programmer
+doesn't have to think of because
+
+114
+00:05:53.812 --> 00:05:55.780
+the interpreter will deal with them.
+
+115
+00:05:55.780 --> 00:06:00.535
+So, for instance, just as an example
+let's say in C, you're using a variable,
+
+116
+00:06:00.535 --> 00:06:02.745
+you're defining a variable,
+an integer, right?
+
+117
+00:06:02.745 --> 00:06:05.665
+In C if you want to use an integer,
+you have to declare that integer,
+
+118
+00:06:05.665 --> 00:06:08.455
+you have to say int X, let's say.
+
+119
+00:06:08.455 --> 00:06:11.267
+And you have to put that
+at the top of your code so
+
+120
+00:06:11.267 --> 00:06:14.597
+the compiler can know he
+needs an integer in x, right?
+
+121
+00:06:14.597 --> 00:06:16.806
+With an interpreter,
+like with a Python language,
+
+122
+00:06:16.806 --> 00:06:18.880
+you don't have to declare x as an integer.
+
+123
+00:06:18.880 --> 00:06:21.240
+You can just start using
+a variable called x.
+
+124
+00:06:21.240 --> 00:06:24.160
+And the interpreter will figure out,
+oh I think this, he means for
+
+125
+00:06:24.160 --> 00:06:25.170
+this to be an integer.
+
+126
+00:06:25.170 --> 00:06:27.270
+I'll refer to this as an integer.
+
+127
+00:06:27.270 --> 00:06:30.598
+Or, if it sees you're using the variable
+differently it'll make it a floating point
+
+128
+00:06:30.598 --> 00:06:32.060
+or something like that.
+
+129
+00:06:32.060 --> 00:06:35.564
+But that's a burden that the programmer
+no longer has to deal with, right.
+
+130
+00:06:35.564 --> 00:06:38.320
+The interpreter at run time can
+figure out what the type is
+
+131
+00:06:38.320 --> 00:06:40.060
+rather than you as a programmer
+having to deal with it.
+
+132
+00:06:40.060 --> 00:06:42.930
+So interpretive languages do
+have the advantages that they
+
+133
+00:06:42.930 --> 00:06:46.208
+are generally easier to program in,
+but they are slow.
+
+134
+00:06:46.208 --> 00:06:47.150
+Thank you.
+
+135
+00:06:47.150 --> 00:06:55.869
+[MUSIC]

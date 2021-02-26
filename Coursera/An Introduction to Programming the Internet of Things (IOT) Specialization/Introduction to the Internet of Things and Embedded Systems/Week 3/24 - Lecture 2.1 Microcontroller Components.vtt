@@ -1,0 +1,920 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.037
+[MUSIC]
+
+2
+00:00:10.037 --> 00:00:14.383
+This lecture will talk about
+microcontrollers in a little bit more
+
+3
+00:00:14.383 --> 00:00:15.012
+detail.
+
+4
+00:00:15.012 --> 00:00:18.209
+Specifically, we're gonna talk
+about the storage elements and
+
+5
+00:00:18.209 --> 00:00:20.487
+how you store data inside
+a microcontroller.
+
+6
+00:00:20.487 --> 00:00:24.022
+Some of this is important for us, just
+to have an idea of what type of elements
+
+7
+00:00:24.022 --> 00:00:26.410
+there are inside a microcontroller.
+
+8
+00:00:26.410 --> 00:00:29.300
+And not just inside a microcontroller
+really, but also the memories outside
+
+9
+00:00:29.300 --> 00:00:31.889
+the microcontroller, cuz these
+are important parts of the system.
+
+10
+00:00:31.889 --> 00:00:33.940
+You always have data,
+you need to store it.
+
+11
+00:00:33.940 --> 00:00:36.187
+So we need to know
+a little bit about that.
+
+12
+00:00:36.187 --> 00:00:41.063
+So first, here's a picture of
+taken out of a datasheet for
+
+13
+00:00:41.063 --> 00:00:44.680
+an AVR at mega 2560 microcontroller.
+
+14
+00:00:44.680 --> 00:00:49.325
+This at Mega 2560 is not the same
+as what's in the Arduino, or
+
+15
+00:00:49.325 --> 00:00:51.361
+not in the regular Arduino.
+
+16
+00:00:51.361 --> 00:00:53.230
+In the Arduino uno, it doesn't have this.
+
+17
+00:00:53.230 --> 00:00:56.422
+Actually I think there is an Arduino
+that uses one of these, but
+
+18
+00:00:56.422 --> 00:00:59.691
+this is the same series of processes
+that you find in an Arduino.
+
+19
+00:00:59.691 --> 00:01:03.259
+And here's some of the information that
+you would find right on the front page of
+
+20
+00:01:03.259 --> 00:01:04.016
+the datasheet.
+
+21
+00:01:04.016 --> 00:01:10.517
+8-bit microcontroller up to 16 megahertz,
+that's the clock frequency.
+
+22
+00:01:10.517 --> 00:01:12.393
+256 kilobytes of flash memory, so
+
+23
+00:01:12.393 --> 00:01:15.750
+that tells you something about
+the type of memory in there.
+
+24
+00:01:15.750 --> 00:01:22.494
+Flash memory as you may know, it's a type
+of memory that's nonvolatile memory.
+
+25
+00:01:22.494 --> 00:01:26.440
+So after you lose power when you regain
+power, the memory's still there.
+
+26
+00:01:26.440 --> 00:01:27.853
+So you see this in thumb drives.
+
+27
+00:01:27.853 --> 00:01:30.950
+Thumb drives are basically flash memory.
+
+28
+00:01:30.950 --> 00:01:35.258
+EEPROM is also another type of
+nonvolatile memory similar to flash.
+
+29
+00:01:35.258 --> 00:01:39.894
+SRAM is your regular random access memory,
+we'll talk about that.
+
+30
+00:01:39.894 --> 00:01:42.826
+And then peripherals,
+that's sort of a general term for
+
+31
+00:01:42.826 --> 00:01:47.165
+all the other components inside the micro
+controller on the chip, like the timers,
+
+32
+00:01:47.165 --> 00:01:49.444
+ADD converters and all those other things.
+
+33
+00:01:49.444 --> 00:01:51.783
+So it's got a number of
+peripherals that I didn't list,
+
+34
+00:01:51.783 --> 00:01:53.610
+I didn't put the whole datasheet up there.
+
+35
+00:01:53.610 --> 00:01:59.912
+But that picture right there,
+shows you what the pins look like.
+
+36
+00:01:59.912 --> 00:02:02.460
+So actually,
+where they are configured on the chip.
+
+37
+00:02:02.460 --> 00:02:07.043
+So that means if you bought the chip, then
+which pin corresponds to which function?
+
+38
+00:02:07.043 --> 00:02:08.160
+And they're all labeled right there.
+
+39
+00:02:08.160 --> 00:02:12.423
+Actually, this is just a snippet of it,
+cuz we couldn't put all the The pins on
+
+40
+00:02:12.423 --> 00:02:16.251
+this one page, but this is like
+the upper left hand corner of the chip.
+
+41
+00:02:16.251 --> 00:02:18.212
+It shows you the pins that
+you can see there and
+
+42
+00:02:18.212 --> 00:02:21.461
+there are a lot more pins than that,
+but they're all labeled with names and
+
+43
+00:02:21.461 --> 00:02:23.230
+are referred to later in the datasheet.
+
+44
+00:02:25.899 --> 00:02:28.858
+So let's talk a little bit about
+storage elements that you find in these
+
+45
+00:02:28.858 --> 00:02:29.780
+microcontrollers.
+
+46
+00:02:29.780 --> 00:02:32.440
+Storage elements are basically
+elements that store data.
+
+47
+00:02:32.440 --> 00:02:35.360
+There's a need for a lot of data; so
+you need to store data.
+
+48
+00:02:35.360 --> 00:02:39.051
+A variety of types of different data.
+
+49
+00:02:39.051 --> 00:02:41.213
+You can store data,
+you can store the program itself.
+
+50
+00:02:41.213 --> 00:02:43.200
+The program itself is data.
+
+51
+00:02:43.200 --> 00:02:46.568
+So that has to be stored in some
+sort of storage element, as well.
+
+52
+00:02:46.568 --> 00:02:48.770
+There are different types
+of storage elements.
+
+53
+00:02:48.770 --> 00:02:51.577
+There's a speed performance tradeoff.
+
+54
+00:02:51.577 --> 00:02:57.570
+So some types of storage are very fast,
+but they cost more.
+
+55
+00:02:57.570 --> 00:02:58.854
+Usually they cost more, because of area.
+
+56
+00:02:58.854 --> 00:03:01.710
+They take up a lot more area on the chip,
+so they cost more.
+
+57
+00:03:01.710 --> 00:03:06.248
+Where on the other hand, there are other
+types of storage elements that are slower
+
+58
+00:03:06.248 --> 00:03:08.040
+to access, but they cost less.
+
+59
+00:03:08.040 --> 00:03:09.740
+They are much smaller on the chip.
+
+60
+00:03:09.740 --> 00:03:13.340
+There's also a power tradeoff
+that I didn't mention here.
+
+61
+00:03:13.340 --> 00:03:17.770
+So most basic storage element,
+fastest storage element is the register.
+
+62
+00:03:17.770 --> 00:03:20.330
+A register stores only a single value.
+
+63
+00:03:20.330 --> 00:03:23.920
+Now depending on how many bits
+the register is, it serves one number.
+
+64
+00:03:23.920 --> 00:03:27.366
+So if you have a 32-bit data path,
+you'll typically have 32-bit registers.
+
+65
+00:03:27.366 --> 00:03:30.907
+So, it can store one 32-bit number.
+
+66
+00:03:30.907 --> 00:03:35.018
+It stores whatever you want,
+32-bit number.
+
+67
+00:03:35.018 --> 00:03:37.199
+Maybe the location in
+a certain memory locates,
+
+68
+00:03:37.199 --> 00:03:39.630
+the value in a location
+in a memory location.
+
+69
+00:03:39.630 --> 00:03:42.741
+Some number that you're working with, some
+variable that you're working with right
+
+70
+00:03:42.741 --> 00:03:44.287
+now in the program, something like that.
+
+71
+00:03:44.287 --> 00:03:45.496
+Very fast.
+
+72
+00:03:45.496 --> 00:03:50.394
+So when I say, very fast, the access
+time is a lot less than a clock cycle,
+
+73
+00:03:50.394 --> 00:03:51.900
+but it's expensive.
+
+74
+00:03:51.900 --> 00:03:55.258
+So you can't have too many of them
+on chip, because they're so big.
+
+75
+00:03:55.258 --> 00:03:58.972
+So there are several special purpose
+registers that are devoted to particular
+
+76
+00:03:58.972 --> 00:04:02.470
+tasks on the microcontroller,
+like the program counter is a common one.
+
+77
+00:04:02.470 --> 00:04:06.371
+Program counter is the register that tells
+you what instruction you're executing in
+
+78
+00:04:06.371 --> 00:04:09.906
+a code, it's the address of the
+instruction you're currently executing.
+
+79
+00:04:09.906 --> 00:04:13.386
+So that's something you as a programmer
+shouldn't be manipulating,
+
+80
+00:04:13.386 --> 00:04:16.930
+shouldn't be touching that, but
+it's a special-purpose register.
+
+81
+00:04:16.930 --> 00:04:19.811
+But there are also a set of
+general-purpose registers that your
+
+82
+00:04:19.811 --> 00:04:23.296
+program can actually use for computation,
+arithmetic, things like that.
+
+83
+00:04:23.296 --> 00:04:24.606
+There's also a register file.
+
+84
+00:04:24.606 --> 00:04:27.560
+A register file is basically,
+a group of registers put together.
+
+85
+00:04:27.560 --> 00:04:32.070
+So these are commonly how registers
+are organized inside microcontrollers.
+
+86
+00:04:32.070 --> 00:04:35.550
+It acts like a memory,
+just a very fast memory.
+
+87
+00:04:35.550 --> 00:04:39.694
+You can only read one or two of these
+registers at the same time, but
+
+88
+00:04:39.694 --> 00:04:44.288
+usually you don't need to read more
+than two in a particular clock cycle.
+
+89
+00:04:44.288 --> 00:04:47.518
+Their instruction operands
+are stored inside register files, so
+
+90
+00:04:47.518 --> 00:04:50.150
+what you're seeing there
+is an add instruction.
+
+91
+00:04:50.150 --> 00:04:54.621
+Add $r3, $r2, $r1.
+
+92
+00:04:54.621 --> 00:04:56.700
+It's not gonna look like that to you.
+
+93
+00:04:56.700 --> 00:04:58.482
+That's what the machine
+is actually running,
+
+94
+00:04:58.482 --> 00:05:01.031
+the simple instructions that
+the machine's actually executing.
+
+95
+00:05:01.031 --> 00:05:04.760
+We'll talk about that a little bit later,
+but notice it has these operands.
+
+96
+00:05:04.760 --> 00:05:09.522
+So $r3 is the destination register, that's
+the name of a register, $r3 and $r2 and
+
+97
+00:05:09.522 --> 00:05:11.415
+$r1 are the two source operands.
+
+98
+00:05:11.415 --> 00:05:13.180
+The two things that wanna
+get added together.
+
+99
+00:05:13.180 --> 00:05:16.692
+So what this instruction does is it takes
+the contents of register $r1, contents of
+
+100
+00:05:16.692 --> 00:05:19.842
+register $r2, adds them together,
+puts the results in register $r3.
+
+101
+00:05:19.842 --> 00:05:23.491
+So commonly these microcontrollers
+are reading data out of registers,
+
+102
+00:05:23.491 --> 00:05:25.480
+putting results into registers.
+
+103
+00:05:25.480 --> 00:05:29.011
+Because they're fast, you wanna work
+with registers all the time if you can.
+
+104
+00:05:29.011 --> 00:05:33.230
+Can only read one or two at a time and
+you can contain, typically,
+
+105
+00:05:33.230 --> 00:05:36.551
+a register file often has
+like say 32 registers.
+
+106
+00:05:36.551 --> 00:05:38.767
+That's very common to find
+in a microcontroller,
+
+107
+00:05:38.767 --> 00:05:40.836
+32 different registers
+that you can access.
+
+108
+00:05:40.836 --> 00:05:43.733
+So that gives you a hint as
+to how expensive they are.
+
+109
+00:05:43.733 --> 00:05:48.820
+32 isn't much, but that's generally all
+you can afford on a microcontroller.
+
+110
+00:05:48.820 --> 00:05:50.166
+Memories.
+Now memories are,
+
+111
+00:05:50.166 --> 00:05:52.480
+you know what a memory is, it stores data.
+
+112
+00:05:52.480 --> 00:05:55.136
+But memories are made to store
+a lot more data than registries, so
+
+113
+00:05:55.136 --> 00:05:56.747
+you won't just have 32 registries.
+
+114
+00:05:56.747 --> 00:05:58.166
+Memories will a lot bigger.
+
+115
+00:05:58.166 --> 00:06:00.280
+So there are varieties of memory.
+
+116
+00:06:00.280 --> 00:06:02.100
+One type of memory is called cache memory.
+
+117
+00:06:02.100 --> 00:06:04.380
+Cached memory, it stores a lot of values.
+
+118
+00:06:04.380 --> 00:06:09.296
+I'll just give you a ball park
+on how big a cache typically is.
+
+119
+00:06:09.296 --> 00:06:11.745
+This is all ballpark for
+right now, but let's say,
+
+120
+00:06:11.745 --> 00:06:14.370
+modern processing maybe you
+got a one megahertz cache.
+
+121
+00:06:14.370 --> 00:06:16.899
+It wouldn't be 1 megahertz,
+1 megabit cache.
+
+122
+00:06:16.899 --> 00:06:20.445
+That's ballpark, but say, you got a 1
+megabit cache and that could be plus or
+
+123
+00:06:20.445 --> 00:06:23.990
+minus, but that tells you something
+about how big they typically are.
+
+124
+00:06:23.990 --> 00:06:26.473
+So usually they're a lot bigger
+than register files, but
+
+125
+00:06:26.473 --> 00:06:28.355
+they're also slower than register files.
+
+126
+00:06:28.355 --> 00:06:31.800
+Where a register file, you could access
+that in a fraction of a clock cycle.
+
+127
+00:06:31.800 --> 00:06:34.398
+A cache typically takes you
+a clock cycle to access,
+
+128
+00:06:34.398 --> 00:06:38.252
+a full clock cycle, which is pretty good,
+but not as good as a register file.
+
+129
+00:06:38.252 --> 00:06:41.010
+Still fast and expensive.
+
+130
+00:06:41.010 --> 00:06:43.219
+They're cheaper than register files, but
+
+131
+00:06:43.219 --> 00:06:45.672
+they're more expensive
+than larger memories.
+
+132
+00:06:45.672 --> 00:06:47.770
+So that's a cache and that's on chip.
+
+133
+00:06:47.770 --> 00:06:53.063
+You'd find that on the same integrated
+circuit as the microcontroller.
+
+134
+00:06:53.063 --> 00:06:56.823
+Typically, commonly in the microcontroller
+is that we are using what is called
+
+135
+00:06:56.823 --> 00:06:58.490
+the Harvard architecture.
+
+136
+00:06:58.490 --> 00:07:00.601
+So you'll have two different caches,
+at least two.
+
+137
+00:07:00.601 --> 00:07:03.020
+You will have a data cache and
+an instruction cache.
+
+138
+00:07:03.020 --> 00:07:06.230
+The data cache holds the data that
+the program is operating on and
+
+139
+00:07:06.230 --> 00:07:10.190
+the instruction cache holds the actual
+instructions of the code that
+
+140
+00:07:10.190 --> 00:07:11.420
+is being executed.
+
+141
+00:07:11.420 --> 00:07:16.370
+So, it's common to separate those two and
+then there's also main memory.
+
+142
+00:07:16.370 --> 00:07:20.140
+Main memory is like cache,
+except it's bigger and cheaper and slower.
+
+143
+00:07:21.750 --> 00:07:24.952
+So you can see the pictures
+right there of main memory.
+
+144
+00:07:24.952 --> 00:07:26.710
+That's a typical main memory.
+
+145
+00:07:26.710 --> 00:07:31.312
+If you've ever taken your taken your
+computer and installed memory into your
+
+146
+00:07:31.312 --> 00:07:35.912
+desktop, you'll get something that looks
+like what we see in the picture and
+
+147
+00:07:35.912 --> 00:07:38.560
+you can plug it into
+a slot inside the board.
+
+148
+00:07:38.560 --> 00:07:45.770
+So it's very big gigabytes of memory not
+in the CPU, so it's not on the same chip.
+
+149
+00:07:45.770 --> 00:07:48.178
+By the way, CPU again,
+I'm throwing you another term.
+
+150
+00:07:48.178 --> 00:07:50.811
+By CPU, I'm using that the same
+as a microprocessor and
+
+151
+00:07:50.811 --> 00:07:52.930
+the same as a microcontroller.
+
+152
+00:07:52.930 --> 00:07:54.663
+Same thing, roughly.
+
+153
+00:07:54.663 --> 00:07:58.330
+So main memory is not gonna be in the CPU,
+it's off the CPU.
+
+154
+00:07:58.330 --> 00:08:02.902
+It's on the same board, but
+it's on a a different set of chips.
+
+155
+00:08:02.902 --> 00:08:07.640
+In fact, if you look at that memory,
+it's multiple chips all put together.
+
+156
+00:08:09.205 --> 00:08:13.200
+It's connected to the system,
+connected to the CPU via system bus.
+
+157
+00:08:13.200 --> 00:08:16.313
+So there are system bus that basically
+has a group of wires, that are written.
+
+158
+00:08:16.313 --> 00:08:18.747
+Basically, drawn onto the circuit board,
+
+159
+00:08:18.747 --> 00:08:23.500
+the printed circuit board that connect to
+the main microcontroller to the memories.
+
+160
+00:08:24.760 --> 00:08:27.417
+The memory access is slow
+relative to the cache.
+
+161
+00:08:27.417 --> 00:08:29.384
+So what that means is that in a cache,
+
+162
+00:08:29.384 --> 00:08:32.250
+you might be able to access
+a cache in one clock cycle.
+
+163
+00:08:33.440 --> 00:08:37.292
+And main memory, maybe you have to wait
+100 clock cycles to access on main memory.
+
+164
+00:08:37.292 --> 00:08:42.930
+So again, that's ball park, but
+that's not unrealistic at all.
+
+165
+00:08:42.930 --> 00:08:46.228
+There's what's called
+the Von Neumann Bottleneck,
+
+166
+00:08:46.228 --> 00:08:49.453
+which is the fact that in
+a Von Neumann architecture,
+
+167
+00:08:49.453 --> 00:08:53.682
+every thing, the data and instruction
+are put into the main memory and
+
+168
+00:08:53.682 --> 00:08:57.711
+the problem is that main memory is
+much slower than the processor.
+
+169
+00:08:57.711 --> 00:08:58.996
+So main memory, like I say,
+
+170
+00:08:58.996 --> 00:09:02.388
+maybe you wait 100 clock cycles to
+access something out of main memory.
+
+171
+00:09:02.388 --> 00:09:04.935
+So if you say,
+you wanna do an add instruction,
+
+172
+00:09:04.935 --> 00:09:09.526
+you wanna add two pieces of data that are
+in main memory, you're waiting 100 clock
+
+173
+00:09:09.526 --> 00:09:13.569
+cycles for that data to show up and
+then the add itself takes 1 clock cycle.
+
+174
+00:09:13.569 --> 00:09:18.839
+So all your time is going into memory
+accesses or it can go into memory accesses
+
+175
+00:09:18.839 --> 00:09:24.370
+and that is why people use caches, so
+that to avoid this Von Neumann Bottleneck.
+
+176
+00:09:24.370 --> 00:09:27.926
+So, the Von Neumann Bottleneck is
+the bottleneck to accessing main memory.
+
+177
+00:09:27.926 --> 00:09:31.610
+It's the fact that the memory,
+it's much slower than the processor.
+
+178
+00:09:31.610 --> 00:09:34.263
+So to avoid that you,
+basically, use the cache.
+
+179
+00:09:34.263 --> 00:09:38.169
+You try to rely on the cache and
+the registers as much as you can,
+
+180
+00:09:38.169 --> 00:09:40.918
+so that you don't have
+to go to main memory.
+
+181
+00:09:40.918 --> 00:09:43.473
+Now all these complexities
+that I'm talking about,
+
+182
+00:09:43.473 --> 00:09:47.080
+about are you accessing the cache,
+the register or the main memory.
+
+183
+00:09:47.080 --> 00:09:49.710
+A lot of these we will not be
+dealing with in this class,
+
+184
+00:09:49.710 --> 00:09:53.530
+because we'll be writing code
+in either C or in Python.
+
+185
+00:09:53.530 --> 00:09:56.549
+So, all these details of
+where the data is gonna be?
+
+186
+00:09:56.549 --> 00:09:58.857
+Is this register gonna
+contain this variable or
+
+187
+00:09:58.857 --> 00:10:01.910
+is the variable gonna be in the cache or
+main memory?
+
+188
+00:10:01.910 --> 00:10:05.039
+All those issues are dealt
+with by the compiler,
+
+189
+00:10:05.039 --> 00:10:09.098
+if it's C or C++ or the interpreter,
+if it's say, Python.
+
+190
+00:10:09.098 --> 00:10:12.747
+So we are not gonna have to worry about
+this level of detail so much, but it's
+
+191
+00:10:12.747 --> 00:10:16.743
+important to understand the difference in
+the different types of storage elements
+
+192
+00:10:16.743 --> 00:10:19.904
+and how they act and how fast they are,
+how slow they are and so on.
+
+193
+00:10:19.904 --> 00:10:20.653
+Thank you.
+
+194
+00:10:20.653 --> 00:10:29.259
+[MUSIC]

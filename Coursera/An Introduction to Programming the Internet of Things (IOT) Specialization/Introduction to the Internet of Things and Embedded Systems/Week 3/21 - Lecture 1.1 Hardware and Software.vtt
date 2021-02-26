@@ -1,0 +1,645 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.583
+[MUSIC]
+
+2
+00:00:09.583 --> 00:00:14.470
+So this lecture, we're gonna talk
+about hardware and software systems.
+
+3
+00:00:14.470 --> 00:00:18.910
+Internet of things devices, are typically
+hardware and software combined.
+
+4
+00:00:18.910 --> 00:00:22.420
+So as we're learning about
+the IoT design process,
+
+5
+00:00:22.420 --> 00:00:24.710
+we really have to think about
+how you design hardware,
+
+6
+00:00:24.710 --> 00:00:27.900
+how you design software, and
+how do you design them to work together.
+
+7
+00:00:27.900 --> 00:00:29.940
+So you can't think of one in isolation,
+
+8
+00:00:29.940 --> 00:00:32.980
+you really need to think about both
+together as you're working on the project.
+
+9
+00:00:34.080 --> 00:00:37.607
+So IoT devices are a combination
+of hardware and software.
+
+10
+00:00:37.607 --> 00:00:41.823
+There's always a hardware part of
+the design and you can see that here,
+
+11
+00:00:41.823 --> 00:00:43.375
+we've got a bread board.
+
+12
+00:00:43.375 --> 00:00:46.470
+And the bread board's got
+various components on it,
+
+13
+00:00:46.470 --> 00:00:51.009
+it's got a micro controllers, LED,
+voltage regulator, capacitors I see,
+
+14
+00:00:51.009 --> 00:00:55.590
+a bunch of different things, and
+they're all mounted into this bread board.
+
+15
+00:00:55.590 --> 00:00:58.030
+One part of this design,
+one aspect of the design,
+
+16
+00:00:58.030 --> 00:01:01.810
+is a hardware aspect that you can see
+right there and that's basically a bunch
+
+17
+00:01:01.810 --> 00:01:06.100
+of components that are connected,
+wired together in some fashion, okay?
+
+18
+00:01:06.100 --> 00:01:09.390
+So that's part of the design and
+so a designer,
+
+19
+00:01:09.390 --> 00:01:12.940
+if you're gonna make an IoT device,
+you have to think about that part too.
+
+20
+00:01:12.940 --> 00:01:16.100
+But in addition to that, that alone
+doesn't explain what the behavior is.
+
+21
+00:01:16.100 --> 00:01:18.854
+When you're looking at that
+set of devices wired together,
+
+22
+00:01:18.854 --> 00:01:21.554
+even completely understanding
+what each component does,
+
+23
+00:01:21.554 --> 00:01:23.878
+you can't tell what the behavior of that,
+right?
+
+24
+00:01:23.878 --> 00:01:27.810
+So you have an incomplete view of the
+design if you only look at the hardware.
+
+25
+00:01:27.810 --> 00:01:32.276
+In addition to this, you gotta look at
+the software component of this too.
+
+26
+00:01:32.276 --> 00:01:36.038
+So if you look at the hardware side over
+there, you've got at the center of it,
+
+27
+00:01:36.038 --> 00:01:37.637
+there is this micro controller.
+
+28
+00:01:37.637 --> 00:01:39.452
+That big black chip dead in the center,
+
+29
+00:01:39.452 --> 00:01:42.920
+that is the micro controller
+which is the heart of the system.
+
+30
+00:01:42.920 --> 00:01:44.906
+And that micro controller executes code.
+
+31
+00:01:44.906 --> 00:01:46.210
+And so there's gotta be some code,
+
+32
+00:01:46.210 --> 00:01:49.710
+some software, which we can see
+on the other side of the picture.
+
+33
+00:01:49.710 --> 00:01:52.530
+Some software that's going to
+run on that micro controller.
+
+34
+00:01:52.530 --> 00:01:56.330
+Now that software is some sample code and
+that's actually our Dwino code and
+
+35
+00:01:56.330 --> 00:01:57.420
+we'll get to that later.
+
+36
+00:01:57.420 --> 00:02:01.160
+But there's got to be some software
+that's running on that micro controller,
+
+37
+00:02:01.160 --> 00:02:02.890
+that talks to all
+the different components.
+
+38
+00:02:02.890 --> 00:02:06.710
+Talks to the LEDs, tells them when to
+turn off and on and things like this.
+
+39
+00:02:06.710 --> 00:02:10.650
+So there's this hardware side and
+this software side and
+
+40
+00:02:10.650 --> 00:02:12.700
+these things have to work together.
+
+41
+00:02:12.700 --> 00:02:14.290
+You've got to design both of them.
+
+42
+00:02:14.290 --> 00:02:16.102
+So what I mean is when
+you write the software,
+
+43
+00:02:16.102 --> 00:02:17.878
+you have to be thinking
+about the hardware.
+
+44
+00:02:17.878 --> 00:02:21.648
+You have to say oh I've got an LED and it
+needs to be controlled in this fashion, so
+
+45
+00:02:21.648 --> 00:02:23.151
+I will write my code in this way.
+
+46
+00:02:23.151 --> 00:02:25.640
+You have to be consciously aware of
+that when you're doing the coding.
+
+47
+00:02:25.640 --> 00:02:29.286
+Whenever you make a new project, you've
+got a bunch of hardware components, right?
+
+48
+00:02:29.286 --> 00:02:32.260
+You gotta get a bunch of hardware
+components and wire them together and
+
+49
+00:02:32.260 --> 00:02:33.750
+decide on that a priori.
+
+50
+00:02:33.750 --> 00:02:36.100
+What are the hardware
+components going to be?
+
+51
+00:02:36.100 --> 00:02:40.010
+Now, this is sort of a fundamental
+issue with design projects in general,
+
+52
+00:02:41.550 --> 00:02:42.740
+things change, right.
+
+53
+00:02:42.740 --> 00:02:46.480
+So at first when you design something, you
+have an idea of what the behavior is gonna
+
+54
+00:02:46.480 --> 00:02:49.590
+be and you think you know
+what the components will be.
+
+55
+00:02:49.590 --> 00:02:52.350
+And then you start doing it,
+you get into the design and
+
+56
+00:02:52.350 --> 00:02:54.030
+often you have to back off track.
+
+57
+00:02:54.030 --> 00:02:55.490
+You might implement something and realize,
+
+58
+00:02:55.490 --> 00:02:58.720
+oh you know what I need a different
+component this doesn't work for me.
+
+59
+00:02:58.720 --> 00:03:00.700
+So that can happen,
+there's always that risk.
+
+60
+00:03:00.700 --> 00:03:04.780
+But at the beginning to start building
+your system you're going to have to have
+
+61
+00:03:04.780 --> 00:03:07.450
+some idea of the type of
+components that you're gonna need.
+
+62
+00:03:07.450 --> 00:03:11.150
+So that's always a trial right, to figure
+out which components you're gonna buy.
+
+63
+00:03:11.150 --> 00:03:15.560
+Now, you start with a micro controller,
+but you need other components around that.
+
+64
+00:03:15.560 --> 00:03:17.740
+And each one of these components
+has different parameters.
+
+65
+00:03:17.740 --> 00:03:22.260
+Different sizes for instance, different,
+and you might care about that.
+
+66
+00:03:22.260 --> 00:03:25.060
+You might need this whole design to
+fit into a certain space, right?
+
+67
+00:03:25.060 --> 00:03:26.450
+So you're worried about the size.
+
+68
+00:03:26.450 --> 00:03:29.910
+Different voltage,
+different electrical parameters right,
+
+69
+00:03:29.910 --> 00:03:32.040
+how much current can this component take,
+right?
+
+70
+00:03:32.040 --> 00:03:36.310
+Maybe this LED can only take 20
+milli amps, which is sort of common.
+
+71
+00:03:36.310 --> 00:03:39.726
+So if you drive it with more than that,
+you'll blow up the LED, things like this.
+
+72
+00:03:39.726 --> 00:03:44.682
+So everyone of these components has these
+features that you have to consider before
+
+73
+00:03:44.682 --> 00:03:45.685
+you order them.
+
+74
+00:03:45.685 --> 00:03:48.244
+Now back in the old days when I was a kid,
+
+75
+00:03:48.244 --> 00:03:52.511
+when you wanted to do one of these
+projects, you'd go to a store,
+
+76
+00:03:52.511 --> 00:03:58.045
+Radio Shack which is gone now, you go to
+RadioShack and you could buy the parts.
+
+77
+00:03:58.045 --> 00:04:00.795
+And the people in the store
+could help you with the parts.
+
+78
+00:04:00.795 --> 00:04:02.835
+So they were knowledgeable
+about these little parts.
+
+79
+00:04:02.835 --> 00:04:05.790
+So they would say, oh that chip,
+it will do this, but this component,
+
+80
+00:04:05.790 --> 00:04:08.110
+this resistor is no good for
+that purpose or something, right?
+
+81
+00:04:08.110 --> 00:04:10.630
+They'd give you, they have knowledge
+about the different components and
+
+82
+00:04:10.630 --> 00:04:13.880
+what they did, but
+those components don't cost a lot, right?
+
+83
+00:04:13.880 --> 00:04:17.720
+Switches and things like that, they're
+pretty cheap, so stores like Radio Shack,
+
+84
+00:04:17.720 --> 00:04:18.330
+things like that,
+
+85
+00:04:18.330 --> 00:04:21.630
+they don't particularly care about
+selling those things anymore, frankly.
+
+86
+00:04:21.630 --> 00:04:25.280
+I mean they sell them, But they don't
+make a lot of money off of them,
+
+87
+00:04:25.280 --> 00:04:26.440
+I get the feeling.
+
+88
+00:04:26.440 --> 00:04:28.610
+They make money off of
+selling cellphone deals, or
+
+89
+00:04:28.610 --> 00:04:30.930
+something like this, something else.
+
+90
+00:04:30.930 --> 00:04:32.410
+So you go into these stores and generally,
+
+91
+00:04:32.410 --> 00:04:35.690
+the people are not knowledgeable about
+their components, which means that it is
+
+92
+00:04:35.690 --> 00:04:39.200
+on is on you to understand these
+components of what they do.
+
+93
+00:04:39.200 --> 00:04:42.700
+So you can't rely, most of the time,
+unless you go to a good store and
+
+94
+00:04:42.700 --> 00:04:46.240
+there are stores like that where you can
+get somebody who really knows what he or
+
+95
+00:04:46.240 --> 00:04:49.520
+she's talking about, but
+often, you are on your own.
+
+96
+00:04:49.520 --> 00:04:52.790
+And another thing too is that these
+type of hobbiest electrical stores,
+
+97
+00:04:52.790 --> 00:04:55.510
+they're rare, they are few and
+far between these days.
+
+98
+00:04:55.510 --> 00:04:57.230
+You can't find stores
+that have these parts.
+
+99
+00:04:57.230 --> 00:05:01.090
+I mean I go to Fry's, things like this,
+also other local places, but
+
+100
+00:05:01.090 --> 00:05:02.500
+it's hard to find these parts.
+
+101
+00:05:02.500 --> 00:05:04.530
+So often you're buying
+these components online.
+
+102
+00:05:04.530 --> 00:05:07.140
+You go online, you look at websites.
+
+103
+00:05:07.140 --> 00:05:09.960
+Now these websites,
+there are a lot of different websites and
+
+104
+00:05:09.960 --> 00:05:12.110
+they're very complete,
+they have tons of components.
+
+105
+00:05:12.110 --> 00:05:16.015
+But in some ways, it's sort of data
+overload, there are too many components,
+
+106
+00:05:16.015 --> 00:05:17.484
+too many slight variations.
+
+107
+00:05:17.484 --> 00:05:20.029
+So you see 100 components
+that look similar and
+
+108
+00:05:20.029 --> 00:05:22.702
+you have to figure out exactly
+the one that you want.
+
+109
+00:05:22.702 --> 00:05:26.525
+And I can't tell you how many times I
+thought I wanted a component, I ordered
+
+110
+00:05:26.525 --> 00:05:30.370
+the component, it comes a week later and
+then tada, it is not what I needed.
+
+111
+00:05:30.370 --> 00:05:34.620
+It is somehow slightly wrong and
+now I have to go and order new parts and
+
+112
+00:05:34.620 --> 00:05:36.080
+cycle through that.
+
+113
+00:05:36.080 --> 00:05:39.810
+And it is inevitable that will happen to
+some extent, so just be ready for that.
+
+114
+00:05:39.810 --> 00:05:43.450
+But you really wanna minimize that, you
+wanna to be able to know before you go and
+
+115
+00:05:43.450 --> 00:05:47.150
+order these parts, you want to be able
+to know that they match your needs,
+
+116
+00:05:47.150 --> 00:05:48.880
+as well as you can know that.
+
+117
+00:05:48.880 --> 00:05:50.620
+So that is what data sheets are for.
+
+118
+00:05:50.620 --> 00:05:56.110
+So, data sheets are basically information
+sheets about hardware components and
+
+119
+00:05:56.110 --> 00:05:58.420
+every component has a data sheet.
+
+120
+00:05:58.420 --> 00:06:00.960
+The simplest components,
+maybe you don't have a data sheet.
+
+121
+00:06:00.960 --> 00:06:04.090
+For instance, a resistor, actually even
+resistors you can probably find data
+
+122
+00:06:04.090 --> 00:06:07.110
+sheets, but a resistor is so simple you
+don't need a datasheet for that, okay?
+
+123
+00:06:07.110 --> 00:06:09.818
+They have very few parameters,
+but any kind of complicated
+
+124
+00:06:09.818 --> 00:06:13.567
+component will have a datasheet that tells
+you all kinds of information about it.
+
+125
+00:06:13.567 --> 00:06:17.678
+The size, the shape, the inputs, the
+outputs, the voltage, all the electrical
+
+126
+00:06:17.678 --> 00:06:21.400
+parameters, things like this all the data
+that you need in order to use it.
+
+127
+00:06:21.400 --> 00:06:24.560
+So reading these datasheets
+is really important.
+
+128
+00:06:24.560 --> 00:06:28.324
+You can always find data sheets online,
+you find the part number, you type
+
+129
+00:06:28.324 --> 00:06:32.405
+it into Google, the part number, type
+data sheet and you will find data sheets.
+
+130
+00:06:32.405 --> 00:06:34.762
+And they can be very complicated to read,
+but
+
+131
+00:06:34.762 --> 00:06:37.687
+it is important that you be
+able to minimally read them.
+
+132
+00:06:37.687 --> 00:06:41.062
+At least find the important information,
+just so you can order the parts you're
+
+133
+00:06:41.062 --> 00:06:43.457
+gonna need to make these devices
+that you will be making.
+
+134
+00:06:43.457 --> 00:06:44.107
+Thank you.
+
+135
+00:06:44.107 --> 00:06:52.849
+[MUSIC]

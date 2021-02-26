@@ -1,0 +1,815 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.545
+[MUSIC]
+
+2
+00:00:09.545 --> 00:00:14.609
+So this lecture, we'll talk about
+a comparison between Python and C, C++.
+
+3
+00:00:14.609 --> 00:00:17.116
+Because Python is what we're going
+to be using with the Raspberry Pi.
+
+4
+00:00:17.116 --> 00:00:20.180
+C, C++, we'll be using with the Arduino.
+
+5
+00:00:20.180 --> 00:00:23.790
+Also we'll talk a little more detail
+just to understand the contrast.
+
+6
+00:00:23.790 --> 00:00:27.030
+We'll talk about the tool chain,
+the software tool chain.
+
+7
+00:00:27.030 --> 00:00:30.330
+All the tools that go into taking
+a high level piece of code, and
+
+8
+00:00:30.330 --> 00:00:32.280
+getting the eventual machine code.
+
+9
+00:00:32.280 --> 00:00:34.762
+We'll just look at that whole picture,
+
+10
+00:00:34.762 --> 00:00:38.850
+cuz it ends up looking a little
+different for one versus the other.
+
+11
+00:00:38.850 --> 00:00:41.350
+So, Python is an interpreted language.
+
+12
+00:00:41.350 --> 00:00:44.510
+It's a scripting language, but
+that's also an interpreted language.
+
+13
+00:00:44.510 --> 00:00:45.980
+It's high level language.
+
+14
+00:00:45.980 --> 00:00:47.799
+It's easier to work with,
+because it's interpreted.
+
+15
+00:00:47.799 --> 00:00:51.133
+So there are certain things
+the programmer does not have to deal with,
+
+16
+00:00:51.133 --> 00:00:52.500
+like the type of variables.
+
+17
+00:00:52.500 --> 00:00:54.870
+Is it an integer,
+is it in floating point, is it a string,
+
+18
+00:00:54.870 --> 00:00:57.280
+you don't have to worry
+about that in Python.
+
+19
+00:00:57.280 --> 00:01:01.080
+Python figures that all out based on how
+you use the code, ow you use the variable.
+
+20
+00:01:01.080 --> 00:01:03.150
+So at run time, while it's executing and
+
+21
+00:01:03.150 --> 00:01:06.220
+doing an interpretation,
+it can figure that out.
+
+22
+00:01:06.220 --> 00:01:10.880
+Other things too, like memory management,
+in C, C++ you have to deal with that.
+
+23
+00:01:10.880 --> 00:01:13.240
+You have to say, look, I need more space.
+
+24
+00:01:13.240 --> 00:01:15.980
+There's a function called malloc,
+you can allocate more space,
+
+25
+00:01:15.980 --> 00:01:17.740
+I need more memory for this variable.
+
+26
+00:01:17.740 --> 00:01:20.224
+Python, you don't have to say that,
+it'll just make it for you,right.
+
+27
+00:01:20.224 --> 00:01:22.922
+And when you're done with it,
+it'll get rid of it.
+
+28
+00:01:22.922 --> 00:01:25.480
+So where in C you, have to make
+it explicitly, and you have to,
+
+29
+00:01:25.480 --> 00:01:29.090
+as a programmer, have to know oh, now I'm
+done with it, let me free that memory.
+
+30
+00:01:29.090 --> 00:01:32.090
+So there are a lot of these burdens,
+these programming burdens,
+
+31
+00:01:32.090 --> 00:01:34.220
+that you don't have to deal
+with in a language like Python,
+
+32
+00:01:34.220 --> 00:01:37.650
+because the interpreter is there
+take care of it for you at run time.
+
+33
+00:01:37.650 --> 00:01:40.395
+Now comparing that to C, C++.
+
+34
+00:01:40.395 --> 00:01:43.510
+C and C++, they're related languages.
+
+35
+00:01:43.510 --> 00:01:46.120
+Actually, C is Is a subset of C++.
+
+36
+00:01:46.120 --> 00:01:49.484
+So C came first, C++ came second.
+
+37
+00:01:49.484 --> 00:01:54.240
+C++ is a super set, so
+C++ does everything that C does.
+
+38
+00:01:54.240 --> 00:01:59.390
+So if you have a C++ compiler,
+it'll compile any C code.
+
+39
+00:01:59.390 --> 00:02:01.983
+But C and C++ are compiled languages.
+
+40
+00:02:01.983 --> 00:02:06.464
+So you write the code, you compile it
+once, and then you get an executable,
+
+41
+00:02:06.464 --> 00:02:09.275
+which is machine code
+plus extra information.
+
+42
+00:02:09.275 --> 00:02:11.560
+And you only execute the machine code.
+
+43
+00:02:11.560 --> 00:02:16.250
+You don't have to do
+the interpretation at run time.
+
+44
+00:02:16.250 --> 00:02:20.200
+So as a result C, C++ programs
+are generally a lot faster than Python
+
+45
+00:02:20.200 --> 00:02:24.130
+programs, but the programmer has
+to deal with a lot more details.
+
+46
+00:02:24.130 --> 00:02:27.910
+Now, dealing with a lot
+of details is hard.
+
+47
+00:02:27.910 --> 00:02:33.360
+But when it comes to embedded systems,
+it's often useful because
+
+48
+00:02:33.360 --> 00:02:38.150
+sometimes, not just sometimes, often
+the programmer, an intelligent programmer,
+
+49
+00:02:38.150 --> 00:02:41.550
+can write code more efficiently
+than the Python interpreter can.
+
+50
+00:02:41.550 --> 00:02:45.960
+Okay, so the programmer, knowing something
+about what the behavior they expect,
+
+51
+00:02:45.960 --> 00:02:49.001
+they can write their C,
+C++ code in such a way that it runs
+
+52
+00:02:49.001 --> 00:02:52.231
+a lot faster than the Python
+interpreter could ever predict,
+
+53
+00:02:52.231 --> 00:02:55.924
+cuz the Python interpreter,
+it's dumb compared to a human, right.
+
+54
+00:02:55.924 --> 00:02:59.488
+A human can know something more about
+the context in which the software is
+
+55
+00:02:59.488 --> 00:03:00.139
+being used.
+
+56
+00:03:00.139 --> 00:03:04.740
+So in C and
+C++ are commonly using embedded systems.
+
+57
+00:03:04.740 --> 00:03:07.520
+Outside of embedded systems,
+you see them used less.
+
+58
+00:03:07.520 --> 00:03:09.360
+Maybe Java is favored,
+or something like that.
+
+59
+00:03:09.360 --> 00:03:12.404
+But because of the level of
+control that you get with C, C++,
+
+60
+00:03:12.404 --> 00:03:15.600
+they are much more commonly
+used in embedded systems.
+
+61
+00:03:18.050 --> 00:03:20.830
+So compilation, this is what
+compilation looks like roughly.
+
+62
+00:03:20.830 --> 00:03:24.120
+At the top, you've got, say,
+
+63
+00:03:24.120 --> 00:03:27.940
+some regular C code, and
+actually that code is pretty generic.
+
+64
+00:03:27.940 --> 00:03:31.080
+You can have a = b + c in any
+number of languages, Java, Python,
+
+65
+00:03:31.080 --> 00:03:32.260
+they look all very similar.
+
+66
+00:03:32.260 --> 00:03:35.770
+Except for the semi-colon at the end,
+that could've been Python, right?
+
+67
+00:03:35.770 --> 00:03:38.110
+So you get the high level
+language at the top.
+
+68
+00:03:38.110 --> 00:03:42.290
+And in the end, you wanna get what you see
+at the bottom, a sequence of zeros and
+
+69
+00:03:42.290 --> 00:03:45.680
+ones that represent the instructions.
+
+70
+00:03:45.680 --> 00:03:48.848
+So, what happens is if you
+look at that top instruction,
+
+71
+00:03:48.848 --> 00:03:53.730
+it's actually broken down into a set
+of smaller steps, of smaller behaviors.
+
+72
+00:03:53.730 --> 00:03:58.590
+So that instruction a = b + c,
+it's not just an add instruction,
+
+73
+00:03:58.590 --> 00:04:00.290
+it's not just an add that'll be performed.
+
+74
+00:04:00.290 --> 00:04:04.460
+First you gotta get the b variable, you
+gotta get the c variable, you gotta add,
+
+75
+00:04:04.460 --> 00:04:06.140
+and then you gotta put the result back.
+
+76
+00:04:06.140 --> 00:04:09.670
+So, maybe b and c are in memory somewhere,
+and a has to go to memory.
+
+77
+00:04:09.670 --> 00:04:13.550
+So first, you gotta load a from memory,
+or load b from memory, rather.
+
+78
+00:04:13.550 --> 00:04:15.080
+Then load c from memory.
+
+79
+00:04:15.080 --> 00:04:19.400
+Then do the add, then store
+the result back in memory for a.
+
+80
+00:04:19.400 --> 00:04:21.620
+And that's why you got four
+instructions in there in the middle.
+
+81
+00:04:21.620 --> 00:04:23.640
+You got four what you call,
+assembly instructions.
+
+82
+00:04:23.640 --> 00:04:26.228
+So the compiler will make
+assembly instructions.
+
+83
+00:04:26.228 --> 00:04:31.080
+The lw is load word, so
+it'll load b into memory, then the next
+
+84
+00:04:31.080 --> 00:04:36.050
+lw loads c into memory, specifically
+into the registers, r1 and r2.
+
+85
+00:04:36.050 --> 00:04:39.800
+Then the add takes r1 and r2,
+adds them, put the results in r3.
+
+86
+00:04:39.800 --> 00:04:44.470
+And then that last instruction, sw,
+store word, that takes what's in r3 and
+
+87
+00:04:44.470 --> 00:04:47.074
+puts that back into memory,
+wherever you want a to go.
+
+88
+00:04:47.074 --> 00:04:50.540
+So that one high level
+instruction breaks down to
+
+89
+00:04:50.540 --> 00:04:53.620
+four simpler assembly level instructions.
+
+90
+00:04:53.620 --> 00:04:56.130
+And then the assembler takes each
+of those four instructions, and
+
+91
+00:04:56.130 --> 00:04:58.500
+converts it into a sequence of zeroes and
+ones.
+
+92
+00:04:58.500 --> 00:05:01.620
+So you can see, at the bottom you
+see actually one instruction,
+
+93
+00:05:01.620 --> 00:05:02.916
+just the add instruction.
+
+94
+00:05:02.916 --> 00:05:06.080
+But presumably, you would have four
+instructions, four sequences of zero and
+
+95
+00:05:06.080 --> 00:05:10.920
+ones just like that, to correspond to each
+one of the four assembly instructions.
+
+96
+00:05:10.920 --> 00:05:14.200
+So that's the process of compilation,
+a very simple version of it.
+
+97
+00:05:14.200 --> 00:05:18.291
+But you take the high level language, in
+the end, you get a sequence of zeros and
+
+98
+00:05:18.291 --> 00:05:21.672
+ones that represent the instructions
+that need to be performed.
+
+99
+00:05:21.672 --> 00:05:26.190
+And those zeros and ones are what get
+interpreted by the microcontroller.
+
+100
+00:05:26.190 --> 00:05:31.690
+So this is a high level view of your
+standard tool chain, software tool chain.
+
+101
+00:05:31.690 --> 00:05:35.640
+A tool chain is basically a term that
+is used in embedded systems a lot, and
+
+102
+00:05:35.640 --> 00:05:37.300
+in IoT devices a lot.
+
+103
+00:05:37.300 --> 00:05:41.250
+It describes the sequence of tools,
+of software tools,
+
+104
+00:05:41.250 --> 00:05:44.210
+that you have to use in
+order to convert a program
+
+105
+00:05:44.210 --> 00:05:47.590
+that you code into an executable
+program on the platform.
+
+106
+00:05:47.590 --> 00:05:52.250
+So, if we look at this picture,
+we start with the host up at the top left.
+
+107
+00:05:52.250 --> 00:05:53.980
+The host is laptop, desktop,
+
+108
+00:05:53.980 --> 00:05:56.500
+whatever it is that you're
+actually writing the code on.
+
+109
+00:05:56.500 --> 00:05:59.060
+So, you write you code on
+the host using some text editor,
+
+110
+00:05:59.060 --> 00:06:00.960
+it doesn't really matter which one.
+
+111
+00:06:00.960 --> 00:06:03.340
+Then, and
+this is actually a compile tool chain.
+
+112
+00:06:03.340 --> 00:06:07.700
+So you write your code, let's assume it's
+C, the C code comes out of the host,
+
+113
+00:06:07.700 --> 00:06:09.180
+goes into a compiler.
+
+114
+00:06:09.180 --> 00:06:11.325
+So the compiler,
+actually I should have said here,
+
+115
+00:06:11.325 --> 00:06:13.045
+this is what's called a cross compiler.
+
+116
+00:06:13.045 --> 00:06:16.230
+So a cross compiler is a compiler,
+it takes the C code, and
+
+117
+00:06:16.230 --> 00:06:19.300
+coverts into an assembly code, okay.
+
+118
+00:06:19.300 --> 00:06:22.260
+But the assembly code is for
+the target platform.
+
+119
+00:06:22.260 --> 00:06:24.950
+So the target platform is whatever
+microprocessor you're targeting.
+
+120
+00:06:24.950 --> 00:06:28.220
+So let's say I'm using an Arduino, right?
+
+121
+00:06:28.220 --> 00:06:31.770
+The processor on there is gonna
+be an AVR ATmega processor.
+
+122
+00:06:31.770 --> 00:06:35.350
+So the compiler that is a cross compiler,
+it'll compile and
+
+123
+00:06:35.350 --> 00:06:38.926
+make assembly code that works for
+that AVR ATmega processor.
+
+124
+00:06:40.240 --> 00:06:44.160
+So the compiler makes that,
+then that code goes to an assembler and
+
+125
+00:06:44.160 --> 00:06:48.145
+gets an object file that's generated,
+which is actually machine code.
+
+126
+00:06:48.145 --> 00:06:52.792
+Again, for the target platform,
+for the AVR ATmega whatever it is.
+
+127
+00:06:52.792 --> 00:06:57.072
+And so the OBJ file, the object file, that
+has the machine code plus extra debugging
+
+128
+00:06:57.072 --> 00:07:01.380
+information and other assorted information
+in there, but it has the machine code.
+
+129
+00:07:01.380 --> 00:07:05.040
+Now, you'll notice there's a path on
+the top from the host into the assembler
+
+130
+00:07:05.040 --> 00:07:05.980
+assembly code.
+
+131
+00:07:05.980 --> 00:07:07.640
+You could write assembly code directly.
+
+132
+00:07:07.640 --> 00:07:09.648
+So you could write C code,
+which is what we'll do.
+
+133
+00:07:09.648 --> 00:07:11.250
+You could also write
+assembly code directly.
+
+134
+00:07:11.250 --> 00:07:12.700
+We will not do that, but you could,
+
+135
+00:07:12.700 --> 00:07:15.980
+and that would get merged
+in at the assembly phase.
+
+136
+00:07:15.980 --> 00:07:17.368
+So then once you get the object file,
+
+137
+00:07:17.368 --> 00:07:21.070
+the object file, that describes
+all the code that you wrote.
+
+138
+00:07:21.070 --> 00:07:24.100
+But remember that we're using
+library functions all the time.
+
+139
+00:07:24.100 --> 00:07:25.540
+And we haven't done this yet, but
+
+140
+00:07:25.540 --> 00:07:30.100
+in our code, you always wanna use library
+functions to handle complicated tasks.
+
+141
+00:07:30.100 --> 00:07:32.710
+Now, library functions are really just
+functions that are prewritten, but
+
+142
+00:07:32.710 --> 00:07:34.200
+you didn't write them.
+
+143
+00:07:34.200 --> 00:07:35.070
+You just call the function.
+
+144
+00:07:35.070 --> 00:07:38.120
+You just write the name of the function,
+and that code gets executed.
+
+145
+00:07:38.120 --> 00:07:41.970
+So, all those library functions have to
+get integrated into your program at some
+
+146
+00:07:41.970 --> 00:07:43.710
+point, and that's what the linker does.
+
+147
+00:07:43.710 --> 00:07:45.910
+So the linker,
+we don't see this in the picture, but
+
+148
+00:07:45.910 --> 00:07:48.815
+the linker,
+it has access to all the libraries.
+
+149
+00:07:48.815 --> 00:07:51.014
+And the linker basically
+takes the library's code and
+
+150
+00:07:51.014 --> 00:07:53.180
+inserts it into your code
+at the appropriate places.
+
+151
+00:07:53.180 --> 00:08:00.335
+It creates links between your code and
+the library code that you use.
+
+152
+00:08:00.335 --> 00:08:03.630
+And then the output of the linker is
+gonna be some executable program.
+
+153
+00:08:03.630 --> 00:08:07.030
+Now, the standard path that we're going to
+use is from the linker to the programmer,
+
+154
+00:08:07.030 --> 00:08:08.510
+which then goes to micrprocessor.
+
+155
+00:08:08.510 --> 00:08:12.798
+So the programmer, what that does,
+is it takes the executable code and
+
+156
+00:08:12.798 --> 00:08:17.015
+copies it, writes it from the host
+machine onto the microprocessor,
+
+157
+00:08:17.015 --> 00:08:20.316
+usually into the flash memory
+of the microprocessor.
+
+158
+00:08:20.316 --> 00:08:23.745
+Because in order for the microprocessor
+to actually execute the code,
+
+159
+00:08:23.745 --> 00:08:26.750
+the code has to be sitting
+on there on its memory.
+
+160
+00:08:26.750 --> 00:08:30.330
+So that's what the programmer does, and
+that actually goes on via USB cable for
+
+161
+00:08:30.330 --> 00:08:31.300
+us, right?
+
+162
+00:08:31.300 --> 00:08:35.450
+The programmer will take the code,
+send it across the USB cable, and
+
+163
+00:08:35.450 --> 00:08:40.690
+write it into the target, say Arduino for
+us, or Raspberry Pi, or whatever it is.
+
+164
+00:08:40.690 --> 00:08:42.440
+So that's the programmer.
+
+165
+00:08:42.440 --> 00:08:44.460
+There can also be another path,
+a debugging path,
+
+166
+00:08:44.460 --> 00:08:47.520
+where if you're using a debugger, which
+is a little more sophisticated than what
+
+167
+00:08:47.520 --> 00:08:51.490
+we're going to deal with, you can take the
+executable and write it into the target
+
+168
+00:08:51.490 --> 00:08:55.022
+platform and write debug code in there
+too, and control it during execution.
+
+169
+00:08:55.022 --> 00:08:57.560
+You can set break points and
+things like that.
+
+170
+00:08:57.560 --> 00:08:58.645
+We won't cover that right now.
+
+171
+00:09:01.362 --> 00:09:02.292
+Thank you.
+
+172
+00:09:02.292 --> 00:09:10.779
+[MUSIC]
