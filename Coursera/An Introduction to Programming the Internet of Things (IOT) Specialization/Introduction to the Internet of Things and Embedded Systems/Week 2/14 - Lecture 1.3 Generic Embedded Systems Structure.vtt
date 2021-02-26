@@ -1,0 +1,788 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.562
+[MUSIC]
+
+2
+00:00:09.562 --> 00:00:12.244
+This lecture we'll talk about
+the structure of an embedded system.
+
+3
+00:00:12.244 --> 00:00:15.425
+The hardware structure specifically,
+look at the different components.
+
+4
+00:00:15.425 --> 00:00:19.686
+A very generic view and
+we'll talk about some of them.
+
+5
+00:00:19.686 --> 00:00:23.490
+The main component, the microcontroller
+we'll talk more about in the next lecture.
+
+6
+00:00:25.890 --> 00:00:30.160
+So, here's my high level generic view
+of what an embedded system looks like.
+
+7
+00:00:30.160 --> 00:00:35.900
+So if you look at an embedded system, it's
+got to take data from the outside world
+
+8
+00:00:35.900 --> 00:00:38.410
+and then it's gotta output
+data to the outside world.
+
+9
+00:00:38.410 --> 00:00:41.320
+So it has, first for
+the receiving data from the outside world,
+
+10
+00:00:41.320 --> 00:00:42.840
+it has a set of sensors.
+
+11
+00:00:42.840 --> 00:00:46.480
+So these sensors they receive
+information from the outside
+
+12
+00:00:46.480 --> 00:00:49.670
+in many different ways because there
+are lots of different types of sensors.
+
+13
+00:00:49.670 --> 00:00:53.160
+The most basic type of sensor would be a
+button, push button, something like that.
+
+14
+00:00:53.160 --> 00:00:55.330
+And that's receiving data
+that somebody types in.
+
+15
+00:00:55.330 --> 00:00:57.830
+You know, zero, one is binary.
+
+16
+00:00:57.830 --> 00:01:01.830
+Then there's also, for instance,
+you could receive sound information like
+
+17
+00:01:01.830 --> 00:01:04.760
+the microphone in front of me,
+or actually connected to here.
+
+18
+00:01:04.760 --> 00:01:07.170
+And that receives audio information.
+
+19
+00:01:07.170 --> 00:01:09.400
+There's also video,
+like the camera in front of me,
+
+20
+00:01:09.400 --> 00:01:13.160
+or just a regular light sensor
+that receives video information.
+
+21
+00:01:13.160 --> 00:01:14.460
+There's all kinds of sensors.
+
+22
+00:01:14.460 --> 00:01:15.570
+Touch screens, right?
+
+23
+00:01:15.570 --> 00:01:18.360
+You can receive touch information
+through a touch screen.
+
+24
+00:01:18.360 --> 00:01:22.230
+So, there's a lot off different
+sensors that an embedded system
+
+25
+00:01:22.230 --> 00:01:24.490
+can receive input from.
+
+26
+00:01:24.490 --> 00:01:29.490
+So that input comes in to a set of sensors
+and it's gonna go into the core of
+
+27
+00:01:29.490 --> 00:01:34.150
+the system and in the end, once the system
+has decided, process that information,
+
+28
+00:01:34.150 --> 00:01:37.370
+decide what to do with that information,
+it needs to cause some results.
+
+29
+00:01:37.370 --> 00:01:39.720
+An effect to happen in the outside world.
+
+30
+00:01:39.720 --> 00:01:44.200
+So that's done through the actuators
+at the other side, the actuators,
+
+31
+00:01:44.200 --> 00:01:45.870
+they cause events to happen in the world.
+
+32
+00:01:45.870 --> 00:01:48.230
+So those might be something like an LED,
+
+33
+00:01:48.230 --> 00:01:50.960
+a light, like there's a light
+flashing in front of me.
+
+34
+00:01:50.960 --> 00:01:53.830
+That LED is an output actuator.
+
+35
+00:01:53.830 --> 00:01:57.770
+And it goes off and on to indicate
+probably that it's recording, okay?
+
+36
+00:01:57.770 --> 00:02:01.350
+But there are other actuators too, like
+for instance, the camera in front of me.
+
+37
+00:02:01.350 --> 00:02:07.030
+It's got motors inside that control
+the lens to control the focus.
+
+38
+00:02:07.030 --> 00:02:09.380
+So those motors, those are actuators.
+
+39
+00:02:09.380 --> 00:02:10.750
+Those are outputs of the system.
+
+40
+00:02:10.750 --> 00:02:12.770
+So the system will drive those motors and
+
+41
+00:02:12.770 --> 00:02:14.420
+those will be considered actuators and
+make them.
+
+42
+00:02:15.420 --> 00:02:17.850
+Pull the lens in and
+out and things like this.
+
+43
+00:02:17.850 --> 00:02:19.490
+So, lots of different types of actuators.
+
+44
+00:02:19.490 --> 00:02:22.590
+Speakers are actuators, they output sound.
+
+45
+00:02:22.590 --> 00:02:24.380
+Lights are actuators, they output light.
+
+46
+00:02:24.380 --> 00:02:30.030
+The screen is an actuator, it also
+outputs light but in a more interesting,
+
+47
+00:02:30.030 --> 00:02:33.830
+I don't know if you call it interesting,
+but in a more detailed format.
+
+48
+00:02:33.830 --> 00:02:37.340
+More complex format a light,
+so a screen is an output.
+
+49
+00:02:37.340 --> 00:02:39.240
+So there are lots of different actuators.
+
+50
+00:02:39.240 --> 00:02:42.490
+So if you look at the embedded system,
+it's in between there, right?
+
+51
+00:02:42.490 --> 00:02:46.107
+It receives data from the sensors,
+it does something with the data, and
+
+52
+00:02:46.107 --> 00:02:49.785
+then it outputs to the actuators to
+make something happen in the real world
+
+53
+00:02:49.785 --> 00:02:51.830
+as a result of the data that it received.
+
+54
+00:02:51.830 --> 00:02:55.870
+So the interface components of
+the sensors and the actuators.
+
+55
+00:02:55.870 --> 00:02:57.301
+Now in the middle of the system,
+
+56
+00:02:57.301 --> 00:03:00.760
+the center of the whole thing is
+that microcontroller in the center.
+
+57
+00:03:00.760 --> 00:03:04.020
+Now, the microcontroller we will talk
+about in the next lecture in more detail,
+
+58
+00:03:04.020 --> 00:03:08.210
+and actually a lot of this class is
+specializational focus on microcontrollers
+
+59
+00:03:08.210 --> 00:03:12.090
+and how to program them, but there are
+other components that are commonly inside
+
+60
+00:03:12.090 --> 00:03:16.080
+the core of an embedded system as well,
+and you see two of them right there.
+
+61
+00:03:16.080 --> 00:03:19.310
+IP and FPGA, we'll talk about
+those in a little bit right now.
+
+62
+00:03:21.060 --> 00:03:26.090
+So, IP stands for intellectual property,
+or IP Core people call them, and
+
+63
+00:03:26.090 --> 00:03:30.460
+intellectual property core is
+basically a predesigned component,
+
+64
+00:03:30.460 --> 00:03:33.810
+typically a premanufactured component so
+an integrated circuit,
+
+65
+00:03:33.810 --> 00:03:37.700
+a chip that performs one function.
+
+66
+00:03:37.700 --> 00:03:40.110
+When I say one function,
+maybe a set of functions, but
+
+67
+00:03:40.110 --> 00:03:42.360
+all related to one particular task.
+
+68
+00:03:43.380 --> 00:03:46.540
+So it's a chip that is not
+general purpose programmable.
+
+69
+00:03:46.540 --> 00:03:50.739
+It's a core that just performs some small
+set of functions that are all related.
+
+70
+00:03:51.780 --> 00:03:53.650
+So these things can be very useful.
+
+71
+00:03:53.650 --> 00:03:54.900
+They're cheap in high volume.
+
+72
+00:03:54.900 --> 00:03:58.420
+So what that means is,
+high volume means manufacturing volume.
+
+73
+00:03:58.420 --> 00:04:02.050
+So if you have some very common task
+that's performed by a lot of systems,
+
+74
+00:04:02.050 --> 00:04:04.110
+like say you got a cellphone, right?
+
+75
+00:04:04.110 --> 00:04:05.670
+And then that cell phone, let's say,
+
+76
+00:04:05.670 --> 00:04:10.590
+it's very common to perform some
+type of audio filtering task, okay?
+
+77
+00:04:10.590 --> 00:04:14.020
+So all of our cell phones have to do
+this audio filtering, right, let's say.
+
+78
+00:04:14.020 --> 00:04:19.200
+So you might make one of these IP cores,
+which performs filtering,
+
+79
+00:04:19.200 --> 00:04:22.860
+and then it would be high volume,
+because there are many millions
+
+80
+00:04:22.860 --> 00:04:26.680
+of cell phones that are for sale,
+and so you manufacture many of them.
+
+81
+00:04:26.680 --> 00:04:29.000
+So there's a lot of work to
+designing one of them and
+
+82
+00:04:29.000 --> 00:04:30.760
+it costs a lot if you want
+to just fabricate one.
+
+83
+00:04:30.760 --> 00:04:33.580
+But when you're fabricating a high volume,
+it's very cheap.
+
+84
+00:04:33.580 --> 00:04:37.410
+So these IP cores can be very valuable
+when you have high volume production.
+
+85
+00:04:38.500 --> 00:04:41.920
+So they're useful for common tasks,
+that's the best thing.
+
+86
+00:04:41.920 --> 00:04:43.820
+In order to make sure you get high volume.
+
+87
+00:04:43.820 --> 00:04:47.580
+You basically wanna have,
+you wanna use them for very common tasks.
+
+88
+00:04:47.580 --> 00:04:50.820
+Tasks that happen over and
+over because there's a lot of need.
+
+89
+00:04:50.820 --> 00:04:54.460
+So if it's just a one-off if this is a
+design, some kind of function that's only
+
+90
+00:04:54.460 --> 00:04:58.655
+done in this one system, then you would
+almost certainly not make an IP core and
+
+91
+00:04:58.655 --> 00:05:00.245
+make a special purpose chip just for that.
+
+92
+00:05:00.245 --> 00:05:03.815
+You wouldn't do that, but if it's
+some common task that's done a lot.
+
+93
+00:05:03.815 --> 00:05:05.965
+So, for instance,
+network controllers, right?
+
+94
+00:05:05.965 --> 00:05:07.465
+That's in a lot of systems.
+
+95
+00:05:07.465 --> 00:05:10.947
+Basically every Internet linked device has
+some sort of network controller in it.
+
+96
+00:05:10.947 --> 00:05:13.497
+So that type of thing you
+might implement as an IP core,
+
+97
+00:05:13.497 --> 00:05:17.457
+a dedicated piece of hardware which
+just does IP control operations.
+
+98
+00:05:17.457 --> 00:05:21.067
+Audio, video codecs right, so
+I'm coding audio and video, and
+
+99
+00:05:21.067 --> 00:05:23.117
+compressing it, decompressing it.
+
+100
+00:05:23.117 --> 00:05:27.107
+These are operations that perform
+by lots and lots of IOT devices, so
+
+101
+00:05:27.107 --> 00:05:31.780
+this type of device, this type of
+function you might put into an IP core.
+
+102
+00:05:31.780 --> 00:05:34.160
+Now these IP cores,
+we're not designing them in this class,
+
+103
+00:05:34.160 --> 00:05:39.220
+that's outside of the scope of the class,
+but when you're making an IOT System,
+
+104
+00:05:39.220 --> 00:05:41.740
+you definitely might
+want to buy one of these.
+
+105
+00:05:41.740 --> 00:05:46.580
+So you'll look at a library, an online
+library, of IP cores, find some vendor,
+
+106
+00:05:46.580 --> 00:05:50.470
+Texas Instruments, say, they sell a lot
+of chips that do different things, and
+
+107
+00:05:50.470 --> 00:05:52.250
+you find the one that does
+exactly what you want.
+
+108
+00:05:52.250 --> 00:05:56.210
+You say, well I'm doing MPEG encoding let
+me find the TIM peg encoding chip, and
+
+109
+00:05:56.210 --> 00:05:59.710
+you find, you'll probably find 50 of them,
+and you pick the one that you want,
+
+110
+00:05:59.710 --> 00:06:01.530
+and that's the core that you use.
+
+111
+00:06:01.530 --> 00:06:03.550
+So that's how we use these things.
+
+112
+00:06:03.550 --> 00:06:06.450
+We're buying them off the shelf, we're
+not actually gonna be designing IP cores,
+
+113
+00:06:06.450 --> 00:06:07.710
+because that's too complex.
+
+114
+00:06:09.890 --> 00:06:11.590
+And they have to interact
+with a microcontroller.
+
+115
+00:06:11.590 --> 00:06:15.260
+So remember that the microcontroller
+is the center of all the action right?
+
+116
+00:06:15.260 --> 00:06:17.950
+So, it's connected to the IP cores and
+
+117
+00:06:17.950 --> 00:06:20.210
+it tells them when to do
+what they need to do.
+
+118
+00:06:20.210 --> 00:06:23.370
+Right, so if an IP core is for
+encoding video,
+
+119
+00:06:23.370 --> 00:06:28.000
+the microcontroller will say encode now,
+right, encode this data now.
+
+120
+00:06:28.000 --> 00:06:32.180
+And when I say it will say that, it means,
+I mean through the signals, so the wires
+
+121
+00:06:32.180 --> 00:06:36.430
+It will send the appropriate sequence of
+input signals to trigger it to record.
+
+122
+00:06:36.430 --> 00:06:41.320
+And then the results may be the core
+sets a signal high when it's completed.
+
+123
+00:06:41.320 --> 00:06:43.160
+And that goes back to the microcontroller.
+
+124
+00:06:43.160 --> 00:06:46.070
+The microcontroller knows okay the coding
+is done, let me move on right.
+
+125
+00:06:46.070 --> 00:06:50.520
+So there's this conversation
+between the micro controller and
+
+126
+00:06:50.520 --> 00:06:52.890
+the IP core that goes on.
+
+127
+00:06:52.890 --> 00:06:56.350
+And so you have to wire it appropriately
+and we'll only touch on that.
+
+128
+00:06:58.530 --> 00:07:03.760
+Now another component that you
+often find in IOT devices,
+
+129
+00:07:03.760 --> 00:07:06.800
+embedded devices in general,
+are Field Programmable Gate Arrays.
+
+130
+00:07:06.800 --> 00:07:09.928
+Now, we will not be using Field
+Programmable Gate Arrays in this class
+
+131
+00:07:09.928 --> 00:07:13.216
+because their complexity is basically
+outside of the scope of the class,
+
+132
+00:07:13.216 --> 00:07:17.000
+but what they are, they're an interesting
+thing and you should know what they are.
+
+133
+00:07:17.000 --> 00:07:18.811
+They're hardware.
+
+134
+00:07:18.811 --> 00:07:21.376
+They're integrated circuits,
+they're chips.
+
+135
+00:07:21.376 --> 00:07:24.777
+Not programmable chips,
+they're regular chips.
+
+136
+00:07:24.777 --> 00:07:26.892
+Not programmable in
+the conventional sense, okay?
+
+137
+00:07:26.892 --> 00:07:28.978
+These things can be reconfigured,
+
+138
+00:07:28.978 --> 00:07:31.976
+essentially rewired to
+perform different tasks.
+
+139
+00:07:31.976 --> 00:07:35.237
+So, let's say you need something
+to do audio filtering.
+
+140
+00:07:35.237 --> 00:07:39.070
+So, you might configure
+the FPGA to perform filtering.
+
+141
+00:07:39.070 --> 00:07:43.031
+So it's a hardware device that will
+perform filtering because it's been wired
+
+142
+00:07:43.031 --> 00:07:43.880
+to do that.
+
+143
+00:07:43.880 --> 00:07:47.620
+But then you can rewire it,
+reconfigure the device, to rewire it so
+
+144
+00:07:47.620 --> 00:07:51.900
+that it performs mpeg coding instead or
+something like that.
+
+145
+00:07:51.900 --> 00:07:54.700
+So you can rewire this thing,
+reconfigure it, so
+
+146
+00:07:54.700 --> 00:07:56.760
+that it can perform different tasks.
+
+147
+00:07:56.760 --> 00:08:00.500
+Now it's not programmable in the sense
+of a general purpose processor,
+
+148
+00:08:00.500 --> 00:08:01.540
+you don't write code for it.
+
+149
+00:08:02.590 --> 00:08:06.080
+And as a result it's actually a lot faster
+than a general purpose processor right.
+
+150
+00:08:06.080 --> 00:08:08.790
+You can get that same flexibility
+with a general purpose processor.
+
+151
+00:08:08.790 --> 00:08:10.180
+You could run one program, or
+
+152
+00:08:10.180 --> 00:08:13.320
+another program,
+you could do that with a processor but
+
+153
+00:08:13.320 --> 00:08:16.590
+you would do it with the FPGA if
+possible because it's a lot faster.
+
+154
+00:08:16.590 --> 00:08:18.890
+It will execute a lot faster.
+
+155
+00:08:18.890 --> 00:08:23.680
+Because the software conversion step
+we won't talk here that is skipped
+
+156
+00:08:23.680 --> 00:08:27.890
+if you directly in hardware using FPGA so
+FPGAs have that advantage.
+
+157
+00:08:27.890 --> 00:08:29.620
+And no fabrication is needed.
+
+158
+00:08:29.620 --> 00:08:32.270
+So when you make an IP core and
+you fabricate it as a chip.
+
+159
+00:08:32.270 --> 00:08:33.290
+You have to fabricate it.
+
+160
+00:08:33.290 --> 00:08:36.870
+You have to manufacture chips and
+that's expensive.
+
+161
+00:08:36.870 --> 00:08:41.920
+So it only makes sense in high volume with
+FPGAs you don't have to fabricate you just
+
+162
+00:08:41.920 --> 00:08:45.540
+reconfigure it through programming,
+just connect it by USB to a computer and
+
+163
+00:08:45.540 --> 00:08:46.870
+you can rewire the thing.
+
+164
+00:08:46.870 --> 00:08:51.814
+So that's much more convenient and
+cheaper, so if you have a one off
+
+165
+00:08:51.814 --> 00:08:56.607
+design you would implement in an FPGA
+over some kind of an IP core.
+
+166
+00:08:56.607 --> 00:08:57.813
+Thank you.
+
+167
+00:08:57.813 --> 00:09:06.019
+>> [MUSIC]

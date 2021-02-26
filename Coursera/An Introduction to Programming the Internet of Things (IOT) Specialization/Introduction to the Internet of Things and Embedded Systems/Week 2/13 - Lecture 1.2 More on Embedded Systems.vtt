@@ -1,0 +1,783 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.684
+[MUSIC]
+
+2
+00:00:09.684 --> 00:00:12.688
+This lecture will talk about
+embedded systems a little bit more.
+
+3
+00:00:12.688 --> 00:00:16.100
+We'll talk in more detail
+about how they're designed,
+
+4
+00:00:16.100 --> 00:00:18.455
+since that is the point of this course.
+
+5
+00:00:18.455 --> 00:00:21.120
+We're gonna be building IoT devices,
+which are embedded systems.
+
+6
+00:00:21.120 --> 00:00:24.020
+So we're gonna talk about differences and
+how you would design an embedded
+
+7
+00:00:24.020 --> 00:00:27.520
+system as compared to a regular
+computational platform.
+
+8
+00:00:27.520 --> 00:00:30.260
+And some of this we talked
+about in the last module, but
+
+9
+00:00:30.260 --> 00:00:34.220
+we're gonna talk about how these
+differences impact the design process.
+
+10
+00:00:35.570 --> 00:00:37.260
+Okay, so application specificity.
+
+11
+00:00:38.900 --> 00:00:42.510
+Embedded devices are generally
+application specific.
+
+12
+00:00:42.510 --> 00:00:46.730
+Unlike desktop, laptop computers
+which can run any type of program or
+
+13
+00:00:46.730 --> 00:00:48.820
+pretty good doing any type of program.
+
+14
+00:00:48.820 --> 00:00:52.350
+Embedded systems are made to do one
+thing or one related set of things.
+
+15
+00:00:52.350 --> 00:00:55.378
+And we already talked about
+this with IoT devices.
+
+16
+00:00:55.378 --> 00:00:59.800
+So, the phone sort of blurs that
+line a little bit, all right,
+
+17
+00:00:59.800 --> 00:01:02.059
+cuz a phone can do a heck of a lot.
+
+18
+00:01:02.059 --> 00:01:06.038
+You can run arbitrary apps on a phone,
+but most devices like the camera
+
+19
+00:01:06.038 --> 00:01:09.220
+in front of me,
+that thing is made to do camera, right?
+
+20
+00:01:09.220 --> 00:01:12.450
+To record, play back, something like that.
+
+21
+00:01:12.450 --> 00:01:16.159
+And it does all things
+related to camera activities.
+
+22
+00:01:16.159 --> 00:01:17.160
+So, that's common.
+
+23
+00:01:17.160 --> 00:01:20.040
+That's typically how embedded systems are.
+
+24
+00:01:20.040 --> 00:01:22.760
+And the reason why this is important
+is because it changes the way you
+
+25
+00:01:22.760 --> 00:01:23.840
+design a device.
+
+26
+00:01:23.840 --> 00:01:27.610
+When you know that the device is
+gonna do one thing, you design it for
+
+27
+00:01:27.610 --> 00:01:29.350
+the one thing,
+you don't design it for everything.
+
+28
+00:01:30.520 --> 00:01:33.180
+So the design is focused
+on the one application,
+
+29
+00:01:33.180 --> 00:01:35.460
+unlike general purpose systems
+like a laptop, desk top.
+
+30
+00:01:35.460 --> 00:01:40.310
+So those things essentially end up being
+overpowered for whatever you have to do
+
+31
+00:01:40.310 --> 00:01:44.750
+because they have to be ready to
+handle any type of computational task.
+
+32
+00:01:44.750 --> 00:01:48.767
+So for instance take a standard machine,
+say a quad-core,
+
+33
+00:01:48.767 --> 00:01:52.727
+four processors they have,
+quad-core's not uncommon.
+
+34
+00:01:52.727 --> 00:01:59.047
+So say you get a quad-core i7, something
+like this, it's running at 4 GHz, right?
+
+35
+00:01:59.047 --> 00:02:03.682
+Generally, there is no way that regular
+users are using up all the computational
+
+36
+00:02:03.682 --> 00:02:06.100
+potential of that machine.
+
+37
+00:02:06.100 --> 00:02:09.033
+There is no reason why you need
+four processors to run Word or
+
+38
+00:02:09.033 --> 00:02:11.921
+PowerPoint, or
+whatever application you're running.
+
+39
+00:02:11.921 --> 00:02:14.532
+You don't need 4 GHz to
+run these applications.
+
+40
+00:02:14.532 --> 00:02:20.452
+So 99.9% of the time, these laptops and
+desktops are well under utilized.
+
+41
+00:02:20.452 --> 00:02:21.856
+[LAUGH] Only 1% of the CPU,
+
+42
+00:02:21.856 --> 00:02:25.135
+some tiny fractions of the CPU
+is actually being used.
+
+43
+00:02:25.135 --> 00:02:28.065
+But then every once in a while,
+you actually need them to do something.
+
+44
+00:02:28.065 --> 00:02:32.020
+So say, most of the time, like say,
+cameraman right here, okay.
+
+45
+00:02:32.020 --> 00:02:33.730
+He's using a, he's got a Mac.
+
+46
+00:02:33.730 --> 00:02:39.420
+I bet you he uses Photoshop or other kind
+of tools to do video processing, right.
+
+47
+00:02:39.420 --> 00:02:42.960
+Now, when he does that,
+then it's using all the processing power,
+
+48
+00:02:42.960 --> 00:02:47.790
+right, cuz these video operations
+chain up effects on screen images.
+
+49
+00:02:47.790 --> 00:02:50.560
+Those require a lot of
+computational complexity.
+
+50
+00:02:50.560 --> 00:02:54.410
+But, 99.9% of the time, when this
+thing is just running PowerPoint,
+
+51
+00:02:54.410 --> 00:02:57.067
+something like that,
+that's not using anything.
+
+52
+00:02:57.067 --> 00:03:00.478
+But every once in a while, it's running
+an application that really uses it.
+
+53
+00:03:00.478 --> 00:03:04.522
+So in some sense,
+general-purpose processors,
+
+54
+00:03:04.522 --> 00:03:07.348
+most of the time, they are wasted.
+
+55
+00:03:07.348 --> 00:03:10.690
+There's no reason to have all that
+power except in very rare cases.
+
+56
+00:03:10.690 --> 00:03:11.800
+Maybe I'm playing a video game.
+
+57
+00:03:11.800 --> 00:03:14.730
+Video games are another case where
+you really use a computational power,
+
+58
+00:03:14.730 --> 00:03:16.640
+because they're doing video
+operations all the time.
+
+59
+00:03:16.640 --> 00:03:18.450
+Graphics, complicated graphics.
+
+60
+00:03:18.450 --> 00:03:19.770
+So when I'm playing In my video game,
+
+61
+00:03:19.770 --> 00:03:24.700
+okay, I need the processing power,
+but most of the time I don't need it.
+
+62
+00:03:24.700 --> 00:03:29.020
+So in some sense, general purpose machines
+are very inefficient in that way, and
+
+63
+00:03:29.020 --> 00:03:34.060
+because of that they cost more than
+they need to, to do any individual task.
+
+64
+00:03:34.060 --> 00:03:36.180
+So what I mean by that is say
+you want to play video games,
+
+65
+00:03:36.180 --> 00:03:38.820
+and you want to play the newest,
+best video games.
+
+66
+00:03:38.820 --> 00:03:43.173
+You can buy a computer, a good computer
+with a great graphics card and
+
+67
+00:03:43.173 --> 00:03:46.866
+all this, and
+that might cost you $1,500, right?
+
+68
+00:03:46.866 --> 00:03:50.844
+To get the newest, most up-to-date
+video card, in the best computer,
+
+69
+00:03:50.844 --> 00:03:53.106
+to run the best games, and run them fast.
+
+70
+00:03:53.106 --> 00:03:57.634
+Or you could say, look, let me just
+buy an XBox One, or PlayStation 4,
+
+71
+00:03:57.634 --> 00:04:00.100
+which is a lot cheaper, say $500.
+
+72
+00:04:00.100 --> 00:04:03.701
+But it runs that game better,
+probably better than the best,
+
+73
+00:04:03.701 --> 00:04:06.342
+than that more expensive computer, right?
+
+74
+00:04:06.342 --> 00:04:09.720
+Now, all it does is games,
+but it does games great.
+
+75
+00:04:09.720 --> 00:04:11.580
+Right?
+It does games the best.
+
+76
+00:04:11.580 --> 00:04:14.810
+So, in this way,
+the design is much more efficient.
+
+77
+00:04:14.810 --> 00:04:17.480
+It's being used to its full potential
+because all you ever do with
+
+78
+00:04:17.480 --> 00:04:20.420
+the XBox 1 is play games with that thing.
+
+79
+00:04:20.420 --> 00:04:22.020
+And most of the time, they're video.
+
+80
+00:04:22.020 --> 00:04:26.630
+So you're using the capacity of that
+thing, basically all the time you're using
+
+81
+00:04:26.630 --> 00:04:30.340
+it, you're using it to,
+if not full, but at high capacity.
+
+82
+00:04:30.340 --> 00:04:32.450
+As opposed to a general purpose machine.
+
+83
+00:04:32.450 --> 00:04:37.100
+So, this application specifically lets
+you change the way you do design, so
+
+84
+00:04:37.100 --> 00:04:40.170
+that you can just put in the things
+that you need to put in.
+
+85
+00:04:40.170 --> 00:04:41.594
+Spend money on what you need to put in.
+
+86
+00:04:41.594 --> 00:04:43.408
+So, higher design efficiency is possible.
+
+87
+00:04:43.408 --> 00:04:46.744
+So what that means is that,
+if I know that I'm playing video games,
+
+88
+00:04:46.744 --> 00:04:50.620
+there are certain pieces of hardware
+that I don't need in my design, right?
+
+89
+00:04:50.620 --> 00:04:52.350
+Why buy that, right?
+
+90
+00:04:52.350 --> 00:04:55.530
+If I know that, take this camera,
+right, this camera in front of me,
+
+91
+00:04:55.530 --> 00:04:58.300
+I know that this thing is doing
+some types of video processing.
+
+92
+00:04:58.300 --> 00:05:01.850
+I know it needs to control a lens and
+stuff like this, right?
+
+93
+00:05:01.850 --> 00:05:04.950
+But, it's never gonna have to
+do other types of processing.
+
+94
+00:05:04.950 --> 00:05:07.060
+I'm not gonna be doing sorts,
+or something, right?
+
+95
+00:05:07.060 --> 00:05:11.280
+So I can change the way I do design
+to just include the software and
+
+96
+00:05:11.280 --> 00:05:15.000
+the hardware that I need for
+the task that it's made for.
+
+97
+00:05:15.000 --> 00:05:16.620
+And so that makes it cheaper.
+
+98
+00:05:16.620 --> 00:05:17.630
+Now it makes it more limited.
+
+99
+00:05:17.630 --> 00:05:20.260
+It can only do what it's made to do,
+but what it does,
+
+100
+00:05:20.260 --> 00:05:21.800
+it does cheaply and efficiently.
+
+101
+00:05:25.190 --> 00:05:28.950
+Another big difference in the way you
+design embedded systems as compared to
+
+102
+00:05:28.950 --> 00:05:31.880
+sort of a regular desktop laptop,
+is that hardware and
+
+103
+00:05:31.880 --> 00:05:35.090
+software are usually designed together.
+
+104
+00:05:35.090 --> 00:05:37.230
+So again, this is for efficiency reasons.
+
+105
+00:05:37.230 --> 00:05:41.022
+But if, say you want to buy
+Microsoft Word or something,
+
+106
+00:05:41.022 --> 00:05:43.237
+some typical desktop software.
+
+107
+00:05:43.237 --> 00:05:44.312
+That Microsoft Word,
+
+108
+00:05:44.312 --> 00:05:47.487
+you buy that completely separate
+from when you buy your computer.
+
+109
+00:05:47.487 --> 00:05:50.489
+Well, actually maybe you buy your
+computer and it comes with Word but,
+
+110
+00:05:50.489 --> 00:05:53.961
+you can buy your computer and then you
+can buy Word completely separately, okay?
+
+111
+00:05:53.961 --> 00:05:55.260
+And there are two different companies.
+
+112
+00:05:55.260 --> 00:05:58.470
+Maybe I bought my computer from Dell and
+I bought Word from Microsoft.
+
+113
+00:05:58.470 --> 00:05:59.390
+Two different companies.
+
+114
+00:05:59.390 --> 00:06:02.120
+One does the hardware,
+one does the software.
+
+115
+00:06:02.120 --> 00:06:04.420
+Now, more and more,
+these companies are coming together.
+
+116
+00:06:04.420 --> 00:06:06.580
+And sort of Apple is the epitome of this,
+right?
+
+117
+00:06:06.580 --> 00:06:08.820
+They make their devices' hardware and
+software together.
+
+118
+00:06:08.820 --> 00:06:11.010
+They make the phone and the software or
+
+119
+00:06:11.010 --> 00:06:12.840
+whatever the device is in the software,
+as one.
+
+120
+00:06:13.880 --> 00:06:16.120
+Which means that they work
+together better, okay?
+
+121
+00:06:16.120 --> 00:06:16.830
+And in fact,
+
+122
+00:06:16.830 --> 00:06:21.020
+the Apple machines traditionally
+are very reliable because of that.
+
+123
+00:06:21.020 --> 00:06:23.200
+But it also makes them more efficient.
+
+124
+00:06:23.200 --> 00:06:25.614
+So you can say, look,
+since this is just a phone,
+
+125
+00:06:25.614 --> 00:06:28.616
+I don't need to be able to drive servos or
+something, right?
+
+126
+00:06:28.616 --> 00:06:32.646
+I can make my hardware just the right
+hardware to run exactly the software that
+
+127
+00:06:32.646 --> 00:06:33.520
+I need, right?
+
+128
+00:06:33.520 --> 00:06:35.600
+You can match them.
+
+129
+00:06:35.600 --> 00:06:38.160
+Your whole design process
+gets more efficient.
+
+130
+00:06:38.160 --> 00:06:41.308
+And we are gonna see this later on in the
+class when we actually build these things.
+
+131
+00:06:41.308 --> 00:06:44.781
+We are only gonna buy the components
+we need to build the system we want.
+
+132
+00:06:44.781 --> 00:06:46.306
+We're not gonna say, every system.
+
+133
+00:06:46.306 --> 00:06:48.220
+I'm gonna put all this hardware and
+software together.
+
+134
+00:06:48.220 --> 00:06:50.910
+No, we're gonna buy,
+we say we need this component.
+
+135
+00:06:50.910 --> 00:06:51.670
+We need an LED.
+
+136
+00:06:51.670 --> 00:06:52.588
+We need this, we need that.
+
+137
+00:06:52.588 --> 00:06:56.018
+We hook them up and
+we make this one system that we want, and
+
+138
+00:06:56.018 --> 00:06:57.918
+write code that uses only that.
+
+139
+00:06:57.918 --> 00:07:00.789
+As opposed to a general purpose system
+where you have to have hardware for
+
+140
+00:07:00.789 --> 00:07:01.401
+everything and
+
+141
+00:07:01.401 --> 00:07:05.060
+software for everything just for the one
+occasion where you actually need it.
+
+142
+00:07:05.060 --> 00:07:07.040
+So you're designing the hardware and
+software together, and
+
+143
+00:07:07.040 --> 00:07:09.270
+that makes design a lot harder.
+
+144
+00:07:09.270 --> 00:07:11.310
+Because you have to not only
+be a hardware designer but
+
+145
+00:07:11.310 --> 00:07:13.010
+you also have to be a software designer.
+
+146
+00:07:13.010 --> 00:07:14.330
+So when you're writing the software,
+
+147
+00:07:14.330 --> 00:07:17.250
+you have to think about
+what the hardware can do.
+
+148
+00:07:17.250 --> 00:07:20.580
+See, normally when you take
+an application like Word,
+
+149
+00:07:20.580 --> 00:07:23.180
+that thing runs on many
+different hardware platforms.
+
+150
+00:07:23.180 --> 00:07:26.740
+You generally as a programmer do not have
+to be aware of this hardware platform
+
+151
+00:07:26.740 --> 00:07:27.840
+that it's running on.
+
+152
+00:07:27.840 --> 00:07:30.750
+You just say look, as long it's running
+on Windows, I don't care, right?
+
+153
+00:07:30.750 --> 00:07:32.517
+Actually, it doesn't even
+have to run on Windows.
+
+154
+00:07:32.517 --> 00:07:35.952
+It can run on many applications, and
+you don't care about that as a programmer.
+
+155
+00:07:35.952 --> 00:07:39.177
+But if you're writing code for
+an embedded device, like a cell phone,
+
+156
+00:07:39.177 --> 00:07:41.452
+you have to know exactly
+what the hardware can do.
+
+157
+00:07:41.452 --> 00:07:42.639
+You have to know, I have a screen.
+
+158
+00:07:42.639 --> 00:07:44.355
+It has this size, right?
+
+159
+00:07:44.355 --> 00:07:48.675
+So I'm limited in how I write my
+software to use up that area, right?
+
+160
+00:07:48.675 --> 00:07:51.015
+I have touch senses,
+which can sense this and that, right?
+
+161
+00:07:51.015 --> 00:07:53.983
+So I gotta place my buttons so
+that everything can be touched.
+
+162
+00:07:53.983 --> 00:07:57.460
+So you have to really be aware of
+the hardware when you're designing
+
+163
+00:07:57.460 --> 00:08:01.852
+the software and vice versa, which changes
+the design process and makes it frankly,
+
+164
+00:08:01.852 --> 00:08:02.768
+more difficult.
+
+165
+00:08:02.768 --> 00:08:06.243
+Yeah, so more work for designers because
+you have to understand some of both.
+
+166
+00:08:06.243 --> 00:08:06.954
+Thank you.
+
+167
+00:08:06.954 --> 00:08:14.124
+[MUSIC]
