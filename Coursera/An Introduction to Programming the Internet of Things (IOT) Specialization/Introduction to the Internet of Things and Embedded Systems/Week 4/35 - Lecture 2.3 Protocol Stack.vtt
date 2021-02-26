@@ -1,0 +1,560 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:09.901
+[MUSIC]
+
+2
+00:00:09.901 --> 00:00:12.472
+This lecture we'll talk about
+what a protocol stack is,
+
+3
+00:00:12.472 --> 00:00:13.660
+really define that term.
+
+4
+00:00:13.660 --> 00:00:16.850
+We will go into a little bit of detail,
+
+5
+00:00:16.850 --> 00:00:20.740
+little bit of information about
+how a protocol stack is defined.
+
+6
+00:00:20.740 --> 00:00:25.390
+Now remember though, that in practice
+certainly in this specialization,
+
+7
+00:00:25.390 --> 00:00:28.650
+in practice you're not gonna
+be writing a protocol stack,
+
+8
+00:00:28.650 --> 00:00:32.690
+making a protocol stack, but
+you can use a protocol stack.
+
+9
+00:00:32.690 --> 00:00:35.770
+So you at least would wanna know
+what this term is because it gets
+
+10
+00:00:35.770 --> 00:00:37.110
+thrown around, right.
+
+11
+00:00:37.110 --> 00:00:40.630
+If you want to make a new embedded system
+you say, well I need to be networked,
+
+12
+00:00:40.630 --> 00:00:44.340
+you know Internet, which protocol
+stack am I going to use, right?
+
+13
+00:00:44.340 --> 00:00:46.440
+Which implementation of
+the protocol stack will I use?
+
+14
+00:00:46.440 --> 00:00:48.180
+You need to know what that term means,
+
+15
+00:00:48.180 --> 00:00:50.890
+because it gets used a lot when
+you're actually coding things.
+
+16
+00:00:50.890 --> 00:00:52.755
+You should know basically what it means.
+
+17
+00:00:52.755 --> 00:00:57.340
+So not all the details that I'm talking
+about will be important in the long run,
+
+18
+00:00:57.340 --> 00:01:00.140
+but you should see it all
+at once because it'll
+
+19
+00:01:00.140 --> 00:01:02.479
+give you a better context
+about what you're using.
+
+20
+00:01:03.540 --> 00:01:05.470
+So OSI Layer Concept.
+
+21
+00:01:05.470 --> 00:01:08.700
+So the idea about taking these
+protocols and making a stack,
+
+22
+00:01:08.700 --> 00:01:12.670
+different layers of protocol,
+is that you've got these multiple layers,
+
+23
+00:01:12.670 --> 00:01:15.260
+different tasks, different networking
+tasks that you have to handle.
+
+24
+00:01:15.260 --> 00:01:18.350
+These tasks are associated with
+different layers of protocol stack.
+
+25
+00:01:18.350 --> 00:01:21.270
+And each layer is implemented
+usually in software,
+
+26
+00:01:21.270 --> 00:01:23.300
+actually some of the lower layers
+are implemented in hardware.
+
+27
+00:01:23.300 --> 00:01:25.750
+So some are in hardware,
+some are in software.
+
+28
+00:01:25.750 --> 00:01:28.580
+The difference doesn't matter
+
+29
+00:01:28.580 --> 00:01:30.720
+too much to us right now certainly
+the top layers are in software, but
+
+30
+00:01:30.720 --> 00:01:34.940
+the idea is that a message,
+say you want to send a message okay.
+
+31
+00:01:34.940 --> 00:01:38.290
+So you make this message, we got our
+picture up here, this message M.
+
+32
+00:01:38.290 --> 00:01:41.650
+M is our message, and
+that's maybe just the pay load okay.
+
+33
+00:01:41.650 --> 00:01:43.890
+That is what the data we want to send.
+
+34
+00:01:43.890 --> 00:01:46.770
+So then that is basically
+an input to a layer.
+
+35
+00:01:46.770 --> 00:01:48.060
+Let's talk about the first layer,
+
+36
+00:01:48.060 --> 00:01:51.210
+layer R let's say is the first layer,
+the top layer.
+
+37
+00:01:51.210 --> 00:01:55.660
+So that goes into it and into the code,
+so that code takes the message,
+
+38
+00:01:55.660 --> 00:01:59.810
+it makes some kind of a decision, whatever
+decisions are made at that layer, and
+
+39
+00:01:59.810 --> 00:02:03.160
+then it puts the results of that
+decision into the header of the message
+
+40
+00:02:03.160 --> 00:02:06.740
+producing a new message,
+M prime down there, which is now bigger.
+
+41
+00:02:06.740 --> 00:02:08.840
+It has whatever was inside M and
+
+42
+00:02:08.840 --> 00:02:12.160
+it has additional header on
+the outside of that, right?
+
+43
+00:02:12.160 --> 00:02:13.870
+So at every level every
+level that happens.
+
+44
+00:02:13.870 --> 00:02:15.430
+So, the first level, for
+
+45
+00:02:15.430 --> 00:02:19.130
+instance here, let's see this
+level is performing routing.
+
+46
+00:02:19.130 --> 00:02:23.560
+So the goal of this level is to take
+a message and figure out a sequence of
+
+47
+00:02:23.560 --> 00:02:27.210
+machines that it will hop through
+to get to its destination.
+
+48
+00:02:27.210 --> 00:02:30.800
+So at this level it takes a message,
+it finds the route,
+
+49
+00:02:30.800 --> 00:02:32.930
+it says okay you need to go
+through machines A, B, C, and D.
+
+50
+00:02:32.930 --> 00:02:34.340
+All right, that sequence.
+
+51
+00:02:34.340 --> 00:02:37.610
+So it can take a sequence,
+that whole sequence of nodes,
+
+52
+00:02:37.610 --> 00:02:43.170
+put that into the header of the message,
+and then output this new message, M prime.
+
+53
+00:02:43.170 --> 00:02:44.610
+Which is the same old message,
+
+54
+00:02:44.610 --> 00:02:49.670
+but now with this extra routing
+message contained inside the header.
+
+55
+00:02:49.670 --> 00:02:55.930
+So that's the general idea, that at
+every layer the code, or the hardware,
+
+56
+00:02:55.930 --> 00:02:59.040
+or whatever it is that's implementing the
+protocol, will make some decisions like
+
+57
+00:02:59.040 --> 00:03:02.470
+routing information, arbitration
+information, flow control information.
+
+58
+00:03:02.470 --> 00:03:04.820
+And then the results of that
+it'll put into the header, or
+
+59
+00:03:04.820 --> 00:03:06.980
+some of the results,
+it'll put directly into the header,
+
+60
+00:03:06.980 --> 00:03:10.930
+and you'll get a new message out, which
+is bigger than the original one, right?
+
+61
+00:03:10.930 --> 00:03:12.590
+Which now has its new header data.
+
+62
+00:03:12.590 --> 00:03:13.640
+This is on the sending side.
+
+63
+00:03:14.700 --> 00:03:16.980
+So this is the idea, and
+you have a stack of these layers.
+
+64
+00:03:16.980 --> 00:03:20.330
+So that's what they mean by protocol
+stack, you have layer after layer and
+
+65
+00:03:20.330 --> 00:03:21.370
+they call that a stack.
+
+66
+00:03:23.350 --> 00:03:28.054
+Now, encapsulation is used
+to mean that the protocols
+
+67
+00:03:28.054 --> 00:03:31.310
+they're separated from one another,
+in some sense.
+
+68
+00:03:31.310 --> 00:03:33.940
+So, each layer,
+each protocol layer is separated.
+
+69
+00:03:33.940 --> 00:03:39.220
+So, all these different tasks that
+need to be performed, say routing.
+
+70
+00:03:39.220 --> 00:03:40.940
+That is mapped to a particular layer.
+
+71
+00:03:40.940 --> 00:03:44.620
+That is performed by the protocol
+information stack at this layer and
+
+72
+00:03:44.620 --> 00:03:46.420
+other layers do not have to deal with it.
+
+73
+00:03:46.420 --> 00:03:49.655
+So it is encapsulated,
+it's separating the different layers.
+
+74
+00:03:49.655 --> 00:03:52.565
+And the whole point of that is to
+make it simpler to understand and
+
+75
+00:03:52.565 --> 00:03:53.405
+also to write code.
+
+76
+00:03:53.405 --> 00:03:56.765
+All right, so as a programmer, if you're
+dealing with the layer that deals with
+
+77
+00:03:56.765 --> 00:03:59.595
+routing, then that's all you have to think
+about, you don't have to think about flow
+
+78
+00:03:59.595 --> 00:04:02.060
+control because flow control is
+dealt with at another layer.
+
+79
+00:04:02.060 --> 00:04:04.170
+So that's what encapsulation
+generally means.
+
+80
+00:04:04.170 --> 00:04:07.510
+And a protocol stack is the implementation
+of all the different layers put together.
+
+81
+00:04:08.870 --> 00:04:11.740
+So a transmission,
+when want to send a message,
+
+82
+00:04:11.740 --> 00:04:15.350
+basically the messages start at
+the top layer and then they go down.
+
+83
+00:04:15.350 --> 00:04:18.130
+So you put the messages into
+the top layer protocol.
+
+84
+00:04:18.130 --> 00:04:21.530
+It makes its decisions, adds to
+the header, passes it to the next layer,
+
+85
+00:04:21.530 --> 00:04:24.000
+which adds, makes some decisions,
+adds to the header and
+
+86
+00:04:24.000 --> 00:04:25.940
+continues, until you get
+to the bottom layer.
+
+87
+00:04:25.940 --> 00:04:28.630
+Now the bottom layer is called
+the physical layer, and
+
+88
+00:04:28.630 --> 00:04:34.120
+at that layer it actually takes the data
+and puts it on to an electrical
+
+89
+00:04:35.660 --> 00:04:38.910
+mechanism, a transmission mechanism,
+some kind of medium.
+
+90
+00:04:38.910 --> 00:04:41.410
+So that means one of two things,
+either wire, so
+
+91
+00:04:41.410 --> 00:04:45.870
+a physical layer,
+it codes the data onto physical wires, or
+
+92
+00:04:45.870 --> 00:04:51.280
+it encodes it onto wireless broadcasts,
+radio broadcasts, so one of the two.
+
+93
+00:04:51.280 --> 00:04:53.610
+So always at the bottom layer
+there's this physical layer,
+
+94
+00:04:53.610 --> 00:04:59.600
+which actually transmits the signal either
+by wire or through the air through radio.
+
+95
+00:05:01.660 --> 00:05:05.950
+Now, at the receiving end,
+the message comes in.
+
+96
+00:05:05.950 --> 00:05:07.760
+Remember, it's sent physically, right?
+
+97
+00:05:07.760 --> 00:05:11.076
+So it's on wires, it's a bunch of
+electrical signals on wires, or
+
+98
+00:05:11.076 --> 00:05:13.030
+it's sent through the radio.
+
+99
+00:05:13.030 --> 00:05:16.700
+So at this end, the messages go up
+through the same protocol stack.
+
+100
+00:05:16.700 --> 00:05:20.350
+So that means when it's received, it's
+received at the physical layer, right?
+
+101
+00:05:20.350 --> 00:05:23.780
+Because it's physical signals,
+either wired or wireless.
+
+102
+00:05:23.780 --> 00:05:24.380
+They come in,
+
+103
+00:05:24.380 --> 00:05:29.190
+and then they have to get basically
+recoded back to the original data.
+
+104
+00:05:29.190 --> 00:05:31.850
+So now at the receiving end,
+
+105
+00:05:31.850 --> 00:05:35.670
+these messages are going through
+the protocol stack up, from bottom up.
+
+106
+00:05:35.670 --> 00:05:39.380
+So the opposite of what happened
+on transmission happens here.
+
+107
+00:05:39.380 --> 00:05:43.785
+At every layer, the message gets received,
+the appropriate header
+
+108
+00:05:43.785 --> 00:05:47.895
+information is read and used, and then the
+new message that's produced is actually
+
+109
+00:05:47.895 --> 00:05:51.305
+smaller than the first message,
+minus that header information, right?
+
+110
+00:05:51.305 --> 00:05:55.012
+And then it goes up to the next layer,
+which takes the header information
+
+111
+00:05:55.012 --> 00:06:00.252
+at that layer it uses that and then
+produces a new message which is smaller.
+
+112
+00:06:00.252 --> 00:06:04.302
+And so by the end at the top all
+you have is the actual payload and
+
+113
+00:06:04.302 --> 00:06:06.402
+all the header information
+has been stripped off.
+
+114
+00:06:06.402 --> 00:06:08.742
+So that what happens at
+the receiving end and
+
+115
+00:06:08.742 --> 00:06:11.136
+it's the reverse of what happens
+at the transmission side.
+
+116
+00:06:11.136 --> 00:06:12.463
+Thank you.
+
+117
+00:06:12.463 --> 00:06:18.735
+[MUSIC]

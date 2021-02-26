@@ -1,0 +1,514 @@
+WEBVTT
+
+1
+00:00:00.220 --> 00:00:10.030
+[MUSIC]
+
+2
+00:00:10.030 --> 00:00:14.406
+This lecture we'll talk about protocol
+stack, the Internet standard protocol
+
+3
+00:00:14.406 --> 00:00:18.587
+stack which involves TCP/IP and I'll
+talk a little bit, give a little bit of
+
+4
+00:00:18.587 --> 00:00:22.790
+an example about an application layer
+protocol, what that would look like.
+
+5
+00:00:22.790 --> 00:00:26.976
+We're not going in again, not into too
+much detail, but you should know what this
+
+6
+00:00:26.976 --> 00:00:30.810
+protocol stack looks like, because
+anytime you want to use the internet.
+
+7
+00:00:30.810 --> 00:00:33.361
+So, if you want to write code
+that accesses the internet,
+
+8
+00:00:33.361 --> 00:00:36.030
+you're going to be using this stack,
+this protocol stack.
+
+9
+00:00:36.030 --> 00:00:38.889
+So, you want to know
+something about how it works.
+
+10
+00:00:39.930 --> 00:00:42.210
+So, typically,
+when you're using the Internet,
+
+11
+00:00:42.210 --> 00:00:45.030
+this is sort of a standard protocol
+stack that you see right here.
+
+12
+00:00:45.030 --> 00:00:47.860
+This is not the same as
+the OSI protocol stack.
+
+13
+00:00:47.860 --> 00:00:50.950
+The OSI protocol stack has seven layers,
+and it's more complicated.
+
+14
+00:00:50.950 --> 00:00:54.160
+This is simplified,
+this has four layers in it.
+
+15
+00:00:54.160 --> 00:00:55.870
+Top layer is the application layer,
+
+16
+00:00:57.060 --> 00:01:01.540
+below that is the transport
+layer where you see TCP/UDP.
+
+17
+00:01:01.540 --> 00:01:02.390
+That's transport layer.
+
+18
+00:01:02.390 --> 00:01:06.359
+Then below that you see IP which is,
+that's called the network layer, and
+
+19
+00:01:06.359 --> 00:01:08.570
+that's the Internet protocol is there.
+
+20
+00:01:08.570 --> 00:01:11.090
+And then below that is what's
+called the data link layer.
+
+21
+00:01:11.090 --> 00:01:14.370
+Actually, there's really two layers
+merged there, data link and physical.
+
+22
+00:01:14.370 --> 00:01:17.821
+So, the very bottom layer
+that you don't see there,
+
+23
+00:01:17.821 --> 00:01:22.345
+is merged in is physical, where it
+actually drives it onto the wires,
+
+24
+00:01:22.345 --> 00:01:26.550
+drives the signal onto the wires or
+onto the radio.
+
+25
+00:01:26.550 --> 00:01:27.137
+And actually,
+
+26
+00:01:27.137 --> 00:01:30.080
+if we look at these layers there's code
+associated with each layer, right?
+
+27
+00:01:30.080 --> 00:01:32.100
+They're typically library functions.
+
+28
+00:01:32.100 --> 00:01:36.347
+So, in practice in this specialization
+when you write network code and
+
+29
+00:01:36.347 --> 00:01:37.470
+you will later.
+
+30
+00:01:37.470 --> 00:01:39.420
+When you work on network code,
+we'll be talking about.
+
+31
+00:01:39.420 --> 00:01:43.700
+You'll be calling application
+layer library functions.
+
+32
+00:01:43.700 --> 00:01:45.440
+Only top layer, right?
+
+33
+00:01:45.440 --> 00:01:49.130
+You don't have to worry about the lower
+layers at all, almost at all, right?
+
+34
+00:01:49.130 --> 00:01:52.237
+Just the top layer is what you're
+really going to be dealing with but
+
+35
+00:01:52.237 --> 00:01:55.630
+this whole stack has already been
+implemented and it will be given to you.
+
+36
+00:01:55.630 --> 00:01:59.187
+So you'll download a free
+stack that looks like this but
+
+37
+00:01:59.187 --> 00:02:04.270
+the functions that you'll be calling
+will be all top layer application layer.
+
+38
+00:02:04.270 --> 00:02:10.570
+But just to say a little bit about some
+of these layers, there's IP, we already
+
+39
+00:02:10.570 --> 00:02:16.980
+talked about that, TCP/UDP, and the data
+links of physical application layer.
+
+40
+00:02:16.980 --> 00:02:22.030
+These are the protocols that directly
+interact with the applications.
+
+41
+00:02:22.030 --> 00:02:24.723
+So whatever kind of application
+it is you're writing,
+
+42
+00:02:24.723 --> 00:02:28.448
+if it's a network application it will
+have some kind of a network protocol and
+
+43
+00:02:28.448 --> 00:02:30.820
+application layer protocol
+that it works with.
+
+44
+00:02:30.820 --> 00:02:34.800
+So, for instance,
+naming some application protocols.
+
+45
+00:02:34.800 --> 00:02:38.060
+SMTP, simple mail transfer protocol.
+
+46
+00:02:38.060 --> 00:02:41.160
+That is a protocol used by mail clients.
+
+47
+00:02:41.160 --> 00:02:41.660
+Right?
+
+48
+00:02:41.660 --> 00:02:43.340
+If you've got an email client,
+
+49
+00:02:43.340 --> 00:02:46.460
+it might be using SMTP to
+communicate with the mail server.
+
+50
+00:02:46.460 --> 00:02:50.080
+HTTP, hypertext transfer protocol.
+
+51
+00:02:50.080 --> 00:02:51.520
+You've heard of that, HTTP:.
+
+52
+00:02:51.520 --> 00:02:55.960
+You've seen this in your URLs,
+right, and your addresses on the web,
+
+53
+00:02:55.960 --> 00:02:57.440
+http:// whatever.
+
+54
+00:02:57.440 --> 00:03:00.861
+So, anything that's HTTP,
+that's web interaction,
+
+55
+00:03:00.861 --> 00:03:04.710
+which is most likely what you,
+which is most commonly used for,
+
+56
+00:03:04.710 --> 00:03:08.580
+actually, in this class that's
+what we'll be using later on.
+
+57
+00:03:08.580 --> 00:03:10.820
+And then, LPD, it's another one.
+
+58
+00:03:10.820 --> 00:03:13.701
+Line Printer Daemon, printers talk
+to each other using that protocol.
+
+59
+00:03:13.701 --> 00:03:15.620
+But there are a lot of these protocols.
+
+60
+00:03:15.620 --> 00:03:17.860
+File transfer protocols, a bunch of them.
+
+61
+00:03:17.860 --> 00:03:20.600
+If you want to transfer files,
+maybe you will use file transfer protocol.
+
+62
+00:03:20.600 --> 00:03:23.507
+Hopefully you use SFTP,
+secure file transfer protocol,
+
+63
+00:03:23.507 --> 00:03:25.120
+because it's better than FTP.
+
+64
+00:03:25.120 --> 00:03:29.942
+But the idea is that every network
+application has its own protocol at
+
+65
+00:03:29.942 --> 00:03:32.530
+the application layer that it uses.
+
+66
+00:03:33.750 --> 00:03:37.815
+So, to give you an example what
+one of these protocols looks like,
+
+67
+00:03:37.815 --> 00:03:39.860
+let's look a little bit at HTTP.
+
+68
+00:03:39.860 --> 00:03:44.520
+This is HTTP,
+this is a typical request on the web.
+
+69
+00:03:44.520 --> 00:03:46.485
+Little hard to see, but
+if you look at the,
+
+70
+00:03:46.485 --> 00:03:51.000
+actually the one we're looking at right
+here, this is the response message.
+
+71
+00:03:51.000 --> 00:03:53.130
+So, it has several lines.
+
+72
+00:03:53.130 --> 00:03:56.720
+Actually, that code right
+there has six lines.
+
+73
+00:03:56.720 --> 00:04:00.400
+The top three lines, the ones in green,
+those are the header.
+
+74
+00:04:00.400 --> 00:04:05.380
+And the bottom lines in white, those are
+the body, or the data, right, the payload.
+
+75
+00:04:05.380 --> 00:04:06.640
+Whatever term you want to use.
+
+76
+00:04:06.640 --> 00:04:08.620
+So the header are gonna be
+basically those top three lines.
+
+77
+00:04:09.690 --> 00:04:14.039
+Now, the header information,
+it gives information about the message but
+
+78
+00:04:14.039 --> 00:04:15.840
+it's not the actual content.
+
+79
+00:04:15.840 --> 00:04:19.678
+So for instance, we look at the first
+line, it gives you the protocol version,
+
+80
+00:04:19.678 --> 00:04:20.840
+also the message type.
+
+81
+00:04:20.840 --> 00:04:25.805
+200 OK is if you look at HTTP
+protocol which you can Google it and
+
+82
+00:04:25.805 --> 00:04:28.620
+get a very large protocol document.
+
+83
+00:04:28.620 --> 00:04:31.000
+200 OK has a particular meaning.
+
+84
+00:04:31.000 --> 00:04:33.520
+Every response message is
+gonna have a particular code.
+
+85
+00:04:33.520 --> 00:04:37.320
+200 OK is sort of your standard response,
+right?
+
+86
+00:04:37.320 --> 00:04:42.930
+So then the next line there has a date,
+the date they were transmitted and so on.
+
+87
+00:04:42.930 --> 00:04:46.740
+The next line has a content length,
+so that's how big the data is.
+
+88
+00:04:46.740 --> 00:04:48.660
+That's inaccurate, but that's an example.
+
+89
+00:04:48.660 --> 00:04:51.342
+It'll have the content length, and there
+are a lot of different pieces of header
+
+90
+00:04:51.342 --> 00:04:52.810
+information you could stick in the header.
+
+91
+00:04:52.810 --> 00:04:56.724
+And then the body, the data that you
+see there, that's the actual body,
+
+92
+00:04:56.724 --> 00:04:58.250
+the context of the message.
+
+93
+00:04:58.250 --> 00:05:02.854
+Now in this example which is very common,
+if this is a web, your asking for
+
+94
+00:05:02.854 --> 00:05:08.131
+a webpage what happens is your machine,
+your IOT device let's say, sends a request
+
+95
+00:05:08.131 --> 00:05:13.070
+out to a web server and the server sends
+back the contents of the webpage right?
+
+96
+00:05:13.070 --> 00:05:17.090
+And so that your IOT device can render the
+page and draw it for you on the screen.
+
+97
+00:05:17.090 --> 00:05:22.770
+And so that, what you see there, is HTML
+code, which is the content of a webpage.
+
+98
+00:05:22.770 --> 00:05:26.351
+So, you know, this is summarized,
+but you can see it starts with HTML,
+
+99
+00:05:26.351 --> 00:05:30.286
+ends with HTML and has a bunch of HTML
+tags, if you're familiar with those, but
+
+100
+00:05:30.286 --> 00:05:31.910
+that would describe a web page.
+
+101
+00:05:31.910 --> 00:05:36.676
+So if you had a web browser on your IOT
+device, it would read that data and
+
+102
+00:05:36.676 --> 00:05:42.170
+then draw the webpage represented that
+it's supposed to be represented for you.
+
+103
+00:05:42.170 --> 00:05:45.045
+But you can see here that this protocol,
+this HTTP protocol,
+
+104
+00:05:45.045 --> 00:05:46.330
+is application specific.
+
+105
+00:05:46.330 --> 00:05:47.770
+It's for web transfers.
+
+106
+00:05:47.770 --> 00:05:48.810
+It's got header.
+
+107
+00:05:48.810 --> 00:05:52.271
+There's some header lines which may or
+may not be useful to you, but
+
+108
+00:05:52.271 --> 00:05:54.410
+the data is actually what you wanna send.
+
+109
+00:05:54.410 --> 00:05:55.030
+Thank you.
+
+110
+00:05:55.030 --> 00:06:00.615
+[MUSIC]

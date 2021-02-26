@@ -1,0 +1,573 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.053
+[MUSIC]
+
+2
+00:00:10.053 --> 00:00:14.167
+So this lecture we'll talk a little bit
+about the internet and structure and
+
+3
+00:00:14.167 --> 00:00:16.230
+we'll get into internet protocols.
+
+4
+00:00:16.230 --> 00:00:17.000
+Protocols in general.
+
+5
+00:00:17.000 --> 00:00:19.560
+We'll talk about what
+a network protocol is.
+
+6
+00:00:19.560 --> 00:00:21.460
+We have to know a little bit about these.
+
+7
+00:00:21.460 --> 00:00:23.950
+We don't want to go into
+detail in protocols.
+
+8
+00:00:23.950 --> 00:00:28.370
+But you have to know they exist because
+the hardware that we buy when we make our
+
+9
+00:00:28.370 --> 00:00:29.200
+IOT device,
+
+10
+00:00:29.200 --> 00:00:32.060
+the hardware that we buy, we'll buy
+it matching a particular protocol.
+
+11
+00:00:32.060 --> 00:00:34.850
+So we'll pick the protocol and
+pick the hardware to match that.
+
+12
+00:00:34.850 --> 00:00:37.780
+So we need to know at least the existence
+of protocols and what they are.
+
+13
+00:00:39.520 --> 00:00:45.730
+So, internet structure is ad hoc,
+that is, it's very irregular, right?
+
+14
+00:00:45.730 --> 00:00:47.890
+People can join the network,
+leave the network.
+
+15
+00:00:47.890 --> 00:00:50.670
+I can open up a laptop in
+this room right now and
+
+16
+00:00:50.670 --> 00:00:54.160
+suddenly it will be part of the internet,
+right, and people can send messages to it.
+
+17
+00:00:54.160 --> 00:00:57.360
+And then if I shut if off, it is now
+temporarily no longer part of the network.
+
+18
+00:00:57.360 --> 00:00:59.280
+So, the internet is very dynamic.
+
+19
+00:00:59.280 --> 00:01:02.140
+Somebody can build up a new network
+right now, plug it into the wall, and
+
+20
+00:01:02.140 --> 00:01:06.460
+bam, there's a new addition to the
+internet, and that happens all the time.
+
+21
+00:01:06.460 --> 00:01:09.110
+It has an unpredictable structure,
+but it still has to work.
+
+22
+00:01:09.110 --> 00:01:11.650
+Actually, it's pretty amazing
+that it works as well as it does,
+
+23
+00:01:11.650 --> 00:01:13.130
+given the fact that it's so crazy.
+
+24
+00:01:14.130 --> 00:01:17.760
+So it can be changed by anyone at any
+time, so you have to be able to send
+
+25
+00:01:17.760 --> 00:01:22.670
+messages between this wide
+variety of network types, right.
+
+26
+00:01:22.670 --> 00:01:26.220
+So you've got these LANs that
+maybe use different protocols,
+
+27
+00:01:26.220 --> 00:01:29.170
+routers that are speaking different
+protocols, destination LAN,
+
+28
+00:01:29.170 --> 00:01:30.170
+it speaks a different protocol.
+
+29
+00:01:30.170 --> 00:01:32.040
+And so you've got this,
+
+30
+00:01:32.040 --> 00:01:35.900
+you've got to be able to consistently send
+messages regardless of everything else.
+
+31
+00:01:35.900 --> 00:01:41.880
+That means if I set up a host in my
+office, I set up a network in my office,
+
+32
+00:01:41.880 --> 00:01:46.090
+that thing has got to be able to talk to
+some LAN on the other side of the world
+
+33
+00:01:46.090 --> 00:01:49.580
+without knowing anything about
+the protocol of that LAN.
+
+34
+00:01:49.580 --> 00:01:50.165
+Right?
+And
+
+35
+00:01:50.165 --> 00:01:52.570
+without knowing only minimal about it,
+right?
+
+36
+00:01:52.570 --> 00:01:55.120
+I don't know what type of protocol
+they're gonna use on that LAN.
+
+37
+00:01:55.120 --> 00:01:58.220
+All I know is I wanna send a message
+to a machine on that LAN, right?
+
+38
+00:01:58.220 --> 00:02:00.340
+So you have very little structure, but
+
+39
+00:02:00.340 --> 00:02:04.810
+you still have to have some level of
+uniformity so that everybody can talk.
+
+40
+00:02:04.810 --> 00:02:10.060
+So how is it possible to send bits,
+bits meaning messages,
+
+41
+00:02:10.060 --> 00:02:13.740
+across these networks hop to hop through
+these different networks with different
+
+42
+00:02:13.740 --> 00:02:16.360
+sort of different protocols essentially.
+
+43
+00:02:16.360 --> 00:02:19.010
+So, we'll talk about these protocols,
+let's define them.
+
+44
+00:02:19.010 --> 00:02:23.240
+Protocols are basically a set of rules,
+rules of communication.
+
+45
+00:02:23.240 --> 00:02:24.910
+If we're talking about for
+
+46
+00:02:24.910 --> 00:02:27.590
+network protocols it's a set
+of rules of communication.
+
+47
+00:02:27.590 --> 00:02:29.250
+And there are a lot of rules.
+
+48
+00:02:29.250 --> 00:02:31.100
+But generally, it's a set of rules,
+
+49
+00:02:31.100 --> 00:02:36.070
+hopefully a minimal set of rules, which as
+long as everybody adheres to those rules.
+
+50
+00:02:36.070 --> 00:02:37.580
+Everybody can communicate, okay?
+
+51
+00:02:37.580 --> 00:02:39.600
+And you wanna make these rules minimal so
+
+52
+00:02:39.600 --> 00:02:42.240
+that they're not a burden
+on the local area network.
+
+53
+00:02:42.240 --> 00:02:46.040
+So you wanna give people who are building
+their local area networks as much freedom
+
+54
+00:02:46.040 --> 00:02:48.780
+as you can as to how they
+design their network.
+
+55
+00:02:48.780 --> 00:02:53.550
+But there have to be some protocol rules
+that they adhere to, some minimal rules
+
+56
+00:02:53.550 --> 00:02:56.670
+which will allow them to communicate
+with all the other local area networks.
+
+57
+00:02:56.670 --> 00:02:58.060
+Through the internet.
+
+58
+00:02:58.060 --> 00:03:01.440
+So the internet has protocols
+associated with it, which
+
+59
+00:03:01.440 --> 00:03:05.030
+if you wanna talk on the internet, your
+networks have to support these protocols.
+
+60
+00:03:06.110 --> 00:03:09.500
+Now just to give you some intuition
+about what a protocol is,
+
+61
+00:03:09.500 --> 00:03:12.850
+it's basically something that you add.
+
+62
+00:03:12.850 --> 00:03:15.590
+It usually involves
+adding data to a method.
+
+63
+00:03:15.590 --> 00:03:17.800
+Okay, regular type of data to a message.
+
+64
+00:03:17.800 --> 00:03:21.530
+So if you ever watch old movies,
+or cop movies,
+
+65
+00:03:21.530 --> 00:03:25.180
+something like that and they're on
+the radio, and they say something.
+
+66
+00:03:25.180 --> 00:03:27.640
+Something something something over, right.
+
+67
+00:03:27.640 --> 00:03:29.810
+Over, they say over at the end
+of their message right?
+
+68
+00:03:29.810 --> 00:03:32.550
+And as soon as they say over,
+somebody else can start talking.
+
+69
+00:03:32.550 --> 00:03:34.300
+Right?
+And then when they're done they just say
+
+70
+00:03:34.300 --> 00:03:35.970
+over and out, right?
+
+71
+00:03:35.970 --> 00:03:38.070
+So this is a protocol.
+
+72
+00:03:38.070 --> 00:03:40.340
+Cuz what it says is that every
+time you send a message,
+
+73
+00:03:40.340 --> 00:03:43.360
+I don't care what the content is,
+I don't care what the words are.
+
+74
+00:03:43.360 --> 00:03:47.010
+Just make sure that at the end of that
+message you say the word over, right?
+
+75
+00:03:47.010 --> 00:03:49.910
+And no matter what the content
+of the entire conversation was,
+
+76
+00:03:49.910 --> 00:03:53.390
+just make sure that at the end of that
+conversation you say over and out.
+
+77
+00:03:53.390 --> 00:03:55.940
+As long as you follow those rules,
+everybody can talk.
+
+78
+00:03:55.940 --> 00:03:59.590
+Because the goal of those protocols is,
+the radio protocols with humans talking on
+
+79
+00:03:59.590 --> 00:04:02.490
+radio, is so that two people aren't
+talking over each other, right.
+
+80
+00:04:02.490 --> 00:04:04.840
+You want to make sure that one
+person's talking at a time.
+
+81
+00:04:04.840 --> 00:04:08.620
+So whoever is talking can keep
+talking until they say the word over.
+
+82
+00:04:08.620 --> 00:04:11.410
+When they say that, the other person
+knows oh, now it's my turn, and
+
+83
+00:04:11.410 --> 00:04:12.930
+they talk until they say over.
+
+84
+00:04:12.930 --> 00:04:16.440
+So over's like passing the baton
+to the other person to talk.
+
+85
+00:04:16.440 --> 00:04:21.530
+And as long as you adhere to those simple
+rules, it doesn't matter what you say,
+
+86
+00:04:21.530 --> 00:04:25.590
+what the content is,
+you can talk with somebody else.
+
+87
+00:04:25.590 --> 00:04:26.770
+Now there are limits to that, right,
+
+88
+00:04:26.770 --> 00:04:30.220
+because there's no rule about how long
+you can talk before you say, over.
+
+89
+00:04:30.220 --> 00:04:33.220
+So you could just talk all day and
+then finally say, over, and
+
+90
+00:04:33.220 --> 00:04:36.480
+then you would be a bottleneck to
+the network and that would be a problem.
+
+91
+00:04:36.480 --> 00:04:38.520
+So internet access has rules
+to handle that, right.
+
+92
+00:04:38.520 --> 00:04:40.140
+There are time limits and
+things like this.
+
+93
+00:04:40.140 --> 00:04:41.050
+But you get the idea.
+
+94
+00:04:41.050 --> 00:04:45.080
+A protocol is basically extra data that
+you add, is represented by extra data
+
+95
+00:04:45.080 --> 00:04:48.160
+you add to the message, like the word
+over or the word over and out.
+
+96
+00:04:48.160 --> 00:04:49.065
+Right.
+
+97
+00:04:49.065 --> 00:04:52.195
+There all kinds of rules that
+extra data that you put in there
+
+98
+00:04:52.195 --> 00:04:54.875
+that are used to enable communication.
+
+99
+00:04:54.875 --> 00:04:59.165
+So we call those, that a protocol, that's
+a set of rules that enables communication
+
+100
+00:04:59.165 --> 00:05:01.065
+which minimally constrains the message.
+
+101
+00:05:01.065 --> 00:05:03.685
+It adds a little bit of data
+to the message typically.
+
+102
+00:05:04.820 --> 00:05:06.545
+That's what a protocol is, and
+
+103
+00:05:06.545 --> 00:05:12.110
+TCP/IP is the most common set
+of protocols for internet.
+
+104
+00:05:12.110 --> 00:05:16.220
+In fact specifically IP stands for
+Internet Protocol and
+
+105
+00:05:16.220 --> 00:05:18.880
+if you're using the internet, if you want
+your machine to talk on the internet,
+
+106
+00:05:18.880 --> 00:05:21.840
+they have to use Internet Protocol.
+
+107
+00:05:21.840 --> 00:05:22.962
+They have to adhere to the rules of IP.
+
+108
+00:05:22.962 --> 00:05:28.205
+Now TCP/IP TCP is another protocol and
+that protocol is,
+
+109
+00:05:28.205 --> 00:05:33.010
+it also is used in conjunction
+with the internet.
+
+110
+00:05:33.010 --> 00:05:36.210
+So if you use the internet you're
+either using TCP or UDP, right?
+
+111
+00:05:37.270 --> 00:05:38.640
+And you're using IP.
+
+112
+00:05:38.640 --> 00:05:43.060
+So I said TCP/IP it could also be UCP,
+UDP/IP.
+
+113
+00:05:43.060 --> 00:05:45.180
+A Universal Datagram Packet, if I recall.
+
+114
+00:05:45.180 --> 00:05:46.370
+Protocol, sorry.
+
+115
+00:05:46.370 --> 00:05:47.010
+And IP.
+
+116
+00:05:47.010 --> 00:05:49.770
+You put those together and
+that's internet.
+
+117
+00:05:49.770 --> 00:05:52.000
+So you can do anything else you want,
+
+118
+00:05:52.000 --> 00:05:54.710
+you can add all kinds of
+other data into the message.
+
+119
+00:05:54.710 --> 00:05:57.776
+As long as you adhere to those protocols,
+you can talk on the internet and
+
+120
+00:05:57.776 --> 00:06:00.706
+your machines can communicate with
+other machines on the internet.
+
+121
+00:06:00.706 --> 00:06:02.058
+Thank you.
+
+122
+00:06:02.058 --> 00:06:10.519
+[MUSIC]

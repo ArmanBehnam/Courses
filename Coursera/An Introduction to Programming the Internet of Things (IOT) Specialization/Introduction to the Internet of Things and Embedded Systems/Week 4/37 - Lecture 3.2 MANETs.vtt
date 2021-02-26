@@ -1,0 +1,659 @@
+WEBVTT
+
+1
+00:00:00.021 --> 00:00:10.007
+[MUSIC]
+
+2
+00:00:10.007 --> 00:00:13.223
+Now we'll talk about MANETs,
+Mobile Ad Hoc Networks and
+
+3
+00:00:13.223 --> 00:00:17.511
+how there used in Internet of Things to
+connect Internet of Things objects to
+
+4
+00:00:17.511 --> 00:00:20.830
+bigger networks, to the Internet itself.
+
+5
+00:00:20.830 --> 00:00:24.630
+And a we'll talk a little bit about
+how the code that we're gonna write.
+
+6
+00:00:24.630 --> 00:00:28.410
+That your gonna write in class, and
+how it a, you won't directly have to know
+
+7
+00:00:28.410 --> 00:00:31.790
+the details of these thing because you'll
+be writing generally high level code, but
+
+8
+00:00:31.790 --> 00:00:33.650
+still it's important for
+you to be familiar with these concepts.
+
+9
+00:00:35.820 --> 00:00:40.498
+So a Mobile Ad Hoc Network, a MANET,
+is a self-configuring network.
+
+10
+00:00:40.498 --> 00:00:45.410
+By self-configuring we mean that
+the hosts in the know, in the network
+
+11
+00:00:45.410 --> 00:00:49.100
+configure themselves because
+they're moving around all the time.
+
+12
+00:00:49.100 --> 00:00:52.880
+So their connections,
+their connectivity can change across time.
+
+13
+00:00:52.880 --> 00:00:56.780
+So for instance in this picture,
+you see a bunch of nodes,
+
+14
+00:00:56.780 --> 00:01:00.120
+you see cell phones,
+some cell phones, a car, right.
+
+15
+00:01:00.120 --> 00:01:02.942
+Whatever the IoT device is
+there are a set of them, and
+
+16
+00:01:02.942 --> 00:01:05.280
+then at the top middle
+is this access point.
+
+17
+00:01:05.280 --> 00:01:09.859
+So this access point is the thing
+that connects our MANET to
+
+18
+00:01:09.859 --> 00:01:12.018
+the main Internet, okay?
+
+19
+00:01:12.018 --> 00:01:16.118
+Now a MANET could be just independent and
+not connected to the Internet at all, but
+
+20
+00:01:16.118 --> 00:01:19.924
+most commonly we're going to be connecting
+to the Internet some way through
+
+21
+00:01:19.924 --> 00:01:21.460
+an access point.
+
+22
+00:01:21.460 --> 00:01:26.310
+Now the access point is typically,
+usually not mobile.
+
+23
+00:01:26.310 --> 00:01:29.700
+It might be, it could be mobile,
+but commonly it's not mobile,
+
+24
+00:01:29.700 --> 00:01:31.460
+and often wired, right?
+
+25
+00:01:31.460 --> 00:01:35.480
+And so it'll have wireless connections
+to all the IoT devices, but
+
+26
+00:01:35.480 --> 00:01:39.448
+it might have a wired connection
+to the main and Internet.
+
+27
+00:01:39.448 --> 00:01:41.580
+So, the access point
+maybe isn't mobile but
+
+28
+00:01:41.580 --> 00:01:45.950
+everything else is, and
+the way I've drawn the diagram up there.
+
+29
+00:01:45.950 --> 00:01:48.580
+I have lines between two
+nodes if they can connect,
+
+30
+00:01:48.580 --> 00:01:50.870
+if they can communicate
+directly to each another.
+
+31
+00:01:50.870 --> 00:01:54.070
+Meaning if they're in radio range and
+they have communication, right?
+
+32
+00:01:54.070 --> 00:01:56.090
+So sometimes, for instance,
+
+33
+00:01:56.090 --> 00:01:58.670
+you look at the cell phone all the way on
+the left versus the cell phone all the way
+
+34
+00:01:58.670 --> 00:02:02.090
+on the right, they don't have
+an edge directly between them.
+
+35
+00:02:02.090 --> 00:02:04.790
+Because maybe they're out
+of range of each other.
+
+36
+00:02:04.790 --> 00:02:07.620
+But they're both within range
+of the same access point, so
+
+37
+00:02:07.620 --> 00:02:10.330
+they can communicate to each other
+through that access point but
+
+38
+00:02:10.330 --> 00:02:13.980
+not directly in this
+particular configuration.
+
+39
+00:02:13.980 --> 00:02:18.160
+So, the connections between these
+components changes all the time,
+
+40
+00:02:18.160 --> 00:02:19.660
+because these things are moving, right?
+
+41
+00:02:19.660 --> 00:02:22.740
+So maybe, these two cell phones which
+couldn't talk to each other before, not
+
+42
+00:02:22.740 --> 00:02:26.720
+directly anyway, the people who have the
+cell phones, they walk near each other and
+
+43
+00:02:26.720 --> 00:02:28.980
+suddenly, there's a connection
+directly between them.
+
+44
+00:02:28.980 --> 00:02:32.410
+But, maybe the car can no longer connect
+to them because it just got out of range,
+
+45
+00:02:32.410 --> 00:02:33.890
+because it drove past.
+
+46
+00:02:33.890 --> 00:02:37.920
+So these networks, their connections
+are coming and going overtime.
+
+47
+00:02:37.920 --> 00:02:39.920
+So that's what a Mobile Ad Hoc Network is.
+
+48
+00:02:41.080 --> 00:02:45.510
+Now, important aspects of MANET,
+one is a power budget.
+
+49
+00:02:45.510 --> 00:02:48.240
+So you really have to worry about
+power when you're talking about MANET,
+
+50
+00:02:48.240 --> 00:02:52.230
+because MANETs each one of the devices
+mobile, these IoT devices, they're all
+
+51
+00:02:52.230 --> 00:02:56.270
+mobile They're all running off of
+batteries and the batteries can run out.
+
+52
+00:02:56.270 --> 00:03:01.610
+So you have to generally change
+the protocol to be more power
+
+53
+00:03:01.610 --> 00:03:03.290
+restrictive, right?
+
+54
+00:03:03.290 --> 00:03:05.540
+It has to save power somehow.
+
+55
+00:03:05.540 --> 00:03:10.150
+So that changes a lot of
+the way you do networking.
+
+56
+00:03:10.150 --> 00:03:12.260
+So you send less data, for instance.
+
+57
+00:03:12.260 --> 00:03:15.510
+You're restricted to sending less data
+because every piece of data you send
+
+58
+00:03:15.510 --> 00:03:20.280
+that's gonna be some kind of power that
+you use to drive the antenna, right?
+
+59
+00:03:20.280 --> 00:03:23.310
+So the battery is really important
+cuz the batteries are heavy, right?
+
+60
+00:03:23.310 --> 00:03:26.100
+I mean batteries are often
+the heaviest component, or
+
+61
+00:03:26.100 --> 00:03:27.960
+usually the heaviest
+component in these systems.
+
+62
+00:03:27.960 --> 00:03:29.550
+I mean I think about my quad copter.
+
+63
+00:03:29.550 --> 00:03:32.340
+The battery weighs as much as
+the rest of the whole copter.
+
+64
+00:03:32.340 --> 00:03:33.840
+I mean it's so big, right?
+
+65
+00:03:33.840 --> 00:03:35.850
+And that thing lasts for
+15 minutes of flight time.
+
+66
+00:03:35.850 --> 00:03:36.760
+It's ridiculous.
+
+67
+00:03:36.760 --> 00:03:39.480
+But you get the same thing with cell
+phones and all this so where the battery
+
+68
+00:03:39.480 --> 00:03:42.770
+is if not as heavy and everything else,
+at least it's the heaviest component in
+
+69
+00:03:42.770 --> 00:03:46.270
+the system, and the biggest
+single component in the system.
+
+70
+00:03:46.270 --> 00:03:49.540
+So battery power is really important
+when you're talking about MANET so
+
+71
+00:03:49.540 --> 00:03:51.880
+you change the protocol to save power.
+
+72
+00:03:53.165 --> 00:03:56.035
+In addition,
+you typically have lower data rate
+
+73
+00:03:57.435 --> 00:04:00.265
+because you're using less power
+you have to send data more slowly.
+
+74
+00:04:00.265 --> 00:04:02.435
+So, you have less of a data,
+lower data rate.
+
+75
+00:04:02.435 --> 00:04:06.115
+An example, sort of a ball park example,
+is take Bluetooth.
+
+76
+00:04:06.115 --> 00:04:07.865
+So, you're familiar with Bluetooth right?
+
+77
+00:04:07.865 --> 00:04:10.945
+Bluetooth and
+compare that to Bluetooth low energy.
+
+78
+00:04:10.945 --> 00:04:13.505
+So, Bluetooth is a network protocol,
+wireless.
+
+79
+00:04:13.505 --> 00:04:17.410
+Bluetooth low energy is another, is also
+a network protocol derived from Bluetooth
+
+80
+00:04:17.410 --> 00:04:19.890
+but is a low energy version of Bluetooth.
+
+81
+00:04:19.890 --> 00:04:23.520
+So Bluetooth,
+you can send video across Bluetooth.
+
+82
+00:04:23.520 --> 00:04:28.820
+You can get enough data rate sent to
+transmit video reasonably well, okay?
+
+83
+00:04:29.880 --> 00:04:32.810
+Now Bluetooth low energy,
+there's no way you get the same data rate.
+
+84
+00:04:32.810 --> 00:04:36.880
+It uses a lot less power but
+you get a lot lower data rate.
+
+85
+00:04:36.880 --> 00:04:38.620
+So you can't send video.
+
+86
+00:04:38.620 --> 00:04:42.640
+So the fact that you're going to low
+power restricts you in terms of your data
+
+87
+00:04:42.640 --> 00:04:45.770
+rate and that restricts your
+functionality in a lot of different ways.
+
+88
+00:04:46.850 --> 00:04:51.390
+Security, often security costs
+you in terms of power, right?
+
+89
+00:04:51.390 --> 00:04:53.580
+So say you wanna do encryption, right?
+
+90
+00:04:53.580 --> 00:04:56.500
+You wanna take all your messages and
+encrypt them before sending or
+
+91
+00:04:56.500 --> 00:04:58.720
+something like that takes power, right?
+
+92
+00:04:58.720 --> 00:05:02.140
+It takes power to do those operations,
+to encrypt the date, decrypt the data.
+
+93
+00:05:02.140 --> 00:05:05.700
+So security, has a cost in terms of
+power and since your power constraint
+
+94
+00:05:05.700 --> 00:05:08.470
+maybe you can't do as much
+security as you wanted to do.
+
+95
+00:05:08.470 --> 00:05:11.540
+Also things like anti virus tools, right?
+
+96
+00:05:11.540 --> 00:05:12.850
+You never see anti virus tools for
+
+97
+00:05:12.850 --> 00:05:17.830
+cellphones or I think such a thing
+exists but it's not common, right?
+
+98
+00:05:17.830 --> 00:05:21.700
+But if you talk about an IoT device,
+like a watch or something.
+
+99
+00:05:21.700 --> 00:05:25.490
+They don't have antivirus for that because
+the computational power just isn't there.
+
+100
+00:05:25.490 --> 00:05:30.260
+It doesn't have the extra cycles
+to be able to do antivirus tasks
+
+101
+00:05:30.260 --> 00:05:33.910
+at the same time as
+doing its regular tasks.
+
+102
+00:05:33.910 --> 00:05:37.670
+The reason for
+that is because these IoT devices,
+
+103
+00:05:37.670 --> 00:05:41.120
+and we talked about this before, they're
+designed to be much more efficient.
+
+104
+00:05:41.120 --> 00:05:46.630
+Meaning a desktop laptop 99.9% of
+the time, it is being underutilized.
+
+105
+00:05:46.630 --> 00:05:49.430
+Very rarely are you fully
+utilizing that processor.
+
+106
+00:05:49.430 --> 00:05:54.410
+So, it has extra cycles, extra power,
+to be spent doing antivirus tasks or
+
+107
+00:05:54.410 --> 00:05:55.610
+something like that.
+
+108
+00:05:55.610 --> 00:05:56.620
+Embedded systems,
+
+109
+00:05:56.620 --> 00:06:00.120
+which IoT devices are they don't
+have those excess cycles, right?
+
+110
+00:06:00.120 --> 00:06:02.230
+They use all the power they have, right?
+
+111
+00:06:02.230 --> 00:06:03.190
+Or most of it.
+
+112
+00:06:03.190 --> 00:06:05.480
+So they don't have extra cycles
+to just be doing anti-virus,
+
+113
+00:06:05.480 --> 00:06:08.660
+without hurting the regular
+function of the system.
+
+114
+00:06:08.660 --> 00:06:12.966
+So security often suffers in an IoT
+device, because you don't have the power
+
+115
+00:06:12.966 --> 00:06:16.277
+budget to do it, and
+maybe also you might not have the cost,
+
+116
+00:06:16.277 --> 00:06:20.602
+you might not have the money to pay for
+the extra hardware that you would need.
+
+117
+00:06:22.946 --> 00:06:27.851
+Now in practice [COUGH] when we do network
+programming later in specialization.
+
+118
+00:06:29.708 --> 00:06:31.860
+There are levels in the stack, right?
+
+119
+00:06:31.860 --> 00:06:36.070
+There are different layers in the stack,
+Application, TCP/UDP and all this.
+
+120
+00:06:36.070 --> 00:06:38.950
+But we don't have to touch
+those directly in our coding.
+
+121
+00:06:38.950 --> 00:06:40.410
+So, when we use an Arduino or
+
+122
+00:06:40.410 --> 00:06:45.430
+a Raspberry Pi you will be calling library
+functions at the application layer.
+
+123
+00:06:45.430 --> 00:06:48.720
+So, your code is gonna be
+at the application layer,
+
+124
+00:06:48.720 --> 00:06:51.260
+almost exclusively at
+the application layer.
+
+125
+00:06:51.260 --> 00:06:55.320
+So, you call very simple functions which
+will take care of the details for you.
+
+126
+00:06:55.320 --> 00:06:59.070
+So, for instance, as an example, you
+might have a function called send message
+
+127
+00:06:59.070 --> 00:07:01.930
+an application layer function that
+sends an message to an IP address.
+
+128
+00:07:01.930 --> 00:07:04.820
+Maybe you get, actually typically you'd
+get an IP address and a port number,
+
+129
+00:07:04.820 --> 00:07:07.550
+which we'll talk about later,
+you call, send a message, and
+
+130
+00:07:07.550 --> 00:07:10.400
+it'll send that message to that
+IP address and that port number.
+
+131
+00:07:10.400 --> 00:07:13.810
+And all the details of TCP/UDP,
+IP and data link.
+
+132
+00:07:13.810 --> 00:07:17.750
+That's all handled by the protocol stack,
+all you do is call the library function.
+
+133
+00:07:17.750 --> 00:07:20.960
+Same thing on the receive, maybe there's a
+ReceiveMessage that does a similar thing.
+
+134
+00:07:20.960 --> 00:07:24.467
+So you're making these calls at the
+application layer of the simple library
+
+135
+00:07:24.467 --> 00:07:27.972
+function, and the details are being
+handled by the library code itself, so
+
+136
+00:07:27.972 --> 00:07:29.696
+you don't have to worry about that.
+
+137
+00:07:29.696 --> 00:07:30.567
+Thank you.
+
+138
+00:07:30.567 --> 00:07:36.298
+[MUSIC]
