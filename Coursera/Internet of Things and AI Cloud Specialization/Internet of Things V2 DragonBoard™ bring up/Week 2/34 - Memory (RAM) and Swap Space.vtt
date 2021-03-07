@@ -1,0 +1,305 @@
+WEBVTT
+
+1
+00:00:01.820 --> 00:00:08.170
+In this video, we're going to talk about memory or RAM and swap space.
+
+2
+00:00:08.170 --> 00:00:10.355
+First of all, a little history.
+
+3
+00:00:10.355 --> 00:00:12.410
+What is memory?
+
+4
+00:00:12.410 --> 00:00:14.740
+Well, there are really two types of memory,
+
+5
+00:00:14.740 --> 00:00:18.510
+there's persistent storage, for instance, Hard disks,
+
+6
+00:00:18.510 --> 00:00:24.310
+EMMC, SD cards, and there's temporary storage,
+
+7
+00:00:24.310 --> 00:00:27.610
+this is the dynamic random access memory.
+
+8
+00:00:27.610 --> 00:00:34.095
+The temporary storage will lose all of its information when the board is powered down.
+
+9
+00:00:34.095 --> 00:00:39.670
+So, the board must remain powered up in order to keep the information in RAM.
+
+10
+00:00:39.670 --> 00:00:43.285
+So, a little bit about dynamic random access memory.
+
+11
+00:00:43.285 --> 00:00:46.030
+When I was a little younger,
+
+12
+00:00:46.030 --> 00:00:52.010
+I spent five years working for a company that designed a dynamic random access memories.
+
+13
+00:00:52.010 --> 00:00:53.560
+The company I worked for designed
+
+14
+00:00:53.560 --> 00:00:57.350
+approximately 70 percent of all the DRAMs on the planet.
+
+15
+00:00:57.350 --> 00:01:00.380
+So, it didn't matter who was manufacturing the DRAM,
+
+16
+00:01:00.380 --> 00:01:03.700
+the design came out of one company.
+
+17
+00:01:03.700 --> 00:01:06.570
+So all DRAMS are very similar.
+
+18
+00:01:06.570 --> 00:01:08.392
+They have very similar structures,
+
+19
+00:01:08.392 --> 00:01:12.460
+very similar details, and they all have the,
+
+20
+00:01:12.460 --> 00:01:14.440
+I don't know, feature, is that the right word?
+
+21
+00:01:14.440 --> 00:01:18.840
+Of losing storage when they're powered down.
+
+22
+00:01:18.840 --> 00:01:23.020
+So, why do we use dynamic random access memory.
+
+23
+00:01:23.020 --> 00:01:27.475
+The advantage to dynamic random access memory over the others storage,
+
+24
+00:01:27.475 --> 00:01:30.460
+persistent storage techniques, is you can
+
+25
+00:01:30.460 --> 00:01:35.170
+access a very small amount of data very quickly.
+
+26
+00:01:35.170 --> 00:01:39.835
+So a dynamic random access memory is between 10
+
+27
+00:01:39.835 --> 00:01:44.920
+and 1,000 times faster than any of the persistent storage systems.
+
+28
+00:01:44.920 --> 00:01:51.220
+So, you want to use as much of your program in dynamic random access memory or DRAM,
+
+29
+00:01:51.220 --> 00:01:54.445
+so that you can get at it as quickly as possible.
+
+30
+00:01:54.445 --> 00:01:58.985
+This allows your programs to execute instructions very quickly.
+
+31
+00:01:58.985 --> 00:02:03.150
+So each time a processor wants the next instruction,
+
+32
+00:02:03.150 --> 00:02:05.155
+it fetches it from DRAM.
+
+33
+00:02:05.155 --> 00:02:09.700
+Unfortunately, not all of your instructions are stored in DRAM.
+
+34
+00:02:09.700 --> 00:02:13.120
+When the system starts because the DRAM was empty,
+
+35
+00:02:13.120 --> 00:02:15.625
+it had forgotten everything from the previous time,
+
+36
+00:02:15.625 --> 00:02:19.315
+so the operating system as you start each program
+
+37
+00:02:19.315 --> 00:02:23.470
+brings a small portion of the program into DRAM.
+
+38
+00:02:23.470 --> 00:02:26.485
+And as you execute down through the program,
+
+39
+00:02:26.485 --> 00:02:30.505
+each time you come to the end of the boundary that has been pulled in,
+
+40
+00:02:30.505 --> 00:02:33.070
+the operating system pause in the next boundary.
+
+41
+00:02:33.070 --> 00:02:35.680
+All of this happens behind the scenes without you seeing it.
+
+42
+00:02:35.680 --> 00:02:37.690
+To you, as a programmer,
+
+43
+00:02:37.690 --> 00:02:42.395
+It looks like all of the information is in memory.
+
+44
+00:02:42.395 --> 00:02:48.088
+The DragonBoard itself has one gigabyte of DRAM and usually, for most programs,
+
+45
+00:02:48.088 --> 00:02:50.350
+that is enough, that is certainly enough for all of
+
+46
+00:02:50.350 --> 00:02:54.610
+the operating system and most programs to sit in.
+
+47
+00:02:54.610 --> 00:02:57.970
+But occasionally, you want to run a program that is bigger than
+
+48
+00:02:57.970 --> 00:03:02.120
+one gigabyte but that's all the DRAM you have. So, what do you do?
+
+49
+00:03:02.120 --> 00:03:07.200
+Well, the operating system has ways to deal with this.
+
+50
+00:03:07.200 --> 00:03:09.010
+The operating system says,
+
+51
+00:03:09.010 --> 00:03:15.175
+"I've run a previous set of instructions and I no longer need those instructions.
+
+52
+00:03:15.175 --> 00:03:20.020
+I'm going to move them back to the persistent storage."
+
+53
+00:03:20.020 --> 00:03:22.390
+So, it moves those back to the persistent storage,
+
+54
+00:03:22.390 --> 00:03:25.585
+frees up some space in the DRAM,
+
+55
+00:03:25.585 --> 00:03:30.215
+and then brings in the next block of instructions.
+
+56
+00:03:30.215 --> 00:03:33.580
+But this can only go on so far,
+
+57
+00:03:33.580 --> 00:03:35.650
+until you still run out of space.
+
+58
+00:03:35.650 --> 00:03:42.610
+So, what we do is we allocate a block of persistent storage and call it a swap space,
+
+59
+00:03:42.610 --> 00:03:49.960
+in which the operating system can move active pages of DRAM out to the swap space,
+
+60
+00:03:49.960 --> 00:03:52.870
+store them, and then bring them back later.
+
+61
+00:03:52.870 --> 00:03:57.190
+This makes your program run slower than if it was running in DRAM but to you,
+
+62
+00:03:57.190 --> 00:04:00.305
+the programmer, it still appears as if your program is running.
+
+63
+00:04:00.305 --> 00:04:05.245
+And often, the swap space is fast enough that you don't notice
+
+64
+00:04:05.245 --> 00:04:12.040
+the slowdown of the operating system moving pages out and back from swap space.
+
+65
+00:04:12.040 --> 00:04:15.790
+So in a later lesson, we will teach you how to increase the swap space and
+
+66
+00:04:15.790 --> 00:04:20.470
+use EEMC as swap space or if you need much larger programs,
+
+67
+00:04:20.470 --> 00:04:24.040
+you can use the SD card as swap space or you could
+
+68
+00:04:24.040 --> 00:04:28.610
+even use a spinning magnetic drive connected to USB as swap space.
+
+69
+00:04:28.610 --> 00:04:33.343
+The operating system doesn't care where the swap space is or what the storage media,
+
+70
+00:04:33.343 --> 00:04:39.400
+is as long as you tell it where to find it and how much there is been allocated there.
+
+71
+00:04:39.400 --> 00:04:42.220
+If you want to know more about swap space,
+
+72
+00:04:42.220 --> 00:04:46.735
+feel free to browse the internet and look up swap space,
+
+73
+00:04:46.735 --> 00:04:48.988
+look up the properties of DRAM,
+
+74
+00:04:48.988 --> 00:04:51.600
+look up the properties of persistent storage.
+
+75
+00:04:51.600 --> 00:04:54.970
+This is a short introduction to get you familiar with
+
+76
+00:04:54.970 --> 00:04:59.000
+the idea of a swap space and dynamic random access memory.
