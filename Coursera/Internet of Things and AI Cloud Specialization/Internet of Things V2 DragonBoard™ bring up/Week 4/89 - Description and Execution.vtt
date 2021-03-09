@@ -1,0 +1,409 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:02.420
+Welcome everyone. In this video,
+
+2
+00:00:02.420 --> 00:00:04.415
+we'll be going over the Google Assistant Project,
+
+3
+00:00:04.415 --> 00:00:07.418
+describing it and showing the execution of it.
+
+4
+00:00:07.418 --> 00:00:11.630
+So first, let's just show a brief overview of what we're going to do.
+
+5
+00:00:11.630 --> 00:00:16.130
+So again, we're going to do hardware requirements, then a description,
+
+6
+00:00:16.130 --> 00:00:18.350
+instructions, and then after that we're going to do
+
+7
+00:00:18.350 --> 00:00:20.930
+the execution of the project and show a demo of it.
+
+8
+00:00:20.930 --> 00:00:26.290
+So moving on, we have our hardware requirements first, so obviously,
+
+9
+00:00:26.290 --> 00:00:29.280
+we need a DragonBoard and we need internet access for sure,
+
+10
+00:00:29.280 --> 00:00:32.240
+because we need to access Google's API.
+
+11
+00:00:32.240 --> 00:00:35.313
+Then, we need a keyboard and mouse to interact with the DragonBoard,
+
+12
+00:00:35.313 --> 00:00:37.453
+and then monitor to see what's happening,
+
+13
+00:00:37.453 --> 00:00:39.750
+and then we need speakers.
+
+14
+00:00:39.750 --> 00:00:42.890
+You'd have to get the HDMI output from the monitor
+
+15
+00:00:42.890 --> 00:00:44.835
+or the audio out for the monitor or if
+
+16
+00:00:44.835 --> 00:00:47.265
+your monitor already has speakers, that's great too.
+
+17
+00:00:47.265 --> 00:00:51.520
+But this is so that we can hear Google Assistant talk to us.
+
+18
+00:00:51.520 --> 00:00:53.285
+The last thing we need is a microphone.
+
+19
+00:00:53.285 --> 00:00:56.930
+In this case, we're using our USB webcam as a microphone because it has one built-in,
+
+20
+00:00:56.930 --> 00:00:59.480
+and we're going to move on to our next part,
+
+21
+00:00:59.480 --> 00:01:02.590
+which is the instructions and Andrew will take care of that.
+
+22
+00:01:02.590 --> 00:01:05.945
+So, the instructions are provided in the readings
+
+23
+00:01:05.945 --> 00:01:09.755
+and then we wanted to give credit to the person who wrote it,
+
+24
+00:01:09.755 --> 00:01:13.460
+which is of 96Boards and that's Radhika Paralkar,
+
+25
+00:01:13.460 --> 00:01:17.690
+excuse me if I pronounced that incorrectly, and Google also.
+
+26
+00:01:17.690 --> 00:01:21.435
+So the code itself is made by Google and
+
+27
+00:01:21.435 --> 00:01:26.480
+some important things to know in the instructions are the following.
+
+28
+00:01:26.480 --> 00:01:27.950
+When restarting the laptop,
+
+29
+00:01:27.950 --> 00:01:33.470
+you have to rerun "source venv/bin/activate" and that's because you have to
+
+30
+00:01:33.470 --> 00:01:36.305
+run this in a virtual environment and if you guys
+
+31
+00:01:36.305 --> 00:01:39.825
+don't do that then some of the instructions won't work.
+
+32
+00:01:39.825 --> 00:01:43.515
+So make sure you guys do this every single time you restart it.
+
+33
+00:01:43.515 --> 00:01:45.680
+Another thing to note is,
+
+34
+00:01:45.680 --> 00:01:49.480
+you have to remember the path to your.json files and
+
+35
+00:01:49.480 --> 00:01:54.440
+the instructions it asked you to download the key and the key as a.json file.
+
+36
+00:01:54.440 --> 00:01:59.455
+So make sure you remember where that is.
+
+37
+00:01:59.455 --> 00:02:05.055
+Another thing is, make sure to change the audio settings and PulseAudio Volume Control.
+
+38
+00:02:05.055 --> 00:02:08.750
+I'll show you how to do this later.
+
+39
+00:02:08.750 --> 00:02:13.810
+Basically, you want to change the inputs so that it takes into webcam as
+
+40
+00:02:13.810 --> 00:02:19.190
+input and you want to change the output so that the HDMI is output.
+
+41
+00:02:19.190 --> 00:02:24.230
+And another thing is, we had trouble with some of the dependencies
+
+42
+00:02:24.230 --> 00:02:29.870
+and we just deleted some of the lines of the code and it started to work.
+
+43
+00:02:29.870 --> 00:02:36.245
+So if you have this same error where it doesn't know which libraries is importing then,
+
+44
+00:02:36.245 --> 00:02:38.475
+you can do the same fix that I did,
+
+45
+00:02:38.475 --> 00:02:41.325
+and I'll show you this through the DragonBoard as well.
+
+46
+00:02:41.325 --> 00:02:45.680
+Let's get into our DragonBoard to see which steps
+
+47
+00:02:45.680 --> 00:02:49.898
+you guys need to do before we run this program.
+
+48
+00:02:49.898 --> 00:02:51.515
+So the first thing we want to do is,
+
+49
+00:02:51.515 --> 00:02:55.775
+we want to go to sound video and then PulseAudio Volume Control.
+
+50
+00:02:55.775 --> 00:03:02.960
+And, this might be hard to see but as you can see in the output devices,
+
+51
+00:03:02.960 --> 00:03:05.240
+you want to specify HDMI output,
+
+52
+00:03:05.240 --> 00:03:08.510
+and you want it to display all output devices here.
+
+53
+00:03:08.510 --> 00:03:11.210
+And in input devices,
+
+54
+00:03:11.210 --> 00:03:16.970
+you also want it to show all input devices and you want to make sure that this one
+
+55
+00:03:16.970 --> 00:03:23.275
+is checked for the webcam.
+
+56
+00:03:23.275 --> 00:03:25.955
+So, as you can see it's not checked for the webcam.
+
+57
+00:03:25.955 --> 00:03:32.693
+So you guys can just click on this one and exit out of the PulseAudio.
+
+58
+00:03:32.693 --> 00:03:34.930
+And then, let's go into our terminal to
+
+59
+00:03:34.930 --> 00:03:41.863
+see some of the stuff that you need to fix in the terminal as well.
+
+60
+00:03:41.863 --> 00:03:45.885
+So let's open up Q Terminal,
+
+61
+00:03:45.885 --> 00:03:48.010
+and then let's go to our project directory.
+
+62
+00:03:48.010 --> 00:03:51.970
+So, it'll tell you to name your directory New Project.
+
+63
+00:03:51.970 --> 00:03:53.625
+So, that's what we called it as well.
+
+64
+00:03:53.625 --> 00:03:59.035
+And then if you ls, you'll see all the files here and their compiled files as well.
+
+65
+00:03:59.035 --> 00:04:07.710
+And then, if you just go to pushtotalk.py. Oh Sorry.
+
+66
+00:04:07.710 --> 00:04:11.250
+I'll open this in "vim" so you guys can see.
+
+67
+00:04:11.250 --> 00:04:16.797
+My bad.
+
+68
+00:04:16.797 --> 00:04:21.470
+So, before there were lines of code that says,
+
+69
+00:04:21.470 --> 00:04:23.440
+"From that import. "
+
+70
+00:04:23.440 --> 00:04:26.420
+Well, it says, "Try and from that import."
+
+71
+00:04:26.420 --> 00:04:30.050
+And it sees if it works that way and if it doesn't,
+
+72
+00:04:30.050 --> 00:04:32.165
+it does this step anyways.
+
+73
+00:04:32.165 --> 00:04:33.530
+So, what you can do is,
+
+74
+00:04:33.530 --> 00:04:40.232
+you can delete that entire part and you can just unindent
+
+75
+00:04:40.232 --> 00:04:42.020
+these so that they're at
+
+76
+00:04:42.020 --> 00:04:47.775
+the far left-hand side of your Python file and then it should work fine.
+
+77
+00:04:47.775 --> 00:04:51.485
+This is only if you are having trouble with the imports.
+
+78
+00:04:51.485 --> 00:04:56.296
+So, let's run this program to see what it actually does.
+
+79
+00:04:56.296 --> 00:05:01.310
+So, let's run Python pushtotalk.py.
+
+80
+00:05:03.070 --> 00:05:10.650
+So, I forgot the step where you have to run this into virtual environment, like I said.
+
+81
+00:05:10.650 --> 00:05:20.320
+So you have to go back and you have to run source venv/bin/activate.
+
+82
+00:05:20.320 --> 00:05:24.930
+As you can see on the left-hand side it shows venv and then,
+
+83
+00:05:24.930 --> 00:05:32.290
+let's cd entire new project again and let's run that program once more.
+
+84
+00:05:32.290 --> 00:05:35.895
+As you can see, there are no errors.
+
+85
+00:05:35.895 --> 00:05:37.645
+So, as for requests,
+
+86
+00:05:37.645 --> 00:05:44.030
+so let's press enter and then let's just say, "Hello?"
+
+87
+00:05:44.030 --> 00:05:46.280
+Hey, I'm having the craziest day.
+
+88
+00:05:46.280 --> 00:05:49.620
+I just learned that bananas are curved because they grow towards the sun.
+
+89
+00:05:49.620 --> 00:05:49.738
+Wait what? Really?
+
+90
+00:05:49.738 --> 00:05:56.230
+So, as you can see, it responded in some manner.
+
+91
+00:05:56.230 --> 00:05:57.355
+I found a few places.
+
+92
+00:05:57.355 --> 00:05:57.581
+The first one is Bibigo Fresh Korean Kitchen at 2525 La Jolla Village Drive in San Diego.
+
+93
+00:05:57.581 --> 00:06:05.550
+So apparently, I can't say anything because Google,
+
+94
+00:06:05.550 --> 00:06:07.255
+this thing keeps interrupting me,
+
+95
+00:06:07.255 --> 00:06:08.795
+but you guys get the idea.
+
+96
+00:06:08.795 --> 00:06:10.765
+So, if you just say something,
+
+97
+00:06:10.765 --> 00:06:13.019
+it'll respond in some manner and then,
+
+98
+00:06:13.019 --> 00:06:16.630
+sometimes they won't hear correctly because I was just like,
+
+99
+00:06:16.630 --> 00:06:19.908
+not talking to her but talking to you guys.
+
+100
+00:06:19.908 --> 00:06:22.845
+But make sure you guys run this,
+
+101
+00:06:22.845 --> 00:06:27.700
+implement it in your own programs, and yeah.
+
+102
+00:06:27.700 --> 00:06:31.310
+In the next video, we'll show you how the code works.

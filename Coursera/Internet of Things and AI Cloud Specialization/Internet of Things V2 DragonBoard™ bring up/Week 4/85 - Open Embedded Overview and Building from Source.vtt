@@ -1,0 +1,605 @@
+WEBVTT
+
+1
+00:00:01.120 --> 00:00:05.300
+Hello. So this is going to start our series of
+
+2
+00:00:05.300 --> 00:00:08.649
+how to build operating systems from source.
+
+3
+00:00:08.649 --> 00:00:12.710
+And our first video is going to cover OpenEmbedded.
+
+4
+00:00:12.710 --> 00:00:17.045
+So just a brief overview of what we're actually going to do.
+
+5
+00:00:17.045 --> 00:00:20.335
+We're going to start off with a description of what OpenEmbedded is.
+
+6
+00:00:20.335 --> 00:00:22.175
+And then for building from Source,
+
+7
+00:00:22.175 --> 00:00:25.345
+we're going to describe why we do this,
+
+8
+00:00:25.345 --> 00:00:27.550
+the setup for it, and then the procedure for it.
+
+9
+00:00:27.550 --> 00:00:33.150
+And then, so what is OpenEmbedded?
+
+10
+00:00:33.150 --> 00:00:38.843
+OpenEmbedded is the Linux system that was created for a project called the Yocto Project.
+
+11
+00:00:38.843 --> 00:00:43.440
+And one of the advantages of OpenEmbedded is that it's very,
+
+12
+00:00:43.440 --> 00:00:44.895
+very easy to customize.
+
+13
+00:00:44.895 --> 00:00:48.370
+When you see all the other options,
+
+14
+00:00:48.370 --> 00:00:51.345
+you will go back to this one and see how easy it is
+
+15
+00:00:51.345 --> 00:00:55.725
+to just customize your own operating system.
+
+16
+00:00:55.725 --> 00:00:59.790
+And it's used primarily for cross-compilation.
+
+17
+00:00:59.790 --> 00:01:05.490
+So if you're on an operating system or a certain build-up operating system,
+
+18
+00:01:05.490 --> 00:01:10.493
+that might not compile on another computer,
+
+19
+00:01:10.493 --> 00:01:19.590
+this one is very useful for compiling other operating system stuff on its own computer.
+
+20
+00:01:19.590 --> 00:01:22.170
+So that's what cross-compilation is.
+
+21
+00:01:22.170 --> 00:01:29.670
+And then, it also works on any Linux distribution so it's very versatile in that way.
+
+22
+00:01:29.670 --> 00:01:31.625
+So reasons for building from source.
+
+23
+00:01:31.625 --> 00:01:33.555
+So this is basically,
+
+24
+00:01:33.555 --> 00:01:40.310
+general reasons for building from source for all the videos.
+
+25
+00:01:40.310 --> 00:01:42.225
+So one of the reasons is,
+
+26
+00:01:42.225 --> 00:01:48.630
+you're able to customize the code in whatever way fits what you're doing.
+
+27
+00:01:48.630 --> 00:01:55.034
+So one way is, maybe you didn't want GPU accelerated hardware support,
+
+28
+00:01:55.034 --> 00:01:58.500
+this means you're doing something graphics-heavy and you don't want
+
+29
+00:01:58.500 --> 00:02:02.485
+anything else in your operating system that might not cover that.
+
+30
+00:02:02.485 --> 00:02:06.780
+So doing building from source will help
+
+31
+00:02:06.780 --> 00:02:12.090
+you achieve whatever goals that you might have with your operating system.
+
+32
+00:02:12.090 --> 00:02:17.925
+Another reason, not quite applicable reason,
+
+33
+00:02:17.925 --> 00:02:23.276
+but maybe you're just really curious about how the operating system works,
+
+34
+00:02:23.276 --> 00:02:26.520
+so it will give you all the source code and then you can see
+
+35
+00:02:26.520 --> 00:02:31.785
+first-hand what is happening in the OS and so forth.
+
+36
+00:02:31.785 --> 00:02:36.900
+And also, we want to stress that if you're not too knowledgeable in the OS,
+
+37
+00:02:36.900 --> 00:02:41.730
+that you don't try to touch the source code at all and just use
+
+38
+00:02:41.730 --> 00:02:47.955
+whatever simple instructions that are provided in the 96Boards websites that we provide.
+
+39
+00:02:47.955 --> 00:02:52.110
+If you are knowledgeable in OS then go ahead,
+
+40
+00:02:52.110 --> 00:02:58.595
+you guys can just modify the source code however you guys want.
+
+41
+00:02:58.595 --> 00:03:00.510
+So for the set-up,
+
+42
+00:03:00.510 --> 00:03:03.484
+what you want are your host machine which is your computer,
+
+43
+00:03:03.484 --> 00:03:10.860
+you're going to be compiling and building the OS on.
+
+44
+00:03:10.860 --> 00:03:13.660
+We're going to be using a Linux host machine.
+
+45
+00:03:13.660 --> 00:03:15.990
+And one way to set up a host machine let's say,
+
+46
+00:03:15.990 --> 00:03:17.790
+if you're running Windows or Mac,
+
+47
+00:03:17.790 --> 00:03:19.530
+you can run it through a Virtual Machine.
+
+48
+00:03:19.530 --> 00:03:23.310
+But for Virtual Machine you got to make
+
+49
+00:03:23.310 --> 00:03:27.165
+sure the DragonBoard is connected to the Virtual Machine instead of your actual computer,
+
+50
+00:03:27.165 --> 00:03:31.355
+so then we can actually flash the board through fastbooting.
+
+51
+00:03:31.355 --> 00:03:33.878
+And another way is just to have a Linux computer.
+
+52
+00:03:33.878 --> 00:03:37.725
+You can either dual boot or just have a fully Linux computer.
+
+53
+00:03:37.725 --> 00:03:40.215
+And for all the videos and in this demo,
+
+54
+00:03:40.215 --> 00:03:47.255
+we'll be using Ubuntu 16.04 and on VMWare Workstation Pro.
+
+55
+00:03:47.255 --> 00:03:50.950
+So here are some instructions on how to get started.
+
+56
+00:03:50.950 --> 00:03:53.185
+So before we start,
+
+57
+00:03:53.185 --> 00:03:57.940
+we want you guys to understand what fastbooting is,
+
+58
+00:03:57.940 --> 00:04:01.330
+and how you want to transfer images
+
+59
+00:04:01.330 --> 00:04:08.135
+from your computer to the DragonBoard using fastboot.
+
+60
+00:04:08.135 --> 00:04:13.655
+And you usually need a USB to micro USB connection and so forth.
+
+61
+00:04:13.655 --> 00:04:18.420
+And we want you to follow the steps
+
+62
+00:04:18.420 --> 00:04:23.850
+provided in the 96Boards instructions that we give you for fastbooting,
+
+63
+00:04:23.850 --> 00:04:25.381
+steps one to four,
+
+64
+00:04:25.381 --> 00:04:27.960
+because five is but give you an image
+
+65
+00:04:27.960 --> 00:04:30.990
+that's not quite the image that you build from source,
+
+66
+00:04:30.990 --> 00:04:34.625
+it's just the default image that they provided.
+
+67
+00:04:34.625 --> 00:04:37.320
+So you just want to follow steps one to four,
+
+68
+00:04:37.320 --> 00:04:42.315
+and then follow the instructions for building from source that we'll provide.
+
+69
+00:04:42.315 --> 00:04:49.621
+So let's go to the website to see what the instructions website says.
+
+70
+00:04:49.621 --> 00:04:56.225
+So here we are in the OpenEmbedded website.
+
+71
+00:04:56.225 --> 00:04:58.200
+And then if you scroll down,
+
+72
+00:04:58.200 --> 00:05:03.594
+you'll see a bunch of dependencies that you might need to install.
+
+73
+00:05:03.594 --> 00:05:05.820
+So let's make this bigger so you guys can see.
+
+74
+00:05:05.820 --> 00:05:09.950
+Close that big thing.
+
+75
+00:05:09.950 --> 00:05:13.325
+And here, you want to install git.
+
+76
+00:05:13.325 --> 00:05:17.340
+We already told you to install git in previous videos.
+
+77
+00:05:17.340 --> 00:05:19.750
+But just in case you don't have one.
+
+78
+00:05:19.750 --> 00:05:20.818
+You don't have one.
+
+79
+00:05:20.818 --> 00:05:24.670
+Actually you will need
+
+80
+00:05:24.670 --> 00:05:28.151
+to do this because this is for your host machine not for your DragonBoard,
+
+81
+00:05:28.151 --> 00:05:31.550
+so you will need to install git.
+
+82
+00:05:31.550 --> 00:05:32.581
+Yeah.
+
+83
+00:05:32.581 --> 00:05:40.002
+And then here's all the dependencies that you might need for your specific host machine.
+
+84
+00:05:40.002 --> 00:05:41.610
+So if you go here,
+
+85
+00:05:41.610 --> 00:05:46.931
+we're using Ubuntu so you might need to install these,
+
+86
+00:05:46.931 --> 00:05:50.250
+that's a lot but I guess you need it.
+
+87
+00:05:50.250 --> 00:05:55.431
+And then here we will need to install whiptail or dialog,
+
+88
+00:05:55.431 --> 00:05:58.190
+they both do the same thing, just pick one.
+
+89
+00:05:58.190 --> 00:06:03.540
+And then later it
+
+90
+00:06:03.540 --> 00:06:09.620
+shows you that you need to download the Bootloader and the eMMC partitions.
+
+91
+00:06:09.620 --> 00:06:13.080
+But these are all part of the instructions for fastbooting,
+
+92
+00:06:13.080 --> 00:06:15.390
+so if you just followed the instructions,
+
+93
+00:06:15.390 --> 00:06:18.300
+you should be cleared on this one.
+
+94
+00:06:18.300 --> 00:06:19.710
+And then if you go here,
+
+95
+00:06:19.710 --> 00:06:23.035
+this is the actual instructions for building it.
+
+96
+00:06:23.035 --> 00:06:27.470
+And then after this it will show you how to customize
+
+97
+00:06:27.470 --> 00:06:34.910
+all your images to fit whatever role you want your operating system to fit.
+
+98
+00:06:34.910 --> 00:06:39.780
+So, here we see one of the images that you can build.
+
+99
+00:06:39.780 --> 00:06:41.555
+It's the console-only image.
+
+100
+00:06:41.555 --> 00:06:43.850
+And the instructions are really simple,
+
+101
+00:06:43.850 --> 00:06:45.800
+you just run this one command and it will
+
+102
+00:06:45.800 --> 00:06:49.145
+customize it perfectly for whatever need you have.
+
+103
+00:06:49.145 --> 00:06:50.960
+So the console-only image,
+
+104
+00:06:50.960 --> 00:06:52.961
+you just do a bitbake,
+
+105
+00:06:52.961 --> 00:06:54.365
+and then the image name,
+
+106
+00:06:54.365 --> 00:06:56.845
+and then it will do it for you.
+
+107
+00:06:56.845 --> 00:07:01.760
+And then the X11 image with GPU hardware accelerated support,
+
+108
+00:07:01.760 --> 00:07:03.620
+this one is a little more complicated,
+
+109
+00:07:03.620 --> 00:07:05.810
+but it's still like five steps.
+
+110
+00:07:05.810 --> 00:07:09.200
+So after you do bitbake,
+
+111
+00:07:09.200 --> 00:07:11.675
+you want to go to your DragonBoard,
+
+112
+00:07:11.675 --> 00:07:17.450
+and you want to look at all of these and then you're done.
+
+113
+00:07:17.450 --> 00:07:21.460
+So, as you can see bitbake allows you
+
+114
+00:07:21.460 --> 00:07:25.785
+to just build an image without actually going into the source code.
+
+115
+00:07:25.785 --> 00:07:31.795
+And you guys can find more bitbake images that are online to fit whatever roles you have.
+
+116
+00:07:31.795 --> 00:07:37.165
+We've given you three examples of images that you can use through bitbake.
+
+117
+00:07:37.165 --> 00:07:42.340
+But if you guys are curious on how to use bitbake more,
+
+118
+00:07:42.340 --> 00:07:46.280
+then just use your favorite search engine to find out more.
+
+119
+00:07:46.280 --> 00:07:50.230
+And then one more thing,
+
+120
+00:07:50.230 --> 00:07:53.530
+let's just go onto our Virtual Machine to see
+
+121
+00:07:53.530 --> 00:07:57.616
+how to connect the DragonBoard to the Virtual Machine.
+
+122
+00:07:57.616 --> 00:08:03.115
+So for our purposes we're using the VMWare Workstation,
+
+123
+00:08:03.115 --> 00:08:05.790
+so let's just power this on for a bit.
+
+124
+00:08:05.790 --> 00:08:11.600
+It might take a while but let's just wait.
+
+125
+00:08:19.570 --> 00:08:27.455
+So Virtual Machines are generally very slow as you can see right now.
+
+126
+00:08:27.455 --> 00:08:29.120
+It's because it's trying to run
+
+127
+00:08:29.120 --> 00:08:34.884
+your Virtual machine operating system and your host operating system at the same time.
+
+128
+00:08:34.884 --> 00:08:38.040
+So it's not quite fast but.
+
+129
+00:08:38.040 --> 00:08:39.350
+What a beautiful rush of speed.
+
+130
+00:08:39.350 --> 00:08:46.820
+Let's just wait a little bit until it goes to the login screen.
+
+131
+00:08:46.820 --> 00:08:49.375
+We can probably- okay.
+
+132
+00:08:49.375 --> 00:08:54.180
+So here we are. So if we go into VMWare and then removable devices,
+
+133
+00:08:54.180 --> 00:08:57.024
+we see that the DragonBoards not connected.
+
+134
+00:08:57.024 --> 00:09:00.495
+But if we connect the micro USB to
+
+135
+00:09:00.495 --> 00:09:04.825
+USB connection to our mezzanine that is connected to our DragonBoard.
+
+136
+00:09:04.825 --> 00:09:09.560
+Yeah, so this is important. Connect it through the mezzanine and the DSP.
+
+137
+00:09:09.560 --> 00:09:14.615
+And then if we click on this again,
+
+138
+00:09:14.615 --> 00:09:19.830
+you'll see that the 96Boards console is there.
+
+139
+00:09:19.830 --> 00:09:23.278
+It's very hard to see, but it's there.
+
+140
+00:09:23.278 --> 00:09:26.705
+So let's just click on Connect Disconnect from Host,
+
+141
+00:09:26.705 --> 00:09:30.620
+and the host meaning that we're disconnecting from
+
+142
+00:09:30.620 --> 00:09:35.175
+Windows and then we're connecting to the Ubuntu operating system.
+
+143
+00:09:35.175 --> 00:09:37.895
+Let's just click that and then it will show a message,
+
+144
+00:09:37.895 --> 00:09:39.470
+and then we just click okay.
+
+145
+00:09:39.470 --> 00:09:44.043
+And now your DragonBoard is connected to your operating system.
+
+146
+00:09:44.043 --> 00:09:49.160
+So, that's all the clarification that we wanted to provide.
+
+147
+00:09:49.160 --> 00:09:53.308
+If you guys need more clarifications on what steps you need to follow,
+
+148
+00:09:53.308 --> 00:09:58.460
+just check out the 96Boards open hours that happen every week.
+
+149
+00:09:58.460 --> 00:10:01.903
+Or you can just ask us directly through Coursera.
+
+150
+00:10:01.903 --> 00:10:06.380
+So look out for more videos on building from source.
+
+151
+00:10:06.380 --> 00:10:11.120
+This was our building from source for OpenEmbedded.
