@@ -1,11 +1,11 @@
-# Internet of Things: How did we get here? by [Coursera](https://www.coursera.org/learn/internet-of-things-history?specialization=internet-of-things)
+# Internet of Things V2: DragonBoard™ bring up and community ecosystem by [Coursera](https://www.coursera.org/learn/internet-of-things-dragonboard-version2?specialization=internet-of-things)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [Internet of Things: How did we get here?](http://www.armanbehnam.com/about-me/education/iot-how-get-there/) in my website
+Analysis and discussing [Internet of Things V2: DragonBoard™ bring up and community ecosystem](http://www.armanbehnam.com/about-me/education/dbcom/) in my website
 
 
-- [Week 1 Welcome to the Internet of Things, Circuit Switched Networks, and Packet Switched Networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Week%201)
+- [Week 1 Introduction and Supplemental Materials](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Internet of Things: How did we get here?](http://www.ar
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Computer Telephony, Wireless Technologies, Features and Apps, and Future Outlook](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Week%202)
+- [Week 2 DragonBoard Bringup and Ecosystem](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -63,23 +63,117 @@ Analysis and discussing [Internet of Things: How did we get here?](http://www.ar
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
  
   
+- [Week 3 Mezzanines and Sensors (Canned Demos w/ software)](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Week%203)
 
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Coursera%20DK52P4HXDYDV.png).
+  1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
+  
+  2 - Using word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/13%20-%20Using%20word%20embeddings.pdf).
+  
+  3 - Properties of word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/14%20-%20Properties%20of%20word%20embeddings.pdf).
+  
+  4 -  Embedding matrix [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/15%20-%20Embedding%20matrix.pdf).
+  
+  5 - Learning word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/16%20-%20Learning%20word%20embeddings.pdf).
+  
+  6 - Word2Vec [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/17%20-%20Word2Vec.pdf).
+  
+  7 - Negative Sampling [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/18%20-%20Negative%20Sampling.pdf). 
+  
+  8 - GloVe word vectors [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/19%20-%20GloVe%20word%20vectors.pdf). 
+  
+  9 - Sentiment Classification and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/20%20-%20Sentiment%20Classification.pdf).
+  
+  10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
+ 
+  11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
+  
+  12 - Debiasing word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/21%20-%20Debiasing%20word%20embeddings.pdf).
+  
+  - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
+  - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
 
-- 3.9 stars
-- 1029 ratings
-- 64,829 already enrolled
+- [Week 4 Advanced Projects and Code](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Week%204)
 
-It is hard to imagine life without your Smartphone – you have come to rely on it so much – for your work; to stay in touch with family and friends; to capture and share those special moments; to find your way around in a new neighborhood. Did you ever wonder how and when all this happened? Or how and when GPS sensors came to be in your cell phone?
+  1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
+  
+  2 - Using word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/13%20-%20Using%20word%20embeddings.pdf).
+  
+  3 - Properties of word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/14%20-%20Properties%20of%20word%20embeddings.pdf).
+  
+  4 -  Embedding matrix [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/15%20-%20Embedding%20matrix.pdf).
+  
+  5 - Learning word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/16%20-%20Learning%20word%20embeddings.pdf).
+  
+  6 - Word2Vec [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/17%20-%20Word2Vec.pdf).
+  
+  7 - Negative Sampling [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/18%20-%20Negative%20Sampling.pdf). 
+  
+  8 - GloVe word vectors [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/19%20-%20GloVe%20word%20vectors.pdf). 
+  
+  9 - Sentiment Classification and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/20%20-%20Sentiment%20Classification.pdf).
+  
+  10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
+ 
+  11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
+  
+  12 - Debiasing word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/21%20-%20Debiasing%20word%20embeddings.pdf).
+  
+  - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
+  - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
 
-In this course, we will explore the convergence of multiple disciplines leading to todays’ Smartphones.  You will learn about the birth and evolution of Telephony Networks, Broadcast Networks (TV and Radio) and Consumer Electronics.  We will discuss the impact of Internet, (multimedia) content, smartphones and apps on everyday lives. We will then look at how this emerging platform called the Internet of Things – wherein billions and trillions of devices communicating with each other and “the cloud” – could enable unprecedented, innovative products and services.   Take this course if you want to understand what great new advances in mobile-enabled products will be coming our way!
+- [Week 5 Changing your Operating System (Supplemental / Optional) & Rescuing your Bricked Board (Supplemental / Optional)](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Week%205)
 
-Learning Goals: This course provides a core grounding in how science and technology have developed to enable the Internet of Things – in a way appropriate for any learner.  For those interested in developing further hands-on expertise in designing and developing for the Internet of Things, this course will provide a context to the discoveries and converging technologies that will springboard the next round of innovations.  After completing this course, you will be able to:
+  1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
+  
+  2 - Using word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/13%20-%20Using%20word%20embeddings.pdf).
+  
+  3 - Properties of word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/14%20-%20Properties%20of%20word%20embeddings.pdf).
+  
+  4 -  Embedding matrix [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/15%20-%20Embedding%20matrix.pdf).
+  
+  5 - Learning word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/16%20-%20Learning%20word%20embeddings.pdf).
+  
+  6 - Word2Vec [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/17%20-%20Word2Vec.pdf).
+  
+  7 - Negative Sampling [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/18%20-%20Negative%20Sampling.pdf). 
+  
+  8 - GloVe word vectors [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/19%20-%20GloVe%20word%20vectors.pdf). 
+  
+  9 - Sentiment Classification and [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/20%20-%20Sentiment%20Classification.pdf).
+  
+  10 - Example EM for discrete mixture, E step [video](https://www.youtube.com/watch?v=RPkI5qe2_8w&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=19).
+ 
+  11 - Example EM for discrete mixture, M step [video](https://www.youtube.com/watch?v=9kOW8PjUGF0&list=PLnyR92sanMAQ8VsEENbGTa8ptRds4FbHN&index=20).
+  
+  12 - Debiasing word embeddings [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/21%20-%20Debiasing%20word%20embeddings.pdf).
+  
+  - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
+  - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
 
-1.	Compare how the telephone system works (that is, peer-to-peer networks) with how media delivery works (that is, broadcast/multicast networks).
-2.	Explain the tradeoffs between circuit switched networks (that is, dedicated resources) and packet switched networks (that is, shared resources).
-3.	Tell interesting stories about key innovations that transformed the communications, entertainment and consumer electronics industries.
-4.	Explain how email, YouTube, SMS, etc. work.
-5.	Find resources for those wishing to do more of a “deep-dive” into the above topics.
+
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20V2%20DragonBoard%E2%84%A2%20bring%20up/Coursera%20K2ZJF6BB3RW6.png).
+
+- 3.5 stars
+- 26 ratings
+- 7,861 already enrolled
+
+Do you want to develop skills to prototype embedded products using state-of-the-art technologies? In this course you will build a hardware and software development environment to guide your journey through the Internet of Things specialization courses. We will use the DragonBoard™ 410c single board computer (SBC). 
+
+This is the first in a series of courses where you will learn both the theory and get the hands-on development practice needed to prototype Internet of Things products.  This course is suitable for a broad range of learners. 
+ 
+This course is for you if:
+- You want to learn how to use learn how to use Linux for embedded purposes.
+- You want to pivot your career towards the design and development of Internet of Things enabled products
+- You are an entrepreneur, innovator or member of a DIY community 
+
+Learning Goals: 
+After completing this course, you will be able to:
+
+1) Know where you can find resources and help in the 96Boards ecosystem.
+2) Describe the DragonBoard™ 410c peripherals, I/O expansion capabilities, Compute (CPU and Graphics) capabilities, and Connectivity capabilities.
+3) Understand how to navigate and make use of the Linux terminal.
+4) Configure at least one integrated development environment (IDE) for developing software.
+5) Make use of Git and GitHub for version control purposes.
+6) Create and build projects that interface with sensors and actuators through GPIO and Arduino.
 
 # THANK YOU
