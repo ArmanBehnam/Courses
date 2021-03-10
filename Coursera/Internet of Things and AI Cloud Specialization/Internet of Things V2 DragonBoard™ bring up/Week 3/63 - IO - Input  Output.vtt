@@ -1,0 +1,637 @@
+WEBVTT
+
+1
+00:00:02.200 --> 00:00:03.220
+Welcome, everyone.
+
+2
+00:00:03.220 --> 00:00:06.130
+In this video we'll be talking
+about input and output,
+
+3
+00:00:06.130 --> 00:00:09.660
+because that's the main way we're going to
+be interfacing with all our sensors.
+
+4
+00:00:09.660 --> 00:00:12.600
+I'll just let Andrew take
+it away with the overview
+
+5
+00:00:12.600 --> 00:00:13.522
+of what we're going to be talking about.
+
+6
+00:00:15.450 --> 00:00:18.180
+>> So first we will be going
+over the four main ones.
+
+7
+00:00:18.180 --> 00:00:22.290
+And we'll be describing them and
+telling you guys what the uses are.
+
+8
+00:00:22.290 --> 00:00:26.590
+So these four are, GPIO,
+I2C, SPI, and UART.
+
+9
+00:00:28.772 --> 00:00:33.880
+>> Yeah, so the first diagram we
+want to show you guys is the pinout.
+
+10
+00:00:33.880 --> 00:00:37.880
+These are both referring to the same pins,
+they're just two different diagrams.
+
+11
+00:00:37.880 --> 00:00:41.570
+The reason why we have them
+both here is that [COUGH] there
+
+12
+00:00:41.570 --> 00:00:46.420
+are about three different ways
+to refer to one single pin.
+
+13
+00:00:46.420 --> 00:00:51.710
+So for example, if you look on the right
+colorful image, you see that Pin 23, it
+
+14
+00:00:52.870 --> 00:00:58.387
+will show up in gray in the middle,
+it's also called GPIO A.
+
+15
+00:00:59.690 --> 00:01:04.514
+That same Pin 23 is also
+referred to as GPIO 36.
+
+16
+00:01:04.514 --> 00:01:10.182
+As you can see,
+on the left one that's slightly darker.
+
+17
+00:01:10.182 --> 00:01:13.770
+So I'll let you know
+when these are important.
+
+18
+00:01:13.770 --> 00:01:18.526
+So Pin 23, like the grey ones
+actual hardware pin numbers,
+
+19
+00:01:18.526 --> 00:01:23.287
+they are important for lib MRA
+because that's how it refers to it.
+
+20
+00:01:23.287 --> 00:01:26.040
+We'll talk about MRA more later on.
+
+21
+00:01:27.450 --> 00:01:33.507
+The GPIO 36 is useful when you're
+accessing the GPIOs through the Linux
+
+22
+00:01:33.507 --> 00:01:39.500
+terminal and command line because
+that's the numbers it'll be using.
+
+23
+00:01:39.500 --> 00:01:44.098
+GPIO A is just useful for
+on the sensors mezzanine.
+
+24
+00:01:44.098 --> 00:01:48.120
+It refers to the GPIO using
+the letters rather than the numbers.
+
+25
+00:01:48.120 --> 00:01:50.160
+So it's useful to know how it maps there.
+
+26
+00:01:50.160 --> 00:01:52.120
+Just keep in mind these two diagrams and
+
+27
+00:01:52.120 --> 00:01:55.930
+refer back to them all the time
+if you need to understand them.
+
+28
+00:01:55.930 --> 00:01:58.450
+So first let's go through,
+let's talk about
+
+29
+00:02:00.920 --> 00:02:04.550
+small overview again of what
+we were talking about is GPIO.
+
+30
+00:02:04.550 --> 00:02:11.873
+And then, we're going to talk about
+I2C and the SPI and then the UART.
+
+31
+00:02:11.873 --> 00:02:15.450
+GPIO is the green block in the middle, and
+
+32
+00:02:15.450 --> 00:02:18.220
+the I2C is a little yellow
+block on the left side.
+
+33
+00:02:18.220 --> 00:02:21.881
+And next one will be SPI
+in the blue block, and
+
+34
+00:02:21.881 --> 00:02:25.230
+the UART is the red block on the far left.
+
+35
+00:02:25.230 --> 00:02:29.997
+You can see there's two other
+sections called MPP and PCM.
+
+36
+00:02:29.997 --> 00:02:34.150
+We're not going to be using those too much
+so you don't need to worry about those.
+
+37
+00:02:34.150 --> 00:02:36.240
+And we're not going to discuss them.
+
+38
+00:02:36.240 --> 00:02:39.020
+But if you want to know more about them,
+
+39
+00:02:39.020 --> 00:02:41.840
+feel free to look it up on
+your favorite search engine.
+
+40
+00:02:43.390 --> 00:02:49.890
+>> So the first one is GPIO, and GPIO
+stands for General Purpose Input/Output.
+
+41
+00:02:49.890 --> 00:02:51.970
+There's a reason why it's
+called general purpose,
+
+42
+00:02:51.970 --> 00:02:56.340
+because it doesn't do a ton,
+but it does what you need.
+
+43
+00:02:56.340 --> 00:03:01.470
+So there's no predefined use on the board,
+
+44
+00:03:01.470 --> 00:03:07.166
+so it's not meant definitively for
+that board.
+
+45
+00:03:07.166 --> 00:03:11.575
+So the user chooses their own purpose,
+and it can only write high or
+
+46
+00:03:11.575 --> 00:03:15.330
+low values, and
+it can only read high or low values.
+
+47
+00:03:15.330 --> 00:03:21.120
+What this means is that if you connect
+a light sensor, let's say, right?
+
+48
+00:03:21.120 --> 00:03:25.530
+It'll only detect whether it has light or
+it doesn't have light.
+
+49
+00:03:25.530 --> 00:03:28.740
+It won't detect how much light there is.
+
+50
+00:03:28.740 --> 00:03:36.570
+So HIGH can often be set to voltages
+such as 1.8, 3.3, and 5 volts.
+
+51
+00:03:36.570 --> 00:03:43.890
+So it would only be 0 volts or
+1.8 volts, or 0 volts and 3.3 volts.
+
+52
+00:03:43.890 --> 00:03:48.719
+Instead of having four concrete values,
+it'll only be zero or one of these.
+
+53
+00:03:51.203 --> 00:03:55.983
+>> Okay, so even though they are just
+digital, one or zero, high or low,
+
+54
+00:03:55.983 --> 00:03:57.977
+they still have their uses and
+
+55
+00:03:57.977 --> 00:04:02.305
+it's like powering LEDs to give
+you an idea of if it's on or off.
+
+56
+00:04:02.305 --> 00:04:05.143
+That's for output-wise.
+
+57
+00:04:05.143 --> 00:04:10.710
+For input-wise, it could also be used for
+detecting buttons.
+
+58
+00:04:10.710 --> 00:04:12.660
+You can even use a rotary angle sensor.
+
+59
+00:04:12.660 --> 00:04:14.540
+It won't give you in between, but
+
+60
+00:04:14.540 --> 00:04:19.079
+it will tell you if it's past
+the threshold of being on or off.
+
+61
+00:04:23.170 --> 00:04:25.550
+>> So the next one is I2C, and
+
+62
+00:04:25.550 --> 00:04:30.280
+I2C actually uses two pins,
+the clock and the data.
+
+63
+00:04:30.280 --> 00:04:36.160
+And if you guys aren't familiar with
+clocks and the data itself, the clock
+
+64
+00:04:36.160 --> 00:04:40.270
+basically tells us when we want to
+actually read the data and when we don't.
+
+65
+00:04:40.270 --> 00:04:43.510
+And the data is the data
+that's sending right now.
+
+66
+00:04:43.510 --> 00:04:46.370
+So this is a little bit more complicated,
+
+67
+00:04:46.370 --> 00:04:51.230
+like CS/electrical engineering stuff,
+so if you guys want to
+
+68
+00:04:51.230 --> 00:04:55.900
+be more familiar with this kind of stuff,
+you guys can look it up on your own.
+
+69
+00:04:55.900 --> 00:05:01.470
+And then there's also,
+the ITC work site master/slave system,
+
+70
+00:05:03.380 --> 00:05:06.980
+kind of weird name for
+it, but that's what it is.
+
+71
+00:05:06.980 --> 00:05:10.820
+So it has multiple masters and
+each master has certain slaves.
+
+72
+00:05:10.820 --> 00:05:15.040
+So the master basically uses
+these slaves to do what it wants.
+
+73
+00:05:16.120 --> 00:05:20.192
+So there are some uses,
+such as writing to an LCD display and
+
+74
+00:05:20.192 --> 00:05:23.053
+communicating with other I2C sensors.
+
+75
+00:05:26.268 --> 00:05:33.326
+>> Next one up is SPI which stands for
+Serial Peripheral Interface,
+
+76
+00:05:33.326 --> 00:05:37.690
+and it's different from
+ITC because ITC just
+
+77
+00:05:37.690 --> 00:05:43.080
+requires two pins,
+this requires four pins.
+
+78
+00:05:43.080 --> 00:05:48.570
+It also has a clock, again, for
+synchronizing when to send data.
+
+79
+00:05:48.570 --> 00:05:53.360
+It's got an MISO which stands for
+Master Input Slave Output.
+
+80
+00:05:53.360 --> 00:05:59.640
+Essentially anything the slaves want to
+send to the master, the one master goes
+
+81
+00:05:59.640 --> 00:06:04.423
+through that pin and
+the reverse is MOSI and its
+
+82
+00:06:04.423 --> 00:06:09.920
+Master Output Slave Input, so it just sent
+stuff, sent from the master to the slaves.
+
+83
+00:06:10.940 --> 00:06:14.290
+The fourth pin is the CS pin.
+
+84
+00:06:14.290 --> 00:06:17.970
+This stands for Chip Select, so
+just selects which slave to send it to,
+
+85
+00:06:17.970 --> 00:06:20.520
+that the master wants to.
+
+86
+00:06:20.520 --> 00:06:25.730
+Another difference between I2C and
+SPI is that SPI is
+
+87
+00:06:25.730 --> 00:06:31.800
+a single master but
+it also has multi-slave.
+
+88
+00:06:31.800 --> 00:06:35.852
+This helps it be a little bit more faster
+so it doesn't have to decide which master
+
+89
+00:06:35.852 --> 00:06:38.365
+to send it to and
+deal with the addressing of that.
+
+90
+00:06:41.469 --> 00:06:44.411
+>> So
+we'll be going over UART which stands for
+
+91
+00:06:44.411 --> 00:06:48.150
+universal asynchronus
+receiver transmitter.
+
+92
+00:06:48.150 --> 00:06:53.780
+And as you guys saw on the previous
+two slides, they both had a clock,
+
+93
+00:06:53.780 --> 00:06:58.262
+asynchronous means that there's
+no clock controlling it.
+
+94
+00:06:58.262 --> 00:07:04.681
+So, it can be used for
+serial communication over a serial port.
+
+95
+00:07:04.681 --> 00:07:09.109
+So this is important for
+when you are using an Arduino,
+
+96
+00:07:09.109 --> 00:07:13.358
+it can communicate through
+the port to the Arduino.
+
+97
+00:07:13.358 --> 00:07:17.555
+Or if you guys know other things
+about serial communication,
+
+98
+00:07:17.555 --> 00:07:23.030
+you know that you also can connect this
+to a computer and use that as well.
+
+99
+00:07:23.030 --> 00:07:25.070
+And it'll ask for configurable speeds,
+
+100
+00:07:25.070 --> 00:07:28.490
+meaning that you can control
+the baud rate of it.
+
+101
+00:07:28.490 --> 00:07:34.120
+Usually this will be asked of you to
+
+102
+00:07:34.120 --> 00:07:37.960
+set when you're using the UART.
+
+103
+00:07:37.960 --> 00:07:40.900
+It requires four pins, the CTS.
+
+104
+00:07:40.900 --> 00:07:44.900
+Basically it clears the UART so
+that you can send data.
+
+105
+00:07:46.440 --> 00:07:49.240
+There's a receiver which
+takes in the data.
+
+106
+00:07:49.240 --> 00:07:51.840
+There's the transmitter
+which sends the data.
+
+107
+00:07:51.840 --> 00:07:56.961
+And there's RTS which you send
+a request to in order for
+
+108
+00:07:56.961 --> 00:08:01.648
+the transmitter to send
+the data to the receiver.
+
+109
+00:08:01.648 --> 00:08:04.967
+>> So yeah, we've gone through a lot
+of information on these slides so
+
+110
+00:08:04.967 --> 00:08:08.730
+we just want to make sure you
+guys focus on what's important.
+
+111
+00:08:08.730 --> 00:08:12.330
+One of the takeaways we want you guys to
+
+112
+00:08:12.330 --> 00:08:15.480
+get from this is that there are a variety
+of pins on the DragonBoard.
+
+113
+00:08:15.480 --> 00:08:18.590
+And they allow us to interface
+with it in very different ways.
+
+114
+00:08:18.590 --> 00:08:25.160
+We can use the GPIO for digital sensors,
+I2C for more advanced ones,
+
+115
+00:08:25.160 --> 00:08:30.445
+UART just for CO communication and
+SPI for even faster than I2C.
+
+116
+00:08:32.300 --> 00:08:37.198
+>> So we provided an introduction to
+what each input-output interface does.
+
+117
+00:08:37.198 --> 00:08:41.090
+We didn't give you complex instructions,
+
+118
+00:08:41.090 --> 00:08:45.150
+or more detailed explanations for
+what they do.
+
+119
+00:08:45.150 --> 00:08:50.688
+So if you guys want to know more, we
+stress you guys to look it up on your own.
+
+120
+00:08:50.688 --> 00:08:54.737
+I ask you guys,
+maybe using this very extensively.
+
+121
+00:08:54.737 --> 00:08:59.886
+>> So the last thing that we want is to
+remember to just choose the right pins for
+
+122
+00:08:59.886 --> 00:09:00.964
+what you need.
+
+123
+00:09:00.964 --> 00:09:05.698
+If you have devices that use I2C or
+SPI, then you have to use those.
+
+124
+00:09:05.698 --> 00:09:09.690
+You can use GPIO for
+just small general purpose stuff.
+
+125
+00:09:09.690 --> 00:09:16.219
+And UART's just communicating
+with common purpose of those.
+
+126
+00:09:16.219 --> 00:09:19.980
+Research what you want to do and
+what pins you'll need to use.
+
+127
+00:09:22.745 --> 00:09:27.416
+>> So the last part, since there
+is a lot of information we haven't
+
+128
+00:09:27.416 --> 00:09:30.366
+covered everything about all of these.
+
+129
+00:09:30.366 --> 00:09:32.870
+Just to be touched on it lightly for
+each of them.
+
+130
+00:09:32.870 --> 00:09:36.260
+We want to stress that we'll provide
+some resources in the readings so
+
+131
+00:09:36.260 --> 00:09:39.740
+that you guys can learn more about it
+on your own if you feel the need to.
+
+132
+00:09:41.230 --> 00:09:44.773
+So [COUGH] we'll see you in later
+videos when we actually use all this.
+
+133
+00:09:44.773 --> 00:09:47.920
+And see you then.
