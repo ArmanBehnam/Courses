@@ -5,7 +5,7 @@
 Analysis and discussing [Introduction to the Internet of Things and Embedded Systems](http://www.armanbehnam.com/about-me/education/iot-how-get-there/) in my website
 
 
-- [Week 1 What Is the Internet of Things (IoT)?](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Internet%20of%20Things%20and%20AI%20Cloud%20Specialization/Internet%20of%20Things%20How%20did%20we%20get%20here/Week%201)
+- [Week 1 What Is the Internet of Things (IoT)?](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -121,7 +121,7 @@ Analysis and discussing [Introduction to the Internet of Things and Embedded Sys
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
 
-My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Coursera%20XCKTQBJUVNL6.png).
+My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Coursera%20XCKTQBJUVNL6.pngg).
 
 - 4.7 stars
 - 10,851 ratings
