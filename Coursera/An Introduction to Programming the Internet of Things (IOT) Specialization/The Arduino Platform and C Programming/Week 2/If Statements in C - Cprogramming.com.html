@@ -1,0 +1,491 @@
+<html>
+<head>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://feeds2.feedburner.com/Cprogrammingcom/">
+<link rel="stylesheet" href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/style_responsive.css" type="text/css">
+<link rel="canonical" href="https://www.cprogramming.com/tutorial/c/lesson2.html"/>
+
+<link href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/theme.css" rel="stylesheet" type="text/css" />
+
+
+<META NAME="Description" CONTENT="Learn how to use if statements to control program flow in this beginner friendly C tutorial.">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>If Statements in C - Cprogramming.com</title>
+
+
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7820175-1']);
+  _gaq.push(['_setVisitorCookieTimeout', 2592000]);
+  _gaq.push(['_setDomainName', '.cprogramming.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push (['_gat._anonymizeIp']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+<script> 
+function toggleclassforclass(targetclass, toggleclass) {
+    cx = document.getElementsByClassName(targetclass)[0].className;
+    if (cx.includes(toggleclass)) {
+        cx = cx.replace(toggleclass, "");
+    } else {
+        cx += " "+toggleclass;
+    }
+    document.getElementsByClassName(targetclass)[0].className = cx;
+}
+
+function togglemenu() {
+    toggleclassforclass('maincontent', 'mobile-menu-shown');
+    toggleclassforclass('leftcolumn', 'mobile-menu');
+}
+</script>
+
+<!-- ADDED BSA -->
+<script type="text/javascript">
+        (function(){
+                var bsa_optimize=document.createElement('script');
+                bsa_optimize.type='text/javascript';
+                bsa_optimize.async=true;
+                bsa_optimize.src='https://cdn4.buysellads.net/pub/cprogramming.js?'+(new Date()-new Date()%600000);
+                (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa_optimize);
+        })();
+</script>
+<!-- END ADDED BSA -->
+</head>
+
+<body>
+<div class="header">
+<button class="hamburger" onClick="togglemenu(); return false;"><img src="https://www.cprogramming.com/images/hamburger.svg" class="responsive-nav" ></img></button>
+<a class="logo" href="//www.cprogramming.com/"><img class="noprint logoimg" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/cprog.png" width="324" height="83" border="0"></a> 
+
+    	<div class="leaderboard">
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Leaderboard_ROS_ATF -->
+<div id="bsa-zone_1596557361448-5_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</div>
+        
+</div>
+  <table class="main">
+
+  <tr>
+
+     <td class="noprint leftcolumn" width="130" valign="top"> 
+     <div class="menu" valign="top">
+     <p class="navcategory" align="left">
+              Starting out
+     </p>
+
+     <p class="navlist" align="left">
+             <a href="//www.cprogramming.com/begin.html?inl=nv">How to begin</a><br>
+             <a href="//www.cprogramming.com/c++book/?inl=nv">Get the book</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Tutorials
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=nv>C tutorial</a><br>
+            <a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=nv>C++ tutorial</a><br>
+            <a href=//www.cprogramming.com/game-programming.html?inl=nv>Game programming</a><br>
+            <a href=//www.cprogramming.com/graphics-programming.html?inl=nv>Graphics programming</a><br>
+            <a href=//www.cprogramming.com/algorithms-and-data-structures.html?inl=nv>Algorithms</a><br>
+            <a href="//www.cprogramming.com/tutorial.html?inl=nv">More tutorials</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Practice
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/challenge.html?inl=nv">Practice problems</a><br>
+            <a href="//www.cprogramming.com/quiz/?inl=nv">Quizzes</a><br>
+     </p>
+     <p class="navcategory" align="left">
+          <br>
+           Resources
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/snippets/?inl=nv>Source code</a><br>
+            <a href="//www.cprogramming.com/tips/?inl=nv">C and C++ tips</a><br>
+            <a href="//www.cprogramming.com/compilers.html?inl=nv">Getting a compiler</a><br>
+            <a href="//www.cprogramming.com/books.html?inl=nv">Book recommendations</a><br>
+            <a href="//cboard.cprogramming.com/?inl=nv">Forum</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           References
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/function.html?inl=nv">Function reference</a><br>
+            <a href="//www.cprogramming.com/reference/?inl=nv">Syntax reference</a><br>
+            <a href="//faq.cprogramming.com/cgi-bin/smartfaq.cgi?inl=nv">Programming FAQ</a><br>
+     </p>
+
+             
+     </div>
+
+<center>
+      <br><br>
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Sidebar_Left_Pos1 -->
+<div id="bsa-zone_1596557550017-7_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</center>
+
+
+<div style="border-radius:25px;border-style:dashed;border-width:1px;padding:10px;margin-top:5px;margin-bottom:5px;">
+<b>Tutorial Map</b>
+<br><br>
+
+Introduction
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson1.html>Intro</a></li>
+<li>If Statements<span style="font-size:10px"> &larr; you are here</span></li>
+<li> <a href=lesson3.html>Loops</a></li>
+<li> <a href=lesson4.html>Functions</a></li>
+<li> <a href=lesson5.html>Switch case</a></li>
+</ul>
+Pointers, arrays, strings
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson6.html>Pointers</a></li>
+<li> <a href=lesson7.html>Structures</a></li>
+<li> <a href=lesson8.html>Arrays</a></li>
+<li> <a href=lesson9.html>Strings</a></li>
+</ul>
+File IO
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson10.html>File I/O</a></li>
+<li> <a href=lesson11.html>Typecasting</a></li>
+<li> <a href=lesson14.html>Command Line Arguments</a></li>
+</ul>
+Linked lists, trees, recursion
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson15.html>Linked Lists</a></li>
+<li> <a href=lesson16.html>Recursion</a></li>
+<li> <a href=lesson17.html>Variable Arg Lists</a></li>
+<li> <a href=lesson18.html>Binary Trees</a></li>
+</ul>
+
+
+</div>
+
+
+    </td>
+	<td class="content" valign="top">
+
+    			<div class="content2 maincontent">
+
+<h1>If statements in C</h1>
+
+<div style="margin-right: 1em; float:left; padding: .4em; border-right: 1px solid #bbb"><img src=https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/alex-50-50.jpg border=0 style="padding: 0.25em;"><br><a href=https://plus.google.com/113987539774523532573?rel=author> By Alex Allain</a></div>
+
+The ability to control the flow of your program, letting it make decisions on
+what code to execute, is valuable to the programmer. The if statement allows
+you to control if a program enters a section of code or not based on whether a
+given condition is true or false. One of the important functions of the if
+statement is that it allows the program to select an action based upon the
+user's input. For example, by using an if statement to check a user-entered
+password, your program can decide whether a user is allowed access to the
+program.
+<br><br><center>
+<div class='noprint'>
+
+<!-- Cprogramming_S2S_InContent_ROS_Pos1 -->
+<div id="bsa-zone_1596557484538-7_123456"></div>
+</div>
+
+
+
+</center>
+
+<br><br> 
+Without a conditional statement such as the if statement, programs would run
+almost the exact same way every time, always following the same sequence of
+function calls. If statements allow the flow of the program to be changed, 
+which leads to more interesting code.
+<br><br> 
+Before discussing the actual structure of the if statement, let us examine the
+meaning of TRUE and FALSE in computer terminology. A true statement is one
+that evaluates to a nonzero number. A false statement evaluates to zero. When
+you perform comparison with the relational operators, the operator will return
+1 if the comparison is true, or 0 if the comparison is false. For example, the
+check 0 == 2 evaluates to 0. The check 2 == 2 evaluates to a 1. If this
+confuses you, try to use a printf statement to output the result of those
+various comparisons (for example printf ( "%d", 2 == 1 );)
+
+<br><br> 
+When programming, the aim of the program will often require the checking of
+one value stored by a variable against another value to determine whether one
+is larger, smaller, or equal to the other.
+<br><br> 
+There are a number of operators that allow these checks.
+<br><br> 
+Here are the relational operators, as they are known, along with examples:
+<pre class="brush: cpp; toolbar: false">
+&gt;     greater than              5 &gt; 4 is TRUE
+&lt;     less than                 4 &lt; 5 is TRUE
+&gt;=    greater than or equal     4 &gt;= 4 is TRUE
+&lt;=    less than or equal        3 &lt;= 4 is TRUE
+==    equal to                  5 == 5 is TRUE
+!=    not equal to              5 != 4 is TRUE
+</pre> 
+It is highly probable that you have seen these before, probably with slightly
+different symbols. They should not present any hindrance to understanding. Now
+that you understand TRUE and FALSE well as the comparison operators, let us
+look at the actual structure of if statements.
+<h2>Basic If Syntax</h2>
+The structure of an if statement is as follows:
+<pre class="brush: cpp; toolbar: false">
+if ( statement is TRUE )
+    Execute this line of code
+</pre> 
+Here is a simple example that shows the syntax: 
+<pre class="brush: cpp; toolbar: false">
+if ( 5 &lt; 10 )
+    printf( "Five is now less than ten, that's a big surprise" );
+</pre>
+
+Here, we're just evaluating the statement, "is five less than ten", to see if
+it is true or not; with any luck, it is!  If you want, you can write your
+own full program including stdio.h and put this in the main function and run
+it to test.
+
+<br><br> 
+To have more than one statement execute after an if statement that evaluates
+to true, use braces, like we did with the body of the main function. Anything
+inside braces is called a compound statement, or a block.  When using if
+statements, the code that depends on the if statement is called the "body" of
+the if statement.
+<br><br> 
+For example:
+<pre class="brush: cpp; toolbar: false">
+if ( TRUE ) {
+    /* between the braces is the body of the if statement */
+    Execute all statements inside the body
+}
+</pre> 
+
+I recommend always putting braces following if statements.  If you do this,
+you never have to remember to put them in when you want more than one
+statement to be executed, and you make the body of the if statement more
+visually clear. 
+<br><br><h2>Else</h2> 
+Sometimes when the condition in an if statement evaluates to false, it would
+be nice to execute some code instead of the code executed when the statement
+evaluates to true.  The "else" statement effectively says that whatever code
+after it (whether a single line or code between brackets) is executed if the
+if statement is FALSE.
+<br><br> 
+It can look like this:
+<pre class="brush: cpp; toolbar: false">
+if ( TRUE ) {
+    /* Execute these statements if TRUE */
+}
+else {
+    /* Execute these statements if FALSE */
+}
+</pre> 
+
+<h2>Else if</h2>
+Another use of else is when there are multiple conditional statements that may
+all evaluate to true, yet you want only one if statement's body to execute.
+
+You can use an "else if" statement following an if statement and its body;
+that way, if the first statement is true, the "else if" will be ignored, but
+if the if statement is false, it will then check the condition for the else if
+statement. If the if statement was true the else statement will not be
+checked. It is possible to use numerous else if statements to ensure that only
+one block of code is executed.
+<br><br> 
+Let's look at a simple program for you to try out on your own.
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdio.h&gt;	
+
+int main()                            /* Most important part of the program!  */
+{
+    int age;                          /* Need a variable... */
+  
+    printf( "Please enter your age: " );  /* Asks for age */
+    scanf( "%d", &amp;age );                 /* The input is put in age */
+    if ( age &lt; 100 ) {                  /* If the age is less than 100 */
+        printf ("You are pretty young!\n" ); /* Just to show you it works... */
+    }
+    else if ( age == 100 ) {            /* I use else just to show an example */ 
+        printf( "You are old\n" );       
+    }
+    else {
+        printf( "You are really old\n" );     /* Executed if no other statement is */
+    }
+  return 0;
+
+  /* Run it online: https://cee.studio/?bucket=201214-Fbb&amp;name=cp.com */
+}
+</pre> 
+
+<h2>More interesting conditions using boolean operators</h2>
+Boolean operators allow you to create more complex conditional statements. For
+example, if you wish to check if a variable is both greater than five and less
+than ten, you could use the Boolean AND to ensure both var &gt; 5 and var &lt;
+10 are true. In the following discussion of Boolean operators, I will
+capitalize the Boolean operators in order to distinguish them from normal
+English. The actual C operators of equivalent function will be described
+further along into the tutorial - the C symbols are not: OR, AND, NOT, although
+they are of equivalent function.
+<br><br> 
+When using if statements, you will often wish to check multiple different conditions. You must understand the Boolean operators OR, NOT, and AND. The boolean operators function in a similar way to the comparison operators: each returns 0 if evaluates to FALSE or 1 if it evaluates to TRUE.
+<br><br> 
+NOT: The NOT operator accepts one input. If that input is TRUE, it returns
+FALSE, and if that input is FALSE, it returns TRUE. For example, NOT (1)
+evaluates to 0, and NOT (0) evaluates to 1. NOT (any number but zero) evaluates
+to 0. In C NOT is written as !. NOT is evaluated prior to both AND and
+OR. 
+<br><br> 
+AND: This is another important command. AND returns TRUE if both inputs are
+TRUE (if 'this' AND 'that' are true). (1) AND (0) would evaluate to zero
+because one of the inputs is false (both must be TRUE for it to evaluate to
+TRUE). (1) AND (1) evaluates to 1. (any number but 0) AND (0) evaluates to 0.
+The AND operator is written &amp;&amp; in C. Do not be confused by thinking it
+checks equality between numbers: it does not. Keep in mind that the AND
+operator is evaluated before the OR operator.
+<br><br> 
+OR: Very useful is the OR statement! If either (or both) of the two values it
+checks are TRUE then it returns TRUE. For example, (1) OR (0) evaluates to 1.
+(0) OR (0) evaluates to 0. The OR is written as || in C. Those are the pipe
+characters. On your keyboard, they may look like a stretched colon. On my
+computer the pipe shares its key with \. Keep in mind that OR will be
+evaluated after AND.
+<br><br> 
+It is possible to combine several Boolean operators in a single statement;
+often you will find doing so to be of great value when creating complex
+expressions for if statements. What is !(1 &amp;&amp; 0)? Of course, it would be TRUE.
+It is true is because 1 &amp;&amp; 0 evaluates to 0 and !0 evaluates to TRUE
+(i.e., 1). 
+<br><br> 
+Try some of these - they're not too hard. If you have questions about them, feel free to stop by our forums.
+<pre class="brush: cpp; toolbar: false">
+A. !( 1 || 0 )         ANSWER: 0	
+B. !( 1 || 1 &amp;&amp; 0 )    ANSWER: 0 (AND is evaluated before OR)
+C. !( ( 1 || 0 ) &amp;&amp; 0 )  ANSWER: 1 (Parenthesis are useful)
+</pre> 
+If you find you enjoyed this section, then you might want to look more at Boolean Algebra.
+
+<br><br>
+<br><a href="quiz/quiz2.html">Quiz yourself</a>
+<br><a href="lesson1.html">Previous: The Basics of C</a>
+<br><a href="lesson3.html">Next: Loops</a>
+<br><a href="//www.cprogramming.com/tutorial/c-tutorial.html">Back to C Tutorial Index</a>
+<br><br>
+
+
+<div id="footer" class="noprint">
+
+
+
+<div style="clear: both; margin-top: 10px;"></div>
+
+
+<script>
+function abTest(element_name_sets) {
+    var element_to_show;
+    var element_count = element_name_sets.length;
+    var i;
+    for ( i = 0; i < element_count; i++ )
+    {
+        if ( Math.random() <= 1 / ( element_count - i ) ) {
+                break;
+        }
+    }
+    var element_name_set = element_name_sets[ i ];
+    for ( i = 0; i < element_name_set.length; i++ )
+    {
+        element_to_show = document.getElementById( element_name_set[ i ] );
+        element_to_show.style.display = "block";
+    }
+}
+//abTest( [["old-ad", "new-ad"]] );
+</script>
+
+
+<div class="popularpages">
+<b>Popular pages</b>
+<ul>
+<li><a href=//www.cprogramming.com/c++book/?inl=pf>Jumping into C++, the Cprogramming.com ebook</a> 
+ <li><a href=//www.cprogramming.com/begin.html?inl=pf>How to learn C++ or C</a> 
+<li><a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=pf>C Tutorial</a>
+<li><a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=pf>C++ Tutorial</a>
+<li><a href=//www.cprogramming.com/how_to_learn_to_program.html?inl=pf>5 ways you can learn to program faster</a> 
+<li><a href=//www.cprogramming.com/beginner_programming_mistakes.html?inl=pf>The 5 most common problems new programmers face</a>
+<li><a href=//www.cprogramming.com/code_blocks/?inl=pf>How to set up a compiler</a>
+<li><a href=//www.cprogramming.com/tutorial/game_programming/same_game_part1.html?inl=pf>How to make a game in 48 hours</a>
+</ul>
+</div>
+
+
+</div>
+
+<center>
+ 
+
+
+<div class="footer-links" style="padding:10px">
+<a href="//www.cprogramming.com/advertising.html">Advertising</a> | <a href="//www.cprogramming.com/privacy.html">Privacy policy</a> |
+<a href="//www.cprogramming.com/use.html">Copyright &copy; 2019 Cprogramming.com</a> | <a href=mailto:webmaster@cprogramming.com>Contact</a> | <a href="//www.cprogramming.com/about.html">About</a>
+</div>
+</div>
+</div>
+</td>
+    	
+
+
+<td class="content noprint rightcolumn" valign="top" rowspan="1">
+<div class="content2"><br><div class="verticalad">
+
+
+
+
+
+<!-- Cprogramming_S2S_Sidebar_Right_Pos1 -->
+<div id="bsa-zone_1596557574324-1_123456"></div>
+</div><br>
+
+</div>
+</td>  	
+
+</tr>
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/syntaxhighlighter.js"></script>
+
+
+</html>
+

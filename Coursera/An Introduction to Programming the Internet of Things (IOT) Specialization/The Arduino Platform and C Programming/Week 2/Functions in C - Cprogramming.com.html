@@ -1,0 +1,441 @@
+<html>
+<head>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://feeds2.feedburner.com/Cprogrammingcom/">
+<link rel="stylesheet" href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/style_responsive.css" type="text/css">
+<link rel="canonical" href="https://www.cprogramming.com/tutorial/c/lesson4.html"/>
+
+<link href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/theme.css" rel="stylesheet" type="text/css" />
+
+
+<META NAME="Description" CONTENT="Learn to use functions to make your C programs easier to understand and more modular.">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Functions in C - Cprogramming.com</title>
+
+
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7820175-1']);
+  _gaq.push(['_setVisitorCookieTimeout', 2592000]);
+  _gaq.push(['_setDomainName', '.cprogramming.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push (['_gat._anonymizeIp']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+<script> 
+function toggleclassforclass(targetclass, toggleclass) {
+    cx = document.getElementsByClassName(targetclass)[0].className;
+    if (cx.includes(toggleclass)) {
+        cx = cx.replace(toggleclass, "");
+    } else {
+        cx += " "+toggleclass;
+    }
+    document.getElementsByClassName(targetclass)[0].className = cx;
+}
+
+function togglemenu() {
+    toggleclassforclass('maincontent', 'mobile-menu-shown');
+    toggleclassforclass('leftcolumn', 'mobile-menu');
+}
+</script>
+
+<!-- ADDED BSA -->
+<script type="text/javascript">
+        (function(){
+                var bsa_optimize=document.createElement('script');
+                bsa_optimize.type='text/javascript';
+                bsa_optimize.async=true;
+                bsa_optimize.src='https://cdn4.buysellads.net/pub/cprogramming.js?'+(new Date()-new Date()%600000);
+                (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa_optimize);
+        })();
+</script>
+<!-- END ADDED BSA -->
+</head>
+
+<body>
+<div class="header">
+<button class="hamburger" onClick="togglemenu(); return false;"><img src="https://www.cprogramming.com/images/hamburger.svg" class="responsive-nav" ></img></button>
+<a class="logo" href="//www.cprogramming.com/"><img class="noprint logoimg" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/cprog.png" width="324" height="83" border="0"></a> 
+
+    	<div class="leaderboard">
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Leaderboard_ROS_ATF -->
+<div id="bsa-zone_1596557361448-5_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</div>
+        
+</div>
+  <table class="main">
+
+  <tr>
+
+     <td class="noprint leftcolumn" width="130" valign="top"> 
+     <div class="menu" valign="top">
+     <p class="navcategory" align="left">
+              Starting out
+     </p>
+
+     <p class="navlist" align="left">
+             <a href="//www.cprogramming.com/begin.html?inl=nv">How to begin</a><br>
+             <a href="//www.cprogramming.com/c++book/?inl=nv">Get the book</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Tutorials
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=nv>C tutorial</a><br>
+            <a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=nv>C++ tutorial</a><br>
+            <a href=//www.cprogramming.com/game-programming.html?inl=nv>Game programming</a><br>
+            <a href=//www.cprogramming.com/graphics-programming.html?inl=nv>Graphics programming</a><br>
+            <a href=//www.cprogramming.com/algorithms-and-data-structures.html?inl=nv>Algorithms</a><br>
+            <a href="//www.cprogramming.com/tutorial.html?inl=nv">More tutorials</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Practice
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/challenge.html?inl=nv">Practice problems</a><br>
+            <a href="//www.cprogramming.com/quiz/?inl=nv">Quizzes</a><br>
+     </p>
+     <p class="navcategory" align="left">
+          <br>
+           Resources
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/snippets/?inl=nv>Source code</a><br>
+            <a href="//www.cprogramming.com/tips/?inl=nv">C and C++ tips</a><br>
+            <a href="//www.cprogramming.com/compilers.html?inl=nv">Getting a compiler</a><br>
+            <a href="//www.cprogramming.com/books.html?inl=nv">Book recommendations</a><br>
+            <a href="//cboard.cprogramming.com/?inl=nv">Forum</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           References
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/function.html?inl=nv">Function reference</a><br>
+            <a href="//www.cprogramming.com/reference/?inl=nv">Syntax reference</a><br>
+            <a href="//faq.cprogramming.com/cgi-bin/smartfaq.cgi?inl=nv">Programming FAQ</a><br>
+     </p>
+
+             
+     </div>
+
+<center>
+      <br><br>
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Sidebar_Left_Pos1 -->
+<div id="bsa-zone_1596557550017-7_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</center>
+
+
+<div style="border-radius:25px;border-style:dashed;border-width:1px;padding:10px;margin-top:5px;margin-bottom:5px;">
+<b>Tutorial Map</b>
+<br><br>
+
+Introduction
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson1.html>Intro</a></li>
+<li> <a href=lesson2.html>If Statements</a></li>
+<li> <a href=lesson3.html>Loops</a></li>
+<li>Functions<span style="font-size:10px"> &larr; you are here</span></li>
+<li> <a href=lesson5.html>Switch case</a></li>
+</ul>
+Pointers, arrays, strings
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson6.html>Pointers</a></li>
+<li> <a href=lesson7.html>Structures</a></li>
+<li> <a href=lesson8.html>Arrays</a></li>
+<li> <a href=lesson9.html>Strings</a></li>
+</ul>
+File IO
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson10.html>File I/O</a></li>
+<li> <a href=lesson11.html>Typecasting</a></li>
+<li> <a href=lesson14.html>Command Line Arguments</a></li>
+</ul>
+Linked lists, trees, recursion
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson15.html>Linked Lists</a></li>
+<li> <a href=lesson16.html>Recursion</a></li>
+<li> <a href=lesson17.html>Variable Arg Lists</a></li>
+<li> <a href=lesson18.html>Binary Trees</a></li>
+</ul>
+
+
+</div>
+
+
+    </td>
+	<td class="content" valign="top">
+
+    			<div class="content2 maincontent">
+
+<h1>Functions in C</h1>
+
+<div style="margin-right: 1em; float:left; padding: .4em; border-right: 1px solid #bbb"><img src=https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/alex-50-50.jpg border=0 style="padding: 0.25em;"><br><a href=https://plus.google.com/113987539774523532573?rel=author> By Alex Allain</a></div>
+
+Now that you should have learned about variables, loops, and conditional
+statements it is time to learn about functions. You should have an idea of
+their uses as we have already used them and defined one in the guise of main.
+Getchar is another example of a function. In general, functions are blocks of
+code that perform a number of pre-defined commands to accomplish something
+productive.  You can either use the built-in library functions or you can
+create your own functions.
+<br><br><center>
+<div class='noprint'>
+
+<!-- Cprogramming_S2S_InContent_ROS_Pos1 -->
+<div id="bsa-zone_1596557484538-7_123456"></div>
+</div>
+
+
+
+</center>
+<br><br> 
+Functions that a programmer writes will generally require a prototype. Just
+like a blueprint, the prototype gives basic structural information: it tells
+the compiler what the function will return, what the function will be called,
+as well as what arguments the function can be passed. When I say that the
+function returns a value, I mean that the function can be used in the same
+manner as a variable would be. For example, a variable can be set equal to a
+function that returns a value between zero and four.
+<br><br> 
+For example:
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdlib.h&gt;   /* Include rand() */
+
+int a = rand(); /* rand is a standard function that all compilers have */
+</pre> 
+Do not think that 'a' will change at random, it will be set to the value
+returned when the function is called, but it will not change again. 
+<br><br> 
+The general format for a prototype is simple: 
+<pre class="brush: cpp; toolbar: false">
+return-type function_name ( arg_type arg1, ..., arg_type argN ); 
+</pre> 
+arg_type just means the type for each argument -- for instance, an int, a
+float, or a char.  It's exactly the same thing as what you would put if you
+were declaring a variable.<br><br>
+
+There can be more than one argument passed to a function or none at all (where
+the parentheses are empty), and it does not have to return a value. Functions
+that do not return values have a return type of void. Let's look at a function
+prototype:
+<pre class="brush: cpp; toolbar: false">
+int mult ( int x, int y );
+</pre> 
+This prototype specifies that the function mult will accept two arguments,
+both integers, and that it will return an integer. Do not forget the trailing
+semi-colon. Without it, the compiler will probably think that you are trying
+to write the actual definition of the function.
+<br><br> 
+When the programmer actually defines the function, it will begin with the
+prototype, minus the semi-colon. Then there should always be a block
+(surrounded by curly braces) with the code that the function is to execute,
+just as you would write it for the main function. Any of the arguments passed
+to the function can be used as if they were declared in the block. Finally,
+end it all with a cherry and a closing brace. Okay, maybe not a cherry.
+<br><br> 
+Let's look at an example program:
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdio.h&gt;
+
+int mult ( int x, int y );
+
+int main()
+{
+  int x;
+  int y;
+  
+  printf( "Please input two numbers to be multiplied: " );
+  scanf( "%d", &amp;x );
+  scanf( "%d", &amp;y );
+  printf( "The product of your two numbers is %d\n", mult( x, y ) );
+  getchar(); 
+}
+
+int mult (int x, int y)
+{
+  return x * y;
+}
+
+/* Run it online: https://cee.studio/?bucket=201214-DQR&amp;name=cp.com */
+</pre> 
+This program begins with the only necessary include file.  Next is the
+prototype of the function.  Notice that it has the final semi-colon! The main
+function returns an integer, which you should always have to conform to the
+standard. You should not have trouble understanding the input and output
+functions if you've followed the previous tutorials. 
+<br><br> 
+Notice how printf actually takes the value of what appears to be the mult
+function. What is really happening is printf is accepting the value returned
+by mult, not mult itself. The result would be the same as if we had use this
+print instead
+<pre class="brush: cpp; toolbar: false">
+printf( "The product of your two numbers is %d\n", x * y );
+</pre> 
+The mult function is actually defined below main. Because its prototype is
+above main, the compiler still recognizes it as being declared, and so the
+compiler will not give an error about mult being undeclared. As long as the
+prototype is present, a function can be used even if there is no definition.
+However, the code cannot be run without a definition even though it will
+compile. 
+
+<br><br> 
+Prototypes are declarations of the function, but they are only necessary to
+alert the compiler about the existence of a function if we don't want to go
+ahead and fully define the function.  If mult were defined before it is used,
+we could do away with the prototype--the definition basically acts as a
+prototype as well.
+<br><br> 
+Return is the keyword used to force the function to return a value. Note that
+it is possible to have a function that returns no value. If a function returns
+void, the return statement is valid, but only if it does not have an
+expression. In other words, for a function that returns void, the statement
+"return;" is legal, but usually redundant.  (It can be used to exit the
+function before the end of the function.)
+<br><br> 
+The most important functional (pun semi-intended) question is why do we need a
+function? Functions have many uses. For example, a programmer may have a block
+of code that he has repeated forty times throughout the program. A function to
+execute that code would save a great deal of space, and it would also make the
+program more readable. Also, having only one copy of the code makes it easier
+to make changes. Would you rather make forty little changes scattered all
+throughout a potentially large program, or one change to the function body? So
+would I.
+<br><br> 
+Another reason for functions is to break down a complex program into logical
+parts. For example, take a menu program that runs complex code when a menu
+choice is selected. The program would probably best be served by making
+functions for each of the actual menu choices, and then breaking down the
+complex tasks into smaller, more manageable tasks, which could be in their own
+functions. In this way, a program can be designed that makes sense when read.
+And has a structure that is easier to understand quickly. The worst programs
+usually only have the required function, main, and fill it with pages of
+jumbled code.
+
+<br><br>
+<br><a href="quiz/quiz4.html">Quiz yourself</a>
+<br><a href="lesson3.html">Previous: Loops</a>
+<br><a href="lesson5.html">Next: Switch/case</a>
+<br><a href="//www.cprogramming.com/tutorial/c-tutorial.html">Back to C Tutorial Index</a>
+<br><br>
+
+
+<div id="footer" class="noprint">
+
+
+
+<div style="clear: both; margin-top: 10px;"></div>
+
+
+<script>
+function abTest(element_name_sets) {
+    var element_to_show;
+    var element_count = element_name_sets.length;
+    var i;
+    for ( i = 0; i < element_count; i++ )
+    {
+        if ( Math.random() <= 1 / ( element_count - i ) ) {
+                break;
+        }
+    }
+    var element_name_set = element_name_sets[ i ];
+    for ( i = 0; i < element_name_set.length; i++ )
+    {
+        element_to_show = document.getElementById( element_name_set[ i ] );
+        element_to_show.style.display = "block";
+    }
+}
+//abTest( [["old-ad", "new-ad"]] );
+</script>
+
+
+<div class="popularpages">
+<b>Popular pages</b>
+<ul>
+<li><a href=//www.cprogramming.com/c++book/?inl=pf>Jumping into C++, the Cprogramming.com ebook</a> 
+ <li><a href=//www.cprogramming.com/begin.html?inl=pf>How to learn C++ or C</a> 
+<li><a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=pf>C Tutorial</a>
+<li><a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=pf>C++ Tutorial</a>
+<li><a href=//www.cprogramming.com/how_to_learn_to_program.html?inl=pf>5 ways you can learn to program faster</a> 
+<li><a href=//www.cprogramming.com/beginner_programming_mistakes.html?inl=pf>The 5 most common problems new programmers face</a>
+<li><a href=//www.cprogramming.com/code_blocks/?inl=pf>How to set up a compiler</a>
+<li><a href=//www.cprogramming.com/tutorial/game_programming/same_game_part1.html?inl=pf>How to make a game in 48 hours</a>
+</ul>
+</div>
+
+
+</div>
+
+<center>
+ 
+
+
+<div class="footer-links" style="padding:10px">
+<a href="//www.cprogramming.com/advertising.html">Advertising</a> | <a href="//www.cprogramming.com/privacy.html">Privacy policy</a> |
+<a href="//www.cprogramming.com/use.html">Copyright &copy; 2019 Cprogramming.com</a> | <a href=mailto:webmaster@cprogramming.com>Contact</a> | <a href="//www.cprogramming.com/about.html">About</a>
+</div>
+</div>
+</div>
+</td>
+    	
+
+
+<td class="content noprint rightcolumn" valign="top" rowspan="1">
+<div class="content2"><br><div class="verticalad">
+
+
+
+
+
+<!-- Cprogramming_S2S_Sidebar_Right_Pos1 -->
+<div id="bsa-zone_1596557574324-1_123456"></div>
+</div><br>
+
+</div>
+</td>  	
+
+</tr>
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/syntaxhighlighter.js"></script>
+
+
+</html>
+

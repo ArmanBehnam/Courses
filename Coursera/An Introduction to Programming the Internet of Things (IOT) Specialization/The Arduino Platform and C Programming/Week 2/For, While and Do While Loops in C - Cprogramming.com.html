@@ -1,0 +1,501 @@
+<html>
+<head>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://feeds2.feedburner.com/Cprogrammingcom/">
+<link rel="stylesheet" href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/style_responsive.css" type="text/css">
+<link rel="canonical" href="https://www.cprogramming.com/tutorial/c/lesson3.html"/>
+
+<link href="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/theme.css" rel="stylesheet" type="text/css" />
+
+
+<META NAME="Description" CONTENT="Learn how to use loops in C, including for, while and do while loops, with examples of each.">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>For, While and Do While Loops in C - Cprogramming.com</title>
+
+
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7820175-1']);
+  _gaq.push(['_setVisitorCookieTimeout', 2592000]);
+  _gaq.push(['_setDomainName', '.cprogramming.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push (['_gat._anonymizeIp']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+<script> 
+function toggleclassforclass(targetclass, toggleclass) {
+    cx = document.getElementsByClassName(targetclass)[0].className;
+    if (cx.includes(toggleclass)) {
+        cx = cx.replace(toggleclass, "");
+    } else {
+        cx += " "+toggleclass;
+    }
+    document.getElementsByClassName(targetclass)[0].className = cx;
+}
+
+function togglemenu() {
+    toggleclassforclass('maincontent', 'mobile-menu-shown');
+    toggleclassforclass('leftcolumn', 'mobile-menu');
+}
+</script>
+
+<!-- ADDED BSA -->
+<script type="text/javascript">
+        (function(){
+                var bsa_optimize=document.createElement('script');
+                bsa_optimize.type='text/javascript';
+                bsa_optimize.async=true;
+                bsa_optimize.src='https://cdn4.buysellads.net/pub/cprogramming.js?'+(new Date()-new Date()%600000);
+                (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa_optimize);
+        })();
+</script>
+<!-- END ADDED BSA -->
+</head>
+
+<body>
+<div class="header">
+<button class="hamburger" onClick="togglemenu(); return false;"><img src="https://www.cprogramming.com/images/hamburger.svg" class="responsive-nav" ></img></button>
+<a class="logo" href="//www.cprogramming.com/"><img class="noprint logoimg" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/cprog.png" width="324" height="83" border="0"></a> 
+
+    	<div class="leaderboard">
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Leaderboard_ROS_ATF -->
+<div id="bsa-zone_1596557361448-5_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</div>
+        
+</div>
+  <table class="main">
+
+  <tr>
+
+     <td class="noprint leftcolumn" width="130" valign="top"> 
+     <div class="menu" valign="top">
+     <p class="navcategory" align="left">
+              Starting out
+     </p>
+
+     <p class="navlist" align="left">
+             <a href="//www.cprogramming.com/begin.html?inl=nv">How to begin</a><br>
+             <a href="//www.cprogramming.com/c++book/?inl=nv">Get the book</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Tutorials
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=nv>C tutorial</a><br>
+            <a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=nv>C++ tutorial</a><br>
+            <a href=//www.cprogramming.com/game-programming.html?inl=nv>Game programming</a><br>
+            <a href=//www.cprogramming.com/graphics-programming.html?inl=nv>Graphics programming</a><br>
+            <a href=//www.cprogramming.com/algorithms-and-data-structures.html?inl=nv>Algorithms</a><br>
+            <a href="//www.cprogramming.com/tutorial.html?inl=nv">More tutorials</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           Practice
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/challenge.html?inl=nv">Practice problems</a><br>
+            <a href="//www.cprogramming.com/quiz/?inl=nv">Quizzes</a><br>
+     </p>
+     <p class="navcategory" align="left">
+          <br>
+           Resources
+     </p>
+
+     <p class="navlist" align="left">
+            <a href=//www.cprogramming.com/snippets/?inl=nv>Source code</a><br>
+            <a href="//www.cprogramming.com/tips/?inl=nv">C and C++ tips</a><br>
+            <a href="//www.cprogramming.com/compilers.html?inl=nv">Getting a compiler</a><br>
+            <a href="//www.cprogramming.com/books.html?inl=nv">Book recommendations</a><br>
+            <a href="//cboard.cprogramming.com/?inl=nv">Forum</a><br>
+     </p>
+
+     <p class="navcategory" align="left">
+          <br>
+           References
+     </p>
+
+     <p class="navlist" align="left">
+            <a href="//www.cprogramming.com/function.html?inl=nv">Function reference</a><br>
+            <a href="//www.cprogramming.com/reference/?inl=nv">Syntax reference</a><br>
+            <a href="//faq.cprogramming.com/cgi-bin/smartfaq.cgi?inl=nv">Programming FAQ</a><br>
+     </p>
+
+             
+     </div>
+
+<center>
+      <br><br>
+
+<!-- ADDED BSA -->
+<!-- Cprogramming_S2S_Sidebar_Left_Pos1 -->
+<div id="bsa-zone_1596557550017-7_123456"></div>
+<!-- END ADDED BSA -->
+
+
+</center>
+
+
+<div style="border-radius:25px;border-style:dashed;border-width:1px;padding:10px;margin-top:5px;margin-bottom:5px;">
+<b>Tutorial Map</b>
+<br><br>
+
+Introduction
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson1.html>Intro</a></li>
+<li> <a href=lesson2.html>If Statements</a></li>
+<li>Loops<span style="font-size:10px"> &larr; you are here</span></li>
+<li> <a href=lesson4.html>Functions</a></li>
+<li> <a href=lesson5.html>Switch case</a></li>
+</ul>
+Pointers, arrays, strings
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson6.html>Pointers</a></li>
+<li> <a href=lesson7.html>Structures</a></li>
+<li> <a href=lesson8.html>Arrays</a></li>
+<li> <a href=lesson9.html>Strings</a></li>
+</ul>
+File IO
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson10.html>File I/O</a></li>
+<li> <a href=lesson11.html>Typecasting</a></li>
+<li> <a href=lesson14.html>Command Line Arguments</a></li>
+</ul>
+Linked lists, trees, recursion
+<ul style="list-style-type:none;padding-left:15px;">
+<li> <a href=lesson15.html>Linked Lists</a></li>
+<li> <a href=lesson16.html>Recursion</a></li>
+<li> <a href=lesson17.html>Variable Arg Lists</a></li>
+<li> <a href=lesson18.html>Binary Trees</a></li>
+</ul>
+
+
+</div>
+
+
+    </td>
+	<td class="content" valign="top">
+
+    			<div class="content2 maincontent">
+
+<h1>Loops in C</h1>
+
+<div style="margin-right: 1em; float:left; padding: .4em; border-right: 1px solid #bbb"><img src=https://mainsite-static-cprogrammingcom.netdna-ssl.com/main_images/alex-50-50.jpg border=0 style="padding: 0.25em;"><br><a href=https://plus.google.com/113987539774523532573?rel=author> By Alex Allain</a></div>
+
+Loops are used to repeat a block of code.  Being able to have your program
+repeatedly execute a block of code is one of the most basic but useful tasks
+in programming -- many programs or websites that produce extremely complex
+output (such as a message board) are really only executing a single task many
+times.  (They may be executing a small number of tasks, but in principle, to
+produce a list of messages only requires repeating the operation of reading in
+some data and displaying it.)  Now, think about what this means: a loop lets
+you write a very simple statement to produce a significantly greater result
+simply by repetition.<br><br><center>
+<div class='noprint'>
+
+<!-- Cprogramming_S2S_InContent_ROS_Pos1 -->
+<div id="bsa-zone_1596557484538-7_123456"></div>
+</div>
+
+
+
+</center>
+<br><br>
+
+One caveat: before going further, you should understand the concept of
+C's true and false, because it will be necessary when working with loops
+(the conditions are the same as with if statements).  This concept is covered
+in the <a href="lesson2.html">previous tutorial</a>.  There are three types of
+loops: for, while, and do..while.  Each of them has their specific uses. They
+are all outlined below.  <br><br> 
+FOR - for loops are the most useful type. The syntax for a for loop is
+<br><br><pre class="brush: cpp; toolbar: false">
+for ( variable initialization; condition; variable update ) {
+  Code to execute while the condition is true
+}
+</pre> 
+The variable initialization allows you to either declare a variable and give
+it a value or give a value to an already existing variable. Second, the
+condition tells the program that while the conditional expression is true the
+loop should continue to repeat itself. The variable update section is the
+easiest way for a for loop to handle changing of the variable. It is possible
+to do things like x++, x = x + 10, or even x = random ( 5 ), and if you really
+wanted to, you could call other functions that do nothing to the variable but
+still have a useful effect on the code. Notice that a semicolon separates each
+of these sections, that is important. Also note that every single one of the
+sections may be empty, though the semicolons still have to be there. If the
+condition is empty, it is evaluated as true and the loop will repeat until
+something else stops it.
+<br><br> 
+Example:
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int x;
+    /* The loop goes while x &lt; 10, and x increases by one every loop*/
+    for ( x = 0; x &lt; 10; x++ ) {
+        /* Keep in mind that the loop condition checks 
+           the conditional statement before it loops again.
+           consequently, when x equals 10 the loop breaks.
+           x is updated before the condition is checked. */   
+        printf( "%d\n", x );
+    }
+    getchar();
+}
+/* Run this online: https://cee.studio/?bucket=201214-5lT&amp;name=cp.com */
+</pre> 
+This program is a very simple example of a for loop. x is set to zero, while x
+is less than 10 it calls printf to display the value of the variable x, and it
+adds 1 to x until the condition is met. Keep in mind also that the variable is
+incremented after the code in the loop is run for the first time.
+<br><br> 
+WHILE - WHILE loops are very simple. The basic structure is
+<br><br> 
+while ( condition ) {
+  Code to execute while the condition is true
+}
+ 
+The true represents a boolean expression which could be x == 1 or while ( x !=
+7 ) (x does not equal 7). It can be any combination of boolean statements that
+are legal. Even, (while x ==5 || v == 7) which says execute the code while x
+equals five or while v equals 7. Notice that a while loop is like a
+stripped-down version of a for loop-- it has no initialization or update
+section. However, an empty condition is not legal for a while loop as
+it is with a for loop.
+<br><br> 
+Example:
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdio.h&gt;
+
+int main()
+{ 
+  int x = 0;  /* Don't forget to declare variables */
+  
+  while ( x &lt; 10 ) { /* While x is less than 10 */
+      printf( "%d\n", x );
+      x++;             /* Update x so the condition can be met eventually */
+  }
+  getchar();
+
+}
+/* Run this online: https://cee.studio/?bucket=201214-7M0&amp;name=cp.com */
+</pre> 
+This was another simple example, but it is longer than the above FOR loop. The
+easiest way to think of the loop is that when it reaches the brace at the end
+it jumps back up to the beginning of the loop, which checks the condition
+again and decides whether to repeat the block another time, or stop and move
+to the next statement after the block.
+<br><br> 
+DO..WHILE - DO..WHILE loops are useful for things that want to loop at least
+once. The structure is
+<pre class="brush: cpp; toolbar: false">
+do {
+} while ( condition );
+</pre>
+Notice that the condition is tested at the end of the block instead of the
+beginning, so the block will be executed at least once. If the condition is
+true, we jump back to the beginning of the block and execute it again. A
+do..while loop is almost the same as a while loop except that the loop body is
+guaranteed to execute at least once. A while loop says "Loop while the
+condition is true, and execute this block of code", a do..while loop says
+"Execute this block of code, and then continue to loop while the condition is
+true".
+<br><br> 
+Example:
+<pre class="brush: cpp; toolbar: false">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+  int x;
+
+  x = 0;
+  do {
+    /* "Hello, world!" is printed at least one time
+      even though the condition is false */
+      printf( "Hello, world!\n" );
+  } while ( x != 0 );
+  getchar();
+}
+
+/* Run this online: https://cee.studio/?bucket=201214-6y6&amp;name=cp.com */
+</pre> 
+Keep in mind that you must include a trailing semi-colon after the while in
+the above example. A common error is to forget that a do..while loop must be
+terminated with a semicolon (the other loops should not be terminated with a
+semicolon, adding to the confusion). Notice that this loop will execute once,
+because it automatically executes before checking the condition.
+<h2>
+Break and Continue</h2>
+<br>
+Two keywords that are very important to looping are break and continue.  The
+break command will exit the most immediately surrounding loop regardless of what the conditions of the loop are.  Break
+is useful if we want to exit a loop under special circumstances.  For example,
+let's say the program we're working on is a two-person checkers game.  The basic structure of the
+program might look like this:
+<pre class="brush: cpp; toolbar: false">
+while (true) 
+{
+    take_turn(player1);
+    take_turn(player2);
+}</pre>
+This will make the game alternate between having player 1 and player 2 take
+turns.  The only problem with this logic is that there's no way to exit the game; the loop will run forever!
+Let's try something like this instead:
+<pre class="brush: cpp; toolbar: false">
+while(true)
+{
+    if (someone_has_won() || someone_wants_to_quit() == TRUE)
+    {break;}
+    take_turn(player1);
+    if (someone_has_won() || someone_wants_to_quit() == TRUE)
+    {break;}
+    take_turn(player2);
+}</pre>
+This code accomplishes what we want--the primary loop of the game will continue
+under normal circumstances, but under a special condition (winning or exiting)
+the flow will stop and our program will do something else.<br>
+Continue is another keyword that controls the flow of loops.  If you are
+executing a loop and hit a continue statement, the loop will stop its current
+iteration, update itself (in the case of for loops) and begin to execute
+again from the top.  Essentially, the continue statement is saying "this
+iteration of the loop is done, let's continue with the loop without executing
+whatever code comes after me."
+
+Let's say we're implementing a game of Monopoly.  Like above, we want to use a
+loop to control whose turn it is, but controlling turns is a bit more
+complicated in Monopoly than in checkers.  The basic structure of our code
+might then look something like this:
+<pre class="brush: cpp; toolbar: false">
+for (player = 1; someone_has_won == FALSE; player++)
+    {
+        if (player &gt; total_number_of_players)
+        {player = 1;}
+        if (is_bankrupt(player))
+        {continue;}
+        take_turn(player);
+    }</pre>
+
+    This way, if one player can't take her turn, the game doesn't stop for
+    everybody; we just skip her and keep going with the next player's
+    turn.
+
+<br><br>
+<br><a href="quiz/quiz3.html">Quiz yourself</a>
+<br><a href="lesson2.html">Previous: If Statements</a>
+<br><a href="lesson4.html">Next: Functions</a>
+<br><a href="//www.cprogramming.com/tutorial/c-tutorial.html">Back to C Tutorial Index</a>
+<br><br>
+
+
+<div id="footer" class="noprint">
+
+
+
+<div style="clear: both; margin-top: 10px;"></div>
+
+
+<script>
+function abTest(element_name_sets) {
+    var element_to_show;
+    var element_count = element_name_sets.length;
+    var i;
+    for ( i = 0; i < element_count; i++ )
+    {
+        if ( Math.random() <= 1 / ( element_count - i ) ) {
+                break;
+        }
+    }
+    var element_name_set = element_name_sets[ i ];
+    for ( i = 0; i < element_name_set.length; i++ )
+    {
+        element_to_show = document.getElementById( element_name_set[ i ] );
+        element_to_show.style.display = "block";
+    }
+}
+//abTest( [["old-ad", "new-ad"]] );
+</script>
+
+
+<div class="popularpages">
+<b>Popular pages</b>
+<ul>
+<li><a href=//www.cprogramming.com/c++book/?inl=pf>Jumping into C++, the Cprogramming.com ebook</a> 
+ <li><a href=//www.cprogramming.com/begin.html?inl=pf>How to learn C++ or C</a> 
+<li><a href=//www.cprogramming.com/tutorial/c-tutorial.html?inl=pf>C Tutorial</a>
+<li><a href=//www.cprogramming.com/tutorial/c++-tutorial.html?inl=pf>C++ Tutorial</a>
+<li><a href=//www.cprogramming.com/how_to_learn_to_program.html?inl=pf>5 ways you can learn to program faster</a> 
+<li><a href=//www.cprogramming.com/beginner_programming_mistakes.html?inl=pf>The 5 most common problems new programmers face</a>
+<li><a href=//www.cprogramming.com/code_blocks/?inl=pf>How to set up a compiler</a>
+<li><a href=//www.cprogramming.com/tutorial/game_programming/same_game_part1.html?inl=pf>How to make a game in 48 hours</a>
+</ul>
+</div>
+
+
+</div>
+
+<center>
+ 
+
+
+<div class="footer-links" style="padding:10px">
+<a href="//www.cprogramming.com/advertising.html">Advertising</a> | <a href="//www.cprogramming.com/privacy.html">Privacy policy</a> |
+<a href="//www.cprogramming.com/use.html">Copyright &copy; 2019 Cprogramming.com</a> | <a href=mailto:webmaster@cprogramming.com>Contact</a> | <a href="//www.cprogramming.com/about.html">About</a>
+</div>
+</div>
+</div>
+</td>
+    	
+
+
+<td class="content noprint rightcolumn" valign="top" rowspan="1">
+<div class="content2"><br><div class="verticalad">
+
+
+
+
+
+<!-- Cprogramming_S2S_Sidebar_Right_Pos1 -->
+<div id="bsa-zone_1596557574324-1_123456"></div>
+</div><br>
+
+</div>
+</td>  	
+
+</tr>
+</table>
+</div>
+
+</body>
+
+<script type="text/javascript" src="https://mainsite-static-cprogrammingcom.netdna-ssl.com/syntax-highlight/syntaxhighlighter.js"></script>
+
+
+</html>
+
