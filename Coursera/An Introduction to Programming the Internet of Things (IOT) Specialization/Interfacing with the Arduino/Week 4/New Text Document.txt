@@ -1,0 +1,101 @@
+Arduino wifi locator
+
+Swing a directional antenna to get the best signal strength to the Arduino. Could be a good pointer to wherever your phone is if you have WiFi enabled. Here the WiFi shield itself is the sensor, a servo motor is the actuator. With a homemade directional antenna connected to the servo, we swing it around and record the larget WiFi signal we found. Since I'm not willing to commit my servo permanently at this point, I'll try to rubber-band it together. When we swing back to the position we found the largest signal on the first sweep, we'll almost certainly have slippage/hysteresis. We rock a few degrees either way to get the current signal, and then hold steady.
+On some signal, either a drop below a theshhold power or button press, restart the search. For now just trigger on a signal drop to 1/2 the earlier level.
+
+Arduino UNO
+wifi shield
+2.4 GHz directional antenna 
+stepper motor
+rubber bands
+
+Directional Antennas:
+example for an indoor setup: 
+Alfa APA-M25 Dual Band 2.4GHz/5GHz 10dBi high gain
+If you have a powerful stepper:
+Tupavco TP513 Yagi WiFi Antenna 2.4GHz (17dBi) Outdoor Directional Signal 
+or even more fun: https://www.makeuseof.com/tag/how-to-make-a-wifi-antenna-out-of-a-pringles-can-nb/
+
+Constraints: 
+The servo needs to have impule to physically move the device, and wind and obstructions will interfere.
+
+key libraries: WiFi, Servo
+
+
+untested sketch:
+/************************************************************************************************/
+include <WiFi.h>
+include <Servo.h>
+
+//snippets from arduino.cc pasted together with some postential ideas.
+
+Servo myservo;  // create servo object to control a servo
+int  pos = 0;    // variable to store the servo position
+int  rfPower;
+int  maxPos;
+int  leftPos;
+int  rightPos;
+long maxPower = 0;
+
+byte scanStage = 0
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  int status = WiFi.begin(ssid);
+
+  if (status != WL_CONNECTED) {
+    Serial.println("Couldn't get a WiFi connection");
+    while (true);
+  }
+  else {
+    // if you are connected, scan for available WiFi networks and print the number discovered:
+    Serial.println("** Scan Networks **");
+    byte numSsid = WiFi.scanNetworks();
+
+    Serial.print("Number of available WiFi networks discovered:");
+    Serial.println(numSsid);
+  }
+    
+}
+
+
+
+void loop() {
+ if (scanStage == 0) {
+	 for (pos = 0; pos <= 360; pos += 3) { // goes from 0 degrees to 180 degrees
+    // in steps of 3 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+	rfPower = WiFi.RSSI();
+	if (rfPower > maxPower ) {
+	maxPos = pos;
+	maxPower = rfPower;
+	}
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+	scanStage = 1;
+} //if scan
+
+/* return to best direction and settle
+  if (scanStage == 1 ) {
+	 leftPos = maxPos - 15;
+	rightPos = maxPos + 15;
+  for (pos = leftPos, pos <= rightPos, pos++ ) {
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+	rfPower = WiFi.RSSI();
+	if (rfPower > maxPower ) {
+	maxPos = pos;
+	maxPower = rfPower;
+	}
+    delay(15);                       // waits 15ms for the servo to reach the position
+	scanStage = 2;
+} //for pos lef/right
+} // scanStage == 1 
+
+  if (scanStage == 2 ) {
+	myservo.write(maxPos);
+	delay (60000); // check in a minute
+	if ( WiFi.RSSI() < 0.5 maxPower) {
+		scanStage = 0;} // then swing around to find it again
+} // scanStage = 2
+}
