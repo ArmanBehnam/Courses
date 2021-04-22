@@ -5,7 +5,7 @@
 Analysis and discussing [Interfacing with the Arduino](http://www.armanbehnam.com/about-me/education/courses/coursera/arduino-coursera/) in my website
 
 
-- [Week 1 background on the basics of hardware design and wiring needed to build useful circuits](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Week%201)
+- [Week 1 background on the basics of hardware design and wiring needed to build useful circuits](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Interfacing%20with%20the%20Arduino/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Interfacing with the Arduino](http://www.armanbehnam.co
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 sensors and actuators](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Week%202)
+- [Week 2 sensors and actuators](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Interfacing%20with%20the%20Arduino/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,7 @@ Analysis and discussing [Interfacing with the Arduino](http://www.armanbehnam.co
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
  
-- [Week 3 use of software libraries with an Arduino sketch](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Week%203)
+- [Week 3 use of software libraries with an Arduino sketch](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Interfacing%20with%20the%20Arduino/Week%203)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -92,7 +92,7 @@ Analysis and discussing [Interfacing with the Arduino](http://www.armanbehnam.co
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
 
 
-- [Week 4 Arduino shields](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Introduction%20to%20the%20Internet%20of%20Things%20and%20Embedded%20Systems/Week%204)
+- [Week 4 Arduino shields](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/An%20Introduction%20to%20Programming%20the%20Internet%20of%20Things%20(IOT)%20Specialization/Interfacing%20with%20the%20Arduino/Week%204)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
