@@ -1,0 +1,485 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.780
+Hello, and welcome to our course on building
+
+2
+00:00:03.780 --> 00:00:08.415
+recommendation systems with TensorFlow on Google Cloud Platform.
+
+3
+00:00:08.415 --> 00:00:11.370
+My name is Lack and I lead the team that is putting
+
+4
+00:00:11.370 --> 00:00:14.520
+together this course and this specialization.
+
+5
+00:00:14.520 --> 00:00:17.360
+This is the fifth and final course of
+
+6
+00:00:17.360 --> 00:00:20.630
+the advanced machine learning on GCP specialization.
+
+7
+00:00:20.630 --> 00:00:25.880
+In this course, we will learn how to build recommendation systems.
+
+8
+00:00:25.880 --> 00:00:27.770
+As usual, you will get
+
+9
+00:00:27.770 --> 00:00:31.190
+hands-on practice building machine learning models on
+
+10
+00:00:31.190 --> 00:00:35.000
+a variety of data-sets in the labs that we will work on together.
+
+11
+00:00:35.000 --> 00:00:39.890
+We start out the explaining what recommendation systems are.
+
+12
+00:00:39.890 --> 00:00:42.410
+When you watch a video on YouTube,
+
+13
+00:00:42.410 --> 00:00:46.264
+and you see a list of suggested videos to watch next,
+
+14
+00:00:46.264 --> 00:00:51.140
+that list is being built by a recommendation machine learning model,
+
+15
+00:00:51.140 --> 00:00:54.020
+often called a recommendation engine.
+
+16
+00:00:54.020 --> 00:00:57.155
+Of course, just the ML model,
+
+17
+00:00:57.155 --> 00:01:00.575
+just the recommendation engine is not enough.
+
+18
+00:01:00.575 --> 00:01:07.100
+Someone needs to build a data pipeline to collect whatever input data the model needs.
+
+19
+00:01:07.100 --> 00:01:10.780
+Inputs like the last five videos that you watched,
+
+20
+00:01:10.780 --> 00:01:15.210
+and that is done by a recommendation system.
+
+21
+00:01:15.210 --> 00:01:21.484
+Recommendation systems are not just about suggesting products to users.
+
+22
+00:01:21.484 --> 00:01:26.965
+Sometimes they can be about suggesting users for products.
+
+23
+00:01:26.965 --> 00:01:29.635
+For example, in marketing applications,
+
+24
+00:01:29.635 --> 00:01:32.765
+you may have a new promotion and you want to find the
+
+25
+00:01:32.765 --> 00:01:36.200
+thousand most relevant, current customers.
+
+26
+00:01:36.200 --> 00:01:41.735
+That's called targeting and that is also done by a recommendation system.
+
+27
+00:01:41.735 --> 00:01:48.860
+Many times recommendation systems are not about what you would think of as products.
+
+28
+00:01:48.860 --> 00:01:54.125
+When Google Maps suggests the route that avoids toll roads,
+
+29
+00:01:54.125 --> 00:01:55.945
+that's a recommendation system.
+
+30
+00:01:55.945 --> 00:02:02.405
+When smart reply in Gmail suggests possible replies to an email that you received,
+
+31
+00:02:02.405 --> 00:02:04.970
+that too is a recommendation system.
+
+32
+00:02:04.970 --> 00:02:09.740
+So recommendation systems are about personalization.
+
+33
+00:02:09.740 --> 00:02:12.650
+It's about taking your product that works for
+
+34
+00:02:12.650 --> 00:02:17.285
+everyone and personalizing it for an individual user.
+
+35
+00:02:17.285 --> 00:02:21.110
+So let's say you want to recommend movies to users.
+
+36
+00:02:21.110 --> 00:02:23.440
+You can do this in several ways.
+
+37
+00:02:23.440 --> 00:02:29.165
+The first of these is to use a content-based recommendation system.
+
+38
+00:02:29.165 --> 00:02:31.625
+In a content-based recommendation system,
+
+39
+00:02:31.625 --> 00:02:34.805
+you use the metadata about your products.
+
+40
+00:02:34.805 --> 00:02:41.465
+For example, perhaps you know which movies are cartoons and which movies are sci-fi.
+
+41
+00:02:41.465 --> 00:02:46.595
+Now, suppose you have a user who has seen and rated a few movies.
+
+42
+00:02:46.595 --> 00:02:51.705
+Some that she liked and gave a thumbs up and that some that she didn't.
+
+43
+00:02:51.705 --> 00:02:56.600
+We would like to know which movie in our database we need to recommend next.
+
+44
+00:02:56.600 --> 00:03:00.340
+So, remember that we have metadata about the movies.
+
+45
+00:03:00.340 --> 00:03:05.990
+We know that this particular user likes sci-fi and doesn't like cartoons.
+
+46
+00:03:05.990 --> 00:03:12.670
+So, we might use that information to recommend popular sci-fi dramas to this user.
+
+47
+00:03:12.670 --> 00:03:16.410
+So, perhaps we recommend The Dark Knight Rises.
+
+48
+00:03:16.410 --> 00:03:22.550
+Notice that this recommendation is based on knowing something about the content.
+
+49
+00:03:22.550 --> 00:03:29.720
+You're simply recommending the most popular items in a category that the user likes.
+
+50
+00:03:29.720 --> 00:03:33.800
+Maybe you don't even have the individual user's preferences.
+
+51
+00:03:33.800 --> 00:03:37.510
+All you might have is a market segmentation.
+
+52
+00:03:37.510 --> 00:03:42.435
+Which movies are liked by users in which regions of the country,
+
+53
+00:03:42.435 --> 00:03:48.095
+and that is enough to build a content-based recommendation system.
+
+54
+00:03:48.095 --> 00:03:51.305
+Arguably, there is no machine learning here.
+
+55
+00:03:51.305 --> 00:03:54.680
+It's a simple rule that relies on the builder of
+
+56
+00:03:54.680 --> 00:04:01.070
+the recommendation system to assign proper tags to items and users.
+
+57
+00:04:01.070 --> 00:04:04.450
+That's a content-based recommendation system.
+
+58
+00:04:04.450 --> 00:04:09.814
+In collaborative filtering, you don't have any metadata about the products,
+
+59
+00:04:09.814 --> 00:04:19.090
+instead you learn about item similarity and user similarity from the ratings data itself.
+
+60
+00:04:19.090 --> 00:04:23.705
+We might store our user movie data in a matrix like this with
+
+61
+00:04:23.705 --> 00:04:28.820
+check marks indicating whether the user watched the complete movie
+
+62
+00:04:28.820 --> 00:04:33.500
+or commented on it or gave it a star rating or however it
+
+63
+00:04:33.500 --> 00:04:38.840
+is that we measure that a specific user liked a specific movie.
+
+64
+00:04:38.840 --> 00:04:42.620
+This matrix is very large.
+
+65
+00:04:42.620 --> 00:04:49.585
+Since you might have millions to billions of users and hundreds to millions of movies,
+
+66
+00:04:49.585 --> 00:04:54.590
+an individual will have tend to have watched only a handful of these movies.
+
+67
+00:04:54.590 --> 00:04:57.950
+So, most of this matrix is not only large,
+
+68
+00:04:57.950 --> 00:04:59.750
+this matrix is sparse.
+
+69
+00:04:59.750 --> 00:05:04.850
+The idea behind collaborative filtering is that this very large,
+
+70
+00:05:04.850 --> 00:05:11.060
+very sparse user by item matrix can be approximated by
+
+71
+00:05:11.060 --> 00:05:19.120
+the product of two smaller matrices called user factors and item factors.
+
+72
+00:05:19.120 --> 00:05:26.030
+Then, if we need to find whether a particular user will like a particular movie,
+
+73
+00:05:26.030 --> 00:05:30.920
+it's as simple as taking the row corresponding to the user and the column
+
+74
+00:05:30.920 --> 00:05:36.385
+corresponding to the movie and multiplying them to get the predicted rating.
+
+75
+00:05:36.385 --> 00:05:39.450
+To recommend movies to users,
+
+76
+00:05:39.450 --> 00:05:44.505
+we recommend the movies that we predict they will rate the highest.
+
+77
+00:05:44.505 --> 00:05:51.320
+Of course, you will learn how to implement collaborative filtering in TensorFlow.
+
+78
+00:05:51.320 --> 00:05:54.050
+One of the really cool things about
+
+79
+00:05:54.050 --> 00:05:59.855
+collaborative filtering is that you don't need to know any metadata about your items.
+
+80
+00:05:59.855 --> 00:06:05.299
+You also don't need to do market segmentation of your users
+
+81
+00:06:05.299 --> 00:06:11.390
+as long as you have an interactions matrix, you're ready to go.
+
+82
+00:06:11.390 --> 00:06:15.995
+But if you do have metadata about users and items,
+
+83
+00:06:15.995 --> 00:06:19.420
+you can use content-based recommendation systems.
+
+84
+00:06:19.420 --> 00:06:21.375
+But what if you have both?
+
+85
+00:06:21.375 --> 00:06:26.220
+You have metadata and you have an interactions matrix.
+
+86
+00:06:26.220 --> 00:06:28.220
+If you have both,
+
+87
+00:06:28.220 --> 00:06:32.905
+you can use neural networks to combine all of the advantages
+
+88
+00:06:32.905 --> 00:06:38.380
+and eliminate the disadvantages of all three types of recommendation systems.
+
+89
+00:06:38.380 --> 00:06:43.180
+Three types. Well, there's actually a third type of recommendation system called a
+
+90
+00:06:43.180 --> 00:06:45.940
+knowledge-based recommendation system that can be used to
+
+91
+00:06:45.940 --> 00:06:49.480
+provide business impact inputs to systems.
+
+92
+00:06:49.480 --> 00:06:51.350
+We'll cover this in this course.
+
+93
+00:06:51.350 --> 00:06:55.900
+The hybrid models of all three of these types of systems use
+
+94
+00:06:55.900 --> 00:07:02.425
+all the data available and connect all of these models together into an ML Pipeline.
+
+95
+00:07:02.425 --> 00:07:05.870
+Incidentally, this is how YouTube works.
+
+96
+00:07:05.870 --> 00:07:08.840
+We'll discuss some of the inner workings of
+
+97
+00:07:08.840 --> 00:07:12.680
+the YouTube video hybrid recommendation system as
+
+98
+00:07:12.680 --> 00:07:17.060
+an inspiration to building your own hybrid model.
+
+99
+00:07:17.060 --> 00:07:22.820
+Finally, we will see how we can productionize and automate much of
+
+100
+00:07:22.820 --> 00:07:29.360
+the necessary pipeline using the greater Google Cloud platform ecosystem because,
+
+101
+00:07:29.360 --> 00:07:33.320
+as we know, from Core Seven of the machine learning series,
+
+102
+00:07:33.320 --> 00:07:38.720
+the machine learning model is only a small part of the overall system.
+
+103
+00:07:38.720 --> 00:07:41.600
+Consequently, we look at the architecture of
+
+104
+00:07:41.600 --> 00:07:44.990
+an end-to-end system for recommendations so that we can
+
+105
+00:07:44.990 --> 00:07:47.930
+orchestrate the continuous retraining of
+
+106
+00:07:47.930 --> 00:07:52.660
+the recommendation system as new ratings data comes in from users.
+
+107
+00:07:52.660 --> 00:07:56.690
+The real-world example that we'll use is to use a week of
+
+108
+00:07:56.690 --> 00:08:01.160
+data extracted from the web logs of kurier.at,
+
+109
+00:08:01.160 --> 00:08:04.205
+a large news provider in Austria.
+
+110
+00:08:04.205 --> 00:08:08.150
+Recommendation systems are often the machine-learning systems that
+
+111
+00:08:08.150 --> 00:08:12.410
+you encounter the most often in enterprise settings.
+
+112
+00:08:12.410 --> 00:08:15.755
+From a business impact standpoint,
+
+113
+00:08:15.755 --> 00:08:20.090
+recommendation systems can allow you to sell products you could
+
+114
+00:08:20.090 --> 00:08:24.860
+never sell before to users you could never reach before.
+
+115
+00:08:24.860 --> 00:08:29.450
+To learn how to build effective recommendation systems though,
+
+116
+00:08:29.450 --> 00:08:35.375
+you will have to know all the topics that we have covered in all the courses so far.
+
+117
+00:08:35.375 --> 00:08:37.310
+That data you have,
+
+118
+00:08:37.310 --> 00:08:40.400
+maybe structured data, might be images,
+
+119
+00:08:40.400 --> 00:08:43.355
+might be text, and you will need to bring in
+
+120
+00:08:43.355 --> 00:08:47.650
+all the data into a powerful machine learning model.
+
+121
+00:08:47.650 --> 00:08:52.650
+We have quite a journey ahead of us. Let's get started.
