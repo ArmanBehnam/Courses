@@ -1,0 +1,201 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.870
+To get started, let's consider a thought exercise.
+
+2
+00:00:03.870 --> 00:00:06.390
+Suppose you want to build an application to
+
+3
+00:00:06.390 --> 00:00:09.705
+suggest homes for people who want to rent a vacation home,
+
+4
+00:00:09.705 --> 00:00:14.430
+you have a database of users and properties and information about users past rentals,
+
+5
+00:00:14.430 --> 00:00:18.030
+various property details, and the users respective ratings.
+
+6
+00:00:18.030 --> 00:00:20.700
+We can represent this information in a matrix like the one
+
+7
+00:00:20.700 --> 00:00:23.805
+here called a user-item interaction matrix.
+
+8
+00:00:23.805 --> 00:00:26.160
+Each row corresponds to a user.
+
+9
+00:00:26.160 --> 00:00:27.915
+Users could be customers,
+
+10
+00:00:27.915 --> 00:00:30.450
+visitors, app users, or readers.
+
+11
+00:00:30.450 --> 00:00:32.085
+Here we just have five,
+
+12
+00:00:32.085 --> 00:00:34.955
+but we could have millions or even billions of users.
+
+13
+00:00:34.955 --> 00:00:38.685
+This user has rated three of the houses in our database.
+
+14
+00:00:38.685 --> 00:00:41.580
+Each column corresponds to an item.
+
+15
+00:00:41.580 --> 00:00:45.045
+Items could be products, movies, events, articles.
+
+16
+00:00:45.045 --> 00:00:47.640
+We can have thousands. In this case,
+
+17
+00:00:47.640 --> 00:00:49.305
+items or properties for rent.
+
+18
+00:00:49.305 --> 00:00:52.645
+This item has been rated by three separate users.
+
+19
+00:00:52.645 --> 00:00:56.810
+In general, if user i has a rating for house j,
+
+20
+00:00:56.810 --> 00:01:00.215
+then we have a score or a checkmark in the ij eighth spot.
+
+21
+00:01:00.215 --> 00:01:03.350
+Take a few minutes and think about how you would go about
+
+22
+00:01:03.350 --> 00:01:06.835
+selecting a vacation rental to recommend to a user.
+
+23
+00:01:06.835 --> 00:01:09.045
+What features will you use?
+
+24
+00:01:09.045 --> 00:01:11.640
+What target or label will you try to predict?
+
+25
+00:01:11.640 --> 00:01:13.830
+Where will your data come from?
+
+26
+00:01:13.830 --> 00:01:16.690
+Try to be as thorough as possible.
+
+27
+00:01:18.590 --> 00:01:23.620
+What did you come up with? What features do you think would be relevant?
+
+28
+00:01:23.620 --> 00:01:26.945
+Did you think about ways to use properties of the user?
+
+29
+00:01:26.945 --> 00:01:31.010
+If so, what features did you use to describe your users?
+
+30
+00:01:31.010 --> 00:01:33.995
+Did you consider using properties of the house?
+
+31
+00:01:33.995 --> 00:01:37.560
+What features did you use to categorize the houses?
+
+32
+00:01:37.720 --> 00:01:39.965
+Maybe you thought to consider
+
+33
+00:01:39.965 --> 00:01:44.545
+a user's previous rentals or to consider the previous renters of a given house.
+
+34
+00:01:44.545 --> 00:01:49.865
+Would it be useful to compare similar users behavior to find new recommendations?
+
+35
+00:01:49.865 --> 00:01:53.765
+Or to suggest similar properties that a user might like?
+
+36
+00:01:53.765 --> 00:01:56.825
+What does it mean for two users to be similar?
+
+37
+00:01:56.825 --> 00:01:59.690
+What does it mean for two properties to be similar?
+
+38
+00:01:59.690 --> 00:02:02.880
+How to even measure similarity for things like this?
+
+39
+00:02:02.890 --> 00:02:05.480
+What are you trying to model?
+
+40
+00:02:05.480 --> 00:02:08.255
+That is, what label did you think to use?
+
+41
+00:02:08.255 --> 00:02:11.665
+Did you try to predict the user's rating score for a new property?
+
+42
+00:02:11.665 --> 00:02:16.355
+Or perhaps, you want to simply predict what house they would book next.
+
+43
+00:02:16.355 --> 00:02:19.100
+Different techniques of recommendation engines
+
+44
+00:02:19.100 --> 00:02:21.275
+approach these questions in different ways,
+
+45
+00:02:21.275 --> 00:02:24.935
+and we will briefly introduce a few of these approaches here.
+
+46
+00:02:24.935 --> 00:02:29.150
+We'll start with two of the most popular types of recommendation engines;
+
+47
+00:02:29.150 --> 00:02:31.920
+content-based and Collaborative Filtering.
+
+48
+00:02:31.920 --> 00:02:35.720
+We'll also briefly discuss knowledge-based recommenders and
+
+49
+00:02:35.720 --> 00:02:39.455
+introduce how deep learning can be used in building our recommendation engine.
+
+50
+00:02:39.455 --> 00:02:43.470
+Discussing along the way some of the common pain points that arise.

@@ -1,0 +1,441 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.755
+Hi. I'm Michael Munn,
+
+2
+00:00:01.755 --> 00:00:03.615
+a machine learning engineer at Google.
+
+3
+00:00:03.615 --> 00:00:04.935
+In the next few modules,
+
+4
+00:00:04.935 --> 00:00:07.155
+we'll discuss recommendation engines.
+
+5
+00:00:07.155 --> 00:00:08.850
+Recommendation engines are one of
+
+6
+00:00:08.850 --> 00:00:11.550
+the most successful and widely spread business use cases of
+
+7
+00:00:11.550 --> 00:00:14.910
+machine learning and power many of our favorite applications.
+
+8
+00:00:14.910 --> 00:00:17.610
+Think of applications like YouTube or Google Play,
+
+9
+00:00:17.610 --> 00:00:21.380
+and the suggested videos that are served to you when you use those products.
+
+10
+00:00:21.380 --> 00:00:23.315
+Where do these videos come from?
+
+11
+00:00:23.315 --> 00:00:27.300
+They're the results of recommender models working behind the scenes.
+
+12
+00:00:27.300 --> 00:00:29.955
+So, what exactly are recommendation engines?
+
+13
+00:00:29.955 --> 00:00:32.460
+What do they do and how do they work?
+
+14
+00:00:32.460 --> 00:00:35.880
+Let's start with what recommendation engines do.
+
+15
+00:00:35.880 --> 00:00:38.035
+Well, they do a lot of things.
+
+16
+00:00:38.035 --> 00:00:41.400
+Primarily, recommendation engines identify things that a user may
+
+17
+00:00:41.400 --> 00:00:45.305
+like based on products that they've interacted with in the past,
+
+18
+00:00:45.305 --> 00:00:49.175
+but the video recommendations you see when you log into YouTube.
+
+19
+00:00:49.175 --> 00:00:53.554
+For this user, the recommendations share a common theme generally programming,
+
+20
+00:00:53.554 --> 00:00:55.715
+TensorFlow or machine learning.
+
+21
+00:00:55.715 --> 00:00:58.280
+But they also suggest new items that
+
+22
+00:00:58.280 --> 00:01:00.710
+the user might not have thought to search for themselves,
+
+23
+00:01:00.710 --> 00:01:02.800
+like this video on quitting sugar.
+
+24
+00:01:02.800 --> 00:01:06.379
+It doesn't quite fit with the general theme of the other videos,
+
+25
+00:01:06.379 --> 00:01:08.950
+yet it is still relevant for the user.
+
+26
+00:01:08.950 --> 00:01:12.140
+This is especially useful for a product like YouTube,
+
+27
+00:01:12.140 --> 00:01:14.300
+which has billions of videos in its catalog.
+
+28
+00:01:14.300 --> 00:01:18.025
+It's not feasible for a person to search through all of the content.
+
+29
+00:01:18.025 --> 00:01:21.020
+Recommendation engines provide a way of surfacing
+
+30
+00:01:21.020 --> 00:01:24.965
+new content that a user might like but didn't know to search for.
+
+31
+00:01:24.965 --> 00:01:28.470
+Or consider the example of Smart Reply in Gmail.
+
+32
+00:01:28.470 --> 00:01:32.810
+From the merely possible responses to this email about project metrics,
+
+33
+00:01:32.810 --> 00:01:35.575
+we are recommended three short replies.
+
+34
+00:01:35.575 --> 00:01:40.820
+Recommender systems also allow us to personalize a user's experience.
+
+35
+00:01:40.820 --> 00:01:44.200
+By recording interactions such as likes or dislikes,
+
+36
+00:01:44.200 --> 00:01:47.135
+we can start to learn preferences unique to that user,
+
+37
+00:01:47.135 --> 00:01:53.310
+and thus personalize future content and make personalized recommendations like this.
+
+38
+00:01:53.310 --> 00:01:56.150
+Recommenders can suggest new products or
+
+39
+00:01:56.150 --> 00:02:00.025
+apps relevant to the interests that that user has shared.
+
+40
+00:02:00.025 --> 00:02:02.870
+Google Search is another great example of how
+
+41
+00:02:02.870 --> 00:02:05.675
+recommendation engines can provide personalization.
+
+42
+00:02:05.675 --> 00:02:10.520
+Your Google search queries take into account your location, your user history,
+
+43
+00:02:10.520 --> 00:02:13.160
+account preferences, and previous searches to
+
+44
+00:02:13.160 --> 00:02:17.120
+ensure that what you were served is most relevant to you, the user.
+
+45
+00:02:17.120 --> 00:02:19.580
+For example, typing "giants" into
+
+46
+00:02:19.580 --> 00:02:23.630
+the search bar might yield different results depending on where you're located.
+
+47
+00:02:23.630 --> 00:02:25.880
+If you're in New York, you might get a lot of
+
+48
+00:02:25.880 --> 00:02:28.130
+results for the New York Giants football team.
+
+49
+00:02:28.130 --> 00:02:30.770
+However, the same search in San Francisco might
+
+50
+00:02:30.770 --> 00:02:34.510
+return information about the San Francisco baseball team instead.
+
+51
+00:02:34.510 --> 00:02:38.490
+Recommenders also help you to find content that goes together,
+
+52
+00:02:38.490 --> 00:02:42.460
+content you are already looking for or that you didn't know you wanted.
+
+53
+00:02:42.460 --> 00:02:47.075
+So, when you use Google search to find Keras TensorFlow tutorials,
+
+54
+00:02:47.075 --> 00:02:51.820
+you're also recommended similar results based on what other people also search for.
+
+55
+00:02:51.820 --> 00:02:54.470
+Or if you make it to the bottom of the page,
+
+56
+00:02:54.470 --> 00:02:56.210
+you'll see related searches,
+
+57
+00:02:56.210 --> 00:03:00.025
+in this case suggesting the best books on neural networks.
+
+58
+00:03:00.025 --> 00:03:03.845
+This same kind of recommendation is working behind the scenes.
+
+59
+00:03:03.845 --> 00:03:06.320
+When say you're buying a jump rope and you're
+
+60
+00:03:06.320 --> 00:03:09.970
+recommended to buy a water bottle or a gym bag along with it.
+
+61
+00:03:09.970 --> 00:03:14.240
+These recommenders have learned that certain items go together and
+
+62
+00:03:14.240 --> 00:03:16.100
+customers who bought one of these things are
+
+63
+00:03:16.100 --> 00:03:18.785
+likely to benefit from buying the other as well.
+
+64
+00:03:18.785 --> 00:03:22.675
+Recommender systems also provide a way to keep us engaged.
+
+65
+00:03:22.675 --> 00:03:24.540
+When you watch a video on YouTube,
+
+66
+00:03:24.540 --> 00:03:26.990
+you've probably noticed the banner just to the right of your video that
+
+67
+00:03:26.990 --> 00:03:29.915
+contains a list of recommended videos that are up next.
+
+68
+00:03:29.915 --> 00:03:31.430
+When your video finishes,
+
+69
+00:03:31.430 --> 00:03:32.795
+these new ones will play,
+
+70
+00:03:32.795 --> 00:03:35.545
+and we'd like them to be interesting and useful for you.
+
+71
+00:03:35.545 --> 00:03:37.420
+This serves two purposes,
+
+72
+00:03:37.420 --> 00:03:42.125
+it keeps the user happy and interested and also keeps them engaged with the product.
+
+73
+00:03:42.125 --> 00:03:44.150
+Even outside the realm of products,
+
+74
+00:03:44.150 --> 00:03:45.590
+recommender systems have become
+
+75
+00:03:45.590 --> 00:03:48.865
+an important way for businesses to interact with their customers.
+
+76
+00:03:48.865 --> 00:03:51.655
+For example, when you contact a call center,
+
+77
+00:03:51.655 --> 00:03:53.870
+our recommendation engine can help ensure that
+
+78
+00:03:53.870 --> 00:03:56.540
+your query is directed to the appropriate division,
+
+79
+00:03:56.540 --> 00:04:00.220
+which improves their operations and keeps customers happy.
+
+80
+00:04:00.220 --> 00:04:01.915
+In all of these examples,
+
+81
+00:04:01.915 --> 00:04:04.130
+recommender systems provide benefit both for
+
+82
+00:04:04.130 --> 00:04:07.460
+the people who provide them and the people who use them.
+
+83
+00:04:07.460 --> 00:04:11.630
+For users, they help us explore and understand the item space,
+
+84
+00:04:11.630 --> 00:04:13.460
+whether that is by helping us find
+
+85
+00:04:13.460 --> 00:04:17.555
+related content or helping us explore new items entirely.
+
+86
+00:04:17.555 --> 00:04:20.435
+They also improve decision-making by decreasing
+
+87
+00:04:20.435 --> 00:04:22.835
+a potentially massive item space to
+
+88
+00:04:22.835 --> 00:04:26.935
+only those few items relevant to the user and much more.
+
+89
+00:04:26.935 --> 00:04:29.575
+From the recommender provider perspective,
+
+90
+00:04:29.575 --> 00:04:32.615
+they increase user satisfaction and engagement,
+
+91
+00:04:32.615 --> 00:04:35.725
+which leads to deeper customer loyalty and trust.
+
+92
+00:04:35.725 --> 00:04:38.150
+They also allow providers to learn more about
+
+93
+00:04:38.150 --> 00:04:40.730
+their customers by examining their interactions with
+
+94
+00:04:40.730 --> 00:04:44.600
+the recommended suggestions or even change user behavior and
+
+95
+00:04:44.600 --> 00:04:49.300
+drive demands towards less popular but still relevant items for the user.
+
+96
+00:04:49.300 --> 00:04:54.650
+In short, recommender systems provide a way to model people's preferences and behaviors,
+
+97
+00:04:54.650 --> 00:04:57.080
+which allows providers to reach the right customer
+
+98
+00:04:57.080 --> 00:05:01.040
+efficiently and effectively with the right message at the right time.
+
+99
+00:05:01.040 --> 00:05:02.885
+In the upcoming modules,
+
+100
+00:05:02.885 --> 00:05:05.510
+we'll cover some of the details of recommendation engines.
+
+101
+00:05:05.510 --> 00:05:07.520
+We'll discuss different types of
+
+102
+00:05:07.520 --> 00:05:09.775
+popularly used recommendation engines
+
+103
+00:05:09.775 --> 00:05:12.625
+including content-based and collaborative filtering,
+
+104
+00:05:12.625 --> 00:05:16.070
+knowledge based recommenders, and deep learning techniques.
+
+105
+00:05:16.070 --> 00:05:19.715
+We'll do a deep dive into some of these approaches in later modules.
+
+106
+00:05:19.715 --> 00:05:22.340
+We'll also see how you can design and build
+
+107
+00:05:22.340 --> 00:05:25.700
+your own recommendation engine following each of these methods.
+
+108
+00:05:25.700 --> 00:05:28.430
+We'll end this module by discussing some of
+
+109
+00:05:28.430 --> 00:05:31.685
+the common pitfalls that arise when developing recommender systems,
+
+110
+00:05:31.685 --> 00:05:33.390
+and how they can be addressed.
