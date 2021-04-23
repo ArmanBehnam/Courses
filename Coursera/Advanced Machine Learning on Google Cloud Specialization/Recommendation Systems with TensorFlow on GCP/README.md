@@ -72,7 +72,9 @@ My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/m
 In this course, you'll apply your knowledge of classification models and embeddings to build a ML pipeline that functions as a recommendation engine.
 
 • Devise a content-based recommendation engine
+
 • Implement a collaborative filtering recommendation engine
+
 • Build a hybrid recommendation engine with user and content embeddings
 
 # THANK YOU
