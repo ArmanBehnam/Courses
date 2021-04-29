@@ -1,11 +1,11 @@
-# Natural Language Processing with Classification and Vector Spaces by [Coursera](https://www.coursera.org/learn/classification-vector-spaces-in-nlp)
+# Natural Language Processing with Probabilistic Models by [Coursera](https://www.coursera.org/learn/probabilistic-models-in-nlp?)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
+Analysis and discussing [Natural Language Processing with Probabilistic Models](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
-- [Week 1 Sentiment Analysis with Logistic Regression](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
+- [Week 1 Autocorrect and Minimum Edit Distance](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Sentiment Analysis with Naïve Bayes](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
+- [Week 2 Part of Speech Tagging](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- [Week 3 Vector Space Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
+- [Week 3 Autocomplete and Language Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -87,7 +87,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
 
 
-- [Week 4 Machine Translation and Document Search](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
+- [Week 4 Word embeddings with neural networks](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -114,20 +114,21 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
 
 My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Coursera%20VFG5JQK5DWVQ.png).
 
-- 4.6 stars
-- 2319 ratings
-- 68,692 already enrolled
+- 4.7 stars
+- 1060 ratings
+- 32,796 already enrolled
 
-In Course 1 of the Natural Language Processing Specialization, offered by deeplearning.ai, you will:   
+In Course 2 of the Natural Language Processing Specialization, offered by deeplearning.ai, you will:
 
-a) Perform sentiment analysis of tweets using logistic regression and then naïve Bayes, 
-b) Use vector space models to discover relationships between words and use PCA to reduce the dimensionality of the vector space and visualize those relationships, and
-c) Write a simple English to French translation algorithm using pre-computed word embeddings and locality sensitive hashing to relate words via approximate k-nearest neighbor search.   
-    
-Please make sure that you’re comfortable programming in Python and have a basic knowledge of machine learning, matrix multiplications, and conditional probability.   
-   
-By the end of this Specialization, you will have designed NLP applications that perform question-answering and sentiment analysis, created tools to translate languages and summarize text, and even built a chatbot!   
-   
+a) Create a simple auto-correct algorithm using minimum edit distance and dynamic programming,
+b) Apply the Viterbi Algorithm for part-of-speech (POS) tagging, which is important for computational linguistics,
+c) Write a better auto-complete algorithm using an N-gram language model, and 
+d) Write your own Word2Vec model that uses a neural network to compute word embeddings using a continuous bag-of-words model.
+ 
+Please make sure that you’re comfortable programming in Python and have a basic knowledge of machine learning, matrix multiplications, and conditional probability.
+
+By the end of this Specialization, you will have designed NLP applications that perform question-answering and sentiment analysis, created tools to translate languages and summarize text, and even built a chatbot!
+
 This Specialization is designed and taught by two experts in NLP, machine learning, and deep learning. Younes Bensouda Mourri is an Instructor of AI at Stanford University who also helped build the Deep Learning Specialization. Łukasz Kaiser is a Staff Research Scientist at Google Brain and the co-author of Tensorflow, the Tensor2Tensor and Trax libraries, and the Transformer paper.
 
 # THANK YOU
