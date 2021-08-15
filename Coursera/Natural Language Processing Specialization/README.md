@@ -1,4 +1,4 @@
-# Natural Language Processing Specialization by [Coursera](Natural Language Processing Specialization)
+# Natural Language Processing Specialization by [Coursera](https://www.coursera.org/specializations/natural-language-processing)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
