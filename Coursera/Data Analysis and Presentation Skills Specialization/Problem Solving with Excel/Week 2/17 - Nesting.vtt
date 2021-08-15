@@ -1,0 +1,374 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:04.989
+[MUSIC]
+
+2
+00:00:09.419 --> 00:00:14.109
+We are now going to experiment with one
+of the issues you'll encounter when
+
+3
+00:00:14.109 --> 00:00:15.232
+using a VLOOKUP.
+
+4
+00:00:15.232 --> 00:00:20.062
+Sometimes, the data you are trying to look
+up does not exist within your data set.
+
+5
+00:00:20.062 --> 00:00:23.650
+And therefore the function
+returns an error message.
+
+6
+00:00:23.650 --> 00:00:27.410
+We have an example of
+this in the table above,
+
+7
+00:00:27.410 --> 00:00:31.690
+which is looking up information about
+specific distributors from the sales data,
+
+8
+00:00:33.020 --> 00:00:36.150
+some of which exist in our data set,
+and others that don't.
+
+9
+00:00:37.770 --> 00:00:43.290
+You'll see that there is no distributor
+with an ID of 3000 or 4000.
+
+10
+00:00:43.290 --> 00:00:46.460
+So, Excel is returning an error message.
+
+11
+00:00:46.460 --> 00:00:49.068
+We see this quite frequently in business.
+
+12
+00:00:49.068 --> 00:00:53.140
+Since a product may not have been
+sold during a specific period or
+
+13
+00:00:53.140 --> 00:00:58.500
+the specific variable set we are working
+with does not apply to all the situations.
+
+14
+00:00:59.790 --> 00:01:05.226
+It also happens when data cleansing
+has not been performed correctly.
+
+15
+00:01:05.226 --> 00:01:08.217
+The error message does not only look poor.
+
+16
+00:01:08.217 --> 00:01:12.536
+It is also not helpful in explaining what
+the issue is and it could cause further
+
+17
+00:01:12.536 --> 00:01:16.737
+downstream issues when you're trying
+to run computations on the dataset.
+
+18
+00:01:18.563 --> 00:01:24.070
+For example, if I do =sum on a range
+containing even a single error message,
+
+19
+00:01:24.070 --> 00:01:26.880
+the sum function will return an error.
+
+20
+00:01:28.060 --> 00:01:31.670
+However, Excel has given us
+a tool to work around this.
+
+21
+00:01:31.670 --> 00:01:33.810
+It's called the IFERROR function.
+
+22
+00:01:35.490 --> 00:01:39.870
+The IFERROR function tells Excel
+what value you would like to return
+
+23
+00:01:39.870 --> 00:01:41.860
+if an error occurs.
+
+24
+00:01:41.860 --> 00:01:46.350
+So let's try rebuilding the table
+above using the IFERROR function.
+
+25
+00:01:46.350 --> 00:01:49.211
+We're going to start with cell C107 and
+
+26
+00:01:49.211 --> 00:01:52.398
+type the formula we want
+to start working with.
+
+27
+00:01:53.753 --> 00:01:56.881
+Since Excel works with
+the order of operations PEMDAS,
+
+28
+00:01:56.881 --> 00:01:59.610
+the IFERROR should be enacted last.
+
+29
+00:01:59.610 --> 00:02:02.700
+I'm going to start with
+my IFERROR statement
+
+30
+00:02:02.700 --> 00:02:06.190
+as the outermost argument
+to follow this logic.
+
+31
+00:02:06.190 --> 00:02:09.050
+So let's type =IFERROR.
+
+32
+00:02:09.050 --> 00:02:12.710
+As you can see,
+the syntax is comprised of two parts.
+
+33
+00:02:12.710 --> 00:02:14.950
+The first part being what argument or
+
+34
+00:02:14.950 --> 00:02:18.060
+series or
+arguments does the statement apply to?
+
+35
+00:02:18.060 --> 00:02:21.810
+And what do you want Excel to do if it
+encounters an error at that statement?
+
+36
+00:02:23.070 --> 00:02:27.149
+The value we care about here is
+the output from the VLOOKUP.
+
+37
+00:02:27.149 --> 00:02:31.165
+Let's start by typing the view lookup
+formula we have been working with.
+
+38
+00:02:31.165 --> 00:02:36.076
+The view lookup value is
+the distributor ID in B107.
+
+39
+00:02:36.076 --> 00:02:41.500
+We know that we want to anchor B107 so
+that we can use it again for other cells.
+
+40
+00:02:43.040 --> 00:02:46.927
+The table array if we remember
+from earlier is the sales data,
+
+41
+00:02:46.927 --> 00:02:48.434
+which is a named range.
+
+42
+00:02:48.434 --> 00:02:53.007
+Open the Name Manager using F3, and
+double-click on this cell's data.
+
+43
+00:02:53.007 --> 00:02:57.661
+Now, remember from previous exercises
+that the name is in column 2, and
+
+44
+00:02:57.661 --> 00:03:00.076
+we don't want an approximate match,
+
+45
+00:03:01.733 --> 00:03:03.880
+so we are going to type false.
+
+46
+00:03:03.880 --> 00:03:05.380
+When I close the parenthesis,
+
+47
+00:03:05.380 --> 00:03:09.160
+you'll notice that I'm no longer
+working in the VLOOKUP statement.
+
+48
+00:03:09.160 --> 00:03:11.790
+I'm back to working in
+the IFERROR statement.
+
+49
+00:03:13.240 --> 00:03:17.850
+When I hit comma, I shift from the value
+field to the value that Excel will
+
+50
+00:03:17.850 --> 00:03:21.260
+display in case my view lookup
+formula results in an error.
+
+51
+00:03:22.650 --> 00:03:26.335
+I would like it to say data not available.
+
+52
+00:03:26.335 --> 00:03:28.820
+Know that since this is text,
+
+53
+00:03:28.820 --> 00:03:32.450
+I have to add quotes to each
+side of my text string.
+
+54
+00:03:32.450 --> 00:03:34.740
+I'm going to insert a quotation mark and
+
+55
+00:03:34.740 --> 00:03:37.520
+then type, Data Not Available,
+close the quotes.
+
+56
+00:03:38.700 --> 00:03:42.114
+Close the second formula that I'm
+working with and click Enter.
+
+57
+00:03:42.114 --> 00:03:44.930
+The name comes up because there's a match.
+
+58
+00:03:46.227 --> 00:03:49.910
+However, we know there is nothing for
+the second distributor.
+
+59
+00:03:49.910 --> 00:03:52.950
+So let's see what happens
+when we paste it down.
+
+60
+00:03:52.950 --> 00:03:57.850
+Distributor ID 4000 comes back with
+Data Not Available as we would expect.
+
+61
+00:03:58.850 --> 00:04:01.340
+Now since we properly
+locked this information,
+
+62
+00:04:01.340 --> 00:04:04.320
+we can use this formula to
+fill in revenue as well.
+
+63
+00:04:05.420 --> 00:04:10.330
+Let's work with the revenue and
+copy and paste a formula over.
+
+64
+00:04:10.330 --> 00:04:14.225
+It's coming back with the name because we
+still need to update the column number.
+
+65
+00:04:14.225 --> 00:04:19.530
+We remember from earlier that
+the revenue can be found in column 10,
+
+66
+00:04:19.530 --> 00:04:22.132
+so I'm going to change my 2 to 10.
+
+67
+00:04:23.392 --> 00:04:27.691
+For the error statement here, I'm going
+to change the error statement from
+
+68
+00:04:27.691 --> 00:04:32.870
+Data Not Available to the number 0 as
+we are working with a numerical output.
+
+69
+00:04:32.870 --> 00:04:36.970
+To accomplish this, I will exchange
+the error statement to a 0 and
+
+70
+00:04:36.970 --> 00:04:40.350
+remove the quotes as we are no
+longer dealing with a text input.
+
+71
+00:04:41.990 --> 00:04:46.770
+You will notice that we have revenue
+values for everywhere there's a match and
+
+72
+00:04:46.770 --> 00:04:50.500
+where the data is not available,
+the output is 0.
+
+73
+00:04:50.500 --> 00:04:54.910
+That now makes it possible to run
+math off our new revenue column.
+
+74
+00:04:54.910 --> 00:04:58.655
+For example,
+we can even sum the revenue column and
+
+75
+00:04:58.655 --> 00:05:03.987
+find that the total revenue for
+these distributors is $184.86.
+
+76
+00:05:05.040 --> 00:05:08.705
+Now it's your turn to practice
+problem 3b on your own.
+
+77
+00:05:08.705 --> 00:05:14.315
+Work up the average unit price for the
+product, and then use an average formula
+
+78
+00:05:14.315 --> 00:05:20.280
+to calculate the average unit price across
+all the distributors found in column B.
+
+79
+00:05:20.280 --> 00:05:26.201
+[MUSIC]
