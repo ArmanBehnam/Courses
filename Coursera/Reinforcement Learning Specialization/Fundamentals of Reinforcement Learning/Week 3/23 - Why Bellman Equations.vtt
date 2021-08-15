@@ -1,0 +1,371 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.626
+[MUSIC]
+
+2
+00:00:06.626 --> 00:00:11.627
+Previously, we learned how Bellman
+equations allow us to express the value
+
+3
+00:00:11.627 --> 00:00:16.405
+of a state, or state action pair,
+in terms of its possible successors.
+
+4
+00:00:16.405 --> 00:00:20.335
+But you may be wondering,
+what is the point of all this?
+
+5
+00:00:20.335 --> 00:00:22.059
+By the end of this video,
+
+6
+00:00:22.059 --> 00:00:27.168
+you'll be able to use the Bellman
+equations to compute value functions.
+
+7
+00:00:27.168 --> 00:00:32.534
+To illustrate the power of Bellman
+equations, consider this small example,
+
+8
+00:00:32.534 --> 00:00:37.018
+consisting of just four states,
+labeled A, B, C and D on a grid.
+
+9
+00:00:37.018 --> 00:00:40.979
+The action space consists of moving up,
+down, left and right.
+
+10
+00:00:40.979 --> 00:00:45.851
+Actions which would move off the grid,
+instead keep the agent in place.
+
+11
+00:00:45.851 --> 00:00:51.608
+Say for example we start in state C,
+moving up would take us to state A.
+
+12
+00:00:51.608 --> 00:00:56.361
+If we then try to move left we would
+hit a wall and stay in state A.
+
+13
+00:00:56.361 --> 00:00:59.977
+Moving right next would
+take us to state B.
+
+14
+00:00:59.977 --> 00:01:03.697
+From there,
+moving down would land us in state D.
+
+15
+00:01:03.697 --> 00:01:08.559
+The reward is 0 everywhere except for
+any time the agent lands in state B.
+
+16
+00:01:08.559 --> 00:01:12.521
+If the agent lands in state B,
+it gets a reward of +5.
+
+17
+00:01:12.521 --> 00:01:17.548
+This includes starting in state B and
+hitting a wall to remain there.
+
+18
+00:01:17.548 --> 00:01:20.517
+Let's consider the uniform random policy,
+
+19
+00:01:20.517 --> 00:01:23.884
+which moves in every
+direction 25% of the time.
+
+20
+00:01:23.884 --> 00:01:27.593
+The discount factor gamma 0.7.
+
+21
+00:01:27.593 --> 00:01:32.592
+How can we actually work out the value
+of each of these states A, B,
+
+22
+00:01:32.592 --> 00:01:34.567
+C and D under this policy?
+
+23
+00:01:34.567 --> 00:01:40.050
+Recall that the value function is defined
+as the expected return under policy pie.
+
+24
+00:01:40.050 --> 00:01:44.621
+This is an average over the return
+obtained by each sequence of actions
+
+25
+00:01:44.621 --> 00:01:49.433
+an agent could possibly choose,
+infinitely, many possible features.
+
+26
+00:01:49.433 --> 00:01:51.594
+Luckingly, the Bellman equation for
+
+27
+00:01:51.594 --> 00:01:54.846
+the state value function
+provides an elegant solution.
+
+28
+00:01:54.846 --> 00:01:59.166
+Using the Bellman equation,
+we can write down an expression for
+
+29
+00:01:59.166 --> 00:02:03.806
+the value of state A in terms of the sum
+of the four possible actions and
+
+30
+00:02:03.806 --> 00:02:06.774
+the resulting possible successor states.
+
+31
+00:02:06.774 --> 00:02:10.749
+We can simplify the expression
+further in this case, because for
+
+32
+00:02:10.749 --> 00:02:15.317
+each action there's only one possible
+associated next state and reward.
+
+33
+00:02:15.317 --> 00:02:20.582
+That's the sum over s prime and
+r reduces to a single value.
+
+34
+00:02:20.582 --> 00:02:25.572
+Note that here s prime and r do still
+depend on the selected action, and
+
+35
+00:02:25.572 --> 00:02:27.104
+the current state s.
+
+36
+00:02:27.104 --> 00:02:32.084
+But to keep the notation short,
+we haven't this explicitly.
+
+37
+00:02:32.084 --> 00:02:38.835
+If we go right from state A, we land
+in state B, and receive a reward of +5.
+
+38
+00:02:38.835 --> 00:02:43.610
+This happens one quarter of
+the time under the random policy.
+
+39
+00:02:43.610 --> 00:02:48.603
+If we go down, we land in state C,
+and receive no immediate reward.
+
+40
+00:02:48.603 --> 00:02:52.529
+Again, this occurs
+one-quarter of the time.
+
+41
+00:02:52.529 --> 00:02:56.517
+If you go either up or left,
+we will land back in state A again.
+
+42
+00:02:56.517 --> 00:03:01.115
+Each of the actions, up and left,
+again, occur one-quarter of the time.
+
+43
+00:03:01.115 --> 00:03:05.335
+Since they both land in state A and
+received no reward,
+
+44
+00:03:05.335 --> 00:03:09.944
+we combine them into a single
+term with factor of 1 over 2.
+
+45
+00:03:09.944 --> 00:03:15.411
+Finally, we arrived at the expression
+shown here for the value of state A.
+
+46
+00:03:15.411 --> 00:03:20.276
+We can write down a similar equation for
+
+47
+00:03:20.276 --> 00:03:25.297
+each of the other states, B, C, and D.
+
+48
+00:03:25.297 --> 00:03:28.934
+Now we have a system of for
+equations for four variables.
+
+49
+00:03:28.934 --> 00:03:33.366
+You can solve this by hand if you want, or
+put it into an automatic equation solver.
+
+50
+00:03:35.305 --> 00:03:37.710
+The unique solution is shown here.
+
+51
+00:03:37.710 --> 00:03:42.620
+The important thing to note is that the
+Bellman equation reduced an unmanageable
+
+52
+00:03:42.620 --> 00:03:47.185
+infinite sum over possible futures,
+to a simple linear algebra problem.
+
+53
+00:03:47.185 --> 00:03:49.093
+Perhaps for this small problem,
+
+54
+00:03:49.093 --> 00:03:53.465
+you can come up with other ways to work
+out the values of each of these states.
+
+55
+00:03:53.465 --> 00:03:59.920
+However the Bellman equation provides
+a powerful general relationship for MDPs.
+
+56
+00:03:59.920 --> 00:04:04.832
+In this case, we used the Bellman equation
+to directly write down a system of
+
+57
+00:04:04.832 --> 00:04:09.852
+equations for the state values, and
+then some the system to find the values.
+
+58
+00:04:09.852 --> 00:04:13.645
+This approach may be possible for
+MDPs of moderate size.
+
+59
+00:04:13.645 --> 00:04:18.529
+However, in more complex problems,
+this won't always be practical.
+
+60
+00:04:18.529 --> 00:04:21.075
+Consider the game of chess for example.
+
+61
+00:04:21.075 --> 00:04:25.205
+We probably won't be able to even
+list all the possible states,
+
+62
+00:04:25.205 --> 00:04:27.889
+there are around 10 to the 45 of them.
+
+63
+00:04:27.889 --> 00:04:29.084
+Constructing and
+
+64
+00:04:29.084 --> 00:04:34.505
+solving the resulting system of Bellman
+equations would be a whole other story.
+
+65
+00:04:34.505 --> 00:04:38.055
+Yeah, humans can learn
+to play chess very well.
+
+66
+00:04:38.055 --> 00:04:42.121
+However, this simple game represents
+a tiny fraction of human experience, and
+
+67
+00:04:42.121 --> 00:04:43.934
+humans can learn to do many things.
+
+68
+00:04:43.934 --> 00:04:47.602
+Our agents should be able
+to learn many things too.
+
+69
+00:04:47.602 --> 00:04:53.539
+In upcoming lessons we will discuss
+algorithms based on Bellman equations,
+
+70
+00:04:53.539 --> 00:04:56.105
+that scale up to large problems.
+
+71
+00:04:56.105 --> 00:04:59.957
+Hopefully you see why Bellman
+equations are so fundamental for
+
+72
+00:04:59.957 --> 00:05:01.634
+reinforcement learning.
+
+73
+00:05:01.634 --> 00:05:04.253
+To sum up, without the Bellman equation,
+
+74
+00:05:04.253 --> 00:05:08.342
+we might have to consider an infinite
+number of possible futures.
+
+75
+00:05:08.342 --> 00:05:12.969
+The Bellman equations exploit
+the structure of the MDP formulation,
+
+76
+00:05:12.969 --> 00:05:16.980
+to reduce this infinite sum to
+a system of linear equations.
+
+77
+00:05:16.980 --> 00:05:20.458
+We can then potentially solve
+the Bellman equation directly to find
+
+78
+00:05:20.458 --> 00:05:21.440
+the state values.

@@ -1,0 +1,496 @@
+WEBVTT
+
+1
+00:00:07.250 --> 00:00:09.690
+We've discussed a few methods for
+
+2
+00:00:09.690 --> 00:00:12.345
+balancing exploration
+and exploitation.
+
+3
+00:00:12.345 --> 00:00:13.850
+Because we are estimating
+
+4
+00:00:13.850 --> 00:00:15.990
+our action values
+from sampled rewards,
+
+5
+00:00:15.990 --> 00:00:17.660
+there is inherent uncertainty
+
+6
+00:00:17.660 --> 00:00:19.760
+in the accuracy of our estimate.
+
+7
+00:00:19.760 --> 00:00:22.460
+We explored to reduce
+this uncertainty so
+
+8
+00:00:22.460 --> 00:00:25.525
+that we can make
+better decisions in the future.
+
+9
+00:00:25.525 --> 00:00:27.890
+In this video, we will discuss
+
+10
+00:00:27.890 --> 00:00:29.870
+another method for
+selecting actions to
+
+11
+00:00:29.870 --> 00:00:34.300
+balance between exploration
+and exploitation called UCB.
+
+12
+00:00:34.300 --> 00:00:36.240
+By the end of this video,
+
+13
+00:00:36.240 --> 00:00:37.275
+you will understand how
+
+14
+00:00:37.275 --> 00:00:39.499
+upper-confidence bound
+action selection
+
+15
+00:00:39.499 --> 00:00:43.800
+uses uncertainty in the
+estimates to drive exploration.
+
+16
+00:00:44.450 --> 00:00:48.035
+Recall the Epsilon-greedy
+action selection method
+
+17
+00:00:48.035 --> 00:00:49.865
+that we discussed previously.
+
+18
+00:00:49.865 --> 00:00:51.980
+This method uses exploratory
+
+19
+00:00:51.980 --> 00:00:54.365
+actions epsilon
+percentage of the time.
+
+20
+00:00:54.365 --> 00:00:56.360
+The exploratory actions
+are selected
+
+21
+00:00:56.360 --> 00:00:58.875
+uniformly. Can we do better?
+
+22
+00:00:58.875 --> 00:01:02.080
+If we had a notion of uncertainty
+in our value estimates,
+
+23
+00:01:02.080 --> 00:01:03.440
+we could potentially select
+
+24
+00:01:03.440 --> 00:01:05.615
+actions in a more
+intelligent way.
+
+25
+00:01:05.615 --> 00:01:09.140
+What does it mean to have
+uncertainty in the estimates?
+
+26
+00:01:09.140 --> 00:01:13.640
+Q of a here represents our
+current estimate for action A.
+
+27
+00:01:13.640 --> 00:01:16.460
+These brackets represent
+a confidence interval
+
+28
+00:01:16.460 --> 00:01:18.800
+around Q star of A.
+
+29
+00:01:18.800 --> 00:01:21.530
+They say we are
+confident that the value
+
+30
+00:01:21.530 --> 00:01:24.755
+of action A lies
+somewhere in this region.
+
+31
+00:01:24.755 --> 00:01:30.500
+For instance, we believe
+it maybe here or here.
+
+32
+00:01:30.500 --> 00:01:34.180
+The left bracket is
+called the lower bound,
+
+33
+00:01:34.180 --> 00:01:37.065
+and the right is the upper bound.
+
+34
+00:01:37.065 --> 00:01:39.190
+The region in between is
+
+35
+00:01:39.190 --> 00:01:42.935
+the confidence interval which
+represents our uncertainty.
+
+36
+00:01:42.935 --> 00:01:45.250
+If this region is very small,
+
+37
+00:01:45.250 --> 00:01:47.020
+we are very certain
+that the value of
+
+38
+00:01:47.020 --> 00:01:49.990
+action A is near
+our estimated value.
+
+39
+00:01:49.990 --> 00:01:51.790
+If the region is large,
+
+40
+00:01:51.790 --> 00:01:53.620
+we are uncertain
+that the value of
+
+41
+00:01:53.620 --> 00:01:56.750
+action A is near or
+estimated value.
+
+42
+00:01:56.750 --> 00:01:59.530
+In UCB, we follow
+the principle of
+
+43
+00:01:59.530 --> 00:02:02.050
+optimism in the face
+of uncertainty.
+
+44
+00:02:02.050 --> 00:02:03.730
+This simply means that if we
+
+45
+00:02:03.730 --> 00:02:05.440
+are uncertain about something,
+
+46
+00:02:05.440 --> 00:02:08.630
+we should optimistically
+assume that it is good.
+
+47
+00:02:08.630 --> 00:02:10.780
+For instance, say we have
+
+48
+00:02:10.780 --> 00:02:13.825
+these three actions with
+associated uncertainties,
+
+49
+00:02:13.825 --> 00:02:16.255
+our agent has no idea
+which is best.
+
+50
+00:02:16.255 --> 00:02:17.680
+So it optimistically picks
+
+51
+00:02:17.680 --> 00:02:20.210
+the action that has the
+highest upper bound.
+
+52
+00:02:20.210 --> 00:02:22.790
+This makes sense
+because either it does
+
+53
+00:02:22.790 --> 00:02:25.534
+have the highest value
+and we get good reward,
+
+54
+00:02:25.534 --> 00:02:28.670
+or by taking it we get to
+learn about an action we
+
+55
+00:02:28.670 --> 00:02:32.700
+know least about like
+the example on the slide.
+
+56
+00:02:33.550 --> 00:02:37.880
+Let's let the algorithm
+pick one more action.
+
+57
+00:02:37.880 --> 00:02:41.540
+This time Q2 has
+the highest upper-confidence
+
+58
+00:02:41.540 --> 00:02:44.540
+bound because it's
+estimated value is highest,
+
+59
+00:02:44.540 --> 00:02:47.550
+even though
+the interval is small.
+
+60
+00:02:48.260 --> 00:02:51.260
+We can use upper-confidence
+bounds to select
+
+61
+00:02:51.260 --> 00:02:54.080
+actions using
+the following formula;
+
+62
+00:02:54.080 --> 00:02:56.420
+we will select
+the action that has
+
+63
+00:02:56.420 --> 00:02:58.865
+the highest estimated value plus
+
+64
+00:02:58.865 --> 00:03:01.900
+our upper-confidence
+bound exploration term.
+
+65
+00:03:01.900 --> 00:03:04.100
+The upper-bound term
+can be broken into
+
+66
+00:03:04.100 --> 00:03:07.205
+three parts as we will
+see in the next slide.
+
+67
+00:03:07.205 --> 00:03:09.140
+The C parameter as
+
+68
+00:03:09.140 --> 00:03:10.700
+a user-specified parameter that
+
+69
+00:03:10.700 --> 00:03:12.815
+controls the amount
+of exploration.
+
+70
+00:03:12.815 --> 00:03:15.290
+We can clearly see here how UCB
+
+71
+00:03:15.290 --> 00:03:18.155
+combines exploration
+and exploitation.
+
+72
+00:03:18.155 --> 00:03:19.835
+The first term in the sum
+
+73
+00:03:19.835 --> 00:03:21.875
+represents the exploitation part,
+
+74
+00:03:21.875 --> 00:03:25.560
+and the second term represents
+the exploration part.
+
+75
+00:03:25.570 --> 00:03:28.130
+Let's look at
+a couple of examples
+
+76
+00:03:28.130 --> 00:03:30.035
+of the exploration term.
+
+77
+00:03:30.035 --> 00:03:33.515
+Let's say we've taken
+10,000 steps so far.
+
+78
+00:03:33.515 --> 00:03:37.355
+Imagine we've selected
+action A 5,000 times.
+
+79
+00:03:37.355 --> 00:03:39.590
+The uncertainty term here will be
+
+80
+00:03:39.590 --> 00:03:42.485
+0.043 times the constant
+
+81
+00:03:42.485 --> 00:03:48.035
+C. If instead we had only
+selected action A 100 times,
+
+82
+00:03:48.035 --> 00:03:51.620
+the uncertainty term
+would be 10 times larger.
+
+83
+00:03:51.620 --> 00:03:54.065
+Let's investigate
+the performance of
+
+84
+00:03:54.065 --> 00:03:56.135
+upper-confidence bound
+action selection
+
+85
+00:03:56.135 --> 00:03:58.100
+using the 10-armed Testbed.
+
+86
+00:03:58.100 --> 00:04:00.980
+We will use the same
+setup as before.
+
+87
+00:04:00.980 --> 00:04:04.250
+The Q star values for
+these actions are normally
+
+88
+00:04:04.250 --> 00:04:08.395
+distributed with mean zero
+and standard deviation one.
+
+89
+00:04:08.395 --> 00:04:10.550
+The rewards are sampled from
+
+90
+00:04:10.550 --> 00:04:13.685
+a univariance normal
+with mean Q star.
+
+91
+00:04:13.685 --> 00:04:18.505
+As before, we will average
+over 2,000 independent runs.
+
+92
+00:04:18.505 --> 00:04:21.390
+To compare UCB to
+Epsilon-greedy on
+
+93
+00:04:21.390 --> 00:04:23.940
+the 10-armed bed
+problem we said C
+
+94
+00:04:23.940 --> 00:04:26.145
+equal to two for UCB and so
+
+95
+00:04:26.145 --> 00:04:29.950
+epsilon equal to 0.1
+for Epsilon-greedy.
+
+96
+00:04:30.010 --> 00:04:33.860
+Here we see that UCB
+obtains greater reward on
+
+97
+00:04:33.860 --> 00:04:37.645
+average than Epsilon-greedy
+after about 100 times steps.
+
+98
+00:04:37.645 --> 00:04:40.700
+Initially, UCB explores more
+
+99
+00:04:40.700 --> 00:04:43.510
+to systematically
+reduce uncertainty.
+
+100
+00:04:43.510 --> 00:04:47.060
+UCB's exploration reduces
+over time whereas
+
+101
+00:04:47.060 --> 00:04:48.935
+Epsilon-greedy continues to take
+
+102
+00:04:48.935 --> 00:04:52.565
+a random action
+10 percent of the time.
+
+103
+00:04:52.565 --> 00:04:54.935
+In this video, we discussed
+
+104
+00:04:54.935 --> 00:04:57.320
+upper-confidence bound
+action selection,
+
+105
+00:04:57.320 --> 00:04:59.810
+which uses uncertainty
+in the value estimates
+
+106
+00:04:59.810 --> 00:05:03.210
+to balance exploration
+and exploitation.

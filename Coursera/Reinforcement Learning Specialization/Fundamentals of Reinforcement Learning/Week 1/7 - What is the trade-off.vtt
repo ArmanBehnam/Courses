@@ -1,0 +1,785 @@
+WEBVTT
+
+1
+00:00:06.260 --> 00:00:08.520
+Imagine that you are going out
+
+2
+00:00:08.520 --> 00:00:10.320
+to eat with your friends tonight.
+
+3
+00:00:10.320 --> 00:00:12.000
+When you get to the restaurant,
+
+4
+00:00:12.000 --> 00:00:14.205
+you will have to
+decide what to order.
+
+5
+00:00:14.205 --> 00:00:16.170
+You've been there a
+few times before and
+
+6
+00:00:16.170 --> 00:00:17.940
+you always order the same thing.
+
+7
+00:00:17.940 --> 00:00:19.470
+So you know that
+you will be quite
+
+8
+00:00:19.470 --> 00:00:21.240
+happy if you order it again.
+
+9
+00:00:21.240 --> 00:00:24.230
+Many of the other items
+though look really tasty.
+
+10
+00:00:24.230 --> 00:00:27.545
+How do you decide when to order
+the same good meal again,
+
+11
+00:00:27.545 --> 00:00:29.345
+or try something new?
+
+12
+00:00:29.345 --> 00:00:31.325
+By the end of this video,
+
+13
+00:00:31.325 --> 00:00:32.630
+you will be able to define
+
+14
+00:00:32.630 --> 00:00:35.060
+the exploration-exploitation
+trade-off,
+
+15
+00:00:35.060 --> 00:00:37.640
+and you'll be able to
+define Epsilon-Greedy,
+
+16
+00:00:37.640 --> 00:00:38.960
+which is a simple method to
+
+17
+00:00:38.960 --> 00:00:42.120
+balance exploration
+and exploitation.
+
+18
+00:00:42.220 --> 00:00:44.870
+Before discussing the trade-off,
+
+19
+00:00:44.870 --> 00:00:47.630
+let's first talk about when
+we would want to explore,
+
+20
+00:00:47.630 --> 00:00:49.915
+and when we would
+want to exploit.
+
+21
+00:00:49.915 --> 00:00:52.050
+Exploration allows the agent to
+
+22
+00:00:52.050 --> 00:00:54.395
+improve his knowledge
+about each action.
+
+23
+00:00:54.395 --> 00:00:57.230
+Hopefully, leading to
+long-term benefit.
+
+24
+00:00:57.230 --> 00:01:00.530
+By improving the accuracy of
+the estimated action values,
+
+25
+00:01:00.530 --> 00:01:04.180
+the agent can make more informed
+decisions in the future.
+
+26
+00:01:04.180 --> 00:01:07.345
+Here's an example of
+exploratory behavior.
+
+27
+00:01:07.345 --> 00:01:09.340
+Let's say each of
+these plates represents
+
+28
+00:01:09.340 --> 00:01:11.094
+a meal at your
+favorite restaurant,
+
+29
+00:01:11.094 --> 00:01:14.110
+and you're trying to choose
+which meal to order.
+
+30
+00:01:14.110 --> 00:01:17.990
+Q of a is the estimated value
+for picking that meal.
+
+31
+00:01:17.990 --> 00:01:21.450
+N of a is the number of times
+you have picked that meal,
+
+32
+00:01:21.450 --> 00:01:25.165
+q star of a is
+the value of each meal.
+
+33
+00:01:25.165 --> 00:01:27.460
+Each time you visit
+this restaurant,
+
+34
+00:01:27.460 --> 00:01:29.170
+you follow a strict regimen and
+
+35
+00:01:29.170 --> 00:01:32.045
+choose each meal in
+a Round Robin fashion.
+
+36
+00:01:32.045 --> 00:01:34.990
+Perhaps a meal is sometimes
+cooked particularly well.
+
+37
+00:01:34.990 --> 00:01:37.855
+So you are highly
+rewarded for ordering it.
+
+38
+00:01:37.855 --> 00:01:41.770
+After some time, you'll find
+the best meal to order.
+
+39
+00:01:41.770 --> 00:01:43.900
+Exploitation on the other hand,
+
+40
+00:01:43.900 --> 00:01:47.030
+exploits the agent's current
+estimated values.
+
+41
+00:01:47.030 --> 00:01:48.590
+It chooses the greedy action
+
+42
+00:01:48.590 --> 00:01:50.510
+to try to get the most reward.
+
+43
+00:01:50.510 --> 00:01:54.049
+But by being greedy with
+respect to estimated values,
+
+44
+00:01:54.049 --> 00:01:56.510
+may not actually get
+the most reward.
+
+45
+00:01:56.510 --> 00:01:59.240
+Let's look at how
+pure greedy action selection
+
+46
+00:01:59.240 --> 00:02:01.385
+can lead to sub-optimal behavior.
+
+47
+00:02:01.385 --> 00:02:04.145
+Imagine the agents
+likes the first meal.
+
+48
+00:02:04.145 --> 00:02:06.470
+The agent received
+a positive reward
+
+49
+00:02:06.470 --> 00:02:08.855
+making the value for
+that meal higher.
+
+50
+00:02:08.855 --> 00:02:11.975
+The estimated values for
+the other actions are zero.
+
+51
+00:02:11.975 --> 00:02:14.465
+So the greedy action
+is always the same,
+
+52
+00:02:14.465 --> 00:02:16.730
+to pick the first meal.
+
+53
+00:02:16.730 --> 00:02:18.890
+This means the agent never saw
+
+54
+00:02:18.890 --> 00:02:20.810
+any samples for the other meals.
+
+55
+00:02:20.810 --> 00:02:23.240
+The estimated values for
+the other two actions
+
+56
+00:02:23.240 --> 00:02:26.000
+remain far from the true values,
+
+57
+00:02:26.000 --> 00:02:29.990
+which means the agent never
+discovered the best action.
+
+58
+00:02:29.990 --> 00:02:31.820
+This naturally introduces
+
+59
+00:02:31.820 --> 00:02:34.120
+the exploration-exploitation
+dilemma.
+
+60
+00:02:34.120 --> 00:02:36.075
+How do we choose when to explore,
+
+61
+00:02:36.075 --> 00:02:37.645
+and when to exploit?
+
+62
+00:02:37.645 --> 00:02:39.350
+When we explore, we get
+
+63
+00:02:39.350 --> 00:02:41.630
+more accurate estimates
+of our values.
+
+64
+00:02:41.630 --> 00:02:44.600
+When we exploit, we
+might get more reward.
+
+65
+00:02:44.600 --> 00:02:48.930
+We cannot however choose
+to do both simultaneously.
+
+66
+00:02:49.030 --> 00:02:52.100
+One very simple method
+for choosing between
+
+67
+00:02:52.100 --> 00:02:56.095
+exploration and exploitation
+is to choose randomly.
+
+68
+00:02:56.095 --> 00:02:58.310
+We could choose to
+exploit most of
+
+69
+00:02:58.310 --> 00:03:01.610
+the time with a small
+chance of exploring.
+
+70
+00:03:01.610 --> 00:03:04.250
+For instance, we
+could roll a dice.
+
+71
+00:03:04.250 --> 00:03:06.635
+If it lands on one,
+then we'll explore.
+
+72
+00:03:06.635 --> 00:03:09.475
+Otherwise, we'll choose
+the greedy action.
+
+73
+00:03:09.475 --> 00:03:11.850
+We call this method
+Epsilon-Greedy.
+
+74
+00:03:11.850 --> 00:03:13.100
+Where epsilon refers to
+
+75
+00:03:13.100 --> 00:03:15.950
+the probability of
+choosing to explore.
+
+76
+00:03:15.950 --> 00:03:19.880
+In this case, epsilon will
+be equal to one over six.
+
+77
+00:03:19.880 --> 00:03:23.590
+We can write Epsilon-Greedy
+in the following way.
+
+78
+00:03:24.530 --> 00:03:28.005
+The action that we
+select on time-step t,
+
+79
+00:03:28.005 --> 00:03:31.010
+is the greedy action
+with probability
+
+80
+00:03:31.010 --> 00:03:33.860
+one minus epsilon or
+
+81
+00:03:33.860 --> 00:03:37.940
+is a random action with
+probability epsilon.
+
+82
+00:03:37.940 --> 00:03:40.510
+We can demonstrate
+the effectiveness of
+
+83
+00:03:40.510 --> 00:03:42.340
+Epsilon-Greedy
+action selection on
+
+84
+00:03:42.340 --> 00:03:45.515
+the 10-arm Testbed
+from the textbook.
+
+85
+00:03:45.515 --> 00:03:48.190
+The 10-arm banner problem
+has 10 actions
+
+86
+00:03:48.190 --> 00:03:50.655
+here shown along the X-axis.
+
+87
+00:03:50.655 --> 00:03:54.790
+On the Y-axis, we'll show
+the distribution of rewards.
+
+88
+00:03:54.790 --> 00:03:58.570
+Each reward is sampled from
+a normal distribution with
+
+89
+00:03:58.570 --> 00:04:02.780
+some mean q star of
+a and variance one.
+
+90
+00:04:02.780 --> 00:04:05.620
+Each q star of a is drawn from
+
+91
+00:04:05.620 --> 00:04:09.010
+a normal distribution with
+mean zero and variance one.
+
+92
+00:04:09.010 --> 00:04:12.340
+Each time we run
+the 10-arm Testbed q star
+
+93
+00:04:12.340 --> 00:04:14.710
+will be redrawn from
+a normal distribution.
+
+94
+00:04:14.710 --> 00:04:16.119
+Notice how much randomness
+
+95
+00:04:16.119 --> 00:04:17.920
+is involved in this experiment.
+
+96
+00:04:17.920 --> 00:04:21.455
+Q star is randomly sampled
+from a normal distribution.
+
+97
+00:04:21.455 --> 00:04:24.919
+The rewards are randomly
+sampled based on q star,
+
+98
+00:04:24.919 --> 00:04:28.670
+and the actions are randomly
+taken on exploration steps.
+
+99
+00:04:28.670 --> 00:04:31.660
+To fairly compared
+different algorithmic choices,
+
+100
+00:04:31.660 --> 00:04:35.015
+we will need to perform
+many independent runs.
+
+101
+00:04:35.015 --> 00:04:37.280
+Let's take a look
+at a single run of
+
+102
+00:04:37.280 --> 00:04:40.045
+an Epsilon-Greedy agent
+in the 10-arm Testbed.
+
+103
+00:04:40.045 --> 00:04:43.730
+For this agent, we set
+epsilon equal to 0.1.
+
+104
+00:04:43.730 --> 00:04:46.775
+The time-step is on the X-axis.
+
+105
+00:04:46.775 --> 00:04:51.140
+The Y-axis is the reward
+received on that time-step.
+
+106
+00:04:51.140 --> 00:04:55.520
+Notice how noisy this curve
+is with several sharp peaks.
+
+107
+00:04:55.520 --> 00:04:57.770
+We see a slight upward trend
+
+108
+00:04:57.770 --> 00:04:59.360
+in the center of these peaks.
+
+109
+00:04:59.360 --> 00:05:00.800
+But with this amount of noise,
+
+110
+00:05:00.800 --> 00:05:03.230
+it is hard to make
+any conclusions.
+
+111
+00:05:03.230 --> 00:05:06.590
+If we run another agent with
+a different random seed,
+
+112
+00:05:06.590 --> 00:05:08.780
+we get another noisy curve,
+
+113
+00:05:08.780 --> 00:05:11.060
+and a third run.
+
+114
+00:05:11.060 --> 00:05:14.150
+For every time-step, we can
+take the average of each
+
+115
+00:05:14.150 --> 00:05:17.120
+of these three rewards we've
+seen on that time-step.
+
+116
+00:05:17.120 --> 00:05:19.610
+This will produce
+a single line that represents
+
+117
+00:05:19.610 --> 00:05:23.345
+the average reward received
+for each of these three runs.
+
+118
+00:05:23.345 --> 00:05:25.820
+For example, here's
+what happens when we
+
+119
+00:05:25.820 --> 00:05:29.095
+take 20 such runs and
+average the reward.
+
+120
+00:05:29.095 --> 00:05:30.740
+Notice that the spikes on
+
+121
+00:05:30.740 --> 00:05:33.155
+the curve are much
+less pronounced.
+
+122
+00:05:33.155 --> 00:05:36.210
+If we take 100 runs and
+average them together,
+
+123
+00:05:36.210 --> 00:05:38.915
+we see a much more clear
+shape to the curve.
+
+124
+00:05:38.915 --> 00:05:41.060
+There's a noticeable
+increase in reward
+
+125
+00:05:41.060 --> 00:05:43.300
+in the first 200 steps,
+
+126
+00:05:43.300 --> 00:05:45.360
+and doing this with 2,000 runs,
+
+127
+00:05:45.360 --> 00:05:48.380
+we get a clear picture of
+the performance of this method.
+
+128
+00:05:48.380 --> 00:05:50.240
+What this result says is that
+
+129
+00:05:50.240 --> 00:05:51.890
+this way of behaving obtains
+
+130
+00:05:51.890 --> 00:05:53.540
+this much reward in
+
+131
+00:05:53.540 --> 00:05:57.385
+expectation across
+possible stochastic outcomes.
+
+132
+00:05:57.385 --> 00:05:59.390
+Throughout this
+specialization, we
+
+133
+00:05:59.390 --> 00:06:00.860
+used the average performance over
+
+134
+00:06:00.860 --> 00:06:04.715
+many independent runs to
+make scientific comparisons.
+
+135
+00:06:04.715 --> 00:06:07.985
+Without using summary statistics
+like the average,
+
+136
+00:06:07.985 --> 00:06:09.260
+it will be difficult to make
+
+137
+00:06:09.260 --> 00:06:11.800
+fair comparisons
+between algorithms.
+
+138
+00:06:11.800 --> 00:06:14.060
+In this example,
+the random seed is
+
+139
+00:06:14.060 --> 00:06:15.350
+the only difference between
+
+140
+00:06:15.350 --> 00:06:17.360
+runs of this
+Epsilon-Greedy agent,
+
+141
+00:06:17.360 --> 00:06:20.500
+and yet the performance
+looks quite different.
+
+142
+00:06:20.500 --> 00:06:22.640
+Okay, let's go back
+to the experiment
+
+143
+00:06:22.640 --> 00:06:24.485
+on the 10-arm Testbed.
+
+144
+00:06:24.485 --> 00:06:27.350
+We are going to compare
+Epsilon-Greedy agents
+
+145
+00:06:27.350 --> 00:06:29.015
+with different epsilons.
+
+146
+00:06:29.015 --> 00:06:31.055
+Let's start by investigating
+
+147
+00:06:31.055 --> 00:06:34.345
+the average reward obtained
+by each algorithm.
+
+148
+00:06:34.345 --> 00:06:37.450
+The time-step is
+shown on the X-axis.
+
+149
+00:06:37.450 --> 00:06:41.660
+The average reward over
+2,000 runs is on the Y-axis.
+
+150
+00:06:41.660 --> 00:06:45.025
+Here's the performance with
+epsilon equal to zero.
+
+151
+00:06:45.025 --> 00:06:47.240
+When epsilon is zero,
+the agent performs
+
+152
+00:06:47.240 --> 00:06:50.510
+no exploration steps
+only greedy steps.
+
+153
+00:06:50.510 --> 00:06:54.190
+Here's the performance
+of epsilon equals 0.01.
+
+154
+00:06:54.190 --> 00:06:58.010
+Notice that the average reward
+keeps improving over time.
+
+155
+00:06:58.010 --> 00:07:00.560
+This method explores
+one percent of the time,
+
+156
+00:07:00.560 --> 00:07:02.330
+and eventually
+converges to take in
+
+157
+00:07:02.330 --> 00:07:06.140
+the optimal action 99.1
+percent of the time.
+
+158
+00:07:06.140 --> 00:07:09.800
+The agent with epsilon
+equal to 0.1 obtains
+
+159
+00:07:09.800 --> 00:07:12.980
+more reward earlier on average
+than the other methods.
+
+160
+00:07:12.980 --> 00:07:16.310
+But it plateaus after 300 steps.
+
+161
+00:07:16.310 --> 00:07:18.980
+In this lecture, we
+discussed the trade-off
+
+162
+00:07:18.980 --> 00:07:21.320
+between exploration
+and exploitation.
+
+163
+00:07:21.320 --> 00:07:23.610
+We also discussed Epsilon-Greedy,
+
+164
+00:07:23.610 --> 00:07:25.010
+which is a simple method for
+
+165
+00:07:25.010 --> 00:07:27.880
+balancing exploration
+and exploitation.
+
+166
+00:07:27.880 --> 00:07:31.070
+Later, we will discuss
+more sophisticated methods
+
+167
+00:07:31.070 --> 00:07:34.800
+for choosing between
+exploration and exploitation.

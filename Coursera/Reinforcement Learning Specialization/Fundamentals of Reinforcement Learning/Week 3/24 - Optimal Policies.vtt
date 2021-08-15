@@ -1,0 +1,795 @@
+WEBVTT
+
+1
+00:00:05.840 --> 00:00:08.820
+Up to this point, we've
+generally talked about
+
+2
+00:00:08.820 --> 00:00:11.385
+a policy as something
+that is given.
+
+3
+00:00:11.385 --> 00:00:15.045
+The policy specifies
+how an agent behaves.
+
+4
+00:00:15.045 --> 00:00:16.785
+Given this way of behaving,
+
+5
+00:00:16.785 --> 00:00:19.530
+we then aim to find
+the value function.
+
+6
+00:00:19.530 --> 00:00:21.990
+But the goal of
+reinforcement learning is not
+
+7
+00:00:21.990 --> 00:00:24.285
+just to evaluate
+specific policies.
+
+8
+00:00:24.285 --> 00:00:26.940
+Ultimately, we want
+to find a policy that
+
+9
+00:00:26.940 --> 00:00:30.435
+obtains as much reward as
+possible in the long run.
+
+10
+00:00:30.435 --> 00:00:32.790
+In this video, we
+will make this notion
+
+11
+00:00:32.790 --> 00:00:36.330
+precise with the idea
+of an optimal policy.
+
+12
+00:00:36.330 --> 00:00:38.580
+By the end of this video,
+
+13
+00:00:38.580 --> 00:00:41.385
+you will be able to
+define an optimal policy,
+
+14
+00:00:41.385 --> 00:00:44.160
+understand how policy
+can be at least
+
+15
+00:00:44.160 --> 00:00:47.060
+as good as every other policy
+in every state,
+
+16
+00:00:47.060 --> 00:00:51.160
+and identify an optimal
+policy for a given MDP.
+
+17
+00:00:51.160 --> 00:00:53.530
+To define an optimal policy,
+
+18
+00:00:53.530 --> 00:00:55.880
+we first have to
+understand what it means
+
+19
+00:00:55.880 --> 00:00:58.775
+for one policy to be
+better than another.
+
+20
+00:00:58.775 --> 00:01:00.560
+Here we can see the value of
+
+21
+00:01:00.560 --> 00:01:03.650
+two policies plotted
+across states.
+
+22
+00:01:03.650 --> 00:01:05.210
+Note that we plot it as
+
+23
+00:01:05.210 --> 00:01:07.805
+a continuous line for
+illustration only.
+
+24
+00:01:07.805 --> 00:01:10.730
+We are still considering
+discrete states,
+
+25
+00:01:10.730 --> 00:01:14.015
+and the value might not very
+smoothly across states.
+
+26
+00:01:14.015 --> 00:01:16.990
+This plot illustrates
+that in some states,
+
+27
+00:01:16.990 --> 00:01:19.430
+Pi one achieves a higher value,
+
+28
+00:01:19.430 --> 00:01:22.715
+and in other states Pi two
+achieves a higher value.
+
+29
+00:01:22.715 --> 00:01:25.010
+So it does not make
+much sense to say
+
+30
+00:01:25.010 --> 00:01:27.275
+Pi one is better than Pi two,
+
+31
+00:01:27.275 --> 00:01:30.265
+or that Pi two is
+better than Pi one.
+
+32
+00:01:30.265 --> 00:01:33.190
+We will say policy Pi one is
+
+33
+00:01:33.190 --> 00:01:36.140
+as good as or better
+than policy Pi two,
+
+34
+00:01:36.140 --> 00:01:39.950
+if and only if the
+value under Pi one is
+
+35
+00:01:39.950 --> 00:01:41.840
+greater than or
+equal to the value
+
+36
+00:01:41.840 --> 00:01:44.690
+under Pi two for every state.
+
+37
+00:01:44.690 --> 00:01:47.000
+We denote this
+relationship between
+
+38
+00:01:47.000 --> 00:01:50.075
+policies with a greater
+than or equal to sign.
+
+39
+00:01:50.075 --> 00:01:52.340
+In the diagram shown here,
+
+40
+00:01:52.340 --> 00:01:55.070
+the line visualizing
+the value of Pi one
+
+41
+00:01:55.070 --> 00:01:58.010
+is always above
+the line for Pi two.
+
+42
+00:01:58.010 --> 00:01:59.440
+So in this case,
+
+43
+00:01:59.440 --> 00:02:03.120
+Pi one is as good as
+or better than Pi two.
+
+44
+00:02:03.120 --> 00:02:06.560
+An optimal policy, is
+a policy which is as
+
+45
+00:02:06.560 --> 00:02:09.515
+good as or better than
+all the other policies.
+
+46
+00:02:09.515 --> 00:02:11.930
+That is, an optimal
+policy will have
+
+47
+00:02:11.930 --> 00:02:15.080
+the highest possible
+value in every state.
+
+48
+00:02:15.080 --> 00:02:18.199
+There's always
+at least one optimal policy,
+
+49
+00:02:18.199 --> 00:02:20.110
+but there may be more than one.
+
+50
+00:02:20.110 --> 00:02:22.520
+We'll use the notation Pi star
+
+51
+00:02:22.520 --> 00:02:25.195
+to denote any optimal policy.
+
+52
+00:02:25.195 --> 00:02:27.260
+It might not be clear why there
+
+53
+00:02:27.260 --> 00:02:29.570
+must exist optimal policies.
+
+54
+00:02:29.570 --> 00:02:31.910
+That is, policies that
+are at least as good
+
+55
+00:02:31.910 --> 00:02:34.570
+as all other policies
+and every state.
+
+56
+00:02:34.570 --> 00:02:37.010
+Couldn't we have a situation
+we're doing well in
+
+57
+00:02:37.010 --> 00:02:39.650
+one state requires doing
+badly and another.
+
+58
+00:02:39.650 --> 00:02:42.560
+Let's say there is
+such a policy Pi one,
+
+59
+00:02:42.560 --> 00:02:45.505
+which does well in some states
+while policy Pi two,
+
+60
+00:02:45.505 --> 00:02:47.270
+does well and others.
+
+61
+00:02:47.270 --> 00:02:49.610
+We could combine
+these policies into
+
+62
+00:02:49.610 --> 00:02:51.575
+a third policy Pi three,
+
+63
+00:02:51.575 --> 00:02:54.500
+which always chooses actions
+according to whichever of
+
+64
+00:02:54.500 --> 00:02:56.300
+policy Pi one and
+
+65
+00:02:56.300 --> 00:03:00.100
+Pi two has the highest
+value in the current state.
+
+66
+00:03:00.100 --> 00:03:04.040
+Pi three will necessarily
+have a value greater than or
+
+67
+00:03:04.040 --> 00:03:07.700
+equal to both Pi one and
+Pi two in every state.
+
+68
+00:03:07.700 --> 00:03:10.820
+So we will never have
+a situation we're doing well
+
+69
+00:03:10.820 --> 00:03:14.635
+in one state require
+sacrificing value in another.
+
+70
+00:03:14.635 --> 00:03:17.420
+Because of this,
+there always exists
+
+71
+00:03:17.420 --> 00:03:20.675
+some policy which is
+best in every state.
+
+72
+00:03:20.675 --> 00:03:23.540
+This is of course
+only an informal argument,
+
+73
+00:03:23.540 --> 00:03:25.325
+but there's in fact
+a rigorous proof
+
+74
+00:03:25.325 --> 00:03:26.360
+showing that there must
+
+75
+00:03:26.360 --> 00:03:30.470
+always exist at least one
+optimal deterministic policy.
+
+76
+00:03:30.470 --> 00:03:33.590
+Notice, that in
+some states Pi three has
+
+77
+00:03:33.590 --> 00:03:37.225
+a strictly greater value than
+either Pi one or Pi two.
+
+78
+00:03:37.225 --> 00:03:39.200
+As an exercise, try to
+
+79
+00:03:39.200 --> 00:03:41.600
+explain how this is
+possible given that
+
+80
+00:03:41.600 --> 00:03:44.870
+Pi three simply chooses actions
+according to whichever of
+
+81
+00:03:44.870 --> 00:03:49.295
+Pi one and Pi two has
+a higher value in each state.
+
+82
+00:03:49.295 --> 00:03:52.340
+Let's look at
+a specific example to
+
+83
+00:03:52.340 --> 00:03:55.430
+build some intuition
+about optimal policies.
+
+84
+00:03:55.430 --> 00:03:58.895
+Consider the two
+choice MDP shown here.
+
+85
+00:03:58.895 --> 00:04:01.130
+The only decision
+to be made is in
+
+86
+00:04:01.130 --> 00:04:03.440
+the top state labeled X.
+
+87
+00:04:03.440 --> 00:04:07.220
+The agent can take
+either action A1 or A2.
+
+88
+00:04:07.220 --> 00:04:10.085
+From state X, action A1,
+
+89
+00:04:10.085 --> 00:04:12.395
+takes the agent to state Y.
+
+90
+00:04:12.395 --> 00:04:15.080
+In state Y, only action A1 is
+
+91
+00:04:15.080 --> 00:04:18.875
+available and it takes
+the agent back to state X.
+
+92
+00:04:18.875 --> 00:04:21.140
+On the other hand action A2 and
+
+93
+00:04:21.140 --> 00:04:23.375
+X takes the agent to state Z.
+
+94
+00:04:23.375 --> 00:04:26.300
+From state Z action A1 is again
+
+95
+00:04:26.300 --> 00:04:28.010
+the only action available
+
+96
+00:04:28.010 --> 00:04:31.085
+and it takes the agent
+back to state X.
+
+97
+00:04:31.085 --> 00:04:33.380
+The numbers show the rewards
+
+98
+00:04:33.380 --> 00:04:35.630
+the agent receives
+after each action.
+
+99
+00:04:35.630 --> 00:04:37.670
+Notice that while A1 offers
+
+100
+00:04:37.670 --> 00:04:39.530
+an immediate reward of plus one,
+
+101
+00:04:39.530 --> 00:04:41.840
+A2 offers a larger reward of
+
+102
+00:04:41.840 --> 00:04:45.020
+plus two after single-step delay.
+
+103
+00:04:45.020 --> 00:04:49.099
+There are only two deterministic
+policies in this MDP
+
+104
+00:04:49.099 --> 00:04:50.720
+which are completely defined by
+
+105
+00:04:50.720 --> 00:04:52.790
+the agents choice in state X.
+
+106
+00:04:52.790 --> 00:04:55.775
+Take action A1 or take action A2.
+
+107
+00:04:55.775 --> 00:04:58.625
+Let's call these
+Pi one and Pi two.
+
+108
+00:04:58.625 --> 00:05:01.450
+Which of these two
+policies is optimal?
+
+109
+00:05:01.450 --> 00:05:03.980
+The optimal policy
+what will be the one
+
+110
+00:05:03.980 --> 00:05:06.365
+for which the value
+of X is highest.
+
+111
+00:05:06.365 --> 00:05:09.980
+The answer depends on
+the discount factor Gamma.
+
+112
+00:05:09.980 --> 00:05:12.715
+Consider Gamma equals zero.
+
+113
+00:05:12.715 --> 00:05:14.930
+In this case, the value is
+
+114
+00:05:14.930 --> 00:05:17.975
+defined using
+only the immediate reward.
+
+115
+00:05:17.975 --> 00:05:21.930
+The value of state X
+under Pi one is plus one,
+
+116
+00:05:21.930 --> 00:05:25.130
+while the value under
+Pi two is zero because
+
+117
+00:05:25.130 --> 00:05:28.850
+the plus to reward occurs
+after a one-step delay,
+
+118
+00:05:28.850 --> 00:05:29.930
+which does not affect
+
+119
+00:05:29.930 --> 00:05:32.950
+the return when Gamma
+is set to zero.
+
+120
+00:05:32.950 --> 00:05:36.860
+So in this case, Pi one
+is the optimal policy.
+
+121
+00:05:36.860 --> 00:05:40.295
+What if instead Gamma equals 0.9?
+
+122
+00:05:40.295 --> 00:05:42.770
+In this case, the value of X
+
+123
+00:05:42.770 --> 00:05:45.590
+under each policy
+is an infinite sum.
+
+124
+00:05:45.590 --> 00:05:47.900
+Pi one receives
+an immediate reward
+
+125
+00:05:47.900 --> 00:05:49.970
+of one followed by zero,
+
+126
+00:05:49.970 --> 00:05:52.190
+and then one again, and so on.
+
+127
+00:05:52.190 --> 00:05:54.860
+Each reward and the expression
+for the value of
+
+128
+00:05:54.860 --> 00:05:58.850
+state X is discounted
+by some power of Gamma.
+
+129
+00:05:58.850 --> 00:06:03.095
+We can express this compactly
+as a geometric series.
+
+130
+00:06:03.095 --> 00:06:05.810
+Applying the geometric
+series formula,
+
+131
+00:06:05.810 --> 00:06:07.520
+we get the value shown here for
+
+132
+00:06:07.520 --> 00:06:11.150
+Pi one which evaluates
+to around 5.3.
+
+133
+00:06:11.150 --> 00:06:13.430
+We can write the
+value under Pi two.
+
+134
+00:06:13.430 --> 00:06:17.000
+Similarly, except we
+will receive a reward of
+
+135
+00:06:17.000 --> 00:06:21.475
+two on every odd step instead
+of one on every even step.
+
+136
+00:06:21.475 --> 00:06:23.150
+We can again write this as
+
+137
+00:06:23.150 --> 00:06:26.570
+a geometric series and obtain
+a closed form solution.
+
+138
+00:06:26.570 --> 00:06:30.605
+In this case, the solution
+evaluates to around 9.5.
+
+139
+00:06:30.605 --> 00:06:33.400
+Since 9.5 is higher than 5.3,
+
+140
+00:06:33.400 --> 00:06:36.030
+Pi two is optimal in this case.
+
+141
+00:06:36.030 --> 00:06:38.229
+In these two choice MDP,
+
+142
+00:06:38.229 --> 00:06:39.770
+finding the optimal policy
+
+143
+00:06:39.770 --> 00:06:41.615
+was relatively straightforward.
+
+144
+00:06:41.615 --> 00:06:44.060
+There were only two
+deterministic policies,
+
+145
+00:06:44.060 --> 00:06:45.440
+and we simply had to compute
+
+146
+00:06:45.440 --> 00:06:47.480
+the value function
+for each of them.
+
+147
+00:06:47.480 --> 00:06:50.225
+In general, it will
+not be so easy.
+
+148
+00:06:50.225 --> 00:06:53.840
+Even if we limit ourselves
+to deterministic policies,
+
+149
+00:06:53.840 --> 00:06:57.170
+the number of possible policies
+is equal to the number of
+
+150
+00:06:57.170 --> 00:07:00.805
+possible actions to the power
+of the number of states.
+
+151
+00:07:00.805 --> 00:07:03.890
+We could use a brute force
+search where we compute
+
+152
+00:07:03.890 --> 00:07:04.970
+the value function for
+
+153
+00:07:04.970 --> 00:07:08.120
+every policy to find
+the optimal policy.
+
+154
+00:07:08.120 --> 00:07:10.100
+But it's not hard to
+see this will become
+
+155
+00:07:10.100 --> 00:07:13.385
+intractable for
+even moderately large MDPs.
+
+156
+00:07:13.385 --> 00:07:15.650
+Luckily, there's a better way to
+
+157
+00:07:15.650 --> 00:07:18.680
+organize our search
+of the policy space.
+
+158
+00:07:18.680 --> 00:07:21.140
+The solution will
+come in the form of
+
+159
+00:07:21.140 --> 00:07:23.360
+yet another set of
+Bellman equations,
+
+160
+00:07:23.360 --> 00:07:25.730
+called the Bellman's
+Optimality equations,
+
+161
+00:07:25.730 --> 00:07:28.460
+which we will introduce
+in an upcoming video.
+
+162
+00:07:28.460 --> 00:07:30.365
+That's it for this video.
+
+163
+00:07:30.365 --> 00:07:32.030
+The most important things to take
+
+164
+00:07:32.030 --> 00:07:34.250
+away are an optimal policy
+
+165
+00:07:34.250 --> 00:07:36.080
+is defined as the policy with
+
+166
+00:07:36.080 --> 00:07:38.210
+the highest value in all states.
+
+167
+00:07:38.210 --> 00:07:40.220
+At least one optimal policy
+
+168
+00:07:40.220 --> 00:07:42.970
+always exists but there
+may be more than one.
+
+169
+00:07:42.970 --> 00:07:45.890
+The exponential number
+of possible policies,
+
+170
+00:07:45.890 --> 00:07:47.795
+makes searching for
+the optimal policy
+
+171
+00:07:47.795 --> 00:07:50.580
+by brute force intractable.

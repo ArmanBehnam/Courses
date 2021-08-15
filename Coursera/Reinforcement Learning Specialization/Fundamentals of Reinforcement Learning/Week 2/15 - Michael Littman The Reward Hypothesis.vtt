@@ -1,0 +1,977 @@
+WEBVTT
+
+1
+00:00:05.900 --> 00:00:07.979
+Hi, I'm Michael Littmann.
+
+2
+00:00:07.979 --> 00:00:10.482
+I'm a computer science
+professor at Brown University.
+
+3
+00:00:10.482 --> 00:00:13.731
+And I was asked to speak
+about the reward hypothesis.
+
+4
+00:00:13.731 --> 00:00:18.814
+The basic idea of the reward hypothesis
+is illustrated in this famous saying,
+
+5
+00:00:18.814 --> 00:00:22.818
+give a man a fish and he'll eat for
+a day, teach a man to fish and
+
+6
+00:00:22.818 --> 00:00:24.601
+he'll eat for a lifetime.
+
+7
+00:00:24.601 --> 00:00:26.033
+Give a man a taste for fish and
+
+8
+00:00:26.033 --> 00:00:28.919
+he'll figure out how to fish
+even if the details change.
+
+9
+00:00:28.919 --> 00:00:33.911
+Okay, maybe it's not famous saying but
+someone who isn't me retweeted it, so
+
+10
+00:00:33.911 --> 00:00:35.265
+that's something.
+
+11
+00:00:35.265 --> 00:00:39.524
+Anyway, there are three ways to think
+about creating intelligent behavior.
+
+12
+00:00:39.524 --> 00:00:44.271
+The first, give a man a fish,
+is good old-fashioned AI.
+
+13
+00:00:44.271 --> 00:00:46.193
+If we want a machine to be smart,
+
+14
+00:00:46.193 --> 00:00:49.198
+we program it with the behavior
+we want it to have.
+
+15
+00:00:49.198 --> 00:00:50.700
+But as new problems arise,
+
+16
+00:00:50.700 --> 00:00:53.910
+the machine won't be able to
+adapt to new circumstances.
+
+17
+00:00:53.910 --> 00:00:58.338
+It requires us to always be
+there providing new programs.
+
+18
+00:00:58.338 --> 00:01:02.533
+The second, teach a man to fish,
+is supervised learning.
+
+19
+00:01:02.533 --> 00:01:06.356
+If we want a machine to be smart,
+we provide training examples, and
+
+20
+00:01:06.356 --> 00:01:09.787
+the machine writes its own
+program to match those examples.
+
+21
+00:01:09.787 --> 00:01:14.160
+It learns, so as long as we have
+a way to provide training examples,
+
+22
+00:01:14.160 --> 00:01:19.012
+our machine will be able to write its
+own programs, and that's progress.
+
+23
+00:01:19.012 --> 00:01:25.021
+But situations change, I mean most of us
+don't have the opportunity to eat fish or
+
+24
+00:01:25.021 --> 00:01:27.296
+to fish for our food every day.
+
+25
+00:01:27.296 --> 00:01:31.524
+The third, give a man a taste for
+fish, that's reinforcement learning.
+
+26
+00:01:31.524 --> 00:01:35.074
+It's the idea that we don't have
+to specify the mechanism for
+
+27
+00:01:35.074 --> 00:01:36.172
+achieving a goal.
+
+28
+00:01:36.172 --> 00:01:40.033
+We can just encode the goal and the
+machine can design its own strategy for
+
+29
+00:01:40.033 --> 00:01:40.860
+achieving it.
+
+30
+00:01:40.860 --> 00:01:44.260
+I mean these days, you don't have
+to catch a salmon to eat a salmon,
+
+31
+00:01:44.260 --> 00:01:47.561
+there's supermarkets,
+there's seafood chain restaurants.
+
+32
+00:01:47.561 --> 00:01:52.908
+And if all else fails, gas station sushi,
+so that's the high level idea.
+
+33
+00:01:52.908 --> 00:01:55.302
+But what about the hypothesis itself?
+
+34
+00:01:55.302 --> 00:01:58.017
+Now, I'm pretty sure I got
+it from Rich Sutton, but
+
+35
+00:01:58.017 --> 00:02:00.625
+I've heard that Rich Sutton
+attributes it to me.
+
+36
+00:02:00.625 --> 00:02:03.017
+So if I'm going to tell you about it,
+
+37
+00:02:03.017 --> 00:02:07.745
+I thought it would be a good idea to get
+a handle on the history of the term.
+
+38
+00:02:07.745 --> 00:02:11.745
+Google Trends is an awesome service that
+provides information about how often
+
+39
+00:02:11.745 --> 00:02:13.266
+a term is used historically.
+
+40
+00:02:13.266 --> 00:02:19.129
+So when I asked it about the reward
+hypothesis, it said no dice.
+
+41
+00:02:19.129 --> 00:02:24.097
+Searching for reward hypothesis
+reinforcement learning has 3580 results,
+
+42
+00:02:24.097 --> 00:02:25.541
+so that's something.
+
+43
+00:02:25.541 --> 00:02:29.118
+On the first few pages of results,
+I found a few examples,
+
+44
+00:02:29.118 --> 00:02:32.987
+a blog post by Muhammad Ashraf
+says all goals can be described by
+
+45
+00:02:32.987 --> 00:02:36.200
+the maximization of expected
+cumulative rewards.
+
+46
+00:02:37.600 --> 00:02:41.900
+David silver used the same phrase in his
+intro inreinforcement learning course, but
+
+47
+00:02:41.900 --> 00:02:44.800
+he spelled maximization with
+an S because he's British.
+
+48
+00:02:46.812 --> 00:02:50.700
+Rich Sutton has a blog post called
+the reward hypothesis and there,
+
+49
+00:02:50.700 --> 00:02:53.100
+he states it a little bit differently.
+
+50
+00:02:53.100 --> 00:02:59.122
+He says what we mean by goals and purposes
+can be well thought of as maximization
+
+51
+00:02:59.122 --> 00:03:05.437
+of the expected value of the cumulative
+sum of a received scalar signal, reward.
+
+52
+00:03:05.437 --> 00:03:08.476
+This version emphasizes that
+it goes beyond goals and
+
+53
+00:03:08.476 --> 00:03:11.175
+the fact that reward is a scalar,
+but overall,
+
+54
+00:03:11.175 --> 00:03:14.700
+the spirit is very much the same
+as the other versions I found.
+
+55
+00:03:16.000 --> 00:03:17.545
+Okay, what about my version?
+
+56
+00:03:17.545 --> 00:03:20.611
+So I searched my archive and
+I got no hits at all.
+
+57
+00:03:20.611 --> 00:03:24.831
+Then I saw in that same essay that Rich
+said that I call it the reinforcement
+
+58
+00:03:24.831 --> 00:03:26.206
+learning hypothesis.
+
+59
+00:03:26.206 --> 00:03:29.453
+[LAUGH] So
+that explains why I wasn't finding it.
+
+60
+00:03:29.453 --> 00:03:31.061
+With the right term in hand,
+
+61
+00:03:31.061 --> 00:03:35.484
+I was able to dig up this slide from
+a talk that I gave in the early 2000s, and
+
+62
+00:03:35.484 --> 00:03:39.443
+it says intelligent behavior arises
+from the actions of an individual
+
+63
+00:03:39.443 --> 00:03:44.800
+seeking to maximize its received reward
+signals in a complex and changing world.
+
+64
+00:03:44.800 --> 00:03:47.334
+Again, it's pretty similar to the others.
+
+65
+00:03:47.334 --> 00:03:51.453
+I neglected to say cumulative and
+scalar, but I did contrast
+
+66
+00:03:51.453 --> 00:03:56.565
+the simplicity of the idea of reward
+with the complexity of the real world.
+
+67
+00:03:56.565 --> 00:04:00.059
+I also pointed out
+the implications of this idea.
+
+68
+00:04:00.059 --> 00:04:02.100
+So if you buy into this hypothesis,
+
+69
+00:04:02.100 --> 00:04:06.872
+it suggests that there's two main branches
+of research that need to be addressed.
+
+70
+00:04:06.872 --> 00:04:11.254
+The first is to figure out what
+rewards agent should optimize, and
+
+71
+00:04:11.254 --> 00:04:14.628
+the second is to design
+algorithms to maximize it.
+
+72
+00:04:14.628 --> 00:04:17.412
+People have given a lot of
+attention to the first bullet,
+
+73
+00:04:17.412 --> 00:04:19.095
+I'm going to focus on the second.
+
+74
+00:04:19.095 --> 00:04:21.742
+How can we define rewards?
+
+75
+00:04:21.742 --> 00:04:24.427
+Well, why is that even hard?
+
+76
+00:04:24.427 --> 00:04:28.698
+But sometimes it's not, reinforcement
+learning agent on the stock market can
+
+77
+00:04:28.698 --> 00:04:31.641
+probably just be given
+monetary rewards to optimize.
+
+78
+00:04:31.641 --> 00:04:35.476
+Buying actions cost dollars,
+selling actions generate dollars,
+
+79
+00:04:35.476 --> 00:04:37.031
+the trade-offs are easy.
+
+80
+00:04:37.031 --> 00:04:40.257
+There's a common currency,
+[LAUGH] literally.
+
+81
+00:04:40.257 --> 00:04:44.478
+This picture shows a reinforcement
+learning based solar panel some of my
+
+82
+00:04:44.478 --> 00:04:45.520
+students built.
+
+83
+00:04:45.520 --> 00:04:50.286
+Moving the motors to reposition itself
+cost energy, and the sun shining on
+
+84
+00:04:50.286 --> 00:04:54.530
+the panel brings in energy so
+again, there's a common currency.
+
+85
+00:04:54.530 --> 00:04:59.047
+But if we're designing a reinforcement
+learning agent to control a thermostat,
+
+86
+00:04:59.047 --> 00:05:00.232
+what's the reward?
+
+87
+00:05:00.232 --> 00:05:03.025
+Turning on the heat or
+air conditioning costs energy, but
+
+88
+00:05:03.025 --> 00:05:04.222
+not turning on the heat or
+
+89
+00:05:04.222 --> 00:05:09.200
+air conditioning causes discomfort in the
+occupants, so there's no common currency.
+
+90
+00:05:09.200 --> 00:05:13.708
+I suppose we could translate both into
+dollars, but that's not very natural.
+
+91
+00:05:13.708 --> 00:05:16.500
+How much are you willing to pay to move
+the temperature a little closer to your
+
+92
+00:05:16.500 --> 00:05:18.300
+comfort zone?
+
+93
+00:05:18.300 --> 00:05:22.553
+Well we typically defined some
+units of cost for discomfort,
+
+94
+00:05:22.553 --> 00:05:25.513
+but setting a precise value can be tricky.
+
+95
+00:05:25.513 --> 00:05:28.750
+We can express the idea
+of a goal using rewards.
+
+96
+00:05:28.750 --> 00:05:31.902
+One way is to define a state
+where the goal is achieved
+
+97
+00:05:31.902 --> 00:05:35.341
+as having plus one reward,
+and all others are 0 reward,
+
+98
+00:05:35.341 --> 00:05:38.658
+that's sometimes called
+the goal rewarding coding.
+
+99
+00:05:38.658 --> 00:05:43.522
+Another is to penalize the agent with
+a -1 each step in which the goal has
+
+100
+00:05:43.522 --> 00:05:44.891
+not been achieved.
+
+101
+00:05:44.891 --> 00:05:46.673
+Once the goal is achieved,
+
+102
+00:05:46.673 --> 00:05:51.253
+there's no more cost,
+that's the action penalty representation.
+
+103
+00:05:51.253 --> 00:05:54.828
+In both cases, optimal behavior is
+achieved by reaching the goal so
+
+104
+00:05:54.828 --> 00:05:55.654
+that's good.
+
+105
+00:05:55.654 --> 00:06:00.539
+But they result in subtle differences in
+terms of what the agent should do along
+
+106
+00:06:00.539 --> 00:06:01.138
+the way.
+
+107
+00:06:01.138 --> 00:06:04.453
+The first doesn't really encourage the
+agent to get to the goal with any sense
+
+108
+00:06:04.453 --> 00:06:05.021
+of urgency.
+
+109
+00:06:05.021 --> 00:06:09.206
+And the second runs into serious problems
+if there's some small probability of
+
+110
+00:06:09.206 --> 00:06:11.523
+getting stuck and never reaching the goal.
+
+111
+00:06:11.523 --> 00:06:17.544
+And both schemes can lead to big problems
+for goals with really long horizons.
+
+112
+00:06:17.544 --> 00:06:20.790
+Imagine we want to encourage
+an agent to win a Nobel Prize.
+
+113
+00:06:20.790 --> 00:06:22.422
+Hmm, come to think of it,
+
+114
+00:06:22.422 --> 00:06:27.491
+that would discourage computer science
+research since there's no Nobel in CS.
+
+115
+00:06:27.491 --> 00:06:30.863
+But my point is that we'd
+give the agent a reward for
+
+116
+00:06:30.863 --> 00:06:35.901
+being honored in Sweden and 0 otherwise,
+that's really, really rough.
+
+117
+00:06:35.901 --> 00:06:40.358
+Some intermediate rewards like +0.0001 for
+doing well on a science test, or
+
+118
+00:06:40.358 --> 00:06:43.873
++0.001 for getting tenure,
+could make a big difference for
+
+119
+00:06:43.873 --> 00:06:46.591
+helping to point the agent
+in the right direction.
+
+120
+00:06:46.591 --> 00:06:49.746
+So even if we accept
+the reward hypothesis,
+
+121
+00:06:49.746 --> 00:06:53.681
+there's still work to do to
+define the right rewards.
+
+122
+00:06:53.681 --> 00:06:57.762
+The fish slogan provides three different
+places behavior could come from,
+
+123
+00:06:57.762 --> 00:07:01.408
+we can use the same approach to
+talking about rewards can come from.
+
+124
+00:07:01.408 --> 00:07:04.281
+Computer scientist love the computer
+scientist love recursion.
+
+125
+00:07:06.189 --> 00:07:09.734
+Programming is the most common way of
+defining rewards for a learning agent.
+
+126
+00:07:09.734 --> 00:07:10.881
+A person sits down and
+
+127
+00:07:10.881 --> 00:07:14.720
+does the work of translating the goals
+of behavior into reward values.
+
+128
+00:07:14.720 --> 00:07:16.566
+That can be done once and for
+
+129
+00:07:16.566 --> 00:07:21.071
+all by writing a program that takes
+in states and outputs rewards.
+
+130
+00:07:21.071 --> 00:07:24.637
+Some recent research looks
+at special languages for
+
+131
+00:07:24.637 --> 00:07:27.399
+specifying tasks like temporal logic.
+
+132
+00:07:27.399 --> 00:07:31.776
+These languages might be useful as
+intermediate formats that are somewhat
+
+133
+00:07:31.776 --> 00:07:36.304
+easy for people to write, but also
+somewhat easy for machines to interpret.
+
+134
+00:07:36.304 --> 00:07:39.601
+Rewards can also be delivered
+on the fly by a person.
+
+135
+00:07:39.601 --> 00:07:43.570
+Recent research focuses on how
+reinforcement learning algorithms need to
+
+136
+00:07:43.570 --> 00:07:46.028
+change when the source
+of rewards is a person.
+
+137
+00:07:46.028 --> 00:07:50.219
+People act differently than reward
+functions, they tend to change the reward
+
+138
+00:07:50.219 --> 00:07:53.723
+they give in response to how
+the agent is learning, for example.
+
+139
+00:07:53.723 --> 00:07:56.694
+Standard reinforcement
+learning algorithms don't
+
+140
+00:07:56.694 --> 00:07:59.736
+respond well to this kind
+of non-stationary reward.
+
+141
+00:07:59.736 --> 00:08:04.327
+We can also specify rewards by example,
+that can mean an agent learning to copy
+
+142
+00:08:04.327 --> 00:08:09.058
+the rewards that a person gives, but a
+very interesting version of this approach
+
+143
+00:08:09.058 --> 00:08:11.305
+is inverse reinforcement learning.
+
+144
+00:08:11.305 --> 00:08:15.037
+In inverse reinforcement learning,
+a trainer demonstrates an example of
+
+145
+00:08:15.037 --> 00:08:19.063
+the desired behavior, and the learner
+figures out what rewards the trainer must
+
+146
+00:08:19.063 --> 00:08:21.924
+have been maximizing that
+makes this behavior optimal.
+
+147
+00:08:21.924 --> 00:08:25.834
+So whereas reinforcement learning
+goes from rewards to behavior,
+
+148
+00:08:25.834 --> 00:08:29.824
+inverse reinforcement learning is
+going from behavior to rewards.
+
+149
+00:08:29.824 --> 00:08:33.788
+Once identified, these rewards can
+be maximized in other settings,
+
+150
+00:08:33.788 --> 00:08:37.428
+resulting in powerful generalization
+between environments.
+
+151
+00:08:37.428 --> 00:08:41.439
+Rewards can also be derived indirectly
+through an optimization process,
+
+152
+00:08:41.439 --> 00:08:44.937
+if there's some high-level behavior
+we can create a score for,
+
+153
+00:08:44.937 --> 00:08:49.279
+an optimization approach can search for
+rewards that encourage that behavior.
+
+154
+00:08:49.279 --> 00:08:52.640
+So returning to the Nobel Prize
+example from earlier,
+
+155
+00:08:52.640 --> 00:08:57.475
+imagine creating multiple agents pursuing
+this goal instead of a single one.
+
+156
+00:08:57.475 --> 00:09:01.531
+That would allow us to evaluate,
+not just the result of the behavior was
+
+157
+00:09:01.531 --> 00:09:05.939
+the prize won, but the rewards being
+used as an incentive for this behavior.
+
+158
+00:09:05.939 --> 00:09:09.511
+Arguably, this is how living
+agents get their reward functions,
+
+159
+00:09:09.511 --> 00:09:13.724
+reinforcement learning agents survive
+if they have good reward functions and
+
+160
+00:09:13.724 --> 00:09:15.851
+a good algorithm for maximizing them.
+
+161
+00:09:15.851 --> 00:09:19.597
+Those agents past the reward
+functions along to their offspring.
+
+162
+00:09:19.597 --> 00:09:24.393
+More generally, this is an example of
+meta reinforcement learning, learning at
+
+163
+00:09:24.393 --> 00:09:29.475
+the evolutionary level that creates better
+ways of learning at the individual level.
+
+164
+00:09:29.475 --> 00:09:33.548
+Personally, I think the reward hypothesis
+is very powerful and very useful for
+
+165
+00:09:33.548 --> 00:09:35.740
+designing state-of-the-art agents,
+
+166
+00:09:35.740 --> 00:09:40.081
+it's a great working hypothesis that has
+helped lead us to some excellent results.
+
+167
+00:09:40.081 --> 00:09:44.704
+But I'd caution you not to take it too
+literally, we should be open to rejecting
+
+168
+00:09:44.704 --> 00:09:47.751
+the hypothesis when it is
+outlived its usefulness.
+
+169
+00:09:47.751 --> 00:09:51.357
+For one thing, they're examples of
+behavior that seemed to be doing
+
+170
+00:09:51.357 --> 00:09:53.606
+something other than maximizing reward.
+
+171
+00:09:53.606 --> 00:09:58.366
+For example, it's not immediately apparent
+how to capture risk-averse behavior in
+
+172
+00:09:58.366 --> 00:09:59.352
+this framework.
+
+173
+00:09:59.352 --> 00:10:04.200
+Risk-averse behavior involves choosing
+actions that might not be best
+
+174
+00:10:04.200 --> 00:10:09.137
+on average but for example, minimize
+the chance of a worst case outcome.
+
+175
+00:10:09.137 --> 00:10:12.511
+On the other hand, if you can
+capture this kind of behavior by
+
+176
+00:10:12.511 --> 00:10:16.152
+intervening on the reward stream
+to magnify negative outcomes,
+
+177
+00:10:16.152 --> 00:10:19.150
+that will shift behavior
+in precisely the right way.
+
+178
+00:10:21.221 --> 00:10:24.686
+What about when the desired behavior isn't
+to do the best thing all the time but
+
+179
+00:10:24.686 --> 00:10:26.434
+to do a bunch of things in some balance?
+
+180
+00:10:26.434 --> 00:10:31.103
+Like imagine a pure reward maximizing
+music recommendation system,
+
+181
+00:10:31.103 --> 00:10:34.977
+it should figure out your favorite
+song and then play it for
+
+182
+00:10:34.977 --> 00:10:38.157
+you all the time, and
+that's not what we want.
+
+183
+00:10:38.157 --> 00:10:42.522
+Although maybe there are ways to expand
+the state space so the reward for
+
+184
+00:10:42.522 --> 00:10:46.683
+playing a song is scaled back if
+that song has been played recently.
+
+185
+00:10:46.683 --> 00:10:51.693
+It's kind of like the idea that an animal
+gets a lot of value from drinking but
+
+186
+00:10:51.693 --> 00:10:53.276
+only if it's thirsty.
+
+187
+00:10:53.276 --> 00:10:57.891
+If it just had a drink the reward for
+drinking again, right away is low.
+
+188
+00:10:57.891 --> 00:11:02.546
+So maybe rewards can handle these cases.
+
+189
+00:11:02.546 --> 00:11:06.174
+Well, another observation that I
+think is worth considering is whether
+
+190
+00:11:06.174 --> 00:11:09.991
+pursuing existing rewards is a good
+match for high-level human behavior.
+
+191
+00:11:09.991 --> 00:11:14.063
+There are people who single-mindedly
+pursue their explicit goals, but
+
+192
+00:11:14.063 --> 00:11:17.950
+it's not clear that we judge such
+people as being good to have around.
+
+193
+00:11:17.950 --> 00:11:20.186
+As moral philosophers might point out,
+
+194
+00:11:20.186 --> 00:11:23.948
+the goals we should be pursuing
+aren't immediately evident to us.
+
+195
+00:11:23.948 --> 00:11:28.010
+As we age, we learn more about what
+it means to make good decisions, and
+
+196
+00:11:28.010 --> 00:11:32.479
+generations of scholars have been working
+out what it means to be a good ethical
+
+197
+00:11:32.479 --> 00:11:33.037
+person.
+
+198
+00:11:33.037 --> 00:11:36.908
+Part of this is better understanding the
+impact of our actions on the environment,
+
+199
+00:11:36.908 --> 00:11:40.409
+and the impacts on each other, and
+that's just reinforcement learning.
+
+200
+00:11:40.409 --> 00:11:44.383
+But part of it is articulating
+a deeper sense of purpose.
+
+201
+00:11:44.383 --> 00:11:48.544
+Are we just identifying details of the
+reward functions that are already buried
+
+202
+00:11:48.544 --> 00:11:52.284
+in our minds, or are we actually
+creating better goals for ourselves?
+
+203
+00:11:52.284 --> 00:11:53.976
+I don't know, but in the meantime,
+
+204
+00:11:53.976 --> 00:11:57.417
+we should entertain the possibility
+that maximizing rewards might just be
+
+205
+00:11:57.417 --> 00:12:00.600
+an excellent approximation of what
+motivates intelligent agents.

@@ -1,0 +1,676 @@
+WEBVTT
+
+1
+00:00:06.320 --> 00:00:10.440
+Many problems involve
+some amount of delayed reward.
+
+2
+00:00:10.440 --> 00:00:13.320
+A store manager could lower
+their prices and sell off
+
+3
+00:00:13.320 --> 00:00:16.830
+their entire inventory to
+maximize short term gain.
+
+4
+00:00:16.830 --> 00:00:19.590
+But they would do better
+in the long run by
+
+5
+00:00:19.590 --> 00:00:22.575
+maintaining inventory to sell
+when the demand is high.
+
+6
+00:00:22.575 --> 00:00:24.390
+In reinforcement learning, reward
+
+7
+00:00:24.390 --> 00:00:26.595
+captures the notion
+of short-term gain.
+
+8
+00:00:26.595 --> 00:00:28.680
+The objective
+however, is to learn
+
+9
+00:00:28.680 --> 00:00:31.665
+a policy that achieves
+the most reward in the long run.
+
+10
+00:00:31.665 --> 00:00:35.335
+Value functions formalize
+what this means.
+
+11
+00:00:35.335 --> 00:00:38.495
+By the end of this video,
+you'll be able to;
+
+12
+00:00:38.495 --> 00:00:40.280
+describe the roles of
+
+13
+00:00:40.280 --> 00:00:42.320
+the state value and
+action value functions
+
+14
+00:00:42.320 --> 00:00:44.050
+in reinforcement learning,
+
+15
+00:00:44.050 --> 00:00:46.160
+describe the relationship between
+
+16
+00:00:46.160 --> 00:00:48.365
+value functions and policies,
+
+17
+00:00:48.365 --> 00:00:52.950
+and create examples of
+value functions for a given MDP.
+
+18
+00:00:53.240 --> 00:00:56.370
+Roughly speaking, a
+state value function
+
+19
+00:00:56.370 --> 00:00:57.450
+is the future award
+
+20
+00:00:57.450 --> 00:00:58.670
+an agent can expect to
+
+21
+00:00:58.670 --> 00:01:01.400
+receive starting from
+a particular state.
+
+22
+00:01:01.400 --> 00:01:04.070
+More precisely, the
+state value function
+
+23
+00:01:04.070 --> 00:01:06.875
+is the expected return
+from a given state.
+
+24
+00:01:06.875 --> 00:01:09.320
+The agent's behavior
+will also determine
+
+25
+00:01:09.320 --> 00:01:11.600
+how much total reward
+it can expect.
+
+26
+00:01:11.600 --> 00:01:12.950
+So a value function is
+
+27
+00:01:12.950 --> 00:01:16.370
+defined with respect
+to a given policy.
+
+28
+00:01:16.370 --> 00:01:18.350
+The subscript Pi indicates
+
+29
+00:01:18.350 --> 00:01:19.880
+the value function is contingent
+
+30
+00:01:19.880 --> 00:01:23.935
+on the agent selecting
+actions according to Pi.
+
+31
+00:01:23.935 --> 00:01:27.860
+Likewise, a subscript Pi
+on the expectation
+
+32
+00:01:27.860 --> 00:01:29.510
+indicates that the expectation is
+
+33
+00:01:29.510 --> 00:01:32.375
+computed with respect
+to the policy Pi.
+
+34
+00:01:32.375 --> 00:01:35.660
+We can also define
+an action value function.
+
+35
+00:01:35.660 --> 00:01:37.955
+An action value
+describes what happens
+
+36
+00:01:37.955 --> 00:01:40.610
+when the agent first selects
+a particular action.
+
+37
+00:01:40.610 --> 00:01:44.600
+More formally, the action
+value of a state is
+
+38
+00:01:44.600 --> 00:01:46.910
+the expected return if
+the agent selects action
+
+39
+00:01:46.910 --> 00:01:50.400
+A and then follows policy Pi.
+
+40
+00:01:50.450 --> 00:01:53.910
+Value functions are crucial
+in reinforce learning,
+
+41
+00:01:53.910 --> 00:01:56.180
+they allow an agent to
+query the quality of
+
+42
+00:01:56.180 --> 00:01:58.190
+its current situation instead of
+
+43
+00:01:58.190 --> 00:02:00.755
+waiting to observe
+the long-term outcome.
+
+44
+00:02:00.755 --> 00:02:02.845
+The benefit is twofold.
+
+45
+00:02:02.845 --> 00:02:04.610
+First, the return is not
+
+46
+00:02:04.610 --> 00:02:07.010
+immediately available and second,
+
+47
+00:02:07.010 --> 00:02:09.530
+the return may be random
+due to stochasticity in
+
+48
+00:02:09.530 --> 00:02:12.590
+both the policy and
+environment dynamics.
+
+49
+00:02:12.590 --> 00:02:14.465
+The value function summarizes
+
+50
+00:02:14.465 --> 00:02:18.485
+all the possible futures
+by averaging over returns.
+
+51
+00:02:18.485 --> 00:02:21.995
+Ultimately, we care most
+about learning a good policy.
+
+52
+00:02:21.995 --> 00:02:23.930
+Value function enable us to judge
+
+53
+00:02:23.930 --> 00:02:26.330
+the quality of
+different policies.
+
+54
+00:02:26.330 --> 00:02:30.380
+For example, consider an agent
+playing the game of chess.
+
+55
+00:02:30.380 --> 00:02:32.915
+Chess has an episodic MDP,
+
+56
+00:02:32.915 --> 00:02:34.310
+the state is given by
+
+57
+00:02:34.310 --> 00:02:36.820
+the positions of
+all the pieces on the board,
+
+58
+00:02:36.820 --> 00:02:39.405
+the actions are the legal moves,
+
+59
+00:02:39.405 --> 00:02:41.360
+and termination
+occurs when the game
+
+60
+00:02:41.360 --> 00:02:44.690
+ends in either a win,
+loss, or draw.
+
+61
+00:02:44.690 --> 00:02:47.060
+We could define the reward
+as plus one for
+
+62
+00:02:47.060 --> 00:02:50.030
+winning and zero for
+all the other moves.
+
+63
+00:02:50.030 --> 00:02:52.280
+This reward does not
+tell us much about
+
+64
+00:02:52.280 --> 00:02:54.740
+how well the agent is
+playing during the match,
+
+65
+00:02:54.740 --> 00:02:56.540
+we'll have to wait
+until the end of
+
+66
+00:02:56.540 --> 00:02:58.745
+the game to see
+any non-zero reward.
+
+67
+00:02:58.745 --> 00:03:02.045
+The value function
+tells us much more.
+
+68
+00:03:02.045 --> 00:03:03.980
+The state value is equal to
+
+69
+00:03:03.980 --> 00:03:06.155
+the expected sum
+of future rewards.
+
+70
+00:03:06.155 --> 00:03:08.525
+Since the only possible
+non-zero reward
+
+71
+00:03:08.525 --> 00:03:10.310
+is plus one for winning,
+
+72
+00:03:10.310 --> 00:03:12.260
+the state value is simply
+the probability of
+
+73
+00:03:12.260 --> 00:03:15.130
+winning if we follow
+the current policy Pi.
+
+74
+00:03:15.130 --> 00:03:16.620
+In this two player game,
+
+75
+00:03:16.620 --> 00:03:19.955
+the opponent's move is part
+of the state transition.
+
+76
+00:03:19.955 --> 00:03:24.395
+For example, the environ
+moves both the agents piece,
+
+77
+00:03:24.395 --> 00:03:25.820
+circled in blue, and
+
+78
+00:03:25.820 --> 00:03:28.115
+the opponent's piece,
+circled in red.
+
+79
+00:03:28.115 --> 00:03:31.370
+This puts the board into
+a new state, S prime.
+
+80
+00:03:31.370 --> 00:03:33.890
+Note, the value of
+state S prime is
+
+81
+00:03:33.890 --> 00:03:36.650
+lower than the value
+of state S. This means
+
+82
+00:03:36.650 --> 00:03:38.480
+we are less likely
+to win the game from
+
+83
+00:03:38.480 --> 00:03:42.655
+this new state assuming we
+continue following policy Pi.
+
+84
+00:03:42.655 --> 00:03:45.230
+An action value
+function would allow
+
+85
+00:03:45.230 --> 00:03:46.985
+us to assess the
+probability of winning
+
+86
+00:03:46.985 --> 00:03:49.100
+for each possible move given
+
+87
+00:03:49.100 --> 00:03:52.410
+we follow the policy Pi
+for the rest of the game.
+
+88
+00:03:52.480 --> 00:03:54.785
+To build some intuition,
+
+89
+00:03:54.785 --> 00:03:57.455
+let's look at
+a simple continuing MDP.
+
+90
+00:03:57.455 --> 00:04:00.575
+The states are defined by
+the locations on the grid,
+
+91
+00:04:00.575 --> 00:04:02.885
+the actions move the agent up,
+
+92
+00:04:02.885 --> 00:04:05.000
+down, left, or right.
+
+93
+00:04:05.000 --> 00:04:07.250
+The agent cannot
+move off the grid
+
+94
+00:04:07.250 --> 00:04:10.130
+and bumping generates
+a reward of minus one.
+
+95
+00:04:10.130 --> 00:04:13.205
+Most other actions
+yield no reward.
+
+96
+00:04:13.205 --> 00:04:15.800
+There are two special
+states however,
+
+97
+00:04:15.800 --> 00:04:18.850
+these special states
+are labeled A and B.
+
+98
+00:04:18.850 --> 00:04:21.940
+Every action in state
+A yields plus 10
+
+99
+00:04:21.940 --> 00:04:25.355
+reward and plus five
+reward in state B.
+
+100
+00:04:25.355 --> 00:04:28.835
+Every action in state A and
+B transitions the agents
+
+101
+00:04:28.835 --> 00:04:32.805
+to states A prime and
+B prime respectively.
+
+102
+00:04:32.805 --> 00:04:35.900
+Remember, we must specify
+the policy before we
+
+103
+00:04:35.900 --> 00:04:38.720
+can figure out what
+the value function is.
+
+104
+00:04:38.720 --> 00:04:41.645
+Let's look at
+the uniform random policy.
+
+105
+00:04:41.645 --> 00:04:43.880
+Since this is a continuing task,
+
+106
+00:04:43.880 --> 00:04:45.825
+we need to specify Gamma,
+
+107
+00:04:45.825 --> 00:04:49.115
+let's go with 0.9.
+
+108
+00:04:49.115 --> 00:04:51.770
+Later, we will learn
+several ways to
+
+109
+00:04:51.770 --> 00:04:54.095
+compute and estimate
+the value function,
+
+110
+00:04:54.095 --> 00:04:57.455
+but this time we'll be nice
+to you and computed for you.
+
+111
+00:04:57.455 --> 00:05:01.015
+On the right, we have written
+the value of each state.
+
+112
+00:05:01.015 --> 00:05:04.285
+First, notice the negative
+values near the bottom,
+
+113
+00:05:04.285 --> 00:05:05.780
+these values are low
+
+114
+00:05:05.780 --> 00:05:07.520
+because the agent is
+likely to bump into
+
+115
+00:05:07.520 --> 00:05:11.230
+the wall before reaching
+the distance states A and B.
+
+116
+00:05:11.230 --> 00:05:13.250
+Remember, A and B are both
+
+117
+00:05:13.250 --> 00:05:16.985
+the only sources of
+positive reward in this MDP.
+
+118
+00:05:16.985 --> 00:05:19.895
+State A has the highest value,
+
+119
+00:05:19.895 --> 00:05:23.450
+notice that the value is
+less than 10 wven though
+
+120
+00:05:23.450 --> 00:05:25.280
+every action from
+state A generates
+
+121
+00:05:25.280 --> 00:05:27.630
+a reward of plus 10, why?
+
+122
+00:05:27.630 --> 00:05:30.650
+Because every transition
+from A moves the agent
+
+123
+00:05:30.650 --> 00:05:33.500
+close to the lower wall
+and near the lower wall,
+
+124
+00:05:33.500 --> 00:05:35.030
+the random policy is likely
+
+125
+00:05:35.030 --> 00:05:36.980
+to bump and get negative reward.
+
+126
+00:05:36.980 --> 00:05:38.730
+On the other hand, the value of
+
+127
+00:05:38.730 --> 00:05:41.225
+state B is slightly
+greater than five.
+
+128
+00:05:41.225 --> 00:05:44.465
+The transition from B moves
+the agent to the middle.
+
+129
+00:05:44.465 --> 00:05:46.820
+In the middle, the agent
+is unlikely to
+
+130
+00:05:46.820 --> 00:05:50.900
+bump and is close to
+the high-valued states A and B.
+
+131
+00:05:50.900 --> 00:05:53.675
+It's really quite amazing
+how the value function
+
+132
+00:05:53.675 --> 00:05:57.155
+compactly summarizes
+all these possibilities.
+
+133
+00:05:57.155 --> 00:05:59.870
+In this video, we
+introduce the definitions
+
+134
+00:05:59.870 --> 00:06:02.425
+of state and action
+value functions.
+
+135
+00:06:02.425 --> 00:06:04.130
+Soon, we will discuss how
+
+136
+00:06:04.130 --> 00:06:06.245
+value functions can be computed.
+
+137
+00:06:06.245 --> 00:06:08.629
+For now, you should understand
+
+138
+00:06:08.629 --> 00:06:10.130
+that a state value function
+
+139
+00:06:10.130 --> 00:06:12.110
+refers to the
+expected return from
+
+140
+00:06:12.110 --> 00:06:14.585
+a given state under
+a specific policy,
+
+141
+00:06:14.585 --> 00:06:16.940
+and an action value function
+
+142
+00:06:16.940 --> 00:06:19.040
+refers to the
+expected return from
+
+143
+00:06:19.040 --> 00:06:20.840
+a given state after selecting
+
+144
+00:06:20.840 --> 00:06:24.540
+a particular action and then
+following a given policy.

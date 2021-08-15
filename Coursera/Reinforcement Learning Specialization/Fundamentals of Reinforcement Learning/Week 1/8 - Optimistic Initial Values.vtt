@@ -1,0 +1,453 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.385
+[MUSIC]
+
+2
+00:00:07.385 --> 00:00:11.350
+What if our doctor performing medical
+trials was initially very optimistic about
+
+3
+00:00:11.350 --> 00:00:12.910
+the outcome of each treatment?
+
+4
+00:00:14.010 --> 00:00:16.950
+This principle of being optimistic
+in the face of uncertainty
+
+5
+00:00:16.950 --> 00:00:20.345
+is a common strategy of balancing
+exploration-exploitation.
+
+6
+00:00:21.870 --> 00:00:25.915
+Today we'll discuss how to implement this
+idea using optimistic initial values.
+
+7
+00:00:25.915 --> 00:00:30.906
+[SOUND] By the end of this video, you will
+understand how optimistic initial values
+
+8
+00:00:30.906 --> 00:00:34.523
+encourage early exploration and
+be able to describe some of
+
+9
+00:00:34.523 --> 00:00:39.248
+the limitations of optimistic initial
+values as an exploration mechanism.
+
+10
+00:00:39.248 --> 00:00:44.047
+[SOUND] Let's consider how
+optimism affects action-selection,
+
+11
+00:00:44.047 --> 00:00:46.794
+using our doctor again as an example.
+
+12
+00:00:46.794 --> 00:00:50.510
+Perhaps the doctor starts with
+the assumption that each treatment is 100%
+
+13
+00:00:50.510 --> 00:00:52.319
+effective, until shown otherwise.
+
+14
+00:00:53.360 --> 00:00:56.110
+Our doctor would begin
+prescribing treatments at random,
+
+15
+00:00:56.110 --> 00:00:59.140
+until one of the treatments
+fails to cure a patient.
+
+16
+00:00:59.140 --> 00:01:03.180
+The doctor might then choose from
+the other two treatments at random.
+
+17
+00:01:03.180 --> 00:01:07.630
+Again, the doctor would continue until
+one of these treatments fails to work.
+
+18
+00:01:08.690 --> 00:01:12.520
+The doctor would continue this way, always
+assuming the treatments are maximally
+
+19
+00:01:12.520 --> 00:01:16.550
+effective, until shown that the estimated
+values need to be corrected.
+
+20
+00:01:17.920 --> 00:01:19.910
+Let's see how this work
+with explicit values.
+
+21
+00:01:21.110 --> 00:01:24.250
+Previously the initial estimated
+values were assumed to be 0,
+
+22
+00:01:24.250 --> 00:01:26.180
+which is not necessarily optimistic.
+
+23
+00:01:27.350 --> 00:01:31.160
+Now, our doctor optimistically assumes
+that each treatment is highly effective
+
+24
+00:01:31.160 --> 00:01:32.410
+before running the trial.
+
+25
+00:01:33.640 --> 00:01:36.651
+To make sure we're
+definitely overestimating,
+
+26
+00:01:36.651 --> 00:01:39.669
+let's make the initial value for
+each action 2.
+
+27
+00:01:39.669 --> 00:01:42.370
+Let's assume the doctor always
+chooses the greedy action.
+
+28
+00:01:43.400 --> 00:01:46.900
+Recall the incremental update rule for
+the action values, shown to the left.
+
+29
+00:01:48.440 --> 00:01:53.095
+Let's take the alpha = 0.5 for
+this demonstration.
+
+30
+00:01:53.095 --> 00:01:55.101
+The first patient comes in.
+
+31
+00:01:55.101 --> 00:01:57.312
+Because the values
+are all equal right now,
+
+32
+00:01:57.312 --> 00:02:00.430
+the doctor chooses a treatment randomly.
+
+33
+00:02:00.430 --> 00:02:04.320
+The doctor prescribes treatment P, and
+the patient reports feeling better.
+
+34
+00:02:05.980 --> 00:02:10.560
+Notice that the estimated value for
+treatment P decreased from 2 to 1.5,
+
+35
+00:02:10.560 --> 00:02:13.480
+even though the treatment was a success.
+
+36
+00:02:13.480 --> 00:02:15.270
+This is because the reward was 1,
+
+37
+00:02:15.270 --> 00:02:18.450
+which is less than our initial
+optimistic estimate of the value.
+
+38
+00:02:19.860 --> 00:02:21.570
+The next patient arrives.
+
+39
+00:02:21.570 --> 00:02:25.330
+The doctor chooses amongst the treatments
+with the highest estimated value,
+
+40
+00:02:25.330 --> 00:02:26.800
+treatment Y or treatment B.
+
+41
+00:02:28.360 --> 00:02:32.377
+The doctor randomly chooses
+to prescribe treatment Y.
+
+42
+00:02:32.377 --> 00:02:36.665
+The patient reports that they do not
+feel better, giving a reward of 0, and
+
+43
+00:02:36.665 --> 00:02:39.959
+the doctor lowers their
+estimated value for treatment Y.
+
+44
+00:02:40.980 --> 00:02:45.230
+The estimated value decreased to 1,
+lower than the current estimated value for
+
+45
+00:02:45.230 --> 00:02:46.780
+treatment P.
+
+46
+00:02:46.780 --> 00:02:49.240
+A third patient comes into the clinic.
+
+47
+00:02:49.240 --> 00:02:51.730
+Treatment B has the highest
+estimated value, and so
+
+48
+00:02:51.730 --> 00:02:53.590
+the doctor prescribes treatment B.
+
+49
+00:02:55.060 --> 00:02:59.555
+The patient reports feeling better, so
+the estimated value only decreases to 1.5.
+
+50
+00:03:01.240 --> 00:03:05.020
+Patients keep coming in, and the doctor
+continually provides treatments and
+
+51
+00:03:05.020 --> 00:03:06.570
+refines the value estimates.
+
+52
+00:03:08.260 --> 00:03:12.220
+From this example, we can see that using
+optimistic initial values encourages
+
+53
+00:03:12.220 --> 00:03:14.510
+exploration early in learning.
+
+54
+00:03:14.510 --> 00:03:18.563
+The doctor tried all three of the
+treatments in the first three time steps,
+
+55
+00:03:18.563 --> 00:03:21.282
+and continued to try all
+treatments afterwards.
+
+56
+00:03:21.282 --> 00:03:23.476
+[SOUND] Let look at another example,
+
+57
+00:03:23.476 --> 00:03:27.363
+this time the 10-armed
+problem from the textbook.
+
+58
+00:03:29.198 --> 00:03:32.970
+The values for each action are sampled
+from a normal distribution.
+
+59
+00:03:32.970 --> 00:03:38.020
+For this problem, an initial estimated
+value of 5 is likely to be optimistic.
+
+60
+00:03:38.020 --> 00:03:40.349
+In this plot,
+all the vales are less than 3.
+
+61
+00:03:42.156 --> 00:03:46.337
+Whenever the agent selects an action,
+the first time that action is selected
+
+62
+00:03:46.337 --> 00:03:50.860
+the observed reward will likely be smaller
+than the optimistic initial estimate.
+
+63
+00:03:51.940 --> 00:03:54.680
+The estimated value for
+this action will decrease, and
+
+64
+00:03:54.680 --> 00:03:57.580
+other actions will begin to look
+more appealing in comparison.
+
+65
+00:03:59.200 --> 00:04:02.373
+Let's run an experiment to see how
+an agent behaves with optimistic
+
+66
+00:04:02.373 --> 00:04:03.216
+initial values.
+
+67
+00:04:05.110 --> 00:04:10.274
+As a baseline, we can run an epsilon
+greedy agent with epsilon = 0.1,
+
+68
+00:04:10.274 --> 00:04:14.793
+and initial value estimates set
+to 0 which are not optimistic.
+
+69
+00:04:14.793 --> 00:04:17.760
+We also run a greedy agent with
+optimistic initial values.
+
+70
+00:04:19.285 --> 00:04:23.420
+We plot the percentage of time that
+the agent chooses the optimal action,
+
+71
+00:04:23.420 --> 00:04:24.710
+averaged over runs.
+
+72
+00:04:26.810 --> 00:04:32.215
+In early learning, the optimistic agent
+performs worse because it explores more.
+
+73
+00:04:32.215 --> 00:04:36.088
+Its exploration decreases with time,
+because the optimism and
+
+74
+00:04:36.088 --> 00:04:38.845
+its estimates washes
+out with more samples.
+
+75
+00:04:38.845 --> 00:04:44.655
+[SOUND] Using optimistic initial values is
+not necessarily the optimal solution for
+
+76
+00:04:44.655 --> 00:04:47.726
+balancing exploration and exploitation.
+
+77
+00:04:47.726 --> 00:04:52.327
+One limitation is that optimistic initial
+values only drive exploration early in
+
+78
+00:04:52.327 --> 00:04:56.610
+learning, this means agents will not
+continue exploring after some time.
+
+79
+00:04:58.140 --> 00:05:00.510
+This leads to issues in
+non-stationary problems.
+
+80
+00:05:00.510 --> 00:05:05.900
+For example, one of the action values may
+change after some number of time steps.
+
+81
+00:05:05.900 --> 00:05:10.082
+An optimistic agent may have already
+settled on a particular action, and
+
+82
+00:05:10.082 --> 00:05:13.194
+will not notice that a different
+action is better now.
+
+83
+00:05:13.194 --> 00:05:17.709
+[SOUND] Another potential limitation
+is that we may not always
+
+84
+00:05:17.709 --> 00:05:21.249
+know how to set the optimistic
+initial values,
+
+85
+00:05:21.249 --> 00:05:25.428
+because in practice we may
+not know the maximal reward.
+
+86
+00:05:25.428 --> 00:05:27.606
+Regardless of some of these limitations,
+
+87
+00:05:27.606 --> 00:05:31.680
+optimistic initial values has proven
+to be a very useful heuristic.
+
+88
+00:05:31.680 --> 00:05:34.950
+We will continue using this approach,
+often in combination with
+
+89
+00:05:34.950 --> 00:05:38.300
+other exploration approaches,
+throughout the rest of this course.
+
+90
+00:05:40.050 --> 00:05:44.610
+In this video we discussed the effects
+of our initial value function estimates.
+
+91
+00:05:44.610 --> 00:05:49.180
+We described how optimistic initial
+values encourage early exploration, and
+
+92
+00:05:49.180 --> 00:05:52.390
+we demonstrated this through
+a couple of examples.
+
+93
+00:05:52.390 --> 00:05:57.070
+We finally briefly described some of the
+limitations of optimistic initial values.
+
+94
+00:05:57.070 --> 00:05:58.000
+See you next time,
+
+95
+00:05:58.000 --> 00:06:02.141
+when we will talk about another strategy
+to balance exploration and exploitation.

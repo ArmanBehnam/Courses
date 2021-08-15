@@ -1,0 +1,915 @@
+WEBVTT
+
+1
+00:00:04.220 --> 00:00:06.780
+Hi. My name is John Langford,
+
+2
+00:00:06.780 --> 00:00:07.800
+and I want to tell you about
+
+3
+00:00:07.800 --> 00:00:10.470
+contextual bandits for real-world
+reinforcement learning.
+
+4
+00:00:10.470 --> 00:00:12.450
+It stems from a long-term
+
+5
+00:00:12.450 --> 00:00:13.785
+project I've been working on for
+
+6
+00:00:13.785 --> 00:00:16.080
+more than a decade resulting in
+
+7
+00:00:16.080 --> 00:00:18.975
+many real-world deployments
+and in general,
+
+8
+00:00:18.975 --> 00:00:21.420
+contextual bandits are the way
+
+9
+00:00:21.420 --> 00:00:22.890
+that reinforcement
+learning is deployed
+
+10
+00:00:22.890 --> 00:00:25.155
+in the real-world these days.
+
+11
+00:00:25.155 --> 00:00:27.000
+Let's start with why we want
+
+12
+00:00:27.000 --> 00:00:28.095
+to think about the real-world.
+
+13
+00:00:28.095 --> 00:00:30.060
+In general, how reinforcement
+
+14
+00:00:30.060 --> 00:00:32.010
+is often different
+from the real-world.
+
+15
+00:00:32.010 --> 00:00:34.395
+Typically, right now
+reinforcement learning
+
+16
+00:00:34.395 --> 00:00:35.600
+works with the simulator.
+
+17
+00:00:35.600 --> 00:00:38.385
+A simulator provides
+observations,
+
+18
+00:00:38.385 --> 00:00:41.344
+and then a learning algorithm
+
+19
+00:00:41.344 --> 00:00:44.615
+has a policy which
+chooses an action.
+
+20
+00:00:44.615 --> 00:00:48.340
+The simulator then processes
+and returns in reward.
+
+21
+00:00:48.340 --> 00:00:49.790
+This is what happens when you do
+
+22
+00:00:49.790 --> 00:00:52.970
+reinforcement learning for
+a gameplay, for example.
+
+23
+00:00:52.970 --> 00:00:56.780
+Now, when you want to apply
+this to the real-world,
+
+24
+00:00:56.780 --> 00:01:00.470
+there's a real question about
+how these things align.
+
+25
+00:01:00.470 --> 00:01:02.570
+So for example, when
+
+26
+00:01:02.570 --> 00:01:03.930
+an observation comes
+from real-world,
+
+27
+00:01:03.930 --> 00:01:06.100
+is it like observation
+from a simulator?
+
+28
+00:01:06.100 --> 00:01:08.610
+Typically, it differs
+in various ways.
+
+29
+00:01:08.610 --> 00:01:10.715
+When the action is taken
+
+30
+00:01:10.715 --> 00:01:12.770
+based on an observation,
+is it the same?
+
+31
+00:01:12.770 --> 00:01:15.770
+Often, differs because nature
+
+32
+00:01:15.770 --> 00:01:17.090
+of the observation is different,
+
+33
+00:01:17.090 --> 00:01:18.575
+which leads to different action
+
+34
+00:01:18.575 --> 00:01:20.645
+even given the same policy.
+
+35
+00:01:20.645 --> 00:01:23.060
+Then, is the reward
+that you get back from
+
+36
+00:01:23.060 --> 00:01:25.640
+real-world similar to what
+you get in the simulator?
+
+37
+00:01:25.640 --> 00:01:27.005
+No, the answer is no.
+
+38
+00:01:27.005 --> 00:01:29.490
+It is not similar.
+
+39
+00:01:29.800 --> 00:01:32.990
+So given this,
+there's a divergence.
+
+40
+00:01:32.990 --> 00:01:37.800
+There's is a gap between the
+simulator and the reality.
+
+41
+00:01:37.800 --> 00:01:44.365
+So while you can try to
+learn in simulators,
+
+42
+00:01:44.365 --> 00:01:46.730
+the applicability of what
+you've learned in simulators to
+
+43
+00:01:46.730 --> 00:01:51.470
+the real-world applications
+is unclear and in many cases,
+
+44
+00:01:51.470 --> 00:01:53.790
+maybe even not even possible.
+
+45
+00:01:54.310 --> 00:01:57.300
+So given that there's
+
+46
+00:01:57.300 --> 00:02:00.040
+gap between simulator-based
+reinforcement learning,
+
+47
+00:02:00.040 --> 00:02:02.495
+which is where much of
+reinforcement learning is,
+
+48
+00:02:02.495 --> 00:02:05.530
+and real-world-based
+reinforcement learning,
+
+49
+00:02:05.530 --> 00:02:08.390
+how do you do real-world
+reinforcement learning?
+
+50
+00:02:08.390 --> 00:02:11.645
+I think the key answer is
+a shift in priorities.
+
+51
+00:02:11.645 --> 00:02:13.610
+So you want to shift
+your priorities to
+
+52
+00:02:13.610 --> 00:02:17.945
+support real-world reinforcement
+learning applications.
+
+53
+00:02:17.945 --> 00:02:20.050
+So as an example,
+
+54
+00:02:20.050 --> 00:02:22.860
+Temporal Credit Assignment,
+In other words,
+
+55
+00:02:22.860 --> 00:02:24.285
+which we've watched the game,
+
+56
+00:02:24.285 --> 00:02:26.100
+is really important to
+reinforcement learning.
+
+57
+00:02:26.100 --> 00:02:28.010
+But maybe it's a
+little less important.
+
+58
+00:02:28.010 --> 00:02:30.800
+Maybe generalization across
+
+59
+00:02:30.800 --> 00:02:34.465
+different observations
+is more important.
+
+60
+00:02:34.465 --> 00:02:37.430
+In a simulator, it's easy for
+
+61
+00:02:37.430 --> 00:02:38.620
+the reinforcement
+learning algorithm
+
+62
+00:02:38.620 --> 00:02:39.560
+to control the environment.
+
+63
+00:02:39.560 --> 00:02:41.905
+You can say step forward
+one step please.
+
+64
+00:02:41.905 --> 00:02:44.170
+But in the real-world,
+
+65
+00:02:44.170 --> 00:02:46.430
+typically the environment
+controls you.
+
+66
+00:02:46.430 --> 00:02:49.760
+This is a fundamental
+import in terms
+
+67
+00:02:49.760 --> 00:02:51.200
+of what your interfaces need to
+
+68
+00:02:51.200 --> 00:02:54.180
+be for working with
+the real-world.
+
+69
+00:02:54.590 --> 00:02:58.910
+Computational efficiency is
+the key limiting concern in
+
+70
+00:02:58.910 --> 00:03:00.710
+a simulator because you
+
+71
+00:03:00.710 --> 00:03:02.945
+have as many samples
+as you can compute.
+
+72
+00:03:02.945 --> 00:03:04.909
+But in the real-world,
+
+73
+00:03:04.909 --> 00:03:06.865
+statistical efficiency
+is the greater concern
+
+74
+00:03:06.865 --> 00:03:10.020
+because you only have
+
+75
+00:03:10.020 --> 00:03:12.145
+the samples that the
+real-world gives you,
+
+76
+00:03:12.145 --> 00:03:14.575
+and so you must use those samples
+
+77
+00:03:14.575 --> 00:03:18.800
+to achieve the greatest
+impact that you can.
+
+78
+00:03:19.250 --> 00:03:22.630
+In simulator based
+reinforced learning,
+
+79
+00:03:22.630 --> 00:03:24.475
+we have to think about state.
+
+80
+00:03:24.475 --> 00:03:28.060
+Well, state is
+the fundamental information
+
+81
+00:03:28.060 --> 00:03:30.080
+necessary in order
+to make a decision.
+
+82
+00:03:30.080 --> 00:03:31.880
+But in the real world,
+
+83
+00:03:31.880 --> 00:03:35.220
+often you have some very
+complex observation which
+
+84
+00:03:35.220 --> 00:03:37.360
+may have much more information
+
+85
+00:03:37.360 --> 00:03:39.130
+that's necessary to
+make a decision.
+
+86
+00:03:39.130 --> 00:03:40.870
+If you have a megapixel camera,
+
+87
+00:03:40.870 --> 00:03:43.480
+maybe you don't need all those
+pixels to make a decision,
+
+88
+00:03:43.480 --> 00:03:47.540
+and maybe it's important to
+distinguish between all of
+
+89
+00:03:47.540 --> 00:03:50.350
+those different possible
+pixel settings as a state
+
+90
+00:03:50.350 --> 00:03:55.080
+in making a decision
+in other ways.
+
+91
+00:03:55.360 --> 00:03:59.515
+When you're in the real world,
+
+92
+00:03:59.515 --> 00:04:01.550
+suddenly it becomes
+important to be able
+
+93
+00:04:01.550 --> 00:04:03.770
+to off policy evaluation.
+
+94
+00:04:03.770 --> 00:04:06.560
+So in contextual bandits,
+
+95
+00:04:06.560 --> 00:04:08.150
+which I'll talk
+about in a moment,
+
+96
+00:04:08.150 --> 00:04:10.270
+there are algorithms
+which just do learning,
+
+97
+00:04:10.270 --> 00:04:11.540
+and the algorithms
+do learning but
+
+98
+00:04:11.540 --> 00:04:13.190
+also as a byproduct
+produced it the
+
+99
+00:04:13.190 --> 00:04:17.050
+candidate that you can do
+a policy evaluation with.
+
+100
+00:04:17.050 --> 00:04:20.175
+Naturally, these
+policy evaluation
+
+101
+00:04:20.175 --> 00:04:21.705
+supporting algorithms are just
+
+102
+00:04:21.705 --> 00:04:24.580
+preferred for
+actual applications.
+
+103
+00:04:24.860 --> 00:04:27.290
+Another distinction has to come
+
+104
+00:04:27.290 --> 00:04:30.150
+with which policy you care about.
+
+105
+00:04:30.150 --> 00:04:32.510
+In a simulator, maybe you run for
+
+106
+00:04:32.510 --> 00:04:35.750
+a long time and save last
+policies you care about.
+
+107
+00:04:35.750 --> 00:04:37.070
+But in the real world,
+
+108
+00:04:37.070 --> 00:04:38.735
+every data point you're gathering
+
+109
+00:04:38.735 --> 00:04:40.780
+involve some interaction
+with the world,
+
+110
+00:04:40.780 --> 00:04:43.700
+the way you want that
+performance to be pretty good.
+
+111
+00:04:43.700 --> 00:04:45.170
+So you really care about
+
+112
+00:04:45.170 --> 00:04:46.850
+the entire trajectory
+of policies,
+
+113
+00:04:46.850 --> 00:04:48.470
+the sequence of
+policies as you're
+
+114
+00:04:48.470 --> 00:04:52.290
+learning in the real world.
+
+115
+00:04:54.070 --> 00:04:57.050
+Let's think about
+personalized news.
+
+116
+00:04:57.050 --> 00:04:58.700
+This is a very
+natural application
+
+117
+00:04:58.700 --> 00:05:00.695
+for reinforcement learning
+in the real-world.
+
+118
+00:05:00.695 --> 00:05:02.720
+Maybe you have a set of
+
+119
+00:05:02.720 --> 00:05:04.040
+possible news articles which
+
+120
+00:05:04.040 --> 00:05:06.370
+are the ones of interest today.
+
+121
+00:05:06.370 --> 00:05:08.450
+Some music comes to a website.
+
+122
+00:05:08.450 --> 00:05:09.950
+You would like to choose
+
+123
+00:05:09.950 --> 00:05:12.305
+some news article that they
+probably are interested in.
+
+124
+00:05:12.305 --> 00:05:13.970
+Then you get some feedback about
+
+125
+00:05:13.970 --> 00:05:16.415
+whether or not they
+actually read the article.
+
+126
+00:05:16.415 --> 00:05:18.560
+So this is a very
+
+127
+00:05:18.560 --> 00:05:21.125
+natural reinforcement
+learning structure
+
+128
+00:05:21.125 --> 00:05:22.850
+and this is in fact even simpler
+
+129
+00:05:22.850 --> 00:05:25.280
+to it's contextual
+bandit structure.
+
+130
+00:05:25.280 --> 00:05:27.695
+So think about what
+contextual bandits are?
+
+131
+00:05:27.695 --> 00:05:29.570
+In contextual bandits
+what happens is,
+
+132
+00:05:29.570 --> 00:05:31.220
+you observe some features.
+
+133
+00:05:31.220 --> 00:05:34.625
+Maybe it is the
+geolocation of the user.
+
+134
+00:05:34.625 --> 00:05:36.530
+Maybe it's some profile
+
+135
+00:05:36.530 --> 00:05:39.350
+based on the way the user
+has behaved in the past.
+
+136
+00:05:39.350 --> 00:05:40.880
+Maybe it's features of
+
+137
+00:05:40.880 --> 00:05:44.435
+the possible actions which
+are available as well.
+
+138
+00:05:44.435 --> 00:05:47.330
+Based on this, you
+choose an action and
+
+139
+00:05:47.330 --> 00:05:50.060
+then you get some reward.
+
+140
+00:05:50.060 --> 00:05:53.945
+Your goal is to maximize
+the reward in the setting.
+
+141
+00:05:53.945 --> 00:05:56.780
+Case canal, this sounds like
+
+142
+00:05:56.780 --> 00:05:59.900
+full reinforcement learning
+and it is to a large extent.
+
+143
+00:05:59.900 --> 00:06:02.570
+But there's one severe
+caveat which is
+
+144
+00:06:02.570 --> 00:06:04.460
+that we're imagining there's
+
+145
+00:06:04.460 --> 00:06:06.125
+no credit assignment problem.
+
+146
+00:06:06.125 --> 00:06:10.550
+So the news article that is
+displayed to you does not
+
+147
+00:06:10.550 --> 00:06:12.720
+influence the way
+I will behave when
+
+148
+00:06:12.720 --> 00:06:15.925
+the news article is
+explained to me.
+
+149
+00:06:15.925 --> 00:06:20.430
+The history of this is
+actually pretty recent.
+
+150
+00:06:20.990 --> 00:06:23.840
+Something where
+the world has changed
+
+151
+00:06:23.840 --> 00:06:26.480
+a great deal over
+the last decade.
+
+152
+00:06:26.480 --> 00:06:29.120
+So in 2007, there was
+
+153
+00:06:29.120 --> 00:06:32.120
+the first contextual
+bandit algorithm called
+
+154
+00:06:32.120 --> 00:06:34.340
+Epoch Greedy which is
+essentially a version of
+
+155
+00:06:34.340 --> 00:06:35.420
+Epsilon Greedy that varies
+
+156
+00:06:35.420 --> 00:06:37.945
+the epsilon dealing
+on how much you know.
+
+157
+00:06:37.945 --> 00:06:41.435
+We rapidly discovered there's
+an even earlier paper,
+
+158
+00:06:41.435 --> 00:06:44.180
+the EXP4 algorithm
+which in some sense
+
+159
+00:06:44.180 --> 00:06:47.960
+is even more efficient
+statistically.
+
+160
+00:06:47.960 --> 00:06:51.655
+But it's horrifically
+bad computationally.
+
+161
+00:06:51.655 --> 00:06:55.635
+In 2010, we had
+our first application of
+
+162
+00:06:55.635 --> 00:06:57.710
+personalized news that was
+
+163
+00:06:57.710 --> 00:07:00.820
+deployed in the real world
+when I was at Yahoo research.
+
+164
+00:07:00.820 --> 00:07:05.100
+In 2011, we had
+the first marriage of
+
+165
+00:07:05.100 --> 00:07:07.050
+Epoch Greedy style learning and
+
+166
+00:07:07.050 --> 00:07:10.710
+EXP4 style learning to achieve,
+
+167
+00:07:10.710 --> 00:07:12.110
+if essentially there
+was computationally
+
+168
+00:07:12.110 --> 00:07:14.460
+statistically efficient.
+
+169
+00:07:14.510 --> 00:07:16.620
+In 2014, we had
+
+170
+00:07:16.620 --> 00:07:18.330
+an even better algorithm we
+came up with which you can
+
+171
+00:07:18.330 --> 00:07:21.960
+actually use today,
+and then 2016,
+
+172
+00:07:21.960 --> 00:07:23.440
+we created the first version of
+
+173
+00:07:23.440 --> 00:07:25.390
+a decision service which is
+
+174
+00:07:25.390 --> 00:07:27.950
+a general service
+Cloud service you could use
+
+175
+00:07:27.950 --> 00:07:31.890
+to create your own
+contextual bandit learner.
+
+176
+00:07:31.890 --> 00:07:34.350
+Two thousand and nineteen,
+
+177
+00:07:34.350 --> 00:07:36.225
+this eventually led to
+
+178
+00:07:36.225 --> 00:07:38.445
+an reinforcement learning
+service product,
+
+179
+00:07:38.445 --> 00:07:40.890
+the Azure Cognitive
+Services Personalizer.
+
+180
+00:07:40.890 --> 00:07:42.830
+Based upon the service,
+
+181
+00:07:42.830 --> 00:07:46.210
+you can go and personalize
+your website or
+
+182
+00:07:46.210 --> 00:07:50.080
+its layout or many other things.
+It's a general service.
+
+183
+00:07:50.080 --> 00:07:52.415
+You can feed in
+arbitrary features,
+
+184
+00:07:52.415 --> 00:07:54.430
+choose an action, and then sit
+
+185
+00:07:54.430 --> 00:07:57.040
+in an arbitrary word
+with it learning.
+
+186
+00:07:57.040 --> 00:07:59.214
+Based upon the system,
+
+187
+00:07:59.214 --> 00:08:03.620
+we actually have
+2019 AI system of the year.
+
+188
+00:08:04.370 --> 00:08:08.905
+So I don't have enough time
+to go into great detail here.
+
+189
+00:08:08.905 --> 00:08:10.330
+But if you're interested in
+
+190
+00:08:10.330 --> 00:08:11.725
+more details on
+contextual bandits,
+
+191
+00:08:11.725 --> 00:08:14.905
+there's a tutorial out
+[inaudible] in 2018,
+
+192
+00:08:14.905 --> 00:08:17.090
+which I recommend
+taking a look at.
+
+193
+00:08:17.090 --> 00:08:20.115
+If you're interested in
+the personalizer service,
+
+194
+00:08:20.115 --> 00:08:22.935
+that's available at this URL,
+
+195
+00:08:22.935 --> 00:08:26.770
+and then if you should
+need algorithms behind
+
+196
+00:08:26.770 --> 00:08:28.630
+the personalizer service and
+
+197
+00:08:28.630 --> 00:08:31.465
+internal implementations of
+contextual bandit algorithms,
+
+198
+00:08:31.465 --> 00:08:35.080
+Vowpal Wabbit has become
+a repository for a large number
+
+199
+00:08:35.080 --> 00:08:39.470
+of different contextual
+bandit algorithms. Thank you.

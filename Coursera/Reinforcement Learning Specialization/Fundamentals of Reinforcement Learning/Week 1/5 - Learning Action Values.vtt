@@ -1,0 +1,455 @@
+WEBVTT
+
+1
+00:00:06.560 --> 00:00:10.320
+Remember our doctor
+running the medical trial?
+
+2
+00:00:10.320 --> 00:00:12.390
+What would happen if
+this doctor already
+
+3
+00:00:12.390 --> 00:00:15.360
+knew the long-term outcome
+of each treatment?
+
+4
+00:00:15.360 --> 00:00:18.195
+Choosing the appropriate
+treatment would be trivial.
+
+5
+00:00:18.195 --> 00:00:20.820
+Unfortunately, this is
+often not the case.
+
+6
+00:00:20.820 --> 00:00:22.260
+Usually, the doctor will run
+
+7
+00:00:22.260 --> 00:00:24.735
+many trials to learn
+about each treatment.
+
+8
+00:00:24.735 --> 00:00:26.445
+Each day, the doctor could use
+
+9
+00:00:26.445 --> 00:00:28.500
+all the previously
+collected data to
+
+10
+00:00:28.500 --> 00:00:31.425
+estimate which treatment they
+believed to be the best.
+
+11
+00:00:31.425 --> 00:00:34.450
+Let's learn how that might work.
+
+12
+00:00:34.610 --> 00:00:37.590
+Today, we will discuss
+a method for estimating
+
+13
+00:00:37.590 --> 00:00:41.295
+the action values called
+the sample-average method.
+
+14
+00:00:41.295 --> 00:00:43.910
+We will use this method
+to compute the value
+
+15
+00:00:43.910 --> 00:00:47.040
+of each treatment in
+our medical trial example.
+
+16
+00:00:47.530 --> 00:00:51.505
+Then, we will describe
+greedy action selection.
+
+17
+00:00:51.505 --> 00:00:53.400
+Finally, we will introduce
+
+18
+00:00:53.400 --> 00:00:55.475
+the exploration-exploitation
+dilemma
+
+19
+00:00:55.475 --> 00:00:57.570
+in reinforcement learning.
+
+20
+00:00:57.800 --> 00:00:59.810
+Before we get started,
+
+21
+00:00:59.810 --> 00:01:03.230
+let's recall the definition
+of an action value.
+
+22
+00:01:03.230 --> 00:01:07.160
+The value of selecting
+an action Q star is
+
+23
+00:01:07.160 --> 00:01:08.990
+the expected reward received
+
+24
+00:01:08.990 --> 00:01:11.110
+after that action has been taken.
+
+25
+00:01:11.110 --> 00:01:13.620
+Q star is not known to the agent,
+
+26
+00:01:13.620 --> 00:01:15.350
+just like the doctor doesn't know
+
+27
+00:01:15.350 --> 00:01:17.735
+the effectiveness
+of each treatment.
+
+28
+00:01:17.735 --> 00:01:21.140
+Instead, we will need to
+find a way to estimate it.
+
+29
+00:01:21.140 --> 00:01:22.910
+One way to estimate
+
+30
+00:01:22.910 --> 00:01:25.805
+Q star is to compute
+a sample-average.
+
+31
+00:01:25.805 --> 00:01:28.970
+We simply record
+the total reward for each action
+
+32
+00:01:28.970 --> 00:01:30.470
+and divide it by the number of
+
+33
+00:01:30.470 --> 00:01:33.245
+times that action
+has been selected.
+
+34
+00:01:33.245 --> 00:01:36.800
+To understand the sample-average
+estimate intuitively,
+
+35
+00:01:36.800 --> 00:01:40.440
+let's look at
+one action, action A.
+
+36
+00:01:40.750 --> 00:01:44.030
+The estimated value
+for action A is
+
+37
+00:01:44.030 --> 00:01:46.370
+the sum of rewards
+observed when taking
+
+38
+00:01:46.370 --> 00:01:48.920
+action A divided by
+
+39
+00:01:48.920 --> 00:01:52.680
+the total number of times
+action A has been taken.
+
+40
+00:01:52.700 --> 00:01:57.710
+We use t minus 1 because
+the value at time t is based
+
+41
+00:01:57.710 --> 00:02:01.925
+on actions taken prior
+to time t. Also,
+
+42
+00:02:01.925 --> 00:02:04.055
+if action A has not
+yet been taken,
+
+43
+00:02:04.055 --> 00:02:07.620
+we set the value to
+some default like zero.
+
+44
+00:02:07.720 --> 00:02:10.790
+Let's go back to
+our medical trial example.
+
+45
+00:02:10.790 --> 00:02:12.935
+A doctor must decide which
+
+46
+00:02:12.935 --> 00:02:15.935
+of the three possible
+treatments to prescribe.
+
+47
+00:02:15.935 --> 00:02:18.095
+If the patient gets better,
+
+48
+00:02:18.095 --> 00:02:20.590
+the doctor records
+a reward of one.
+
+49
+00:02:20.590 --> 00:02:24.390
+Otherwise, the doctor records
+a reward of zero.
+
+50
+00:02:25.030 --> 00:02:29.420
+Let's say we know Q star
+but our doctor does not.
+
+51
+00:02:29.420 --> 00:02:31.430
+The doctor gives
+the first patient
+
+52
+00:02:31.430 --> 00:02:33.875
+treatment P on time step one,
+
+53
+00:02:33.875 --> 00:02:36.440
+and the patient reports
+feeling better.
+
+54
+00:02:36.440 --> 00:02:39.170
+The doctor records
+a reward of one for
+
+55
+00:02:39.170 --> 00:02:42.260
+that treatment and updates
+the estimate of the value.
+
+56
+00:02:42.260 --> 00:02:44.960
+So far there's
+only one data point,
+
+57
+00:02:44.960 --> 00:02:47.720
+so the estimated value
+for treatment P is one.
+
+58
+00:02:47.720 --> 00:02:50.695
+A second patient arrives.
+
+59
+00:02:50.695 --> 00:02:54.430
+The doctor randomly
+prescribes treatment P again.
+
+60
+00:02:54.430 --> 00:02:58.660
+It fails, the doctor records
+and rewards zero,
+
+61
+00:02:58.660 --> 00:03:03.440
+and updates the value estimate
+for treatment P to 0.5.
+
+62
+00:03:03.440 --> 00:03:06.910
+The estimated value for
+the other actions remain
+
+63
+00:03:06.910 --> 00:03:11.000
+zero since we define the
+initial estimates to be zero.
+
+64
+00:03:11.430 --> 00:03:14.410
+Let's fast forward
+time a little bit.
+
+65
+00:03:14.410 --> 00:03:17.470
+After each treatment has
+been tried a few times,
+
+66
+00:03:17.470 --> 00:03:19.615
+we can calculate
+the estimated values
+
+67
+00:03:19.615 --> 00:03:21.220
+from the observed data.
+
+68
+00:03:21.220 --> 00:03:23.470
+As the doctor observes
+more patients,
+
+69
+00:03:23.470 --> 00:03:26.485
+the estimates approach
+the true action values.
+
+70
+00:03:26.485 --> 00:03:28.540
+In reality, our doctor would not
+
+71
+00:03:28.540 --> 00:03:30.895
+randomly assign treatments
+to their patients.
+
+72
+00:03:30.895 --> 00:03:32.690
+Instead, they would
+probably assign
+
+73
+00:03:32.690 --> 00:03:35.750
+the treatment that they
+currently think is the best.
+
+74
+00:03:35.750 --> 00:03:39.010
+We call this method of
+choosing actions greedy.
+
+75
+00:03:39.010 --> 00:03:41.210
+The greedy action
+is the action that
+
+76
+00:03:41.210 --> 00:03:44.360
+currently has the
+largest estimated value.
+
+77
+00:03:44.360 --> 00:03:46.610
+Selecting the greedy action means
+
+78
+00:03:46.610 --> 00:03:49.625
+the agent is exploiting
+its current knowledge.
+
+79
+00:03:49.625 --> 00:03:53.960
+It is trying to get the most
+reward it can right now.
+
+80
+00:03:53.960 --> 00:03:57.020
+We can compute
+the greedy action by taking
+
+81
+00:03:57.020 --> 00:03:59.885
+the argmax of
+our estimated values.
+
+82
+00:03:59.885 --> 00:04:02.720
+Alternatively,
+the agent may choose to
+
+83
+00:04:02.720 --> 00:04:05.435
+explore by choosing
+a non-greedy action.
+
+84
+00:04:05.435 --> 00:04:08.810
+The agent would sacrifice
+immediate reward hoping to
+
+85
+00:04:08.810 --> 00:04:13.140
+gain more information
+about the other actions.
+
+86
+00:04:13.480 --> 00:04:16.040
+The agent can not choose to both
+
+87
+00:04:16.040 --> 00:04:18.545
+explore and exploit
+at the same time.
+
+88
+00:04:18.545 --> 00:04:20.150
+This is one of the fundamental
+
+89
+00:04:20.150 --> 00:04:21.815
+problems in reinforced learning.
+
+90
+00:04:21.815 --> 00:04:24.580
+The exploration-exploitation
+dilemma.
+
+91
+00:04:24.580 --> 00:04:26.150
+We will discuss this more in
+
+92
+00:04:26.150 --> 00:04:28.970
+an upcoming video. That's it.
+
+93
+00:04:28.970 --> 00:04:30.470
+In this video, we introduce
+
+94
+00:04:30.470 --> 00:04:33.590
+the sample-average method for
+estimating action values,
+
+95
+00:04:33.590 --> 00:04:36.770
+and we define the greedy action
+as the action with
+
+96
+00:04:36.770 --> 00:04:40.830
+the largest value estimate.
+See you next time.

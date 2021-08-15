@@ -1,0 +1,419 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.074
+[MUSIC]
+
+2
+00:00:05.074 --> 00:00:09.356
+We spent the last few videos discussing
+how dynamic programming methods
+
+3
+00:00:09.356 --> 00:00:12.596
+can allow us to compute value
+functions and policies.
+
+4
+00:00:12.596 --> 00:00:14.500
+But how useful are these methods really?
+
+5
+00:00:15.620 --> 00:00:18.140
+How do they compare to
+simple alternatives?
+
+6
+00:00:18.140 --> 00:00:22.570
+In this video, we will talk about some of
+the other possible solution strategies.
+
+7
+00:00:22.570 --> 00:00:27.433
+By comparison, dynamic programming
+is actually surprisingly efficient.
+
+8
+00:00:27.433 --> 00:00:31.449
+By the end of this video, you'll be
+able to describe Monte Carlo sampling as
+
+9
+00:00:31.449 --> 00:00:34.350
+an alternative method for
+learning a value function.
+
+10
+00:00:34.350 --> 00:00:38.253
+Describe brute force-search
+as an alternative method for
+
+11
+00:00:38.253 --> 00:00:40.132
+finding an optimal policy.
+
+12
+00:00:40.132 --> 00:00:44.150
+And understand the advantages
+of dynamic programming and
+
+13
+00:00:44.150 --> 00:00:47.108
+bootstrapping over these alternatives.
+
+14
+00:00:47.108 --> 00:00:51.157
+Iterative policy evaluation is the dynamic
+programming solution to the prediction or
+
+15
+00:00:51.157 --> 00:00:53.350
+policy evaluation problem.
+
+16
+00:00:53.350 --> 00:00:56.340
+Let's look at a sample-based
+alternative for policy evaluation.
+
+17
+00:00:57.520 --> 00:01:01.440
+The value of each state can be treated as
+a totally independent estimation problem.
+
+18
+00:01:03.140 --> 00:01:06.800
+First, recall that the value is
+the expected return from a given state.
+
+19
+00:01:08.096 --> 00:01:10.100
+The procedure is simple, first,
+
+20
+00:01:10.100 --> 00:01:13.880
+we gather a large number of returns
+under pi and take their average.
+
+21
+00:01:14.980 --> 00:01:16.920
+This will eventually
+converge to the state value,
+
+22
+00:01:18.250 --> 00:01:19.750
+this is called the Monte Carlo method.
+
+23
+00:01:21.390 --> 00:01:25.990
+However, if we do it this way, we may need
+a large number of returns from each state.
+
+24
+00:01:27.380 --> 00:01:31.550
+Each return depends on many
+random actions, selected by pi,
+
+25
+00:01:31.550 --> 00:01:36.660
+as well as many random state transitions
+due to the dynamics of the MDP.
+
+26
+00:01:36.660 --> 00:01:38.570
+We could be dealing with
+a lot of randomness here,
+
+27
+00:01:39.790 --> 00:01:43.510
+each return might be very different
+than the true state value.
+
+28
+00:01:43.510 --> 00:01:48.400
+So we may need to average many returns
+before the estimate converges, and
+
+29
+00:01:48.400 --> 00:01:50.340
+we have to do this for every single state.
+
+30
+00:01:51.450 --> 00:01:55.270
+The key insight of dynamic programming
+is that we do not have to treat
+
+31
+00:01:55.270 --> 00:01:58.580
+the evaluation of each state
+as a separate problem.
+
+32
+00:01:58.580 --> 00:02:02.780
+We can use the other value estimates we
+have already worked so hard to compute.
+
+33
+00:02:03.990 --> 00:02:07.370
+This process of using the value
+estimates of successor states
+
+34
+00:02:07.370 --> 00:02:10.880
+to improve our current value
+estimate is known as bootstrapping.
+
+35
+00:02:10.880 --> 00:02:14.140
+This can be much more efficient than
+a Monte Carlo method that estimates
+
+36
+00:02:14.140 --> 00:02:15.510
+each value independently.
+
+37
+00:02:16.790 --> 00:02:19.555
+Policy iteration computes
+optimal policies,
+
+38
+00:02:19.555 --> 00:02:22.460
+brute-force search is
+a possible alternative.
+
+39
+00:02:23.840 --> 00:02:28.273
+This method simply evaluates every
+possible deterministic policy one at
+
+40
+00:02:28.273 --> 00:02:31.425
+a time, we then pick the one
+with the highest value.
+
+41
+00:02:31.425 --> 00:02:34.486
+There are a finite number of
+deterministic policies, and
+
+42
+00:02:34.486 --> 00:02:37.431
+there always exists an optimal
+deterministic policy.
+
+43
+00:02:37.431 --> 00:02:41.232
+So brute-force search will find
+the answer eventually, however,
+
+44
+00:02:41.232 --> 00:02:44.060
+the number of deterministic
+policies can be huge.
+
+45
+00:02:45.120 --> 00:02:49.020
+A deterministic policy consists
+of one action choice per state.
+
+46
+00:02:49.020 --> 00:02:53.969
+So the total number of deterministic
+policies is exponential in the number
+
+47
+00:02:53.969 --> 00:02:54.762
+of states.
+
+48
+00:02:54.762 --> 00:02:59.902
+Even on a fairly simple problem,
+this number could be massive,
+
+49
+00:02:59.902 --> 00:03:03.245
+this process could take a very long time.
+
+50
+00:03:03.245 --> 00:03:07.519
+The policy improvement theorem guarantees
+that policy iteration will find a sequence
+
+51
+00:03:07.519 --> 00:03:09.680
+of better and better policies.
+
+52
+00:03:09.680 --> 00:03:14.010
+This is a significant improvement over
+exhaustively trying each and every policy.
+
+53
+00:03:16.150 --> 00:03:19.920
+So how efficient is dynamic programming
+compared to these naive alternatives?
+
+54
+00:03:21.150 --> 00:03:24.630
+Well, policy iteration is guaranteed
+to find the optimal policy
+
+55
+00:03:24.630 --> 00:03:27.209
+in time polynomial in the number
+of states and actions.
+
+56
+00:03:28.570 --> 00:03:33.306
+Thus, dynamic programming is exponentially
+faster than the brute-force search
+
+57
+00:03:33.306 --> 00:03:34.530
+of the policy space.
+
+58
+00:03:36.120 --> 00:03:36.680
+In practice,
+
+59
+00:03:36.680 --> 00:03:40.760
+dynamic programming is usually much
+faster, even in this worst-case guarantee.
+
+60
+00:03:42.230 --> 00:03:45.030
+For example,
+the original four-by-four GridWorld
+
+61
+00:03:45.030 --> 00:03:47.260
+converged in just one
+step of policy iteration.
+
+62
+00:03:48.940 --> 00:03:51.624
+When we made the problem
+harder by adding bad states,
+
+63
+00:03:51.624 --> 00:03:54.150
+it still converged in
+just five iterations.
+
+64
+00:03:55.730 --> 00:03:59.020
+It might also seem restrictive that
+we have to run policy evaluation to
+
+65
+00:03:59.020 --> 00:04:02.550
+completion for
+each step of policy iteration.
+
+66
+00:04:02.550 --> 00:04:06.260
+In practice, this is not so
+bad, with each iteration,
+
+67
+00:04:06.260 --> 00:04:08.790
+the policy tends to change less and less.
+
+68
+00:04:10.400 --> 00:04:13.599
+The policy evaluation step changes
+the value function less and
+
+69
+00:04:13.599 --> 00:04:16.640
+thus the evaluation step
+typically terminates quickly.
+
+70
+00:04:18.290 --> 00:04:22.890
+Generally, solving an MDP gets harder
+as the number of states grows.
+
+71
+00:04:22.890 --> 00:04:26.670
+The curse of dimensionality says that
+the size of the state space grows
+
+72
+00:04:26.670 --> 00:04:30.280
+exponentially as the number
+of state variable increases.
+
+73
+00:04:30.280 --> 00:04:32.883
+A single agent moving
+around a GridWorld is fine.
+
+74
+00:04:32.883 --> 00:04:35.632
+But what if we wanted to
+coordinate a transportation
+
+75
+00:04:35.632 --> 00:04:39.448
+network of thousands of drivers
+moving between hundreds of locations?
+
+76
+00:04:39.448 --> 00:04:44.270
+A raw enumeration of the possible states
+could lead to an exponential blow-up.
+
+77
+00:04:44.270 --> 00:04:47.480
+Clearly, this would lead to problems
+if we try to sweep the states
+
+78
+00:04:47.480 --> 00:04:48.800
+to perform policy iteration.
+
+79
+00:04:50.400 --> 00:04:53.570
+In fact, this is not an issue
+with dynamic programming.
+
+80
+00:04:53.570 --> 00:04:56.400
+This is a statement about the difficulty
+of the problems we are interested in
+
+81
+00:04:56.400 --> 00:05:00.530
+tackling, various techniques for
+mitigating this curse exist.
+
+82
+00:05:00.530 --> 00:05:03.182
+And we will continue to
+deal with this curse for
+
+83
+00:05:03.182 --> 00:05:06.856
+the remainder of our time together,
+that's it for this video.
+
+84
+00:05:06.856 --> 00:05:11.416
+The most important takeaway is that
+bootstrapping can save us from performing
+
+85
+00:05:11.416 --> 00:05:15.564
+a huge amount of unnecessary work by
+exploiting the connection between
+
+86
+00:05:15.564 --> 00:05:18.482
+the value of a state and
+its possible successors.
+
+87
+00:05:18.482 --> 00:05:19.270
+See you next time.

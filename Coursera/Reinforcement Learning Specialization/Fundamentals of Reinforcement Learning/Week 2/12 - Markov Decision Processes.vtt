@@ -1,0 +1,621 @@
+WEBVTT
+
+1
+00:00:05.810 --> 00:00:09.435
+The k-Armed Bandit problem
+we looked at previously,
+
+2
+00:00:09.435 --> 00:00:11.950
+introduces many
+interesting questions.
+
+3
+00:00:11.950 --> 00:00:13.740
+However, it doesn't include
+
+4
+00:00:13.740 --> 00:00:16.515
+many aspects of
+real-world problems.
+
+5
+00:00:16.515 --> 00:00:19.155
+The agent is presented with
+the same situation and
+
+6
+00:00:19.155 --> 00:00:22.800
+each time and the same
+action is always optimal.
+
+7
+00:00:22.800 --> 00:00:24.450
+In many problems,
+
+8
+00:00:24.450 --> 00:00:27.480
+different situations call
+for different responses.
+
+9
+00:00:27.480 --> 00:00:29.730
+The actions we choose now affect
+
+10
+00:00:29.730 --> 00:00:32.790
+the amount of reward we
+can get into the future.
+
+11
+00:00:32.790 --> 00:00:35.180
+The Markov Decision
+Process formalism
+
+12
+00:00:35.180 --> 00:00:38.630
+captures these two aspects
+of real-world problems.
+
+13
+00:00:38.630 --> 00:00:40.580
+By the end of this video,
+
+14
+00:00:40.580 --> 00:00:43.790
+you'll be able to understand
+Markov decision processes or
+
+15
+00:00:43.790 --> 00:00:48.935
+MDPs and describe how
+the dynamics of MDP are defined.
+
+16
+00:00:48.935 --> 00:00:51.410
+Let's start with
+a simple example to
+
+17
+00:00:51.410 --> 00:00:54.140
+highlight how bandits
+and MDPs differ.
+
+18
+00:00:54.140 --> 00:00:56.630
+Imagine a rabbit is
+wandering around in
+
+19
+00:00:56.630 --> 00:00:59.030
+a field looking for food and
+
+20
+00:00:59.030 --> 00:01:01.040
+finds itself in
+a situation where there is
+
+21
+00:01:01.040 --> 00:01:04.055
+a carry to its right and
+broccoli on its left,
+
+22
+00:01:04.055 --> 00:01:06.170
+a rabbit prefers carrots.
+
+23
+00:01:06.170 --> 00:01:09.420
+So eating the carrot generates
+a reward of plus 10.
+
+24
+00:01:09.420 --> 00:01:11.660
+Eating the broccoli
+on the other hand
+
+25
+00:01:11.660 --> 00:01:14.800
+generates reward of
+only plus three.
+
+26
+00:01:15.260 --> 00:01:17.630
+But what if later the rabbit
+
+27
+00:01:17.630 --> 00:01:19.690
+finds itself in
+another situation,
+
+28
+00:01:19.690 --> 00:01:20.750
+where there's broccoli on
+
+29
+00:01:20.750 --> 00:01:23.245
+the right and carrot on the left.
+
+30
+00:01:23.245 --> 00:01:25.070
+Here, the rabbit would clearly
+
+31
+00:01:25.070 --> 00:01:27.650
+prefer to go left
+instead of right.
+
+32
+00:01:27.650 --> 00:01:30.890
+The k-Armed Bandit problem
+does not account for the fact
+
+33
+00:01:30.890 --> 00:01:34.640
+that different situations
+call for different actions.
+
+34
+00:01:34.640 --> 00:01:37.715
+It's also limited in another way.
+
+35
+00:01:37.715 --> 00:01:39.590
+Let's say we do account for
+
+36
+00:01:39.590 --> 00:01:42.815
+different actions in
+different situations.
+
+37
+00:01:42.815 --> 00:01:45.200
+Here it looks like
+the rabbit would like
+
+38
+00:01:45.200 --> 00:01:47.345
+to go right to get the carrot.
+
+39
+00:01:47.345 --> 00:01:50.030
+However, going right will also
+
+40
+00:01:50.030 --> 00:01:53.150
+impact the next situation
+the rabbit sees.
+
+41
+00:01:53.150 --> 00:01:55.160
+Let's say just to the right of
+
+42
+00:01:55.160 --> 00:01:57.455
+the carrot there is a tiger.
+
+43
+00:01:57.455 --> 00:01:59.405
+If the rabbit moves right,
+
+44
+00:01:59.405 --> 00:02:01.220
+it gets to eat the carrot.
+
+45
+00:02:01.220 --> 00:02:03.260
+But afterwards it may not
+
+46
+00:02:03.260 --> 00:02:06.065
+be fast enough to
+escape the tiger.
+
+47
+00:02:06.065 --> 00:02:10.040
+If we account for the long-term
+impact of our actions,
+
+48
+00:02:10.040 --> 00:02:12.320
+the rabbit should go
+left and settle for
+
+49
+00:02:12.320 --> 00:02:16.295
+broccoli to give itself
+a better chance to escape.
+
+50
+00:02:16.295 --> 00:02:19.190
+A bandit rabbit would
+only be concerned about
+
+51
+00:02:19.190 --> 00:02:22.625
+immediate reward and so it
+would go for the carrot.
+
+52
+00:02:22.625 --> 00:02:25.130
+But a better decision
+can be made by
+
+53
+00:02:25.130 --> 00:02:29.080
+considering the long-term impact
+of our decisions.
+
+54
+00:02:29.080 --> 00:02:31.430
+Now, let's look at
+how the situation
+
+55
+00:02:31.430 --> 00:02:34.475
+changes as the rabbit
+takes actions.
+
+56
+00:02:34.475 --> 00:02:37.805
+We will call these
+situations states.
+
+57
+00:02:37.805 --> 00:02:41.900
+In each state the rabbits
+selects an action.
+
+58
+00:02:41.900 --> 00:02:46.025
+For instance, the rabbit
+can choose to move right.
+
+59
+00:02:46.025 --> 00:02:49.280
+Based on this action
+the world changes
+
+60
+00:02:49.280 --> 00:02:52.640
+into a new state and
+produces a reward.
+
+61
+00:02:52.640 --> 00:02:55.010
+In this case, the rabbit eats
+
+62
+00:02:55.010 --> 00:02:58.170
+the carrot and receives
+a reward of plus 10.
+
+63
+00:02:58.170 --> 00:03:02.045
+However, the rabbit is
+now next to the tiger.
+
+64
+00:03:02.045 --> 00:03:05.240
+Let's say the rabbit
+chooses the left action.
+
+65
+00:03:05.240 --> 00:03:08.570
+The world changes into a new
+state or the tiger eats
+
+66
+00:03:08.570 --> 00:03:12.995
+the rabbit and the rabbit
+receives a reward of minus 100.
+
+67
+00:03:12.995 --> 00:03:15.650
+From the original
+state the rabbit could
+
+68
+00:03:15.650 --> 00:03:18.260
+alternatively choose
+to move left.
+
+69
+00:03:18.260 --> 00:03:20.330
+Then the world transitions into
+
+70
+00:03:20.330 --> 00:03:22.160
+a new state and the rabbit
+
+71
+00:03:22.160 --> 00:03:24.715
+receives a reward of plus three.
+
+72
+00:03:24.715 --> 00:03:28.820
+The diagram now shows two
+potential sequences of states.
+
+73
+00:03:28.820 --> 00:03:30.920
+The sequence that
+happens depends on
+
+74
+00:03:30.920 --> 00:03:33.800
+the actions that
+the rabbit takes.
+
+75
+00:03:33.800 --> 00:03:36.260
+We can formalize this interaction
+
+76
+00:03:36.260 --> 00:03:37.880
+with the general framework.
+
+77
+00:03:37.880 --> 00:03:39.930
+In this framework, the agent and
+
+78
+00:03:39.930 --> 00:03:43.325
+environment interact at
+discrete time steps.
+
+79
+00:03:43.325 --> 00:03:46.670
+At each time, the agent
+receives a state
+
+80
+00:03:46.670 --> 00:03:51.305
+St from the environment from
+a set of possible states,
+
+81
+00:03:51.305 --> 00:03:54.720
+script S. The configuration
+
+82
+00:03:54.720 --> 00:03:57.800
+shown on the slide is
+an example of a state.
+
+83
+00:03:57.800 --> 00:04:01.070
+Based on this state
+the agent selects an action
+
+84
+00:04:01.070 --> 00:04:04.625
+At from a set of
+possible actions.
+
+85
+00:04:04.625 --> 00:04:08.810
+Script A of St is the set
+of valid actions in
+
+86
+00:04:08.810 --> 00:04:14.105
+state St. Moving right is
+an example of an action.
+
+87
+00:04:14.105 --> 00:04:18.500
+One time step later based in
+part on the agent's action,
+
+88
+00:04:18.500 --> 00:04:22.745
+the agent finds itself in
+a new state St plus one.
+
+89
+00:04:22.745 --> 00:04:24.965
+For example, this state
+
+90
+00:04:24.965 --> 00:04:27.530
+where the rabbit is
+next to the tiger.
+
+91
+00:04:27.530 --> 00:04:31.280
+The environment also
+provides a scalar reward
+
+92
+00:04:31.280 --> 00:04:35.375
+Rt plus one drawn from
+a set of possible rewards,
+
+93
+00:04:35.375 --> 00:04:37.850
+script R. In this case,
+
+94
+00:04:37.850 --> 00:04:40.655
+the reward is plus 10
+for eating the carrot.
+
+95
+00:04:40.655 --> 00:04:44.525
+This diagram summarizes the
+agent environment interaction
+
+96
+00:04:44.525 --> 00:04:46.280
+in the MDP framework.
+
+97
+00:04:46.280 --> 00:04:48.170
+The agent environment interaction
+
+98
+00:04:48.170 --> 00:04:49.820
+generates a trajectory of
+
+99
+00:04:49.820 --> 00:04:54.410
+experience consisting of
+states, actions, and rewards.
+
+100
+00:04:54.410 --> 00:04:58.265
+Actions influence
+immediate rewards as well as
+
+101
+00:04:58.265 --> 00:05:02.780
+future states and through
+those, future rewards.
+
+102
+00:05:02.780 --> 00:05:06.965
+So how can we represent the
+dynamics of this interaction?
+
+103
+00:05:06.965 --> 00:05:09.200
+As in bandits, the outcomes are
+
+104
+00:05:09.200 --> 00:05:13.115
+stochastic and so we use
+the language of probabilities.
+
+105
+00:05:13.115 --> 00:05:15.860
+When the agent takes
+an action in a state,
+
+106
+00:05:15.860 --> 00:05:19.160
+there are many possible
+next states and rewards.
+
+107
+00:05:19.160 --> 00:05:20.960
+The transition dynamics function
+
+108
+00:05:20.960 --> 00:05:23.360
+P, formalizes this notion.
+
+109
+00:05:23.360 --> 00:05:26.425
+Given a state S and action a,
+
+110
+00:05:26.425 --> 00:05:28.910
+p tells us the joint
+probability of
+
+111
+00:05:28.910 --> 00:05:32.030
+next state S prime
+and reward are.
+
+112
+00:05:32.030 --> 00:05:34.130
+In this course, we will typically
+
+113
+00:05:34.130 --> 00:05:36.024
+assume that the set of states,
+
+114
+00:05:36.024 --> 00:05:38.865
+actions, and rewards are finite.
+
+115
+00:05:38.865 --> 00:05:41.600
+But don't worry, you will
+learn about algorithms that
+
+116
+00:05:41.600 --> 00:05:45.145
+can handle infinite sets
+and uncountable sets.
+
+117
+00:05:45.145 --> 00:05:48.350
+Since p is a probability
+distribution,
+
+118
+00:05:48.350 --> 00:05:50.840
+it must be non-negative
+and it's sum over
+
+119
+00:05:50.840 --> 00:05:55.010
+all possible next states
+and rewards must equal one.
+
+120
+00:05:55.010 --> 00:05:57.665
+Note that future state and reward
+
+121
+00:05:57.665 --> 00:06:00.785
+only depends on
+the current state and action.
+
+122
+00:06:00.785 --> 00:06:03.530
+This is called the
+Markov property.
+
+123
+00:06:03.530 --> 00:06:06.800
+It means that the present state
+is sufficient and
+
+124
+00:06:06.800 --> 00:06:08.780
+remembering earlier
+states would not
+
+125
+00:06:08.780 --> 00:06:11.820
+improve predictions
+about the future.
+
+126
+00:06:11.900 --> 00:06:14.400
+That's it for this video.
+
+127
+00:06:14.400 --> 00:06:17.180
+In summary, MDPs provide
+
+128
+00:06:17.180 --> 00:06:19.280
+a general framework for
+sequential decision
+
+129
+00:06:19.280 --> 00:06:21.440
+making and the dynamics of
+
+130
+00:06:21.440 --> 00:06:25.375
+an MDP are defined by
+a probability distribution.
+
+131
+00:06:25.375 --> 00:06:27.175
+In the next video,
+
+132
+00:06:27.175 --> 00:06:29.585
+we will discuss
+several decision-making tasks
+
+133
+00:06:29.585 --> 00:06:32.700
+and formalize each as an MDP.

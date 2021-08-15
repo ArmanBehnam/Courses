@@ -1,0 +1,885 @@
+WEBVTT
+
+1
+00:00:06.200 --> 00:00:09.930
+Dynamic programming algorithms
+are obtained by
+
+2
+00:00:09.930 --> 00:00:12.960
+turning the Bellman equations
+into update rules.
+
+3
+00:00:12.960 --> 00:00:15.570
+In this video, we will
+introduce the first of
+
+4
+00:00:15.570 --> 00:00:19.785
+these algorithms called
+iterative policy evaluation.
+
+5
+00:00:19.785 --> 00:00:21.885
+By the end of this video,
+
+6
+00:00:21.885 --> 00:00:23.490
+you will be able to outline
+
+7
+00:00:23.490 --> 00:00:25.905
+the iterative policy
+evaluation algorithm
+
+8
+00:00:25.905 --> 00:00:28.949
+for estimating state
+values for a given policy,
+
+9
+00:00:28.949 --> 00:00:31.470
+and apply iterative
+policy evaluation
+
+10
+00:00:31.470 --> 00:00:33.870
+to compute value functions.
+
+11
+00:00:33.870 --> 00:00:36.855
+Remember the Bellman
+equation gives us
+
+12
+00:00:36.855 --> 00:00:39.570
+a recursive expression for V Pi.
+
+13
+00:00:39.570 --> 00:00:42.470
+The idea of iterative
+policy evaluation is so
+
+14
+00:00:42.470 --> 00:00:45.755
+simple that at first it
+might seem a bit silly.
+
+15
+00:00:45.755 --> 00:00:47.870
+We take the Bellman equation and
+
+16
+00:00:47.870 --> 00:00:50.275
+directly use it as
+an update rule.
+
+17
+00:00:50.275 --> 00:00:52.490
+Now, instead of an equation which
+
+18
+00:00:52.490 --> 00:00:54.410
+holds for the true
+value function,
+
+19
+00:00:54.410 --> 00:00:56.630
+we have a procedure
+we can apply to
+
+20
+00:00:56.630 --> 00:01:00.295
+iteratively refine our estimate
+of the value function.
+
+21
+00:01:00.295 --> 00:01:02.420
+This will produce a sequence of
+
+22
+00:01:02.420 --> 00:01:05.990
+better and better approximations
+to the value function.
+
+23
+00:01:05.990 --> 00:01:09.545
+Let's see visually how
+this procedure works.
+
+24
+00:01:09.545 --> 00:01:12.380
+We begin with an
+arbitrary initialization
+
+25
+00:01:12.380 --> 00:01:14.825
+for our approximate
+value function,
+
+26
+00:01:14.825 --> 00:01:17.400
+let's call this v_0.
+
+27
+00:01:17.440 --> 00:01:20.090
+Each iteration then produces
+
+28
+00:01:20.090 --> 00:01:22.040
+a better approximation by using
+
+29
+00:01:22.040 --> 00:01:24.950
+the update rule shown at
+the top of the slide.
+
+30
+00:01:24.950 --> 00:01:28.250
+Each iteration applies this
+updates to every state,
+
+31
+00:01:28.250 --> 00:01:30.045
+S, in the state space,
+
+32
+00:01:30.045 --> 00:01:32.530
+which we call a sweep.
+
+33
+00:01:32.710 --> 00:01:35.780
+Applying this update
+repeatedly leads to
+
+34
+00:01:35.780 --> 00:01:37.640
+a better and better approximation
+
+35
+00:01:37.640 --> 00:01:40.715
+to the state value function v Pi.
+
+36
+00:01:40.715 --> 00:01:44.105
+If this update leaves the
+value function approximation
+
+37
+00:01:44.105 --> 00:01:46.010
+unchanged, that is,
+
+38
+00:01:46.010 --> 00:01:50.165
+if v_k plus 1 equals
+v_k for all states,
+
+39
+00:01:50.165 --> 00:01:52.340
+then v_k equals v Pi,
+
+40
+00:01:52.340 --> 00:01:54.925
+and we have found
+the value function.
+
+41
+00:01:54.925 --> 00:01:57.260
+This is because v Pi is
+
+42
+00:01:57.260 --> 00:01:59.720
+the unique solution to
+the Bellman equation.
+
+43
+00:01:59.720 --> 00:02:02.270
+The only way the update
+could leave v_k
+
+44
+00:02:02.270 --> 00:02:07.285
+unchanged is if v_k already
+obeys the Bellman equation.
+
+45
+00:02:07.285 --> 00:02:11.360
+In fact, it can be proven
+that for any choice of v_0,
+
+46
+00:02:11.360 --> 00:02:13.400
+v_k will converge to v Pi
+
+47
+00:02:13.400 --> 00:02:16.865
+in the limit as k
+approaches infinity.
+
+48
+00:02:16.865 --> 00:02:19.550
+To implement iterative
+policy evaluation,
+
+49
+00:02:19.550 --> 00:02:21.280
+we store two arrays,
+
+50
+00:02:21.280 --> 00:02:24.275
+each has one entry
+for every state.
+
+51
+00:02:24.275 --> 00:02:26.090
+One array, which we label
+
+52
+00:02:26.090 --> 00:02:29.000
+V stores the current
+approximate value function.
+
+53
+00:02:29.000 --> 00:02:31.115
+Another array, V prime,
+
+54
+00:02:31.115 --> 00:02:33.580
+stores the updated values.
+
+55
+00:02:33.580 --> 00:02:35.640
+By using two arrays,
+
+56
+00:02:35.640 --> 00:02:38.810
+we can compute the new values
+from the old one state at
+
+57
+00:02:38.810 --> 00:02:41.330
+a time without the old values
+
+58
+00:02:41.330 --> 00:02:44.220
+being changed in the process.
+
+59
+00:02:46.280 --> 00:02:48.825
+At the end of a full sweep,
+
+60
+00:02:48.825 --> 00:02:51.575
+we can write all the
+new values into V;
+
+61
+00:02:51.575 --> 00:02:54.650
+then we do the next iteration.
+
+62
+00:02:54.650 --> 00:02:57.050
+It is also possible to implement
+
+63
+00:02:57.050 --> 00:02:59.255
+a version with only one array,
+
+64
+00:02:59.255 --> 00:03:01.610
+in which case, some updates will
+
+65
+00:03:01.610 --> 00:03:05.075
+themselves use new values
+instead of old.
+
+66
+00:03:05.075 --> 00:03:07.070
+This single array version is
+
+67
+00:03:07.070 --> 00:03:08.630
+still guaranteed to converge,
+
+68
+00:03:08.630 --> 00:03:11.240
+and in fact, will
+usually converge faster.
+
+69
+00:03:11.240 --> 00:03:14.980
+This is because it gets to use
+the updated values sooner.
+
+70
+00:03:14.980 --> 00:03:18.935
+But for simplicity, we focus
+on the two array version.
+
+71
+00:03:18.935 --> 00:03:22.070
+Let's look at how iterative
+policy evaluation
+
+72
+00:03:22.070 --> 00:03:24.305
+works on a particular example.
+
+73
+00:03:24.305 --> 00:03:27.710
+Consider the four-by-four
+grid world shown here.
+
+74
+00:03:27.710 --> 00:03:30.650
+This is an episodic MDP
+with the terminal state
+
+75
+00:03:30.650 --> 00:03:34.160
+located in the top left
+and bottom right corners.
+
+76
+00:03:34.160 --> 00:03:36.500
+The terminal state is
+shown in two places,
+
+77
+00:03:36.500 --> 00:03:39.235
+but formally it is
+the same state.
+
+78
+00:03:39.235 --> 00:03:43.040
+The reward will be minus
+one for every transition.
+
+79
+00:03:43.040 --> 00:03:44.900
+Since the problem is episodic,
+
+80
+00:03:44.900 --> 00:03:49.205
+let's consider the undiscounted
+case of gamma equals 1.
+
+81
+00:03:49.205 --> 00:03:53.215
+There are four possible actions
+in each state up,
+
+82
+00:03:53.215 --> 00:03:55.590
+down, left, and right.
+
+83
+00:03:55.590 --> 00:03:58.010
+Each action is deterministic.
+
+84
+00:03:58.010 --> 00:04:00.530
+If the action would move
+the agent off the grid,
+
+85
+00:04:00.530 --> 00:04:03.415
+it instead leaves the agent
+in the same state.
+
+86
+00:04:03.415 --> 00:04:06.380
+Now, let's evaluate
+the uniform random policy,
+
+87
+00:04:06.380 --> 00:04:07.610
+which selects each of the four
+
+88
+00:04:07.610 --> 00:04:09.950
+actions one-quarter of the time.
+
+89
+00:04:09.950 --> 00:04:11.720
+The value function represents
+
+90
+00:04:11.720 --> 00:04:13.235
+the expected number of steps
+
+91
+00:04:13.235 --> 00:04:16.835
+until termination
+from a given state.
+
+92
+00:04:16.835 --> 00:04:19.880
+The order we sweep through
+the states is not important
+
+93
+00:04:19.880 --> 00:04:21.290
+since we are using the two
+
+94
+00:04:21.290 --> 00:04:23.485
+array version of the algorithm.
+
+95
+00:04:23.485 --> 00:04:25.120
+Let's assume we sweep
+
+96
+00:04:25.120 --> 00:04:27.055
+the states first
+from left to right,
+
+97
+00:04:27.055 --> 00:04:29.405
+and then from top to bottom.
+
+98
+00:04:29.405 --> 00:04:31.430
+We never update the value of
+
+99
+00:04:31.430 --> 00:04:34.250
+the terminal state as it
+is defined to be zero.
+
+100
+00:04:34.250 --> 00:04:37.370
+We initialize all the
+values in V to zero.
+
+101
+00:04:37.370 --> 00:04:40.100
+The initial value stored in
+V prime are relevant since
+
+102
+00:04:40.100 --> 00:04:42.695
+they'll always be updated
+before they are used.
+
+103
+00:04:42.695 --> 00:04:44.915
+We can now begin
+our first iteration
+
+104
+00:04:44.915 --> 00:04:46.745
+with the update to state one.
+
+105
+00:04:46.745 --> 00:04:48.200
+To compute the update,
+
+106
+00:04:48.200 --> 00:04:50.420
+we have to sum over all actions.
+
+107
+00:04:50.420 --> 00:04:52.445
+Consider the left action first,
+
+108
+00:04:52.445 --> 00:04:54.320
+which has probability one-quarter
+
+109
+00:04:54.320 --> 00:04:56.995
+under the uniform random policy.
+
+110
+00:04:56.995 --> 00:04:59.000
+The dynamics function, P,
+
+111
+00:04:59.000 --> 00:05:01.460
+is deterministic here
+so only the reward and
+
+112
+00:05:01.460 --> 00:05:04.745
+value for a 1S prime
+contributes to the sum.
+
+113
+00:05:04.745 --> 00:05:07.325
+The sum includes minus
+one for the reward,
+
+114
+00:05:07.325 --> 00:05:10.205
+and zero for the value
+of the terminal state.
+
+115
+00:05:10.205 --> 00:05:13.550
+Since we initialized all
+state values to zero,
+
+116
+00:05:13.550 --> 00:05:15.080
+and the reward for
+each transition is
+
+117
+00:05:15.080 --> 00:05:17.030
+minus one the computation for
+
+118
+00:05:17.030 --> 00:05:20.240
+all the other actions
+will look much the same.
+
+119
+00:05:20.240 --> 00:05:22.400
+The result is that V prime of
+
+120
+00:05:22.400 --> 00:05:25.045
+state one is set to minus one.
+
+121
+00:05:25.045 --> 00:05:27.980
+Next, we move to state two.
+
+122
+00:05:27.980 --> 00:05:30.050
+We first evaluate the term in
+
+123
+00:05:30.050 --> 00:05:32.270
+the sum for the left action.
+
+124
+00:05:32.270 --> 00:05:35.300
+Again the action probability
+is one-quarter,
+
+125
+00:05:35.300 --> 00:05:36.410
+and in this case,
+
+126
+00:05:36.410 --> 00:05:38.585
+the next state is state one.
+
+127
+00:05:38.585 --> 00:05:42.050
+Although we have updated the
+value of state one already,
+
+128
+00:05:42.050 --> 00:05:44.000
+the version of the algorithm
+we are running we'll
+
+129
+00:05:44.000 --> 00:05:45.950
+use the old value stored in
+
+130
+00:05:45.950 --> 00:05:48.440
+V. So the value
+
+131
+00:05:48.440 --> 00:05:51.355
+for state one in
+the update is still zero.
+
+132
+00:05:51.355 --> 00:05:55.590
+Again, all the other actions
+will look much the same.
+
+133
+00:05:55.870 --> 00:05:58.670
+The result is that
+V prime of state
+
+134
+00:05:58.670 --> 00:06:00.815
+two is also set to minus one.
+
+135
+00:06:00.815 --> 00:06:04.325
+In fact, since every state value
+is initialized to zero,
+
+136
+00:06:04.325 --> 00:06:07.830
+every state's value will
+be set to minus one.
+
+137
+00:06:08.200 --> 00:06:10.850
+After completing this full sweep,
+
+138
+00:06:10.850 --> 00:06:13.325
+we copy the updated
+values from V prime
+
+139
+00:06:13.325 --> 00:06:16.265
+to V. This has been
+only one sweep.
+
+140
+00:06:16.265 --> 00:06:18.470
+Let's discuss now
+the full algorithm
+
+141
+00:06:18.470 --> 00:06:21.005
+for iterative policy evaluation.
+
+142
+00:06:21.005 --> 00:06:24.065
+Take any policy we
+want to evaluate,
+
+143
+00:06:24.065 --> 00:06:27.125
+initialize two arrays V
+and V prime.
+
+144
+00:06:27.125 --> 00:06:29.270
+We can initialize
+these however we like,
+
+145
+00:06:29.270 --> 00:06:31.055
+but let's set them to zero.
+
+146
+00:06:31.055 --> 00:06:33.080
+We just saw how one sweep of
+
+147
+00:06:33.080 --> 00:06:35.120
+iterative policy
+evaluation works.
+
+148
+00:06:35.120 --> 00:06:37.565
+Let's look at how we
+compute multiple sweeps,
+
+149
+00:06:37.565 --> 00:06:40.190
+and determine how
+the algorithm stops.
+
+150
+00:06:40.190 --> 00:06:42.920
+The outer loop continues
+until the change in
+
+151
+00:06:42.920 --> 00:06:45.845
+the approximate value
+function becomes small.
+
+152
+00:06:45.845 --> 00:06:47.930
+We track the largest update to
+
+153
+00:06:47.930 --> 00:06:50.210
+this state value in
+a given iteration.
+
+154
+00:06:50.210 --> 00:06:52.280
+Let's call this delta.
+
+155
+00:06:52.280 --> 00:06:55.850
+The outer loop terminates
+when this maximum change is
+
+156
+00:06:55.850 --> 00:06:59.390
+less than some user-specified
+constant called theta.
+
+157
+00:06:59.390 --> 00:07:01.730
+As discussed before, once
+
+158
+00:07:01.730 --> 00:07:04.010
+the approximate value function
+stops changing,
+
+159
+00:07:04.010 --> 00:07:06.115
+we have converged to V Pi.
+
+160
+00:07:06.115 --> 00:07:08.150
+Similarly, once the change in
+
+161
+00:07:08.150 --> 00:07:10.505
+the approximate value
+function is very small,
+
+162
+00:07:10.505 --> 00:07:13.235
+this means we are close to V Pi.
+
+163
+00:07:13.235 --> 00:07:15.170
+Let's pick up where we left
+
+164
+00:07:15.170 --> 00:07:16.865
+off in our grid world example.
+
+165
+00:07:16.865 --> 00:07:19.585
+We had just completed
+our first sweep.
+
+166
+00:07:19.585 --> 00:07:21.020
+Let's use our value of
+
+167
+00:07:21.020 --> 00:07:24.395
+0.001 for the stopping
+parameter theta.
+
+168
+00:07:24.395 --> 00:07:26.435
+The smaller the value we choose,
+
+169
+00:07:26.435 --> 00:07:29.900
+the more accurate our final
+value estimate will be.
+
+170
+00:07:29.900 --> 00:07:32.600
+We've already completed
+one iteration,
+
+171
+00:07:32.600 --> 00:07:35.900
+and the maximum change
+in value was 1.0.
+
+172
+00:07:35.900 --> 00:07:38.930
+Since this is greater than 0.001,
+
+173
+00:07:38.930 --> 00:07:41.275
+we carry on to
+the next iteration.
+
+174
+00:07:41.275 --> 00:07:42.989
+After the second sweep,
+
+175
+00:07:42.989 --> 00:07:45.110
+notice how the terminal
+state starts to
+
+176
+00:07:45.110 --> 00:07:48.785
+influence the value of
+the nearest states first.
+
+177
+00:07:48.785 --> 00:07:51.245
+Let's run one more sweep.
+
+178
+00:07:51.245 --> 00:07:53.360
+We see that now the influence of
+
+179
+00:07:53.360 --> 00:07:56.030
+the terminal state has
+propagated further.
+
+180
+00:07:56.030 --> 00:08:00.000
+Let's run a few more sweeps
+to see what happens.
+
+181
+00:08:00.610 --> 00:08:04.130
+We can start to see how
+the value of each state
+
+182
+00:08:04.130 --> 00:08:07.625
+is related to its proximity
+to the terminal state.
+
+183
+00:08:07.625 --> 00:08:10.445
+Let's keep running
+until our maximum delta
+
+184
+00:08:10.445 --> 00:08:12.545
+is less than theta.
+
+185
+00:08:12.545 --> 00:08:15.890
+Here is the result we
+eventually arrive at,
+
+186
+00:08:15.890 --> 00:08:18.320
+our approximate value
+function has converged to
+
+187
+00:08:18.320 --> 00:08:22.615
+the value function for the
+random policy, and we're done.
+
+188
+00:08:22.615 --> 00:08:24.650
+That's it for this video.
+
+189
+00:08:24.650 --> 00:08:26.270
+You should now understand how
+
+190
+00:08:26.270 --> 00:08:27.890
+we can turn the Bellman equation
+
+191
+00:08:27.890 --> 00:08:29.630
+into an update rule to
+
+192
+00:08:29.630 --> 00:08:32.080
+iteratively compute
+value functions.
+
+193
+00:08:32.080 --> 00:08:34.940
+Soon, you'll see how
+these ideas can also be
+
+194
+00:08:34.940 --> 00:08:38.820
+used for policy improvement.
+See you next time.

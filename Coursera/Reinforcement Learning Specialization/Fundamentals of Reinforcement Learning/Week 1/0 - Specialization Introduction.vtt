@@ -1,0 +1,327 @@
+WEBVTT
+
+1
+00:00:09.650 --> 00:00:11.415
+What are you doing?
+
+2
+00:00:11.415 --> 00:00:13.110
+The team has been
+working a lot of
+
+3
+00:00:13.110 --> 00:00:15.060
+late nights testing
+our new algorithm.
+
+4
+00:00:15.060 --> 00:00:16.455
+Researchers, as you know,
+
+5
+00:00:16.455 --> 00:00:18.495
+are fueled by pop and pizza.
+
+6
+00:00:18.495 --> 00:00:21.220
+Well, the lab's starting
+to look like a scrapyard.
+
+7
+00:00:21.220 --> 00:00:23.315
+So are you going to
+ban food in the lab?
+
+8
+00:00:23.315 --> 00:00:25.325
+No, you monster.
+
+9
+00:00:25.325 --> 00:00:27.470
+I was thinking of
+programming a robot to
+
+10
+00:00:27.470 --> 00:00:29.555
+drive around the lab
+and collect empty cans.
+
+11
+00:00:29.555 --> 00:00:31.160
+That sounds cool.
+How would it work?
+
+12
+00:00:31.160 --> 00:00:33.260
+Well, I think we need
+a vision system to
+
+13
+00:00:33.260 --> 00:00:35.735
+recognize cans,
+obstacles, and people.
+
+14
+00:00:35.735 --> 00:00:37.220
+The robot will also need to build
+
+15
+00:00:37.220 --> 00:00:39.295
+a map and localize
+itself in the lab.
+
+16
+00:00:39.295 --> 00:00:42.150
+Then we need to write
+some servoing routines too.
+
+17
+00:00:42.150 --> 00:00:43.640
+I'm going to have to
+stop you right there.
+
+18
+00:00:43.640 --> 00:00:45.680
+I think there might be
+an easier way to do this.
+
+19
+00:00:45.680 --> 00:00:47.975
+Let's solve with
+Reinforcement Learning.
+
+20
+00:00:47.975 --> 00:00:51.405
+All right RL. How would
+you do it, Martha?
+
+21
+00:00:51.405 --> 00:00:52.820
+Well, the reward can be
+
+22
+00:00:52.820 --> 00:00:54.650
+the number of cans
+the robot collects.
+
+23
+00:00:54.650 --> 00:00:56.450
+The agent could simply
+learn how to collect
+
+24
+00:00:56.450 --> 00:00:59.045
+as many cans as possible,
+through trial and error.
+
+25
+00:00:59.045 --> 00:01:01.655
+In principle, it wouldn't
+even need a map of the lab.
+
+26
+00:01:01.655 --> 00:01:03.515
+It can learn everything
+from scratch.
+
+27
+00:01:03.515 --> 00:01:05.310
+Right. That way when
+
+28
+00:01:05.310 --> 00:01:07.075
+somebody moves
+some furniture around,
+
+29
+00:01:07.075 --> 00:01:09.485
+the robot could adapt
+automatically through learning.
+
+30
+00:01:09.485 --> 00:01:11.630
+In fact, if one of
+the students starts drinking
+
+31
+00:01:11.630 --> 00:01:14.435
+some new wild type
+of pop in pink cans,
+
+32
+00:01:14.435 --> 00:01:17.210
+that would totally break
+a pre-learned perception system.
+
+33
+00:01:17.210 --> 00:01:19.910
+Yes. A Reinforcing Agent
+could simply try
+
+34
+00:01:19.910 --> 00:01:21.530
+collecting the pink cans and find
+
+35
+00:01:21.530 --> 00:01:23.885
+out itself if they are
+worth collecting.
+
+36
+00:01:23.885 --> 00:01:26.030
+Okay. It sounds like
+we're going to need
+
+37
+00:01:26.030 --> 00:01:27.860
+a good exploration
+method and we'll
+
+38
+00:01:27.860 --> 00:01:29.630
+definitely need
+function approximation
+
+39
+00:01:29.630 --> 00:01:32.080
+if we want to learn from
+an on-board camera.
+
+40
+00:01:32.080 --> 00:01:35.720
+Yeah, and planning so that
+the agent can revisit
+
+41
+00:01:35.720 --> 00:01:37.160
+parts of the lab it
+hasn't been to in
+
+42
+00:01:37.160 --> 00:01:39.485
+a while to check for new cans.
+
+43
+00:01:39.485 --> 00:01:41.390
+But what about
+the Reward Function?
+
+44
+00:01:41.390 --> 00:01:44.215
+What describes if
+the robot was successful?
+
+45
+00:01:44.215 --> 00:01:46.670
+Well, we could get one
+of the students to count
+
+46
+00:01:46.670 --> 00:01:48.830
+the cans in the bin at
+the end of the day.
+
+47
+00:01:48.830 --> 00:01:51.455
+If there were six cans
+in the bin plus six.
+
+48
+00:01:51.455 --> 00:01:53.540
+No cans, zero reward.
+
+49
+00:01:53.540 --> 00:01:54.920
+So we'll probably need
+
+50
+00:01:54.920 --> 00:01:58.010
+a TD-based algorithm to
+handle this delayed feedback.
+
+51
+00:01:58.010 --> 00:01:59.480
+Before we get started,
+
+52
+00:01:59.480 --> 00:02:01.970
+we better review the basics
+of Reinforcement Learning.
+
+53
+00:02:01.970 --> 00:02:03.365
+Well, the good news is,
+
+54
+00:02:03.365 --> 00:02:05.360
+everything we've just talked
+about will be covered in
+
+55
+00:02:05.360 --> 00:02:07.340
+our new Coursera specialization
+
+56
+00:02:07.340 --> 00:02:08.525
+on Reinforcement Learning.
+
+57
+00:02:08.525 --> 00:02:10.160
+That's amazing. Are the students
+
+58
+00:02:10.160 --> 00:02:12.305
+really going implement
+a can collecting robot?
+
+59
+00:02:12.305 --> 00:02:15.260
+No, but once they finish
+the specialization,
+
+60
+00:02:15.260 --> 00:02:17.820
+they'll have all the conceptual
+tools they need to do so.
+
+61
+00:02:17.820 --> 00:02:20.150
+Either way, that's
+a lot of material.
+
+62
+00:02:20.150 --> 00:02:21.860
+I think we're going
+to need a big team
+
+63
+00:02:21.860 --> 00:02:23.305
+to cover all that stuff.
+
+64
+00:02:23.305 --> 00:02:26.190
+A team of RL experts.
+
+65
+00:02:26.630 --> 00:02:29.370
+What a team.
+
+66
+00:02:29.370 --> 00:02:32.450
+Join us over the coming
+weeks right here in
+
+67
+00:02:32.450 --> 00:02:35.915
+the RL AI Lab at
+the University of Alberta.
+
+68
+00:02:35.915 --> 00:02:39.890
+Welcome to the Reinforcement
+Learning specialization
+
+69
+00:02:39.890 --> 00:02:43.760
+from the University of
+Alberta on Coursera.

@@ -1,0 +1,644 @@
+WEBVTT
+
+1
+00:00:00.089 --> 00:00:07.224
+[MUSIC]
+
+2
+00:00:07.224 --> 00:00:10.245
+I'm going to illustrate how to use
+approximate dynamic programming and
+
+3
+00:00:10.245 --> 00:00:12.879
+reinforcement learning to solve
+high dimensional problems.
+
+4
+00:00:12.879 --> 00:00:17.570
+This is something that arose in
+the context of truckload trucking,
+
+5
+00:00:17.570 --> 00:00:22.014
+think of this as Uber or Lyft for
+a truckload freight where a truck
+
+6
+00:00:22.014 --> 00:00:26.645
+moves an entire load of freight from
+A to B from one city to the next.
+
+7
+00:00:26.645 --> 00:00:30.895
+Here we have to pick the best driver on
+the left to assign to the best load on
+
+8
+00:00:30.895 --> 00:00:31.800
+the right.
+
+9
+00:00:31.800 --> 00:00:34.300
+We don't have to move all the loads and
+I have to think about where the load's
+
+10
+00:00:34.300 --> 00:00:37.100
+going and
+what might happen which is uncertain.
+
+11
+00:00:37.100 --> 00:00:39.199
+Let's imagine that we just
+have one truck driver.
+
+12
+00:00:39.199 --> 00:00:43.444
+So this is the easier problem,
+imagine that we're a new truck driver.
+
+13
+00:00:43.444 --> 00:00:46.869
+We're starting off in Texas and
+somebody's come along and
+
+14
+00:00:46.869 --> 00:00:50.855
+showed us four loads of freight and
+I have to pick the best one to move.
+
+15
+00:00:50.855 --> 00:00:54.598
+Each of the loads are going to different
+destinations I've never been to before.
+
+16
+00:00:54.598 --> 00:00:59.317
+My estimate of the downstream value
+of these destinations is zero
+
+17
+00:00:59.317 --> 00:01:01.131
+because I'm brand new.
+
+18
+00:01:01.131 --> 00:01:03.471
+Of these I'm going to
+look at all of them and
+
+19
+00:01:03.471 --> 00:01:06.011
+say gee the load going
+to New York is $450.
+
+20
+00:01:06.011 --> 00:01:08.481
+That looks best, I'll pick that one.
+
+21
+00:01:08.481 --> 00:01:13.145
+And before I move I'm going to update
+the value being in Texas to $450 because
+
+22
+00:01:13.145 --> 00:01:14.595
+that's how much I made.
+
+23
+00:01:14.595 --> 00:01:18.261
+Because the 450 I'm going to add it
+to the downstream value of zero.
+
+24
+00:01:18.261 --> 00:01:21.643
+Now, let's move to New York,
+repeat the whole process all over again.
+
+25
+00:01:21.643 --> 00:01:26.502
+Now to go back to Texas I would add
+the 125 to the 450 to get 575 but
+
+26
+00:01:26.502 --> 00:01:32.600
+there's a load going to California making
+$600 so I'm going to take that one.
+
+27
+00:01:32.600 --> 00:01:36.459
+So now we do the value of New York is 600,
+go to California.
+
+28
+00:01:36.459 --> 00:01:40.894
+Now I'm looking at various locations,
+one load is $400 going to Minnesota, but
+
+29
+00:01:40.894 --> 00:01:42.567
+I've never been to Minnesota.
+
+30
+00:01:42.567 --> 00:01:45.900
+So my best estimate of that is zero
+just because I never been there.
+
+31
+00:01:45.900 --> 00:01:48.002
+So we're going to come
+back to that problem.
+
+32
+00:01:48.002 --> 00:01:52.243
+But for the moment the best load looks
+like the one going to Texas because I'm
+
+33
+00:01:52.243 --> 00:01:56.200
+going to add the 350 to
+the downstream 450 to get $800.
+
+34
+00:01:56.200 --> 00:01:58.300
+So we're going to go to Texas.
+
+35
+00:01:58.300 --> 00:02:01.004
+Now I'm in Texas,
+once again I'm looking at various loads,
+
+36
+00:02:01.004 --> 00:02:02.467
+there's one going to Colorado.
+
+37
+00:02:02.467 --> 00:02:06.400
+I've never been to Colorado but it's $800.
+
+38
+00:02:06.400 --> 00:02:09.400
+The last time I was in Texas I made 450.
+
+39
+00:02:09.400 --> 00:02:13.800
+Let's go ahead and see, the old estimate
+of the value of being in Texas is 450.
+
+40
+00:02:13.800 --> 00:02:15.971
+But now I've got this $800 load.
+
+41
+00:02:15.971 --> 00:02:18.741
+What I'm going to do is smooth these two,
+
+42
+00:02:18.741 --> 00:02:22.144
+I'm going to say use
+a smoothing factor of 0.1,
+
+43
+00:02:22.144 --> 00:02:27.542
+a learning rate step size to some where
+I'm going to take one minus the step size.
+
+44
+00:02:27.542 --> 00:02:32.077
+So I get a number of 0.9 times the old
+estimate plus 0.1 times the new estimate
+
+45
+00:02:32.077 --> 00:02:35.800
+gives me an updated estimate of
+the value being in Texas of 485.
+
+46
+00:02:35.800 --> 00:02:38.100
+So this is my updated estimate.
+
+47
+00:02:38.100 --> 00:02:42.442
+Now, this is classic approximate dynamic
+programming reinforcement learning.
+
+48
+00:02:42.442 --> 00:02:45.467
+The oral community has many
+variations of what I just showed you,
+
+49
+00:02:45.467 --> 00:02:49.207
+one of which would fix issues like gee why
+didn't I go to Minnesota because maybe I
+
+50
+00:02:49.207 --> 00:02:51.600
+should have gone to Minnesota.
+
+51
+00:02:51.600 --> 00:02:55.334
+But this is also methods that
+will only work on one truck.
+
+52
+00:02:55.334 --> 00:02:59.000
+What if I have a fleet of trucks and
+I'm actually a trucking company.
+
+53
+00:02:59.000 --> 00:03:01.943
+So let's imagine I have a grid,
+a five by five grid.
+
+54
+00:03:01.943 --> 00:03:04.636
+So there's 25 locations to go to and so
+
+55
+00:03:04.636 --> 00:03:07.975
+my truck can be in any one
+of these 25 locations.
+
+56
+00:03:07.975 --> 00:03:11.453
+But if I'm a trucking company and
+I have two trucks,
+
+57
+00:03:11.453 --> 00:03:14.861
+now my state is not what
+location my one truck is in.
+
+58
+00:03:14.861 --> 00:03:16.946
+My state is the state of the fleet and
+
+59
+00:03:16.946 --> 00:03:20.918
+I have all these different combinations
+of where to put two trucks.
+
+60
+00:03:20.918 --> 00:03:25.600
+And maybe I have six trucks and now I have
+all these permutations and combinations.
+
+61
+00:03:25.600 --> 00:03:28.337
+In fact as I grow this the formula for
+
+62
+00:03:28.337 --> 00:03:33.550
+the number of states that my fleet
+can be in is given by this formula.
+
+63
+00:03:33.550 --> 00:03:37.099
+And as I grow the fleet size
+from one to five to 50 and
+
+64
+00:03:37.099 --> 00:03:41.775
+if I grow my number of states or
+locations or attributes of the truck,
+
+65
+00:03:41.775 --> 00:03:45.300
+I can get this massively
+large number of states.
+
+66
+00:03:45.300 --> 00:03:49.342
+So classical discrete state
+representations best known in
+
+67
+00:03:49.342 --> 00:03:54.046
+reinforcement learning would simply
+not work for a fleet of trucks.
+
+68
+00:03:54.046 --> 00:03:57.500
+So here I'm going to show you how
+to extend to a fleet of trucks.
+
+69
+00:03:57.500 --> 00:04:01.280
+Let's imagine that I have a series
+of set of drivers and loads and
+
+70
+00:04:01.280 --> 00:04:03.319
+I have to assign drivers to loads.
+
+71
+00:04:03.319 --> 00:04:05.200
+This is an assignment problem.
+
+72
+00:04:05.200 --> 00:04:10.160
+So here are my drivers and here are my
+loads and over time drivers will enter and
+
+73
+00:04:10.160 --> 00:04:13.231
+leave the system,
+new loads will be called in.
+
+74
+00:04:13.231 --> 00:04:17.189
+I have to make those assignments
+in the future sequentially and
+
+75
+00:04:17.189 --> 00:04:21.891
+I need to think about those events that
+are going to happen in the future to make
+
+76
+00:04:21.891 --> 00:04:24.000
+the best decision now.
+
+77
+00:04:24.000 --> 00:04:28.000
+So let's take one truck now where I
+can look at two different loads and
+
+78
+00:04:28.000 --> 00:04:30.100
+each one has a downstream value.
+
+79
+00:04:30.100 --> 00:04:34.740
+I can take those downstream values,
+add it to the contribution that I earned
+
+80
+00:04:34.740 --> 00:04:37.946
+from just making that
+initial assignment to a load.
+
+81
+00:04:37.946 --> 00:04:42.675
+And now I just have a simple assignment
+problem, if I grow that to an entire
+
+82
+00:04:42.675 --> 00:04:47.200
+fleet this would be a network problem,
+some call it a linear program.
+
+83
+00:04:47.200 --> 00:04:51.476
+There's packages for this, Gurobi, CPLEX.
+
+84
+00:04:51.476 --> 00:04:53.068
+These are available in Python.
+
+85
+00:04:53.068 --> 00:04:55.896
+If you're in a university,
+these are free and
+
+86
+00:04:55.896 --> 00:04:59.313
+you can solve very large problems very,
+very quickly.
+
+87
+00:04:59.313 --> 00:05:03.425
+Now how I do those downstream values
+because I know how to do the value of
+
+88
+00:05:03.425 --> 00:05:05.600
+a truck but how do I handle the fleet?
+
+89
+00:05:05.600 --> 00:05:07.200
+So here's what we're going to do.
+
+90
+00:05:07.200 --> 00:05:09.416
+We're going to go ahead and
+solve our assignment problem.
+
+91
+00:05:09.416 --> 00:05:12.086
+We're going to assign three
+drivers to three loads,
+
+92
+00:05:12.086 --> 00:05:13.997
+that fourth driver has nothing to do.
+
+93
+00:05:13.997 --> 00:05:17.217
+So he just stays and
+each one has a downstream value.
+
+94
+00:05:17.217 --> 00:05:21.357
+Now, what I'm going to do is take
+away the first driver for example, so
+
+95
+00:05:21.357 --> 00:05:23.600
+we're going to move it, re-solve.
+
+96
+00:05:23.600 --> 00:05:27.600
+Now I'm going to get the change in the
+total contribution for the whole system.
+
+97
+00:05:27.600 --> 00:05:31.781
+That's the marginal value of that
+one driver with attribute A1 and
+
+98
+00:05:31.781 --> 00:05:34.727
+we're going to call that
+marginal value V hat.
+
+99
+00:05:34.727 --> 00:05:39.373
+And so this is the difference between
+the total contribution of the whole system
+
+100
+00:05:39.373 --> 00:05:41.119
+with and without the driver.
+
+101
+00:05:41.119 --> 00:05:45.543
+Now we're going to do the smoothing just
+like we did with one truck where we have
+
+102
+00:05:45.543 --> 00:05:48.200
+the attributes of our one driver.
+
+103
+00:05:48.200 --> 00:05:53.826
+We have the old smoothed estimate V bar,
+the V hat is the updated marginal value
+
+104
+00:05:53.826 --> 00:05:59.550
+of the one driver and we get an updated
+smoothed estimate of the marginal value.
+
+105
+00:05:59.550 --> 00:06:02.216
+Now I have to do this for
+each driver, okay.
+
+106
+00:06:02.216 --> 00:06:05.391
+So the thing is I'll have
+to loop over the drivers.
+
+107
+00:06:05.391 --> 00:06:09.920
+However, it is also the case that if
+we can solve this as a linear program,
+
+108
+00:06:09.920 --> 00:06:14.742
+LP packages will give you this marginal
+value, it's called a dual variable,
+
+109
+00:06:14.742 --> 00:06:15.415
+for free.
+
+110
+00:06:15.415 --> 00:06:19.165
+Other instances, you have to do these
+numerical derivatives yourself, but
+
+111
+00:06:19.165 --> 00:06:20.900
+it's all quite scalable.
+
+112
+00:06:20.900 --> 00:06:26.287
+And at the end what we can do is have
+these smoothed estimates V bars.
+
+113
+00:06:26.287 --> 00:06:28.305
+Now, the V bar is not
+the value of a driver,
+
+114
+00:06:28.305 --> 00:06:30.116
+it's the marginal value of a driver.
+
+115
+00:06:30.116 --> 00:06:33.023
+But this is a linear program and
+I can scale this to hundreds,
+
+116
+00:06:33.023 --> 00:06:34.400
+even thousands of drivers.
+
+117
+00:06:35.700 --> 00:06:37.137
+This is the overall algorithm.
+
+118
+00:06:37.137 --> 00:06:42.142
+The green is the linear program where
+I have to call a solver to solve that,
+
+119
+00:06:42.142 --> 00:06:45.395
+X is a vector here,
+the V hat is a vector as well.
+
+120
+00:06:45.395 --> 00:06:49.017
+The V hat is the marginal value
+of each of these drivers.
+
+121
+00:06:49.017 --> 00:06:52.467
+The blue is where I update these
+marginal values the V bars, and
+
+122
+00:06:52.467 --> 00:06:55.146
+the red is where I then
+simulate forward in time.
+
+123
+00:06:55.146 --> 00:06:57.200
+So let's illustrate that simulation.
+
+124
+00:06:57.200 --> 00:07:01.900
+So the blue squares here is my problem
+now with a value in the future.
+
+125
+00:07:01.900 --> 00:07:04.300
+I'm going to simulate my
+way into the future and
+
+126
+00:07:04.300 --> 00:07:06.101
+I'm going to do this iteratively.
+
+127
+00:07:06.101 --> 00:07:10.283
+And over the iterations I'm going to get
+better and better estimates of these
+
+128
+00:07:10.283 --> 00:07:14.659
+marginal values and the oval quality
+solution tends to increase not uniformly,
+
+129
+00:07:14.659 --> 00:07:17.187
+you'll see some little hips and
+skips there.
+
+130
+00:07:17.187 --> 00:07:21.000
+But generally if you've got defined
+algorithm, this will move forward.
+
+131
+00:07:21.000 --> 00:07:25.504
+This has been a very brief introduction
+to handling high-dimensional
+
+132
+00:07:25.504 --> 00:07:27.613
+resource allocation problems.
+
+133
+00:07:27.613 --> 00:07:30.515
+If you go to the website
+jungle.Princeton.edu,
+
+134
+00:07:30.515 --> 00:07:35.450
+you'll get a lot more additional material,
+just look under educational materials.
+
+135
+00:07:35.450 --> 00:07:40.432
+For hints of how to program this look for
+the Python modules on my GitHub directory
+
+136
+00:07:40.432 --> 00:07:45.500
+and look for the blood management problem,
+and you'll see a nice illustration.

@@ -1,0 +1,425 @@
+WEBVTT
+
+1
+00:00:04.760 --> 00:00:07.980
+We just looked at
+how dynamic programming can
+
+2
+00:00:07.980 --> 00:00:10.920
+be used to iteratively
+evaluate a policy.
+
+3
+00:00:10.920 --> 00:00:13.170
+We hinted that this
+was the first step
+
+4
+00:00:13.170 --> 00:00:14.760
+towards the control task,
+
+5
+00:00:14.760 --> 00:00:17.400
+or the goal is to
+improve a policy.
+
+6
+00:00:17.400 --> 00:00:21.795
+In this video, we'll finally
+explain how this works.
+
+7
+00:00:21.795 --> 00:00:23.490
+By the end of this video,
+
+8
+00:00:23.490 --> 00:00:24.990
+you will be able to understand
+
+9
+00:00:24.990 --> 00:00:26.805
+the policy improvement theorem,
+
+10
+00:00:26.805 --> 00:00:30.540
+and how it can be used to
+construct improved policies,
+
+11
+00:00:30.540 --> 00:00:32.340
+and use the value function for
+
+12
+00:00:32.340 --> 00:00:35.385
+a policy to produce
+a better policy.
+
+13
+00:00:35.385 --> 00:00:38.430
+Previously, we showed
+that given v star,
+
+14
+00:00:38.430 --> 00:00:40.140
+we can find the optimal policy
+
+15
+00:00:40.140 --> 00:00:42.210
+by choosing the Greedy action.
+
+16
+00:00:42.210 --> 00:00:44.290
+The Greedy action maximizes
+
+17
+00:00:44.290 --> 00:00:47.860
+the Bellman's optimality
+equation in each state.
+
+18
+00:00:47.860 --> 00:00:51.220
+Imagine instead of
+the optimal value function,
+
+19
+00:00:51.220 --> 00:00:53.530
+we select an action which
+is greedy with respect to
+
+20
+00:00:53.530 --> 00:00:57.700
+the value function v Pi of
+an arbitrary policy Pi.
+
+21
+00:00:57.700 --> 00:01:00.085
+What can we say about
+this new policy?
+
+22
+00:01:00.085 --> 00:01:02.590
+That it is greedy
+with respect to v Pi.
+
+23
+00:01:02.590 --> 00:01:04.540
+The first thing to note is that
+
+24
+00:01:04.540 --> 00:01:07.795
+this new policy must
+be different than Pi.
+
+25
+00:01:07.795 --> 00:01:10.705
+If this greedification
+doesn't change Pi,
+
+26
+00:01:10.705 --> 00:01:12.490
+then Pi was already greedy with
+
+27
+00:01:12.490 --> 00:01:14.830
+respect to its own
+value function.
+
+28
+00:01:14.830 --> 00:01:17.350
+This is just another way
+of saying that v
+
+29
+00:01:17.350 --> 00:01:20.440
+Pi obeys the Bellman's
+optimality equation.
+
+30
+00:01:20.440 --> 00:01:24.485
+In which case, Pi
+is already optimal.
+
+31
+00:01:24.485 --> 00:01:27.530
+In fact, the new
+policy obtained in
+
+32
+00:01:27.530 --> 00:01:30.005
+this way must be
+a strict improvement on Pi,
+
+33
+00:01:30.005 --> 00:01:32.660
+unless Pi was already optimal.
+
+34
+00:01:32.660 --> 00:01:35.780
+This is a consequence
+of a general result
+
+35
+00:01:35.780 --> 00:01:38.755
+called the policy
+improvement theorem.
+
+36
+00:01:38.755 --> 00:01:41.715
+Recall the definition of q Pi.
+
+37
+00:01:41.715 --> 00:01:45.290
+It tells you the value of
+a state if you take action A,
+
+38
+00:01:45.290 --> 00:01:47.360
+and then follow policy Pi.
+
+39
+00:01:47.360 --> 00:01:50.555
+Imagine we take action A
+according to Pi prime,
+
+40
+00:01:50.555 --> 00:01:52.625
+and then follow policy Pi.
+
+41
+00:01:52.625 --> 00:01:56.330
+If this action has higher value
+than the action under Pi,
+
+42
+00:01:56.330 --> 00:01:58.505
+then Pi prime must be better.
+
+43
+00:01:58.505 --> 00:02:02.105
+The policy improvement theorem
+formalizes this idea.
+
+44
+00:02:02.105 --> 00:02:04.580
+Policy Pi prime is
+at least as good
+
+45
+00:02:04.580 --> 00:02:06.970
+as Pi if in each state,
+
+46
+00:02:06.970 --> 00:02:10.700
+the value of the action
+selected by Pi prime is greater
+
+47
+00:02:10.700 --> 00:02:15.035
+than or equal to the value of
+the action selected by Pi.
+
+48
+00:02:15.035 --> 00:02:18.350
+Policy pi prime is
+strictly better if
+
+49
+00:02:18.350 --> 00:02:22.010
+the value is strictly greater
+and at least one state.
+
+50
+00:02:22.010 --> 00:02:24.680
+Let's see how this works
+on the four-by-four grid
+
+51
+00:02:24.680 --> 00:02:26.705
+rolled we use previously.
+
+52
+00:02:26.705 --> 00:02:29.690
+Here's the final value
+function we found.
+
+53
+00:02:29.690 --> 00:02:31.700
+Remember that this is
+the value function
+
+54
+00:02:31.700 --> 00:02:34.235
+for the uniform random policy.
+
+55
+00:02:34.235 --> 00:02:37.310
+Now, what might the greedy
+Pi policy look like?
+
+56
+00:02:37.310 --> 00:02:40.190
+In each state, we need to
+select the action that
+
+57
+00:02:40.190 --> 00:02:43.010
+leads to the next state
+with the highest value.
+
+58
+00:02:43.010 --> 00:02:46.045
+In this case, the value
+that is least negative.
+
+59
+00:02:46.045 --> 00:02:48.050
+Here's Pi prime.
+
+60
+00:02:48.050 --> 00:02:49.790
+This is quite different from
+
+61
+00:02:49.790 --> 00:02:52.265
+the uniform random policy
+we started with.
+
+62
+00:02:52.265 --> 00:02:54.650
+Know that the value
+shown here do not
+
+63
+00:02:54.650 --> 00:02:57.410
+correspond to the values
+for Pi prime.
+
+64
+00:02:57.410 --> 00:03:00.650
+The new policy is guaranteed
+to be an improvement on
+
+65
+00:03:00.650 --> 00:03:02.480
+the uniform random
+policy we started
+
+66
+00:03:02.480 --> 00:03:05.855
+with according to
+the policy improvement theorem.
+
+67
+00:03:05.855 --> 00:03:09.500
+In fact, if you look more
+closely at the new policy,
+
+68
+00:03:09.500 --> 00:03:12.115
+we can see that it
+is in fact optimal.
+
+69
+00:03:12.115 --> 00:03:14.690
+In every state,
+the chosen actions
+
+70
+00:03:14.690 --> 00:03:17.840
+lie on the shortest path
+to the terminal state.
+
+71
+00:03:17.840 --> 00:03:20.450
+Remember, the value
+function we started with
+
+72
+00:03:20.450 --> 00:03:22.795
+was not the optimal
+value function,
+
+73
+00:03:22.795 --> 00:03:24.710
+and yet the greedy policy with
+
+74
+00:03:24.710 --> 00:03:27.170
+respect to v Pi is optimal.
+
+75
+00:03:27.170 --> 00:03:30.140
+More generally, the policy
+improvement theorem only
+
+76
+00:03:30.140 --> 00:03:32.120
+guarantees that the new policy
+
+77
+00:03:32.120 --> 00:03:34.160
+is an improvement
+on the original.
+
+78
+00:03:34.160 --> 00:03:35.930
+We cannot always expect to find
+
+79
+00:03:35.930 --> 00:03:38.645
+the optimal policy so easily.
+
+80
+00:03:38.645 --> 00:03:40.760
+That's it for this video.
+
+81
+00:03:40.760 --> 00:03:42.290
+You should now understand that
+
+82
+00:03:42.290 --> 00:03:43.805
+the policy improvement theorem
+
+83
+00:03:43.805 --> 00:03:45.830
+tells us that
+greedified pi policy
+
+84
+00:03:45.830 --> 00:03:47.380
+is a strict improvement,
+
+85
+00:03:47.380 --> 00:03:51.020
+unless the original policy
+was already optimal.
+
+86
+00:03:51.020 --> 00:03:54.395
+You should also now know how
+to use the value function
+
+87
+00:03:54.395 --> 00:03:58.495
+under a given policy to produce
+a strictly better policy.
+
+88
+00:03:58.495 --> 00:04:00.530
+Next time, we will discuss how
+
+89
+00:04:00.530 --> 00:04:02.150
+to use this result to create
+
+90
+00:04:02.150 --> 00:04:04.340
+an iterative dynamic
+programming algorithm to
+
+91
+00:04:04.340 --> 00:04:07.920
+find the optimal policy.
+See you then.

@@ -1,0 +1,501 @@
+WEBVTT
+
+1
+00:00:06.140 --> 00:00:08.355
+In the previous video,
+
+2
+00:00:08.355 --> 00:00:10.815
+we discussed episodic problems.
+
+3
+00:00:10.815 --> 00:00:12.960
+In many problems however,
+
+4
+00:00:12.960 --> 00:00:16.545
+the agent environment interaction
+continues without end.
+
+5
+00:00:16.545 --> 00:00:19.110
+Today, we will see
+how such problems can
+
+6
+00:00:19.110 --> 00:00:22.275
+be formulated as
+continuing tasks.
+
+7
+00:00:22.275 --> 00:00:24.810
+In this video, you will learn to
+
+8
+00:00:24.810 --> 00:00:28.440
+differentiate between
+episodic and continuing tasks,
+
+9
+00:00:28.440 --> 00:00:32.550
+formulate returns for continuing
+tasks using discounting,
+
+10
+00:00:32.550 --> 00:00:34.440
+and describe how returns at
+
+11
+00:00:34.440 --> 00:00:37.845
+successive time steps are
+related to each other.
+
+12
+00:00:37.845 --> 00:00:40.220
+Let's look at
+the differences between
+
+13
+00:00:40.220 --> 00:00:42.830
+episodic and continuing tasks.
+
+14
+00:00:42.830 --> 00:00:44.964
+As we discussed earlier,
+
+15
+00:00:44.964 --> 00:00:48.500
+episodic tasks break
+up into episodes.
+
+16
+00:00:48.500 --> 00:00:51.230
+Every episode in an episodic task
+
+17
+00:00:51.230 --> 00:00:53.930
+must end in a terminal state.
+
+18
+00:00:53.930 --> 00:00:56.225
+The next episode begins
+
+19
+00:00:56.225 --> 00:01:00.095
+independently of how
+the last episode ended.
+
+20
+00:01:00.095 --> 00:01:02.690
+The return at time step t is
+
+21
+00:01:02.690 --> 00:01:06.290
+the sum of rewards
+until termination.
+
+22
+00:01:06.290 --> 00:01:09.320
+In contrast, continuing tasks
+
+23
+00:01:09.320 --> 00:01:12.830
+cannot be broken up into
+independent episodes.
+
+24
+00:01:12.830 --> 00:01:15.395
+The interaction goes
+on continually.
+
+25
+00:01:15.395 --> 00:01:18.185
+There are no terminal states.
+
+26
+00:01:18.185 --> 00:01:20.695
+To make this more concrete,
+
+27
+00:01:20.695 --> 00:01:22.580
+consider a smart thermostat
+
+28
+00:01:22.580 --> 00:01:25.295
+which regulates
+the temperature of a building.
+
+29
+00:01:25.295 --> 00:01:28.625
+This can be formulated
+as a continuing task
+
+30
+00:01:28.625 --> 00:01:30.320
+since the thermostat never
+
+31
+00:01:30.320 --> 00:01:33.160
+stops interacting
+with the environment.
+
+32
+00:01:33.160 --> 00:01:36.045
+The state could be
+the current temperature
+
+33
+00:01:36.045 --> 00:01:37.520
+along with details of
+
+34
+00:01:37.520 --> 00:01:39.440
+the situation like the time of
+
+35
+00:01:39.440 --> 00:01:41.980
+day and the number of
+people in the building.
+
+36
+00:01:41.980 --> 00:01:44.415
+There are just two actions,
+
+37
+00:01:44.415 --> 00:01:47.205
+turn on the heater
+or turn it off.
+
+38
+00:01:47.205 --> 00:01:50.870
+The reward to be minus one
+every time someone has to
+
+39
+00:01:50.870 --> 00:01:55.235
+manually adjust the temperature
+and zero otherwise.
+
+40
+00:01:55.235 --> 00:01:57.600
+To avoid negative reward,
+
+41
+00:01:57.600 --> 00:01:59.300
+the thermostat would learn to
+
+42
+00:01:59.300 --> 00:02:02.240
+anticipate the
+user's preferences.
+
+43
+00:02:02.240 --> 00:02:06.595
+So how can we formulate
+the return for continuing tasks?
+
+44
+00:02:06.595 --> 00:02:08.030
+We can try to sum up
+
+45
+00:02:08.030 --> 00:02:12.005
+all the future rewards as
+we did for episodic tasks.
+
+46
+00:02:12.005 --> 00:02:15.425
+But now, we're summing
+over an infinite sequence.
+
+47
+00:02:15.425 --> 00:02:18.560
+This return might not be finite.
+
+48
+00:02:18.560 --> 00:02:23.445
+So how can we modify this sum
+so that is always finite?
+
+49
+00:02:23.445 --> 00:02:26.315
+One solution is to discount
+
+50
+00:02:26.315 --> 00:02:28.430
+future rewards by a factor
+
+51
+00:02:28.430 --> 00:02:30.840
+Gamma called the discount rate.
+
+52
+00:02:30.840 --> 00:02:32.865
+Gamma is at least zero,
+
+53
+00:02:32.865 --> 00:02:34.855
+but less than one.
+
+54
+00:02:34.855 --> 00:02:37.040
+The return formulation
+can then be
+
+55
+00:02:37.040 --> 00:02:39.605
+modified to include discounting.
+
+56
+00:02:39.605 --> 00:02:43.055
+The effect of discounting
+on the return is simple,
+
+57
+00:02:43.055 --> 00:02:46.665
+immediate rewards contribute
+more to the some.
+
+58
+00:02:46.665 --> 00:02:49.520
+Rewards far into
+the future contribute
+
+59
+00:02:49.520 --> 00:02:51.860
+less because they
+are multiplied by
+
+60
+00:02:51.860 --> 00:02:53.030
+Gamma raised to
+
+61
+00:02:53.030 --> 00:02:56.900
+successively larger powers
+of k. Intuitively,
+
+62
+00:02:56.900 --> 00:02:58.445
+this choice makes sense.
+
+63
+00:02:58.445 --> 00:03:00.230
+A dollar today is worth more
+
+64
+00:03:00.230 --> 00:03:03.230
+to you than a dollar in a year.
+
+65
+00:03:03.230 --> 00:03:07.220
+We can concisely write
+this sum as this expression,
+
+66
+00:03:07.220 --> 00:03:11.790
+which is guaranteed to be
+finite. Let's see why?
+
+67
+00:03:11.790 --> 00:03:14.975
+Assume R_max is
+the maximum reward
+
+68
+00:03:14.975 --> 00:03:18.320
+our aging can receive
+at any time step.
+
+69
+00:03:18.320 --> 00:03:20.990
+We can now upper bound the return
+
+70
+00:03:20.990 --> 00:03:25.665
+G_t by replacing
+every reward with R_ max.
+
+71
+00:03:25.665 --> 00:03:27.620
+Since R_max is just a
+
+72
+00:03:27.620 --> 00:03:31.025
+constant we can pull it
+out of the summation.
+
+73
+00:03:31.025 --> 00:03:33.410
+Note that the second factor is
+
+74
+00:03:33.410 --> 00:03:35.570
+just a geometric series and
+
+75
+00:03:35.570 --> 00:03:37.760
+the geometric series evaluates to
+
+76
+00:03:37.760 --> 00:03:40.910
+one divided by one minus Gamma,
+
+77
+00:03:40.910 --> 00:03:44.720
+R_max times one divided
+by one minus Gamma is
+
+78
+00:03:44.720 --> 00:03:48.005
+finite and is
+an upper bound on G_t.
+
+79
+00:03:48.005 --> 00:03:51.870
+So we know G_t is finite.
+
+80
+00:03:52.250 --> 00:03:54.530
+Now, let's look at the effect of
+
+81
+00:03:54.530 --> 00:03:57.590
+the discount factor on
+the behavior of the agent.
+
+82
+00:03:57.590 --> 00:04:00.830
+We can look at
+the two extreme cases
+
+83
+00:04:00.830 --> 00:04:05.205
+when Gamma equals zero and
+when Gamma approaches one.
+
+84
+00:04:05.205 --> 00:04:08.240
+When Gamma equals
+zero the return is
+
+85
+00:04:08.240 --> 00:04:11.045
+just the reward at
+the next time step.
+
+86
+00:04:11.045 --> 00:04:13.940
+So the agent is
+shortsighted and only
+
+87
+00:04:13.940 --> 00:04:17.290
+cares about immediate
+expected reward.
+
+88
+00:04:17.290 --> 00:04:19.170
+On the other hand,
+
+89
+00:04:19.170 --> 00:04:21.190
+when Gamma approaches one,
+
+90
+00:04:21.190 --> 00:04:23.600
+the immediate and
+future rewards are
+
+91
+00:04:23.600 --> 00:04:26.555
+weighted nearly
+equally in the return.
+
+92
+00:04:26.555 --> 00:04:30.660
+The agent in this case
+is more farsighted.
+
+93
+00:04:30.950 --> 00:04:33.260
+Finally, let's discuss
+
+94
+00:04:33.260 --> 00:04:36.380
+a simple but important
+property of the return.
+
+95
+00:04:36.380 --> 00:04:38.855
+It can be written recursively.
+
+96
+00:04:38.855 --> 00:04:41.300
+Let's factor out Gamma starting
+
+97
+00:04:41.300 --> 00:04:43.670
+from the second term in our sum.
+
+98
+00:04:43.670 --> 00:04:45.920
+Amazingly, the sequence in
+
+99
+00:04:45.920 --> 00:04:49.265
+parentheses is the return
+on the next time step.
+
+100
+00:04:49.265 --> 00:04:53.225
+So we can just replace
+it with G_t plus 1.
+
+101
+00:04:53.225 --> 00:04:56.630
+Now, we have a recursive
+equation with G_t on
+
+102
+00:04:56.630 --> 00:05:00.020
+the left and G_t
+plus 1 on the right.
+
+103
+00:05:00.020 --> 00:05:03.350
+This simple equation is more
+powerful than it seems.
+
+104
+00:05:03.350 --> 00:05:05.450
+In future videos, we'll exploit
+
+105
+00:05:05.450 --> 00:05:08.555
+this equation to design
+learning algorithms.
+
+106
+00:05:08.555 --> 00:05:12.350
+To recap, we learned about
+continuing tasks where
+
+107
+00:05:12.350 --> 00:05:15.890
+the agent environment interaction
+goes on indefinitely.
+
+108
+00:05:15.890 --> 00:05:20.295
+Discounting is used to ensure
+returns are finite and
+
+109
+00:05:20.295 --> 00:05:22.070
+we saw that returns
+can be defined
+
+110
+00:05:22.070 --> 00:05:25.320
+recursively. See you next time.

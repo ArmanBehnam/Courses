@@ -1,0 +1,443 @@
+WEBVTT
+
+1
+00:00:05.690 --> 00:00:08.310
+In this video, we will explore
+
+2
+00:00:08.310 --> 00:00:12.015
+the flexibility of the MDP
+formalism with a few examples.
+
+3
+00:00:12.015 --> 00:00:13.770
+By the end of this video,
+
+4
+00:00:13.770 --> 00:00:15.630
+you will gain
+experience formalizing
+
+5
+00:00:15.630 --> 00:00:17.864
+decision-making problems as MDPs,
+
+6
+00:00:17.864 --> 00:00:21.540
+and appreciate the flexibility
+of the MDP formalism.
+
+7
+00:00:21.540 --> 00:00:24.000
+Consider recycling
+robot which collects
+
+8
+00:00:24.000 --> 00:00:26.490
+empty soda cans in
+an office environment.
+
+9
+00:00:26.490 --> 00:00:28.725
+It can detect soda cans,
+
+10
+00:00:28.725 --> 00:00:30.540
+pick them up using his gripper,
+
+11
+00:00:30.540 --> 00:00:32.685
+and dropped them off
+in a recycling bin.
+
+12
+00:00:32.685 --> 00:00:35.220
+The robot runs in
+a rechargeable battery.
+
+13
+00:00:35.220 --> 00:00:38.510
+Its objective is to collect
+as many cans as possible.
+
+14
+00:00:38.510 --> 00:00:40.970
+Let's formulate
+this problem as an MDP.
+
+15
+00:00:40.970 --> 00:00:45.420
+We will start with the states,
+actions, and rewards.
+
+16
+00:00:45.610 --> 00:00:48.890
+Let's assume that the sensors
+can only distinguish
+
+17
+00:00:48.890 --> 00:00:51.860
+two charged levels, low and high.
+
+18
+00:00:51.860 --> 00:00:55.470
+These charged levels
+represent the robot's state.
+
+19
+00:00:55.720 --> 00:00:59.105
+In each state, the robot
+has three choices.
+
+20
+00:00:59.105 --> 00:01:02.660
+It can search for cans for
+a fixed amount of time,
+
+21
+00:01:02.660 --> 00:01:04.520
+it can remain stationary
+
+22
+00:01:04.520 --> 00:01:06.485
+and wait for someone
+to bring in a can,
+
+23
+00:01:06.485 --> 00:01:08.750
+or it can go to
+the charging station
+
+24
+00:01:08.750 --> 00:01:10.910
+to recharge its battery.
+
+25
+00:01:10.910 --> 00:01:13.955
+We only allow recharging
+from the low state
+
+26
+00:01:13.955 --> 00:01:15.380
+because recharging is pointless
+
+27
+00:01:15.380 --> 00:01:17.300
+when the energy level is high.
+
+28
+00:01:17.300 --> 00:01:20.495
+Now, let's consider
+the transition dynamics.
+
+29
+00:01:20.495 --> 00:01:23.975
+First, let's try the states
+using open circles.
+
+30
+00:01:23.975 --> 00:01:26.060
+Searching for cans when
+the energy level is
+
+31
+00:01:26.060 --> 00:01:28.775
+high might reduce
+the energy level to low.
+
+32
+00:01:28.775 --> 00:01:31.250
+That is the search
+action in the state
+
+33
+00:01:31.250 --> 00:01:34.470
+high might not change the state.
+
+34
+00:01:34.540 --> 00:01:37.895
+Let's say with probability Alpha,
+
+35
+00:01:37.895 --> 00:01:39.830
+or the energy level might drop to
+
+36
+00:01:39.830 --> 00:01:42.785
+low with probability
+one minus Alpha.
+
+37
+00:01:42.785 --> 00:01:45.095
+In both cases, the robots search
+
+38
+00:01:45.095 --> 00:01:47.480
+yields a reward of r_search.
+
+39
+00:01:47.480 --> 00:01:50.030
+For instance, r_search
+could be plus 10
+
+40
+00:01:50.030 --> 00:01:52.735
+indicating that
+the robot found 10 cans.
+
+41
+00:01:52.735 --> 00:01:54.795
+The robot can also wait.
+
+42
+00:01:54.795 --> 00:01:57.240
+Waiting for cans does
+not drain the battery,
+
+43
+00:01:57.240 --> 00:01:59.300
+so the state does not change.
+
+44
+00:01:59.300 --> 00:02:03.275
+In both cases, the wait action
+yields a reward of r_wait.
+
+45
+00:02:03.275 --> 00:02:06.520
+For example, r_wait
+could be plus one.
+
+46
+00:02:06.520 --> 00:02:08.750
+Searching when
+the energy level is
+
+47
+00:02:08.750 --> 00:02:10.640
+low might deplete the battery,
+
+48
+00:02:10.640 --> 00:02:12.755
+then the robot would
+need to be rescued.
+
+49
+00:02:12.755 --> 00:02:15.815
+Let's write this probability
+as one minus Beta.
+
+50
+00:02:15.815 --> 00:02:19.520
+If the robot is rescued then
+its battery is restored.
+
+51
+00:02:19.520 --> 00:02:21.830
+However, needing rescue yields
+
+52
+00:02:21.830 --> 00:02:23.770
+a negative reward of r_rescued.
+
+53
+00:02:23.770 --> 00:02:26.450
+For example, r_rescued
+could be minus
+
+54
+00:02:26.450 --> 00:02:29.585
+20 because we were
+annoyed with the robot.
+
+55
+00:02:29.585 --> 00:02:32.705
+Alternatively, the battery
+might not run out.
+
+56
+00:02:32.705 --> 00:02:34.880
+This occurs with
+probability beta and
+
+57
+00:02:34.880 --> 00:02:37.970
+the robot receives
+a reward of r_search.
+
+58
+00:02:37.970 --> 00:02:41.000
+Taking the recharge action
+restores the battery
+
+59
+00:02:41.000 --> 00:02:43.945
+to the level high and
+receives a reward at zero.
+
+60
+00:02:43.945 --> 00:02:46.130
+That's it. We have completely
+
+61
+00:02:46.130 --> 00:02:49.830
+specified the MDP for
+the recycling robot problem.
+
+62
+00:02:50.290 --> 00:02:53.180
+We have discussed
+one example where an MDP
+
+63
+00:02:53.180 --> 00:02:55.445
+is used to precisely
+specify a problem.
+
+64
+00:02:55.445 --> 00:02:58.495
+But you might wonder, how
+general is this framework?
+
+65
+00:02:58.495 --> 00:03:00.440
+The MDP formalism can be used
+
+66
+00:03:00.440 --> 00:03:02.270
+in many different applications,
+
+67
+00:03:02.270 --> 00:03:04.160
+in many different ways.
+
+68
+00:03:04.160 --> 00:03:06.905
+States can be low-level
+sensory readings,
+
+69
+00:03:06.905 --> 00:03:10.770
+for example, in the pixel values
+of the video frame.
+
+70
+00:03:10.790 --> 00:03:14.900
+They can also be high-level
+such as object descriptions.
+
+71
+00:03:14.900 --> 00:03:17.690
+Similarly, actions
+can be low-level,
+
+72
+00:03:17.690 --> 00:03:20.720
+such as the wheel speed
+of this robot.
+
+73
+00:03:20.720 --> 00:03:22.685
+Actions can also be high-level,
+
+74
+00:03:22.685 --> 00:03:25.300
+such as go to
+the charging station.
+
+75
+00:03:25.300 --> 00:03:28.610
+Time-steps can be very
+small or very large.
+
+76
+00:03:28.610 --> 00:03:32.570
+For example, they can be
+one millisecond or one month.
+
+77
+00:03:32.570 --> 00:03:35.575
+Let's look at
+one more application.
+
+78
+00:03:35.575 --> 00:03:38.780
+Suppose we want to use
+reinforcement learning to control
+
+79
+00:03:38.780 --> 00:03:41.690
+a robot arm in
+a pick-and-place task?
+
+80
+00:03:41.690 --> 00:03:43.475
+The goal of the robot
+is to pick up
+
+81
+00:03:43.475 --> 00:03:46.315
+objects and place them in
+a particular location.
+
+82
+00:03:46.315 --> 00:03:49.250
+There are many ways we
+can formalize this task.
+
+83
+00:03:49.250 --> 00:03:51.230
+Here's one possibility.
+
+84
+00:03:51.230 --> 00:03:53.300
+The state could be
+the readings of
+
+85
+00:03:53.300 --> 00:03:55.295
+the joint angles and velocities.
+
+86
+00:03:55.295 --> 00:03:59.015
+The actions could be the
+voltages applied to each motor.
+
+87
+00:03:59.015 --> 00:04:01.430
+The reward could be plus 100 for
+
+88
+00:04:01.430 --> 00:04:03.860
+successfully placing each object.
+
+89
+00:04:03.860 --> 00:04:05.630
+But we also want the robot to
+
+90
+00:04:05.630 --> 00:04:07.265
+use as little energy as possible.
+
+91
+00:04:07.265 --> 00:04:09.680
+So let's include
+a small negative reward
+
+92
+00:04:09.680 --> 00:04:11.930
+corresponding to the energy used.
+
+93
+00:04:11.930 --> 00:04:14.310
+That was not so hard.
+
+94
+00:04:14.600 --> 00:04:18.530
+To recap, the MDP framework
+can be used to formalize
+
+95
+00:04:18.530 --> 00:04:22.640
+a wide variety of sequential
+decision-making problems.

@@ -1,0 +1,864 @@
+WEBVTT
+
+1
+00:00:05.480 --> 00:00:08.970
+We just learned how the value
+function computed for
+
+2
+00:00:08.970 --> 00:00:12.330
+a given policy can be used
+to find a better policy.
+
+3
+00:00:12.330 --> 00:00:15.720
+In this video, we will show
+how we can use this to find
+
+4
+00:00:15.720 --> 00:00:18.300
+the optimal policy by iteratively
+
+5
+00:00:18.300 --> 00:00:21.825
+evaluating and proving
+a sequence of policies.
+
+6
+00:00:21.825 --> 00:00:23.850
+By the end of this video,
+
+7
+00:00:23.850 --> 00:00:25.260
+you will be able to outline
+
+8
+00:00:25.260 --> 00:00:27.090
+the policy iteration algorithm
+
+9
+00:00:27.090 --> 00:00:29.565
+for finding the optimal policy,
+
+10
+00:00:29.565 --> 00:00:32.670
+understand the dance
+of policy and value,
+
+11
+00:00:32.670 --> 00:00:35.460
+how policy iteration
+reaches the optimal policy
+
+12
+00:00:35.460 --> 00:00:36.960
+by alternating between evaluating
+
+13
+00:00:36.960 --> 00:00:38.730
+policy and improving it,
+
+14
+00:00:38.730 --> 00:00:41.300
+and apply policy
+iteration to compute
+
+15
+00:00:41.300 --> 00:00:44.690
+optimal policies and
+optimal value functions.
+
+16
+00:00:44.690 --> 00:00:47.705
+Recall the policy
+improvement theorem.
+
+17
+00:00:47.705 --> 00:00:49.130
+It tells us that we can
+
+18
+00:00:49.130 --> 00:00:51.470
+construct a strictly
+better policy by
+
+19
+00:00:51.470 --> 00:00:53.240
+acting greedily with respect to
+
+20
+00:00:53.240 --> 00:00:55.655
+the value function
+of a given policy,
+
+21
+00:00:55.655 --> 00:00:58.715
+unless the given policy
+was already optimal.
+
+22
+00:00:58.715 --> 00:01:01.840
+Let's say we begin
+with the policy Pi 1.
+
+23
+00:01:01.840 --> 00:01:04.295
+We can evaluate Pi 1 using
+
+24
+00:01:04.295 --> 00:01:06.260
+iterative policy evaluation to
+
+25
+00:01:06.260 --> 00:01:09.155
+obtain the state value, V Pi 1.
+
+26
+00:01:09.155 --> 00:01:12.320
+We call this the evaluation step.
+
+27
+00:01:12.320 --> 00:01:15.685
+Using the results of the policy
+improvement theorem,
+
+28
+00:01:15.685 --> 00:01:18.130
+we can then greedify
+with respect to v Pi
+
+29
+00:01:18.130 --> 00:01:21.305
+1 to obtain
+a better policy, Pi 2.
+
+30
+00:01:21.305 --> 00:01:23.720
+We call this
+the improvement step.
+
+31
+00:01:23.720 --> 00:01:26.810
+We can then compute V Pi 2
+
+32
+00:01:26.810 --> 00:01:31.685
+and use it to obtain
+an even better policy, Pi 3.
+
+33
+00:01:31.685 --> 00:01:35.915
+This gives us a sequence
+of better policies.
+
+34
+00:01:35.915 --> 00:01:38.480
+Each policy is guaranteed
+to be an improvement on the
+
+35
+00:01:38.480 --> 00:01:41.860
+last unless the last policy
+was already optimal.
+
+36
+00:01:41.860 --> 00:01:44.145
+So when we complete an iteration,
+
+37
+00:01:44.145 --> 00:01:45.925
+and the policy remains unchanged,
+
+38
+00:01:45.925 --> 00:01:48.575
+we know we have found
+the optimal policy.
+
+39
+00:01:48.575 --> 00:01:51.305
+At that point, we can
+terminate the algorithm.
+
+40
+00:01:51.305 --> 00:01:55.250
+Each policy generated in
+this way is deterministic.
+
+41
+00:01:55.250 --> 00:01:58.610
+There are finite number of
+deterministic policies,
+
+42
+00:01:58.610 --> 00:02:00.470
+so this iterative
+improvement must
+
+43
+00:02:00.470 --> 00:02:03.145
+eventually reach
+an optimal policy.
+
+44
+00:02:03.145 --> 00:02:05.660
+This method of finding
+an optimal policy
+
+45
+00:02:05.660 --> 00:02:08.135
+is called policy iteration.
+
+46
+00:02:08.135 --> 00:02:12.155
+Policy iteration consists of
+two distinct steps repeated
+
+47
+00:02:12.155 --> 00:02:16.295
+over and over, evaluation
+and improvement.
+
+48
+00:02:16.295 --> 00:02:19.610
+We first evaluate
+our current policy, Pi 1,
+
+49
+00:02:19.610 --> 00:02:21.860
+which gives us
+a new value function that
+
+50
+00:02:21.860 --> 00:02:24.575
+accurately reflects
+the value of Pi 1.
+
+51
+00:02:24.575 --> 00:02:27.320
+The improvement step
+then uses V Pi 1
+
+52
+00:02:27.320 --> 00:02:29.935
+to produce a greedy policy Pi 2.
+
+53
+00:02:29.935 --> 00:02:31.880
+At this point, Pi 2 is greedy
+
+54
+00:02:31.880 --> 00:02:34.205
+with respect to the value
+function of Pi 1,
+
+55
+00:02:34.205 --> 00:02:36.080
+but V Pi 1 no longer
+
+56
+00:02:36.080 --> 00:02:39.305
+accurately reflects
+the value of Pi 2.
+
+57
+00:02:39.305 --> 00:02:42.380
+The next step evaluation makes
+
+58
+00:02:42.380 --> 00:02:43.850
+our value function accurate with
+
+59
+00:02:43.850 --> 00:02:46.125
+respect to the policy Pi 2.
+
+60
+00:02:46.125 --> 00:02:49.940
+Once we do this, our policy
+is once again not greedy.
+
+61
+00:02:49.940 --> 00:02:54.035
+This dance of policy and value
+proceeds back and forth,
+
+62
+00:02:54.035 --> 00:02:56.435
+until we reach the only policy,
+
+63
+00:02:56.435 --> 00:02:58.235
+which is greedy with
+respect to it's
+
+64
+00:02:58.235 --> 00:03:01.405
+own value function,
+the optimal policy.
+
+65
+00:03:01.405 --> 00:03:04.480
+At this point, and
+only at this point,
+
+66
+00:03:04.480 --> 00:03:08.075
+the policy is greedy and
+the value function is accurate.
+
+67
+00:03:08.075 --> 00:03:10.340
+We can visualize this dance as
+
+68
+00:03:10.340 --> 00:03:12.875
+bouncing back and forth
+between one line,
+
+69
+00:03:12.875 --> 00:03:14.525
+where the value
+function is accurate,
+
+70
+00:03:14.525 --> 00:03:17.135
+and another where
+the policy is greedy.
+
+71
+00:03:17.135 --> 00:03:19.460
+These two lines intersect only at
+
+72
+00:03:19.460 --> 00:03:22.475
+the optimal policy
+and value function.
+
+73
+00:03:22.475 --> 00:03:25.520
+Policy iteration always
+makes progress towards
+
+74
+00:03:25.520 --> 00:03:27.680
+the intersection by projecting
+
+75
+00:03:27.680 --> 00:03:30.725
+first onto the line
+v equals v Pi,
+
+76
+00:03:30.725 --> 00:03:33.590
+and then onto the line
+where Pi is greedy with
+
+77
+00:03:33.590 --> 00:03:37.010
+respect to v. Of course,
+
+78
+00:03:37.010 --> 00:03:39.200
+the real geometry of
+the space of policies
+
+79
+00:03:39.200 --> 00:03:41.675
+and value functions
+is more complicated,
+
+80
+00:03:41.675 --> 00:03:44.330
+but the same intuition holds.
+
+81
+00:03:44.330 --> 00:03:48.175
+Here's what this procedure
+looks like in pseudocode.
+
+82
+00:03:48.175 --> 00:03:51.410
+We initialize v and
+Pi in any way we like
+
+83
+00:03:51.410 --> 00:03:54.425
+for each state s. Next,
+
+84
+00:03:54.425 --> 00:03:56.660
+we call iterative
+policy evaluation
+
+85
+00:03:56.660 --> 00:03:59.525
+to make V reflect
+the value of Pi.
+
+86
+00:03:59.525 --> 00:04:03.175
+This is the algorithm we
+learned earlier in this module.
+
+87
+00:04:03.175 --> 00:04:05.840
+Then, in each state,
+we set Pi to select
+
+88
+00:04:05.840 --> 00:04:09.540
+the maximizing action
+under the value function.
+
+89
+00:04:09.640 --> 00:04:11.950
+If this procedure changes
+
+90
+00:04:11.950 --> 00:04:13.989
+the selected action in any state,
+
+91
+00:04:13.989 --> 00:04:16.209
+we note that the policy
+is still changing,
+
+92
+00:04:16.209 --> 00:04:19.060
+and set policy stable to force.
+
+93
+00:04:19.060 --> 00:04:21.115
+After completing step 3,
+
+94
+00:04:21.115 --> 00:04:23.140
+we check if the policy is stable.
+
+95
+00:04:23.140 --> 00:04:26.995
+If not, we carry on and
+evaluate the new policy.
+
+96
+00:04:26.995 --> 00:04:28.870
+Let's look at how this works on
+
+97
+00:04:28.870 --> 00:04:31.720
+a simple problem to
+build some intuition.
+
+98
+00:04:31.720 --> 00:04:34.780
+Remember the four-by-four grid
+ruled example we
+
+99
+00:04:34.780 --> 00:04:37.875
+used to demonstrate
+iterative policy evaluation.
+
+100
+00:04:37.875 --> 00:04:39.590
+Previously, we showed that by
+
+101
+00:04:39.590 --> 00:04:41.434
+evaluating the random policy,
+
+102
+00:04:41.434 --> 00:04:43.125
+and greedifying just once,
+
+103
+00:04:43.125 --> 00:04:44.950
+we could find the optimal policy.
+
+104
+00:04:44.950 --> 00:04:48.250
+This is not a very interesting
+case for policy iteration.
+
+105
+00:04:48.250 --> 00:04:50.320
+Let's modify this
+problem a little bit
+
+106
+00:04:50.320 --> 00:04:52.680
+to make the control
+task a bit harder.
+
+107
+00:04:52.680 --> 00:04:54.500
+First, let's remove one of
+
+108
+00:04:54.500 --> 00:04:56.180
+the terminal states
+so that there's
+
+109
+00:04:56.180 --> 00:04:58.535
+only one way to end the episode.
+
+110
+00:04:58.535 --> 00:05:02.075
+Previously, each state
+admitted a reward of minus 1.
+
+111
+00:05:02.075 --> 00:05:05.300
+Instead, let's add
+some especially bad states.
+
+112
+00:05:05.300 --> 00:05:07.625
+These bad states
+are marked in blue.
+
+113
+00:05:07.625 --> 00:05:11.375
+Transitioning into them gives
+a reward of negative 10.
+
+114
+00:05:11.375 --> 00:05:13.400
+The optimal policy should follow
+
+115
+00:05:13.400 --> 00:05:18.050
+the winding low cost path in
+white to the terminal state.
+
+116
+00:05:18.050 --> 00:05:20.390
+This additional
+complexity means that
+
+117
+00:05:20.390 --> 00:05:22.490
+policy iteration takes
+several iterations
+
+118
+00:05:22.490 --> 00:05:23.885
+to discover the path.
+
+119
+00:05:23.885 --> 00:05:26.330
+Let's see how this plays out.
+
+120
+00:05:26.330 --> 00:05:29.590
+First, we initialize
+a policy and value function.
+
+121
+00:05:29.590 --> 00:05:32.155
+As before, we choose
+the uniform random policy,
+
+122
+00:05:32.155 --> 00:05:35.325
+and set the value estimate
+to zero for all states.
+
+123
+00:05:35.325 --> 00:05:36.980
+The first step is to use
+
+124
+00:05:36.980 --> 00:05:38.600
+iterative policy evaluation to
+
+125
+00:05:38.600 --> 00:05:41.075
+evaluate the uniform
+random policy.
+
+126
+00:05:41.075 --> 00:05:43.505
+Since you've seen how
+this works before,
+
+127
+00:05:43.505 --> 00:05:45.545
+let's skip straight
+to the result.
+
+128
+00:05:45.545 --> 00:05:48.005
+The values are quite
+negative everywhere,
+
+129
+00:05:48.005 --> 00:05:50.870
+those slightly less so
+in states near the goal.
+
+130
+00:05:50.870 --> 00:05:53.930
+Next we perform
+the improvement step.
+
+131
+00:05:53.930 --> 00:05:56.420
+You've seen how
+greedification works before.
+
+132
+00:05:56.420 --> 00:05:58.730
+So again, let's
+skip to the result.
+
+133
+00:05:58.730 --> 00:06:01.190
+Notice that near
+the terminal state,
+
+134
+00:06:01.190 --> 00:06:02.900
+the policy correctly follows
+
+135
+00:06:02.900 --> 00:06:06.050
+the low cost path toward
+the terminal state.
+
+136
+00:06:06.050 --> 00:06:08.480
+In the states in
+the bottom row however,
+
+137
+00:06:08.480 --> 00:06:10.880
+the policy instead
+takes them more direct,
+
+138
+00:06:10.880 --> 00:06:14.330
+but lower value path
+through the bad states.
+
+139
+00:06:14.330 --> 00:06:17.045
+Let's evaluate this new policy.
+
+140
+00:06:17.045 --> 00:06:19.625
+Notice how after
+just one improvement,
+
+141
+00:06:19.625 --> 00:06:22.535
+the values are starting to
+look much more reasonable,
+
+142
+00:06:22.535 --> 00:06:24.310
+but we aren't finished yet.
+
+143
+00:06:24.310 --> 00:06:26.250
+Let's greedify again.
+
+144
+00:06:26.250 --> 00:06:29.330
+Remember, the policy
+improvement theorem tells us
+
+145
+00:06:29.330 --> 00:06:32.390
+that this new policy is an
+improvement on the last one,
+
+146
+00:06:32.390 --> 00:06:34.825
+unless we have already
+reached the optimum.
+
+147
+00:06:34.825 --> 00:06:37.280
+Specifically,
+the bottom-right state now
+
+148
+00:06:37.280 --> 00:06:40.650
+goes straight up along
+the low cost path.
+
+149
+00:06:40.870 --> 00:06:45.170
+One more step of policy
+evaluation reflects this change.
+
+150
+00:06:45.170 --> 00:06:47.360
+The value of the bottom
+right state goes from
+
+151
+00:06:47.360 --> 00:06:50.360
+minus 15 to just minus 6.
+
+152
+00:06:50.360 --> 00:06:54.185
+Let's keep going until we
+reach the optimal policy.
+
+153
+00:06:54.185 --> 00:06:56.450
+One more step of
+improvement improves
+
+154
+00:06:56.450 --> 00:06:59.110
+the action selection
+and yet another state.
+
+155
+00:06:59.110 --> 00:07:02.945
+The next step of policy
+evaluation reflects this change,
+
+156
+00:07:02.945 --> 00:07:08.485
+improve again, and
+evaluate, and improve.
+
+157
+00:07:08.485 --> 00:07:11.690
+Now, we can see that the policy
+has reached the optimum,
+
+158
+00:07:11.690 --> 00:07:15.470
+and follows a low cost path
+avoiding the blue states.
+
+159
+00:07:15.470 --> 00:07:17.315
+Evaluating one more time
+
+160
+00:07:17.315 --> 00:07:19.340
+gives us the
+optimal value function.
+
+161
+00:07:19.340 --> 00:07:21.140
+If we try to greedify again,
+
+162
+00:07:21.140 --> 00:07:23.330
+the policy remains unchanged.
+
+163
+00:07:23.330 --> 00:07:26.209
+This tells us that
+policy iteration is complete,
+
+164
+00:07:26.209 --> 00:07:28.955
+and the optimal policy
+has been found.
+
+165
+00:07:28.955 --> 00:07:32.420
+This example shows the power
+of policy iteration,
+
+166
+00:07:32.420 --> 00:07:35.720
+in that it guarantees we
+can follow a sequence of
+
+167
+00:07:35.720 --> 00:07:38.240
+increasingly better
+policies until
+
+168
+00:07:38.240 --> 00:07:40.585
+we reach an optimal policy.
+
+169
+00:07:40.585 --> 00:07:43.690
+Policy iteration cuts
+through the search space,
+
+170
+00:07:43.690 --> 00:07:45.710
+which is key when
+the optimal policy
+
+171
+00:07:45.710 --> 00:07:46.984
+is not straightforward,
+
+172
+00:07:46.984 --> 00:07:49.175
+in this case literally.
+
+173
+00:07:49.175 --> 00:07:51.500
+The same complexity will come
+
+174
+00:07:51.500 --> 00:07:53.755
+up and problems we
+really care about.
+
+175
+00:07:53.755 --> 00:07:55.435
+In this week's assessment,
+
+176
+00:07:55.435 --> 00:07:56.840
+you will have
+a chance to implement
+
+177
+00:07:56.840 --> 00:08:01.040
+policy iteration on a slightly
+more realistic example.
+
+178
+00:08:01.040 --> 00:08:03.035
+That's it for this video.
+
+179
+00:08:03.035 --> 00:08:06.245
+You should now understand
+how policy iteration works
+
+180
+00:08:06.245 --> 00:08:07.460
+by alternating between
+
+181
+00:08:07.460 --> 00:08:10.030
+policy evaluation and
+policy improvement,
+
+182
+00:08:10.030 --> 00:08:12.470
+and how policy iteration
+follows a sequence
+
+183
+00:08:12.470 --> 00:08:15.095
+of better policies
+and value functions
+
+184
+00:08:15.095 --> 00:08:17.390
+until it reaches
+the optimum policy and
+
+185
+00:08:17.390 --> 00:08:21.250
+optimal value function.
+See you next time.

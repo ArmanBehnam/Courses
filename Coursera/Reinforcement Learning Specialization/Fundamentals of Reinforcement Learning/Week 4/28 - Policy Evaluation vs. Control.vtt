@@ -1,0 +1,364 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.168
+[MUSIC]
+
+2
+00:00:06.168 --> 00:00:11.340
+We often talk about two distinct tasks,
+policy evaluation and control.
+
+3
+00:00:12.640 --> 00:00:16.340
+Policy evaluation is the task of
+determining the value function for
+
+4
+00:00:16.340 --> 00:00:17.659
+a specific policy.
+
+5
+00:00:18.740 --> 00:00:24.060
+Control is the task of finding a policy
+to obtain as much reward as possible.
+
+6
+00:00:24.060 --> 00:00:27.520
+In other words, finding a policy
+which maximizes the value function.
+
+7
+00:00:28.820 --> 00:00:31.930
+Control is the ultimate goal
+of reinforcement learning.
+
+8
+00:00:31.930 --> 00:00:36.010
+But the task of policy evaluation
+is usually a necessary first step.
+
+9
+00:00:37.080 --> 00:00:41.010
+It's hard to improve our policy if we
+don't have a way to assess how good it is.
+
+10
+00:00:42.360 --> 00:00:46.810
+This week, we will look at a collection of
+algorithms called dynamic programming for
+
+11
+00:00:46.810 --> 00:00:50.534
+solving both policy evaluation and
+control problems.
+
+12
+00:00:50.534 --> 00:00:55.511
+[SOUND] By the end of this video you will
+be able to understand the distinction
+
+13
+00:00:55.511 --> 00:01:00.409
+between policy evaluation and control,
+and explain the setting in which
+
+14
+00:01:00.409 --> 00:01:04.685
+dynamic programming can be applied
+as well as its limitations.
+
+15
+00:01:06.190 --> 00:01:10.901
+Dynamic programming algorithms use
+the Bellman equations to define iterative
+
+16
+00:01:10.901 --> 00:01:14.071
+algorithms for
+both policy evaluation and control.
+
+17
+00:01:14.071 --> 00:01:17.301
+But before diving into
+the details of this approach,
+
+18
+00:01:17.301 --> 00:01:20.190
+let's take some time to
+clarify the two tasks.
+
+19
+00:01:20.190 --> 00:01:23.882
+[SOUND] Imagine someone
+hands you a policy and
+
+20
+00:01:23.882 --> 00:01:27.988
+your job is to determine
+how good that policy is.
+
+21
+00:01:27.988 --> 00:01:32.613
+Policy evaluation is the task of
+determining the state value function v pi
+
+22
+00:01:32.613 --> 00:01:34.410
+for a particular policy pi.
+
+23
+00:01:35.750 --> 00:01:38.950
+Recall that the value of
+a state under a policy pi
+
+24
+00:01:38.950 --> 00:01:43.200
+is the expected return from that
+state if we act according to pi.
+
+25
+00:01:44.440 --> 00:01:47.825
+The return is itself a discounted
+sum of future rewards.
+
+26
+00:01:47.825 --> 00:01:52.920
+[SOUND] We have seen how the Bellman
+equation reduces the problem of
+
+27
+00:01:52.920 --> 00:01:58.767
+finding v pi to a system of linear
+equations, one equation for each state.
+
+28
+00:01:58.767 --> 00:02:02.531
+So the problem of policy evaluation
+reduces to solving this system
+
+29
+00:02:02.531 --> 00:02:04.735
+of linear equations.
+
+30
+00:02:04.735 --> 00:02:05.615
+In principle,
+
+31
+00:02:05.615 --> 00:02:09.175
+we could approach this task with
+a variety of methods from linear algebra.
+
+32
+00:02:10.315 --> 00:02:14.245
+In practice, the iterative solution
+methods of dynamic programming
+
+33
+00:02:14.245 --> 00:02:16.315
+are more suitable for general MDPs.
+
+34
+00:02:16.315 --> 00:02:20.459
+[SOUND] Control is the task
+of improving a policy.
+
+35
+00:02:20.459 --> 00:02:24.512
+Recall that a policy pi2
+is considered as good as or
+
+36
+00:02:24.512 --> 00:02:29.038
+better than pi1 if the value
+under pi2 is greater than or
+
+37
+00:02:29.038 --> 00:02:32.649
+equal to the value under
+pi1 in every state.
+
+38
+00:02:34.260 --> 00:02:39.000
+We say pi2 is strictly better
+than pi1 if pi2 is as good as or
+
+39
+00:02:39.000 --> 00:02:43.870
+better than pi1 and there's at least
+one state where the value under pi2
+
+40
+00:02:43.870 --> 00:02:46.450
+is strictly greater than
+the value under pi1.
+
+41
+00:02:47.470 --> 00:02:50.710
+The goal of the control
+task is to modify a policy
+
+42
+00:02:50.710 --> 00:02:53.360
+to produce a new one
+which is strictly better.
+
+43
+00:02:54.480 --> 00:02:57.780
+Moreover, we can try to
+improve the policy repeatedly
+
+44
+00:02:57.780 --> 00:03:00.939
+to obtain a sequence of better and
+better policies.
+
+45
+00:03:03.190 --> 00:03:05.110
+When this is no longer possible,
+
+46
+00:03:05.110 --> 00:03:10.030
+it means there is no policy which is
+strictly better than the current policy.
+
+47
+00:03:10.030 --> 00:03:14.010
+And so the current policy must
+be equal to an optimal policy.
+
+48
+00:03:14.010 --> 00:03:16.445
+And we can consider
+the control task complete.
+
+49
+00:03:16.445 --> 00:03:22.824
+[SOUND] Imagine we had access to
+the dynamics of the environment, p.
+
+50
+00:03:22.824 --> 00:03:27.318
+This week is all about how we can use this
+knowledge to solve the tasks of policy
+
+51
+00:03:27.318 --> 00:03:28.850
+evaluation and control.
+
+52
+00:03:30.080 --> 00:03:33.430
+Even with access to these dynamics,
+we'll need careful thought and
+
+53
+00:03:33.430 --> 00:03:37.389
+clever algorithms to compute value
+functions and optimal policies.
+
+54
+00:03:37.389 --> 00:03:41.970
+For the next several videos, we will
+investigate a class of solution methods
+
+55
+00:03:41.970 --> 00:03:44.769
+called dynamic programming for
+this purpose.
+
+56
+00:03:45.820 --> 00:03:49.710
+Dynamic programming uses the various
+Bellman equations we've seen,
+
+57
+00:03:49.710 --> 00:03:55.460
+along with knowledge of p, to work out
+value functions and optimal policies.
+
+58
+00:03:55.460 --> 00:03:59.650
+Classical dynamic programming does not
+involve interaction with the environment
+
+59
+00:03:59.650 --> 00:04:00.760
+at all.
+
+60
+00:04:00.760 --> 00:04:04.830
+Instead, we use dynamic programming
+methods to compute value functions and
+
+61
+00:04:04.830 --> 00:04:07.950
+optimal policies given a model of the MDP.
+
+62
+00:04:09.340 --> 00:04:11.880
+Nonetheless, dynamic
+programming is very useful for
+
+63
+00:04:11.880 --> 00:04:14.870
+understanding other reinforced
+learning algorithms.
+
+64
+00:04:14.870 --> 00:04:19.174
+Most reinforced learning algorithms can
+be seen as an approximation to dynamic
+
+65
+00:04:19.174 --> 00:04:21.820
+programming without the model.
+
+66
+00:04:21.820 --> 00:04:26.451
+This connection is perhaps most striking
+in the temporal different space dynamic
+
+67
+00:04:26.451 --> 00:04:29.214
+planning algorithm that
+we cover in course two.
+
+68
+00:04:29.214 --> 00:04:32.380
+We will revisit these connections
+throughout this specialization.
+
+69
+00:04:32.380 --> 00:04:36.528
+[SOUND] To summarize,
+policy evaluation is the task
+
+70
+00:04:36.528 --> 00:04:41.359
+of determining the state value
+function v pi for policy pi.
+
+71
+00:04:41.359 --> 00:04:45.360
+Control is the task of
+improving an existing policy.
+
+72
+00:04:45.360 --> 00:04:49.540
+And dynamic programming techniques can
+be used to solve both of these tasks
+
+73
+00:04:49.540 --> 00:04:52.450
+if we have access to
+the dynamics function p.
+
+74
+00:04:52.450 --> 00:04:56.180
+See you next time, where we will learn
+how to use dynamic programming for
+
+75
+00:04:56.180 --> 00:04:57.290
+policy evaluation.

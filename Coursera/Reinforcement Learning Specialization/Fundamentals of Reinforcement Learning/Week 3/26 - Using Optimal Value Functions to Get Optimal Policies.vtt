@@ -1,0 +1,588 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.145
+[MUSIC]
+
+2
+00:00:07.145 --> 00:00:10.030
+We just learned about
+optimal value functions and
+
+3
+00:00:10.030 --> 00:00:12.180
+the Bellman optimality equations.
+
+4
+00:00:12.180 --> 00:00:15.120
+You might be wondering why this
+matters when our ultimate goal is not
+
+5
+00:00:15.120 --> 00:00:19.249
+to find the value function of an optimal
+policy but the optimal policy itself.
+
+6
+00:00:20.310 --> 00:00:24.110
+In this video, we will show how
+given an optimal value function,
+
+7
+00:00:24.110 --> 00:00:28.050
+it is actually quite easy to find
+an associated optimal policy.
+
+8
+00:00:28.050 --> 00:00:29.900
+So the two goals are almost the same.
+
+9
+00:00:31.630 --> 00:00:35.440
+By the end of this video, you'll be able
+to understand the connection between
+
+10
+00:00:35.440 --> 00:00:39.140
+the optimal value function and
+optimal policies and
+
+11
+00:00:39.140 --> 00:00:42.092
+verify the optimal value function for
+a given MDP.
+
+12
+00:00:43.680 --> 00:00:47.640
+For now we'll put off the question of
+how to find optimal value functions.
+
+13
+00:00:47.640 --> 00:00:51.490
+Let's just look at an example where we
+have already worked out the optimal state
+
+14
+00:00:51.490 --> 00:00:53.800
+value function, v star.
+
+15
+00:00:53.800 --> 00:00:58.010
+Specifically, let's take another look at
+the grid world we introduced earlier in
+
+16
+00:00:58.010 --> 00:00:59.330
+the course.
+
+17
+00:00:59.330 --> 00:01:00.266
+As before,
+
+18
+00:01:00.266 --> 00:01:06.076
+all actions in state A transition to
+state A prime with a reward of +10.
+
+19
+00:01:06.076 --> 00:01:11.260
+In state B, all actions transition
+to B prime with a reward of +5.
+
+20
+00:01:11.260 --> 00:01:16.600
+The reward is zero everywhere else except
+for -1, for bumping into the walls.
+
+21
+00:01:16.600 --> 00:01:18.709
+The discount factor is 0.9.
+
+22
+00:01:18.709 --> 00:01:22.800
+Here are the associated optimal values for
+each state.
+
+23
+00:01:23.820 --> 00:01:28.630
+Notice that unlike before, the values
+along the bottom are not negative.
+
+24
+00:01:28.630 --> 00:01:30.839
+Unlike the uniform random policy,
+
+25
+00:01:30.839 --> 00:01:34.672
+the optimal policy won't ever
+choose to bump into the walls.
+
+26
+00:01:34.672 --> 00:01:36.011
+As a consequence,
+
+27
+00:01:36.011 --> 00:01:41.995
+the optimal value of state A is also much
+higher than the immediate reward of +10.
+
+28
+00:01:41.995 --> 00:01:47.752
+[SOUND] In general, having v star
+makes it relatively easy to work out
+
+29
+00:01:47.752 --> 00:01:54.227
+the optimal policy as long as we also
+have access to the dynamics function p.
+
+30
+00:01:54.227 --> 00:01:58.471
+For any state,
+we can look at each available action and
+
+31
+00:01:58.471 --> 00:02:00.508
+evaluate the boxed term.
+
+32
+00:02:00.508 --> 00:02:03.800
+There will be some action for
+which this term obtains a maximum.
+
+33
+00:02:04.820 --> 00:02:09.630
+A deterministic policy which selects
+this maximizing action for each state
+
+34
+00:02:09.630 --> 00:02:14.210
+will necessarily be optimal, since it
+obtains the highest possible value.
+
+35
+00:02:14.210 --> 00:02:16.080
+The equation shown here for
+
+36
+00:02:16.080 --> 00:02:21.240
+pi star is thus almost the same as the
+Bellman optimality equation for v star.
+
+37
+00:02:22.360 --> 00:02:27.460
+v star is equal to the maximum of
+the boxed term over all actions.
+
+38
+00:02:27.460 --> 00:02:29.250
+Pi star is the argmax,
+
+39
+00:02:29.250 --> 00:02:32.850
+which simply means the particular
+action which achieves this maximum.
+
+40
+00:02:34.390 --> 00:02:39.030
+To evaluate the boxed term for a given
+action, we need only perform a one step
+
+41
+00:02:39.030 --> 00:02:42.650
+look ahead at the possible next states and
+rewards that follow.
+
+42
+00:02:44.660 --> 00:02:49.520
+First, imagine doing so for
+particular action, labeled A1.
+
+43
+00:02:49.520 --> 00:02:51.049
+We look at each state and
+
+44
+00:02:51.049 --> 00:02:55.930
+reward which may follow from
+state s after taking action a1.
+
+45
+00:02:55.930 --> 00:02:58.580
+Since we have access to v star and
+
+46
+00:02:58.580 --> 00:03:03.730
+p, we can then evaluate each term
+in the sum over s prime and r.
+
+47
+00:03:05.230 --> 00:03:08.845
+Let's say that for A1,
+the boxed term evaluates to 5.
+
+48
+00:03:10.410 --> 00:03:12.330
+We can repeat the same procedure for A2.
+
+49
+00:03:14.140 --> 00:03:19.210
+Again, this requires only a one step look
+ahead thanks to having access to v star.
+
+50
+00:03:20.820 --> 00:03:23.025
+Let's say in this case
+we find a result of 10.
+
+51
+00:03:24.850 --> 00:03:28.215
+Finally for A3,
+let's say we obtain a result of 7.
+
+52
+00:03:29.590 --> 00:03:35.390
+Of these three actions, A2 maximizes
+the boxed term with a value of 10.
+
+53
+00:03:35.390 --> 00:03:37.500
+This means that A2 is the optimal action.
+
+54
+00:03:38.730 --> 00:03:41.610
+In fact, there could be more
+than one maximizing optimal
+
+55
+00:03:41.610 --> 00:03:43.220
+action if multiple actions are tied.
+
+56
+00:03:44.330 --> 00:03:48.300
+If there are multiple maximizing actions,
+we could define a stochastic optimal
+
+57
+00:03:48.300 --> 00:03:52.050
+policy that chooses between each
+of them with some probability.
+
+58
+00:03:54.290 --> 00:03:57.100
+Let's take a look at how we can
+find the optimal policy for
+
+59
+00:03:57.100 --> 00:03:58.633
+the grid world example here.
+
+60
+00:03:59.700 --> 00:04:03.503
+We will use the grid on the right to
+fill on the optimal action choice for
+
+61
+00:04:03.503 --> 00:04:04.132
+each state.
+
+62
+00:04:05.520 --> 00:04:08.480
+First, consider the state
+highlighted here.
+
+63
+00:04:08.480 --> 00:04:12.688
+A one step look ahead considers each
+action and the potential next states and
+
+64
+00:04:12.688 --> 00:04:13.289
+rewards.
+
+65
+00:04:14.310 --> 00:04:16.980
+This is especially simple in this case,
+because each
+
+66
+00:04:16.980 --> 00:04:21.340
+action leads us deterministically to
+a specific next state and reward.
+
+67
+00:04:22.360 --> 00:04:28.480
+The up action leads here, giving no
+reward and a next state value of 17.5.
+
+68
+00:04:28.480 --> 00:04:34.000
+The sum of reward and
+discounted next state value is 14.0.
+
+69
+00:04:34.000 --> 00:04:37.715
+The right action hits the wall,
+giving -1 reward and
+
+70
+00:04:37.715 --> 00:04:42.332
+leaving the agent in the same state,
+which has a value of 16.0.
+
+71
+00:04:42.332 --> 00:04:46.781
+The sum of reward and
+discounted next state value is 13.4.
+
+72
+00:04:46.781 --> 00:04:53.980
+The down action leads here, giving no
+reward, but a next state value of 14.4.
+
+73
+00:04:53.980 --> 00:04:56.770
+After discounting, this gives 13.
+
+74
+00:04:56.770 --> 00:05:00.440
+Finally, the left action leads here.
+
+75
+00:05:00.440 --> 00:05:06.099
+Again, giving no reward, but
+a next state value of 17.8.
+
+76
+00:05:06.099 --> 00:05:09.100
+Discounting by gamma gives us 16.
+
+77
+00:05:09.100 --> 00:05:14.440
+Of all these choices,
+the highest value action is left at 16.
+
+78
+00:05:14.440 --> 00:05:17.870
+Therefore, left is the optimal
+action in this state and
+
+79
+00:05:17.870 --> 00:05:20.400
+must be selected by any optimal policy.
+
+80
+00:05:21.740 --> 00:05:24.679
+As an aside,
+we have also verified that v star,
+
+81
+00:05:24.679 --> 00:05:28.067
+a base the Bellman optimality
+equation in this state.
+
+82
+00:05:30.531 --> 00:05:35.224
+For the maximizing left action, the right
+side of the equation of value is to 16,
+
+83
+00:05:35.224 --> 00:05:38.190
+which is indeed equal to v star for
+the state itself.
+
+84
+00:05:39.700 --> 00:05:41.160
+Let's look at another example.
+
+85
+00:05:42.510 --> 00:05:46.805
+In this state,
+two different actions, up and left,
+
+86
+00:05:46.805 --> 00:05:53.591
+each give the same optimal value of
+0.9 times 19.8, which equals 17.8.
+
+87
+00:05:53.591 --> 00:05:57.290
+Thus in this state,
+there are two different optimal actions.
+
+88
+00:05:57.290 --> 00:06:00.990
+And an optimal policy is free to
+pick either with some probability.
+
+89
+00:06:02.570 --> 00:06:06.160
+As a last example,
+let's look at state A itself.
+
+90
+00:06:06.160 --> 00:06:09.600
+Remember that regardless of
+the action we pick in state A,
+
+91
+00:06:09.600 --> 00:06:13.530
+we transition to A prime
+with a reward of +10.
+
+92
+00:06:13.530 --> 00:06:15.460
+This means that in state A,
+
+93
+00:06:15.460 --> 00:06:18.630
+every action is optimal since
+the transitions are equivalent.
+
+94
+00:06:19.740 --> 00:06:24.333
+v star for state A is 10 plus
+gamma times v star of A prime.
+
+95
+00:06:24.333 --> 00:06:32.340
+10 + 0.9 times 16 = 24.4 which is
+indeed the recorded value for v star.
+
+96
+00:06:33.800 --> 00:06:34.480
+Hopefully now,
+
+97
+00:06:34.480 --> 00:06:38.040
+it's clear how we can do this for
+every state to find the optimal policy.
+
+98
+00:06:39.820 --> 00:06:43.000
+To save us some time,
+let's just fill in the rest.
+
+99
+00:06:43.000 --> 00:06:47.850
+We see that the optimal policy essentially
+heads toward state A to obtain +10
+
+100
+00:06:47.850 --> 00:06:49.575
+reward as quickly as possible.
+
+101
+00:06:49.575 --> 00:06:54.331
+[SOUND] Working out the optimal policy
+from v star is especially simple
+
+102
+00:06:54.331 --> 00:06:55.731
+in this grid world.
+
+103
+00:06:55.731 --> 00:07:01.310
+Each action leads us deterministically
+to a specific next state and reward.
+
+104
+00:07:01.310 --> 00:07:04.300
+So we only have to evaluate
+one transition per action.
+
+105
+00:07:06.300 --> 00:07:07.720
+Remember that in general,
+
+106
+00:07:07.720 --> 00:07:13.270
+the dynamics function p can be stochastic,
+so it might not always be so simple.
+
+107
+00:07:13.270 --> 00:07:18.640
+However, as long as we have access to p,
+we can always find the optimal action from
+
+108
+00:07:18.640 --> 00:07:24.290
+v star by computing the right-hand side
+of the Bellman optimality equation for
+
+109
+00:07:24.290 --> 00:07:27.180
+each action and finding the largest value.
+
+110
+00:07:28.710 --> 00:07:31.720
+If instead we have access to q star,
+
+111
+00:07:31.720 --> 00:07:34.480
+it's even easier to come
+up with the optimal policy.
+
+112
+00:07:35.480 --> 00:07:39.790
+In this case, we do not have to
+do a one step look ahead at all.
+
+113
+00:07:39.790 --> 00:07:45.030
+We only have to select any action a,
+that maximizes q star of s and a.
+
+114
+00:07:46.240 --> 00:07:50.293
+The action-value function caches
+the results of a one-step look ahead for
+
+115
+00:07:50.293 --> 00:07:51.970
+each action.
+
+116
+00:07:51.970 --> 00:07:56.150
+In this sense, the problem of finding
+an optimal action-value function
+
+117
+00:07:56.150 --> 00:07:59.155
+corresponds to the goal of
+finding an optimal policy.
+
+118
+00:07:59.155 --> 00:08:04.115
+[SOUND] So you should now understand
+that once we had the optimal state
+
+119
+00:08:04.115 --> 00:08:09.436
+value function, it's relatively easy
+to work out the optimal policy.
+
+120
+00:08:09.436 --> 00:08:12.352
+If we have the optimal
+action value function,
+
+121
+00:08:12.352 --> 00:08:15.353
+working out the optimal
+policy is even easier.
+
+122
+00:08:15.353 --> 00:08:18.885
+[SOUND] This correspondence between
+optimal value functions and
+
+123
+00:08:18.885 --> 00:08:23.458
+optimal policies will help us to derive
+many of the reinforced learning algorithms
+
+124
+00:08:23.458 --> 00:08:26.093
+we will explore later
+in this specialization.

@@ -1,0 +1,302 @@
+WEBVTT
+
+1
+00:00:05.930 --> 00:00:08.610
+When should we
+formulate a problem as
+
+2
+00:00:08.610 --> 00:00:11.175
+an episodic or continuing task?
+
+3
+00:00:11.175 --> 00:00:12.645
+In this short video,
+
+4
+00:00:12.645 --> 00:00:15.360
+we'll discuss a few more
+examples that will help us
+
+5
+00:00:15.360 --> 00:00:18.645
+understand episodic and
+continuing problems.
+
+6
+00:00:18.645 --> 00:00:20.730
+By the end of this video,
+
+7
+00:00:20.730 --> 00:00:23.130
+you will be able to
+understand when to formalize
+
+8
+00:00:23.130 --> 00:00:26.710
+a task as episodic or continuing.
+
+9
+00:00:26.750 --> 00:00:31.430
+First let's look at an example
+of an episodic task.
+
+10
+00:00:31.430 --> 00:00:34.700
+Consider an agent learning
+to play a simple video game.
+
+11
+00:00:34.700 --> 00:00:36.680
+The player represented in
+
+12
+00:00:36.680 --> 00:00:40.715
+blue gets points for collecting
+white treasure blocks.
+
+13
+00:00:40.715 --> 00:00:42.380
+The game ends when the player
+
+14
+00:00:42.380 --> 00:00:44.585
+touches a green enemy block.
+
+15
+00:00:44.585 --> 00:00:49.025
+This game is naturally
+represented as an episodic NDP.
+
+16
+00:00:49.025 --> 00:00:51.290
+The agent tries to
+get a high score,
+
+17
+00:00:51.290 --> 00:00:52.700
+collecting as many points as
+
+18
+00:00:52.700 --> 00:00:55.235
+possible before the game ends.
+
+19
+00:00:55.235 --> 00:00:57.050
+The state is an array of
+
+20
+00:00:57.050 --> 00:01:00.275
+pixel values corresponding
+to the current screen.
+
+21
+00:01:00.275 --> 00:01:02.059
+There are four actions,
+
+22
+00:01:02.059 --> 00:01:05.035
+up, down, left, and right.
+
+23
+00:01:05.035 --> 00:01:07.430
+The agent gets
+a reward of plus one
+
+24
+00:01:07.430 --> 00:01:09.470
+whenever collects
+a treasure block.
+
+25
+00:01:09.470 --> 00:01:11.660
+An episode ends when the agent
+
+26
+00:01:11.660 --> 00:01:14.320
+touches one of the green enemies.
+
+27
+00:01:14.320 --> 00:01:16.855
+Regardless of how
+the episode ends,
+
+28
+00:01:16.855 --> 00:01:19.400
+the next episode we'll
+begin with the agent in
+
+29
+00:01:19.400 --> 00:01:22.805
+the center of the screen
+with no enemies present.
+
+30
+00:01:22.805 --> 00:01:24.980
+By the way, the agent you are
+
+31
+00:01:24.980 --> 00:01:27.095
+currently watching was
+trained with key learning.
+
+32
+00:01:27.095 --> 00:01:29.235
+It's pretty good at
+this game, isn't it?
+
+33
+00:01:29.235 --> 00:01:31.190
+In Course 2, you'll learn about
+
+34
+00:01:31.190 --> 00:01:34.140
+this algorithm and
+implement it yourself.
+
+35
+00:01:34.150 --> 00:01:38.135
+Now let's look at an example
+of a continuing task.
+
+36
+00:01:38.135 --> 00:01:41.570
+The agent is going to schedule
+jobs on a set of servers.
+
+37
+00:01:41.570 --> 00:01:44.010
+Suppose we have
+three servers used by
+
+38
+00:01:44.010 --> 00:01:47.000
+reinforcement researchers
+to run experiments.
+
+39
+00:01:47.000 --> 00:01:48.950
+Researchers submit jobs with
+
+40
+00:01:48.950 --> 00:01:51.505
+different priorities
+to a single queue.
+
+41
+00:01:51.505 --> 00:01:54.300
+The state is a number
+of free servers,
+
+42
+00:01:54.300 --> 00:01:57.140
+and the prior to the job
+at the top of the queue.
+
+43
+00:01:57.140 --> 00:01:59.900
+The actions are to
+reject or accept
+
+44
+00:01:59.900 --> 00:02:03.475
+the job at the top of
+the queue if a server is free.
+
+45
+00:02:03.475 --> 00:02:05.990
+Accepting the job, runs it and
+
+46
+00:02:05.990 --> 00:02:09.050
+yields a reward equal
+to the jobs priority.
+
+47
+00:02:09.050 --> 00:02:11.270
+Rejecting a job yields
+
+48
+00:02:11.270 --> 00:02:14.240
+a negative reward
+proportional to the priority,
+
+49
+00:02:14.240 --> 00:02:16.835
+and sends the job to
+the back of the queue.
+
+50
+00:02:16.835 --> 00:02:19.310
+The agent should be
+careful about scheduling
+
+51
+00:02:19.310 --> 00:02:21.740
+low priority jobs
+since he could prevent
+
+52
+00:02:21.740 --> 00:02:25.025
+high priority jobs from
+being scheduled later.
+
+53
+00:02:25.025 --> 00:02:28.840
+The servers become available
+as they finish their jobs.
+
+54
+00:02:28.840 --> 00:02:32.149
+The researchers continually
+add jobs to the queue,
+
+55
+00:02:32.149 --> 00:02:34.385
+and the agent accepts
+or rejects them.
+
+56
+00:02:34.385 --> 00:02:36.770
+Since this process never stops,
+
+57
+00:02:36.770 --> 00:02:40.085
+it's well-described
+as a continuing task.
+
+58
+00:02:40.085 --> 00:02:42.185
+That's it for this video.
+
+59
+00:02:42.185 --> 00:02:44.600
+You've now seen
+some concrete examples of
+
+60
+00:02:44.600 --> 00:02:47.060
+episodic and continuing tasks.
+
+61
+00:02:47.060 --> 00:02:51.125
+Episodic tasks break naturally
+into independent episodes.
+
+62
+00:02:51.125 --> 00:02:54.965
+Continuing tasks are assumed
+to continue indefinitely.
+
+63
+00:02:54.965 --> 00:02:57.065
+You should now be
+able to determine
+
+64
+00:02:57.065 --> 00:02:58.580
+which formulation is most
+
+65
+00:02:58.580 --> 00:03:01.380
+appropriate for a given problem.

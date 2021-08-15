@@ -1,0 +1,626 @@
+WEBVTT
+
+1
+00:00:05.300 --> 00:00:07.860
+In everyday life, we learn
+
+2
+00:00:07.860 --> 00:00:09.630
+a lot without getting explicit,
+
+3
+00:00:09.630 --> 00:00:11.550
+positive, or negative feedback.
+
+4
+00:00:11.550 --> 00:00:13.830
+Imagine for example,
+you are riding
+
+5
+00:00:13.830 --> 00:00:16.935
+a bike and hit a rock that
+sends you off balance.
+
+6
+00:00:16.935 --> 00:00:20.265
+Let's say you recover so you
+don't suffer any injury.
+
+7
+00:00:20.265 --> 00:00:23.010
+You might learn to avoid
+rocks in the future and
+
+8
+00:00:23.010 --> 00:00:25.845
+perhaps react more quickly
+if you do hit one.
+
+9
+00:00:25.845 --> 00:00:28.295
+How do we know that
+hitting a rock is bad
+
+10
+00:00:28.295 --> 00:00:30.875
+even when nothing bad
+happened this time?
+
+11
+00:00:30.875 --> 00:00:34.220
+The answer is that we recognize
+that the state of losing
+
+12
+00:00:34.220 --> 00:00:36.230
+our balance is bad even
+
+13
+00:00:36.230 --> 00:00:38.690
+without falling and
+hurting ourselves.
+
+14
+00:00:38.690 --> 00:00:41.030
+Perhaps we had
+similar experiences in
+
+15
+00:00:41.030 --> 00:00:44.240
+our past when things
+didn't work out so nicely.
+
+16
+00:00:44.240 --> 00:00:45.740
+In reinforce and learning
+
+17
+00:00:45.740 --> 00:00:48.770
+a similar idea allows us
+to relate the value of
+
+18
+00:00:48.770 --> 00:00:51.680
+the current state to
+the value of future states
+
+19
+00:00:51.680 --> 00:00:55.370
+without waiting to observe
+all the future rewards.
+
+20
+00:00:55.370 --> 00:00:58.010
+We use Bellman equations
+to formalize
+
+21
+00:00:58.010 --> 00:00:59.870
+this connection between the value
+
+22
+00:00:59.870 --> 00:01:02.480
+of a state and
+its possible successors.
+
+23
+00:01:02.480 --> 00:01:04.505
+By the end of this video,
+
+24
+00:01:04.505 --> 00:01:05.900
+you'll be able to derive
+
+25
+00:01:05.900 --> 00:01:08.259
+the Bellman equation for
+state value functions,
+
+26
+00:01:08.259 --> 00:01:11.720
+define the Bellman equation
+for action value functions,
+
+27
+00:01:11.720 --> 00:01:13.760
+and understand how
+Bellman equations
+
+28
+00:01:13.760 --> 00:01:16.890
+relate current and future values.
+
+29
+00:01:16.900 --> 00:01:19.310
+First, let's talk about
+
+30
+00:01:19.310 --> 00:01:22.175
+the Bellman equation for
+the state value function.
+
+31
+00:01:22.175 --> 00:01:23.660
+The Bellman equation for
+
+32
+00:01:23.660 --> 00:01:26.330
+the state value function
+defines a relationship
+
+33
+00:01:26.330 --> 00:01:28.160
+between the value of a state and
+
+34
+00:01:28.160 --> 00:01:31.105
+the value of his possible
+successor states.
+
+35
+00:01:31.105 --> 00:01:34.250
+Now, I'll illustrate how to
+derive this relationship from
+
+36
+00:01:34.250 --> 00:01:38.015
+the definitions of the state
+value function and return.
+
+37
+00:01:38.015 --> 00:01:41.465
+Let's start by recalling that
+the state value function
+
+38
+00:01:41.465 --> 00:01:44.450
+is defined as the
+expected return starting
+
+39
+00:01:44.450 --> 00:01:47.480
+from the state S. Recall that
+
+40
+00:01:47.480 --> 00:01:49.160
+the return is defined as
+
+41
+00:01:49.160 --> 00:01:52.220
+the discounted sum
+of future rewards.
+
+42
+00:01:52.220 --> 00:01:55.775
+We saw previously that
+the return at time t,
+
+43
+00:01:55.775 --> 00:01:57.620
+can be written recursively as
+
+44
+00:01:57.620 --> 00:01:59.780
+the immediate reward plus
+
+45
+00:01:59.780 --> 00:02:03.095
+the discounted return
+at time t plus 1.
+
+46
+00:02:03.095 --> 00:02:06.110
+Now, let's expand
+this expected return.
+
+47
+00:02:06.110 --> 00:02:09.950
+First, we expand
+the expected return as
+
+48
+00:02:09.950 --> 00:02:13.790
+a sum over possible action
+choices made by the agent.
+
+49
+00:02:13.790 --> 00:02:17.435
+Second, we expand
+over possible rewards
+
+50
+00:02:17.435 --> 00:02:21.495
+and next states condition
+on state S and action a.
+
+51
+00:02:21.495 --> 00:02:24.350
+We can break it down
+in this order because
+
+52
+00:02:24.350 --> 00:02:28.210
+the action choice depends
+only on the current state,
+
+53
+00:02:28.210 --> 00:02:29.945
+while the next state and reward
+
+54
+00:02:29.945 --> 00:02:32.990
+depend only on the
+current state and action.
+
+55
+00:02:32.990 --> 00:02:36.530
+The result is a weighted sum
+of terms consisting of
+
+56
+00:02:36.530 --> 00:02:39.845
+immediate reward plus
+expected future returns
+
+57
+00:02:39.845 --> 00:02:42.395
+from the next state S prime.
+
+58
+00:02:42.395 --> 00:02:44.900
+All we have done is
+explicitly write
+
+59
+00:02:44.900 --> 00:02:47.120
+the expectation as it's defined,
+
+60
+00:02:47.120 --> 00:02:49.430
+as a sum of possible outcomes
+
+61
+00:02:49.430 --> 00:02:52.610
+weighted by the probability
+that they occur.
+
+62
+00:02:52.610 --> 00:02:56.825
+Note that capital R_t plus
+1 is a random variable,
+
+63
+00:02:56.825 --> 00:02:58.865
+while the little r represents
+
+64
+00:02:58.865 --> 00:03:01.790
+each possible reward outcome.
+
+65
+00:03:01.790 --> 00:03:05.030
+The expected return
+depends on states and
+
+66
+00:03:05.030 --> 00:03:08.540
+rewards infinitely
+far into the future.
+
+67
+00:03:08.540 --> 00:03:10.820
+We could recursively expand
+
+68
+00:03:10.820 --> 00:03:13.370
+this equation as many
+times as we want,
+
+69
+00:03:13.370 --> 00:03:16.180
+but it would only make
+the expression more complicated.
+
+70
+00:03:16.180 --> 00:03:20.195
+Instead, we can notice
+that this expected return
+
+71
+00:03:20.195 --> 00:03:22.190
+is also the definition of
+
+72
+00:03:22.190 --> 00:03:24.935
+the value function
+for state S prime.
+
+73
+00:03:24.935 --> 00:03:27.920
+The only difference is
+that the time index is t
+
+74
+00:03:27.920 --> 00:03:30.560
+plus 1 instead of t. This
+
+75
+00:03:30.560 --> 00:03:32.030
+is not an issue because
+
+76
+00:03:32.030 --> 00:03:36.110
+neither the policy nor
+p depends on time.
+
+77
+00:03:36.110 --> 00:03:38.570
+Making this replacement, we get
+
+78
+00:03:38.570 --> 00:03:41.630
+the Bellman equation for
+the state value function.
+
+79
+00:03:41.630 --> 00:03:45.350
+The magic of value functions
+is that we can use them as a
+
+80
+00:03:45.350 --> 00:03:47.180
+stand-in for the average of
+
+81
+00:03:47.180 --> 00:03:50.270
+an infinite number
+of possible futures.
+
+82
+00:03:50.270 --> 00:03:52.730
+We can derive a similar equation
+
+83
+00:03:52.730 --> 00:03:54.755
+for the action value function.
+
+84
+00:03:54.755 --> 00:03:57.800
+It will be a recursive
+equation for the value of
+
+85
+00:03:57.800 --> 00:03:59.930
+a state action pair in terms of
+
+86
+00:03:59.930 --> 00:04:03.185
+its possible successors
+state action pairs.
+
+87
+00:04:03.185 --> 00:04:05.750
+In this case, the
+equation does not
+
+88
+00:04:05.750 --> 00:04:08.615
+begin with the policy
+selecting an action.
+
+89
+00:04:08.615 --> 00:04:10.970
+This is because
+the action is already
+
+90
+00:04:10.970 --> 00:04:14.240
+fixed as part of the
+state action pair.
+
+91
+00:04:14.240 --> 00:04:17.990
+Instead, we skip directly
+to the dynamics function
+
+92
+00:04:17.990 --> 00:04:22.600
+p to select the immediate reward
+and next state S prime.
+
+93
+00:04:22.600 --> 00:04:25.100
+Again, we have
+a weighted sum over
+
+94
+00:04:25.100 --> 00:04:27.605
+terms consisting of
+immediate reward
+
+95
+00:04:27.605 --> 00:04:29.930
+plus expected future return given
+
+96
+00:04:29.930 --> 00:04:33.160
+a specific next state
+little s prime.
+
+97
+00:04:33.160 --> 00:04:35.720
+However, unlike
+the Bellman equation
+
+98
+00:04:35.720 --> 00:04:37.140
+for the state value function,
+
+99
+00:04:37.140 --> 00:04:38.735
+we can't stop here.
+
+100
+00:04:38.735 --> 00:04:41.780
+We want to recursive
+equation for the value of
+
+101
+00:04:41.780 --> 00:04:43.580
+one state action pair in
+
+102
+00:04:43.580 --> 00:04:46.420
+terms of the
+next state action pair.
+
+103
+00:04:46.420 --> 00:04:48.230
+At the moment, we have
+
+104
+00:04:48.230 --> 00:04:52.130
+the expected return given
+only the next state.
+
+105
+00:04:52.130 --> 00:04:55.940
+To change this, we can express
+the expected return from
+
+106
+00:04:55.940 --> 00:04:58.160
+the next state as a sum
+
+107
+00:04:58.160 --> 00:05:00.910
+of the agents
+possible action choices.
+
+108
+00:05:00.910 --> 00:05:02.990
+In particular, we can change
+
+109
+00:05:02.990 --> 00:05:05.300
+the expectation to
+be conditioned on
+
+110
+00:05:05.300 --> 00:05:07.310
+both the next state and
+
+111
+00:05:07.310 --> 00:05:11.735
+the next action and then sum
+over all possible actions.
+
+112
+00:05:11.735 --> 00:05:15.200
+Each term is weighted by
+the probability under Pi
+
+113
+00:05:15.200 --> 00:05:18.920
+of selecting A prime
+in the state S prime.
+
+114
+00:05:18.920 --> 00:05:21.980
+Now, this expected return
+is the same as
+
+115
+00:05:21.980 --> 00:05:24.230
+the definition of
+the action value function
+
+116
+00:05:24.230 --> 00:05:26.230
+for S prime and A prime.
+
+117
+00:05:26.230 --> 00:05:28.430
+Making this replacement, we get
+
+118
+00:05:28.430 --> 00:05:31.760
+the Bellman equation for
+the action value function.
+
+119
+00:05:31.760 --> 00:05:34.310
+So we have now
+covered how to derive
+
+120
+00:05:34.310 --> 00:05:35.660
+the Bellman equations for
+
+121
+00:05:35.660 --> 00:05:38.240
+state and action value functions.
+
+122
+00:05:38.240 --> 00:05:40.430
+These equations
+provide relationships
+
+123
+00:05:40.430 --> 00:05:42.170
+between the values of a state or
+
+124
+00:05:42.170 --> 00:05:43.880
+state action pair and
+
+125
+00:05:43.880 --> 00:05:47.330
+the possible next states or
+next state action pairs.
+
+126
+00:05:47.330 --> 00:05:50.030
+You might be wondering
+why we care so much
+
+127
+00:05:50.030 --> 00:05:52.655
+about these definitions
+and relationships.
+
+128
+00:05:52.655 --> 00:05:54.560
+The Bellman equations capture
+
+129
+00:05:54.560 --> 00:05:56.000
+an important structure of
+
+130
+00:05:56.000 --> 00:05:58.145
+the reinforcement
+learning problem.
+
+131
+00:05:58.145 --> 00:06:01.160
+Next, we will discuss
+why this relationship is
+
+132
+00:06:01.160 --> 00:06:02.930
+so fundamental and reinforcement
+
+133
+00:06:02.930 --> 00:06:04.700
+learning and how we can use
+
+134
+00:06:04.700 --> 00:06:06.170
+it to design algorithms which
+
+135
+00:06:06.170 --> 00:06:09.450
+efficiently estimate
+value functions.

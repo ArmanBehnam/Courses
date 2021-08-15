@@ -1,0 +1,461 @@
+WEBVTT
+
+1
+00:00:04.670 --> 00:00:07.290
+So far, we've presented
+
+2
+00:00:07.290 --> 00:00:10.335
+policy iteration as
+a fairly rigid procedure.
+
+3
+00:00:10.335 --> 00:00:12.450
+We alternate between evaluating
+
+4
+00:00:12.450 --> 00:00:15.990
+the current policy and greedify
+to improve the policy.
+
+5
+00:00:15.990 --> 00:00:18.810
+The framework of generalized
+policy iteration allows
+
+6
+00:00:18.810 --> 00:00:20.670
+much more freedom than this while
+
+7
+00:00:20.670 --> 00:00:23.070
+maintaining our
+optimality guarantees.
+
+8
+00:00:23.070 --> 00:00:24.630
+In this video, we will
+
+9
+00:00:24.630 --> 00:00:26.940
+outline some of
+these alternatives.
+
+10
+00:00:26.940 --> 00:00:30.075
+By the end of this video,
+you'll be able to;
+
+11
+00:00:30.075 --> 00:00:33.600
+understand the framework of
+generalized policy iteration,
+
+12
+00:00:33.600 --> 00:00:35.610
+outline value iteration and
+
+13
+00:00:35.610 --> 00:00:38.610
+important special case of
+generalized policy iteration,
+
+14
+00:00:38.610 --> 00:00:42.200
+and differentiate synchronous and
+
+15
+00:00:42.200 --> 00:00:45.065
+asynchronous dynamic
+programming methods.
+
+16
+00:00:45.065 --> 00:00:48.185
+Recall the dance of
+policy and value.
+
+17
+00:00:48.185 --> 00:00:50.225
+The policy iteration
+algorithm runs
+
+18
+00:00:50.225 --> 00:00:53.300
+each step all the way
+to completion.
+
+19
+00:00:53.300 --> 00:00:57.170
+Intuitively, we can
+imagine relaxing this.
+
+20
+00:00:57.170 --> 00:01:01.580
+Imagine instead, we follow
+a trajectory like this.
+
+21
+00:01:01.580 --> 00:01:03.890
+Each evaluation step brings
+
+22
+00:01:03.890 --> 00:01:05.300
+our estimate a little closer to
+
+23
+00:01:05.300 --> 00:01:08.705
+the value of the current
+policy but not all the way.
+
+24
+00:01:08.705 --> 00:01:10.760
+Each policy improvement step
+
+25
+00:01:10.760 --> 00:01:12.905
+makes our policy a
+little more greedy,
+
+26
+00:01:12.905 --> 00:01:14.815
+but not totally greedy.
+
+27
+00:01:14.815 --> 00:01:17.390
+Intuitively, this process
+should still make
+
+28
+00:01:17.390 --> 00:01:20.570
+progress towards the optimal
+policy and value function.
+
+29
+00:01:20.570 --> 00:01:23.945
+In fact, the theory
+tells us the same thing.
+
+30
+00:01:23.945 --> 00:01:25.715
+We will use the term
+
+31
+00:01:25.715 --> 00:01:28.115
+generalized policy
+iteration to refer to
+
+32
+00:01:28.115 --> 00:01:29.840
+all the ways we can interleave
+
+33
+00:01:29.840 --> 00:01:32.750
+policy evaluation and
+policy improvement.
+
+34
+00:01:32.750 --> 00:01:35.045
+This brings us to our first
+
+35
+00:01:35.045 --> 00:01:37.055
+generalized policy
+iteration algorithm,
+
+36
+00:01:37.055 --> 00:01:39.450
+called value iteration.
+
+37
+00:01:39.500 --> 00:01:42.680
+In value iteration,
+we still sweep over
+
+38
+00:01:42.680 --> 00:01:44.300
+all the states and greedify
+
+39
+00:01:44.300 --> 00:01:46.520
+with respect to
+the current value function.
+
+40
+00:01:46.520 --> 00:01:50.570
+However, we do not run
+policy evaluation to completion.
+
+41
+00:01:50.570 --> 00:01:54.230
+We perform just one sweep
+over all the states.
+
+42
+00:01:54.230 --> 00:01:57.130
+After that, we greedify again.
+
+43
+00:01:57.130 --> 00:02:00.200
+We can write this as
+an update rule which
+
+44
+00:02:00.200 --> 00:02:03.065
+applies directly to
+the state value function.
+
+45
+00:02:03.065 --> 00:02:06.320
+The update does not reference
+any specific policy,
+
+46
+00:02:06.320 --> 00:02:08.690
+hence the name value iteration.
+
+47
+00:02:08.690 --> 00:02:10.430
+The full algorithm looks very
+
+48
+00:02:10.430 --> 00:02:12.635
+similar to iterative
+policy evaluation.
+
+49
+00:02:12.635 --> 00:02:14.525
+Instead of updating the value
+
+50
+00:02:14.525 --> 00:02:16.280
+according to a fixed falsey,
+
+51
+00:02:16.280 --> 00:02:17.810
+we update using the action that
+
+52
+00:02:17.810 --> 00:02:20.300
+maximizes the current
+value estimate.
+
+53
+00:02:20.300 --> 00:02:24.680
+Value iteration still converges
+to V star in the limit.
+
+54
+00:02:24.680 --> 00:02:27.650
+We can recover
+the optimal policy from
+
+55
+00:02:27.650 --> 00:02:30.515
+the optimal value function
+by taking the argmax.
+
+56
+00:02:30.515 --> 00:02:32.750
+In practice, we need to specify
+
+57
+00:02:32.750 --> 00:02:36.065
+a termination condition
+because we can't wait forever.
+
+58
+00:02:36.065 --> 00:02:37.880
+We will use the same condition
+
+59
+00:02:37.880 --> 00:02:39.665
+we use for policy evaluation.
+
+60
+00:02:39.665 --> 00:02:42.200
+We simply terminate when
+the maximum change in
+
+61
+00:02:42.200 --> 00:02:43.640
+the value function over
+
+62
+00:02:43.640 --> 00:02:47.310
+a full sweep is less than
+some small value Theta.
+
+63
+00:02:47.310 --> 00:02:50.540
+Value iteration sweeps
+the entire state space
+
+64
+00:02:50.540 --> 00:02:53.825
+on each iteration just
+like policy iteration.
+
+65
+00:02:53.825 --> 00:02:56.390
+Methods that perform
+systematic sweeps
+
+66
+00:02:56.390 --> 00:02:58.595
+like this are called synchronous.
+
+67
+00:02:58.595 --> 00:03:01.940
+This can be problematic if
+the statespace is large.
+
+68
+00:03:01.940 --> 00:03:05.240
+Every sweep could take
+a very long time.
+
+69
+00:03:05.240 --> 00:03:08.285
+Asynchronous dynamic
+programming algorithms
+
+70
+00:03:08.285 --> 00:03:10.655
+update the values of
+states in any order,
+
+71
+00:03:10.655 --> 00:03:13.775
+they do not perform
+systematic sweeps.
+
+72
+00:03:13.775 --> 00:03:16.430
+They might update
+a given state many times
+
+73
+00:03:16.430 --> 00:03:19.800
+before another is
+updated even once.
+
+74
+00:03:19.820 --> 00:03:22.590
+In order to guarantee
+convergence,
+
+75
+00:03:22.590 --> 00:03:24.440
+asynchronous algorithms
+must continue to
+
+76
+00:03:24.440 --> 00:03:26.885
+update the values of all states.
+
+77
+00:03:26.885 --> 00:03:29.570
+Here for example,
+the algorithm updates
+
+78
+00:03:29.570 --> 00:03:33.110
+the same three states forever
+ignoring all the others.
+
+79
+00:03:33.110 --> 00:03:35.900
+This is not acceptable
+because the other states
+
+80
+00:03:35.900 --> 00:03:39.545
+cannot be correct if they
+are never updated at all.
+
+81
+00:03:39.545 --> 00:03:42.350
+Asynchronous algorithms
+can propagate
+
+82
+00:03:42.350 --> 00:03:45.500
+value information quickly
+through selective updates.
+
+83
+00:03:45.500 --> 00:03:46.940
+Sometimes this can be more
+
+84
+00:03:46.940 --> 00:03:48.830
+efficient than
+a systematic sweep.
+
+85
+00:03:48.830 --> 00:03:51.620
+For example, an asynchronous
+method can update
+
+86
+00:03:51.620 --> 00:03:54.740
+the states near those that
+have recently changed value.
+
+87
+00:03:54.740 --> 00:03:56.840
+That's it for this video.
+
+88
+00:03:56.840 --> 00:03:59.060
+You should now understand that,
+
+89
+00:03:59.060 --> 00:04:01.310
+value iteration
+allows us to combine
+
+90
+00:04:01.310 --> 00:04:05.555
+policy evaluation and
+improvement in a single-step,
+
+91
+00:04:05.555 --> 00:04:08.330
+asynchronous dynamic
+programming methods give
+
+92
+00:04:08.330 --> 00:04:10.715
+us freedom to update
+states in any order,
+
+93
+00:04:10.715 --> 00:04:12.410
+and the idea of
+
+94
+00:04:12.410 --> 00:04:16.070
+generalized policy iteration
+unifies many algorithms.
+
+95
+00:04:16.070 --> 00:04:18.170
+This includes value iteration,
+
+96
+00:04:18.170 --> 00:04:20.480
+asynchronous dynamic
+programming, and
+
+97
+00:04:20.480 --> 00:04:21.530
+almost all the methods you will
+
+98
+00:04:21.530 --> 00:04:23.255
+cover in this specialization.
+
+99
+00:04:23.255 --> 00:04:25.530
+See you next time.

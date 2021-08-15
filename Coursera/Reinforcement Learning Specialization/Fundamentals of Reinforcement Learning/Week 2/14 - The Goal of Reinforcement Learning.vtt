@@ -1,0 +1,320 @@
+WEBVTT
+
+1
+00:00:05.600 --> 00:00:07.725
+In reinforcement learning,
+
+2
+00:00:07.725 --> 00:00:10.860
+the agent's objective is
+to maximize future reward.
+
+3
+00:00:10.860 --> 00:00:13.755
+Today we will
+formalize this notion.
+
+4
+00:00:13.755 --> 00:00:15.495
+By the end of this video,
+
+5
+00:00:15.495 --> 00:00:19.020
+you'll be able to describe how
+rewards relate to the goal
+
+6
+00:00:19.020 --> 00:00:23.310
+of an agent and identify
+episodic tasks.
+
+7
+00:00:23.310 --> 00:00:25.770
+Let's define the agent's goal.
+
+8
+00:00:25.770 --> 00:00:27.450
+Perhaps we can just maximize
+
+9
+00:00:27.450 --> 00:00:30.180
+the immediate reward
+as we did in bandits.
+
+10
+00:00:30.180 --> 00:00:33.270
+Unfortunately this
+won't work in an MDP.
+
+11
+00:00:33.270 --> 00:00:35.820
+An action on this
+time step might yield
+
+12
+00:00:35.820 --> 00:00:37.890
+large reward because the agent of
+
+13
+00:00:37.890 --> 00:00:40.785
+transition into a state
+that yields low reward.
+
+14
+00:00:40.785 --> 00:00:43.180
+So what looked good
+in the short-term,
+
+15
+00:00:43.180 --> 00:00:46.130
+might not be the best
+in the long-term.
+
+16
+00:00:46.130 --> 00:00:48.740
+Consider a robot
+learning to walk.
+
+17
+00:00:48.740 --> 00:00:52.130
+The reward could be proportional
+to the forward motion.
+
+18
+00:00:52.130 --> 00:00:56.120
+Lurching forward would clearly
+maximize immediate reward.
+
+19
+00:00:56.120 --> 00:00:59.225
+However, this action cause
+the robot to fall over.
+
+20
+00:00:59.225 --> 00:01:02.840
+If the robot maximize
+total forward motion instead,
+
+21
+00:01:02.840 --> 00:01:05.435
+it would walk quickly
+but carefully.
+
+22
+00:01:05.435 --> 00:01:07.850
+Now, let's formally
+define what we mean by
+
+23
+00:01:07.850 --> 00:01:10.250
+maximizing total future reward.
+
+24
+00:01:10.250 --> 00:01:12.410
+The return at time step t,
+
+25
+00:01:12.410 --> 00:01:14.390
+is simply the sum of rewards
+
+26
+00:01:14.390 --> 00:01:17.510
+obtained after time
+step t. We denote
+
+27
+00:01:17.510 --> 00:01:20.900
+the return with the letter
+G. The return is
+
+28
+00:01:20.900 --> 00:01:22.400
+a random variable because
+
+29
+00:01:22.400 --> 00:01:25.320
+the dynamics of the MDP
+can be stochastic.
+
+30
+00:01:25.320 --> 00:01:27.275
+To better understand this,
+
+31
+00:01:27.275 --> 00:01:30.850
+I imagine a can collecting
+robot starts here.
+
+32
+00:01:30.850 --> 00:01:32.840
+From this state, the robot always
+
+33
+00:01:32.840 --> 00:01:35.360
+takes the same
+sequence of actions.
+
+34
+00:01:35.360 --> 00:01:38.210
+Sometimes it might
+get a large return
+
+35
+00:01:38.210 --> 00:01:41.000
+and sometimes it might
+get a smaller return.
+
+36
+00:01:41.000 --> 00:01:43.130
+This is due to the randomness in
+
+37
+00:01:43.130 --> 00:01:46.565
+both the individual rewards
+and the state transitions.
+
+38
+00:01:46.565 --> 00:01:48.290
+In general, many different
+
+39
+00:01:48.290 --> 00:01:51.080
+trajectories from
+the same state are possible.
+
+40
+00:01:51.080 --> 00:01:54.550
+This is why we maximize
+the expected return.
+
+41
+00:01:54.550 --> 00:01:56.325
+For this to be well-defined,
+
+42
+00:01:56.325 --> 00:01:58.815
+the sum of rewards
+must be finite.
+
+43
+00:01:58.815 --> 00:02:02.540
+Specifically, let say there
+is a final time step called
+
+44
+00:02:02.540 --> 00:02:06.335
+capital T where the agent
+environment interaction ends.
+
+45
+00:02:06.335 --> 00:02:08.855
+What happens when
+the interaction ends?
+
+46
+00:02:08.855 --> 00:02:10.894
+In the simplest case,
+the interaction
+
+47
+00:02:10.894 --> 00:02:13.940
+naturally breaks into
+chunks called episodes.
+
+48
+00:02:13.940 --> 00:02:16.700
+Each episode begins independently
+
+49
+00:02:16.700 --> 00:02:18.650
+of how the previous one ended.
+
+50
+00:02:18.650 --> 00:02:22.505
+At termination, the agent
+is reset to a start state.
+
+51
+00:02:22.505 --> 00:02:25.040
+Every episode has a final state
+
+52
+00:02:25.040 --> 00:02:27.005
+which we call the terminal state.
+
+53
+00:02:27.005 --> 00:02:29.945
+We call these tasks
+episodic tasks.
+
+54
+00:02:29.945 --> 00:02:32.525
+To understand
+episodic tasks better,
+
+55
+00:02:32.525 --> 00:02:34.250
+let's look at a concrete example.
+
+56
+00:02:34.250 --> 00:02:36.055
+Consider the game of chess.
+
+57
+00:02:36.055 --> 00:02:38.480
+A game of chess always ends with
+
+58
+00:02:38.480 --> 00:02:41.485
+a checkmate, draw,
+or resignation.
+
+59
+00:02:41.485 --> 00:02:45.110
+What would an episode look
+like when playing chess?
+
+60
+00:02:45.110 --> 00:02:46.775
+As you might've guessed,
+
+61
+00:02:46.775 --> 00:02:49.610
+a single game of chess would
+constitute an episode.
+
+62
+00:02:49.610 --> 00:02:51.050
+Each game starts from
+
+63
+00:02:51.050 --> 00:02:54.305
+the same start state with
+all the pieces reset.
+
+64
+00:02:54.305 --> 00:02:56.660
+Let's summarize what we learned.
+
+65
+00:02:56.660 --> 00:02:58.700
+We formulated the goal
+of an agent in
+
+66
+00:02:58.700 --> 00:03:01.655
+terms of maximizing
+the expected return.
+
+67
+00:03:01.655 --> 00:03:04.265
+We then discussed episodic tasks,
+
+68
+00:03:04.265 --> 00:03:06.379
+where the agent
+environment interaction
+
+69
+00:03:06.379 --> 00:03:08.940
+breaks up into episodes.

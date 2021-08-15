@@ -1,0 +1,570 @@
+WEBVTT
+
+1
+00:00:05.480 --> 00:00:08.430
+In reinforcement learning,
+the agent generates
+
+2
+00:00:08.430 --> 00:00:11.475
+its own training data by
+interacting with the world.
+
+3
+00:00:11.475 --> 00:00:13.800
+The agent must learn
+the consequences of
+
+4
+00:00:13.800 --> 00:00:16.035
+his own actions through
+trial and error,
+
+5
+00:00:16.035 --> 00:00:18.495
+rather than being told
+the correct action.
+
+6
+00:00:18.495 --> 00:00:20.430
+In this first module,
+
+7
+00:00:20.430 --> 00:00:21.780
+we will study this evaluative
+
+8
+00:00:21.780 --> 00:00:23.415
+aspect of reinforcement learning.
+
+9
+00:00:23.415 --> 00:00:26.100
+We will focus on the problem
+of decision-making in
+
+10
+00:00:26.100 --> 00:00:29.280
+a simplified setting
+called bandits.
+
+11
+00:00:29.280 --> 00:00:31.140
+In this video, we will
+
+12
+00:00:31.140 --> 00:00:32.804
+formalize the problem
+of decision-making
+
+13
+00:00:32.804 --> 00:00:36.255
+under uncertainty
+using k-armed bandits,
+
+14
+00:00:36.255 --> 00:00:38.750
+and we will use
+this bandit problem to
+
+15
+00:00:38.750 --> 00:00:41.630
+describe fundamental concepts
+and reinforcement learning,
+
+16
+00:00:41.630 --> 00:00:45.990
+such as rewards,
+timesteps, and values.
+
+17
+00:00:46.000 --> 00:00:49.430
+Imagine a medical trial where
+a doctor wants to measure
+
+18
+00:00:49.430 --> 00:00:52.535
+the effect of three
+different treatments.
+
+19
+00:00:52.535 --> 00:00:55.040
+Whenever patient comes
+into the office,
+
+20
+00:00:55.040 --> 00:00:58.610
+the doctor prescribes
+a treatment at random.
+
+21
+00:00:58.610 --> 00:01:01.010
+The doctor then
+monitors the patient
+
+22
+00:01:01.010 --> 00:01:03.730
+and observes any changes
+to their health.
+
+23
+00:01:03.730 --> 00:01:06.440
+After a while,
+the doctor notices that
+
+24
+00:01:06.440 --> 00:01:09.830
+one treatment seems to be
+working better than the others.
+
+25
+00:01:09.830 --> 00:01:13.040
+The doctor must now decide
+between sticking with
+
+26
+00:01:13.040 --> 00:01:15.650
+the best-performing treatment or
+
+27
+00:01:15.650 --> 00:01:18.415
+continuing with
+the randomized study.
+
+28
+00:01:18.415 --> 00:01:21.565
+If the doctor only
+prescribes one treatment,
+
+29
+00:01:21.565 --> 00:01:24.535
+then they can no longer
+collect data on the other two.
+
+30
+00:01:24.535 --> 00:01:27.595
+Perhaps one of the other
+treatments is actually better,
+
+31
+00:01:27.595 --> 00:01:30.535
+it only appears
+worse due to chance.
+
+32
+00:01:30.535 --> 00:01:32.945
+If the other two
+treatments are worse,
+
+33
+00:01:32.945 --> 00:01:34.510
+then continuing the study risk
+
+34
+00:01:34.510 --> 00:01:37.190
+the health of the other patients.
+
+35
+00:01:37.800 --> 00:01:39.850
+This medical trial
+
+36
+00:01:39.850 --> 00:01:43.220
+exemplifies decision-making
+under uncertainty.
+
+37
+00:01:43.230 --> 00:01:45.730
+The medical trial example is
+
+38
+00:01:45.730 --> 00:01:48.520
+a case of the k-armed
+bandit problem.
+
+39
+00:01:48.520 --> 00:01:50.965
+In the k-armed bandit problem,
+
+40
+00:01:50.965 --> 00:01:54.160
+we have a decision-maker
+or agent,
+
+41
+00:01:54.160 --> 00:01:57.665
+who chooses between
+k different actions,
+
+42
+00:01:57.665 --> 00:02:01.305
+and receives a reward based
+on the action he chooses.
+
+43
+00:02:01.305 --> 00:02:02.865
+In the medical trial,
+
+44
+00:02:02.865 --> 00:02:05.765
+the role of the agent
+is played by a doctor.
+
+45
+00:02:05.765 --> 00:02:09.410
+The doctor has to choose
+between three different actions,
+
+46
+00:02:09.410 --> 00:02:11.210
+to prescribe the blue,
+
+47
+00:02:11.210 --> 00:02:13.795
+red, or yellow treatment.
+
+48
+00:02:13.795 --> 00:02:16.145
+Each treatment is an action.
+
+49
+00:02:16.145 --> 00:02:19.985
+Choosing that treatment
+yields some unknown reward.
+
+50
+00:02:19.985 --> 00:02:22.670
+Finally, the welfare
+of the patient after
+
+51
+00:02:22.670 --> 00:02:26.820
+the treatment is the reward
+that the doctor receives.
+
+52
+00:02:27.190 --> 00:02:30.540
+For the doctor to decide
+which action is best,
+
+53
+00:02:30.540 --> 00:02:33.515
+we must define the value
+of taking each action.
+
+54
+00:02:33.515 --> 00:02:35.600
+We call these values the action
+
+55
+00:02:35.600 --> 00:02:38.600
+values or the action
+value function.
+
+56
+00:02:38.600 --> 00:02:40.910
+We can make this definition more
+
+57
+00:02:40.910 --> 00:02:43.510
+precise through the language
+of probability.
+
+58
+00:02:43.510 --> 00:02:46.790
+We define the value of
+selecting an action as
+
+59
+00:02:46.790 --> 00:02:49.990
+the expected reward we receive
+when taking bad action.
+
+60
+00:02:49.990 --> 00:02:53.220
+By the way, if you haven't
+seen the dot equal symbol,
+
+61
+00:02:53.220 --> 00:02:56.270
+it simply means is defined as.
+
+62
+00:02:56.270 --> 00:02:59.540
+So we can read this as q star of
+
+63
+00:02:59.540 --> 00:03:04.195
+a is defined as
+the expectation of R_t,
+
+64
+00:03:04.195 --> 00:03:06.705
+given we selected action A,
+
+65
+00:03:06.705 --> 00:03:09.780
+for each possible
+action one through
+
+66
+00:03:09.780 --> 00:03:14.075
+k. This conditional expectation
+
+67
+00:03:14.075 --> 00:03:17.645
+is defined as a sum over
+all possible rewards.
+
+68
+00:03:17.645 --> 00:03:20.270
+Inside the sum, we
+have multiplied
+
+69
+00:03:20.270 --> 00:03:21.950
+the possible reward by
+
+70
+00:03:21.950 --> 00:03:24.755
+the probability of
+observing that reward.
+
+71
+00:03:24.755 --> 00:03:26.270
+This could be extended to
+
+72
+00:03:26.270 --> 00:03:28.010
+the continuous reward case by
+
+73
+00:03:28.010 --> 00:03:31.025
+switching the summation
+to an integral.
+
+74
+00:03:31.025 --> 00:03:35.975
+The goal of the agent is to
+maximize the expected reward.
+
+75
+00:03:35.975 --> 00:03:37.700
+If the agent selects
+
+76
+00:03:37.700 --> 00:03:39.485
+the action that has
+the highest value,
+
+77
+00:03:39.485 --> 00:03:41.600
+it achieves that goal.
+
+78
+00:03:41.600 --> 00:03:44.390
+We call this procedure
+the argmax,
+
+79
+00:03:44.390 --> 00:03:48.800
+or the argument which
+maximizes our function q star.
+
+80
+00:03:48.800 --> 00:03:51.245
+To understand q star better,
+
+81
+00:03:51.245 --> 00:03:54.450
+let's go back to
+our medical trial example.
+
+82
+00:03:54.980 --> 00:03:57.770
+Previously, we said
+rewards could be
+
+83
+00:03:57.770 --> 00:04:00.785
+the patient's welfare
+after receiving treatment.
+
+84
+00:04:00.785 --> 00:04:02.900
+But for this example, let's use
+
+85
+00:04:02.900 --> 00:04:04.790
+something which is
+easier to measure,
+
+86
+00:04:04.790 --> 00:04:06.260
+perhaps the change in
+
+87
+00:04:06.260 --> 00:04:09.240
+blood pressure after
+receiving the treatment.
+
+88
+00:04:09.730 --> 00:04:12.350
+Each treatment may yield rewards
+
+89
+00:04:12.350 --> 00:04:15.290
+following different
+probability distributions.
+
+90
+00:04:15.290 --> 00:04:17.300
+Perhaps one is Bernoulli,
+
+91
+00:04:17.300 --> 00:04:20.635
+one is binomial,
+and one is uniform.
+
+92
+00:04:20.635 --> 00:04:25.415
+Q star is the mean of the
+distributions for each action.
+
+93
+00:04:25.415 --> 00:04:27.260
+You can easily calculate
+
+94
+00:04:27.260 --> 00:04:29.795
+the expected value of
+the Bernoulli distribution.
+
+95
+00:04:29.795 --> 00:04:31.970
+Simply multiply
+the probability of
+
+96
+00:04:31.970 --> 00:04:34.495
+failure by the
+reward when failed,
+
+97
+00:04:34.495 --> 00:04:36.955
+plus the probability of success,
+
+98
+00:04:36.955 --> 00:04:39.020
+times reward when succeeded.
+
+99
+00:04:39.020 --> 00:04:41.960
+It's just basic statistics.
+
+100
+00:04:41.960 --> 00:04:44.210
+There are many examples of
+
+101
+00:04:44.210 --> 00:04:46.520
+making decisions
+under uncertainty.
+
+102
+00:04:46.520 --> 00:04:49.160
+For instance,
+the medical trial example
+
+103
+00:04:49.160 --> 00:04:51.350
+that we have already discussed.
+
+104
+00:04:51.350 --> 00:04:54.950
+Other examples include
+content recommendations,
+
+105
+00:04:54.950 --> 00:04:56.390
+like what movie to watch,
+
+106
+00:04:56.390 --> 00:04:58.475
+or what song to listen to.
+
+107
+00:04:58.475 --> 00:05:01.285
+Even ordering food
+at a restaurant,
+
+108
+00:05:01.285 --> 00:05:03.570
+you can't be certain
+what you alike,
+
+109
+00:05:03.570 --> 00:05:06.065
+but you make
+the best choice you can.
+
+110
+00:05:06.065 --> 00:05:09.380
+Why are we considering
+the bandit problem first?
+
+111
+00:05:09.380 --> 00:05:12.110
+Because it is best to
+consider issues and
+
+112
+00:05:12.110 --> 00:05:13.940
+algorithm design choices in
+
+113
+00:05:13.940 --> 00:05:16.340
+the simplest settings
+where they arise.
+
+114
+00:05:16.340 --> 00:05:19.850
+For instance, maximizing reward
+and estimating values are
+
+115
+00:05:19.850 --> 00:05:21.110
+important subproblems in
+
+116
+00:05:21.110 --> 00:05:24.060
+both bandits and
+reinforce learning.
+
+117
+00:05:24.430 --> 00:05:28.535
+In this video, we introduced
+you to the bandit problem.
+
+118
+00:05:28.535 --> 00:05:31.250
+We showed how decision-making
+under uncertainty
+
+119
+00:05:31.250 --> 00:05:34.400
+can be formalized by
+the k-armed bandit problem.
+
+120
+00:05:34.400 --> 00:05:36.650
+In bandits, we already see
+
+121
+00:05:36.650 --> 00:05:39.425
+the fundamental ideas
+behind reinforce learning;
+
+122
+00:05:39.425 --> 00:05:43.500
+actions, rewards, and
+the value function.

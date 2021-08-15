@@ -1,0 +1,490 @@
+WEBVTT
+
+1
+00:00:05.720 --> 00:00:08.880
+Reinforcement learning is
+a problem formulation for
+
+2
+00:00:08.880 --> 00:00:11.520
+sequential decision
+making under uncertainty.
+
+3
+00:00:11.520 --> 00:00:13.890
+Earlier, we learned that
+the agent's role in
+
+4
+00:00:13.890 --> 00:00:15.150
+this interaction is to choose
+
+5
+00:00:15.150 --> 00:00:16.905
+an action on each time step.
+
+6
+00:00:16.905 --> 00:00:19.500
+The choice of action has
+an immediate impact on
+
+7
+00:00:19.500 --> 00:00:22.395
+both the immediate reward,
+and the next state.
+
+8
+00:00:22.395 --> 00:00:25.050
+In this video, we will
+describe policies.
+
+9
+00:00:25.050 --> 00:00:27.990
+How an agent selects
+these actions.
+
+10
+00:00:27.990 --> 00:00:29.865
+By the end of this video,
+
+11
+00:00:29.865 --> 00:00:31.185
+you'll be able to;
+
+12
+00:00:31.185 --> 00:00:32.930
+recognize that a policy is
+
+13
+00:00:32.930 --> 00:00:35.545
+a distribution over
+actions for each state,
+
+14
+00:00:35.545 --> 00:00:37.970
+describe the similarities
+and differences
+
+15
+00:00:37.970 --> 00:00:40.620
+between stochastic and
+deterministic policies,
+
+16
+00:00:40.620 --> 00:00:43.130
+and generate valid policies for
+
+17
+00:00:43.130 --> 00:00:46.395
+a given MDP or Markup
+Decision Process.
+
+18
+00:00:46.395 --> 00:00:48.720
+In the simplest case, a policy
+
+19
+00:00:48.720 --> 00:00:51.410
+maps each state to
+a single action.
+
+20
+00:00:51.410 --> 00:00:54.605
+This kind of policy is called
+the deterministic policy.
+
+21
+00:00:54.605 --> 00:00:58.955
+We will use the fancy Greek
+letter Pi to denote a policy.
+
+22
+00:00:58.955 --> 00:01:01.430
+Pi of S represents the action
+
+23
+00:01:01.430 --> 00:01:04.520
+selected in state S
+by the policy Pi.
+
+24
+00:01:04.520 --> 00:01:08.150
+In this example, Pi
+selects the action A1 in
+
+25
+00:01:08.150 --> 00:01:13.450
+state S0 and action A0
+in states S1 and S2.
+
+26
+00:01:13.450 --> 00:01:16.765
+We can visualize a deterministic
+policy with a table.
+
+27
+00:01:16.765 --> 00:01:20.665
+Each row describes the action
+chosen by Pi in each state.
+
+28
+00:01:20.665 --> 00:01:22.705
+Notice that the agent can select
+
+29
+00:01:22.705 --> 00:01:25.375
+the same action in
+multiple states,
+
+30
+00:01:25.375 --> 00:01:29.245
+and some actions might not
+be selected in any state.
+
+31
+00:01:29.245 --> 00:01:31.990
+Consider the example
+shown here where
+
+32
+00:01:31.990 --> 00:01:34.450
+an agent moves towards
+its house on a grid.
+
+33
+00:01:34.450 --> 00:01:37.270
+The states correspond to
+the locations on the grid.
+
+34
+00:01:37.270 --> 00:01:39.160
+The actions move the agent up,
+
+35
+00:01:39.160 --> 00:01:41.185
+down, left, and right.
+
+36
+00:01:41.185 --> 00:01:44.110
+The arrows describe
+one possible policy,
+
+37
+00:01:44.110 --> 00:01:46.375
+which moves the agent
+towards its house.
+
+38
+00:01:46.375 --> 00:01:47.950
+Each arrow tells the agent
+
+39
+00:01:47.950 --> 00:01:50.845
+which direction to
+move in each state.
+
+40
+00:01:50.845 --> 00:01:53.470
+In general, a policy assigns
+
+41
+00:01:53.470 --> 00:01:56.165
+probabilities to
+each action in each state.
+
+42
+00:01:56.165 --> 00:01:59.660
+We use the notation
+Pi of A given S,
+
+43
+00:01:59.660 --> 00:02:01.490
+to represent the
+probability of selecting
+
+44
+00:02:01.490 --> 00:02:03.740
+action A in a state S.
+
+45
+00:02:03.740 --> 00:02:06.320
+A stochastic policy is one where
+
+46
+00:02:06.320 --> 00:02:07.640
+multiple actions may be
+
+47
+00:02:07.640 --> 00:02:10.105
+selected with
+non-zero probability.
+
+48
+00:02:10.105 --> 00:02:12.020
+Here we show
+the distribution over
+
+49
+00:02:12.020 --> 00:02:14.825
+actions for state S0
+according to Pi.
+
+50
+00:02:14.825 --> 00:02:16.760
+Remember that Pi specifies
+
+51
+00:02:16.760 --> 00:02:19.505
+a separate distribution over
+actions for each state.
+
+52
+00:02:19.505 --> 00:02:22.220
+So we have to follow
+some basic rules.
+
+53
+00:02:22.220 --> 00:02:24.635
+The sum over
+all action probabilities
+
+54
+00:02:24.635 --> 00:02:26.550
+must be one for each state,
+
+55
+00:02:26.550 --> 00:02:30.530
+and each action probability
+must be non-negative.
+
+56
+00:02:30.530 --> 00:02:33.665
+Let's look at another state, S1.
+
+57
+00:02:33.665 --> 00:02:35.900
+Pi in S1 corresponds to
+
+58
+00:02:35.900 --> 00:02:38.305
+a completely different
+distribution over actions.
+
+59
+00:02:38.305 --> 00:02:40.130
+In this example, the set of
+
+60
+00:02:40.130 --> 00:02:42.590
+available actions is
+the same in each state.
+
+61
+00:02:42.590 --> 00:02:46.100
+But in general, this set can
+be different in each state.
+
+62
+00:02:46.100 --> 00:02:49.219
+Most of the time we won't
+need this extra generality,
+
+63
+00:02:49.219 --> 00:02:51.800
+but it's important nonetheless.
+
+64
+00:02:51.800 --> 00:02:54.395
+Let's go back to
+our house example.
+
+65
+00:02:54.395 --> 00:02:56.570
+A stochastic policy
+might choose up
+
+66
+00:02:56.570 --> 00:02:59.815
+or right with equal probability
+in the bottom row.
+
+67
+00:02:59.815 --> 00:03:01.880
+Notice the stochastic policy will
+
+68
+00:03:01.880 --> 00:03:03.710
+take the same number of steps to
+
+69
+00:03:03.710 --> 00:03:05.090
+reach the house as
+
+70
+00:03:05.090 --> 00:03:07.610
+the deterministic policy
+we discussed before.
+
+71
+00:03:07.610 --> 00:03:10.580
+Previously we discussed
+how a stochastic policy,
+
+72
+00:03:10.580 --> 00:03:13.895
+like Epsilon greedy, can
+be useful for exploration.
+
+73
+00:03:13.895 --> 00:03:16.460
+The same kind of
+exploration-exploitation
+
+74
+00:03:16.460 --> 00:03:18.560
+trade-off exists in MDPs.
+
+75
+00:03:18.560 --> 00:03:21.110
+Let's talk more about that later.
+
+76
+00:03:21.110 --> 00:03:23.585
+It's important that
+policies depend
+
+77
+00:03:23.585 --> 00:03:25.370
+only on the current state,
+
+78
+00:03:25.370 --> 00:03:28.630
+not on other things like
+time or previous states.
+
+79
+00:03:28.630 --> 00:03:30.830
+The state defines
+all the information
+
+80
+00:03:30.830 --> 00:03:32.750
+used to select
+the current action.
+
+81
+00:03:32.750 --> 00:03:35.750
+In this MDP, we can define
+a policy that chooses to
+
+82
+00:03:35.750 --> 00:03:39.005
+go either left or right
+with equal probability.
+
+83
+00:03:39.005 --> 00:03:41.630
+We might also want
+to define a policy
+
+84
+00:03:41.630 --> 00:03:44.225
+that chooses the opposite
+of what it did last,
+
+85
+00:03:44.225 --> 00:03:47.300
+alternating between
+left and right actions.
+
+86
+00:03:47.300 --> 00:03:49.010
+However, that would not be
+
+87
+00:03:49.010 --> 00:03:50.660
+a valid policy because this is
+
+88
+00:03:50.660 --> 00:03:52.565
+conditional on the last action.
+
+89
+00:03:52.565 --> 00:03:54.260
+That means the action depends
+
+90
+00:03:54.260 --> 00:03:56.480
+on something other
+than the state.
+
+91
+00:03:56.480 --> 00:03:58.520
+It is better to think of this
+
+92
+00:03:58.520 --> 00:04:00.199
+as a requirement on the state,
+
+93
+00:04:00.199 --> 00:04:02.620
+not a limitation on the agent.
+
+94
+00:04:02.620 --> 00:04:05.510
+In MDPs, we assume that the state
+
+95
+00:04:05.510 --> 00:04:06.830
+includes all the information
+
+96
+00:04:06.830 --> 00:04:08.540
+required for decision-making.
+
+97
+00:04:08.540 --> 00:04:10.460
+If alternating between left and
+
+98
+00:04:10.460 --> 00:04:12.924
+right would yield
+a higher return,
+
+99
+00:04:12.924 --> 00:04:16.680
+then the last action should
+be included in the state.
+
+100
+00:04:17.050 --> 00:04:19.685
+That's it for this video.
+
+101
+00:04:19.685 --> 00:04:23.200
+The most important things
+to remember are; one,
+
+102
+00:04:23.200 --> 00:04:26.660
+an agent's behavior is
+specified by a policy that maps
+
+103
+00:04:26.660 --> 00:04:30.119
+the state to a probability
+distribution over actions,
+
+104
+00:04:30.119 --> 00:04:35.000
+and two, the policy can depend
+only on the current state,
+
+105
+00:04:35.000 --> 00:04:37.040
+and not other things like time or
+
+106
+00:04:37.040 --> 00:04:40.530
+previous states.
+See you next time.
