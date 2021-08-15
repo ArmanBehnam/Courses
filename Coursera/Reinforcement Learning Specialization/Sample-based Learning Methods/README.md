@@ -1,11 +1,11 @@
-# A Complete Reinforcement Learning System (Capstone) by [Coursera](https://www.coursera.org/learn/complete-reinforcement-learning-system?specialization=reinforcement-learning)
+# A Sample-based Learning Methods by [Coursera](https://www.coursera.org/learn/sample-based-learning-methods?specialization=reinforcement-learning)
 
 <p align="center"><img width="100" src="https://mindfieldconsulting.com/wp-content/uploads/2018/07/coursera-logo.png" />  </p>
 
-Analysis and discussing [A Complete Reinforcement Learning System (Capstone)](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
+Analysis and discussing [Sample-based Learning Methods](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
-- [Week 1 Welcome to the Final Capstone Course!] (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
+- [Week 1 Welcome to the Course!] (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [A Complete Reinforcement Learning System (Capstone)](ht
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Milestone 1: Formalize Word Problem as MDP](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
+- [Week 2 Temporal Difference Learning Methods for Prediction](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,7 @@ Analysis and discussing [A Complete Reinforcement Learning System (Capstone)](ht
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- [Week 3 Milestone 2: Choosing The Right Algorithm](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
+- [Week 3 Temporal Difference Learning Methods for Control](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -87,7 +87,7 @@ Analysis and discussing [A Complete Reinforcement Learning System (Capstone)](ht
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
 
 
-- [Week 4 Milestone 3: Identify Key Performance Parameters](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
+- [Week 4 Planning, Learning & Acting](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -112,60 +112,26 @@ Analysis and discussing [A Complete Reinforcement Learning System (Capstone)](ht
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
   
 
-- [Week 5 Milestone 4: Implement Your Agent](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
-
-  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
-  
-  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
-  
-  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
-  
-  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
-  
-  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
-  
-  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
-  
-  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
-  
-  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
-  
-  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
-  
-  
- - [Week 6 Milestone 5: Submit Your Parameter Study!](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
-
-  1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
-  
-  2 - Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/24%20-%20Beam%20Search.pdf).
-  
-  3 - Refinements to Beam Search [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/25%20-%20Refinements%20to%20Beam%20Search.pdf).
-  
-  4 - Bleu Score (optional) [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/26%20-%20Bleu%20Score%20(optional).pdf).
-  
-  5 - Attention Model Intuition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/27%20-%20Attention%20Model%20Intuition.pdf).
-  
-  6 - Attention Model [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/28%20-%20Attention%20Model.pdf).
-  
-  7 - Speech recognition [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/29%20-%20Speech%20recognition.pdf).
-  
-  8 - Trigger Word Detection [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/30%20-%20Trigger%20Word%20Detection.pdf). 
-  
-  9 - Conclusion and thank you [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/31%20-%20Conclusion%20and%20thank%20you.pdf). 
   
   
 My certificate is available [here](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Reinforcement%20Learning%20Specialization/Fundamentals%20of%20Reinforcement%20Learning/Coursera%20BZ9T3QP8BVD2.png).
 
 - 4.7 stars
-- 500 ratings
-- 12,800 already enrolled
+- 970 ratings
+- 18,921 already enrolled
 
-In this final course, you will put together your knowledge from Courses 1, 2 and 3 to implement a complete RL solution to a problem. This capstone will let you see how each component---problem formulation, algorithm selection, parameter selection and representation design---fits together into a complete solution, and how to make appropriate choices when deploying RL in the real world. This project will require you to implement both the environment to stimulate your problem, and a control agent with Neural Network function approximation. In addition, you will conduct a scientific study of your learning system to develop your ability to assess the robustness of RL agents. To use RL in the real world, it is critical to (a) appropriately formalize the problem as an MDP, (b) select appropriate algorithms, (c ) identify what choices in your implementation will have large impacts on performance and (d) validate the expected behaviour of your algorithms. This capstone is valuable for anyone who is planning on using RL to solve real problems.
+In this course, you will learn about several algorithms that can learn near optimal policies based on trial and error interaction with the environment---learning from the agent’s own experience. Learning from actual experience is striking because it requires no prior knowledge of the environment’s dynamics, yet can still attain optimal behavior. We will cover intuitively simple but powerful Monte Carlo methods, and temporal difference learning methods including Q-learning. We will wrap up this course investigating how we can get the best of both worlds: algorithms that can combine model-based planning (similar to dynamic programming) and temporal difference updates to radically accelerate learning.
 
-To be successful in this course, you will need to have completed Courses 1, 2, and 3 of this Specialization or the equivalent.
-
-By the end of this course, you will be able to: 
-
-Complete an RL solution to a problem, starting from problem formulation, appropriate algorithm selection and implementation and empirical study into the effectiveness of the solution.
+By the end of this course you will be able to:
+ 
+- Understand Temporal-Difference learning and Monte Carlo as two strategies for estimating value functions from sampled experience
+- Understand the importance of exploration, when using sampled experience rather than dynamic programming sweeps within a model
+- Understand the connections between Monte Carlo and Dynamic Programming and TD. 
+- Implement and apply the TD algorithm, for estimating value functions
+- Implement and apply Expected Sarsa and Q-learning (two TD methods for control) 
+- Understand the difference between on-policy and off-policy control
+- Understand planning with simulated experience (as opposed to classic planning strategies)
+- Implement a model-based approach to RL, called Dyna, which uses simulated experience 
+- Conduct an empirical study to see the improvements in sample efficiency when using Dyna
 
 # THANK YOU
