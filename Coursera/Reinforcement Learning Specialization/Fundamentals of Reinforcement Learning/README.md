@@ -5,7 +5,7 @@
 Analysis and discussing [Natural Language Processing with Classification and Vector Spaces](http://www.armanbehnam.com/about-me/education/nlp-cls-vs/) in my website
 
 
-- [Week 1 Sentiment Analysis with Logistic Regression (https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
+- [Week 1 Welcome to the Course](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%201)
 
   1 - Why sequence models [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%201/1%20-%20Why%20sequence%20models.pdf).
   
@@ -33,7 +33,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Dinosaur Island -- Character-level language model](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Dinosaur%20Island%20--%20Character-level%20language%20model)
   - [x] [Jazz improvisation with LSTM](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%201/Jazz%20improvisation%20with%20LSTM)
   
-- [Week 2 Sentiment Analysis with Naïve Bayes](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
+- [Week 2 Markov Decision Processes](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%202)
 
   1 - Word Representation [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%202/12%20-%20Word%20Representation.pdf).
   
@@ -62,7 +62,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Emojify](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Emojify)
   - [x] [Word Vector Representation](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%202/Word%20Vector%20Representation)
   
-- [Week 3 Vector Space Models](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
+- [Week 3 Value Functions & Bellman Equations](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%203)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
@@ -87,7 +87,7 @@ Analysis and discussing [Natural Language Processing with Classification and Vec
   - [x] [Trigger word detection](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Sequence%20Models/Week%203/Trigger%20word%20detection)
 
 
-- [Week 4 Machine Translation and Document Search](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
+- [Week 4 Dynamic Programming](https://github.com/ArmanBehnam/Courses/tree/master/Coursera/Natural%20Language%20Processing%20Specialization/Natural%20Language%20Processing%20with%20Classification/Week%204)
 
   1 - Picking the most likely sentence [slide](https://github.com/ArmanBehnam/Courses/blob/master/Coursera/Sequence%20Models/Week%203/23%20-%20Picking%20the%20most%20likely%20sentence.pdf).
   
