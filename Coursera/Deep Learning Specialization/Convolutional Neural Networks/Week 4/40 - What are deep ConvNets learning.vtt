@@ -1,0 +1,573 @@
+WEBVTT
+
+1
+00:00:00.570 --> 00:00:03.330
+What are deep ConvNets really learning?
+
+2
+00:00:03.330 --> 00:00:07.420
+In this video, I want to share with you
+some visualizations that will help you
+
+3
+00:00:07.420 --> 00:00:11.900
+hone your intuition about what the deeper
+layers of a ConvNet really are doing.
+
+4
+00:00:11.900 --> 00:00:14.845
+And this will help us think
+through how you can implement
+
+5
+00:00:14.845 --> 00:00:17.015
+neural style transfer as well.
+
+6
+00:00:17.015 --> 00:00:18.735
+Let's start with an example.
+
+7
+00:00:18.735 --> 00:00:23.895
+Lets say you've trained a ConvNet,
+this is an alex net like network,
+
+8
+00:00:23.895 --> 00:00:28.885
+and you want to visualize what the hidden
+units in different layers are computing.
+
+9
+00:00:28.885 --> 00:00:30.255
+Here's what you can do.
+
+10
+00:00:30.255 --> 00:00:33.920
+Let's start with a hidden unit in layer 1.
+
+11
+00:00:33.920 --> 00:00:38.790
+And suppose you scan through your training
+sets and find out what are the images or
+
+12
+00:00:38.790 --> 00:00:43.960
+what are the image patches that
+maximize that unit's activation.
+
+13
+00:00:43.960 --> 00:00:49.260
+So in other words pause your training set
+through your neural network, and figure
+
+14
+00:00:49.260 --> 00:00:55.250
+out what is the image that maximizes
+that particular unit's activation.
+
+15
+00:00:55.250 --> 00:00:58.130
+Now, notice that a hidden unit in layer 1,
+
+16
+00:00:58.130 --> 00:01:02.750
+will see only a relatively small
+portion of the neural network.
+
+17
+00:01:02.750 --> 00:01:08.170
+And so if you visualize, if you plot
+what activated unit's activation,
+
+18
+00:01:08.170 --> 00:01:11.360
+it makes makes sense to plot
+just a small image patches,
+
+19
+00:01:11.360 --> 00:01:15.190
+because all of the image that
+that particular unit sees.
+
+20
+00:01:15.190 --> 00:01:20.220
+So if you pick one hidden unit and
+find the nine input images that maximizes
+
+21
+00:01:20.220 --> 00:01:25.380
+that unit's activation, you might
+find nine image patches like this.
+
+22
+00:01:25.380 --> 00:01:30.293
+So looks like that in the lower region
+of an image that this particular hidden
+
+23
+00:01:30.293 --> 00:01:34.691
+unit sees, it's looking for an egde or
+a line that looks like that.
+
+24
+00:01:34.691 --> 00:01:39.091
+So those are the nine image
+patches that maximally activate
+
+25
+00:01:39.091 --> 00:01:41.559
+one hidden unit's activation.
+
+26
+00:01:41.559 --> 00:01:47.055
+Now, you can then pick a different hidden
+unit in layer 1 and do the same thing.
+
+27
+00:01:47.055 --> 00:01:51.149
+So that's a different hidden unit,
+and looks like this second one,
+
+28
+00:01:51.149 --> 00:01:54.170
+represented by these 9 image patches here.
+
+29
+00:01:54.170 --> 00:01:58.679
+Looks like this hidden unit is looking for
+a line sort of in that portion of its
+
+30
+00:01:58.679 --> 00:02:02.540
+input region,
+we'll also call this receptive field.
+
+31
+00:02:02.540 --> 00:02:07.075
+And if you do this for other hidden units,
+you'll find other hidden units,
+
+32
+00:02:07.075 --> 00:02:11.140
+tend to activate in image
+patches that look like that.
+
+33
+00:02:11.140 --> 00:02:15.180
+This one seems to have a preference for
+a vertical light edge, but
+
+34
+00:02:15.180 --> 00:02:18.710
+with a preference that
+the left side of it be green.
+
+35
+00:02:18.710 --> 00:02:23.882
+This one really prefers orange colors,
+and this is an interesting image patch.
+
+36
+00:02:23.882 --> 00:02:29.730
+This red and green together will make
+a brownish or a brownish-orangish color,
+
+37
+00:02:29.730 --> 00:02:34.294
+but the neuron is still happy to
+activate with that, and so on.
+
+38
+00:02:34.294 --> 00:02:38.399
+So this is nine different
+representative neurons and for
+
+39
+00:02:38.399 --> 00:02:43.369
+each of them the nine image patches
+that they maximally activate on.
+
+40
+00:02:43.369 --> 00:02:48.066
+So this gives you a sense that,
+units, train hidden units in layer 1,
+
+41
+00:02:48.066 --> 00:02:49.868
+they're often looking for
+
+42
+00:02:49.868 --> 00:02:55.010
+relatively simple features such as edge or
+a particular shade of color.
+
+43
+00:02:55.010 --> 00:02:57.920
+And all of the examples I'm using in
+
+44
+00:02:57.920 --> 00:03:01.160
+this video come from this
+paper by Mathew Zeiler and
+
+45
+00:03:01.160 --> 00:03:06.440
+Rob Fergus, titled visualizing and
+understanding convolutional networks.
+
+46
+00:03:06.440 --> 00:03:10.689
+And I'm just going to use one
+of the simpler ways to visualize
+
+47
+00:03:10.689 --> 00:03:14.680
+what a hidden unit in a neural
+network is computing.
+
+48
+00:03:14.680 --> 00:03:18.706
+If you read their paper, they have
+some other more sophisticated ways of
+
+49
+00:03:18.706 --> 00:03:21.480
+visualizing when the ConvNet
+is running as well.
+
+50
+00:03:22.520 --> 00:03:26.064
+But now you have repeated this
+procedure several times for
+
+51
+00:03:26.064 --> 00:03:28.380
+nine hidden units in layer 1.
+
+52
+00:03:28.380 --> 00:03:29.900
+What if you do this for
+
+53
+00:03:29.900 --> 00:03:33.790
+some of the hidden units in the deeper
+layers of the neuron network.
+
+54
+00:03:33.790 --> 00:03:37.950
+And what does the neural network
+then learning at a deeper layers.
+
+55
+00:03:37.950 --> 00:03:43.120
+So in the deeper layers, a hidden unit
+will see a larger region of the image.
+
+56
+00:03:43.120 --> 00:03:46.540
+Where at the extreme end each pixel
+
+57
+00:03:46.540 --> 00:03:51.560
+could hypothetically affect the output of
+these later layers of the neural network.
+
+58
+00:03:51.560 --> 00:03:55.040
+So later units are actually
+seen larger image patches,
+
+59
+00:03:55.040 --> 00:03:59.580
+I'm still going to plot the image patches
+as the same size on these slides.
+
+60
+00:03:59.580 --> 00:04:04.370
+But if we repeat this procedure, this
+is what you had previously for layer 1,
+
+61
+00:04:04.370 --> 00:04:09.610
+and this is a visualization of what
+maximally activates nine different
+
+62
+00:04:09.610 --> 00:04:12.320
+hidden units in layer 2.
+
+63
+00:04:12.320 --> 00:04:15.416
+So I want to be clear about
+what this visualization is.
+
+64
+00:04:15.416 --> 00:04:20.864
+These are the nine patches that cause
+one hidden unit to be highly activated.
+
+65
+00:04:20.864 --> 00:04:25.471
+And then each grouping, this is
+a different set of nine image patches that
+
+66
+00:04:25.471 --> 00:04:27.940
+cause one hidden unit to be activated.
+
+67
+00:04:27.940 --> 00:04:32.630
+So this visualization shows nine
+hidden units in layer 2, and
+
+68
+00:04:32.630 --> 00:04:36.700
+for each of them shows nine image
+patches that causes that hidden unit
+
+69
+00:04:36.700 --> 00:04:39.890
+to have a very large output,
+a very large activation.
+
+70
+00:04:39.890 --> 00:04:44.120
+And you can repeat these for
+deeper layers as well.
+
+71
+00:04:44.120 --> 00:04:46.980
+Now, on this slide, I know it's
+kind of hard to see these tiny little
+
+72
+00:04:46.980 --> 00:04:49.188
+image patches, so
+let me zoom in for some of them.
+
+73
+00:04:49.188 --> 00:04:52.170
+For layer 1, this is what you saw.
+
+74
+00:04:52.170 --> 00:04:58.270
+So for example, this is that first unit
+we saw which was highly activated, if
+
+75
+00:04:58.270 --> 00:05:03.840
+in the region of the input image, you can
+see there's an edge maybe at that angle.
+
+76
+00:05:03.840 --> 00:05:08.350
+Now let's zoom in for layer 2 as well,
+to that visualization.
+
+77
+00:05:08.350 --> 00:05:09.750
+So this is interesting,
+
+78
+00:05:09.750 --> 00:05:14.030
+layer 2 looks it's detecting more
+complex shapes and patterns.
+
+79
+00:05:14.030 --> 00:05:17.300
+So for example, this hidden unit
+looks like it's looking for
+
+80
+00:05:17.300 --> 00:05:21.110
+a vertical texture with
+lots of vertical lines.
+
+81
+00:05:21.110 --> 00:05:24.150
+This hidden unit looks like
+its highly activated when
+
+82
+00:05:24.150 --> 00:05:27.730
+there's a rounder shape to
+the left part of the image.
+
+83
+00:05:27.730 --> 00:05:33.690
+Here's one that is looking for
+very thin vertical lines and so on.
+
+84
+00:05:33.690 --> 00:05:38.810
+And so the features the second layer is
+detecting are getting more complicated.
+
+85
+00:05:38.810 --> 00:05:39.980
+How about layer 3?
+
+86
+00:05:39.980 --> 00:05:43.476
+Let's zoom into that,
+in fact let me zoom in even bigger, so
+
+87
+00:05:43.476 --> 00:05:48.156
+you can see this better, these are the
+things that maximally activate layer 3.
+
+88
+00:05:48.156 --> 00:05:52.806
+But let's zoom in even bigger, and
+so this is pretty interesting again.
+
+89
+00:05:52.806 --> 00:05:57.139
+It looks like there is a hidden
+unit that seems to respond highly
+
+90
+00:05:57.139 --> 00:06:01.981
+to a rounder shape in the lower left
+hand portion of the image, maybe.
+
+91
+00:06:01.981 --> 00:06:06.523
+So that ends up detecting a lot of cars,
+dogs and
+
+92
+00:06:06.523 --> 00:06:10.735
+wonders is even starting to detect people.
+
+93
+00:06:10.735 --> 00:06:15.593
+And this one look like it is detecting
+certain textures like honeycomb shapes,
+
+94
+00:06:15.593 --> 00:06:18.358
+or square shapes, this irregular texture.
+
+95
+00:06:18.358 --> 00:06:22.356
+And some of these it's difficult to look
+at and manually figure out what is it
+
+96
+00:06:22.356 --> 00:06:26.900
+detecting, but it is clearly starting
+to detect more complex patterns.
+
+97
+00:06:26.900 --> 00:06:27.880
+How about the next layer?
+
+98
+00:06:27.880 --> 00:06:30.903
+Well, here is layer 4, and
+you'll see that the features or
+
+99
+00:06:30.903 --> 00:06:33.508
+the patterns is detecting or
+even more complex.
+
+100
+00:06:33.508 --> 00:06:37.410
+It looks like this has learned
+almost a dog detector, but
+
+101
+00:06:37.410 --> 00:06:39.250
+all these dogs likewise similar, right?
+
+102
+00:06:39.250 --> 00:06:42.770
+Is this, I don't know what dog species or
+dog breed this is.
+
+103
+00:06:42.770 --> 00:06:47.700
+But now all those are dogs, but
+they look relatively similar as dogs go.
+
+104
+00:06:47.700 --> 00:06:51.680
+Looks like this hidden unit and
+therefore it is detecting water.
+
+105
+00:06:53.130 --> 00:06:58.440
+This looks like it is actually
+detecting the legs of a bird and so on.
+
+106
+00:06:58.440 --> 00:07:02.740
+And then layer 5 is detecting
+even more sophisticated things.
+
+107
+00:07:02.740 --> 00:07:07.396
+So you'll notice there's also a neuron
+that seems to be a dog detector,
+
+108
+00:07:07.396 --> 00:07:12.450
+but set of dogs detecting
+here seems to be more varied.
+
+109
+00:07:12.450 --> 00:07:17.610
+And then this seems to be detecting
+keyboards and things with a keyboard
+
+110
+00:07:17.610 --> 00:07:22.360
+like texture, although maybe
+lots of dots against background.
+
+111
+00:07:22.360 --> 00:07:27.950
+I think this neuron here may be detecting
+text, it's always hard to be sure.
+
+112
+00:07:27.950 --> 00:07:31.520
+And then this one here
+is detecting flowers.
+
+113
+00:07:31.520 --> 00:07:35.430
+So we've gone a long way from
+detecting relatively simple things
+
+114
+00:07:35.430 --> 00:07:38.135
+such as edges in layer 1
+to textures in layer 2,
+
+115
+00:07:38.135 --> 00:07:43.780
+up to detecting very complex
+objects in the deeper layers.
+
+116
+00:07:43.780 --> 00:07:48.420
+So I hope this gives you some better
+intuition about what the shallow and
+
+117
+00:07:48.420 --> 00:07:52.120
+deeper layers of a neural
+network are computing.
+
+118
+00:07:52.120 --> 00:07:56.763
+Next, let's use this intuition to
+start building a neural-style transfer
+
+119
+00:07:56.763 --> 00:07:57.530
+algorithm.

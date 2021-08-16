@@ -1,0 +1,365 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.580
+The Triplet Loss is one good way to learn
+
+2
+00:00:02.580 --> 00:00:05.950
+the parameters of a continent for face recognition.
+
+3
+00:00:05.950 --> 00:00:08.490
+There's another way to learn these parameters.
+
+4
+00:00:08.490 --> 00:00:11.475
+Let me show you how face recognition can also be posed
+
+5
+00:00:11.475 --> 00:00:15.175
+as a straight binary classification problem.
+
+6
+00:00:15.175 --> 00:00:17.085
+Another way to train a neural network,
+
+7
+00:00:17.085 --> 00:00:19.740
+is to take this pair of neural networks to take
+
+8
+00:00:19.740 --> 00:00:25.260
+this Siamese Network and have them both compute these embeddings,
+
+9
+00:00:25.260 --> 00:00:27.255
+maybe 128 dimensional embeddings,
+
+10
+00:00:27.255 --> 00:00:28.770
+maybe even higher dimensional,
+
+11
+00:00:28.770 --> 00:00:31.530
+and then have these be input to
+
+12
+00:00:31.530 --> 00:00:36.375
+a logistic regression unit to then just make a prediction.
+
+13
+00:00:36.375 --> 00:00:42.705
+Where the target output will be one if both of these are the same persons,
+
+14
+00:00:42.705 --> 00:00:46.530
+and zero if both of these are of different persons.
+
+15
+00:00:46.530 --> 00:00:52.960
+So, this is a way to treat face recognition just as a binary classification problem.
+
+16
+00:00:52.960 --> 00:00:58.890
+And this is an alternative to the triplet loss for training a system like this.
+
+17
+00:00:58.890 --> 00:01:03.405
+Now, what does this final logistic regression unit actually do?
+
+18
+00:01:03.405 --> 00:01:08.400
+The output y hat will be a sigmoid function,
+
+19
+00:01:08.400 --> 00:01:12.750
+applied to some set of features but rather than just feeding in,
+
+20
+00:01:12.750 --> 00:01:18.690
+these encodings, what you can do is take the differences between the encodings.
+
+21
+00:01:18.690 --> 00:01:20.795
+So, let me show you what I mean.
+
+22
+00:01:20.795 --> 00:01:30.020
+Let's say, I write a sum over K equals 1 to 128 of the absolute value,
+
+23
+00:01:30.020 --> 00:01:35.525
+taken element wise between the two different encodings.
+
+24
+00:01:35.525 --> 00:01:39.930
+Let me just finish writing this out and then we'll see what this means.
+
+25
+00:01:39.930 --> 00:01:45.335
+In this notation, f of x i is the encoding of the image x i
+
+26
+00:01:45.335 --> 00:01:52.210
+and the substitute k means to just select out the cave components of this vector.
+
+27
+00:01:52.210 --> 00:01:59.625
+This is taking the element Y's difference in absolute values between these two encodings.
+
+28
+00:01:59.625 --> 00:02:03.240
+And what you might do is think of these 128 numbers
+
+29
+00:02:03.240 --> 00:02:07.140
+as features that you then feed into logistic regression.
+
+30
+00:02:07.140 --> 00:02:11.350
+And, you'll find that little regression can have additional parameters w,
+
+31
+00:02:11.350 --> 00:02:16.030
+i, and b similar to a normal logistic regression unit.
+
+32
+00:02:16.030 --> 00:02:21.990
+And you would train appropriate waiting on these 128 features in
+
+33
+00:02:21.990 --> 00:02:24.105
+order to predict whether or not
+
+34
+00:02:24.105 --> 00:02:28.225
+these two images are of the same person or of different persons.
+
+35
+00:02:28.225 --> 00:02:31.035
+So, this will be one pretty useful way to
+
+36
+00:02:31.035 --> 00:02:37.300
+learn to predict zero or one whether these are the same person or different persons.
+
+37
+00:02:37.300 --> 00:02:40.230
+And there are a few other variations on how you can
+
+38
+00:02:40.230 --> 00:02:44.220
+compute this formula that I had underlined in green.
+
+39
+00:02:44.220 --> 00:02:51.405
+For example, another formula could be this k minus f of x j,
+
+40
+00:02:51.405 --> 00:02:56.220
+k squared divided by f of x i
+
+41
+00:02:56.220 --> 00:03:02.980
+on plus f of x j k. This is sometimes called the chi square form.
+
+42
+00:03:02.980 --> 00:03:05.700
+This is the Greek alphabet chi.
+
+43
+00:03:05.700 --> 00:03:08.874
+But this is sometimes called a chi square similarity.
+
+44
+00:03:08.874 --> 00:03:15.810
+And this and other variations are explored in this deep face paper,
+
+45
+00:03:15.810 --> 00:03:18.015
+which I referenced earlier as well.
+
+46
+00:03:18.015 --> 00:03:20.760
+So in this learning formulation,
+
+47
+00:03:20.760 --> 00:03:23.801
+the input is a pair of images,
+
+48
+00:03:23.801 --> 00:03:28.920
+so this is really your training input x and the output y
+
+49
+00:03:28.920 --> 00:03:32.085
+is either zero or one depending on whether you're inputting
+
+50
+00:03:32.085 --> 00:03:35.680
+a pair of similar or dissimilar images.
+
+51
+00:03:35.680 --> 00:03:37.070
+And same as before,
+
+52
+00:03:37.070 --> 00:03:40.065
+you're training is Siamese Network so that means that,
+
+53
+00:03:40.065 --> 00:03:44.035
+this neural network up here has parameters that are what they're
+
+54
+00:03:44.035 --> 00:03:48.455
+really tied to the parameters in this lower neural network.
+
+55
+00:03:48.455 --> 00:03:52.235
+And this system can work pretty well as well.
+
+56
+00:03:52.235 --> 00:03:53.420
+Lastly, just to mention,
+
+57
+00:03:53.420 --> 00:03:58.905
+one computational trick that can help neural deployment significantly, which is that,
+
+58
+00:03:58.905 --> 00:04:00.375
+if this is the new image,
+
+59
+00:04:00.375 --> 00:04:03.910
+so this is an employee walking in hoping that the turnstile
+
+60
+00:04:03.910 --> 00:04:08.815
+the doorway will open for them and that this is from your database image.
+
+61
+00:04:08.815 --> 00:04:11.190
+Then instead of having to compute,
+
+62
+00:04:11.190 --> 00:04:17.520
+this embedding every single time,
+
+63
+00:04:17.520 --> 00:04:20.970
+where you can do is actually pre-compute that,
+
+64
+00:04:20.970 --> 00:04:22.970
+so, when the new employee walks in,
+
+65
+00:04:22.970 --> 00:04:29.500
+what you can do is use this upper components to compute that encoding and use it,
+
+66
+00:04:29.500 --> 00:04:31.020
+then compare it to
+
+67
+00:04:31.020 --> 00:04:36.730
+your pre-computed encoding and then use that to make a prediction y hat.
+
+68
+00:04:36.730 --> 00:04:40.770
+Because you don't need to store the raw images and
+
+69
+00:04:40.770 --> 00:04:44.880
+also because if you have a very large database of employees,
+
+70
+00:04:44.880 --> 00:04:50.935
+you don't need to compute these encodings every single time for every employee database.
+
+71
+00:04:50.935 --> 00:04:52.980
+This idea of free computing,
+
+72
+00:04:52.980 --> 00:04:56.880
+some of these encodings can save a significant computation.
+
+73
+00:04:56.880 --> 00:05:00.775
+And this type of pre-computation works both for this type of
+
+74
+00:05:00.775 --> 00:05:02.950
+Siamese Central architecture where you
+
+75
+00:05:02.950 --> 00:05:07.485
+treat face recognition as a binary classification problem,
+
+76
+00:05:07.485 --> 00:05:11.160
+as well as, when you were learning encodings maybe using
+
+77
+00:05:11.160 --> 00:05:15.070
+the Triplet Loss function as described in the last couple of videos.
+
+78
+00:05:15.070 --> 00:05:16.760
+And so just to wrap up,
+
+79
+00:05:16.760 --> 00:05:19.530
+to treat face verification supervised learning,
+
+80
+00:05:19.530 --> 00:05:23.460
+you create a training set of just pairs of images now is
+
+81
+00:05:23.460 --> 00:05:28.045
+of triplets of pairs of images where the target label is one.
+
+82
+00:05:28.045 --> 00:05:34.366
+When these are a pair of pictures of the same person and where the tag label is zero,
+
+83
+00:05:34.366 --> 00:05:38.880
+when these are pictures of different persons and you use
+
+84
+00:05:38.880 --> 00:05:40.845
+different pairs to train
+
+85
+00:05:40.845 --> 00:05:45.660
+the neural network to train the scientists that were using back propagation.
+
+86
+00:05:45.660 --> 00:05:49.755
+So, this version that you just saw of treating face verification
+
+87
+00:05:49.755 --> 00:05:53.918
+and by extension face recognition as a binary classification problem,
+
+88
+00:05:53.918 --> 00:05:55.645
+this works quite well as well.
+
+89
+00:05:55.645 --> 00:05:57.645
+And so with that, I hope that you now know,
+
+90
+00:05:57.645 --> 00:05:59.490
+what it would take to train
+
+91
+00:05:59.490 --> 00:06:05.000
+your own face verification or your own face recognition system, one that can do one shot learning.

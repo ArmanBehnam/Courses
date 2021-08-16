@@ -1,0 +1,785 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.400
+In the last video, you saw how to define
+
+2
+00:00:02.400 --> 00:00:04.980
+the content cost function for the neural style transfer.
+
+3
+00:00:04.980 --> 00:00:09.317
+Next, let's take a look at the style cost function.
+
+4
+00:00:09.317 --> 00:00:12.373
+So, what is the style of an image mean?
+
+5
+00:00:12.373 --> 00:00:14.633
+Let's say you have an input image like this,
+
+6
+00:00:14.633 --> 00:00:16.750
+they used to seeing a convnet like that,
+
+7
+00:00:16.750 --> 00:00:20.091
+compute features that there's different layers.
+
+8
+00:00:20.091 --> 00:00:22.692
+And let's say you've chosen some layer L,
+
+9
+00:00:22.692 --> 00:00:29.020
+maybe that layer to define the measure of the style of an image.
+
+10
+00:00:29.020 --> 00:00:34.095
+What we need to do is define the style as the correlation between
+
+11
+00:00:34.095 --> 00:00:40.635
+activations across different channels in this layer L activation.
+
+12
+00:00:40.635 --> 00:00:42.190
+So here's what I mean by that.
+
+13
+00:00:42.190 --> 00:00:44.480
+Let's say you take that layer L activation.
+
+14
+00:00:44.480 --> 00:00:50.936
+So this is going to be nh by nw by nc block of activations,
+
+15
+00:00:50.936 --> 00:00:55.995
+and we're going to ask how correlated are the activations across different channels.
+
+16
+00:00:55.995 --> 00:00:59.966
+So to explain what I mean by this may be slightly cryptic phrase,
+
+17
+00:00:59.966 --> 00:01:02.850
+let's take this block of activations
+
+18
+00:01:02.850 --> 00:01:06.575
+and let me shade the different channels by a different colors.
+
+19
+00:01:06.575 --> 00:01:08.295
+So in this below example,
+
+20
+00:01:08.295 --> 00:01:14.286
+we have say five channels and which is why I have five shades of color here.
+
+21
+00:01:14.286 --> 00:01:15.375
+In practice, of course,
+
+22
+00:01:15.375 --> 00:01:18.514
+in neural network we usually have a lot more channels than five,
+
+23
+00:01:18.514 --> 00:01:22.056
+but using just five makes it drawing easier.
+
+24
+00:01:22.056 --> 00:01:24.765
+But to capture the style of an image,
+
+25
+00:01:24.765 --> 00:01:26.850
+what you're going to do is the following.
+
+26
+00:01:26.850 --> 00:01:28.910
+Let's look at the first two channels.
+
+27
+00:01:28.910 --> 00:01:32.970
+Let's see for the red channel and the yellow channel and say
+
+28
+00:01:32.970 --> 00:01:37.450
+how correlated are activations in these first two channels.
+
+29
+00:01:37.450 --> 00:01:40.575
+So, for example, in the lower right hand corner,
+
+30
+00:01:40.575 --> 00:01:45.820
+you have some activation in the first channel and some activation in the second channel.
+
+31
+00:01:45.820 --> 00:01:47.655
+So that gives you a pair of numbers.
+
+32
+00:01:47.655 --> 00:01:51.510
+And what you do is look at different positions across
+
+33
+00:01:51.510 --> 00:01:55.435
+this block of activations and just look at those two pairs of numbers,
+
+34
+00:01:55.435 --> 00:01:57.232
+one in the first channel, the red channel,
+
+35
+00:01:57.232 --> 00:02:00.000
+one in the yellow channel, the second channel.
+
+36
+00:02:00.000 --> 00:02:02.370
+And you just look at these two pairs of numbers and
+
+37
+00:02:02.370 --> 00:02:04.816
+see when you look across all of these positions,
+
+38
+00:02:04.816 --> 00:02:07.320
+all of these nh by nw positions,
+
+39
+00:02:07.320 --> 00:02:10.205
+how correlated are these two numbers.
+
+40
+00:02:10.205 --> 00:02:12.550
+So, why does this capture style?
+
+41
+00:02:12.550 --> 00:02:14.405
+Let's look another example.
+
+42
+00:02:14.405 --> 00:02:17.844
+Here's one of the visualizations from the earlier video.
+
+43
+00:02:17.844 --> 00:02:20.280
+This comes from again the paper by
+
+44
+00:02:20.280 --> 00:02:23.350
+Matthew Zeiler and Rob Fergus that I have reference earlier.
+
+45
+00:02:23.350 --> 00:02:25.360
+And let's say for the sake of arguments,
+
+46
+00:02:25.360 --> 00:02:28.300
+that the red neuron corresponds to,
+
+47
+00:02:28.300 --> 00:02:30.170
+and let's say for the sake of arguments,
+
+48
+00:02:30.170 --> 00:02:36.600
+that the red channel corresponds to this neurons so we're trying to figure out if there's
+
+49
+00:02:36.600 --> 00:02:40.320
+this little vertical texture in
+
+50
+00:02:40.320 --> 00:02:46.185
+a particular position in the nh and let's say that this second channel,
+
+51
+00:02:46.185 --> 00:02:51.795
+this yellow second channel corresponds to this neuron,
+
+52
+00:02:51.795 --> 00:02:56.515
+which is vaguely looking for orange colored patches.
+
+53
+00:02:56.515 --> 00:03:01.104
+What does it mean for these two channels to be highly correlated?
+
+54
+00:03:01.104 --> 00:03:04.560
+Well, if they're highly correlated what that means is whatever part of
+
+55
+00:03:04.560 --> 00:03:08.430
+the image has this type of subtle vertical texture,
+
+56
+00:03:08.430 --> 00:03:12.980
+that part of the image will probably have these orange-ish tint.
+
+57
+00:03:12.980 --> 00:03:15.755
+And what does it mean for them to be uncorrelated?
+
+58
+00:03:15.755 --> 00:03:19.635
+Well, it means that whenever there is this vertical texture,
+
+59
+00:03:19.635 --> 00:03:22.625
+it's probably won't have that orange-ish tint.
+
+60
+00:03:22.625 --> 00:03:25.710
+And so the correlation tells you which of
+
+61
+00:03:25.710 --> 00:03:31.020
+these high level texture components tend to occur or not occur together
+
+62
+00:03:31.020 --> 00:03:35.550
+in part of an image and that's the degree of correlation that gives you
+
+63
+00:03:35.550 --> 00:03:40.455
+one way of measuring how often these different high level features,
+
+64
+00:03:40.455 --> 00:03:45.441
+such as vertical texture or this orange tint or other things as well,
+
+65
+00:03:45.441 --> 00:03:48.180
+how often they occur and how often they occur
+
+66
+00:03:48.180 --> 00:03:51.740
+together and don't occur together in different parts of an image.
+
+67
+00:03:51.740 --> 00:03:57.180
+And so, if we use the degree of correlation between channels as a measure of the style,
+
+68
+00:03:57.180 --> 00:04:02.670
+then what you can do is measure the degree to which in your generated image,
+
+69
+00:04:02.670 --> 00:04:06.810
+this first channel is correlated or uncorrelated with
+
+70
+00:04:06.810 --> 00:04:12.090
+the second channel and that will tell you in the generated image how often
+
+71
+00:04:12.090 --> 00:04:14.820
+this type of vertical texture occurs or doesn't
+
+72
+00:04:14.820 --> 00:04:18.450
+occur with this orange-ish tint and this gives you a measure
+
+73
+00:04:18.450 --> 00:04:25.675
+of how similar is the style of the generated image to the style of the input style image.
+
+74
+00:04:25.675 --> 00:04:28.600
+So let's now formalize this intuition.
+
+75
+00:04:28.600 --> 00:04:34.620
+So what you can to do is given an image computes something called a style matrix,
+
+76
+00:04:34.620 --> 00:04:38.960
+which will measure all those correlations we talks about on the last slide.
+
+77
+00:04:38.960 --> 00:04:44.280
+So, more formally, let's let a superscript l, subscript i,
+
+78
+00:04:44.280 --> 00:04:47.868
+j,k denote the activation at position i,j,k in
+
+79
+00:04:47.868 --> 00:04:53.610
+hidden layer l. So i indexes into the height,
+
+80
+00:04:53.610 --> 00:04:54.850
+j indexes into the width,
+
+81
+00:04:54.850 --> 00:04:58.050
+and k indexes across the different channels.
+
+82
+00:04:58.050 --> 00:05:00.045
+So, in the previous slide,
+
+83
+00:05:00.045 --> 00:05:05.165
+we had five channels that k will index across those five channels.
+
+84
+00:05:05.165 --> 00:05:09.635
+So what the style matrix will do is you're going to compute a matrix clauses
+
+85
+00:05:09.635 --> 00:05:17.390
+G superscript square bracketed l. This is going to be an nc by nc dimensional matrix,
+
+86
+00:05:17.390 --> 00:05:18.755
+so it'd be a square matrix.
+
+87
+00:05:18.755 --> 00:05:23.390
+Remember you have nc channels and so you have an
+
+88
+00:05:23.390 --> 00:05:29.490
+nc by nc dimensional matrix in order to measure how correlated each pair of them is.
+
+89
+00:05:29.490 --> 00:05:32.585
+So particular G, l, k,
+
+90
+00:05:32.585 --> 00:05:36.954
+k prime will measure how correlated are the activations in
+
+91
+00:05:36.954 --> 00:05:41.755
+channel k compared to the activations in channel k prime.
+
+92
+00:05:41.755 --> 00:05:46.250
+Well here, k and k prime will range from 1 through nc,
+
+93
+00:05:46.250 --> 00:05:49.630
+the number of channels they're all up in that layer.
+
+94
+00:05:49.630 --> 00:05:55.820
+So more formally, the way you compute G,
+
+95
+00:05:55.820 --> 00:06:00.840
+l and I'm just going to write down the formula for computing one elements.
+
+96
+00:06:00.840 --> 00:06:03.283
+So the k, k prime elements of this.
+
+97
+00:06:03.283 --> 00:06:06.210
+This is going to be sum of a i,
+
+98
+00:06:06.210 --> 00:06:08.987
+sum of a j,
+
+99
+00:06:08.987 --> 00:06:13.979
+of deactivation and that layer i, j,
+
+100
+00:06:13.979 --> 00:06:22.078
+k times the activation at i, j, k prime.
+
+101
+00:06:22.078 --> 00:06:27.989
+So, here, remember i and j index across to a different positions in the block,
+
+102
+00:06:27.989 --> 00:06:30.453
+indexes over the height and width.
+
+103
+00:06:30.453 --> 00:06:39.755
+So i is the sum from one to nh and j is a sum from one to nw
+
+104
+00:06:39.755 --> 00:06:45.200
+and k here and k prime index over the channel so
+
+105
+00:06:45.200 --> 00:06:47.870
+k and k prime range from one to
+
+106
+00:06:47.870 --> 00:06:51.913
+the total number of channels in that layer of the neural network.
+
+107
+00:06:51.913 --> 00:06:55.967
+So all this is doing
+
+108
+00:06:55.967 --> 00:07:00.225
+is summing over the different positions that the image over the height and width and just
+
+109
+00:07:00.225 --> 00:07:03.640
+multiplying the activations together of
+
+110
+00:07:03.640 --> 00:07:08.853
+the channels k and k prime and that's the definition of G,k,k prime.
+
+111
+00:07:08.853 --> 00:07:14.450
+And you do this for every value of k and k prime to compute this matrix G,
+
+112
+00:07:14.450 --> 00:07:17.585
+also called the style matrix.
+
+113
+00:07:17.585 --> 00:07:23.435
+And so notice that if both of these activations tend to be lashed together,
+
+114
+00:07:23.435 --> 00:07:26.325
+then G, k, k prime will be large,
+
+115
+00:07:26.325 --> 00:07:28.510
+whereas if they are uncorrelated then g,k,
+
+116
+00:07:28.510 --> 00:07:30.305
+k prime might be small.
+
+117
+00:07:30.305 --> 00:07:32.060
+And technically, I've been using
+
+118
+00:07:32.060 --> 00:07:36.170
+the term correlation to convey intuition but this is actually
+
+119
+00:07:36.170 --> 00:07:40.130
+the unnormalized cross of the areas because we're not
+
+120
+00:07:40.130 --> 00:07:46.130
+subtracting out the mean and this is just multiplied by these elements directly.
+
+121
+00:07:46.130 --> 00:07:50.370
+So this is how you compute the style of an image.
+
+122
+00:07:50.370 --> 00:07:54.030
+And you'd actually do this for both the style image s,n for
+
+123
+00:07:54.030 --> 00:08:01.020
+the generated image G. So just to distinguish that this is the style image,
+
+124
+00:08:01.020 --> 00:08:07.630
+maybe let me add a round bracket S there,
+
+125
+00:08:07.630 --> 00:08:10.105
+just to denote that this is the style image for the image
+
+126
+00:08:10.105 --> 00:08:12.715
+S and those are the activations on the image
+
+127
+00:08:12.715 --> 00:08:21.085
+S. And what you do is then compute the same thing for the generated image.
+
+128
+00:08:21.085 --> 00:08:28.581
+So it's really the same thing summarized sum of a j, a, i,
+
+129
+00:08:28.581 --> 00:08:32.670
+j, k, l, a,
+
+130
+00:08:32.670 --> 00:08:36.678
+i, j,k,l and the summation indices are the same.
+
+131
+00:08:36.678 --> 00:08:46.130
+Let's follow this and you want to just denote this is for the generated image,
+
+132
+00:08:46.130 --> 00:08:51.710
+I'll just put the round brackets G there.
+
+133
+00:08:51.710 --> 00:08:55.540
+So, now, you have two matrices they capture what is the style with
+
+134
+00:08:55.540 --> 00:08:59.770
+the image s and what is the style of the image G. And,
+
+135
+00:08:59.770 --> 00:09:05.260
+by the way, we've been using the alphabet capital G to denote these matrices.
+
+136
+00:09:05.260 --> 00:09:09.445
+In linear algebra, these are also called the
+
+137
+00:09:09.445 --> 00:09:14.030
+grand matrix of these in called grand matrices but in this video,
+
+138
+00:09:14.030 --> 00:09:17.680
+I'm just going to use the term style matrix because this term grand
+
+139
+00:09:17.680 --> 00:09:23.630
+matrix that most of these using capital G to denote these matrices.
+
+140
+00:09:23.630 --> 00:09:26.035
+Finally, the cost function,
+
+141
+00:09:26.035 --> 00:09:28.875
+the style cost function.
+
+142
+00:09:28.875 --> 00:09:34.570
+If you're doing this on layer l between s and G,
+
+143
+00:09:34.570 --> 00:09:37.050
+you can now define that to be
+
+144
+00:09:37.050 --> 00:09:44.610
+just the difference
+
+145
+00:09:44.610 --> 00:09:48.675
+between these two matrices,
+
+146
+00:09:48.675 --> 00:09:54.265
+G l, G square and these are matrices.
+
+147
+00:09:54.265 --> 00:09:55.754
+So just take it from the previous one.
+
+148
+00:09:55.754 --> 00:10:00.660
+This is just the sum of squares of the element wise differences between
+
+149
+00:10:00.660 --> 00:10:07.065
+these two matrices and just divides this out this is going to be sum over k,
+
+150
+00:10:07.065 --> 00:10:12.964
+sum over k prime of these differences of s, k,
+
+151
+00:10:12.964 --> 00:10:17.450
+k prime minus G l,
+
+152
+00:10:17.450 --> 00:10:24.530
+G, k, k prime and then the sum of square of the elements.
+
+153
+00:10:24.530 --> 00:10:32.715
+The authors actually used this for the normalization constants two times of nh,
+
+154
+00:10:32.715 --> 00:10:34.890
+nw, in that layer,
+
+155
+00:10:34.890 --> 00:10:40.015
+nc in that layer and I'll square this and you can put this up here as well.
+
+156
+00:10:40.015 --> 00:10:43.600
+But a normalization constant doesn't matter that much because this
+
+157
+00:10:43.600 --> 00:10:47.485
+causes multiplied by some hyperparameter b anyway.
+
+158
+00:10:47.485 --> 00:10:48.910
+So just to finish up,
+
+159
+00:10:48.910 --> 00:10:51.970
+this is the style cost function defined
+
+160
+00:10:51.970 --> 00:10:55.645
+using layer l and as you saw on the previous slide,
+
+161
+00:10:55.645 --> 00:11:02.440
+this is basically the Frobenius norm between the two star matrices computed on
+
+162
+00:11:02.440 --> 00:11:05.953
+the image s and on the image G
+
+163
+00:11:05.953 --> 00:11:10.810
+Frobenius on squared and never by the just low normalization constants,
+
+164
+00:11:10.810 --> 00:11:13.255
+which isn't that important.
+
+165
+00:11:13.255 --> 00:11:18.400
+And, finally, it turns out that you get more visually pleasing results if you
+
+166
+00:11:18.400 --> 00:11:23.443
+use the style cost function from multiple different layers.
+
+167
+00:11:23.443 --> 00:11:27.095
+So, the overall style cost function,
+
+168
+00:11:27.095 --> 00:11:31.305
+you can define as sum over
+
+169
+00:11:31.305 --> 00:11:37.640
+all the different layers of the style cost function for that layer.
+
+170
+00:11:37.640 --> 00:11:41.820
+We should define the book weighted by some set of parameters,
+
+171
+00:11:41.820 --> 00:11:44.160
+by some set of additional hyperparameters,
+
+172
+00:11:44.160 --> 00:11:46.895
+which we'll denote as lambda l here.
+
+173
+00:11:46.895 --> 00:11:51.595
+So what it does is allows you to use different layers in a neural network.
+
+174
+00:11:51.595 --> 00:11:52.815
+Well of the early ones,
+
+175
+00:11:52.815 --> 00:11:55.800
+which measure relatively simpler low level features
+
+176
+00:11:55.800 --> 00:11:59.050
+like edges as well as some later layers,
+
+177
+00:11:59.050 --> 00:12:03.000
+which measure high level features and cause a neural network to take
+
+178
+00:12:03.000 --> 00:12:08.475
+both low level and high level correlations into account when computing style.
+
+179
+00:12:08.475 --> 00:12:10.845
+And, in the following exercise,
+
+180
+00:12:10.845 --> 00:12:13.980
+you gain more intuition about what might be
+
+181
+00:12:13.980 --> 00:12:19.080
+reasonable choices for this type of parameter lambda as well.
+
+182
+00:12:19.080 --> 00:12:20.790
+And so just to wrap this up,
+
+183
+00:12:20.790 --> 00:12:24.660
+you can now define the overall cost function
+
+184
+00:12:24.660 --> 00:12:30.720
+as alpha times the content cost between c and G plus
+
+185
+00:12:30.720 --> 00:12:37.515
+beta times the style cost between s and G and then just create in the sense
+
+186
+00:12:37.515 --> 00:12:40.785
+or a more sophisticated optimization algorithm if you want
+
+187
+00:12:40.785 --> 00:12:44.696
+in order to try to find an image G that normalize,
+
+188
+00:12:44.696 --> 00:12:49.590
+that tries to minimize this cost function j of G. And if you do that,
+
+189
+00:12:49.590 --> 00:12:53.730
+you can generate pretty good looking neural artistic
+
+190
+00:12:53.730 --> 00:12:59.220
+and if you do that you'll be able to generate some pretty nice novel artwork.
+
+191
+00:12:59.220 --> 00:13:02.010
+So that's it for neural style transfer and I hope you have
+
+192
+00:13:02.010 --> 00:13:05.235
+fun implementing it in this week's printing exercise.
+
+193
+00:13:05.235 --> 00:13:06.625
+Before wrapping up this week,
+
+194
+00:13:06.625 --> 00:13:08.575
+there's just one last thing I want to share of you,
+
+195
+00:13:08.575 --> 00:13:11.100
+which is how to do convolutions over
+
+196
+00:13:11.100 --> 00:13:17.000
+1D or 3D data rather than over only 2D images. Let's go into the last video.
