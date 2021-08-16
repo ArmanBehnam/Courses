@@ -1,0 +1,745 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.520
+[MUSIC]
+
+2
+00:00:05.520 --> 00:00:10.105
+For this exercise, the CFO of the airline
+has identified two major values that will
+
+3
+00:00:10.105 --> 00:00:13.709
+need to be calculated in the future
+to better understand rates and
+
+4
+00:00:13.709 --> 00:00:16.590
+adjust to a changing business environment.
+
+5
+00:00:16.590 --> 00:00:20.650
+One, the cost per mile for
+each aircraft in dollars.
+
+6
+00:00:20.650 --> 00:00:22.200
+Two, the total revenue for
+
+7
+00:00:22.200 --> 00:00:27.720
+each flight, assuming that there is now
+an additional 10% tax on all fares.
+
+8
+00:00:27.720 --> 00:00:29.890
+With a few simple Excel formulas,
+
+9
+00:00:29.890 --> 00:00:33.250
+we can leverage existing fields in
+our tables to address these changes.
+
+10
+00:00:34.950 --> 00:00:37.764
+Let's start with the first
+question where we are being asked,
+
+11
+00:00:37.764 --> 00:00:40.149
+which aircraft has the highest
+fuel cost per mile?
+
+12
+00:00:42.448 --> 00:00:46.498
+In order to answer this question we're
+going to start by creating a field that
+
+13
+00:00:46.498 --> 00:00:49.567
+will calculate the total cost per mile for
+each aircraft.
+
+14
+00:00:52.014 --> 00:00:53.890
+If we look in the aircraft data table.
+
+15
+00:00:55.090 --> 00:00:58.180
+We see that we have the fuel cost
+per seat per mile in column D.
+
+16
+00:00:59.590 --> 00:01:03.690
+But this only gives us a cost for
+a seat and not for the entire aircraft.
+
+17
+00:01:05.930 --> 00:01:09.780
+However, the aircraft table
+also provides a seat capacity
+
+18
+00:01:09.780 --> 00:01:11.350
+of each aircraft in column C.
+
+19
+00:01:12.660 --> 00:01:15.190
+If we combine information
+in these two columns,
+
+20
+00:01:15.190 --> 00:01:18.880
+we'll be able to calculate the total fuel
+cost per mile for all of the aircrafts.
+
+21
+00:01:19.890 --> 00:01:24.520
+We must also consider the fact that the
+fuel cost per mile is measured in cents,
+
+22
+00:01:24.520 --> 00:01:28.030
+which is expected due to its low value.
+
+23
+00:01:28.030 --> 00:01:33.170
+However, we're going to want to show
+the total cost per aircraft in dollars,
+
+24
+00:01:33.170 --> 00:01:34.970
+since cents aren't a standard measure.
+
+25
+00:01:36.150 --> 00:01:41.620
+To do this we'll need to take the total
+cost in cents and divide that by 100.
+
+26
+00:01:41.620 --> 00:01:43.660
+Since there are 100 cents in each dollar.
+
+27
+00:01:45.180 --> 00:01:49.340
+Assuming that each flight is full, we can
+calculate the fuel costs per mile by
+
+28
+00:01:49.340 --> 00:01:54.100
+multiplying fuel costs per seat per mile
+by the seat capacity of the airplane, and
+
+29
+00:01:54.100 --> 00:01:58.600
+then dividing that value by 100
+to get the total cost in dollars.
+
+30
+00:01:58.600 --> 00:02:02.910
+We're going to be using a Calculated
+Field to perform this calculation, and
+
+31
+00:02:02.910 --> 00:02:05.770
+then we'll use this field
+as input to a pivot table
+
+32
+00:02:05.770 --> 00:02:08.050
+which will give us the analysis
+we're looking for.
+
+33
+00:02:08.050 --> 00:02:08.860
+So let's get started.
+
+34
+00:02:10.160 --> 00:02:12.720
+We're going to start by
+creating the Calculated Field
+
+35
+00:02:12.720 --> 00:02:17.720
+by navigating to the PowerPivot tab and
+selecting Manage.
+
+36
+00:02:19.730 --> 00:02:22.670
+Within the Data View section,
+there is an option that allows us to
+
+37
+00:02:22.670 --> 00:02:27.350
+select the data table that we want
+to add the Calculated Field to.
+
+38
+00:02:27.350 --> 00:02:31.230
+The values we want to use
+are both in the aircraft table.
+
+39
+00:02:31.230 --> 00:02:34.090
+So let's go ahead and
+select AircraftPivot from the list.
+
+40
+00:02:35.470 --> 00:02:39.750
+There is an add column option on the right
+side which contains a formula bar that can
+
+41
+00:02:39.750 --> 00:02:45.390
+be used to input the calculations similar
+to how regular formulas work in Excel.
+
+42
+00:02:45.390 --> 00:02:48.690
+So let's go ahead and click on the formula
+bar to start editing the formula.
+
+43
+00:02:49.840 --> 00:02:53.240
+Remember, we want to multiply
+the SeatCapacity field
+
+44
+00:02:53.240 --> 00:02:56.190
+by the FuelCostperSeatMile field.
+
+45
+00:02:56.190 --> 00:03:00.140
+And then we need to divide this by 100
+in order to get a value in dollars
+
+46
+00:03:00.140 --> 00:03:00.960
+instead of cents.
+
+47
+00:03:02.080 --> 00:03:05.020
+So we're going to type equals and
+
+48
+00:03:05.020 --> 00:03:08.300
+we'll select the SeatCapacity field
+which populates in our formula.
+
+49
+00:03:09.720 --> 00:03:14.230
+Next we input multiply and
+select the FuelCostperSeatMile field.
+
+50
+00:03:15.480 --> 00:03:18.800
+Now we just need to add division by
+100 and we are done with our formula.
+
+51
+00:03:20.700 --> 00:03:23.720
+Next, we need to provide a new name for
+the new field.
+
+52
+00:03:23.720 --> 00:03:25.980
+Let's call it FuelCostPerMile(Dollars),
+
+53
+00:03:25.980 --> 00:03:29.350
+since it's consistent with
+the naming of the other fields.
+
+54
+00:03:30.650 --> 00:03:33.410
+We're almost done with
+creating the Calculated Field.
+
+55
+00:03:33.410 --> 00:03:36.120
+All that remains is making sure
+the field is formatted correctly.
+
+56
+00:03:37.580 --> 00:03:40.090
+To do this,
+let's navigate to the formatting tab.
+
+57
+00:03:41.340 --> 00:03:42.660
+And select Decrease Decimal,
+
+58
+00:03:43.920 --> 00:03:48.390
+which allows us to adjust
+the Calculated Field to two decimals.
+
+59
+00:03:48.390 --> 00:03:52.110
+Now that we have created the new field
+which calculates the total fuel cost per
+
+60
+00:03:52.110 --> 00:03:56.630
+mile for each aircraft we are going
+to create a Pivot Table using
+
+61
+00:03:56.630 --> 00:04:00.780
+this data to determine which aircraft
+has the highest fuel cost per mile.
+
+62
+00:04:02.860 --> 00:04:07.900
+Let's create our Pivot Table in a separate
+tab, just like we did for exercise two.
+
+63
+00:04:07.900 --> 00:04:11.390
+So let's head to the tab named Pivot 3A.
+
+64
+00:04:13.230 --> 00:04:16.384
+We want to place the Pivot Table
+in the top left corner, so
+
+65
+00:04:16.384 --> 00:04:20.752
+let's select cell A1 before navigating
+to the PowerPivot tab on the ribbon.
+
+66
+00:04:27.057 --> 00:04:29.010
+Here we select the Pivot Table option.
+
+67
+00:04:30.290 --> 00:04:35.390
+Brings up a pop-up window where we're going
+to select the existing worksheet for
+
+68
+00:04:35.390 --> 00:04:36.550
+the location of the table.
+
+69
+00:04:38.100 --> 00:04:40.340
+And then we click OK to create the table.
+
+70
+00:04:41.980 --> 00:04:46.244
+Next, we're going to drag our new
+Calculated Fields into the values section
+
+71
+00:04:46.244 --> 00:04:50.387
+which provides us with a total sum of
+the cost across all aircraft types.
+
+72
+00:04:54.892 --> 00:04:57.953
+We want to know the cost for
+individual airlines, so
+
+73
+00:04:57.953 --> 00:05:02.760
+let's drag the aircraft type into
+the rows section of the Pivot Table.
+
+74
+00:05:02.760 --> 00:05:06.270
+Since we want to know which aircraft
+has the highest fuel cost per mile,
+
+75
+00:05:07.600 --> 00:05:10.070
+we're going to right-click
+on the Pivot Table, and
+
+76
+00:05:10.070 --> 00:05:13.560
+select sort from largest
+to smallest in the menu.
+
+77
+00:05:15.280 --> 00:05:21.210
+We can now see that the B737 aircraft
+has the highest fuel cost per mile,
+
+78
+00:05:21.210 --> 00:05:23.140
+among the aircrafts flown by our company.
+
+79
+00:05:24.470 --> 00:05:28.374
+Let's go back to the exercise three
+tab and put that answer into cell G13.
+
+80
+00:05:43.246 --> 00:05:45.373
+As part of the next
+question in exercise 3,
+
+81
+00:05:45.373 --> 00:05:49.236
+we're being asked to determine which
+flights have the highest total revenue.
+
+82
+00:05:53.127 --> 00:05:54.845
+If we look at the Flights table,
+
+83
+00:05:55.890 --> 00:05:59.194
+we notice that we have the total fare for
+each flight in column H.
+
+84
+00:06:01.029 --> 00:06:05.017
+We are going to create a new Calculated
+Field that allows us to calculate
+
+85
+00:06:05.017 --> 00:06:09.950
+the total revenue by applying a 10% tax to
+the total fares collected for each flight.
+
+86
+00:06:11.620 --> 00:06:14.581
+So let's head back to the exercise
+three tab and let's get started.
+
+87
+00:06:18.623 --> 00:06:22.819
+Just like before, we start by
+navigating to the PowerPivot Tab,
+
+88
+00:06:22.819 --> 00:06:24.360
+and selecting Manage.
+
+89
+00:06:25.810 --> 00:06:29.810
+Within the data view section,
+there's a list of available data tables.
+
+90
+00:06:29.810 --> 00:06:33.280
+Since we want to calculate the total
+revenue based on the total fares that can
+
+91
+00:06:33.280 --> 00:06:35.580
+be found in the Flights table,
+
+92
+00:06:35.580 --> 00:06:37.870
+we're going to select
+FlightsPivot from the list.
+
+93
+00:06:39.090 --> 00:06:42.240
+Next, we're clicking the formula
+bar on the right side of the window
+
+94
+00:06:42.240 --> 00:06:43.650
+to start entering our formula.
+
+95
+00:06:45.400 --> 00:06:50.120
+Remember, the total revenue is going to be
+equal to the total fares minus a 10% tax.
+
+96
+00:06:51.770 --> 00:06:54.701
+Hence, we are going to multiply
+the total fare by 0.9.
+
+97
+00:06:56.663 --> 00:06:58.345
+So let's type equals and
+
+98
+00:06:58.345 --> 00:07:03.000
+then we select the total fare field
+which populates in our formula.
+
+99
+00:07:05.710 --> 00:07:11.680
+Next we add multiple type .9 and
+press enter to close the formula.
+
+100
+00:07:13.280 --> 00:07:15.547
+Then we are going to name
+this new field Total Revenue.
+
+101
+00:07:18.903 --> 00:07:21.604
+Now that we have created
+our Calculated Field,
+
+102
+00:07:21.604 --> 00:07:24.643
+which provides us with
+the total revenue per flight,
+
+103
+00:07:24.643 --> 00:07:29.300
+taking into account of the 10% new tax,
+we are going to create a pivot using this
+
+104
+00:07:29.300 --> 00:07:33.510
+data in order to determine which
+flights have the highest total revenue.
+
+105
+00:07:34.600 --> 00:07:37.700
+We're going to create our pivot
+table in a separate tab again, so
+
+106
+00:07:37.700 --> 00:07:40.020
+let's head to the tab named Pivot 3B.
+
+107
+00:07:41.120 --> 00:07:44.005
+We want to place the pivot
+table in the top left corner,
+
+108
+00:07:44.005 --> 00:07:48.292
+so let's select cell A1 before navigating
+to the PowerPivot tab on the ribbon.
+
+109
+00:07:52.275 --> 00:07:54.450
+Here we select the Pivot Table option.
+
+110
+00:07:55.560 --> 00:07:59.532
+Which brings up a pop-up window
+where we're going to select Existing
+
+111
+00:07:59.532 --> 00:08:03.920
+Worksheet for the location of the table
+and then we click OK to create the table.
+
+112
+00:08:10.783 --> 00:08:14.945
+Next we're going to drag the Total Revenue
+Field into the value section which
+
+113
+00:08:14.945 --> 00:08:18.408
+provides us with a total sum of
+all revenue across all flights.
+
+114
+00:08:30.565 --> 00:08:34.077
+But we want to know the total revenue
+on a flight-by-flight basis, so
+
+115
+00:08:34.077 --> 00:08:37.554
+let's drag the Flight ID into
+the row section of our pivot table.
+
+116
+00:08:40.190 --> 00:08:43.126
+As you can see this produces
+a large list of flights and
+
+117
+00:08:43.126 --> 00:08:45.780
+their corresponding revenues.
+
+118
+00:08:45.780 --> 00:08:48.980
+We want to see which flight
+has the largest revenue.
+
+119
+00:08:48.980 --> 00:08:51.119
+So let's right click
+on the pivot table and
+
+120
+00:08:51.119 --> 00:08:53.626
+select Sort From Largest
+to Smallest in the menu.
+
+121
+00:08:57.713 --> 00:09:02.101
+We can now see that there are 4 flights
+that all have the highest revenue.
+
+122
+00:09:02.101 --> 00:09:04.481
+So let's go ahead and copy these values.
+
+123
+00:09:06.850 --> 00:09:10.500
+Next, we're going to navigate
+back to the Exercise 3 tab, and
+
+124
+00:09:10.500 --> 00:09:13.351
+we're going to paste our
+answer into cell G17.
+
+125
+00:09:17.195 --> 00:09:22.174
+The final question in Exercise 3 asks
+us to provide a visual representation of
+
+126
+00:09:22.174 --> 00:09:25.160
+the revenue distribution
+across all flights.
+
+127
+00:09:26.340 --> 00:09:31.120
+This chart is going to rely on the Total
+Revenue Field that we just created.
+
+128
+00:09:31.120 --> 00:09:33.460
+So we don't need to create
+a new Calculated Field.
+
+129
+00:09:34.490 --> 00:09:37.620
+Instead of using this data
+to create a pivot table,
+
+130
+00:09:37.620 --> 00:09:39.950
+we are going to use it
+to create a pivot chart.
+
+131
+00:09:39.950 --> 00:09:40.780
+So let's get started.
+
+132
+00:09:42.180 --> 00:09:45.240
+First, similar to what we
+did with the pivot tables,
+
+133
+00:09:45.240 --> 00:09:49.430
+we are going to center the cell that
+we would like to place our chart in.
+
+134
+00:09:49.430 --> 00:09:51.870
+Here, we have been provided
+with the chart area.
+
+135
+00:09:51.870 --> 00:09:54.388
+Next, we navigate to the Power-
+Pivot tab on the ribbon.
+
+136
+00:10:00.253 --> 00:10:02.026
+Select the PivotChart option.
+
+137
+00:10:06.926 --> 00:10:11.022
+We are going to drive the flight
+attribute into our access section.
+
+138
+00:10:20.670 --> 00:10:23.647
+And the total revenue attribute
+into a value section,
+
+139
+00:10:23.647 --> 00:10:26.697
+since we are using this field
+as a value of measurement.
+
+140
+00:10:28.959 --> 00:10:33.787
+The chart that we just created provides us
+with a basic view of the various revenue
+
+141
+00:10:33.787 --> 00:10:35.280
+levels across flights.
+
+142
+00:10:36.520 --> 00:10:38.710
+To sort this from largest to smallest,
+
+143
+00:10:38.710 --> 00:10:41.950
+select the drop-down in the bottom
+left corner that says Flight ID.
+
+144
+00:10:41.950 --> 00:10:45.680
+And select More Sort
+Options from the menu.
+
+145
+00:10:45.680 --> 00:10:49.380
+This brings up a pop-up window that
+allows us to sort the data in the chart.
+
+146
+00:10:50.580 --> 00:10:52.101
+Select Descending Z to A.
+
+147
+00:10:54.643 --> 00:10:58.500
+And pick Sum of
+Total Revenue from the list.
+
+148
+00:10:58.500 --> 00:10:59.580
+Click OK to confirm.
+
+149
+00:11:00.580 --> 00:11:04.245
+Finally, we are going to change
+the name of the chart by selecting
+
+150
+00:11:04.245 --> 00:11:07.712
+the placeholder text, and
+replacing it with Total Revenue by
+
+151
+00:11:07.712 --> 00:11:13.338
+Flight. We can now see that
+there are a few flights
+
+152
+00:11:13.338 --> 00:11:19.000
+with very high total revenue amounts with
+a significant drop-off after this level.
+
+153
+00:11:19.000 --> 00:11:24.186
+In this section, we learn how to create
+and store Calculated Fields in PowerPivot and
+
+154
+00:11:24.186 --> 00:11:28.714
+then use these new fields to create
+PowerPivots, and PowerCharts.
+
+155
+00:11:28.714 --> 00:11:32.464
+Now it's your turn to practice what you
+just learned in the student workbook.
+
+156
+00:11:34.728 --> 00:11:44.728
+[MUSIC]

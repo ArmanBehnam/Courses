@@ -1,0 +1,874 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.620
+[MUSIC]
+
+2
+00:00:05.620 --> 00:00:09.229
+In today's exercise, we're going to
+cover how to use Excel to simulate
+
+3
+00:00:09.229 --> 00:00:12.200
+multiple outcomes for
+a given objective, such as profit.
+
+4
+00:00:13.228 --> 00:00:16.400
+We'll demonstrate Excel's ability
+to create random inputs that
+
+5
+00:00:16.400 --> 00:00:19.059
+are based on a theoretical
+probability distribution.
+
+6
+00:00:20.400 --> 00:00:23.750
+After viewing this exercise, you will
+understand how to create a range of
+
+7
+00:00:23.750 --> 00:00:27.830
+outcomes based on random inputs to
+deliver a more realistic scenario.
+
+8
+00:00:28.880 --> 00:00:33.142
+Your operations team has prepared a brief
+summary of their outlook on demand over
+
+9
+00:00:33.142 --> 00:00:34.090
+the coming year.
+
+10
+00:00:34.090 --> 00:00:40.208
+They estimate that we'll have as few
+as 135 passengers 10% of the time,
+
+11
+00:00:40.208 --> 00:00:46.326
+150 passengers 40% of the time,
+175 passengers 30% of the time,
+
+12
+00:00:46.326 --> 00:00:49.684
+and 185 passengers 20% of the time.
+
+13
+00:00:49.684 --> 00:00:54.088
+In addition to random demand, we'll now
+have random cost per mile depending
+
+14
+00:00:54.088 --> 00:00:58.299
+on fuel price, season, and
+weather conditions, to name a few factors.
+
+15
+00:01:00.040 --> 00:01:04.246
+The operations team estimates that
+the cost per mile will be between $30 and
+
+16
+00:01:04.246 --> 00:01:07.530
+$50 with each value in
+the range equally likely.
+
+17
+00:01:08.600 --> 00:01:12.890
+We've added a few more important inputs,
+such as the number of scheduled flights,
+
+18
+00:01:12.890 --> 00:01:18.910
+miles per flight and revenue per
+passenger in cells B173 to H174.
+
+19
+00:01:19.960 --> 00:01:24.170
+Now, we want to take the probability
+information above along with the inputs in
+
+20
+00:01:24.170 --> 00:01:29.520
+cells in B174 to H174 to
+simulate annual profit for
+
+21
+00:01:29.520 --> 00:01:33.370
+the proposed Chicago to Atlanta route.
+
+22
+00:01:33.370 --> 00:01:35.460
+Using Excel's random functionality and
+
+23
+00:01:35.460 --> 00:01:39.290
+the summary information directly below,
+let's run 90 simulations and
+
+24
+00:01:39.290 --> 00:01:42.569
+compute an average annual profit
+under the uncertain conditions.
+
+25
+00:01:43.660 --> 00:01:46.370
+To assist in our calculations
+later in the exercise,
+
+26
+00:01:46.370 --> 00:01:48.940
+we've created several aimed ranges.
+
+27
+00:01:48.940 --> 00:01:51.620
+First we have Total_Miles,
+located in cell E174,
+
+28
+00:01:51.620 --> 00:01:57.270
+which refers to the total number of annual
+miles for the Chicago to Atlanta route.
+
+29
+00:01:58.400 --> 00:02:01.494
+Next we have Min_Cost_per_Mile and
+
+30
+00:02:01.494 --> 00:02:07.125
+Max_Cost_per_Mile in cells F174 and
+G174, respectively.
+
+31
+00:02:07.125 --> 00:02:11.009
+Revenue_per_Passenger is in cell H174.
+
+32
+00:02:11.009 --> 00:02:15.260
+The final named range is
+the likelihood bins table in
+
+33
+00:02:15.260 --> 00:02:19.519
+cells B181 to D185, named likelihood bins.
+
+34
+00:02:21.760 --> 00:02:23.860
+We've identified four
+possible outcomes for
+
+35
+00:02:23.860 --> 00:02:27.330
+the number of passengers
+we can expect per flight.
+
+36
+00:02:27.330 --> 00:02:31.698
+However, we must consider the likelihood
+of each outcome using the operation team's
+
+37
+00:02:31.698 --> 00:02:32.941
+probability estimates.
+
+38
+00:02:34.290 --> 00:02:39.270
+For example, we need to provide Excel
+with information that will choose 150
+
+39
+00:02:39.270 --> 00:02:44.850
+passengers roughly 40% of the time as
+an input for our 90 simulation runs.
+
+40
+00:02:44.850 --> 00:02:49.730
+Likewise, 175 should be an input
+roughly 30% of the time, and so on.
+
+41
+00:02:50.890 --> 00:02:55.060
+The reason we say roughly is because we're
+going to use Excel's RAND function to
+
+42
+00:02:55.060 --> 00:02:58.650
+randomly generate a value which will
+help us determine which value of
+
+43
+00:02:58.650 --> 00:03:00.930
+passengers to choose for
+each simulation run.
+
+44
+00:03:02.660 --> 00:03:06.010
+The first step in this process
+is setting up likelihood bins.
+
+45
+00:03:06.010 --> 00:03:08.878
+The bins are going to be used
+in conjunction with VLOOKUP and
+
+46
+00:03:08.878 --> 00:03:10.480
+the RAND function.
+
+47
+00:03:10.480 --> 00:03:13.510
+So let's turn our attention to
+the likelihood bins we've started for
+
+48
+00:03:13.510 --> 00:03:15.740
+you in cells B182 to B185.
+
+49
+00:03:15.740 --> 00:03:23.578
+We have bin set up, but how did we assign
+each bin a passenger per flight value?
+
+50
+00:03:23.578 --> 00:03:30.277
+You may notice that we have 0%,
+rather than 40%, for 150 passengers.
+
+51
+00:03:30.277 --> 00:03:33.430
+Notice that 41% is in cell B183.
+
+52
+00:03:33.430 --> 00:03:38.296
+What this means is that when
+VLOOKUP is provided, say,
+
+53
+00:03:38.296 --> 00:03:41.410
+0.39, it will choose 150.
+
+54
+00:03:41.410 --> 00:03:46.339
+However, for anything greater than or
+equal to 0.04, but
+
+55
+00:03:46.339 --> 00:03:51.270
+less than 0.71,
+VLOOKUP will choose 175 passengers.
+
+56
+00:03:52.480 --> 00:03:56.008
+In a similar manner,
+185 will be chosen for
+
+57
+00:03:56.008 --> 00:04:01.531
+RAND values greater than or
+equal to 0.71, but less than 0.91.
+
+58
+00:04:01.531 --> 00:04:07.404
+For anything greater than 0.91 up to 1,
+VLOOKUP will choose 135.
+
+59
+00:04:09.360 --> 00:04:14.590
+This helps explain the mechanics of the
+VLOOKUP, but where does the 71% come from?
+
+60
+00:04:14.590 --> 00:04:17.370
+It wasn't a likelihood value
+provided by the operations team.
+
+61
+00:04:18.480 --> 00:04:21.610
+Recall anything greater than or
+equal to 0, but
+
+62
+00:04:21.610 --> 00:04:27.100
+less than 41%,
+will result in 150 for our VLOOKUP.
+
+63
+00:04:27.100 --> 00:04:30.790
+That represents our 40%
+estimated probability,
+
+64
+00:04:30.790 --> 00:04:35.060
+which is basically 40% minus 0%,
+which equals 40%.
+
+65
+00:04:35.060 --> 00:04:37.355
+Now, returning to the 71%.
+
+66
+00:04:37.355 --> 00:04:42.652
+Recall that 175 passengers
+are expected around 30% of the time.
+
+67
+00:04:42.652 --> 00:04:46.710
+71% minus 41% equals 30% in this case.
+
+68
+00:04:49.280 --> 00:04:53.610
+The reason this works is because if
+we compute 100 values using the RAND
+
+69
+00:04:53.610 --> 00:05:00.500
+function, we'd expect approximately
+30 values between 0.31 and 0.71.
+
+70
+00:05:00.500 --> 00:05:05.770
+Again, this is approximate because
+RAND uses a random number generator.
+
+71
+00:05:05.770 --> 00:05:10.310
+So each sample of 100 values
+will be a little different.
+
+72
+00:05:10.310 --> 00:05:15.811
+Likewise, we expect to see 180
+approximately 20% of the time.
+
+73
+00:05:15.811 --> 00:05:21.661
+So we have 91% minus 71%,
+which equals 20%.
+
+74
+00:05:21.661 --> 00:05:27.305
+Finally, since RAND returns values
+between 0 and 1, anything greater than or
+
+75
+00:05:27.305 --> 00:05:32.285
+equal to 0.91, up to 1,
+should occur roughly 10% of the time,
+
+76
+00:05:32.285 --> 00:05:35.625
+which corresponds to our estimate for 135.
+
+77
+00:05:35.625 --> 00:05:41.900
+To summarize, we're going to generate
+90 random values using RAND.
+
+78
+00:05:41.900 --> 00:05:46.687
+We expect around 40% of those values
+to be less than or equal to 0.4,
+
+79
+00:05:46.687 --> 00:05:51.463
+30% to be between 0.41 and 0.71,
+
+80
+00:05:51.463 --> 00:05:54.646
+20% between 0.71 and
+
+81
+00:05:54.646 --> 00:06:00.360
+0.91, and 10% between 0.91 and 1.
+
+82
+00:06:00.360 --> 00:06:04.080
+We're taking advantage of this property
+of RAND to generate a probability
+
+83
+00:06:04.080 --> 00:06:07.030
+distribution of passengers per flight.
+
+84
+00:06:07.030 --> 00:06:11.540
+In column D of the likelihood bins table,
+we have calculated the annual revenue
+
+85
+00:06:11.540 --> 00:06:16.240
+associated with each level of
+passengers per flight in column C.
+
+86
+00:06:16.240 --> 00:06:19.130
+This will be the final output
+of the VLOOKUP calculation.
+
+87
+00:06:20.560 --> 00:06:21.690
+Beginning in cell G181,
+
+88
+00:06:21.690 --> 00:06:26.680
+we've designated a range of cells to
+calculate profit, which is in column J.
+
+89
+00:06:27.800 --> 00:06:33.030
+For each of the 90 profit calculations in
+column J, we'll have two random inputs,
+
+90
+00:06:33.030 --> 00:06:38.280
+Cost per Mile in column H and
+Passenger Revenue in column I.
+
+91
+00:06:38.280 --> 00:06:40.222
+Cost per Mile can be
+anywhere between $30 and
+
+92
+00:06:40.222 --> 00:06:45.010
+$50, where each value in
+the range is equally likely.
+
+93
+00:06:45.010 --> 00:06:48.060
+This is different than the range
+of passengers to expect,
+
+94
+00:06:48.060 --> 00:06:51.125
+where we were provided with
+a probability distribution.
+
+95
+00:06:51.125 --> 00:06:53.550
+Similar to passengers per flight,
+
+96
+00:06:53.550 --> 00:06:57.110
+we're going to use the RAND function
+to calculate a random value for
+
+97
+00:06:57.110 --> 00:07:01.090
+Cost per Mile, but this calculation
+does not require a VLOOKUP.
+
+98
+00:07:03.300 --> 00:07:05.960
+So, let's begin by thinking
+about this problem.
+
+99
+00:07:07.210 --> 00:07:10.658
+How do we get a value between
+two numbers using RAND?
+
+100
+00:07:10.658 --> 00:07:14.463
+Let's begin by typing in
+the formula in cell H182.
+
+101
+00:07:14.463 --> 00:07:16.080
+Then we can explain why it works.
+
+102
+00:07:17.240 --> 00:07:19.647
+First, begin by typing equal,
+
+103
+00:07:19.647 --> 00:07:24.467
+then the name of the named range
+that refers to max cost per mile.
+
+104
+00:07:24.467 --> 00:07:28.696
+Max_Cost_per_Mile.
+
+105
+00:07:28.696 --> 00:07:30.465
+This will serve as our upper bound.
+
+106
+00:07:30.465 --> 00:07:36.992
+Now, type -rand().
+
+107
+00:07:36.992 --> 00:07:40.410
+This is our random component.
+
+108
+00:07:40.410 --> 00:07:44.045
+We want to multiply this by the difference
+between our upper bound and lower bound.
+
+109
+00:07:44.045 --> 00:07:49.792
+So, type *( then the named range
+
+110
+00:07:49.792 --> 00:07:55.540
+that represents the upper bound,
+
+111
+00:07:55.540 --> 00:08:03.469
+Max_Cost_per_Mile minus our lower bound,
+
+112
+00:08:03.469 --> 00:08:08.250
+Min_Cost_per_Mile).
+
+113
+00:08:08.250 --> 00:08:12.800
+Hit enter and
+we should have a value between 30 and 50.
+
+114
+00:08:12.800 --> 00:08:16.412
+So, why does this work?
+
+115
+00:08:16.412 --> 00:08:20.759
+Remember than RAND returns
+a value between 0 and 1.
+
+116
+00:08:20.759 --> 00:08:22.313
+When RAND is close to 0,
+
+117
+00:08:22.313 --> 00:08:26.753
+we have our upper bound being subtracted
+by a number very close to zero,
+
+118
+00:08:26.753 --> 00:08:31.200
+since a number multiplied by close to
+zero will itself be close to zero.
+
+119
+00:08:32.200 --> 00:08:34.420
+In this case, we'll be close to 50.
+
+120
+00:08:34.420 --> 00:08:40.270
+On the other hand, if RAND is close to
+one, we have our upper bound 50 being
+
+121
+00:08:40.270 --> 00:08:45.190
+subtracted by a number very close to the
+difference between 50 and 30, which is 20.
+
+122
+00:08:45.190 --> 00:08:49.820
+50 minus 20 equals 30,
+which is close to our lower bound.
+
+123
+00:08:50.940 --> 00:08:57.630
+Finally, if RAND is close to 0.5, we'll
+be in the middle of our range, around 40.
+
+124
+00:08:57.630 --> 00:09:02.110
+Turning to column I,
+let's use VLOOKUP, RAND and
+
+125
+00:09:02.110 --> 00:09:04.620
+our likelihood bins to get
+a random revenue figure.
+
+126
+00:09:05.750 --> 00:09:09.620
+We explained this calculation when
+we introduced the likelihood bins.
+
+127
+00:09:09.620 --> 00:09:17.410
+So let's begin by typing =VLOOKUP And
+hit the tab key.
+
+128
+00:09:18.890 --> 00:09:22.770
+The first argument is going to be
+a value returned by the RAND function.
+
+129
+00:09:22.770 --> 00:09:27.320
+So type RAND, and open and
+close parenthesis then a comma.
+
+130
+00:09:30.560 --> 00:09:34.616
+The table array argument is
+going to be the likelihood bin,
+
+131
+00:09:34.616 --> 00:09:38.924
+named range, so type likelihood
+underscore bin then a comma.
+
+132
+00:09:43.446 --> 00:09:45.461
+Once VLOOKUP finds the correct bin,
+
+133
+00:09:45.461 --> 00:09:48.730
+we want it to choose values
+from the third column.
+
+134
+00:09:48.730 --> 00:09:50.240
+Type three, then a comma.
+
+135
+00:09:51.840 --> 00:09:54.790
+Finally, we have
+the range_lookup argument.
+
+136
+00:09:54.790 --> 00:09:58.900
+In this scenario, we want this argument
+to be set to true, so type true.
+
+137
+00:10:00.610 --> 00:10:03.050
+We need the true option
+because we're looking for
+
+138
+00:10:03.050 --> 00:10:06.530
+ranges of values to match against,
+not exact matches.
+
+139
+00:10:07.860 --> 00:10:11.390
+To finalize the formula,
+close parentheses and hit Enter.
+
+140
+00:10:16.040 --> 00:10:20.740
+We've calculated annual revenue, so
+now we need to subtract annual cost
+
+141
+00:10:20.740 --> 00:10:25.255
+using the value in cell H182 and
+the total miles named range.
+
+142
+00:10:26.320 --> 00:10:30.171
+In cell J182 type equal I182,
+
+143
+00:10:30.171 --> 00:10:34.030
+which is the annual revenue figure.
+
+144
+00:10:36.180 --> 00:10:41.535
+Now, subtract annual costs
+by typing minus open
+
+145
+00:10:41.535 --> 00:10:47.290
+parenthesis Total_Miles
+multiplied by H182.
+
+146
+00:10:48.390 --> 00:10:50.763
+Close parenthesis and hit Enter.
+
+147
+00:10:53.817 --> 00:10:57.160
+We've calculated one
+simulated value of profit.
+
+148
+00:10:57.160 --> 00:11:01.030
+But we want 90, so we need to copy our
+formulas down the rest of the table.
+
+149
+00:11:02.530 --> 00:11:08.690
+To copy the formulas down,
+highlight cells H182 to J182.
+
+150
+00:11:08.690 --> 00:11:14.127
+Hover over the bottom right corner of
+J182 until you see the cross-hair.
+
+151
+00:11:14.127 --> 00:11:17.191
+Once the cross-hair is visible,
+double click and
+
+152
+00:11:17.191 --> 00:11:19.265
+the formulas will be copied down.
+
+153
+00:11:21.719 --> 00:11:25.584
+Now we have 90 different values of profit,
+each accounting for
+
+154
+00:11:25.584 --> 00:11:28.040
+the random nature of our inputs.
+
+155
+00:11:28.040 --> 00:11:32.180
+Instead of one value,
+we now have a range of values.
+
+156
+00:11:32.180 --> 00:11:34.280
+So how do we use this
+range to make a decision?
+
+157
+00:11:35.280 --> 00:11:38.479
+Let's turn to the summary information.
+
+158
+00:11:38.479 --> 00:11:42.676
+We've provided summary information
+that is calculated from
+
+159
+00:11:42.676 --> 00:11:47.365
+the results in cells J182 to J271,
+our 90 simulation runs.
+
+160
+00:11:49.188 --> 00:11:50.215
+In cell C190,
+
+161
+00:11:50.215 --> 00:11:54.260
+we have calculated the average
+profit from the 90 simulation runs.
+
+162
+00:11:55.390 --> 00:12:00.330
+Since the calculation is random,
+the value will change with each iteration.
+
+163
+00:12:00.330 --> 00:12:04.397
+If you want to recalculate the formulas
+using new random inputs for
+
+164
+00:12:04.397 --> 00:12:07.745
+Passenger Revenue and
+Cost per Mile, hit the F9 key.
+
+165
+00:12:12.789 --> 00:12:15.990
+Notice how the average fluctuates
+each time we press F9.
+
+166
+00:12:17.090 --> 00:12:20.160
+The good news is the average
+profit is positive.
+
+167
+00:12:20.160 --> 00:12:23.530
+But the average can be a tricky
+statistic if the data is skewed.
+
+168
+00:12:25.030 --> 00:12:29.060
+Another way to view our simulation runs
+is to count the proportion of runs that
+
+169
+00:12:29.060 --> 00:12:31.050
+produce a profit greater than zero.
+
+170
+00:12:32.080 --> 00:12:37.009
+In cell C191,
+we've provided this calculation along with
+
+171
+00:12:37.009 --> 00:12:40.549
+a conditionally formatted cell, C192.
+
+172
+00:12:40.549 --> 00:12:45.835
+The conditional formatting rules are based
+on the assumption that anything greater
+
+173
+00:12:45.835 --> 00:12:50.759
+than or equal to 80% in cell C191
+corresponds to a profitable scenario.
+
+174
+00:12:50.759 --> 00:12:53.903
+So it will get a green traffic light icon.
+
+175
+00:12:53.903 --> 00:12:56.309
+Less than 80% but greater than or
+
+176
+00:12:56.309 --> 00:13:01.820
+equal to 75% means the scenario
+could be pursued, but with caution.
+
+177
+00:13:01.820 --> 00:13:04.290
+So that range gets a yellow light.
+
+178
+00:13:04.290 --> 00:13:09.840
+Scenarios with less than 75% profitable
+simulation runs should not be pursued and
+
+179
+00:13:09.840 --> 00:13:11.670
+will get a red traffic light icon.
+
+180
+00:13:14.540 --> 00:13:17.660
+Please note these threshold
+values are hypothetical.
+
+181
+00:13:17.660 --> 00:13:21.690
+In reality, you'd need to work with your
+team to determine when a scenario is
+
+182
+00:13:21.690 --> 00:13:26.280
+worth pursuing given scenario
+specific objectives and concerns.
+
+183
+00:13:28.000 --> 00:13:31.880
+We've demonstrated how to use Excel
+to simulate a random process.
+
+184
+00:13:31.880 --> 00:13:35.401
+Now it's your turn to practice what you've
+learned using the student workbook.
+
+185
+00:13:40.250 --> 00:13:43.790
+[MUSIC]

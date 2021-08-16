@@ -1,0 +1,769 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.083
+[MUSIC]
+
+2
+00:00:05.083 --> 00:00:09.589
+In this first exercise, we've been asked
+by the COO of the airline company that we
+
+3
+00:00:09.589 --> 00:00:12.220
+work for
+to analyze parts of their flight data.
+
+4
+00:00:13.950 --> 00:00:16.890
+Let's start by taking a look at some
+of the data that we have been provided.
+
+5
+00:00:18.200 --> 00:00:20.710
+There are four data
+tables in this workbook,
+
+6
+00:00:20.710 --> 00:00:23.350
+each containing different
+kinds of airline data.
+
+7
+00:00:23.350 --> 00:00:25.670
+The first data table is
+located on the Flights tab.
+
+8
+00:00:27.060 --> 00:00:30.490
+It contains information related
+to flights out of Chicago,
+
+9
+00:00:30.490 --> 00:00:33.850
+including their destination,
+the ID of the aircraft that is used,
+
+10
+00:00:35.220 --> 00:00:42.100
+the scheduled departure time, pricing
+information, and the date of the flight.
+
+11
+00:00:42.100 --> 00:00:44.440
+The next data table is
+located on the Routes tab.
+
+12
+00:00:46.680 --> 00:00:49.280
+It provides insight into
+the specific departure and
+
+13
+00:00:49.280 --> 00:00:53.320
+arrival airports, along with the distance
+and list price for each route.
+
+14
+00:00:54.390 --> 00:00:58.470
+Notice in column b,
+that all flights are coming out of ORD,
+
+15
+00:00:58.470 --> 00:01:00.200
+which is the international
+airport quote for
+
+16
+00:01:00.200 --> 00:01:02.934
+O'Hare International Airport,
+location in Chicago.
+
+17
+00:01:02.934 --> 00:01:07.400
+The third data table is located on the Aircraft tab,
+and
+
+18
+00:01:07.400 --> 00:01:11.530
+it provides specs for all the aircraft in
+the fleet, including the type of aircraft,
+
+19
+00:01:11.530 --> 00:01:16.350
+its seat capacity, and
+fuel cost per seat per mile.
+
+20
+00:01:16.350 --> 00:01:20.990
+Finally, the table in the Airports tab
+provides the full names of the airports,
+
+21
+00:01:20.990 --> 00:01:24.200
+along with the number of available
+gates at each of these airports.
+
+22
+00:01:25.960 --> 00:01:29.110
+Now that we have a better
+understanding of the available data,
+
+23
+00:01:29.110 --> 00:01:31.530
+let's move on to the first exercise.
+
+24
+00:01:31.530 --> 00:01:32.980
+As we mentioned previously,
+
+25
+00:01:32.980 --> 00:01:36.920
+we have been asked by our COO to analyze
+some of the company's flight data.
+
+26
+00:01:37.935 --> 00:01:39.555
+However, it is apparent for
+
+27
+00:01:39.555 --> 00:01:42.615
+going through the data tabs,
+that this is no simple task.
+
+28
+00:01:42.615 --> 00:01:46.465
+Each of the four tables contains separate
+pieces of information that we need to
+
+29
+00:01:46.465 --> 00:01:51.485
+analyze, which prevents us from
+performing an overall analysis of the data.
+
+30
+00:01:51.485 --> 00:01:55.905
+For example, if the business were to ask
+us to determine the number of slides that
+
+31
+00:01:55.905 --> 00:02:00.490
+use the B737 aircraft,
+we will probably start
+
+32
+00:02:00.490 --> 00:02:05.060
+by looking at the flights table,
+since it contains the number of flights.
+
+33
+00:02:05.060 --> 00:02:10.190
+However, this table only contains a field
+called AircraftID with no field for
+
+34
+00:02:10.190 --> 00:02:13.870
+type of the aircraft to be found, in fact,
+
+35
+00:02:13.870 --> 00:02:16.349
+the data is stored in an entirely
+different data table.
+
+36
+00:02:17.780 --> 00:02:21.450
+The Aircraft table contains the type
+of aircraft for each plane, but
+
+37
+00:02:21.450 --> 00:02:25.510
+has no connection to the number of
+flights being flown using this aircraft.
+
+38
+00:02:25.510 --> 00:02:29.750
+As the data is set up at the moment,
+it would be an incredibly tedious task
+
+39
+00:02:29.750 --> 00:02:33.740
+to go back and forth between the two
+tables, counting and matching the flights.
+
+40
+00:02:35.080 --> 00:02:38.740
+Luckily, we use the relational
+data model to form relationships
+
+41
+00:02:38.740 --> 00:02:41.850
+between these tables, and
+use the result to answer this question.
+
+42
+00:02:43.090 --> 00:02:46.950
+Let's start by organizing our data
+into a relational data model.
+
+43
+00:02:46.950 --> 00:02:49.230
+We will be using PowerPivot
+to accomplish this.
+
+44
+00:02:50.760 --> 00:02:54.060
+As you may remember,
+PowerPivot creates data models,
+
+45
+00:02:54.060 --> 00:02:56.841
+which can then be built into
+PivotTables and PivotCharts.
+
+46
+00:02:58.480 --> 00:03:01.960
+Let's start by converting the flights
+data into a table format, so
+
+47
+00:03:01.960 --> 00:03:04.710
+that we can use it in our
+PowerPivot data model.
+
+48
+00:03:04.710 --> 00:03:06.830
+So, let's move back over
+to the Flights tab.
+
+49
+00:03:08.070 --> 00:03:10.270
+We're going to start with
+selecting the entire data set.
+
+50
+00:03:14.635 --> 00:03:18.523
+And then we will navigate to the Insert
+button that can be found on the main
+
+51
+00:03:18.523 --> 00:03:22.950
+ribbon, where we are then going to
+select the Create Table option.
+
+52
+00:03:22.950 --> 00:03:26.340
+This opens a dialogue box that
+shows the range we just selected.
+
+53
+00:03:27.380 --> 00:03:32.280
+Let's make sure that the indicator range
+matches the data that we wanted to
+
+54
+00:03:32.280 --> 00:03:32.991
+capture.
+
+55
+00:03:32.991 --> 00:03:37.932
+For the flight table, we should be
+covering all cells in the table,
+
+56
+00:03:37.932 --> 00:03:41.325
+which ranges from cell A1 through cell J9637.
+
+57
+00:03:41.325 --> 00:03:45.530
+As we can see, the flight data
+set was correctly selected.
+
+58
+00:03:46.760 --> 00:03:47.780
+There is an option name.
+
+59
+00:03:47.780 --> 00:03:52.150
+My table has headers, since the data
+we just selected has headers, so
+
+60
+00:03:52.150 --> 00:03:53.840
+let's go ahead and select this option.
+
+61
+00:03:55.200 --> 00:03:59.540
+It is considered the best practice to
+include headers when selecting a data set,
+
+62
+00:03:59.540 --> 00:04:03.620
+as this allows Excel to add informative
+field names in the data model.
+
+63
+00:04:03.620 --> 00:04:06.250
+Plus, it provides clarity to the user.
+
+64
+00:04:06.250 --> 00:04:10.450
+Once we click the OK button, we can see
+that the table formatting has changed.
+
+65
+00:04:11.620 --> 00:04:14.880
+Now, the table will be formatted
+to include a Default table style.
+
+66
+00:04:15.880 --> 00:04:19.150
+This will let you know that you have
+created a new named table range.
+
+67
+00:04:20.240 --> 00:04:23.560
+If you look at the top left corner
+while the table is selected,
+
+68
+00:04:23.560 --> 00:04:27.220
+you'll notice instead of a cell,
+it is referencing the name of the table.
+
+69
+00:04:28.620 --> 00:04:30.520
+In a moment,
+we'll change the name of the table.
+
+70
+00:04:31.990 --> 00:04:36.360
+Now that we have successfully changed
+the raw data table into an Excel table,
+
+71
+00:04:36.360 --> 00:04:40.130
+selecting any cell in the table is going
+to automatically bring up the Design tab.
+
+72
+00:04:41.470 --> 00:04:44.120
+This is one of the properties
+of an Excel table.
+
+73
+00:04:44.120 --> 00:04:46.950
+It is considered the best
+practice to name your table.
+
+74
+00:04:46.950 --> 00:04:50.640
+So, let's click on the Design tab,
+and select the table name option
+
+75
+00:04:50.640 --> 00:04:52.940
+that can be found at the upper
+left corner of this tab.
+
+76
+00:04:54.470 --> 00:04:56.450
+Let's call this table, Flights Pivot.
+
+77
+00:05:01.750 --> 00:05:05.120
+We're going to repeat these steps for
+the remaining three data tables, so
+
+78
+00:05:05.120 --> 00:05:06.905
+that we can use them in our PowerPivot.
+
+79
+00:05:08.620 --> 00:05:13.390
+Let's start by navigating to the Routes
+tab by clicking on cell A1 and
+
+80
+00:05:13.390 --> 00:05:16.470
+using Ctrl+ A.
+
+81
+00:05:16.470 --> 00:05:19.420
+Next, we're going to navigate
+to the insert button that can
+
+82
+00:05:19.420 --> 00:05:23.570
+be found on the main ribbon, where we're
+going to select the Create Table option.
+
+83
+00:05:24.570 --> 00:05:28.720
+We check that the pop-up box
+shows the correct data set.
+
+84
+00:05:28.720 --> 00:05:31.020
+We include the Headers
+in our data selection.
+
+85
+00:05:31.020 --> 00:05:32.440
+So, we're going to go ahead and
+
+86
+00:05:32.440 --> 00:05:37.890
+check the My Table Has Headaers box
+before closing the pop-up window.
+
+87
+00:05:37.890 --> 00:05:41.100
+Now, we just have to update the name
+of the table we just created.
+
+88
+00:05:41.100 --> 00:05:45.280
+So, let's click on one of the cells,
+navigate to the Design tab, and
+
+89
+00:05:45.280 --> 00:05:50.100
+select a table name option, where we're
+going to enter the name RoutesPivot.
+
+90
+00:05:50.100 --> 00:05:51.630
+We're done with this table, so
+
+91
+00:05:51.630 --> 00:05:54.950
+let's move in to the next step
+where we'll find the aircraft data.
+
+92
+00:05:56.680 --> 00:05:59.930
+Just like before, we start by selecting
+all of our data, but instead of
+
+93
+00:05:59.930 --> 00:06:03.780
+using the Insert tab, we're going to
+create our table using the shortcut.
+
+94
+00:06:05.008 --> 00:06:08.780
+Let's press Ctrl+ T, and
+follow the same steps as before,
+
+95
+00:06:08.780 --> 00:06:11.720
+selecting the necessary data and
+choosing the Headers option.
+
+96
+00:06:15.460 --> 00:06:18.150
+We still need to change
+the name of this table.
+
+97
+00:06:18.150 --> 00:06:21.660
+So, let's click on a cell and
+head to the Design tab,
+
+98
+00:06:21.660 --> 00:06:25.520
+where we select the table name option and
+change it to Aircraft Pivot.
+
+99
+00:06:27.410 --> 00:06:30.070
+Let's move to the last tab,
+and select the airport data.
+
+100
+00:06:31.070 --> 00:06:35.770
+We're going to use the Ctrl+ T shortcut
+again to turn it into an Excel table.
+
+101
+00:06:37.800 --> 00:06:40.980
+And then we just need to change the name,
+which we do,
+
+102
+00:06:40.980 --> 00:06:44.234
+by clicking on a cell in the table,
+and heading to the Design tab.
+
+103
+00:06:44.234 --> 00:06:48.480
+We reserve the table name option,
+and change it to AirportPivot.
+
+104
+00:06:52.388 --> 00:06:54.907
+Now that we have created
+our four data tables,
+
+105
+00:06:54.907 --> 00:06:57.760
+it is time to complete our
+data model in PowerPivot.
+
+106
+00:06:59.240 --> 00:07:03.840
+First, we must load each individual
+table into the PowerPivot tool,
+
+107
+00:07:03.840 --> 00:07:05.660
+in order to add them to our data model.
+
+108
+00:07:06.750 --> 00:07:08.080
+Let's start with the Flights table.
+
+109
+00:07:09.400 --> 00:07:11.620
+First, we are going to
+navigate to the table, and
+
+110
+00:07:11.620 --> 00:07:13.970
+then we are going to click
+on a cell in the table.
+
+111
+00:07:15.550 --> 00:07:19.240
+Next, we are going to navigate
+to the PowerPivot tab, and
+
+112
+00:07:19.240 --> 00:07:21.350
+click on the Add to Data Model button.
+
+113
+00:07:23.140 --> 00:07:25.870
+We need to do this for
+the three other tables as well.
+
+114
+00:07:26.940 --> 00:07:31.120
+So, let's move to the next step and
+select any cell in the Routes table.
+
+115
+00:07:31.120 --> 00:07:33.210
+Then we'll navigate to the PowerPivot tab,
+
+116
+00:07:33.210 --> 00:07:35.200
+where we'll select Add
+to Data Model button.
+
+117
+00:07:39.834 --> 00:07:44.071
+The aircraft data is next, so let's
+move to that tab, click on a cell and
+
+118
+00:07:44.071 --> 00:07:46.930
+the table, and
+select from the PowerPivot tab.
+
+119
+00:07:52.097 --> 00:07:55.983
+Finally, let's go to the Airports tab,
+select a cell in the table, and
+
+120
+00:07:55.983 --> 00:08:00.140
+add it to the data model by clicking
+the relevant button on the PowerPivot tab.
+
+121
+00:08:04.768 --> 00:08:07.680
+Now that we've added all four
+of the tables to our data model,
+
+122
+00:08:07.680 --> 00:08:11.560
+we need to form the required
+relationships between the tables,
+
+123
+00:08:11.560 --> 00:08:14.100
+in order to finally create our PowerPivot.
+
+124
+00:08:14.100 --> 00:08:17.170
+So, let's go to the tab where
+our first pivot will be.
+
+125
+00:08:17.170 --> 00:08:21.710
+And open the PowerPivot tool by
+navigating to PowerPivot tab, and
+
+126
+00:08:21.710 --> 00:08:23.625
+selecting the Manage option.
+
+127
+00:08:23.625 --> 00:08:26.990
+Note that can take a couple
+of seconds to load the data.
+
+128
+00:08:26.990 --> 00:08:30.490
+Now that we have this page opened,
+let's go to the View section, and
+
+129
+00:08:30.490 --> 00:08:31.530
+click on Diagram View.
+
+130
+00:08:32.590 --> 00:08:36.230
+This enables us to see each of
+the tables we have previously saved
+
+131
+00:08:36.230 --> 00:08:37.880
+within the data model.
+
+132
+00:08:37.880 --> 00:08:42.150
+For each table, we need to identify
+how it links to the other tables
+
+133
+00:08:42.150 --> 00:08:47.110
+by dragging lines between the tables,
+in order to create relationships.
+
+134
+00:08:47.110 --> 00:08:48.320
+Note that in order for
+
+135
+00:08:48.320 --> 00:08:52.930
+fields to be linked in PowerPivot,
+they must have the exact same name.
+
+136
+00:08:52.930 --> 00:08:54.990
+So, let's get started with
+the flights data table.
+
+137
+00:08:56.010 --> 00:08:59.460
+We can see that Route ID also
+appears in the Routes table.
+
+138
+00:08:59.460 --> 00:09:04.320
+Which means that this is a foreign key
+that we can use to link the two tables.
+
+139
+00:09:04.320 --> 00:09:07.660
+We'll go ahead and create that
+relationship by clicking on the Route ID
+
+140
+00:09:07.660 --> 00:09:12.360
+in the Flights table, and dragging it
+onto the Route ID in the Routes table.
+
+141
+00:09:12.360 --> 00:09:15.040
+As you can see,
+this creates a link in the diagram,
+
+142
+00:09:15.040 --> 00:09:18.100
+showing that these two
+fields have been linked.
+
+143
+00:09:18.100 --> 00:09:22.390
+We can also see that the Aircraft ID
+appears in both the Flights table,
+
+144
+00:09:22.390 --> 00:09:24.640
+as well as the Aircrafts table.
+
+145
+00:09:24.640 --> 00:09:28.740
+Let's go ahead and
+click on it in the Flights table, and
+
+146
+00:09:28.740 --> 00:09:32.890
+then drag it onto the corresponding
+Aircraft ID field in the Aircrafts table.
+
+147
+00:09:37.023 --> 00:09:41.422
+Finally, we're going to link the Airport
+ID, that is in the routes table,
+
+148
+00:09:41.422 --> 00:09:44.470
+to the Airport ID in the Airport table.
+
+149
+00:09:44.470 --> 00:09:47.090
+Let's click on that field
+in the Routes table, and
+
+150
+00:09:47.090 --> 00:09:49.991
+drag it down to the corresponding
+field in the Airport table.
+
+151
+00:09:49.991 --> 00:09:53.530
+As we can see,
+the diagram now has multiple lines on it,
+
+152
+00:09:53.530 --> 00:09:56.100
+representing all of
+the relationships we just created.
+
+153
+00:09:57.290 --> 00:10:00.600
+Notice how all of the tables
+are interconnected, and
+
+154
+00:10:00.600 --> 00:10:03.470
+that there isn't a single
+table that stands alone.
+
+155
+00:10:03.470 --> 00:10:06.590
+This means that we're done
+creating our relationships.
+
+156
+00:10:06.590 --> 00:10:08.807
+So, let's go ahead and
+close the PowerPivot view.
+
+157
+00:10:10.010 --> 00:10:13.003
+You've just learned how to
+create a relational data model.
+
+158
+00:10:13.003 --> 00:10:21.388
+Now it is your turn to practice what you
+just learned in the student workbook.
+
+159
+00:10:21.388 --> 00:10:24.550
+[MUSIC]
