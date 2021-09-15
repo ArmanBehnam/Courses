@@ -1,0 +1,541 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.530
+Sentiment classification is the task of looking at a piece of text
+
+2
+00:00:04.530 --> 00:00:07.170
+and telling if someone likes or dislikes
+
+3
+00:00:07.170 --> 00:00:09.125
+the thing they're talking about.
+
+4
+00:00:09.125 --> 00:00:14.135
+It is one of the most important building blocks in NLP and is used in many applications.
+
+5
+00:00:14.135 --> 00:00:15.980
+One of the challenges of sentiment classification
+
+6
+00:00:15.980 --> 00:00:19.223
+is you might not have a huge label training set for it.
+
+7
+00:00:19.223 --> 00:00:20.340
+But with word embeddings,
+
+8
+00:00:20.340 --> 00:00:22.972
+you're able to build good sentiment classifiers
+
+9
+00:00:22.972 --> 00:00:25.870
+even with only modest-size label training sets.
+
+10
+00:00:25.870 --> 00:00:27.255
+Let's see how you can do that.
+
+11
+00:00:27.255 --> 00:00:31.720
+So here's an example of a sentiment classification problem.
+
+12
+00:00:31.720 --> 00:00:34.860
+The input X is a piece of text and the output Y
+
+13
+00:00:34.860 --> 00:00:38.864
+that you want to predict is what is the sentiment,
+
+14
+00:00:38.864 --> 00:00:40.983
+such as the star rating of,
+
+15
+00:00:40.983 --> 00:00:43.025
+let's say, a restaurant review.
+
+16
+00:00:43.025 --> 00:00:47.025
+So if someone says, "The dessert is excellent" and they give it a four-star review,
+
+17
+00:00:47.025 --> 00:00:49.090
+"Service was quite slow" two-star review,
+
+18
+00:00:49.090 --> 00:00:51.178
+"Good for a quick meal but nothing special" three-star review.
+
+19
+00:00:51.178 --> 00:00:53.120
+And this is a pretty harsh review,
+
+20
+00:00:53.120 --> 00:00:54.090
+"Completely lacking in good taste, good service, and good ambiance."
+
+21
+00:00:54.090 --> 00:00:56.090
+That's a one-star review.
+
+22
+00:00:56.090 --> 00:01:02.835
+So if you can train a system to map from X or Y based on a label data set like this,
+
+23
+00:01:02.835 --> 00:01:05.880
+then you could use it to monitor comments that
+
+24
+00:01:05.880 --> 00:01:08.925
+people are saying about maybe a restaurant that you run.
+
+25
+00:01:08.925 --> 00:01:13.335
+So people might also post messages about your restaurant on social media,
+
+26
+00:01:13.335 --> 00:01:14.895
+on Twitter, or Facebook,
+
+27
+00:01:14.895 --> 00:01:17.510
+or Instagram, or other forms of social media.
+
+28
+00:01:17.510 --> 00:01:20.605
+And if you have a sentiment classifier,
+
+29
+00:01:20.605 --> 00:01:23.730
+they can look just a piece of text and figure out how
+
+30
+00:01:23.730 --> 00:01:27.540
+positive or negative is the sentiment of the poster toward your restaurant.
+
+31
+00:01:27.540 --> 00:01:30.750
+Then you can also be able to keep track of whether or not there are
+
+32
+00:01:30.750 --> 00:01:35.475
+any problems or if your restaurant is getting better or worse over time.
+
+33
+00:01:35.475 --> 00:01:38.310
+So one of the challenges of
+
+34
+00:01:38.310 --> 00:01:43.250
+sentiment classification is you might not have a huge label data set.
+
+35
+00:01:43.250 --> 00:01:45.400
+So for sentimental classification task,
+
+36
+00:01:45.400 --> 00:01:47.910
+training sets with maybe anywhere from
+
+37
+00:01:47.910 --> 00:01:52.410
+10,000 to maybe 100,000 words would not be uncommon.
+
+38
+00:01:52.410 --> 00:01:57.285
+Sometimes even smaller than 10,000 words and word embeddings that you can
+
+39
+00:01:57.285 --> 00:02:00.020
+take can help you to much
+
+40
+00:02:00.020 --> 00:02:03.680
+better understand especially when you have a small training set.
+
+41
+00:02:03.680 --> 00:02:04.980
+So here's what you can do.
+
+42
+00:02:04.980 --> 00:02:08.120
+We'll go for a couple different algorithms in this video.
+
+43
+00:02:08.120 --> 00:02:11.150
+Here's a simple sentiment classification model.
+
+44
+00:02:11.150 --> 00:02:13.490
+You can take a sentence like "dessert is excellent" and
+
+45
+00:02:13.490 --> 00:02:16.070
+look up those words in your dictionary.
+
+46
+00:02:16.070 --> 00:02:18.465
+We use a 10,000-word dictionary as usual.
+
+47
+00:02:18.465 --> 00:02:24.140
+And let's build a classifier to map it to the output Y that this was four stars.
+
+48
+00:02:24.140 --> 00:02:27.080
+So given these four words, as usual,
+
+49
+00:02:27.080 --> 00:02:33.620
+we can take these four words and look up the one-hot vector.
+
+50
+00:02:33.620 --> 00:02:38.882
+So there's 0 8 9 2 8 which is a one-hot vector multiplied by the embedding matrix E,
+
+51
+00:02:38.882 --> 00:02:41.920
+which can learn from a much larger text corpus.
+
+52
+00:02:41.920 --> 00:02:43.550
+It can learn in embedding from, say,
+
+53
+00:02:43.550 --> 00:02:45.440
+a billion words or a hundred billion words,
+
+54
+00:02:45.440 --> 00:02:50.745
+and use that to extract out the embedding vector for the word "the",
+
+55
+00:02:50.745 --> 00:02:52.965
+and then do the same for "dessert",
+
+56
+00:02:52.965 --> 00:02:57.545
+do the same for "is" and do the same for "excellent".
+
+57
+00:02:57.545 --> 00:03:02.530
+And if this was trained on a very large data set,
+
+58
+00:03:02.530 --> 00:03:04.218
+like a hundred billion words,
+
+59
+00:03:04.218 --> 00:03:06.980
+then this allows you to take a lot of knowledge even from
+
+60
+00:03:06.980 --> 00:03:10.250
+infrequent words and apply them to your problem,
+
+61
+00:03:10.250 --> 00:03:15.455
+even words that weren't in your labeled training set.
+
+62
+00:03:15.455 --> 00:03:17.709
+Now here's one way to build a classifier,
+
+63
+00:03:17.709 --> 00:03:19.570
+which is that you can take these vectors,
+
+64
+00:03:19.570 --> 00:03:22.505
+let's say these are 300-dimensional vectors,
+
+65
+00:03:22.505 --> 00:03:26.220
+and you could then just sum or average them.
+
+66
+00:03:26.220 --> 00:03:34.380
+And I'm just going to put a bigger average operator here and you could use sum or average.
+
+67
+00:03:34.380 --> 00:03:38.430
+And this gives you a 300-dimensional feature vector
+
+68
+00:03:38.430 --> 00:03:44.260
+that you then pass to a soft-max classifier which then outputs Y-hat.
+
+69
+00:03:44.260 --> 00:03:47.250
+And so the softmax can output what are
+
+70
+00:03:47.250 --> 00:03:50.935
+the probabilities of the five possible outcomes from one-star up to five-star.
+
+71
+00:03:50.935 --> 00:03:57.285
+So this will be assortment of the five possible outcomes to predict what is Y.
+
+72
+00:03:57.285 --> 00:04:01.070
+So notice that by using the average operation here,
+
+73
+00:04:01.070 --> 00:04:04.680
+this particular algorithm works for reviews that are
+
+74
+00:04:04.680 --> 00:04:08.550
+short or long because even if a review that is 100 words long,
+
+75
+00:04:08.550 --> 00:04:11.390
+you can just sum or average all the feature vectors for all hundred words
+
+76
+00:04:11.390 --> 00:04:15.645
+and so that gives you a representation,
+
+77
+00:04:15.645 --> 00:04:18.095
+a 300-dimensional feature representation,
+
+78
+00:04:18.095 --> 00:04:21.745
+that you can then pass into your sentiment classifier.
+
+79
+00:04:21.745 --> 00:04:23.890
+So this average will work decently well.
+
+80
+00:04:23.890 --> 00:04:27.030
+And what it does is it really averages the meanings of
+
+81
+00:04:27.030 --> 00:04:33.045
+all the words or sums the meaning of all the words in your example.
+
+82
+00:04:33.045 --> 00:04:35.180
+And this will work to [inaudible].
+
+83
+00:04:35.180 --> 00:04:38.575
+So one of the problems with this algorithm is it ignores word order.
+
+84
+00:04:38.575 --> 00:04:41.935
+In particular, this is a very negative review,
+
+85
+00:04:41.935 --> 00:04:43.080
+"Completely lacking in good taste,
+
+86
+00:04:43.080 --> 00:04:44.378
+good service, and good ambiance".
+
+87
+00:04:44.378 --> 00:04:46.725
+But the word good appears a lot.
+
+88
+00:04:46.725 --> 00:04:47.440
+This is a lot.
+
+89
+00:04:47.440 --> 00:04:48.420
+Good, good, good.
+
+90
+00:04:48.420 --> 00:04:52.557
+So if you use an algorithm like this that ignores word order
+
+91
+00:04:52.557 --> 00:04:56.870
+and just sums or averages all of the embeddings for the different words,
+
+92
+00:04:56.870 --> 00:05:01.445
+then you end up having a lot of the representation of good in
+
+93
+00:05:01.445 --> 00:05:04.231
+your final feature vector and your classifier will probably
+
+94
+00:05:04.231 --> 00:05:07.335
+think this is a good review even though this is actually very harsh.
+
+95
+00:05:07.335 --> 00:05:08.460
+This is a one-star review.
+
+96
+00:05:08.460 --> 00:05:11.625
+So here's a more sophisticated model which is that,
+
+97
+00:05:11.625 --> 00:05:14.880
+instead of just summing all of your word embeddings,
+
+98
+00:05:14.880 --> 00:05:20.550
+you can instead use a RNN for sentiment classification.
+
+99
+00:05:20.550 --> 00:05:23.220
+So here's what you can do. You can take that review,
+
+100
+00:05:23.220 --> 00:05:24.645
+"Completely lacking in good taste,
+
+101
+00:05:24.645 --> 00:05:26.231
+good service, and good ambiance",
+
+102
+00:05:26.231 --> 00:05:29.840
+and find for each of them, the one-hot vector.
+
+103
+00:05:29.840 --> 00:05:31.575
+And so I'm going to just skip
+
+104
+00:05:31.575 --> 00:05:34.999
+the one-hot vector representation but take the one-hot vectors,
+
+105
+00:05:34.999 --> 00:05:38.805
+multiply it by the embedding matrix E as usual,
+
+106
+00:05:38.805 --> 00:05:48.005
+then this gives you the embedding vectors and then you can feed these into an RNN.
+
+107
+00:05:48.005 --> 00:05:52.575
+And the job of the RNN is to then compute
+
+108
+00:05:52.575 --> 00:05:57.550
+the representation at the last time step that allows you to predict Y-hat.
+
+109
+00:05:57.550 --> 00:05:59.620
+So this is an example of
+
+110
+00:05:59.620 --> 00:06:07.098
+a many-to-one RNN architecture which we saw in the previous week.
+
+111
+00:06:07.098 --> 00:06:08.725
+And with an algorithm like this,
+
+112
+00:06:08.725 --> 00:06:14.260
+it will be much better at taking word sequence into account and realize that "things are
+
+113
+00:06:14.260 --> 00:06:16.450
+lacking in good taste" is a negative review
+
+114
+00:06:16.450 --> 00:06:20.681
+and "not good" a negative review unlike the previous algorithm,
+
+115
+00:06:20.681 --> 00:06:24.140
+which just sums everything together into a big-word vector
+
+116
+00:06:24.140 --> 00:06:29.345
+mush and doesn't realize that "not good" has a very different meaning
+
+117
+00:06:29.345 --> 00:06:34.130
+than the words "good" or "lacking in good taste" and so on.
+
+118
+00:06:34.130 --> 00:06:35.920
+And so if you train this algorithm,
+
+119
+00:06:35.920 --> 00:06:39.548
+you end up with a pretty decent sentiment classification algorithm and
+
+120
+00:06:39.548 --> 00:06:45.150
+because your word embeddings can be trained from a much larger data set,
+
+121
+00:06:45.150 --> 00:06:46.720
+this will do a better job
+
+122
+00:06:46.720 --> 00:06:49.630
+generalizing to maybe even new words now that you'll see in your training set,
+
+123
+00:06:49.630 --> 00:06:51.580
+such as if someone else says,
+
+124
+00:06:51.580 --> 00:06:55.540
+"Completely absent of good taste,
+
+125
+00:06:55.540 --> 00:06:57.220
+good service, and good ambiance" or something,
+
+126
+00:06:57.220 --> 00:07:02.730
+then even if the word "absent" is not in your label training set,
+
+127
+00:07:02.730 --> 00:07:08.373
+if it was in your 1 billion or 100 billion word corpus used to train the word embeddings,
+
+128
+00:07:08.373 --> 00:07:14.130
+it might still get this right and generalize much better even to words that were in
+
+129
+00:07:14.130 --> 00:07:16.900
+the training set used to train the word embeddings but not
+
+130
+00:07:16.900 --> 00:07:19.465
+necessarily in the label training set
+
+131
+00:07:19.465 --> 00:07:21.303
+that you had for specifically the sentiment classification problem.
+
+132
+00:07:21.303 --> 00:07:25.630
+So that's it for sentiment classification,
+
+133
+00:07:25.630 --> 00:07:27.400
+and I hope this gives you a sense of how
+
+134
+00:07:27.400 --> 00:07:31.670
+once you've learned or downloaded from online a word embedding,
+
+135
+00:07:31.670 --> 00:07:37.000
+this allows you to quite quickly build pretty effective NLP systems.

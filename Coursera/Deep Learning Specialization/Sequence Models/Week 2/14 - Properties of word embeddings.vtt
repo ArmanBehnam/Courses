@@ -1,0 +1,742 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:04.940
+By now, you should have a sense of how
+word embeddings can help you build NLP
+
+2
+00:00:04.940 --> 00:00:06.290
+applications.
+
+3
+00:00:06.290 --> 00:00:10.330
+One of the most fascinating properties
+of word embeddings is that they can also
+
+4
+00:00:10.330 --> 00:00:12.698
+help with analogy reasoning.
+
+5
+00:00:12.698 --> 00:00:17.040
+And while reasonable analogies may not
+be by itself the most important NLP
+
+6
+00:00:17.040 --> 00:00:21.740
+application, they might also help convey
+a sense of what these word embeddings
+
+7
+00:00:21.740 --> 00:00:24.889
+are doing,
+what these word embeddings can do.
+
+8
+00:00:24.889 --> 00:00:29.352
+Let me show you what I mean here are the
+featurized representations of a set of
+
+9
+00:00:29.352 --> 00:00:32.790
+words that you might hope
+a word embedding could capture.
+
+10
+00:00:32.790 --> 00:00:37.876
+Let's say I pose a question,
+
+11
+00:00:37.876 --> 00:00:43.580
+man is to woman as king is to what?
+
+12
+00:00:43.580 --> 00:00:48.270
+Many of you will say,
+man is to woman as king is to queen.
+
+13
+00:00:48.270 --> 00:00:52.630
+But is it possible to have an algorithm
+figure this out automatically?
+
+14
+00:00:52.630 --> 00:00:54.557
+Well, here's how you could do it,
+
+15
+00:00:54.557 --> 00:00:58.814
+let's say that you're using this four
+dimensional vector to represent man.
+
+16
+00:00:58.814 --> 00:01:03.538
+So this will be your E5391,
+although just for
+
+17
+00:01:03.538 --> 00:01:08.830
+this video,
+let me call this e subscript man.
+
+18
+00:01:08.830 --> 00:01:12.784
+And let's say that's the embedding
+vector for woman, so
+
+19
+00:01:12.784 --> 00:01:17.883
+I'm going to call that e subscript woman,
+and similarly for king and queen.
+
+20
+00:01:17.883 --> 00:01:19.015
+And for this example,
+
+21
+00:01:19.015 --> 00:01:22.471
+I'm just going to assume you're
+using four dimensional embeddings,
+
+22
+00:01:22.471 --> 00:01:27.825
+rather than anywhere from 50 to 1,000
+dimensional, which would be more typical.
+
+23
+00:01:27.825 --> 00:01:32.385
+One interesting property of these
+vectors is that if you take the vector,
+
+24
+00:01:35.750 --> 00:01:41.459
+e man, and
+subtract the vector e woman, then,
+
+25
+00:01:45.030 --> 00:01:48.977
+You end up with approximately -1,
+
+26
+00:01:48.977 --> 00:01:54.067
+negative another 1 is -2, decimal 0- 0,
+
+27
+00:01:54.067 --> 00:02:00.454
+0- 0, close to 0- 0, so
+you get roughly -2 0 0 0.
+
+28
+00:02:00.454 --> 00:02:07.012
+And similarly if you take
+e king minus e queen,
+
+29
+00:02:07.012 --> 00:02:13.410
+then that's approximately the same thing.
+
+30
+00:02:13.410 --> 00:02:20.450
+That's about -1- 0.97, it's about -2.
+
+31
+00:02:20.450 --> 00:02:25.700
+This is about 1- 1, since kings and
+queens are both about equally royal.
+
+32
+00:02:25.700 --> 00:02:30.564
+So that's 0, and then age difference,
+food difference, 0.
+
+33
+00:02:30.564 --> 00:02:35.405
+And so what this is capturing
+is that the main difference
+
+34
+00:02:35.405 --> 00:02:39.030
+between man and woman is the gender.
+
+35
+00:02:39.030 --> 00:02:42.047
+And the main difference between king and
+queen,
+
+36
+00:02:42.047 --> 00:02:45.440
+as represented by these vectors,
+is also the gender.
+
+37
+00:02:45.440 --> 00:02:48.536
+Which is why the difference
+e man- e woman, and
+
+38
+00:02:48.536 --> 00:02:52.030
+the difference e king- e queen,
+are about the same.
+
+39
+00:02:53.880 --> 00:02:58.002
+So one way to carry out
+this analogy reasoning is,
+
+40
+00:02:58.002 --> 00:03:03.021
+if the algorithm is asked,
+man is to woman as king is to what?
+
+41
+00:03:03.021 --> 00:03:07.986
+What it can do is compute e man- e woman,
+and
+
+42
+00:03:07.986 --> 00:03:12.549
+try to find a vector,
+try to find a word so
+
+43
+00:03:12.549 --> 00:03:19.007
+that e man- e woman is close
+to e king- e of that new word.
+
+44
+00:03:19.007 --> 00:03:25.268
+And it turns out that when queen
+is the word plugged in here,
+
+45
+00:03:25.268 --> 00:03:31.417
+then the left hand side is close
+to the the right hand side.
+
+46
+00:03:34.388 --> 00:03:39.251
+So these ideas were first pointed
+out by Tomas Mikolov, Wen-tau Yih,
+
+47
+00:03:39.251 --> 00:03:40.720
+and Geoffrey Zweig.
+
+48
+00:03:40.720 --> 00:03:44.075
+And it's been one of
+the most remarkable and
+
+49
+00:03:44.075 --> 00:03:48.710
+surprisingly influential
+results about word embeddings.
+
+50
+00:03:50.110 --> 00:03:52.870
+And I think has helped the whole community
+
+51
+00:03:52.870 --> 00:03:57.590
+get better intuitions about
+what word embeddings are doing.
+
+52
+00:03:57.590 --> 00:04:01.578
+So let's formalize how you can
+turn this into an algorithm.
+
+53
+00:04:01.578 --> 00:04:08.636
+In pictures, the word embeddings live
+in maybe a 300 dimensional space.
+
+54
+00:04:08.636 --> 00:04:13.922
+And so the word man is represented
+as a point in the space,
+
+55
+00:04:13.922 --> 00:04:19.227
+and the word woman is represented
+as a point in the space.
+
+56
+00:04:19.227 --> 00:04:24.161
+And the word king is
+represented as another point,
+
+57
+00:04:24.161 --> 00:04:29.710
+and the word queen is
+represented as another point.
+
+58
+00:04:29.710 --> 00:04:32.840
+And what we pointed out really
+on the last slide is that
+
+59
+00:04:32.840 --> 00:04:36.090
+the vector difference between man and
+
+60
+00:04:36.090 --> 00:04:42.470
+woman is very similar to the vector
+difference between king and queen.
+
+61
+00:04:42.470 --> 00:04:47.401
+And this arrow I just drew is really
+the vector that represents a difference
+
+62
+00:04:47.401 --> 00:04:48.190
+in gender.
+
+63
+00:04:48.190 --> 00:04:53.845
+And remember, these are points we're
+plotting in a 300 dimensional space.
+
+64
+00:04:53.845 --> 00:04:58.369
+So in order to carry out this kind of
+analogical reasoning to figure out,
+
+65
+00:04:58.369 --> 00:05:02.910
+man is to woman is king is to what,
+what you can do is try to find the word w,
+
+66
+00:05:06.112 --> 00:05:12.107
+So that, This equation
+
+67
+00:05:12.107 --> 00:05:17.160
+holds true, so you want there to be,
+
+68
+00:05:21.260 --> 00:05:25.758
+A high degree of a similarity,
+
+69
+00:05:25.758 --> 00:05:29.565
+between I'm going to use s,
+
+70
+00:05:38.331 --> 00:05:43.819
+And so what you want is to find
+
+71
+00:05:43.819 --> 00:05:48.623
+the word w that maximizes
+
+72
+00:05:48.623 --> 00:05:53.673
+the similarity between,
+
+73
+00:05:55.557 --> 00:06:03.209
+e w compared to e king- e man + e woman
+
+74
+00:06:06.225 --> 00:06:10.666
+Right, so what I did is,
+I took this e question mark, and
+
+75
+00:06:10.666 --> 00:06:17.070
+replaced that with ew, and then brought
+ew to just one side of the equation.
+
+76
+00:06:17.070 --> 00:06:21.740
+And then the other three terms to
+the right hand side of this equation.
+
+77
+00:06:21.740 --> 00:06:24.160
+So we have some appropriate
+similarity function for
+
+78
+00:06:24.160 --> 00:06:29.640
+measuring how similar is the embedding of
+some word w to this quantity of the right.
+
+79
+00:06:29.640 --> 00:06:34.330
+Then finding the word that maximizes
+the similarity should hopefully let you
+
+80
+00:06:34.330 --> 00:06:35.610
+pick out the word queen.
+
+81
+00:06:39.008 --> 00:06:42.870
+And the remarkable thing is,
+this actually works.
+
+82
+00:06:42.870 --> 00:06:47.845
+If you learn a set of word embeddings and
+find a word w that maximizes this type
+
+83
+00:06:47.845 --> 00:06:52.710
+of similarity, you can actually
+get the exact right answer.
+
+84
+00:06:52.710 --> 00:06:57.298
+Depending on the details of the task,
+but if you look at research papers,
+
+85
+00:06:57.298 --> 00:07:01.738
+it's not uncommon for research
+papers to report anywhere from, say,
+
+86
+00:07:01.738 --> 00:07:05.592
+30% to 75% accuracy on analogy
+using tasks like these.
+
+87
+00:07:05.592 --> 00:07:10.074
+Where you count an anology attempt
+as correct only if it guesses
+
+88
+00:07:10.074 --> 00:07:11.690
+the exact word right.
+
+89
+00:07:12.780 --> 00:07:15.980
+So only if, in this case,
+it picks out the word queen.
+
+90
+00:07:15.980 --> 00:07:21.330
+Before moving on, I just want to
+clarify what this plot on the left is.
+
+91
+00:07:22.450 --> 00:07:28.821
+Previously, we talked about using
+algorithms like t-SAE to visualize words.
+
+92
+00:07:28.821 --> 00:07:32.611
+What t-SAE does is, it takes 300-D data,
+
+93
+00:07:32.611 --> 00:07:37.870
+and it maps it in a very
+non-linear way to a 2D space.
+
+94
+00:07:37.870 --> 00:07:41.900
+And so the mapping that t-SAE learns,
+this is a very complicated and
+
+95
+00:07:41.900 --> 00:07:43.480
+very non-linear mapping.
+
+96
+00:07:43.480 --> 00:07:48.800
+So after the t-SAE mapping,
+you should not expect these types of
+
+97
+00:07:48.800 --> 00:07:52.720
+parallelogram relationships, like the one
+we saw on the left, to hold true.
+
+98
+00:07:54.150 --> 00:07:57.750
+And it's really in this original
+300 dimensional space that
+
+99
+00:07:57.750 --> 00:08:02.410
+you can more reliably count on these
+types of parallelogram relationships
+
+100
+00:08:02.410 --> 00:08:04.320
+in analogy pairs to hold true.
+
+101
+00:08:04.320 --> 00:08:09.164
+And it may hold true after a mapping
+through t-SAE, but in most cases,
+
+102
+00:08:09.164 --> 00:08:14.280
+because of t-SAE's non-linear mapping,
+you should not count on that.
+
+103
+00:08:14.280 --> 00:08:19.810
+And many of the parallelogram analogy
+relationships will be broken by t-SAE.
+
+104
+00:08:19.810 --> 00:08:23.430
+Now, before moving on,
+let me just quickly describe
+
+105
+00:08:23.430 --> 00:08:26.509
+the similarity function
+that is most commonly used.
+
+106
+00:08:27.740 --> 00:08:33.420
+So the most commonly used similarity
+function is called cosine similarity.
+
+107
+00:08:33.420 --> 00:08:37.660
+So this is the equation we
+had from the previous slide.
+
+108
+00:08:37.660 --> 00:08:42.980
+So in cosine similarity, you define
+the similarity between two vectors u and
+
+109
+00:08:42.980 --> 00:08:50.140
+v as u transpose v divided by
+the lengths by the Euclidean lengths.
+
+110
+00:08:50.140 --> 00:08:51.680
+So ignoring the denominator for
+
+111
+00:08:51.680 --> 00:08:55.130
+now, this is basically the inner
+product between u and v.
+
+112
+00:08:55.130 --> 00:08:59.914
+And so if u and v are very similar,
+their inner product will tend to be large.
+
+113
+00:08:59.914 --> 00:09:04.299
+And this is called cosine
+similarity because this is actually
+
+114
+00:09:04.299 --> 00:09:08.780
+the cosine of the angle between
+the two vectors, u and v.
+
+115
+00:09:08.780 --> 00:09:14.558
+So that's the angle phi, so this formula
+is actually the cosine between them.
+
+116
+00:09:14.558 --> 00:09:18.989
+And so you remember from
+calculus that if this phi,
+
+117
+00:09:18.989 --> 00:09:22.403
+then the cosine of phi looks like this.
+
+118
+00:09:22.403 --> 00:09:28.187
+So if the angle between them is 0,
+then the cosine similarity is equal to 1.
+
+119
+00:09:28.187 --> 00:09:32.975
+And if their angle is 90 degrees,
+the cosine similarity is 0.
+
+120
+00:09:32.975 --> 00:09:36.205
+And then if they're 180 degrees, or
+
+121
+00:09:36.205 --> 00:09:41.810
+pointing in completely opposite
+directions, it ends up being -1.
+
+122
+00:09:43.380 --> 00:09:47.470
+So that's where the term cosine similarity
+comes from, and it works quite well for
+
+123
+00:09:47.470 --> 00:09:50.070
+these analogy reasoning tasks.
+
+124
+00:09:50.070 --> 00:09:54.697
+If you want,
+you can also use square distance or
+
+125
+00:09:54.697 --> 00:09:58.408
+Euclidian distance, u-v squared.
+
+126
+00:09:58.408 --> 00:10:02.538
+Technically, this would be a measure
+of dissimilarity rather than a measure
+
+127
+00:10:02.538 --> 00:10:03.435
+of similarity.
+
+128
+00:10:03.435 --> 00:10:07.694
+So we need to take the negative of this,
+and this will work okay as well.
+
+129
+00:10:07.694 --> 00:10:11.735
+Although I see cosine similarity
+being used a bit more often.
+
+130
+00:10:12.830 --> 00:10:17.100
+And the main difference between these
+is how it normalizes the lengths of
+
+131
+00:10:17.100 --> 00:10:18.290
+the vectors u and v.
+
+132
+00:10:19.590 --> 00:10:25.270
+So one of the remarkable results about
+word embeddings is the generality of
+
+133
+00:10:25.270 --> 00:10:27.220
+analogy relationships they can learn.
+
+134
+00:10:27.220 --> 00:10:33.260
+So for example, it can learn that
+man is to woman as boy is to girl,
+
+135
+00:10:33.260 --> 00:10:35.610
+because the vector
+difference between man and
+
+136
+00:10:35.610 --> 00:10:40.350
+woman, similar to king and queen and boy
+and girl, is primarily just the gender.
+
+137
+00:10:40.350 --> 00:10:44.575
+It can learn that Ottawa,
+which is the capital of Canada,
+
+138
+00:10:44.575 --> 00:10:48.036
+that Ottawa is to Canada
+as Nairobi is to Kenya.
+
+139
+00:10:48.036 --> 00:10:52.010
+So that's the city capital is
+to the name of the country.
+
+140
+00:10:52.010 --> 00:10:55.536
+It can learn that big is to
+bigger as tall is to taller, and
+
+141
+00:10:55.536 --> 00:10:57.690
+it can learn things like that.
+
+142
+00:10:57.690 --> 00:11:02.650
+Yen is to Japan, since yen is the currency
+of Japan, as ruble is to Russia.
+
+143
+00:11:02.650 --> 00:11:06.636
+And all of these things can
+be learned just by running
+
+144
+00:11:06.636 --> 00:11:11.445
+a word embedding learning algorithm
+on the large text corpus.
+
+145
+00:11:11.445 --> 00:11:14.228
+It can spot all of these
+patterns by itself,
+
+146
+00:11:14.228 --> 00:11:17.246
+just by running from very
+large bodies of text.
+
+147
+00:11:17.246 --> 00:11:21.782
+So in this video, you saw how
+word embeddings can be used for
+
+148
+00:11:21.782 --> 00:11:23.580
+analogy reasoning.
+
+149
+00:11:23.580 --> 00:11:28.249
+And while you might not be trying to build
+an analogy reasoning system yourself as
+
+150
+00:11:28.249 --> 00:11:33.195
+an application, this I hope conveys some
+intuition about the types of feature-like
+
+151
+00:11:33.195 --> 00:11:36.580
+representations that these
+representations can learn.
+
+152
+00:11:36.580 --> 00:11:40.630
+And you also saw how cosine
+similarity can be a way to measure
+
+153
+00:11:40.630 --> 00:11:45.010
+the similarity between two
+different word embeddings.
+
+154
+00:11:45.010 --> 00:11:49.070
+Now, we talked a lot about properties of
+these embeddings and how you can use them.
+
+155
+00:11:49.070 --> 00:11:52.480
+Next, let's talk about how you'd
+actually learn these word embeddings,
+
+156
+00:11:52.480 --> 00:11:53.650
+let's go on to the next video.

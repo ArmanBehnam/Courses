@@ -1,0 +1,709 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.965
+In this video, you'll start to learn
+
+2
+00:00:01.965 --> 00:00:04.440
+some concrete algorithms for learning word embeddings.
+
+3
+00:00:04.440 --> 00:00:09.645
+In the history of deep learning as applied to learning word embeddings,
+
+4
+00:00:09.645 --> 00:00:13.210
+people actually started off with relatively complex algorithms.
+
+5
+00:00:13.210 --> 00:00:14.490
+And then over time,
+
+6
+00:00:14.490 --> 00:00:16.200
+researchers discovered they can use
+
+7
+00:00:16.200 --> 00:00:18.540
+simpler and simpler and simpler algorithms and still
+
+8
+00:00:18.540 --> 00:00:21.755
+get very good results especially for a large dataset.
+
+9
+00:00:21.755 --> 00:00:23.205
+But what happened is,
+
+10
+00:00:23.205 --> 00:00:26.006
+some of the algorithms that are most popular today,
+
+11
+00:00:26.006 --> 00:00:28.680
+they are so simple that if I present them first,
+
+12
+00:00:28.680 --> 00:00:30.980
+it might seem almost a little bit magical,
+
+13
+00:00:30.980 --> 00:00:33.200
+how can something this simple work?
+
+14
+00:00:33.200 --> 00:00:35.580
+So, what I'm going to do is start off with some of
+
+15
+00:00:35.580 --> 00:00:38.310
+the slightly more complex algorithms because I think it's actually
+
+16
+00:00:38.310 --> 00:00:41.605
+easier to develop intuition about why they should work,
+
+17
+00:00:41.605 --> 00:00:44.820
+and then we'll move on to simplify these algorithms and show
+
+18
+00:00:44.820 --> 00:00:48.630
+you some of the simple algorithms that also give very good results.
+
+19
+00:00:48.630 --> 00:00:50.885
+So, let's get started.
+
+20
+00:00:50.885 --> 00:01:00.205
+Let's say you're building
+
+21
+00:01:00.205 --> 00:01:04.205
+a language model and you do it with a neural network.
+
+22
+00:01:04.205 --> 00:01:09.000
+So, during training, you might want your neural network to do something like input,
+
+23
+00:01:09.000 --> 00:01:10.330
+I want a glass of orange,
+
+24
+00:01:10.330 --> 00:01:13.330
+and then predict the next word in the sequence.
+
+25
+00:01:13.330 --> 00:01:15.010
+And below each of these words,
+
+26
+00:01:15.010 --> 00:01:21.435
+I have also written down the index in the vocabulary of the different words.
+
+27
+00:01:21.435 --> 00:01:22.975
+So it turns out that building
+
+28
+00:01:22.975 --> 00:01:28.880
+a neural language model is the small way to learn a set of embeddings.
+
+29
+00:01:28.880 --> 00:01:31.743
+And the ideas I present on this slide were due to Yoshua Bengio,
+
+30
+00:01:31.743 --> 00:01:36.305
+Rejean Ducharme, Pascals Vincent, and Christian Jauvin.
+
+31
+00:01:36.305 --> 00:01:43.530
+So, here's how you can build a neural network to predict the next word in the sequence.
+
+32
+00:01:43.530 --> 00:01:44.865
+Let me take the list of words,
+
+33
+00:01:44.865 --> 00:01:46.510
+I want a glass of orange,
+
+34
+00:01:46.510 --> 00:01:49.635
+and let's start with the first word I.
+
+35
+00:01:49.635 --> 00:01:53.625
+So I'm going to construct one add vector corresponding to the word I.
+
+36
+00:01:53.625 --> 00:01:59.085
+So there's a one add vector with a one in position, 4343.
+
+37
+00:01:59.085 --> 00:02:02.932
+So this is going to be 10,000 dimensional vector.
+
+38
+00:02:02.932 --> 00:02:07.525
+And what we're going to do is then have a matrix of parameters E,
+
+39
+00:02:07.525 --> 00:02:15.580
+and take E times O to get an embedding vector e4343,
+
+40
+00:02:15.580 --> 00:02:17.425
+and this step really means that
+
+41
+00:02:17.425 --> 00:02:25.025
+e4343 is obtained by the matrix E times the one add vector 43.
+
+42
+00:02:25.025 --> 00:02:28.420
+And then we'll do the same for all of the other words.
+
+43
+00:02:28.420 --> 00:02:32.534
+So the word want, is where 9665 one add vector,
+
+44
+00:02:32.534 --> 00:02:35.445
+multiply by E to get the embedding vector.
+
+45
+00:02:35.445 --> 00:02:38.030
+And similarly, for all the other words.
+
+46
+00:02:38.030 --> 00:02:39.650
+A, is a first word in dictionary,
+
+47
+00:02:39.650 --> 00:02:43.690
+alphabetic comes first, so there is O one, gets this E one.
+
+48
+00:02:43.690 --> 00:02:51.007
+And similarly, for the other words in this phrase.
+
+49
+00:02:51.007 --> 00:02:54.400
+So now you have a bunch of three dimensional embedding,
+
+50
+00:02:54.400 --> 00:03:00.274
+so each of this is a 300 dimensional embedding vector.
+
+51
+00:03:00.274 --> 00:03:01.360
+And what we can do,
+
+52
+00:03:01.360 --> 00:03:07.490
+is fill all of them into a neural network. So here is the neural network layer.
+
+53
+00:03:07.490 --> 00:03:12.920
+And then this neural network feeds to a softmax,
+
+54
+00:03:12.920 --> 00:03:17.144
+which has it's own parameters as well.
+
+55
+00:03:17.144 --> 00:03:21.520
+And a softmax classifies among the 10,000
+
+56
+00:03:21.520 --> 00:03:26.235
+possible outputs in the vocab for those final word we're trying to predict.
+
+57
+00:03:26.235 --> 00:03:29.525
+And so, if in the training slide we saw the word juice then,
+
+58
+00:03:29.525 --> 00:03:32.882
+the target for the softmax in training repeat that it should predict
+
+59
+00:03:32.882 --> 00:03:36.600
+the other word juice was what came after this.
+
+60
+00:03:36.600 --> 00:03:39.340
+So this hidden name here will have his own parameters.
+
+61
+00:03:39.340 --> 00:03:43.108
+So have some, I'm going to call this W1 and there's also B1.
+
+62
+00:03:43.108 --> 00:03:45.265
+The softmax there was this own parameters W2, B2,
+
+63
+00:03:45.265 --> 00:03:51.985
+and they're using 300 dimensional word embeddings,
+
+64
+00:03:51.985 --> 00:03:54.080
+then here we have six words.
+
+65
+00:03:54.080 --> 00:03:58.880
+So, this would be six times 300.
+
+66
+00:03:58.880 --> 00:04:03.515
+So this layer or this input will be a 1,800 dimensional
+
+67
+00:04:03.515 --> 00:04:09.915
+vector obtained by taking your six embedding vectors and stacking them together.
+
+68
+00:04:09.915 --> 00:04:15.110
+Well, what's actually more commonly done is to have a fixed historical window.
+
+69
+00:04:15.110 --> 00:04:18.080
+So for example, you might decide that you always want to predict
+
+70
+00:04:18.080 --> 00:04:21.635
+the next word given say the previous four words,
+
+71
+00:04:21.635 --> 00:04:24.220
+where four here is a hyperparameter of the algorithm.
+
+72
+00:04:24.220 --> 00:04:25.835
+So this is how you adjust to
+
+73
+00:04:25.835 --> 00:04:28.640
+either very long or very short sentences or you decide to
+
+74
+00:04:28.640 --> 00:04:31.370
+always just look at the previous four words,
+
+75
+00:04:31.370 --> 00:04:34.550
+so you say, I will still use those four words.
+
+76
+00:04:34.550 --> 00:04:37.850
+And so, let's just get rid of these.
+
+77
+00:04:37.850 --> 00:04:41.785
+And so, if you're always using a four word history,
+
+78
+00:04:41.785 --> 00:04:48.890
+this means that your neural network will input a 1,200 dimensional feature vector,
+
+79
+00:04:48.890 --> 00:04:50.000
+go into this layer,
+
+80
+00:04:50.000 --> 00:04:52.925
+then have a softmax and try to predict the output.
+
+81
+00:04:52.925 --> 00:04:56.105
+And again, variety of choices.
+
+82
+00:04:56.105 --> 00:04:59.630
+And using a fixed history, just means that you can deal with even arbitrarily
+
+83
+00:04:59.630 --> 00:05:04.745
+long sentences because the input sizes are always fixed.
+
+84
+00:05:04.745 --> 00:05:08.712
+So, the parameters of this model will be this matrix E,
+
+85
+00:05:08.712 --> 00:05:11.775
+and use the same matrix E for all the words.
+
+86
+00:05:11.775 --> 00:05:13.310
+So you don't have different matrices for
+
+87
+00:05:13.310 --> 00:05:16.640
+different positions in the proceedings four words,
+
+88
+00:05:16.640 --> 00:05:19.505
+is the same matrix E. And then,
+
+89
+00:05:19.505 --> 00:05:23.270
+these weights are also parameters of the algorithm
+
+90
+00:05:23.270 --> 00:05:27.050
+and you can use that crop to perform gradient to sent
+
+91
+00:05:27.050 --> 00:05:30.200
+to maximize the likelihood of
+
+92
+00:05:30.200 --> 00:05:34.620
+your training set to just repeatedly predict given four words in a sequence,
+
+93
+00:05:34.620 --> 00:05:38.180
+what is the next word in your text corpus?
+
+94
+00:05:38.180 --> 00:05:43.330
+And it turns out that this algorithm we'll learn pretty decent word embeddings.
+
+95
+00:05:43.330 --> 00:05:49.040
+And the reason is, if you remember our orange juice, apple juice example,
+
+96
+00:05:49.040 --> 00:05:51.855
+is in the algorithm's incentive to learn
+
+97
+00:05:51.855 --> 00:05:55.205
+pretty similar word embeddings for orange and apple
+
+98
+00:05:55.205 --> 00:05:57.860
+because doing so allows it to fit
+
+99
+00:05:57.860 --> 00:06:01.290
+the training set better because it's going to see orange juice sometimes,
+
+100
+00:06:01.290 --> 00:06:05.475
+or see apple juice sometimes, and so,
+
+101
+00:06:05.475 --> 00:06:10.020
+if you have only a 300 dimensional feature vector to represent all of these words,
+
+102
+00:06:10.020 --> 00:06:13.290
+the algorithm will find that it fits the training set fast.
+
+103
+00:06:13.290 --> 00:06:15.870
+If apples, oranges, and grapes, and pears,
+
+104
+00:06:15.870 --> 00:06:18.455
+and so on and maybe also durians which is
+
+105
+00:06:18.455 --> 00:06:22.040
+a very rare fruit and that with similar feature vectors.
+
+106
+00:06:22.040 --> 00:06:25.455
+So, this is one of the earlier and pretty successful algorithms
+
+107
+00:06:25.455 --> 00:06:27.200
+for learning word embeddings,
+
+108
+00:06:27.200 --> 00:06:30.870
+for learning this matrix E. But now let's
+
+109
+00:06:30.870 --> 00:06:35.160
+generalize this algorithm and see how we can derive even simpler algorithms.
+
+110
+00:06:35.160 --> 00:06:37.380
+So, I want to illustrate the other algorithms
+
+111
+00:06:37.380 --> 00:06:41.455
+using a more complex sentence as our example.
+
+112
+00:06:41.455 --> 00:06:43.390
+Let's say that in your training set,
+
+113
+00:06:43.390 --> 00:06:44.910
+you have this longer sentence,
+
+114
+00:06:44.910 --> 00:06:48.017
+I want a glass of orange juice to go along with my cereal.
+
+115
+00:06:48.017 --> 00:06:51.150
+So, what we saw on the last slide was
+
+116
+00:06:51.150 --> 00:06:54.600
+that the job of the algorithm was to predict some word juice,
+
+117
+00:06:54.600 --> 00:06:57.375
+which we are going to call the target words,
+
+118
+00:06:57.375 --> 00:07:05.150
+and it was given some context which was the last four words.
+
+119
+00:07:05.150 --> 00:07:07.995
+And so, if your goal is to learn
+
+120
+00:07:07.995 --> 00:07:13.160
+a embedding of researchers I've experimented with many different types of context.
+
+121
+00:07:13.160 --> 00:07:16.050
+If it goes to build a language model then is
+
+122
+00:07:16.050 --> 00:07:20.095
+natural for the context to be a few words right before the target word.
+
+123
+00:07:20.095 --> 00:07:23.175
+But if your goal is into learn the language model per se,
+
+124
+00:07:23.175 --> 00:07:25.480
+then you can choose other contexts.
+
+125
+00:07:25.480 --> 00:07:27.990
+For example, you can pose a learning problem
+
+126
+00:07:27.990 --> 00:07:31.500
+where the context is the four words on the left and right.
+
+127
+00:07:31.500 --> 00:07:36.440
+So, you can take the four words on the left and right as the context,
+
+128
+00:07:36.440 --> 00:07:38.985
+and what that means is that we're posing a learning problem
+
+129
+00:07:38.985 --> 00:07:42.530
+where the algorithm is given four words on the left.
+
+130
+00:07:42.530 --> 00:07:44.670
+So, a glass of orange,
+
+131
+00:07:44.670 --> 00:07:47.000
+and four words on the right,
+
+132
+00:07:47.000 --> 00:07:49.440
+to go along with,
+
+133
+00:07:49.440 --> 00:07:52.395
+and this has to predict the word in the middle.
+
+134
+00:07:52.395 --> 00:07:56.210
+And posing a learning problem like this where you have the embeddings of
+
+135
+00:07:56.210 --> 00:08:00.720
+the left four words and the right four words feed into a neural network,
+
+136
+00:08:00.720 --> 00:08:03.810
+similar to what you saw in the previous slide,
+
+137
+00:08:03.810 --> 00:08:06.000
+to try to predict the word in the middle,
+
+138
+00:08:06.000 --> 00:08:07.995
+try to put it target word in the middle,
+
+139
+00:08:07.995 --> 00:08:11.010
+this can also be used to learn word embeddings.
+
+140
+00:08:11.010 --> 00:08:13.320
+Or if you want to use a simpler context,
+
+141
+00:08:13.320 --> 00:08:15.320
+maybe you'll just use the last one word.
+
+142
+00:08:15.320 --> 00:08:17.760
+So given just the word orange,
+
+143
+00:08:17.760 --> 00:08:19.785
+what comes after orange?
+
+144
+00:08:19.785 --> 00:08:23.425
+So this will be different learning problem where you tell it one word,
+
+145
+00:08:23.425 --> 00:08:24.580
+orange, and will say well,
+
+146
+00:08:24.580 --> 00:08:26.350
+what do you think is the next word.
+
+147
+00:08:26.350 --> 00:08:29.580
+And you can construct a neural network that just fits in the word,
+
+148
+00:08:29.580 --> 00:08:32.790
+the one previous word or the embedding
+
+149
+00:08:32.790 --> 00:08:36.555
+of the one previous word to a neural network as you try to predict the next word.
+
+150
+00:08:36.555 --> 00:08:42.800
+Or, one thing that works surprisingly well is to take a nearby one word.
+
+151
+00:08:42.800 --> 00:08:44.820
+Some might tell you that, well,
+
+152
+00:08:44.820 --> 00:08:45.990
+take the word glass,
+
+153
+00:08:45.990 --> 00:08:47.220
+is somewhere close by.
+
+154
+00:08:47.220 --> 00:08:48.690
+Some might say, I saw
+
+155
+00:08:48.690 --> 00:08:52.080
+the word glass and then there's another words somewhere close to glass,
+
+156
+00:08:52.080 --> 00:08:53.330
+what do you think that word is?
+
+157
+00:08:53.330 --> 00:08:57.135
+So, that'll be using nearby one word as the context.
+
+158
+00:08:57.135 --> 00:09:03.775
+And we'll formalize this in the next video but this is the idea of a Skip-Gram model,
+
+159
+00:09:03.775 --> 00:09:08.960
+and just an example of a simpler algorithm where the context is now much simpler,
+
+160
+00:09:08.960 --> 00:09:11.850
+is just one word rather than four words,
+
+161
+00:09:11.850 --> 00:09:13.821
+but this works remarkably well.
+
+162
+00:09:13.821 --> 00:09:17.305
+So what researchers found was that if you really want to build a language model,
+
+163
+00:09:17.305 --> 00:09:20.790
+it's natural to use the last few words as a context.
+
+164
+00:09:20.790 --> 00:09:25.425
+But if your main goal is really to learn a word embedding,
+
+165
+00:09:25.425 --> 00:09:28.350
+then you can use all of these other contexts and they will
+
+166
+00:09:28.350 --> 00:09:31.710
+result in very meaningful work embeddings as well.
+
+167
+00:09:31.710 --> 00:09:33.450
+I will formalize the details of
+
+168
+00:09:33.450 --> 00:09:35.535
+this in the next video where we talk about the Walter VEC model.
+
+169
+00:09:35.535 --> 00:09:42.210
+To summarize, in this video you saw how the language modeling problem
+
+170
+00:09:42.210 --> 00:09:45.365
+which causes the pose of machines learning problem where you input
+
+171
+00:09:45.365 --> 00:09:49.455
+the context like the last four words and predicts some target words,
+
+172
+00:09:49.455 --> 00:09:51.485
+how posing that problem allows you to learn input word embedding.
+
+173
+00:09:51.485 --> 00:09:54.810
+In the next video,
+
+174
+00:09:54.810 --> 00:09:57.660
+you'll see how using even simpler context and
+
+175
+00:09:57.660 --> 00:10:01.595
+even simpler learning algorithms to mark from context to target word,
+
+176
+00:10:01.595 --> 00:10:03.840
+can also allow you to learn a good word embedding.
+
+177
+00:10:03.840 --> 00:10:08.440
+Let's go on to the next video where we'll discuss the Word2Vec model.
