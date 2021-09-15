@@ -1,0 +1,544 @@
+WEBVTT
+
+1
+00:00:04.880 --> 00:00:07.755
+So far you've learned
+about tile coding,
+
+2
+00:00:07.755 --> 00:00:08.880
+but we haven't connected it
+
+3
+00:00:08.880 --> 00:00:10.620
+back to reinforcement
+learning yet.
+
+4
+00:00:10.620 --> 00:00:12.615
+Well, the wait is finally over.
+
+5
+00:00:12.615 --> 00:00:14.010
+Today, we'll explain how to use
+
+6
+00:00:14.010 --> 00:00:16.830
+tile coding together
+with linear TD.
+
+7
+00:00:16.830 --> 00:00:18.735
+By the end of this video,
+
+8
+00:00:18.735 --> 00:00:21.480
+you'll be able to explain
+how to use tile coding with
+
+9
+00:00:21.480 --> 00:00:24.120
+temporal difference learning and
+
+10
+00:00:24.120 --> 00:00:25.620
+identify important properties of
+
+11
+00:00:25.620 --> 00:00:27.900
+tile code representations.
+
+12
+00:00:27.900 --> 00:00:30.120
+The number of
+active tiles is always
+
+13
+00:00:30.120 --> 00:00:32.940
+significantly less than
+the number of total tiles.
+
+14
+00:00:32.940 --> 00:00:34.590
+We can use this to calculate
+
+15
+00:00:34.590 --> 00:00:36.275
+the value function efficiently.
+
+16
+00:00:36.275 --> 00:00:38.815
+Recall that with linear
+function approximation,
+
+17
+00:00:38.815 --> 00:00:40.740
+the value function is
+a dot product between
+
+18
+00:00:40.740 --> 00:00:43.200
+a weight vector and
+a feature vector.
+
+19
+00:00:43.200 --> 00:00:44.960
+Let's see what
+this dot product looks
+
+20
+00:00:44.960 --> 00:00:48.085
+like with a sparse binary
+feature vector.
+
+21
+00:00:48.085 --> 00:00:51.245
+If we were to multiply the
+two vectors element-wise,
+
+22
+00:00:51.245 --> 00:00:54.440
+many of the element-wise
+products will be zero.
+
+23
+00:00:54.440 --> 00:00:56.570
+This means we only
+have to consider
+
+24
+00:00:56.570 --> 00:00:58.355
+the weights at
+the non-zero elements
+
+25
+00:00:58.355 --> 00:01:01.865
+of the feature vector because
+the features are binary,
+
+26
+00:01:01.865 --> 00:01:04.010
+the weights at the
+non-zero features
+
+27
+00:01:04.010 --> 00:01:05.510
+are multiplied by one.
+
+28
+00:01:05.510 --> 00:01:07.490
+Computing the dot product in
+
+29
+00:01:07.490 --> 00:01:09.470
+the usual way would be expensive.
+
+30
+00:01:09.470 --> 00:01:11.570
+Instead, we can just
+sum the weights
+
+31
+00:01:11.570 --> 00:01:13.745
+corresponding to the
+active features.
+
+32
+00:01:13.745 --> 00:01:16.820
+Note that this takes
+a certain amount of time
+
+33
+00:01:16.820 --> 00:01:18.515
+because the number
+of active features
+
+34
+00:01:18.515 --> 00:01:20.680
+is the same in every state.
+
+35
+00:01:20.680 --> 00:01:23.540
+The feature vectors
+produced by tile coding may
+
+36
+00:01:23.540 --> 00:01:26.880
+query in the value function
+cheap computationally.
+
+37
+00:01:27.130 --> 00:01:29.600
+Let's look an example
+of value function
+
+38
+00:01:29.600 --> 00:01:31.130
+with tile coded features.
+
+39
+00:01:31.130 --> 00:01:33.230
+Suppose we're back
+at the old pond with
+
+40
+00:01:33.230 --> 00:01:35.680
+two tilings of four tiles each.
+
+41
+00:01:35.680 --> 00:01:37.790
+We've color-coded the tilings and
+
+42
+00:01:37.790 --> 00:01:40.480
+each tiling square
+is index as shown.
+
+43
+00:01:40.480 --> 00:01:42.425
+If the position of the fish
+
+44
+00:01:42.425 --> 00:01:44.075
+and a weight vector are as shown,
+
+45
+00:01:44.075 --> 00:01:46.565
+what is the value of
+the fish's position?
+
+46
+00:01:46.565 --> 00:01:50.330
+We can see the fish intersects
+square one belonging to
+
+47
+00:01:50.330 --> 00:01:51.830
+the purple tiling and square
+
+48
+00:01:51.830 --> 00:01:54.515
+four belonging to
+the orange tiling.
+
+49
+00:01:54.515 --> 00:01:56.030
+This results in the falling
+
+50
+00:01:56.030 --> 00:01:57.935
+feature vector for this state.
+
+51
+00:01:57.935 --> 00:01:59.690
+Now we simply calculate
+
+52
+00:01:59.690 --> 00:02:02.015
+the state's value
+with a dot product.
+
+53
+00:02:02.015 --> 00:02:03.910
+The feature vectors binary.
+
+54
+00:02:03.910 --> 00:02:05.600
+So we can just add
+up the weights at
+
+55
+00:02:05.600 --> 00:02:08.300
+the locations with
+non-zero features.
+
+56
+00:02:08.300 --> 00:02:10.925
+This gives us a value of two.
+
+57
+00:02:10.925 --> 00:02:12.710
+Now, let's run experiment with
+
+58
+00:02:12.710 --> 00:02:15.320
+tile coding and compare
+it to state aggregation.
+
+59
+00:02:15.320 --> 00:02:16.970
+Recall, the tile coding is
+
+60
+00:02:16.970 --> 00:02:18.770
+effectively multiple instances of
+
+61
+00:02:18.770 --> 00:02:21.050
+state aggregation or tilings
+
+62
+00:02:21.050 --> 00:02:23.030
+layered on top of each other.
+
+63
+00:02:23.030 --> 00:02:26.630
+Our environment is the
+1,000-state random walk.
+
+64
+00:02:26.630 --> 00:02:29.240
+The states are
+numbered from 1-1,000
+
+65
+00:02:29.240 --> 00:02:32.045
+and all episodes
+begin in state 500.
+
+66
+00:02:32.045 --> 00:02:35.030
+At each time step, the agent
+randomly transitions to
+
+67
+00:02:35.030 --> 00:02:38.800
+one of the 200 neighboring
+states on either side.
+
+68
+00:02:38.800 --> 00:02:41.475
+Overshooting states one or
+
+69
+00:02:41.475 --> 00:02:44.675
+1,000 will result in a transition
+to the terminal state.
+
+70
+00:02:44.675 --> 00:02:46.480
+For example, look at
+
+71
+00:02:46.480 --> 00:02:49.735
+the possible transitions
+to the left of state two,
+
+72
+00:02:49.735 --> 00:02:52.120
+one will go to state one
+
+73
+00:02:52.120 --> 00:02:56.225
+and the remaining 199 will
+go to the terminal state.
+
+74
+00:02:56.225 --> 00:02:58.060
+Let's talk about how we can use
+
+75
+00:02:58.060 --> 00:03:00.265
+function approximation
+in this problem.
+
+76
+00:03:00.265 --> 00:03:02.695
+We'll start with
+state aggregation.
+
+77
+00:03:02.695 --> 00:03:05.215
+Let's use the state aggregation
+with five groups,
+
+78
+00:03:05.215 --> 00:03:07.930
+each corresponding to 200 states.
+
+79
+00:03:07.930 --> 00:03:09.850
+Now, let's design a tile code for
+
+80
+00:03:09.850 --> 00:03:12.480
+this problem with 50 tilings.
+
+81
+00:03:12.480 --> 00:03:15.385
+We treat the 1,000 states
+as an interval where
+
+82
+00:03:15.385 --> 00:03:17.890
+each tile corresponds
+to 200 states.
+
+83
+00:03:17.890 --> 00:03:19.975
+Since each tile has 200 states,
+
+84
+00:03:19.975 --> 00:03:21.850
+you might think we only
+need five tiles to
+
+85
+00:03:21.850 --> 00:03:24.575
+cover the full space
+of 1,000 states.
+
+86
+00:03:24.575 --> 00:03:26.820
+However, each tiling is slightly
+
+87
+00:03:26.820 --> 00:03:29.250
+shifted or offset
+from the others.
+
+88
+00:03:29.250 --> 00:03:30.740
+An extra tile is needed to
+
+89
+00:03:30.740 --> 00:03:32.675
+cover the space left uncovered.
+
+90
+00:03:32.675 --> 00:03:34.850
+Because of this,
+each of our tilings
+
+91
+00:03:34.850 --> 00:03:38.215
+contains six tiles
+rather than five.
+
+92
+00:03:38.215 --> 00:03:41.375
+Let's compare these two
+function approximators
+
+93
+00:03:41.375 --> 00:03:43.070
+with gradient Monte Carlo.
+
+94
+00:03:43.070 --> 00:03:44.960
+The step size parameter Alpha is
+
+95
+00:03:44.960 --> 00:03:47.090
+scaled by the number
+of active features;
+
+96
+00:03:47.090 --> 00:03:50.515
+50 for tile coding and one
+for state aggregation.
+
+97
+00:03:50.515 --> 00:03:52.395
+Let's look at the results.
+
+98
+00:03:52.395 --> 00:03:54.470
+We plot the value error averaged
+
+99
+00:03:54.470 --> 00:03:57.020
+over 30 runs after each episode.
+
+100
+00:03:57.020 --> 00:03:58.640
+Both agents learn quickly
+
+101
+00:03:58.640 --> 00:04:00.725
+due to aggressive generalization.
+
+102
+00:04:00.725 --> 00:04:04.340
+However, the tile code
+representation is able to better
+
+103
+00:04:04.340 --> 00:04:06.140
+discriminate between states and
+
+104
+00:04:06.140 --> 00:04:08.210
+achieves a lower value error.
+
+105
+00:04:08.210 --> 00:04:10.070
+It's interesting that even though
+
+106
+00:04:10.070 --> 00:04:12.335
+the tile coder has
+many more parameters,
+
+107
+00:04:12.335 --> 00:04:14.075
+it can learn just as quickly
+
+108
+00:04:14.075 --> 00:04:16.255
+as the core state aggregation.
+
+109
+00:04:16.255 --> 00:04:17.780
+But it also achieves
+
+110
+00:04:17.780 --> 00:04:21.095
+better discrimination because
+of the small intersections
+
+111
+00:04:21.095 --> 00:04:24.365
+created by multiple
+overlapping tiles.
+
+112
+00:04:24.365 --> 00:04:26.225
+That's it for today.
+
+113
+00:04:26.225 --> 00:04:27.955
+In this video, we
+talked about how
+
+114
+00:04:27.955 --> 00:04:30.570
+tile coding can be used to
+approximate value functions
+
+115
+00:04:30.570 --> 00:04:33.110
+and policy valuation and we
+
+116
+00:04:33.110 --> 00:04:34.460
+compare tile coding to
+
+117
+00:04:34.460 --> 00:04:36.895
+state aggregation in
+the simple example.
+
+118
+00:04:36.895 --> 00:04:38.960
+Next time, we're
+going to move beyond
+
+119
+00:04:38.960 --> 00:04:40.730
+fixed representations and begin
+
+120
+00:04:40.730 --> 00:04:43.890
+learning representations
+with neural networks.

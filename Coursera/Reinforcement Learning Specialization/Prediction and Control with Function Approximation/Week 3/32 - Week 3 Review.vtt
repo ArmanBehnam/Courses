@@ -1,0 +1,308 @@
+WEBVTT
+
+1
+00:00:04.460 --> 00:00:07.020
+This week, we talked
+about how to do
+
+2
+00:00:07.020 --> 00:00:09.495
+control when using
+function approximation,
+
+3
+00:00:09.495 --> 00:00:11.880
+let's go over the main ideas.
+
+4
+00:00:11.880 --> 00:00:14.310
+First, we showed
+you how to estimate
+
+5
+00:00:14.310 --> 00:00:16.785
+action values with
+function approximation.
+
+6
+00:00:16.785 --> 00:00:18.990
+If the action space is discrete,
+
+7
+00:00:18.990 --> 00:00:21.795
+it's probably easiest to
+stack the state features.
+
+8
+00:00:21.795 --> 00:00:23.865
+If the action space is continuous
+
+9
+00:00:23.865 --> 00:00:26.025
+or you want to
+generalize over actions,
+
+10
+00:00:26.025 --> 00:00:27.570
+the action can be passed as
+
+11
+00:00:27.570 --> 00:00:30.540
+an input like
+any other state variable.
+
+12
+00:00:30.540 --> 00:00:33.450
+Let's get some context
+about the next part
+
+13
+00:00:33.450 --> 00:00:35.880
+of the module by looking
+at the algorithm map.
+
+14
+00:00:35.880 --> 00:00:37.730
+Function approximation puts us
+
+15
+00:00:37.730 --> 00:00:39.325
+on the left side of the map,
+
+16
+00:00:39.325 --> 00:00:41.480
+the focus of
+the first lecture was on
+
+17
+00:00:41.480 --> 00:00:44.000
+the control algorithms in
+the bottom left corner,
+
+18
+00:00:44.000 --> 00:00:47.420
+SARSA, expected SARSA,
+and Q-Learning.
+
+19
+00:00:47.420 --> 00:00:48.980
+These are all extensions of
+
+20
+00:00:48.980 --> 00:00:52.115
+the tabular control algorithms
+we covered in Course 2,
+
+21
+00:00:52.115 --> 00:00:54.800
+the only difference between
+these algorithms and
+
+22
+00:00:54.800 --> 00:00:58.145
+their tabular counterparts
+are the update equations.
+
+23
+00:00:58.145 --> 00:01:00.230
+The updates are all adapted for
+
+24
+00:01:00.230 --> 00:01:02.600
+function approximation
+in the same way,
+
+25
+00:01:02.600 --> 00:01:05.270
+using the gradient to
+update the weights.
+
+26
+00:01:05.270 --> 00:01:07.490
+We also saw how episodic
+
+27
+00:01:07.490 --> 00:01:10.355
+SARSA could be used to solve
+the mountain car problem.
+
+28
+00:01:10.355 --> 00:01:12.620
+In this case,
+the larger step size is
+
+29
+00:01:12.620 --> 00:01:15.785
+0.5 was able to
+learn more quickly.
+
+30
+00:01:15.785 --> 00:01:18.545
+Next, we talked
+about exploration,
+
+31
+00:01:18.545 --> 00:01:20.855
+optimistic initialization
+can be used with
+
+32
+00:01:20.855 --> 00:01:23.815
+some structured feature
+representations like tele-coding.
+
+33
+00:01:23.815 --> 00:01:25.220
+But in general, it's not
+
+34
+00:01:25.220 --> 00:01:26.780
+clear how to
+optimistically initialize
+
+35
+00:01:26.780 --> 00:01:29.225
+values with nonlinear
+function approximators
+
+36
+00:01:29.225 --> 00:01:30.515
+like neural networks,
+
+37
+00:01:30.515 --> 00:01:32.930
+and it might not
+behave as expected,
+
+38
+00:01:32.930 --> 00:01:37.375
+for example the optimism
+may fade too quickly.
+
+39
+00:01:37.375 --> 00:01:39.410
+Epsilon-greedy can be used
+
+40
+00:01:39.410 --> 00:01:41.585
+regardless of
+the function approximator.
+
+41
+00:01:41.585 --> 00:01:44.030
+Finally, we talked
+about a new way to
+
+42
+00:01:44.030 --> 00:01:46.520
+think about the continuing
+control problem.
+
+43
+00:01:46.520 --> 00:01:49.070
+Instead of maximizing
+the discounted return
+
+44
+00:01:49.070 --> 00:01:50.810
+from the current state,
+
+45
+00:01:50.810 --> 00:01:52.100
+we can think about maximizing
+
+46
+00:01:52.100 --> 00:01:55.595
+the average reward that
+a policy receives overtime.
+
+47
+00:01:55.595 --> 00:01:59.135
+We defined differential returns
+and differential values,
+
+48
+00:01:59.135 --> 00:02:01.100
+these enable the agent to assess
+
+49
+00:02:01.100 --> 00:02:02.180
+the relative value of
+
+50
+00:02:02.180 --> 00:02:04.780
+actions in the average
+reward setting.
+
+51
+00:02:04.780 --> 00:02:07.759
+Finally, we introduced
+differential semi-gradient
+
+52
+00:02:07.759 --> 00:02:09.200
+SARSA that approximates
+
+53
+00:02:09.200 --> 00:02:12.005
+differential values
+to learn policies.
+
+54
+00:02:12.005 --> 00:02:14.030
+Differential SARSA is also in
+
+55
+00:02:14.030 --> 00:02:15.820
+the left half of
+the algorithm map,
+
+56
+00:02:15.820 --> 00:02:18.950
+but unlike the algorithms we
+covered earlier in the week,
+
+57
+00:02:18.950 --> 00:02:21.410
+it uses the average
+reward framework.
+
+58
+00:02:21.410 --> 00:02:23.120
+That's all for this week,
+
+59
+00:02:23.120 --> 00:02:25.430
+we extended our tabular
+control algorithms
+
+60
+00:02:25.430 --> 00:02:26.975
+to function approximation,
+
+61
+00:02:26.975 --> 00:02:29.179
+discussed how
+exploration changes,
+
+62
+00:02:29.179 --> 00:02:30.740
+and introduced a new way to
+
+63
+00:02:30.740 --> 00:02:32.420
+think about the control problem.
+
+64
+00:02:32.420 --> 00:02:34.550
+Next week, we'll talk
+all about how to do
+
+65
+00:02:34.550 --> 00:02:36.260
+reinforcement learning
+without learning
+
+66
+00:02:36.260 --> 00:02:38.820
+the value function. See you then.

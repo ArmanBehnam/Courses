@@ -1,0 +1,663 @@
+WEBVTT
+
+1
+00:00:04.880 --> 00:00:08.160
+So far, all the methods
+we've looked at for
+
+2
+00:00:08.160 --> 00:00:11.115
+learning good policies
+estimate action values.
+
+3
+00:00:11.115 --> 00:00:13.095
+Every control arguably study,
+
+4
+00:00:13.095 --> 00:00:14.280
+was built on the framework
+
+5
+00:00:14.280 --> 00:00:16.155
+of generalized policy iteration.
+
+6
+00:00:16.155 --> 00:00:18.510
+In this module, we'll
+explore a new class of
+
+7
+00:00:18.510 --> 00:00:22.035
+methods where the policies
+are parameterized directly.
+
+8
+00:00:22.035 --> 00:00:24.960
+By the end of this video,
+you'll be able to;
+
+9
+00:00:24.960 --> 00:00:26.250
+understand how to define
+
+10
+00:00:26.250 --> 00:00:28.424
+policies as
+parameterized functions
+
+11
+00:00:28.424 --> 00:00:29.970
+and define one class of
+
+12
+00:00:29.970 --> 00:00:33.520
+parametrized policies based
+on the softmax function.
+
+13
+00:00:33.520 --> 00:00:35.660
+Let's think about
+what it means to
+
+14
+00:00:35.660 --> 00:00:37.640
+specify a policy directly.
+
+15
+00:00:37.640 --> 00:00:39.925
+We'll do this in mountain car.
+
+16
+00:00:39.925 --> 00:00:42.680
+Previously, we used
+epsilon-greedy to
+
+17
+00:00:42.680 --> 00:00:46.280
+convert approximate action
+values into a policy.
+
+18
+00:00:46.280 --> 00:00:48.020
+But we can also consider
+
+19
+00:00:48.020 --> 00:00:49.880
+policy which maps
+states directly to
+
+20
+00:00:49.880 --> 00:00:53.380
+actions without
+first computing action values.
+
+21
+00:00:53.380 --> 00:00:55.275
+For example, in mountain car,
+
+22
+00:00:55.275 --> 00:00:56.820
+we can define such a policy.
+
+23
+00:00:56.820 --> 00:00:59.060
+Simply choose
+accelerate right when
+
+24
+00:00:59.060 --> 00:01:01.160
+the velocity is
+positive and otherwise,
+
+25
+00:01:01.160 --> 00:01:03.155
+choose the accelerate
+left action.
+
+26
+00:01:03.155 --> 00:01:05.510
+Put another way,
+this policy accelerates
+
+27
+00:01:05.510 --> 00:01:08.110
+in whatever direction
+we are already moving.
+
+28
+00:01:08.110 --> 00:01:11.520
+In fact, this simple
+energy pumping policy,
+
+29
+00:01:11.520 --> 00:01:13.140
+is close to optimal.
+
+30
+00:01:13.140 --> 00:01:16.655
+This policy does not make
+use of action values at all.
+
+31
+00:01:16.655 --> 00:01:18.290
+But this was just an example to
+
+32
+00:01:18.290 --> 00:01:19.940
+stimulate your intuitions and to
+
+33
+00:01:19.940 --> 00:01:21.140
+show you that we don't need
+
+34
+00:01:21.140 --> 00:01:23.315
+action values to
+construct policies.
+
+35
+00:01:23.315 --> 00:01:26.360
+We're not actually going to
+specify policies by hand.
+
+36
+00:01:26.360 --> 00:01:28.775
+Rather, we will learn them.
+
+37
+00:01:28.775 --> 00:01:31.790
+We can use the language of
+function approximation to
+
+38
+00:01:31.790 --> 00:01:35.160
+both represent and learn
+policies directly.
+
+39
+00:01:35.170 --> 00:01:37.595
+We'll use the Greek letter Theta
+
+40
+00:01:37.595 --> 00:01:39.305
+for the policies
+parameter vector.
+
+41
+00:01:39.305 --> 00:01:41.330
+This distinguishes it
+from the parameters
+
+42
+00:01:41.330 --> 00:01:44.000
+W for the approximate
+value function.
+
+43
+00:01:44.000 --> 00:01:47.240
+We use the notation Pi
+of a given s and Theta,
+
+44
+00:01:47.240 --> 00:01:49.480
+to denote the
+parameterized policy.
+
+45
+00:01:49.480 --> 00:01:51.775
+For a given input
+state and action,
+
+46
+00:01:51.775 --> 00:01:53.780
+the parameterized policy
+function will output
+
+47
+00:01:53.780 --> 00:01:56.405
+the probability of taking
+that action in that state.
+
+48
+00:01:56.405 --> 00:01:59.660
+This mapping will be controlled
+by the parameters Theta.
+
+49
+00:01:59.660 --> 00:02:01.610
+The parameterized
+function, has to
+
+50
+00:02:01.610 --> 00:02:03.170
+generate a valid policy.
+
+51
+00:02:03.170 --> 00:02:04.430
+This means, it has to generate
+
+52
+00:02:04.430 --> 00:02:05.945
+a valid probability distribution
+
+53
+00:02:05.945 --> 00:02:08.225
+over actions for every state.
+
+54
+00:02:08.225 --> 00:02:11.630
+Specifically, the probabilities
+selecting an action,
+
+55
+00:02:11.630 --> 00:02:13.670
+must be greater than
+or equal to zero.
+
+56
+00:02:13.670 --> 00:02:15.230
+For each state, the sum of
+
+57
+00:02:15.230 --> 00:02:18.095
+the probabilities over
+all actions must be one.
+
+58
+00:02:18.095 --> 00:02:20.450
+It requires some
+thought to satisfy
+
+59
+00:02:20.450 --> 00:02:22.625
+these conditions for
+a parameterized function.
+
+60
+00:02:22.625 --> 00:02:25.760
+For example, this means we
+can not use a linear function
+
+61
+00:02:25.760 --> 00:02:29.380
+directly like we did with
+value function approximation.
+
+62
+00:02:29.380 --> 00:02:31.040
+There is no easy way to
+
+63
+00:02:31.040 --> 00:02:33.565
+guarantee that a linear function
+will sum to one.
+
+64
+00:02:33.565 --> 00:02:36.260
+Instead, we will need
+to restrict the class
+
+65
+00:02:36.260 --> 00:02:39.620
+of functions we can use
+to construct policies.
+
+66
+00:02:39.620 --> 00:02:42.830
+Let's consider a simple but
+effective way to satisfy
+
+67
+00:02:42.830 --> 00:02:45.635
+these conditions called a policy.
+
+68
+00:02:45.635 --> 00:02:48.620
+Here's the definition
+of a softmax policy.
+
+69
+00:02:48.620 --> 00:02:50.540
+The function h shown here,
+
+70
+00:02:50.540 --> 00:02:52.325
+is called the action preference.
+
+71
+00:02:52.325 --> 00:02:55.250
+A higher preference for
+a particular action in a state,
+
+72
+00:02:55.250 --> 00:02:58.220
+means that the action is
+more likely to be selected.
+
+73
+00:02:58.220 --> 00:03:00.860
+The action preference is
+a function of the state and
+
+74
+00:03:00.860 --> 00:03:03.570
+action as well as
+a parameter vector Theta.
+
+75
+00:03:03.570 --> 00:03:05.330
+Computing the
+probability of selecting
+
+76
+00:03:05.330 --> 00:03:07.490
+an action with
+the softmax is simple.
+
+77
+00:03:07.490 --> 00:03:10.595
+We take the action preference,
+exponentiate it,
+
+78
+00:03:10.595 --> 00:03:12.380
+and then divide by the sum over
+
+79
+00:03:12.380 --> 00:03:14.885
+all the actions for
+the same thing.
+
+80
+00:03:14.885 --> 00:03:17.245
+The exponential
+function guarantees
+
+81
+00:03:17.245 --> 00:03:19.545
+the probability is
+positive for each action.
+
+82
+00:03:19.545 --> 00:03:22.310
+The denominator
+normalizes the output of
+
+83
+00:03:22.310 --> 00:03:25.710
+each action such that
+the sum over actions is one.
+
+84
+00:03:25.710 --> 00:03:26.840
+The action preference, can be
+
+85
+00:03:26.840 --> 00:03:28.700
+parameterized in
+any way we like since
+
+86
+00:03:28.700 --> 00:03:29.810
+the softmax will enforce
+
+87
+00:03:29.810 --> 00:03:32.855
+the constraints of
+a probability distribution.
+
+88
+00:03:32.855 --> 00:03:35.300
+For example, the
+action preferences
+
+89
+00:03:35.300 --> 00:03:37.280
+could be a linear function
+of the state action
+
+90
+00:03:37.280 --> 00:03:39.020
+features or something more
+
+91
+00:03:39.020 --> 00:03:41.855
+complex like the output
+of a neural network.
+
+92
+00:03:41.855 --> 00:03:44.600
+Here's what we get when
+we pass a particular set
+
+93
+00:03:44.600 --> 00:03:47.450
+of action preferences
+through the softmax.
+
+94
+00:03:47.450 --> 00:03:49.880
+The input preferences
+can be arbitrarily
+
+95
+00:03:49.880 --> 00:03:52.330
+large or even negative.
+
+96
+00:03:52.330 --> 00:03:55.260
+If one preference is much
+larger than all the others,
+
+97
+00:03:55.260 --> 00:03:57.725
+the action probability
+would be close to one.
+
+98
+00:03:57.725 --> 00:03:59.840
+No matter how big
+the preference gets,
+
+99
+00:03:59.840 --> 00:04:02.060
+the probability will never
+be greater than one.
+
+100
+00:04:02.060 --> 00:04:03.550
+If one preference is very small,
+
+101
+00:04:03.550 --> 00:04:05.630
+the softmax policy
+will still select
+
+102
+00:04:05.630 --> 00:04:08.490
+the action with
+non-zero probability.
+
+103
+00:04:08.490 --> 00:04:10.310
+For example, if the preference is
+
+104
+00:04:10.310 --> 00:04:12.380
+negative and the
+other is positive,
+
+105
+00:04:12.380 --> 00:04:15.830
+the negative action will still
+have non-zero probability.
+
+106
+00:04:15.830 --> 00:04:17.870
+Finally, actions with
+
+107
+00:04:17.870 --> 00:04:19.400
+similar preferences
+will be chosen with
+
+108
+00:04:19.400 --> 00:04:23.285
+near equal probability
+under a softmax policy.
+
+109
+00:04:23.285 --> 00:04:25.565
+It's important to
+distinguish between
+
+110
+00:04:25.565 --> 00:04:28.625
+action preferences
+and action values.
+
+111
+00:04:28.625 --> 00:04:31.460
+Preferences indicate how
+much the agent prefers
+
+112
+00:04:31.460 --> 00:04:34.985
+each action but they are not
+summaries of future reward.
+
+113
+00:04:34.985 --> 00:04:36.830
+Only the relative differences
+
+114
+00:04:36.830 --> 00:04:38.630
+between preferences
+are important.
+
+115
+00:04:38.630 --> 00:04:40.820
+For example, we could add plus
+
+116
+00:04:40.820 --> 00:04:43.765
+100 to all the preferences
+and it would not matter.
+
+117
+00:04:43.765 --> 00:04:45.770
+An epsilon-greedy policy derived
+
+118
+00:04:45.770 --> 00:04:47.030
+from action values can behave
+
+119
+00:04:47.030 --> 00:04:48.290
+very differently than
+
+120
+00:04:48.290 --> 00:04:51.350
+a softmax policy over
+action preferences.
+
+121
+00:04:51.350 --> 00:04:53.570
+In epsilon-greedy, the action
+
+122
+00:04:53.570 --> 00:04:55.270
+corresponding to
+the highest valued action,
+
+123
+00:04:55.270 --> 00:04:57.320
+is selected with
+high probability.
+
+124
+00:04:57.320 --> 00:04:59.000
+The probability selecting all the
+
+125
+00:04:59.000 --> 00:05:01.025
+other actions, is quite small.
+
+126
+00:05:01.025 --> 00:05:04.970
+Actions with nearly the same
+but lower action value,
+
+127
+00:05:04.970 --> 00:05:07.310
+are selected with
+much lower probability.
+
+128
+00:05:07.310 --> 00:05:10.520
+On the other hand, actions
+with very poor action values,
+
+129
+00:05:10.520 --> 00:05:12.170
+are still selected frequently
+
+130
+00:05:12.170 --> 00:05:14.195
+due to the epsilon
+exploration step.
+
+131
+00:05:14.195 --> 00:05:15.770
+So even if the agent learns
+
+132
+00:05:15.770 --> 00:05:17.720
+an action has
+terrible consequences,
+
+133
+00:05:17.720 --> 00:05:20.060
+it will continue to
+select that action
+
+134
+00:05:20.060 --> 00:05:21.380
+much more frequently than it
+
+135
+00:05:21.380 --> 00:05:23.705
+would under the softmax policy.
+
+136
+00:05:23.705 --> 00:05:25.730
+That's it for this video.
+
+137
+00:05:25.730 --> 00:05:27.560
+You should now understand we
+
+138
+00:05:27.560 --> 00:05:29.990
+can parameterize
+policies directly,
+
+139
+00:05:29.990 --> 00:05:32.360
+that we need to define
+parameterizations that
+
+140
+00:05:32.360 --> 00:05:34.870
+produce valid probability
+distributions,
+
+141
+00:05:34.870 --> 00:05:38.015
+and understand the softmax
+policy parameterization.
+
+142
+00:05:38.015 --> 00:05:40.410
+See you next time.

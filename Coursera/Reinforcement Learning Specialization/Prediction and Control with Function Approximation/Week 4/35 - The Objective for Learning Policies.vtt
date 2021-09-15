@@ -1,0 +1,581 @@
+WEBVTT
+
+1
+00:00:04.730 --> 00:00:07.200
+Now that we've
+introduced the idea
+
+2
+00:00:07.200 --> 00:00:09.570
+of parameterizing
+policies directly,
+
+3
+00:00:09.570 --> 00:00:11.070
+we're ready to talk
+about how we can
+
+4
+00:00:11.070 --> 00:00:13.590
+learn to improve
+a parameterized policy.
+
+5
+00:00:13.590 --> 00:00:16.120
+Just like with action
+value-based methods,
+
+6
+00:00:16.120 --> 00:00:18.840
+the basic idea will be
+to specify an objective,
+
+7
+00:00:18.840 --> 00:00:20.880
+and then figure out how to
+estimate the gradient of
+
+8
+00:00:20.880 --> 00:00:23.745
+that objective from
+an agent's experience.
+
+9
+00:00:23.745 --> 00:00:25.920
+After watching this video,
+
+10
+00:00:25.920 --> 00:00:27.540
+you'll be able to
+describe the objective
+
+11
+00:00:27.540 --> 00:00:29.940
+for policy gradient algorithms.
+
+12
+00:00:29.940 --> 00:00:32.270
+Formulating an objective
+for learning
+
+13
+00:00:32.270 --> 00:00:33.950
+a parameterized policy is in
+
+14
+00:00:33.950 --> 00:00:35.660
+some sense more straightforward
+
+15
+00:00:35.660 --> 00:00:38.300
+than it was for action
+value-based methods.
+
+16
+00:00:38.300 --> 00:00:40.220
+We've said many times that
+
+17
+00:00:40.220 --> 00:00:42.830
+the ultimate goal of
+reinforcement learning is to
+
+18
+00:00:42.830 --> 00:00:44.570
+learn a policy that obtains
+
+19
+00:00:44.570 --> 00:00:47.825
+as much reward as
+possible in the long run.
+
+20
+00:00:47.825 --> 00:00:49.820
+It turns out that when we
+
+21
+00:00:49.820 --> 00:00:51.890
+parameterize our policy directly,
+
+22
+00:00:51.890 --> 00:00:53.270
+we can also use this goal
+
+23
+00:00:53.270 --> 00:00:55.675
+directly as the
+learning objective.
+
+24
+00:00:55.675 --> 00:00:58.100
+Throughout this specialization,
+we've introduced
+
+25
+00:00:58.100 --> 00:01:00.035
+a few different interpretations
+
+26
+00:01:00.035 --> 00:01:01.580
+of what it means to obtain
+
+27
+00:01:01.580 --> 00:01:04.295
+as much reward as
+possible in the long-run.
+
+28
+00:01:04.295 --> 00:01:06.020
+For the episodic case,
+
+29
+00:01:06.020 --> 00:01:08.210
+we can use the
+undiscounted return,
+
+30
+00:01:08.210 --> 00:01:11.330
+which is the sum of rewards
+over a whole episode.
+
+31
+00:01:11.330 --> 00:01:13.010
+For the continuing case,
+
+32
+00:01:13.010 --> 00:01:15.590
+we introduced the discounted
+return which places
+
+33
+00:01:15.590 --> 00:01:17.705
+more emphasis on immediate reward
+
+34
+00:01:17.705 --> 00:01:20.060
+in order to keep the sum finite.
+
+35
+00:01:20.060 --> 00:01:21.680
+Most recently,
+
+36
+00:01:21.680 --> 00:01:24.170
+we introduced the average
+reward formulation.
+
+37
+00:01:24.170 --> 00:01:28.115
+Here, we maximize the long-term
+average of the reward.
+
+38
+00:01:28.115 --> 00:01:30.530
+The appropriate return
+here is the sum of
+
+39
+00:01:30.530 --> 00:01:31.550
+the differences between
+
+40
+00:01:31.550 --> 00:01:34.015
+the immediate reward
+and its average.
+
+41
+00:01:34.015 --> 00:01:36.620
+Because the long-term
+averages subtracted,
+
+42
+00:01:36.620 --> 00:01:39.845
+this sum is finite even
+without discounting.
+
+43
+00:01:39.845 --> 00:01:41.780
+Here we have three potential
+
+44
+00:01:41.780 --> 00:01:43.655
+problem formulations to consider.
+
+45
+00:01:43.655 --> 00:01:45.470
+We're going to restrict
+our attention to
+
+46
+00:01:45.470 --> 00:01:48.080
+the continuing setting
+with average reward.
+
+47
+00:01:48.080 --> 00:01:50.060
+Remember what our aim is here,
+
+48
+00:01:50.060 --> 00:01:51.590
+to find a way to directly
+
+49
+00:01:51.590 --> 00:01:54.100
+optimize the parameters
+of a policy.
+
+50
+00:01:54.100 --> 00:01:55.670
+The first step is to write
+
+51
+00:01:55.670 --> 00:01:57.140
+the average reward objective
+
+52
+00:01:57.140 --> 00:01:59.420
+in a form that we can optimize.
+
+53
+00:01:59.420 --> 00:02:02.840
+Previously, we estimated
+the average reward to learn
+
+54
+00:02:02.840 --> 00:02:06.370
+action values in an average
+reward variant of sarsa.
+
+55
+00:02:06.370 --> 00:02:08.884
+Now, our aim is to learn a policy
+
+56
+00:02:08.884 --> 00:02:11.510
+that directly optimizes
+average reward.
+
+57
+00:02:11.510 --> 00:02:13.880
+Toward this aim, let's
+start by writing
+
+58
+00:02:13.880 --> 00:02:17.600
+the average reward under
+a policy in a more useful form.
+
+59
+00:02:17.600 --> 00:02:19.730
+We can write the average
+reward achieved by
+
+60
+00:02:19.730 --> 00:02:22.130
+a particular
+policy Pi, like this.
+
+61
+00:02:22.130 --> 00:02:24.260
+Let's break this formula
+down starting
+
+62
+00:02:24.260 --> 00:02:26.675
+from the inner sum
+and moving out.
+
+63
+00:02:26.675 --> 00:02:29.750
+This inner sum gives
+the expected reward if we
+
+64
+00:02:29.750 --> 00:02:32.480
+start in state S
+and take action A.
+
+65
+00:02:32.480 --> 00:02:35.030
+This is simply the sum
+over all rewards we might
+
+66
+00:02:35.030 --> 00:02:38.795
+receive weighted by
+their probability from S and A.
+
+67
+00:02:38.795 --> 00:02:41.660
+We sum over next
+states S prime to get
+
+68
+00:02:41.660 --> 00:02:44.720
+marginal probabilities
+over the reward.
+
+69
+00:02:44.720 --> 00:02:47.150
+The next level of
+the summation is over
+
+70
+00:02:47.150 --> 00:02:48.920
+all possible actions weighted
+
+71
+00:02:48.920 --> 00:02:51.200
+by their probability under Pi.
+
+72
+00:02:51.200 --> 00:02:53.450
+This gives us the expected reward
+
+73
+00:02:53.450 --> 00:02:54.920
+under the policy Pi from
+
+74
+00:02:54.920 --> 00:02:58.250
+a particular state S. Finally,
+
+75
+00:02:58.250 --> 00:03:00.095
+we get the overall average reward
+
+76
+00:03:00.095 --> 00:03:01.400
+by considering the fraction
+
+77
+00:03:01.400 --> 00:03:05.090
+of time we spend in
+state S under policy Pi.
+
+78
+00:03:05.090 --> 00:03:08.705
+The distribution Mu provides
+these probabilities.
+
+79
+00:03:08.705 --> 00:03:12.170
+The expected reward across
+states is a sum over
+
+80
+00:03:12.170 --> 00:03:17.020
+S of the expected reward in
+a state weighted by Mu of S,
+
+81
+00:03:17.020 --> 00:03:21.200
+r Pi is our average reward
+learning objective.
+
+82
+00:03:21.200 --> 00:03:24.350
+Our goal of policy
+optimization will be to find
+
+83
+00:03:24.350 --> 00:03:27.635
+a policy which maximizes
+the average reward.
+
+84
+00:03:27.635 --> 00:03:29.420
+Our basic approach will be to
+
+85
+00:03:29.420 --> 00:03:31.640
+estimate the gradient
+of the objective with
+
+86
+00:03:31.640 --> 00:03:33.590
+respect to the policy parameters
+
+87
+00:03:33.590 --> 00:03:36.815
+and adjust the parameters
+based on this estimate.
+
+88
+00:03:36.815 --> 00:03:39.890
+The class of methods
+they use this idea are
+
+89
+00:03:39.890 --> 00:03:42.905
+often referred to as
+policy gradient methods.
+
+90
+00:03:42.905 --> 00:03:45.845
+Up until now, we've used
+a very different approach.
+
+91
+00:03:45.845 --> 00:03:48.485
+We use the Generalized
+Policy Iteration framework
+
+92
+00:03:48.485 --> 00:03:50.615
+to learn approximate
+action values.
+
+93
+00:03:50.615 --> 00:03:52.970
+Then we use these
+approximate values
+
+94
+00:03:52.970 --> 00:03:55.655
+indirectly to infer
+a good policy.
+
+95
+00:03:55.655 --> 00:03:59.165
+Now, we're interested in
+learning policies directly.
+
+96
+00:03:59.165 --> 00:04:01.610
+There's also a
+superficial difference,
+
+97
+00:04:01.610 --> 00:04:02.810
+in that before we were
+
+98
+00:04:02.810 --> 00:04:04.880
+minimizing the mean
+squared value error,
+
+99
+00:04:04.880 --> 00:04:07.535
+and now we are
+maximizing an objective.
+
+100
+00:04:07.535 --> 00:04:09.830
+That means we will want to
+move in the direction of
+
+101
+00:04:09.830 --> 00:04:13.190
+the gradient rather than
+the negative gradient.
+
+102
+00:04:13.190 --> 00:04:15.260
+There are few challenges in
+
+103
+00:04:15.260 --> 00:04:17.060
+computing this gradient however,
+
+104
+00:04:17.060 --> 00:04:19.190
+the main difficulty
+is that modifying
+
+105
+00:04:19.190 --> 00:04:21.965
+our policy changes
+the distribution Mu.
+
+106
+00:04:21.965 --> 00:04:23.750
+This contrast value function
+
+107
+00:04:23.750 --> 00:04:25.340
+approximation where we minimized
+
+108
+00:04:25.340 --> 00:04:28.505
+means grid value error
+under a particular policy.
+
+109
+00:04:28.505 --> 00:04:31.460
+There the distribution
+Mu was fixed.
+
+110
+00:04:31.460 --> 00:04:33.410
+It does not change
+as the weights and
+
+111
+00:04:33.410 --> 00:04:36.065
+the parameterized
+value function chains.
+
+112
+00:04:36.065 --> 00:04:39.080
+We were therefore able to
+estimate gradients for states
+
+113
+00:04:39.080 --> 00:04:42.155
+drawn from Mu by simply
+following the policy.
+
+114
+00:04:42.155 --> 00:04:43.770
+This is less straightforward,
+
+115
+00:04:43.770 --> 00:04:46.930
+a Mu itself depends on
+the policy we are optimizing.
+
+116
+00:04:46.930 --> 00:04:49.430
+Likely, there's an excellent
+theoretical answer
+
+117
+00:04:49.430 --> 00:04:52.085
+to this challenge called
+the policy gradient theorem.
+
+118
+00:04:52.085 --> 00:04:54.185
+We'll talk more about that soon.
+
+119
+00:04:54.185 --> 00:04:55.895
+That's it for this video.
+
+120
+00:04:55.895 --> 00:04:57.800
+You should now understand
+that we can use
+
+121
+00:04:57.800 --> 00:04:58.940
+the average reward as
+
+122
+00:04:58.940 --> 00:05:01.325
+an objective for
+policy optimization.
+
+123
+00:05:01.325 --> 00:05:03.920
+In upcoming lectures, we
+will discuss how to actually
+
+124
+00:05:03.920 --> 00:05:05.300
+optimize this objective from
+
+125
+00:05:05.300 --> 00:05:08.340
+sampled experience. See you then.

@@ -1,0 +1,544 @@
+WEBVTT
+
+1
+00:00:05.000 --> 00:00:07.710
+Supervised learning systems based
+
+2
+00:00:07.710 --> 00:00:08.820
+on deep neural networks,
+
+3
+00:00:08.820 --> 00:00:11.640
+are now the go-to solution
+for image classification,
+
+4
+00:00:11.640 --> 00:00:14.670
+speech recognition, and
+natural language processing.
+
+5
+00:00:14.670 --> 00:00:16.260
+Part of the reason is due to
+
+6
+00:00:16.260 --> 00:00:17.760
+the dramatic increases in
+
+7
+00:00:17.760 --> 00:00:20.445
+training data and
+affordable computation.
+
+8
+00:00:20.445 --> 00:00:22.050
+But to really take advantage of
+
+9
+00:00:22.050 --> 00:00:24.510
+these increases in
+data and computation,
+
+10
+00:00:24.510 --> 00:00:26.625
+improvements and
+training were needed.
+
+11
+00:00:26.625 --> 00:00:29.565
+A couple of simple
+optimization strategies,
+
+12
+00:00:29.565 --> 00:00:30.960
+made it much easier to train
+
+13
+00:00:30.960 --> 00:00:33.450
+networks and helped
+accelerate adoption.
+
+14
+00:00:33.450 --> 00:00:35.860
+We'll talk about these today.
+
+15
+00:00:35.900 --> 00:00:37.980
+By the end of this video,
+
+16
+00:00:37.980 --> 00:00:39.510
+you will be able to understand
+
+17
+00:00:39.510 --> 00:00:41.250
+the importance of
+initialization for
+
+18
+00:00:41.250 --> 00:00:43.250
+neural networks and describe
+
+19
+00:00:43.250 --> 00:00:46.475
+optimization techniques for
+training neural networks.
+
+20
+00:00:46.475 --> 00:00:48.905
+Like many machine
+learning methods,
+
+21
+00:00:48.905 --> 00:00:52.055
+neural networks are trained
+using an iterative process.
+
+22
+00:00:52.055 --> 00:00:54.995
+This procedure, must have
+some starting point.
+
+23
+00:00:54.995 --> 00:00:56.840
+The choice of
+this starting point,
+
+24
+00:00:56.840 --> 00:00:58.370
+can play a big role in
+
+25
+00:00:58.370 --> 00:01:00.380
+the performance of
+the neural network.
+
+26
+00:01:00.380 --> 00:01:03.200
+Let's look at an example
+with only one weight.
+
+27
+00:01:03.200 --> 00:01:06.120
+On the y-axis, we will
+show the loss function.
+
+28
+00:01:06.120 --> 00:01:09.660
+On the x-axis, we will
+show values of the weight.
+
+29
+00:01:09.660 --> 00:01:11.570
+As you know, gradient descent,
+
+30
+00:01:11.570 --> 00:01:13.010
+will iteratively move the weight
+
+31
+00:01:13.010 --> 00:01:15.380
+towards the nearest
+stationary point.
+
+32
+00:01:15.380 --> 00:01:17.250
+But neural network
+loss functions,
+
+33
+00:01:17.250 --> 00:01:19.040
+are not quite so simple.
+
+34
+00:01:19.040 --> 00:01:21.680
+If we start in
+this nearly flat region,
+
+35
+00:01:21.680 --> 00:01:23.540
+it can be hard to make
+any progress with
+
+36
+00:01:23.540 --> 00:01:26.600
+gradient descent since
+the gradient is near zero.
+
+37
+00:01:26.600 --> 00:01:29.180
+If instead we start
+inside the small bowl,
+
+38
+00:01:29.180 --> 00:01:31.760
+then we can quickly
+find the local optima.
+
+39
+00:01:31.760 --> 00:01:33.200
+But wouldn't it be nice if it
+
+40
+00:01:33.200 --> 00:01:34.670
+could started somewhere here,
+
+41
+00:01:34.670 --> 00:01:37.925
+where we can quickly find
+an even better optimal point?
+
+42
+00:01:37.925 --> 00:01:41.360
+One simple yet effective
+initialization strategy,
+
+43
+00:01:41.360 --> 00:01:43.700
+is to randomly sample
+the initial weights
+
+44
+00:01:43.700 --> 00:01:46.835
+from a normal distribution
+with small variance.
+
+45
+00:01:46.835 --> 00:01:49.010
+This way, each neuron has
+
+46
+00:01:49.010 --> 00:01:52.220
+a different output from
+other neurons within its layer.
+
+47
+00:01:52.220 --> 00:01:55.960
+This provides a more diverse set
+of potential features.
+
+48
+00:01:55.960 --> 00:01:58.125
+By keeping the variants small,
+
+49
+00:01:58.125 --> 00:02:00.365
+we ensure that the output
+of each neuron
+
+50
+00:02:00.365 --> 00:02:03.020
+is within the same range
+as its neighbors.
+
+51
+00:02:03.020 --> 00:02:05.570
+One downside to
+this strategy is that,
+
+52
+00:02:05.570 --> 00:02:07.850
+as we add more
+inputs to a neuron,
+
+53
+00:02:07.850 --> 00:02:10.160
+the variance of the output grows.
+
+54
+00:02:10.160 --> 00:02:12.020
+We can get around this issue by
+
+55
+00:02:12.020 --> 00:02:14.150
+scaling the variance
+of the weights,
+
+56
+00:02:14.150 --> 00:02:17.525
+by one over the square root
+of the number of inputs.
+
+57
+00:02:17.525 --> 00:02:20.540
+After we have picked the
+starting point for our network,
+
+58
+00:02:20.540 --> 00:02:22.970
+we start incrementally
+making small improvements to
+
+59
+00:02:22.970 --> 00:02:26.375
+the weights using stochastic
+gradient descent steps.
+
+60
+00:02:26.375 --> 00:02:28.490
+Another way to improve training,
+
+61
+00:02:28.490 --> 00:02:31.720
+is to consider a more
+sophisticated update mechanisms.
+
+62
+00:02:31.720 --> 00:02:34.805
+Two common strategies, are
+to use the heavy-ball method
+
+63
+00:02:34.805 --> 00:02:38.390
+also called momentum and
+vector step size adaptation.
+
+64
+00:02:38.390 --> 00:02:40.625
+Let's talk about momentum first.
+
+65
+00:02:40.625 --> 00:02:42.920
+Imagine, this is
+the trajectory of
+
+66
+00:02:42.920 --> 00:02:44.405
+a two-dimensional wave vector
+
+67
+00:02:44.405 --> 00:02:46.385
+under stochastic
+gradient descent.
+
+68
+00:02:46.385 --> 00:02:49.565
+Here's the stochastic
+gradient descent update rule
+
+69
+00:02:49.565 --> 00:02:52.970
+and here's the update
+modified to include momentum.
+
+70
+00:02:52.970 --> 00:02:54.830
+Notice, it is similar to
+
+71
+00:02:54.830 --> 00:02:57.350
+the regular stochastic
+gradient descent update
+
+72
+00:02:57.350 --> 00:03:00.625
+plus an extra term
+called the momentum
+
+73
+00:03:00.625 --> 00:03:04.550
+M. The momentum term
+summarizes the history of
+
+74
+00:03:04.550 --> 00:03:06.830
+the gradients using
+a decaying sum
+
+75
+00:03:06.830 --> 00:03:09.530
+of gradients with
+decay rate Lambda.
+
+76
+00:03:09.530 --> 00:03:12.950
+If recent gradients have all
+been in similar directions,
+
+77
+00:03:12.950 --> 00:03:15.500
+then we gained momentum
+in that direction.
+
+78
+00:03:15.500 --> 00:03:18.605
+This means, we make
+a large step in that direction.
+
+79
+00:03:18.605 --> 00:03:21.304
+If recent updates have
+conflicting directions,
+
+80
+00:03:21.304 --> 00:03:22.820
+then it kills the momentum.
+
+81
+00:03:22.820 --> 00:03:25.220
+The momentum term will
+have little impact on
+
+82
+00:03:25.220 --> 00:03:26.450
+the update and we will make
+
+83
+00:03:26.450 --> 00:03:28.790
+a regular gradient descent step.
+
+84
+00:03:28.790 --> 00:03:31.400
+Momentum provably
+accelerates learning,
+
+85
+00:03:31.400 --> 00:03:34.895
+meaning it gets to
+a stationary point more quickly.
+
+86
+00:03:34.895 --> 00:03:37.670
+Another potential
+improvement is to use
+
+87
+00:03:37.670 --> 00:03:40.220
+a separate step size for
+each weight in the network.
+
+88
+00:03:40.220 --> 00:03:42.140
+So far, we have only
+
+89
+00:03:42.140 --> 00:03:44.795
+talked about a global
+scalar step size.
+
+90
+00:03:44.795 --> 00:03:46.040
+This is well-known to be
+
+91
+00:03:46.040 --> 00:03:48.200
+problematic because
+this can result in
+
+92
+00:03:48.200 --> 00:03:49.550
+updates that are too big for
+
+93
+00:03:49.550 --> 00:03:52.475
+some weights and too
+small for other weights.
+
+94
+00:03:52.475 --> 00:03:54.865
+Adapting the step sizes
+for each weight,
+
+95
+00:03:54.865 --> 00:03:57.260
+based on statistics about
+the learning process
+
+96
+00:03:57.260 --> 00:04:00.410
+in practice results in
+much better performance.
+
+97
+00:04:00.410 --> 00:04:02.480
+Now, how does the update change?
+
+98
+00:04:02.480 --> 00:04:04.070
+The change is very simple.
+
+99
+00:04:04.070 --> 00:04:06.710
+Instead of updating
+with a scalar Alpha,
+
+100
+00:04:06.710 --> 00:04:09.140
+there's a vector of
+step sizes indexed by
+
+101
+00:04:09.140 --> 00:04:12.380
+t to indicate that it can
+change on each time-step.
+
+102
+00:04:12.380 --> 00:04:14.105
+Each dimension of the gradient,
+
+103
+00:04:14.105 --> 00:04:16.325
+is scaled by its
+corresponding step size
+
+104
+00:04:16.325 --> 00:04:18.455
+instead of the global step size.
+
+105
+00:04:18.455 --> 00:04:20.300
+There are a variety of methods to
+
+106
+00:04:20.300 --> 00:04:22.010
+adapt a vector of step sizes.
+
+107
+00:04:22.010 --> 00:04:24.230
+You'll get to implement
+one in your assignment.
+
+108
+00:04:24.230 --> 00:04:25.760
+That's it for this video.
+
+109
+00:04:25.760 --> 00:04:27.620
+Today, we discussed ways to
+
+110
+00:04:27.620 --> 00:04:29.840
+improve the training
+of neural networks.
+
+111
+00:04:29.840 --> 00:04:31.085
+Specifically,
+
+112
+00:04:31.085 --> 00:04:34.220
+we discussed one strategy for
+initializing the weights in
+
+113
+00:04:34.220 --> 00:04:36.620
+a neural network and how to
+
+114
+00:04:36.620 --> 00:04:38.720
+accelerate learning
+using momentum
+
+115
+00:04:38.720 --> 00:04:40.130
+and step size adaptation.
+
+116
+00:04:40.130 --> 00:04:42.365
+Now, you're all set to implement
+
+117
+00:04:42.365 --> 00:04:46.170
+a TD agent with a neural
+network. Hope you have fun.

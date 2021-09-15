@@ -1,0 +1,385 @@
+WEBVTT
+
+1
+00:00:05.120 --> 00:00:08.010
+The choice of neural
+network architecture can
+
+2
+00:00:08.010 --> 00:00:10.350
+have a big impact on performance.
+
+3
+00:00:10.350 --> 00:00:12.495
+This includes
+the number of nodes,
+
+4
+00:00:12.495 --> 00:00:14.040
+the activation functions, and
+
+5
+00:00:14.040 --> 00:00:16.230
+how the nodes are
+arranged and connected.
+
+6
+00:00:16.230 --> 00:00:18.600
+Today we will provide
+some intuition on
+
+7
+00:00:18.600 --> 00:00:21.375
+the role that depth can
+play in the network.
+
+8
+00:00:21.375 --> 00:00:23.475
+By the end of this video,
+
+9
+00:00:23.475 --> 00:00:24.780
+you will understand how
+
+10
+00:00:24.780 --> 00:00:27.900
+deep neural networks are
+composed of many layers and
+
+11
+00:00:27.900 --> 00:00:29.460
+understand that depth
+can facilitate
+
+12
+00:00:29.460 --> 00:00:33.015
+learning features through
+composition and abstraction.
+
+13
+00:00:33.015 --> 00:00:35.640
+We can view a neural
+network as being
+
+14
+00:00:35.640 --> 00:00:39.120
+a modular system where
+each layer is a module.
+
+15
+00:00:39.120 --> 00:00:41.930
+We can add and remove
+layers and we can
+
+16
+00:00:41.930 --> 00:00:44.975
+change the types of
+layers that we use.
+
+17
+00:00:44.975 --> 00:00:47.030
+The depth of the network
+is defined by
+
+18
+00:00:47.030 --> 00:00:49.340
+the number of hidden layers
+in the network.
+
+19
+00:00:49.340 --> 00:00:52.340
+In theory, a neural network
+need not be deep.
+
+20
+00:00:52.340 --> 00:00:55.280
+A neural network with
+a single hidden layer can
+
+21
+00:00:55.280 --> 00:00:57.515
+approximate any
+continuous function
+
+22
+00:00:57.515 --> 00:00:59.570
+given that is sufficiently wide.
+
+23
+00:00:59.570 --> 00:01:03.020
+We call this the universal
+approximation property.
+
+24
+00:01:03.020 --> 00:01:06.770
+However, practical experience
+and theory suggests that
+
+25
+00:01:06.770 --> 00:01:08.735
+deep neural networks may make it
+
+26
+00:01:08.735 --> 00:01:11.885
+easier to approximate
+complex functions.
+
+27
+00:01:11.885 --> 00:01:14.060
+One reason for this is that
+
+28
+00:01:14.060 --> 00:01:16.385
+the depth allows
+composition of features.
+
+29
+00:01:16.385 --> 00:01:19.385
+Composition can produce
+more specialized features
+
+30
+00:01:19.385 --> 00:01:22.070
+by combining modular components.
+
+31
+00:01:22.070 --> 00:01:24.425
+Consider an intuitive example.
+
+32
+00:01:24.425 --> 00:01:27.110
+The input is the raw
+pixels of an image.
+
+33
+00:01:27.110 --> 00:01:29.210
+The earlier layers
+might learn to capture
+
+34
+00:01:29.210 --> 00:01:32.705
+low-level features like
+lines at various angles.
+
+35
+00:01:32.705 --> 00:01:34.850
+The next layer may
+learn to compose
+
+36
+00:01:34.850 --> 00:01:37.100
+those lines into various shapes.
+
+37
+00:01:37.100 --> 00:01:39.800
+From these, the network
+might be able to detect
+
+38
+00:01:39.800 --> 00:01:42.590
+objects or animals in an image.
+
+39
+00:01:42.590 --> 00:01:45.080
+This typically works better
+than trying to immediately
+
+40
+00:01:45.080 --> 00:01:48.065
+infer these directly
+from the raw pixels.
+
+41
+00:01:48.065 --> 00:01:51.710
+By adding more layers or
+more units to each layer,
+
+42
+00:01:51.710 --> 00:01:54.545
+we can represent
+more complex functions.
+
+43
+00:01:54.545 --> 00:01:57.950
+Depth can also be helpful
+for obtaining abstractions.
+
+44
+00:01:57.950 --> 00:01:59.270
+Deep neural networks compose
+
+45
+00:01:59.270 --> 00:02:01.985
+many layers of
+lower-level abstractions
+
+46
+00:02:01.985 --> 00:02:03.890
+with each successive
+layer contributing
+
+47
+00:02:03.890 --> 00:02:07.175
+to increasingly abstract
+representations.
+
+48
+00:02:07.175 --> 00:02:09.380
+Consider the previous example.
+
+49
+00:02:09.380 --> 00:02:11.180
+The network might
+eventually represent
+
+50
+00:02:11.180 --> 00:02:13.925
+the concept of an owl
+with a single bit.
+
+51
+00:02:13.925 --> 00:02:16.220
+A zero mean of the image
+does not contain
+
+52
+00:02:16.220 --> 00:02:19.685
+an owl and a one mean
+the image does contain an owl.
+
+53
+00:02:19.685 --> 00:02:21.680
+At this level,
+all the extra detail
+
+54
+00:02:21.680 --> 00:02:23.090
+on the image has been removed.
+
+55
+00:02:23.090 --> 00:02:24.560
+We no longer know the color of
+
+56
+00:02:24.560 --> 00:02:27.215
+the owl or even what's
+in the background.
+
+57
+00:02:27.215 --> 00:02:30.260
+In fact, we can explicitly
+design the network to
+
+58
+00:02:30.260 --> 00:02:32.945
+remove unnecessary details
+from the input.
+
+59
+00:02:32.945 --> 00:02:34.400
+For example, a network can be
+
+60
+00:02:34.400 --> 00:02:36.140
+designed with a bottleneck layer.
+
+61
+00:02:36.140 --> 00:02:38.885
+The idea is simple.
+Each successive layer
+
+62
+00:02:38.885 --> 00:02:41.690
+contains less nodes
+than the layer before.
+
+63
+00:02:41.690 --> 00:02:43.820
+The representation
+is the layer with
+
+64
+00:02:43.820 --> 00:02:45.320
+the fewest nodes and contains
+
+65
+00:02:45.320 --> 00:02:47.900
+the key details needed
+for prediction.
+
+66
+00:02:47.900 --> 00:02:50.480
+Overall, depth in a network can
+
+67
+00:02:50.480 --> 00:02:51.545
+significantly improve
+
+68
+00:02:51.545 --> 00:02:54.200
+our agent's ability
+to learn features.
+
+69
+00:02:54.200 --> 00:02:56.150
+In this video, we described how
+
+70
+00:02:56.150 --> 00:02:57.620
+networks can be composed of
+
+71
+00:02:57.620 --> 00:03:00.035
+multiple layers and discussed
+
+72
+00:03:00.035 --> 00:03:03.430
+that depth facilitates
+composition and abstraction.
+
+73
+00:03:03.430 --> 00:03:05.150
+Today, we discuss some of
+
+74
+00:03:05.150 --> 00:03:07.550
+the potential benefits
+of dethrone networks.
+
+75
+00:03:07.550 --> 00:03:09.980
+In practice, picking
+the right architecture can be
+
+76
+00:03:09.980 --> 00:03:13.355
+difficult and can significantly
+impact performance.
+
+77
+00:03:13.355 --> 00:03:15.440
+We will not discuss
+the network architectures
+
+78
+00:03:15.440 --> 00:03:16.685
+further in this course.
+
+79
+00:03:16.685 --> 00:03:18.920
+There are many good
+resources on this topic.
+
+80
+00:03:18.920 --> 00:03:21.140
+Check them out if you
+want to know more.
+
+81
+00:03:21.140 --> 00:03:22.790
+Next, we will discuss learning
+
+82
+00:03:22.790 --> 00:03:25.140
+the parameters of
+a neural network.

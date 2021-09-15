@@ -1,0 +1,276 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.970
+In Course 3, we showed you how to
+
+2
+00:00:02.970 --> 00:00:05.565
+use reinforcement learning
+with function approximation.
+
+3
+00:00:05.565 --> 00:00:07.110
+We covered how to approximate
+
+4
+00:00:07.110 --> 00:00:08.955
+value functions and policies
+
+5
+00:00:08.955 --> 00:00:10.290
+using neural networks and
+
+6
+00:00:10.290 --> 00:00:12.585
+fixed basis approaches
+like tell coding.
+
+7
+00:00:12.585 --> 00:00:14.570
+We discussed how
+function approximation
+
+8
+00:00:14.570 --> 00:00:16.010
+allows for generalization,
+
+9
+00:00:16.010 --> 00:00:18.185
+which helps the
+agent learn faster.
+
+10
+00:00:18.185 --> 00:00:20.780
+But we might lose some ability
+
+11
+00:00:20.780 --> 00:00:23.225
+to discriminate between
+the values of states.
+
+12
+00:00:23.225 --> 00:00:25.220
+The function proxima
+may no longer be
+
+13
+00:00:25.220 --> 00:00:27.490
+able to get all the values right.
+
+14
+00:00:27.490 --> 00:00:29.570
+The agent then has
+to decide how to
+
+15
+00:00:29.570 --> 00:00:31.480
+balance accuracy across states.
+
+16
+00:00:31.480 --> 00:00:34.535
+How to allocate its limited
+approximation resources.
+
+17
+00:00:34.535 --> 00:00:36.230
+We introduce objective functions
+
+18
+00:00:36.230 --> 00:00:37.700
+to specify how to balance
+
+19
+00:00:37.700 --> 00:00:39.680
+approximation error and discuss
+
+20
+00:00:39.680 --> 00:00:43.265
+gradient-based algorithms to
+optimize those objectives.
+
+21
+00:00:43.265 --> 00:00:45.620
+Using all this new knowledge,
+
+22
+00:00:45.620 --> 00:00:46.670
+you are ready to implement
+
+23
+00:00:46.670 --> 00:00:49.355
+a complete reinforcement
+learning system.
+
+24
+00:00:49.355 --> 00:00:51.830
+You will study a problem
+that highlights some of
+
+25
+00:00:51.830 --> 00:00:53.270
+the challenges you
+might face when
+
+26
+00:00:53.270 --> 00:00:55.430
+applying RL in the wild.
+
+27
+00:00:55.430 --> 00:00:57.370
+In course 4, you will be putting
+
+28
+00:00:57.370 --> 00:00:59.140
+together your knowledge
+from courses 1,
+
+29
+00:00:59.140 --> 00:01:02.380
+2, 3 to learn a lunar
+module on the Moon.
+
+30
+00:01:02.380 --> 00:01:04.690
+When Adam and I start
+working on a new problem,
+
+31
+00:01:04.690 --> 00:01:07.030
+we start by having meetings
+to brainstorm about
+
+32
+00:01:07.030 --> 00:01:08.890
+how to best frame the problem
+
+33
+00:01:08.890 --> 00:01:11.500
+and gather ideas about
+potential solutions.
+
+34
+00:01:11.500 --> 00:01:13.580
+There's rarely one
+right solution.
+
+35
+00:01:13.580 --> 00:01:15.820
+Throughout, we will
+reason with you how we
+
+36
+00:01:15.820 --> 00:01:19.000
+might approach designing
+an agent for this problem.
+
+37
+00:01:19.000 --> 00:01:21.190
+We will start by
+discussing how to
+
+38
+00:01:21.190 --> 00:01:23.275
+formalize the problem as an MVP.
+
+39
+00:01:23.275 --> 00:01:25.470
+If someone just told you design
+
+40
+00:01:25.470 --> 00:01:27.630
+an agent to learn
+this lunar module,
+
+41
+00:01:27.630 --> 00:01:29.350
+you would have to
+figure out how to turn
+
+42
+00:01:29.350 --> 00:01:31.945
+that goal into a
+problem formulation.
+
+43
+00:01:31.945 --> 00:01:34.180
+So that of course
+is where we begin.
+
+44
+00:01:34.180 --> 00:01:36.010
+Then we'll think
+about how to choose
+
+45
+00:01:36.010 --> 00:01:37.820
+an appropriate
+learning algorithm.
+
+46
+00:01:37.820 --> 00:01:39.800
+An important part of this
+is actually thinking
+
+47
+00:01:39.800 --> 00:01:42.455
+about all the details of
+the algorithms involved.
+
+48
+00:01:42.455 --> 00:01:44.959
+This includes determining
+how the agent explores,
+
+49
+00:01:44.959 --> 00:01:47.285
+the type of function
+approximation architecture,
+
+50
+00:01:47.285 --> 00:01:49.640
+details inside the function
+approximators such as
+
+51
+00:01:49.640 --> 00:01:53.280
+the number of features it
+produces, and the list goes on.
+
+52
+00:01:53.280 --> 00:01:56.555
+A big part of this course is
+understand the importance of
+
+53
+00:01:56.555 --> 00:01:59.480
+all these details and
+how to try to gain
+
+54
+00:01:59.480 --> 00:02:01.040
+some insight into
+how your algorithm
+
+55
+00:02:01.040 --> 00:02:02.945
+behaves with different choices.
+
+56
+00:02:02.945 --> 00:02:06.250
+Practical implementation
+begins with understanding.
+
+57
+00:02:06.250 --> 00:02:08.840
+So let's not just say
+you're talking about it.
+
+58
+00:02:08.840 --> 00:02:11.000
+Let's dive right in and
+get our hands dirty.
+
+59
+00:02:11.000 --> 00:02:13.500
+With Moon dirt of course.

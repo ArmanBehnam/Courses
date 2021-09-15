@@ -1,0 +1,342 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.821
+[MUSIC]
+
+2
+00:00:05.821 --> 00:00:10.680
+We've learned a lot about how to construct
+features and approximate functions, but
+
+3
+00:00:10.680 --> 00:00:14.675
+that was all in the context of making
+predictions with a fixed policy.
+
+4
+00:00:14.675 --> 00:00:18.033
+This week, we'll talk about control
+with function approximation.
+
+5
+00:00:18.033 --> 00:00:21.416
+In this video, we'll start with
+a GPI algorithm, Episodic Sarsa.
+
+6
+00:00:21.416 --> 00:00:26.208
+[SOUND] By the end of this video, you'll
+be able to understand how to construct
+
+7
+00:00:26.208 --> 00:00:30.195
+action-dependent features for
+approximate action values and
+
+8
+00:00:30.195 --> 00:00:34.789
+explain how to use Sarsa in episodic
+tasks with function approximation.
+
+9
+00:00:34.789 --> 00:00:38.836
+Recall that the value function
+approximation has two components,
+
+10
+00:00:38.836 --> 00:00:41.108
+a weight vector and a feature vector.
+
+11
+00:00:41.108 --> 00:00:42.100
+In a given state,
+
+12
+00:00:42.100 --> 00:00:45.949
+the value estimate is the dot product
+between these two components.
+
+13
+00:00:47.233 --> 00:00:51.284
+To move from TD to Sarsa,
+we need action value functions.
+
+14
+00:00:51.284 --> 00:00:54.361
+So the feature representation has
+to represent actions as well.
+
+15
+00:00:54.361 --> 00:00:59.122
+[SOUND] One way to do this is to have
+a separate function approximator for
+
+16
+00:00:59.122 --> 00:01:00.098
+each action.
+
+17
+00:01:00.098 --> 00:01:02.943
+This can be accomplished
+by stacking the features.
+
+18
+00:01:02.943 --> 00:01:06.545
+That is, we can use the same state
+features for each action, but
+
+19
+00:01:06.545 --> 00:01:09.894
+only activate the features
+corresponding to that action.
+
+20
+00:01:09.894 --> 00:01:12.690
+To understand this more clearly,
+let's look at an example.
+
+21
+00:01:14.228 --> 00:01:17.355
+Let's say there are four features and
+three actions.
+
+22
+00:01:17.355 --> 00:01:21.500
+The four features represent
+the state you are in.
+
+23
+00:01:21.500 --> 00:01:24.370
+But we want to learn a function
+of both states and actions.
+
+24
+00:01:24.370 --> 00:01:27.618
+We can do this by repeating
+the four features for each action.
+
+25
+00:01:29.545 --> 00:01:31.587
+Now the feature vector has 12 components.
+
+26
+00:01:31.587 --> 00:01:35.772
+Here, each segment of four features
+corresponds to a separate action.
+
+27
+00:01:35.772 --> 00:01:39.377
+We call this feature representation
+stacked because the weights for
+
+28
+00:01:39.377 --> 00:01:41.749
+each action are stacked
+on top of each other.
+
+29
+00:01:43.762 --> 00:01:47.844
+Thus, only the features for the specified
+action will be active, while though for
+
+30
+00:01:47.844 --> 00:01:49.608
+the other actions will be set to 0.
+
+31
+00:01:49.608 --> 00:01:52.791
+[SOUND] Let's see an example
+of how to calculate
+
+32
+00:01:52.791 --> 00:01:55.407
+the action values from a given state.
+
+33
+00:01:55.407 --> 00:01:59.112
+Let's say that there are four features and
+three actions.
+
+34
+00:01:59.112 --> 00:02:02.183
+The weight factor looks like this.
+
+35
+00:02:02.183 --> 00:02:05.674
+With stacked features,
+we get the following feature vector for
+
+36
+00:02:05.674 --> 00:02:06.974
+action zero in state s.
+
+37
+00:02:06.974 --> 00:02:10.112
+We 0 out the features for
+the other actions.
+
+38
+00:02:10.112 --> 00:02:14.950
+So we extract the segment of the weight
+vector corresponding to each action.
+
+39
+00:02:14.950 --> 00:02:17.850
+The action values are then the dot
+products between each segment of
+
+40
+00:02:17.850 --> 00:02:19.729
+the weight vector and the feature vector.
+
+41
+00:02:19.729 --> 00:02:24.273
+[SOUND] You might think that stacking
+features to create action values
+
+42
+00:02:24.273 --> 00:02:29.143
+is specific to linear function
+approximation, but this is not the case.
+
+43
+00:02:29.143 --> 00:02:33.674
+For example, the common way to represent
+action values with a neural network is to
+
+44
+00:02:33.674 --> 00:02:36.841
+generate multiple outputs,
+one for each action value.
+
+45
+00:02:36.841 --> 00:02:41.991
+This, however, is equivalent to
+the stacking procedure we just described.
+
+46
+00:02:41.991 --> 00:02:44.118
+The neural network inputs the state and
+
+47
+00:02:44.118 --> 00:02:46.964
+the last hidden layer
+produces the state features.
+
+48
+00:02:46.964 --> 00:02:50.944
+Each action value is computed from
+an independent set of weights using
+
+49
+00:02:50.944 --> 00:02:52.300
+those state features.
+
+50
+00:02:53.700 --> 00:02:57.353
+The weights for one action value do not
+interact with those of another action
+
+51
+00:02:57.353 --> 00:02:58.903
+value, just like in stacking.
+
+52
+00:03:00.896 --> 00:03:03.133
+We might want to generalize
+over actions for
+
+53
+00:03:03.133 --> 00:03:05.981
+the same reason generalizing
+over state can be useful.
+
+54
+00:03:05.981 --> 00:03:07.933
+Now how might this work
+with a neural network?
+
+55
+00:03:09.677 --> 00:03:12.660
+We would input both the state and
+the action to the network.
+
+56
+00:03:12.660 --> 00:03:14.121
+There would only be one output.
+
+57
+00:03:14.121 --> 00:03:17.416
+The approximate action value for
+that state and action.
+
+58
+00:03:17.416 --> 00:03:21.180
+We can do something similar with tile
+coating by passing both the state and
+
+59
+00:03:21.180 --> 00:03:22.101
+action as input.
+
+60
+00:03:22.101 --> 00:03:27.276
+[SOUND] Okay, we now know how to handle
+action values with function approximation.
+
+61
+00:03:27.276 --> 00:03:30.886
+Let's talk about using Sarsa for
+control of function approximation.
+
+62
+00:03:30.886 --> 00:03:33.373
+The algorithm quite similar
+to the tab diversion, so
+
+63
+00:03:33.373 --> 00:03:35.151
+we will just review the differences.
+
+64
+00:03:36.734 --> 00:03:40.919
+We use parameterized action value
+functions for the action value estimates.
+
+65
+00:03:40.919 --> 00:03:45.728
+The update also changes to use the
+gradient to update the weights similar to
+
+66
+00:03:45.728 --> 00:03:47.187
+similar gradient TD.
+
+67
+00:03:47.187 --> 00:03:48.092
+And that's it.
+
+68
+00:03:48.092 --> 00:03:50.352
+That's the Sarsa control algorithm
+with function approximation.
+
+69
+00:03:50.352 --> 00:03:54.863
+[SOUND] In this video,
+we talked about action-dependent features,
+
+70
+00:03:54.863 --> 00:03:59.152
+and we introduced Episodic Sarsa
+with function approximation.
+
+71
+00:03:59.152 --> 00:04:02.901
+We will cover a few more control
+algorithms in the coming lectures,
+
+72
+00:04:02.901 --> 00:04:03.900
+until next time.

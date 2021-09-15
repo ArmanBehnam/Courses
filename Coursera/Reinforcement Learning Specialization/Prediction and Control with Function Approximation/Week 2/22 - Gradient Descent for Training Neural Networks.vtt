@@ -1,0 +1,909 @@
+WEBVTT
+
+1
+00:00:05.420 --> 00:00:08.250
+The updates for our algorithms
+have been pretty
+
+2
+00:00:08.250 --> 00:00:11.475
+simple and most have been
+based on gradient descent.
+
+3
+00:00:11.475 --> 00:00:13.665
+The same is true for
+neural networks.
+
+4
+00:00:13.665 --> 00:00:15.540
+The back propagation algorithm is
+
+5
+00:00:15.540 --> 00:00:17.220
+actually not that complex.
+
+6
+00:00:17.220 --> 00:00:19.170
+It is in fact,
+just gradient descent.
+
+7
+00:00:19.170 --> 00:00:21.180
+But, the gradient is a bit more
+
+8
+00:00:21.180 --> 00:00:24.090
+complex because of
+the nested functions.
+
+9
+00:00:24.090 --> 00:00:25.935
+By the end of this video,
+
+10
+00:00:25.935 --> 00:00:27.720
+you'll be able to
+derive the gradient of
+
+11
+00:00:27.720 --> 00:00:29.480
+a neural network and implement
+
+12
+00:00:29.480 --> 00:00:32.105
+gradient descent on
+a neural network.
+
+13
+00:00:32.105 --> 00:00:34.685
+As in linear function
+approximation,
+
+14
+00:00:34.685 --> 00:00:37.220
+the first step is
+to define a loss on
+
+15
+00:00:37.220 --> 00:00:39.095
+the parameters of
+the neural network
+
+16
+00:00:39.095 --> 00:00:41.285
+and then derive the gradient.
+
+17
+00:00:41.285 --> 00:00:43.550
+The loss function
+specifies how far
+
+18
+00:00:43.550 --> 00:00:46.055
+the networks predictions
+are from being correct.
+
+19
+00:00:46.055 --> 00:00:48.260
+Our goal in training
+the neural network,
+
+20
+00:00:48.260 --> 00:00:49.820
+is to find the parameters which
+
+21
+00:00:49.820 --> 00:00:51.965
+minimize this loss function.
+
+22
+00:00:51.965 --> 00:00:53.900
+The gradient of
+a function points in
+
+23
+00:00:53.900 --> 00:00:55.550
+the direction of greatest ascend.
+
+24
+00:00:55.550 --> 00:00:58.530
+By moving in the direction
+opposite the gradient,
+
+25
+00:00:58.530 --> 00:01:00.260
+we move in the
+direction that most
+
+26
+00:01:00.260 --> 00:01:02.540
+quickly minimizes the loss.
+
+27
+00:01:02.540 --> 00:01:04.790
+So how do we compute
+this gradient of
+
+28
+00:01:04.790 --> 00:01:07.040
+the loss function for
+a neural network?
+
+29
+00:01:07.040 --> 00:01:10.685
+Before we get started, let's
+establish some notation.
+
+30
+00:01:10.685 --> 00:01:14.350
+The input to the network is
+S and the output is y hat.
+
+31
+00:01:14.350 --> 00:01:16.580
+The hidden layer is
+the learned features.
+
+32
+00:01:16.580 --> 00:01:18.110
+So let's call it x.
+
+33
+00:01:18.110 --> 00:01:20.465
+The weights A produce
+the features,
+
+34
+00:01:20.465 --> 00:01:24.560
+the weights B linearly weight
+x to produce the output.
+
+35
+00:01:24.560 --> 00:01:26.360
+The output of each layer of
+
+36
+00:01:26.360 --> 00:01:28.555
+the network can be
+represented as a vector.
+
+37
+00:01:28.555 --> 00:01:31.930
+Here, that is x and y hat.
+
+38
+00:01:31.930 --> 00:01:34.835
+The first index of
+the weight matrices
+
+39
+00:01:34.835 --> 00:01:37.130
+refers to the inputs
+to that layer,
+
+40
+00:01:37.130 --> 00:01:40.430
+and the second index
+refers to the outputs.
+
+41
+00:01:40.430 --> 00:01:43.495
+We assume for now we
+have a generic loss L,
+
+42
+00:01:43.495 --> 00:01:45.690
+so we can describe
+the basic idea.
+
+43
+00:01:45.690 --> 00:01:48.950
+An example of L is
+the squared error.
+
+44
+00:01:48.950 --> 00:01:51.800
+For the derivation, we
+will keep L generic.
+
+45
+00:01:51.800 --> 00:01:53.630
+We will give you
+the specific update
+
+46
+00:01:53.630 --> 00:01:55.795
+with the squared error later.
+
+47
+00:01:55.795 --> 00:01:59.390
+Before we dive into the
+derivation, let's get oriented.
+
+48
+00:01:59.390 --> 00:02:01.610
+Though the derivation
+is a bit involved,
+
+49
+00:02:01.610 --> 00:02:04.610
+we will find that the final
+update is quite simple.
+
+50
+00:02:04.610 --> 00:02:08.060
+Each matrix of parameters has
+an update that looks like
+
+51
+00:02:08.060 --> 00:02:11.825
+an error term Delta times
+the input to that layer.
+
+52
+00:02:11.825 --> 00:02:14.030
+For A the input is S,
+
+53
+00:02:14.030 --> 00:02:16.550
+for B the input is x.
+
+54
+00:02:16.550 --> 00:02:19.460
+Further, we will find
+that Delta A can be
+
+55
+00:02:19.460 --> 00:02:23.015
+efficiently computed as
+a function of Delta B.
+
+56
+00:02:23.015 --> 00:02:25.550
+The errors Delta B
+from the output of
+
+57
+00:02:25.550 --> 00:02:28.025
+the network are
+propagated backwards
+
+58
+00:02:28.025 --> 00:02:30.590
+to this earlier layer
+to help determine
+
+59
+00:02:30.590 --> 00:02:33.680
+the role A had in
+producing that error.
+
+60
+00:02:33.680 --> 00:02:38.130
+So now, how do we get
+Delta A and Delta B?
+
+61
+00:02:38.130 --> 00:02:40.700
+For fun and of course
+educational purposes,
+
+62
+00:02:40.700 --> 00:02:43.175
+let's do the full derivation now.
+
+63
+00:02:43.175 --> 00:02:44.990
+Let's start at the output of
+
+64
+00:02:44.990 --> 00:02:46.715
+the network and work backwards.
+
+65
+00:02:46.715 --> 00:02:49.355
+There's a good reason for
+this as you will see.
+
+66
+00:02:49.355 --> 00:02:51.890
+We start by taking
+the partial derivative of
+
+67
+00:02:51.890 --> 00:02:53.720
+the loss function with respect to
+
+68
+00:02:53.720 --> 00:02:56.150
+the first set of weights B.
+
+69
+00:02:56.150 --> 00:02:58.220
+We use the chain rule given
+
+70
+00:02:58.220 --> 00:03:00.200
+the derivative of
+L with respect to
+
+71
+00:03:00.200 --> 00:03:05.605
+y hat times the derivative
+of y hat with respect to B.
+
+72
+00:03:05.605 --> 00:03:07.970
+The next step is again to use
+
+73
+00:03:07.970 --> 00:03:10.040
+the chain rule for
+this derivative.
+
+74
+00:03:10.040 --> 00:03:11.375
+To make this easier,
+
+75
+00:03:11.375 --> 00:03:14.465
+let's introduce
+a new variable, Theta.
+
+76
+00:03:14.465 --> 00:03:16.100
+Theta is the output of
+
+77
+00:03:16.100 --> 00:03:19.280
+the hidden layer times
+the last set of weights.
+
+78
+00:03:19.280 --> 00:03:22.880
+Let's write it down on
+the side, so we remember it.
+
+79
+00:03:22.880 --> 00:03:26.945
+Now, let's rewrite
+y hat using Theta.
+
+80
+00:03:26.945 --> 00:03:31.060
+Let's expand the derivative
+of y hat with respect to B.
+
+81
+00:03:31.060 --> 00:03:32.590
+Using the chain rule,
+
+82
+00:03:32.590 --> 00:03:35.210
+we get the derivative
+of f_B with respect to
+
+83
+00:03:35.210 --> 00:03:39.080
+Theta times the derivative
+of Theta with respect to B.
+
+84
+00:03:39.080 --> 00:03:42.275
+The derivative of Theta
+with respect to B is x.
+
+85
+00:03:42.275 --> 00:03:45.580
+This is because Theta is
+a linear function of B,
+
+86
+00:03:45.580 --> 00:03:48.630
+and because x does
+not depend on B.
+
+87
+00:03:48.630 --> 00:03:51.140
+Now we're done deriving
+the gradient for B,
+
+88
+00:03:51.140 --> 00:03:53.470
+next we'll do the gradient for A.
+
+89
+00:03:53.470 --> 00:03:56.630
+But before that, let's make
+some choices for the loss and
+
+90
+00:03:56.630 --> 00:03:58.280
+activation so that we can see
+
+91
+00:03:58.280 --> 00:04:01.415
+a specific instance of
+this general equation for B.
+
+92
+00:04:01.415 --> 00:04:04.145
+Let's define L to be
+the squared error
+
+93
+00:04:04.145 --> 00:04:07.310
+and use a linear activation
+on the last layer.
+
+94
+00:04:07.310 --> 00:04:11.270
+The derivative of the loss
+with respect to y hat is this.
+
+95
+00:04:11.270 --> 00:04:13.159
+The derivative of the activation
+
+96
+00:04:13.159 --> 00:04:15.110
+for the output layer is one.
+
+97
+00:04:15.110 --> 00:04:18.110
+This is because f_B
+is the identity and
+
+98
+00:04:18.110 --> 00:04:21.665
+the derivative of Theta with
+respect to itself is one.
+
+99
+00:04:21.665 --> 00:04:23.630
+Here's the generic gradient of
+
+100
+00:04:23.630 --> 00:04:25.535
+the loss with respect to B.
+
+101
+00:04:25.535 --> 00:04:28.310
+Plugging this into the gradient
+with respect to B,
+
+102
+00:04:28.310 --> 00:04:32.630
+we get y hat minus
+y times 1 times x.
+
+103
+00:04:32.630 --> 00:04:35.000
+To ease notation while computing
+
+104
+00:04:35.000 --> 00:04:36.905
+the gradient with respect to A,
+
+105
+00:04:36.905 --> 00:04:39.530
+let's define a new term Delta B.
+
+106
+00:04:39.530 --> 00:04:42.950
+We can replace most of the
+gradient for B so that it now
+
+107
+00:04:42.950 --> 00:04:47.035
+becomes Delta B
+times its input x.
+
+108
+00:04:47.035 --> 00:04:50.780
+Now, to compute the gradient
+with respect to A,
+
+109
+00:04:50.780 --> 00:04:53.495
+we need to go through
+the same steps as for B.
+
+110
+00:04:53.495 --> 00:04:55.460
+The main difference
+is that we have
+
+111
+00:04:55.460 --> 00:04:57.260
+one extra chain rule step
+
+112
+00:04:57.260 --> 00:05:00.575
+because the weights
+A also affect x.
+
+113
+00:05:00.575 --> 00:05:02.690
+Let's start there.
+
+114
+00:05:02.690 --> 00:05:06.440
+Let's expand this derivative
+using the chain rule.
+
+115
+00:05:06.440 --> 00:05:09.155
+Before we expand the next term,
+
+116
+00:05:09.155 --> 00:05:11.875
+let's introduce
+another helper variable,
+
+117
+00:05:11.875 --> 00:05:15.660
+Psi equals inputs s times A.
+
+118
+00:05:15.660 --> 00:05:20.720
+Let's throw that off to the side
+and rewrite x to use it.
+
+119
+00:05:20.720 --> 00:05:23.825
+We then expand the next term.
+
+120
+00:05:23.825 --> 00:05:26.000
+Using the chain rule again,
+
+121
+00:05:26.000 --> 00:05:29.620
+we get the derivative of
+f_A of Psi with respect
+
+122
+00:05:29.620 --> 00:05:34.260
+to Psi times the derivative
+of Psi with respect to A.
+
+123
+00:05:34.420 --> 00:05:37.520
+Because Psi is s times A,
+
+124
+00:05:37.520 --> 00:05:42.645
+we get that d psi dA is s.
+Putting it all together,
+
+125
+00:05:42.645 --> 00:05:45.920
+we finally get the derivative
+with respect to A.
+
+126
+00:05:45.920 --> 00:05:48.410
+We now have all we
+need to compute
+
+127
+00:05:48.410 --> 00:05:50.950
+the gradient of
+the network parameters.
+
+128
+00:05:50.950 --> 00:05:53.570
+We can clean up
+this derivative by again,
+
+129
+00:05:53.570 --> 00:05:55.865
+defining a term Delta A.
+
+130
+00:05:55.865 --> 00:05:57.875
+Now, the derivative
+with respect to
+
+131
+00:05:57.875 --> 00:06:00.710
+A is Delta A times its input
+
+132
+00:06:00.710 --> 00:06:03.710
+s. Notice that both gradients
+
+133
+00:06:03.710 --> 00:06:05.990
+can be rewritten
+in a similar form.
+
+134
+00:06:05.990 --> 00:06:07.730
+They have a term Delta that
+
+135
+00:06:07.730 --> 00:06:10.970
+contains an error signal
+times their input.
+
+136
+00:06:10.970 --> 00:06:14.060
+Let's take a brief look
+at some pseudocode for
+
+137
+00:06:14.060 --> 00:06:16.140
+implementing the
+backprop algorithm
+
+138
+00:06:16.140 --> 00:06:18.165
+with Stochastic gradient descent.
+
+139
+00:06:18.165 --> 00:06:21.884
+For each data point
+s,y in our dataset,
+
+140
+00:06:21.884 --> 00:06:25.010
+we first get our prediction
+y hat from the network.
+
+141
+00:06:25.010 --> 00:06:27.745
+This is typically called
+the forward pass,
+
+142
+00:06:27.745 --> 00:06:31.055
+then we compute the gradients
+starting from the output.
+
+143
+00:06:31.055 --> 00:06:34.715
+We first compute Delta B
+and the gradient for B,
+
+144
+00:06:34.715 --> 00:06:38.090
+then we use this gradient
+to update the parameters B,
+
+145
+00:06:38.090 --> 00:06:40.240
+the step size Alpha B.
+
+146
+00:06:40.240 --> 00:06:43.070
+Next, we update the parameters A.
+
+147
+00:06:43.070 --> 00:06:46.115
+We compute Delta A
+which uses Delta B.
+
+148
+00:06:46.115 --> 00:06:47.750
+Notice, that by computing
+
+149
+00:06:47.750 --> 00:06:50.395
+the gradients of the end
+of the network first,
+
+150
+00:06:50.395 --> 00:06:53.220
+we avoid recomputing
+the same terms for A,
+
+151
+00:06:53.220 --> 00:06:55.730
+that were already
+computed for Delta B.
+
+152
+00:06:55.730 --> 00:06:59.075
+In fact, this is the main idea
+behind back propagation.
+
+153
+00:06:59.075 --> 00:07:00.920
+It is simply
+gradient descent with
+
+154
+00:07:00.920 --> 00:07:04.265
+this efficient strategy
+to compute gradients.
+
+155
+00:07:04.265 --> 00:07:07.475
+We then compute the gradient
+for A and update
+
+156
+00:07:07.475 --> 00:07:11.285
+A with this gradient
+using step size Alpha A.
+
+157
+00:07:11.285 --> 00:07:13.565
+This derivation n algorithm
+
+158
+00:07:13.565 --> 00:07:15.770
+easily extend to deeper networks.
+
+159
+00:07:15.770 --> 00:07:18.410
+The Delta for the earlier
+layer is similarly
+
+160
+00:07:18.410 --> 00:07:21.995
+computed recursively using
+the Delta in the next layer.
+
+161
+00:07:21.995 --> 00:07:24.260
+The update on
+each layer is always of
+
+162
+00:07:24.260 --> 00:07:27.610
+the form of a Delta times
+the input to that layer.
+
+163
+00:07:27.610 --> 00:07:29.700
+Essentially,
+the network passes back
+
+164
+00:07:29.700 --> 00:07:32.585
+error information stored in
+the Delta at each layer.
+
+165
+00:07:32.585 --> 00:07:34.280
+To make this less abstract,
+
+166
+00:07:34.280 --> 00:07:35.930
+let's look at the
+backprop algorithm
+
+167
+00:07:35.930 --> 00:07:37.490
+for a particular network.
+
+168
+00:07:37.490 --> 00:07:40.715
+Here's the pseudocode if
+we use the ReLU activation
+
+169
+00:07:40.715 --> 00:07:44.240
+on the hidden layer and
+a linear unit for the output.
+
+170
+00:07:44.240 --> 00:07:47.525
+First, we compute the error
+for the output layer,
+
+171
+00:07:47.525 --> 00:07:50.000
+then we compute the derivative of
+
+172
+00:07:50.000 --> 00:07:52.615
+the ReLU units with
+respect to Psi,
+
+173
+00:07:52.615 --> 00:07:54.510
+and finally, we use
+
+174
+00:07:54.510 --> 00:07:56.465
+the aerial signal
+from the output layer
+
+175
+00:07:56.465 --> 00:07:57.890
+along with you to
+
+176
+00:07:57.890 --> 00:08:00.320
+compute the air signal
+for the hidden layer,
+
+177
+00:08:00.320 --> 00:08:02.675
+the rest remains the same.
+
+178
+00:08:02.675 --> 00:08:05.050
+That's it for this video.
+
+179
+00:08:05.050 --> 00:08:08.165
+Today, we derive the gradient
+of a neural network.
+
+180
+00:08:08.165 --> 00:08:11.120
+We also discussed
+the main idea of backprop,
+
+181
+00:08:11.120 --> 00:08:12.770
+that computing
+gradients starting at
+
+182
+00:08:12.770 --> 00:08:15.710
+the output of the network
+can save computation.
+
+183
+00:08:15.710 --> 00:08:18.170
+This was a pretty
+detailed derivation.
+
+184
+00:08:18.170 --> 00:08:21.065
+You do not actually need to
+remember all of these steps.
+
+185
+00:08:21.065 --> 00:08:22.910
+The goal was to give
+you some insight
+
+186
+00:08:22.910 --> 00:08:24.995
+into the update for
+a neural network
+
+187
+00:08:24.995 --> 00:08:27.530
+and how that might change
+with different choices
+
+188
+00:08:27.530 --> 00:08:30.040
+for the loss,
+activations, and layers.
+
+189
+00:08:30.040 --> 00:08:31.700
+In your assessment,
+you'll implement
+
+190
+00:08:31.700 --> 00:08:34.280
+the pseudocode given you
+the end of this video.
+
+191
+00:08:34.280 --> 00:08:35.960
+In the next video, we'll give you
+
+192
+00:08:35.960 --> 00:08:37.280
+a few more tools to make
+
+193
+00:08:37.280 --> 00:08:38.795
+your neural network
+implementation
+
+194
+00:08:38.795 --> 00:08:41.550
+more effective in practice.

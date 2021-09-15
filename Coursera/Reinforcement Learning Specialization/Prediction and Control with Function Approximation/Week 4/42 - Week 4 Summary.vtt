@@ -1,0 +1,456 @@
+WEBVTT
+
+1
+00:00:04.610 --> 00:00:08.355
+This week, we talked about
+a whole new way to do control,
+
+2
+00:00:08.355 --> 00:00:10.920
+directly learning
+parameterized policies.
+
+3
+00:00:10.920 --> 00:00:12.930
+We introduce a new objective and
+
+4
+00:00:12.930 --> 00:00:16.020
+a new algorithmic framework
+called actor-critic.
+
+5
+00:00:16.020 --> 00:00:18.210
+Let's take a step back
+and look at where
+
+6
+00:00:18.210 --> 00:00:21.030
+this new material fits
+into the bigger picture.
+
+7
+00:00:21.030 --> 00:00:22.590
+We learn policies using
+
+8
+00:00:22.590 --> 00:00:23.910
+function approximation so we're
+
+9
+00:00:23.910 --> 00:00:26.085
+still on the left side
+of the map.
+
+10
+00:00:26.085 --> 00:00:28.020
+We focus on actor-critic using
+
+11
+00:00:28.020 --> 00:00:31.785
+the average reward objective
+so that puts us here,
+
+12
+00:00:31.785 --> 00:00:35.180
+from there we introduced
+two possible parameterizations
+
+13
+00:00:35.180 --> 00:00:36.680
+depending on whether the actions
+
+14
+00:00:36.680 --> 00:00:39.200
+are continuous or discrete.
+
+15
+00:00:39.200 --> 00:00:41.330
+For discrete actions, we use
+
+16
+00:00:41.330 --> 00:00:43.850
+the softmax policy
+parameterization.
+
+17
+00:00:43.850 --> 00:00:45.975
+For continuous action spaces,
+
+18
+00:00:45.975 --> 00:00:47.630
+we use a Gaussian policy which
+
+19
+00:00:47.630 --> 00:00:50.135
+samples actions from
+a continuous range.
+
+20
+00:00:50.135 --> 00:00:52.100
+This is the first
+time we implemented
+
+21
+00:00:52.100 --> 00:00:54.380
+an algorithm for
+continuous actions.
+
+22
+00:00:54.380 --> 00:00:56.270
+Average reward actor-critic can
+
+23
+00:00:56.270 --> 00:00:57.740
+be used in the same settings as
+
+24
+00:00:57.740 --> 00:01:00.035
+the differential semi
+gradient SARSA algorithm
+
+25
+00:01:00.035 --> 00:01:02.180
+we introduced previously.
+
+26
+00:01:02.180 --> 00:01:05.060
+We started this week by
+making the shift from
+
+27
+00:01:05.060 --> 00:01:08.330
+parameterize action values
+to parameterize policies.
+
+28
+00:01:08.330 --> 00:01:11.300
+Parameterized policies
+taken state action pairs
+
+29
+00:01:11.300 --> 00:01:14.390
+and output the associated
+action probabilities.
+
+30
+00:01:14.390 --> 00:01:16.750
+This function is parameterized by
+
+31
+00:01:16.750 --> 00:01:19.855
+a vector of parameters
+denoted by Theta.
+
+32
+00:01:19.855 --> 00:01:22.360
+A parameterized policy has to
+
+33
+00:01:22.360 --> 00:01:24.790
+be a valid probability
+distribution.
+
+34
+00:01:24.790 --> 00:01:26.980
+That is, every action probability
+
+35
+00:01:26.980 --> 00:01:28.705
+must be greater than zero,
+
+36
+00:01:28.705 --> 00:01:30.490
+and the sum over all actions in
+
+37
+00:01:30.490 --> 00:01:32.845
+a given state must be one.
+
+38
+00:01:32.845 --> 00:01:36.610
+A softmax over action
+preferences is one way to ensure
+
+39
+00:01:36.610 --> 00:01:38.590
+the parameterized policy obeys
+
+40
+00:01:38.590 --> 00:01:42.445
+these constraints in
+discrete action spaces.
+
+41
+00:01:42.445 --> 00:01:45.610
+Parameterizing
+policies directly has
+
+42
+00:01:45.610 --> 00:01:47.710
+a number of potential advantages.
+
+43
+00:01:47.710 --> 00:01:49.900
+These advantages
+include the ability
+
+44
+00:01:49.900 --> 00:01:51.430
+to autonomously converge to
+
+45
+00:01:51.430 --> 00:01:53.620
+a deterministic policy
+over time while
+
+46
+00:01:53.620 --> 00:01:56.725
+using a stochastic policy
+to explore early on.
+
+47
+00:01:56.725 --> 00:01:58.610
+Another advantage is the ability
+
+48
+00:01:58.610 --> 00:02:00.545
+to learn stochastic policies.
+
+49
+00:02:00.545 --> 00:02:03.245
+This can be useful with
+function approximation,
+
+50
+00:02:03.245 --> 00:02:05.210
+when the optimal
+deterministic policy
+
+51
+00:02:05.210 --> 00:02:06.725
+is not representable.
+
+52
+00:02:06.725 --> 00:02:09.980
+Finally, we discussed that
+a good policy might be easier
+
+53
+00:02:09.980 --> 00:02:13.630
+to learn and represent than
+precise action values.
+
+54
+00:02:13.630 --> 00:02:15.825
+To learn parameterized policies,
+
+55
+00:02:15.825 --> 00:02:17.645
+we had to consider
+a new objective
+
+56
+00:02:17.645 --> 00:02:19.715
+and a new strategy
+to optimize it.
+
+57
+00:02:19.715 --> 00:02:22.550
+We revisited the average
+reward objective.
+
+58
+00:02:22.550 --> 00:02:24.380
+We showed that the average reward
+
+59
+00:02:24.380 --> 00:02:26.365
+can be expanded out like this.
+
+60
+00:02:26.365 --> 00:02:27.980
+Our strategy to optimize
+
+61
+00:02:27.980 --> 00:02:30.800
+this objective was to use
+stochastic gradient descent.
+
+62
+00:02:30.800 --> 00:02:32.330
+For that, we needed
+
+63
+00:02:32.330 --> 00:02:35.080
+an estimate of the gradient
+of the average reward.
+
+64
+00:02:35.080 --> 00:02:36.620
+This is challenging because
+
+65
+00:02:36.620 --> 00:02:37.850
+the state distribution Mu
+
+66
+00:02:37.850 --> 00:02:40.220
+depends on the policy parameters.
+
+67
+00:02:40.220 --> 00:02:41.870
+The policy gradient theorem
+
+68
+00:02:41.870 --> 00:02:43.910
+provides an expression
+for the gradient of
+
+69
+00:02:43.910 --> 00:02:45.365
+the average reward objective
+
+70
+00:02:45.365 --> 00:02:47.615
+that's convenient to optimize.
+
+71
+00:02:47.615 --> 00:02:50.510
+This form allows us to
+estimate the gradient by
+
+72
+00:02:50.510 --> 00:02:54.245
+sampling states from Mu by
+following the policy, Pi.
+
+73
+00:02:54.245 --> 00:02:56.210
+Using the policy
+gradient theorem,
+
+74
+00:02:56.210 --> 00:02:58.505
+we derive the
+actor-critic algorithm.
+
+75
+00:02:58.505 --> 00:03:00.530
+Actor-critic simultaneously
+
+76
+00:03:00.530 --> 00:03:02.400
+learns a parameterized policy,
+
+77
+00:03:02.400 --> 00:03:04.340
+the actor, and an estimate of
+
+78
+00:03:04.340 --> 00:03:06.890
+the policies value
+function, the critic.
+
+79
+00:03:06.890 --> 00:03:09.320
+The Theta air from
+the critic reflects that
+
+80
+00:03:09.320 --> 00:03:12.545
+the actor did better or worse
+than the critic expected.
+
+81
+00:03:12.545 --> 00:03:14.870
+The actor is trained
+to favor actions
+
+82
+00:03:14.870 --> 00:03:17.165
+that exceed the
+critic's expectations,
+
+83
+00:03:17.165 --> 00:03:18.770
+the critic is trained to improve
+
+84
+00:03:18.770 --> 00:03:20.435
+its value estimates of the actor
+
+85
+00:03:20.435 --> 00:03:21.980
+so that it knows what value it
+
+86
+00:03:21.980 --> 00:03:24.440
+should expect for this actor.
+
+87
+00:03:24.440 --> 00:03:27.110
+We demonstrated how
+the actor-critic algorithm
+
+88
+00:03:27.110 --> 00:03:27.680
+can be used for
+
+89
+00:03:27.680 --> 00:03:30.800
+both discrete and
+continuous action spaces.
+
+90
+00:03:30.800 --> 00:03:32.360
+For discrete actions, we used
+
+91
+00:03:32.360 --> 00:03:34.715
+a softmax policy
+parameterization.
+
+92
+00:03:34.715 --> 00:03:36.710
+For continuous actions, we used
+
+93
+00:03:36.710 --> 00:03:40.025
+a Gaussian policy with state
+dependent mean and variance.
+
+94
+00:03:40.025 --> 00:03:41.780
+This made the
+Gaussian policy over
+
+95
+00:03:41.780 --> 00:03:44.150
+actions conditional on the state.
+
+96
+00:03:44.150 --> 00:03:46.130
+Now you know how to parameterize
+
+97
+00:03:46.130 --> 00:03:47.840
+and learn policies directly.
+
+98
+00:03:47.840 --> 00:03:49.700
+In addition to
+the action value methods
+
+99
+00:03:49.700 --> 00:03:50.930
+we looked at before,
+
+100
+00:03:50.930 --> 00:03:52.640
+this is a valuable new tool in
+
+101
+00:03:52.640 --> 00:03:55.440
+your reinforcement
+learning toolbox.

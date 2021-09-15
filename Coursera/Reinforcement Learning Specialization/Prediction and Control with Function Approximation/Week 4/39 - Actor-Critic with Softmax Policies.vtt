@@ -1,0 +1,328 @@
+WEBVTT
+
+1
+00:00:06.000 --> 00:00:10.800
+Actor critic elegantly mixes direct
+policy optimization, value functions, and
+
+2
+00:00:10.800 --> 00:00:12.600
+temporal difference learning.
+
+3
+00:00:12.600 --> 00:00:15.431
+The actor critic method we discussed
+previously was quite general.
+
+4
+00:00:15.431 --> 00:00:19.241
+We didn't specify the function
+approximation nor
+
+5
+00:00:19.241 --> 00:00:21.638
+the policy parameterization.
+
+6
+00:00:21.638 --> 00:00:25.522
+Today we discuss one specific
+implementation, actor critic with linear
+
+7
+00:00:25.522 --> 00:00:29.041
+function approximation and
+a Softmax policy parameterization.
+
+8
+00:00:29.041 --> 00:00:31.244
+[MUSIC]
+
+9
+00:00:31.244 --> 00:00:35.304
+By the end of this video you'll be able
+to derive the actor critic update for
+
+10
+00:00:35.304 --> 00:00:39.700
+a Softmax policy with linear action
+preferences and implement this algorithm.
+
+11
+00:00:41.300 --> 00:00:43.477
+Previously, we introduced
+the actor critic algorithm.
+
+12
+00:00:43.477 --> 00:00:47.022
+That algorithm combines policy evaluation,
+which is the critic, and
+
+13
+00:00:47.022 --> 00:00:50.400
+the policy gradient rule to update
+the policy, which is the actor.
+
+14
+00:00:51.600 --> 00:00:54.446
+The critic uses semi-gradient TD,
+
+15
+00:00:54.446 --> 00:00:59.970
+the actor uses the TDR from the critic
+to update the policy parameters.
+
+16
+00:00:59.970 --> 00:01:02.350
+All of this is a little bit high level and
+abstract.
+
+17
+00:01:02.350 --> 00:01:05.124
+Let's consider a specific implementation.
+
+18
+00:01:05.124 --> 00:01:08.900
+Let's build an algorithm for a finite
+set of actions and continuous states.
+
+19
+00:01:10.100 --> 00:01:12.400
+A common choice of policy
+parameterization for
+
+20
+00:01:12.400 --> 00:01:16.600
+finite actions is the Softmax
+policy we discussed before.
+
+21
+00:01:16.600 --> 00:01:20.200
+We can use function approximation
+to represent the preferences.
+
+22
+00:01:20.200 --> 00:01:24.137
+The parameters of this function are the
+policy parameters denoted by theta, so
+
+23
+00:01:24.137 --> 00:01:26.853
+our policy gradient learning
+rule will update theta.
+
+24
+00:01:26.853 --> 00:01:32.400
+We use a Softmax policy that exponentiates
+the preferences and divides by the sum.
+
+25
+00:01:32.400 --> 00:01:35.308
+This guarantees the resulting action
+probabilities are positive and
+
+26
+00:01:35.308 --> 00:01:37.500
+summed to one.
+
+27
+00:01:37.500 --> 00:01:40.600
+Notice the policy is written as
+a function of the current state.
+
+28
+00:01:40.600 --> 00:01:44.700
+This is like having a different
+Softmax distribution for each state.
+
+29
+00:01:44.700 --> 00:01:46.512
+Watch the agent move
+through the state space.
+
+30
+00:01:46.512 --> 00:01:49.766
+The state-dependent
+action preferences give
+
+31
+00:01:49.766 --> 00:01:54.085
+rise to potentially different
+distributions for each state.
+
+32
+00:01:54.085 --> 00:01:56.900
+To select an action,
+we follow a simple procedure.
+
+33
+00:01:56.900 --> 00:02:00.180
+In the current state we query
+the Softmax for each action.
+
+34
+00:02:00.180 --> 00:02:04.700
+This generates a vector of probabilities,
+one entry for each action.
+
+35
+00:02:04.700 --> 00:02:07.902
+Given this vector, we pick an action
+proportionally to these probabilities.
+
+36
+00:02:07.902 --> 00:02:09.454
+[MUSIC]
+
+37
+00:02:09.454 --> 00:02:13.934
+Now, let's discuss how our
+parameterization choices impact the value
+
+38
+00:02:13.934 --> 00:02:17.986
+function, the action preferences,
+and our update equations.
+
+39
+00:02:17.986 --> 00:02:21.776
+Let's use the same features for
+our value estimates and the policy.
+
+40
+00:02:21.776 --> 00:02:25.382
+Remember the critic updates an estimate
+of the state value function, so
+
+41
+00:02:25.382 --> 00:02:29.300
+the critic only requires a feature
+Vector characterizing the current state.
+
+42
+00:02:30.600 --> 00:02:33.400
+The actor's action preferences
+depend on the state and
+
+43
+00:02:33.400 --> 00:02:38.000
+action, so our action preference function
+requires a state action feature vector.
+
+44
+00:02:39.300 --> 00:02:41.600
+We have encountered this issue before.
+
+45
+00:02:41.600 --> 00:02:45.157
+We use the same strategy as before,
+stacked state features.
+
+46
+00:02:45.157 --> 00:02:48.800
+That is we use a copy of the state
+feature vector for each action.
+
+47
+00:02:50.200 --> 00:02:54.272
+The size of the policy parameter vector,
+theta, is larger than the weights, W,
+
+48
+00:02:54.272 --> 00:02:55.285
+used by the critic.
+
+49
+00:02:55.285 --> 00:03:00.222
+Since there are three actions,
+this is three times larger.
+
+50
+00:03:00.222 --> 00:03:02.702
+Now let's look at the update equations for
+the actor and
+
+51
+00:03:02.702 --> 00:03:05.900
+the critic with our linear
+Softmax parameterization.
+
+52
+00:03:05.900 --> 00:03:07.400
+The first one is easy.
+
+53
+00:03:07.400 --> 00:03:10.300
+The gradient of the linear value
+function is just the feature vector.
+
+54
+00:03:12.300 --> 00:03:16.865
+So the critic's weight update is just
+alpha times the TDR times the feature
+
+55
+00:03:16.865 --> 00:03:19.269
+vector, same old semi-gradient TD.
+
+56
+00:03:19.269 --> 00:03:23.354
+The actor's update to the preferences
+requires a bit more thought.
+
+57
+00:03:23.354 --> 00:03:25.606
+Luckily, the gradient is not so bad.
+
+58
+00:03:25.606 --> 00:03:29.000
+We will leave out the derivation and
+just give you the final result.
+
+59
+00:03:29.000 --> 00:03:31.300
+You can verify it if you like.
+
+60
+00:03:31.300 --> 00:03:32.700
+The gradient has two parts.
+
+61
+00:03:32.700 --> 00:03:36.300
+The first is the state action features for
+the selected action.
+
+62
+00:03:36.300 --> 00:03:40.545
+The second part is the state action
+features multiplied by the policy summed
+
+63
+00:03:40.545 --> 00:03:41.618
+over all actions.
+
+64
+00:03:41.618 --> 00:03:43.180
+[MUSIC]
+
+65
+00:03:43.180 --> 00:03:44.700
+That's it for this video.
+
+66
+00:03:44.700 --> 00:03:48.948
+Today we discussed the specific
+implementation of actor critic.
+
+67
+00:03:48.948 --> 00:03:51.700
+Now you know everything you need to know
+to implement this algorithm on your own.
+
+68
+00:03:53.000 --> 00:03:55.800
+Next time we'll try this algorithm out and
+see how it works.
+
+69
+00:03:55.800 --> 00:03:56.600
+I can't wait.

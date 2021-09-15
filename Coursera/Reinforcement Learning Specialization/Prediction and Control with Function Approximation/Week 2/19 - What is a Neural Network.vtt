@@ -1,0 +1,361 @@
+WEBVTT
+
+1
+00:00:04.850 --> 00:00:08.025
+Today, we will discuss
+Neural Networks,
+
+2
+00:00:08.025 --> 00:00:09.780
+a flexible and powerful class
+
+3
+00:00:09.780 --> 00:00:12.075
+of nonlinear function
+approximators.
+
+4
+00:00:12.075 --> 00:00:14.010
+Reinforce in learning
+with neural networks
+
+5
+00:00:14.010 --> 00:00:15.810
+has been used to create
+a world champion go
+
+6
+00:00:15.810 --> 00:00:17.790
+player to create Atari agents
+
+7
+00:00:17.790 --> 00:00:19.755
+capable of superhuman
+performance,
+
+8
+00:00:19.755 --> 00:00:22.350
+and even a help with
+autonomous cars.
+
+9
+00:00:22.350 --> 00:00:24.390
+By the end of this video,
+
+10
+00:00:24.390 --> 00:00:26.250
+you'll be able to
+understand feed forward
+
+11
+00:00:26.250 --> 00:00:29.460
+neural networks to find
+an activation function,
+
+12
+00:00:29.460 --> 00:00:30.900
+and understand how
+a neural network
+
+13
+00:00:30.900 --> 00:00:32.850
+is a parameterized function.
+
+14
+00:00:32.850 --> 00:00:35.610
+Let's walk through
+a simple neural network.
+
+15
+00:00:35.610 --> 00:00:38.970
+Each of these circles represents
+nodes in the network.
+
+16
+00:00:38.970 --> 00:00:42.300
+Each of the lines represents
+connections between nodes.
+
+17
+00:00:42.300 --> 00:00:44.840
+The nodes are
+organized into layers.
+
+18
+00:00:44.840 --> 00:00:46.670
+When new data comes in,
+
+19
+00:00:46.670 --> 00:00:49.220
+it starts in the input
+layer and is sent
+
+20
+00:00:49.220 --> 00:00:52.430
+through the connections to
+the next layer of nodes.
+
+21
+00:00:52.430 --> 00:00:54.500
+This layer performs
+some computation on
+
+22
+00:00:54.500 --> 00:00:57.860
+the data then sends
+the results to the next layer.
+
+23
+00:00:57.860 --> 00:00:59.720
+This process continues until
+
+24
+00:00:59.720 --> 00:01:02.675
+the last layer produces
+the final output.
+
+25
+00:01:02.675 --> 00:01:05.780
+We call this a feed forward
+neural network because
+
+26
+00:01:05.780 --> 00:01:09.200
+the data always moves
+forward through the layers.
+
+27
+00:01:09.200 --> 00:01:12.050
+Non of the connections
+go back to the network.
+
+28
+00:01:12.050 --> 00:01:13.400
+If they did, then
+
+29
+00:01:13.400 --> 00:01:16.160
+the nodes output could
+influence its own input.
+
+30
+00:01:16.160 --> 00:01:17.480
+Such a neural network is
+
+31
+00:01:17.480 --> 00:01:19.720
+called a recurrent
+neural network.
+
+32
+00:01:19.720 --> 00:01:22.360
+When data is passed
+through a connection,
+
+33
+00:01:22.360 --> 00:01:23.765
+a weight is applied.
+
+34
+00:01:23.765 --> 00:01:27.290
+The node then sums up each
+of its weighted inputs,
+
+35
+00:01:27.290 --> 00:01:30.215
+and apply some activation
+function to this sum.
+
+36
+00:01:30.215 --> 00:01:31.550
+The activation function is
+
+37
+00:01:31.550 --> 00:01:33.695
+often a nonlinear transformation.
+
+38
+00:01:33.695 --> 00:01:37.305
+Common activation functions
+include sigmoidal functions,
+
+39
+00:01:37.305 --> 00:01:39.580
+like tan h or
+the logistic function,
+
+40
+00:01:39.580 --> 00:01:42.210
+rectified linear units or ReLU,
+
+41
+00:01:42.210 --> 00:01:44.680
+or even thresholding units.
+
+42
+00:01:44.680 --> 00:01:47.300
+Let's take a look at how
+to write a feed forward
+
+43
+00:01:47.300 --> 00:01:49.835
+pass of a neural network
+mathematically.
+
+44
+00:01:49.835 --> 00:01:52.100
+At each node we have two vectors,
+
+45
+00:01:52.100 --> 00:01:55.075
+the inputs and the weights
+for each input.
+
+46
+00:01:55.075 --> 00:01:56.960
+The first subscript refers to
+
+47
+00:01:56.960 --> 00:01:59.030
+the node that
+connection comes from.
+
+48
+00:01:59.030 --> 00:02:01.010
+The second subscript refers to
+
+49
+00:02:01.010 --> 00:02:03.110
+the node the
+connection feeds into.
+
+50
+00:02:03.110 --> 00:02:05.900
+We don't product the weights
+with the input and
+
+51
+00:02:05.900 --> 00:02:08.915
+pass the result through
+the activation function.
+
+52
+00:02:08.915 --> 00:02:11.530
+Notice here that S
+is a row vector,
+
+53
+00:02:11.530 --> 00:02:12.890
+so we do not need to write
+
+54
+00:02:12.890 --> 00:02:15.335
+the dot-product with a transpose.
+
+55
+00:02:15.335 --> 00:02:18.185
+Each layer consists
+of many such nodes.
+
+56
+00:02:18.185 --> 00:02:19.430
+A neural network is just a
+
+57
+00:02:19.430 --> 00:02:21.590
+parameterized function
+though this can be a bit
+
+58
+00:02:21.590 --> 00:02:23.450
+hard to see by thinking of
+
+59
+00:02:23.450 --> 00:02:25.705
+it as a collection
+of connected nodes.
+
+60
+00:02:25.705 --> 00:02:27.510
+To see this more explicitly,
+
+61
+00:02:27.510 --> 00:02:29.240
+let's rewrite the operations in
+
+62
+00:02:29.240 --> 00:02:32.165
+the network using
+matrix vector multiplication.
+
+63
+00:02:32.165 --> 00:02:35.195
+We can view the inputs to
+a layer as a row vector,
+
+64
+00:02:35.195 --> 00:02:37.675
+and the weights for
+that layer as a matrix.
+
+65
+00:02:37.675 --> 00:02:40.875
+In other words, as
+this two-dimensional array.
+
+66
+00:02:40.875 --> 00:02:42.770
+We can compute the output of
+
+67
+00:02:42.770 --> 00:02:45.695
+an entire layer using
+matrix multiplication.
+
+68
+00:02:45.695 --> 00:02:48.200
+We then apply
+our activation function
+
+69
+00:02:48.200 --> 00:02:50.885
+to each element of
+the outputted vector.
+
+70
+00:02:50.885 --> 00:02:53.480
+If this output isn't
+the final layer,
+
+71
+00:02:53.480 --> 00:02:56.360
+this output vector becomes
+the input to the next layer,
+
+72
+00:02:56.360 --> 00:02:58.760
+and we repeat the process.
+
+73
+00:02:58.760 --> 00:03:00.965
+That's it for this video.
+
+74
+00:03:00.965 --> 00:03:03.560
+We explained how neural networks
+consists of a network of
+
+75
+00:03:03.560 --> 00:03:06.355
+nodes which process and
+pass information along,
+
+76
+00:03:06.355 --> 00:03:08.540
+and discussed how a feed
+forward neural network is
+
+77
+00:03:08.540 --> 00:03:11.910
+a parameterized function.
+See you next time.

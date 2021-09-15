@@ -1,0 +1,606 @@
+WEBVTT
+
+1
+00:00:04.250 --> 00:00:08.325
+We just discussed an objective
+for policy optimization.
+
+2
+00:00:08.325 --> 00:00:10.785
+The next step is to figure
+out how the agent can
+
+3
+00:00:10.785 --> 00:00:13.875
+optimize it based on
+its own experience.
+
+4
+00:00:13.875 --> 00:00:15.300
+In this video, we' will
+
+5
+00:00:15.300 --> 00:00:17.430
+describe the policy
+gradient theorem.
+
+6
+00:00:17.430 --> 00:00:19.635
+This is a key theoretical result.
+
+7
+00:00:19.635 --> 00:00:21.630
+It allows us to write
+the gradient of
+
+8
+00:00:21.630 --> 00:00:23.510
+the average reward so that it is
+
+9
+00:00:23.510 --> 00:00:26.210
+easier to estimate
+from experience.
+
+10
+00:00:26.210 --> 00:00:28.130
+After watching this video,
+
+11
+00:00:28.130 --> 00:00:29.960
+you will be able to
+describe the result of
+
+12
+00:00:29.960 --> 00:00:31.670
+the policy gradient theorem and
+
+13
+00:00:31.670 --> 00:00:34.805
+understand the importance of
+the policy gradient theorem.
+
+14
+00:00:34.805 --> 00:00:37.295
+To optimize the mean
+squared value error,
+
+15
+00:00:37.295 --> 00:00:40.980
+we used methods based on
+Stochastic gradient ascent.
+
+16
+00:00:40.980 --> 00:00:44.600
+We estimate the negative of
+the gradient of our objective
+
+17
+00:00:44.600 --> 00:00:45.920
+and adjust the weights of
+
+18
+00:00:45.920 --> 00:00:48.245
+the value function
+in that direction.
+
+19
+00:00:48.245 --> 00:00:51.050
+Policy gradient methods
+use a similar approach,
+
+20
+00:00:51.050 --> 00:00:52.925
+but with the average
+reward objective
+
+21
+00:00:52.925 --> 00:00:55.450
+and the policy parameters theta.
+
+22
+00:00:55.450 --> 00:00:57.109
+We want to maximize
+
+23
+00:00:57.109 --> 00:00:59.405
+the average reward rather
+than minimizing it.
+
+24
+00:00:59.405 --> 00:01:01.610
+This means we do
+gradient ascent and
+
+25
+00:01:01.610 --> 00:01:04.595
+move in the direction of
+the positive gradient.
+
+26
+00:01:04.595 --> 00:01:06.730
+Remember that a simple recipe
+
+27
+00:01:06.730 --> 00:01:08.320
+for solving a problem is to first
+
+28
+00:01:08.320 --> 00:01:10.030
+specify an objective then
+
+29
+00:01:10.030 --> 00:01:12.030
+estimate the gradient
+of that objective,
+
+30
+00:01:12.030 --> 00:01:14.665
+and finally, adjust
+the weights in that direction.
+
+31
+00:01:14.665 --> 00:01:16.025
+Step one is done.
+
+32
+00:01:16.025 --> 00:01:17.530
+Now, the next step is to
+
+33
+00:01:17.530 --> 00:01:19.945
+estimate the gradient
+of our objective.
+
+34
+00:01:19.945 --> 00:01:22.360
+Recall the average
+reward objective,
+
+35
+00:01:22.360 --> 00:01:24.040
+let's compute the gradient.
+
+36
+00:01:24.040 --> 00:01:26.635
+We can apply the product
+rule of calculus
+
+37
+00:01:26.635 --> 00:01:29.125
+to the objective to
+yield two terms.
+
+38
+00:01:29.125 --> 00:01:30.655
+This looks pretty complex.
+
+39
+00:01:30.655 --> 00:01:33.100
+So let's look at it
+a bit more closely.
+
+40
+00:01:33.100 --> 00:01:35.290
+The first term involves
+the gradient of
+
+41
+00:01:35.290 --> 00:01:37.615
+the stationary
+distribution overstates.
+
+42
+00:01:37.615 --> 00:01:39.520
+Unfortunately, the gradient of
+
+43
+00:01:39.520 --> 00:01:41.815
+mu is not straightforward
+to estimate.
+
+44
+00:01:41.815 --> 00:01:44.020
+The stationary
+distribution mu depends on
+
+45
+00:01:44.020 --> 00:01:45.700
+a long-term interaction between
+
+46
+00:01:45.700 --> 00:01:48.400
+the policy and the environment.
+
+47
+00:01:48.400 --> 00:01:51.830
+Luckily, the policy
+gradient theorem
+
+48
+00:01:51.830 --> 00:01:54.700
+gives us a simpler expression
+for this gradient.
+
+49
+00:01:54.700 --> 00:01:56.840
+Here we show the results
+of the theorem.
+
+50
+00:01:56.840 --> 00:01:59.600
+It's worth walking
+through this expression.
+
+51
+00:01:59.600 --> 00:02:02.150
+In the inner sum, we
+have the gradient of
+
+52
+00:02:02.150 --> 00:02:05.045
+the policy times
+the action value function.
+
+53
+00:02:05.045 --> 00:02:08.090
+Let's try to understand
+this term a little better.
+
+54
+00:02:08.090 --> 00:02:11.210
+The gradient of the policy
+is easy to compute as
+
+55
+00:02:11.210 --> 00:02:14.315
+long as our policy parameterization
+is differentiable.
+
+56
+00:02:14.315 --> 00:02:17.000
+The gradient of the policy
+tells you how to adjust
+
+57
+00:02:17.000 --> 00:02:18.350
+your parameters to increase
+
+58
+00:02:18.350 --> 00:02:20.600
+the probability of
+a certain action.
+
+59
+00:02:20.600 --> 00:02:23.280
+Consider the simple
+grid world shown here.
+
+60
+00:02:23.280 --> 00:02:25.530
+As usual, the agent can move up,
+
+61
+00:02:25.530 --> 00:02:27.270
+down, left or right.
+
+62
+00:02:27.270 --> 00:02:29.480
+For simplicity, let's
+assume the policy
+
+63
+00:02:29.480 --> 00:02:31.865
+is controlled by
+just two parameters.
+
+64
+00:02:31.865 --> 00:02:33.230
+The parameters are currently
+
+65
+00:02:33.230 --> 00:02:35.300
+set to the point marked here.
+
+66
+00:02:35.300 --> 00:02:38.360
+The arrows indicate the agent's
+action probabilities in
+
+67
+00:02:38.360 --> 00:02:41.765
+a particular state with
+the current parameter settings.
+
+68
+00:02:41.765 --> 00:02:44.000
+The gradient for
+the up action might
+
+69
+00:02:44.000 --> 00:02:46.655
+look something like
+this on the plot.
+
+70
+00:02:46.655 --> 00:02:48.590
+The gradient tells us how to
+
+71
+00:02:48.590 --> 00:02:50.540
+change the policy parameters to
+
+72
+00:02:50.540 --> 00:02:51.710
+make that action more
+
+73
+00:02:51.710 --> 00:02:54.515
+likely to be selected
+in the given state.
+
+74
+00:02:54.515 --> 00:02:56.270
+By moving the parameters in
+
+75
+00:02:56.270 --> 00:02:57.740
+the direction of the gradient,
+
+76
+00:02:57.740 --> 00:03:00.485
+we increase the probability
+for the up action.
+
+77
+00:03:00.485 --> 00:03:02.660
+This necessarily
+means decrease in
+
+78
+00:03:02.660 --> 00:03:05.435
+the probability of some
+of the other actions.
+
+79
+00:03:05.435 --> 00:03:07.685
+Different actions have
+different gradients.
+
+80
+00:03:07.685 --> 00:03:09.170
+For example, the gradient of
+
+81
+00:03:09.170 --> 00:03:12.335
+the left action probability
+may look like this.
+
+82
+00:03:12.335 --> 00:03:14.600
+Moving the parameters
+in that direction will
+
+83
+00:03:14.600 --> 00:03:17.075
+increase the probability
+of the left action,
+
+84
+00:03:17.075 --> 00:03:18.740
+and decrease the probability
+
+85
+00:03:18.740 --> 00:03:20.600
+of some of the other actions.
+
+86
+00:03:20.600 --> 00:03:22.625
+This might all sound
+a bit abstract.
+
+87
+00:03:22.625 --> 00:03:24.590
+We will show concrete examples of
+
+88
+00:03:24.590 --> 00:03:27.250
+computing this gradient
+in the coming lectures.
+
+89
+00:03:27.250 --> 00:03:29.130
+Now, let's bring some reward into
+
+90
+00:03:29.130 --> 00:03:32.855
+the situation and think about
+what this whole term means.
+
+91
+00:03:32.855 --> 00:03:35.105
+This is a sum over
+the gradients of
+
+92
+00:03:35.105 --> 00:03:37.370
+each action probability weighted
+
+93
+00:03:37.370 --> 00:03:39.955
+by the value of
+the associated action.
+
+94
+00:03:39.955 --> 00:03:41.780
+Imagine, we've added a rewarding
+
+95
+00:03:41.780 --> 00:03:43.310
+state in the bottom right.
+
+96
+00:03:43.310 --> 00:03:45.650
+The up and left actions move away
+
+97
+00:03:45.650 --> 00:03:48.035
+from it and should
+have negative value.
+
+98
+00:03:48.035 --> 00:03:50.590
+The down and right actions
+move toward it,
+
+99
+00:03:50.590 --> 00:03:52.295
+and should have positive value.
+
+100
+00:03:52.295 --> 00:03:55.145
+The precise values will
+depend on the current policy.
+
+101
+00:03:55.145 --> 00:03:57.590
+But let's say they look
+something like this.
+
+102
+00:03:57.590 --> 00:03:59.300
+The weighted sum gives
+
+103
+00:03:59.300 --> 00:04:01.670
+a direction to move
+the parameters that decreases
+
+104
+00:04:01.670 --> 00:04:03.200
+the probability of moving up or
+
+105
+00:04:03.200 --> 00:04:05.540
+right since their value
+is negative,
+
+106
+00:04:05.540 --> 00:04:07.670
+while increasing
+the probability of moving down
+
+107
+00:04:07.670 --> 00:04:10.430
+or left since
+their value is positive.
+
+108
+00:04:10.430 --> 00:04:13.145
+That direction might
+look like this.
+
+109
+00:04:13.145 --> 00:04:14.990
+The gradient expression given by
+
+110
+00:04:14.990 --> 00:04:16.670
+the policy gradient theorem takes
+
+111
+00:04:16.670 --> 00:04:19.505
+this expression and sums
+that over each state.
+
+112
+00:04:19.505 --> 00:04:22.400
+This gives the direction to
+move the policy parameters to
+
+113
+00:04:22.400 --> 00:04:26.215
+most rapidly increase
+the overall average reward.
+
+114
+00:04:26.215 --> 00:04:27.920
+That's it. We now have
+
+115
+00:04:27.920 --> 00:04:29.960
+a simple expression
+for the gradient.
+
+116
+00:04:29.960 --> 00:04:32.120
+Importantly, this expression does
+
+117
+00:04:32.120 --> 00:04:34.765
+not contain the gradient of
+the state distribution mu,
+
+118
+00:04:34.765 --> 00:04:36.670
+which is challenging to estimate.
+
+119
+00:04:36.670 --> 00:04:38.840
+The proof of the policy
+gradient theorem
+
+120
+00:04:38.840 --> 00:04:40.865
+can be found in
+the course textbook.
+
+121
+00:04:40.865 --> 00:04:42.850
+As we will see in
+the next lecture,
+
+122
+00:04:42.850 --> 00:04:44.825
+this gradient is
+straightforward to estimate.
+
+123
+00:04:44.825 --> 00:04:46.460
+That means we will
+be able to build
+
+124
+00:04:46.460 --> 00:04:48.530
+an incremental policy
+gradient algorithm
+
+125
+00:04:48.530 --> 00:04:51.040
+using an agent's experience.
+
+126
+00:04:51.040 --> 00:04:53.100
+That's it for this video.
+
+127
+00:04:53.100 --> 00:04:55.775
+You should now understand how
+the policy gradient theorem
+
+128
+00:04:55.775 --> 00:04:57.050
+gives us an expression for
+
+129
+00:04:57.050 --> 00:04:58.820
+the gradient of
+the average reward,
+
+130
+00:04:58.820 --> 00:05:00.100
+and understand the terms in
+
+131
+00:05:00.100 --> 00:05:02.810
+the gradient. See you next time.

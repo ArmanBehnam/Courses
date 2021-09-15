@@ -1,0 +1,334 @@
+WEBVTT
+
+1
+00:00:04.670 --> 00:00:07.395
+We previously talked
+about Course Coding.
+
+2
+00:00:07.395 --> 00:00:08.610
+Today, let's look at
+
+3
+00:00:08.610 --> 00:00:09.900
+a computationally
+efficient way to
+
+4
+00:00:09.900 --> 00:00:12.810
+perform Course Coding,
+Tile Coding.
+
+5
+00:00:12.810 --> 00:00:16.050
+By the end of this video,
+you'll be able to;
+
+6
+00:00:16.050 --> 00:00:17.760
+explain how tile coding achieves
+
+7
+00:00:17.760 --> 00:00:20.040
+both generalization
+and discrimination,
+
+8
+00:00:20.040 --> 00:00:21.570
+and understand the benefits and
+
+9
+00:00:21.570 --> 00:00:23.415
+limitations of tile coding.
+
+10
+00:00:23.415 --> 00:00:26.655
+Tile coding is a specific type
+of Course Coding.
+
+11
+00:00:26.655 --> 00:00:29.325
+Tile coding performs
+an exhaustive partition
+
+12
+00:00:29.325 --> 00:00:32.160
+of the state space using
+overlapping grids.
+
+13
+00:00:32.160 --> 00:00:35.450
+This is perhaps best
+understood through an example.
+
+14
+00:00:35.450 --> 00:00:37.940
+Let's revisit our fish
+friend who lives in
+
+15
+00:00:37.940 --> 00:00:41.090
+a two-dimensional continuous
+state space, the pond.
+
+16
+00:00:41.090 --> 00:00:44.735
+Unlike course coding which
+uses arbitrary shapes,
+
+17
+00:00:44.735 --> 00:00:46.805
+tile coding uses squares.
+
+18
+00:00:46.805 --> 00:00:49.130
+What's the most convenient way to
+
+19
+00:00:49.130 --> 00:00:51.260
+lay out a bunch of
+squares over space?
+
+20
+00:00:51.260 --> 00:00:54.425
+It's a grid. Let's call
+this grid a tiling.
+
+21
+00:00:54.425 --> 00:00:58.010
+So far using this is
+just state aggregation.
+
+22
+00:00:58.010 --> 00:01:01.280
+Larger tiles will result in
+increased generalization.
+
+23
+00:01:01.280 --> 00:01:03.110
+Although the ideal tile size
+
+24
+00:01:03.110 --> 00:01:04.835
+depends on the specific problem,
+
+25
+00:01:04.835 --> 00:01:07.985
+it's generally a good idea
+to use larger tiles.
+
+26
+00:01:07.985 --> 00:01:11.240
+To improve the discriminative
+ability of our tile coding,
+
+27
+00:01:11.240 --> 00:01:14.165
+we can put several tilings
+on top of each other.
+
+28
+00:01:14.165 --> 00:01:17.480
+Each tiling is offset
+by a small amount.
+
+29
+00:01:17.480 --> 00:01:19.505
+Offsetting each layer of tiling
+
+30
+00:01:19.505 --> 00:01:21.830
+creates many small intersections.
+
+31
+00:01:21.830 --> 00:01:24.140
+This results in
+better discrimination.
+
+32
+00:01:24.140 --> 00:01:25.970
+In practice, it is useful
+
+33
+00:01:25.970 --> 00:01:28.405
+to use a large number of tilings.
+
+34
+00:01:28.405 --> 00:01:30.905
+For one tiling, generalization
+
+35
+00:01:30.905 --> 00:01:32.520
+only occurs within the square,
+
+36
+00:01:32.520 --> 00:01:34.220
+but with multiple tilings,
+
+37
+00:01:34.220 --> 00:01:37.745
+updates in this state generalize
+to these other states.
+
+38
+00:01:37.745 --> 00:01:40.355
+The generalization in
+this case is diagonal.
+
+39
+00:01:40.355 --> 00:01:42.620
+If we had used random offsets,
+
+40
+00:01:42.620 --> 00:01:43.700
+then the generalization would be
+
+41
+00:01:43.700 --> 00:01:45.755
+more spherical and homogeneous.
+
+42
+00:01:45.755 --> 00:01:48.650
+This is discussed
+more in the textbook.
+
+43
+00:01:48.650 --> 00:01:50.720
+Let's talk about how to control
+
+44
+00:01:50.720 --> 00:01:52.745
+the generalization
+properties further.
+
+45
+00:01:52.745 --> 00:01:54.590
+We can do this by
+creating a grid of
+
+46
+00:01:54.590 --> 00:01:56.960
+rectangles rather than squares.
+
+47
+00:01:56.960 --> 00:01:58.850
+An efficient way to do this is to
+
+48
+00:01:58.850 --> 00:02:01.280
+scale each dimension
+of the state space.
+
+49
+00:02:01.280 --> 00:02:04.385
+The environment appears to
+have gotten squished here.
+
+50
+00:02:04.385 --> 00:02:07.100
+Actually, layering squares over
+
+51
+00:02:07.100 --> 00:02:08.840
+this squished environment
+is like laying
+
+52
+00:02:08.840 --> 00:02:11.300
+rectangles over
+the unsquished environment.
+
+53
+00:02:11.300 --> 00:02:14.030
+By using rectangles, we can
+control the broadness of
+
+54
+00:02:14.030 --> 00:02:15.575
+the generalization across
+
+55
+00:02:15.575 --> 00:02:17.855
+each dimension of
+the state-space.
+
+56
+00:02:17.855 --> 00:02:21.094
+Tile coding can represent
+a wide range of functions,
+
+57
+00:02:21.094 --> 00:02:23.210
+but its utility
+does not end there.
+
+58
+00:02:23.210 --> 00:02:25.955
+Tile coding is also
+computationally efficient.
+
+59
+00:02:25.955 --> 00:02:27.410
+Since grids are uniform,
+
+60
+00:02:27.410 --> 00:02:31.050
+it's easy to compute which cell
+the current state is in.
+
+61
+00:02:31.250 --> 00:02:34.095
+Due to its computational
+efficiency,
+
+62
+00:02:34.095 --> 00:02:35.870
+tile coding can be
+used to quickly run
+
+63
+00:02:35.870 --> 00:02:39.395
+preliminary experiments in
+low dimensional environments.
+
+64
+00:02:39.395 --> 00:02:42.754
+However, as the number
+of dimensions grows,
+
+65
+00:02:42.754 --> 00:02:45.695
+the number of required tiles
+grows exponentially.
+
+66
+00:02:45.695 --> 00:02:47.610
+As a result, it can be
+
+67
+00:02:47.610 --> 00:02:50.480
+necessary to tile
+input dimension separately.
+
+68
+00:02:50.480 --> 00:02:53.090
+Whether or not
+input dimensions can be
+
+69
+00:02:53.090 --> 00:02:56.670
+treated independently depends
+on the specific problem.
+
+70
+00:02:57.050 --> 00:02:59.280
+In this video, we talked about
+
+71
+00:02:59.280 --> 00:03:00.560
+course coding and how it is
+
+72
+00:03:00.560 --> 00:03:04.590
+a generalization of state
+aggregation. See you next time.

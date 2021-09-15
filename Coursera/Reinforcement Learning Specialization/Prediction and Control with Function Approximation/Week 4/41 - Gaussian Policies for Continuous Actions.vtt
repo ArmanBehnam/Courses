@@ -1,0 +1,822 @@
+WEBVTT
+
+1
+00:00:05.270 --> 00:00:08.850
+One of the nice things
+about policy-based methods,
+
+2
+00:00:08.850 --> 00:00:11.190
+is that they give us
+a natural way to deal with
+
+3
+00:00:11.190 --> 00:00:14.325
+very large or even
+continuous action spaces.
+
+4
+00:00:14.325 --> 00:00:17.370
+We don't have to use a policy
+parameterization that
+
+5
+00:00:17.370 --> 00:00:20.580
+assigns individual
+probabilities to each action.
+
+6
+00:00:20.580 --> 00:00:22.100
+We could instead learn
+
+7
+00:00:22.100 --> 00:00:24.905
+the parameters of
+some distribution over actions.
+
+8
+00:00:24.905 --> 00:00:27.170
+In this video, we will
+discuss how to learn
+
+9
+00:00:27.170 --> 00:00:29.330
+a state-dependent
+Gaussian distribution
+
+10
+00:00:29.330 --> 00:00:31.400
+over continuous actions.
+
+11
+00:00:31.400 --> 00:00:33.305
+By the end of this video,
+
+12
+00:00:33.305 --> 00:00:34.580
+you'll be able to derive
+
+13
+00:00:34.580 --> 00:00:37.970
+the actor-critic update
+for a Gaussian policy and
+
+14
+00:00:37.970 --> 00:00:39.890
+apply average reward
+actor-critic with
+
+15
+00:00:39.890 --> 00:00:43.670
+a Gaussian policy to task
+with continuous actions.
+
+16
+00:00:43.670 --> 00:00:46.310
+Let's look at the same
+pendulum swing-up task
+
+17
+00:00:46.310 --> 00:00:48.065
+we explored last time.
+
+18
+00:00:48.065 --> 00:00:50.995
+The state-space and reward
+is exactly the same.
+
+19
+00:00:50.995 --> 00:00:52.400
+This time, we will use
+
+20
+00:00:52.400 --> 00:00:54.635
+a continuous interval
+for the action space
+
+21
+00:00:54.635 --> 00:00:56.840
+instead of just three
+discrete levels
+
+22
+00:00:56.840 --> 00:00:58.580
+of angular acceleration.
+
+23
+00:00:58.580 --> 00:01:00.770
+The angular acceleration
+can be anywhere
+
+24
+00:01:00.770 --> 00:01:02.720
+between minus 3 and plus 3,
+
+25
+00:01:02.720 --> 00:01:05.090
+which are the
+minimum and maximum.
+
+26
+00:01:05.090 --> 00:01:07.790
+We cannot assign
+a probability to every action
+
+27
+00:01:07.790 --> 00:01:09.320
+separately because the space
+
+28
+00:01:09.320 --> 00:01:11.315
+of possible actions is infinite.
+
+29
+00:01:11.315 --> 00:01:13.730
+One solution is to
+restrict actions to
+
+30
+00:01:13.730 --> 00:01:16.625
+a discrete subset of
+the full range of possibilities.
+
+31
+00:01:16.625 --> 00:01:18.590
+This is what we did previously.
+
+32
+00:01:18.590 --> 00:01:21.440
+In this case, we compromise
+by picking a set of
+
+33
+00:01:21.440 --> 00:01:23.060
+actions that were gentle enough
+
+34
+00:01:23.060 --> 00:01:25.010
+to allow fine-grain control.
+
+35
+00:01:25.010 --> 00:01:26.510
+But this also inhibits
+
+36
+00:01:26.510 --> 00:01:29.420
+the agent's ability to
+apply larger acceleration.
+
+37
+00:01:29.420 --> 00:01:31.130
+We'd really like
+the agent to be able to
+
+38
+00:01:31.130 --> 00:01:32.660
+apply large
+acceleration when it's
+
+39
+00:01:32.660 --> 00:01:35.000
+appropriate and
+smaller acceleration
+
+40
+00:01:35.000 --> 00:01:36.815
+to correct its balance.
+
+41
+00:01:36.815 --> 00:01:39.830
+Towards this goal,
+another strategy is to
+
+42
+00:01:39.830 --> 00:01:42.870
+parameterize the policy as
+a continuous distribution,
+
+43
+00:01:42.870 --> 00:01:44.720
+such as a Gaussian distribution.
+
+44
+00:01:44.720 --> 00:01:46.850
+A Gaussian random variable x has
+
+45
+00:01:46.850 --> 00:01:49.520
+the probability density
+function shown here.
+
+46
+00:01:49.520 --> 00:01:51.080
+Here are a few examples of
+
+47
+00:01:51.080 --> 00:01:54.470
+this PDF with different
+means and variances.
+
+48
+00:01:54.470 --> 00:01:56.720
+Note that the y-axis
+in this case is
+
+49
+00:01:56.720 --> 00:01:59.165
+density and not probability.
+
+50
+00:01:59.165 --> 00:02:02.300
+Probability density means
+that for a given range,
+
+51
+00:02:02.300 --> 00:02:04.880
+the probability of x
+lying in that range will
+
+52
+00:02:04.880 --> 00:02:08.110
+be the area under the
+probability density curve.
+
+53
+00:02:08.110 --> 00:02:11.360
+The parameter Mu controls
+the mean of the distribution.
+
+54
+00:02:11.360 --> 00:02:15.080
+If Mu is 0, the distribution
+will be centered around 0.
+
+55
+00:02:15.080 --> 00:02:17.390
+For this curve, Mu as minus 2 so
+
+56
+00:02:17.390 --> 00:02:20.075
+the distribution is
+centered around minus 2.
+
+57
+00:02:20.075 --> 00:02:23.010
+The parameter Sigma is
+the standard deviation,
+
+58
+00:02:23.010 --> 00:02:24.900
+the square root of the variance.
+
+59
+00:02:24.900 --> 00:02:27.160
+If Sigma is low like this curve,
+
+60
+00:02:27.160 --> 00:02:28.880
+the distribution will be sharply
+
+61
+00:02:28.880 --> 00:02:31.495
+peaked around the mean value Mu.
+
+62
+00:02:31.495 --> 00:02:33.655
+As Sigma becomes larger,
+
+63
+00:02:33.655 --> 00:02:36.500
+the distribution is more
+spread out like this curve,
+
+64
+00:02:36.500 --> 00:02:39.935
+and x is drawn from
+a wider range of values.
+
+65
+00:02:39.935 --> 00:02:43.705
+Let's define our policy using
+a Gaussian over actions.
+
+66
+00:02:43.705 --> 00:02:45.420
+We make the parameters Mu and
+
+67
+00:02:45.420 --> 00:02:47.205
+Sigma functions of the state.
+
+68
+00:02:47.205 --> 00:02:49.220
+This way, the agent can assign
+
+69
+00:02:49.220 --> 00:02:52.085
+different action distributions
+to different states.
+
+70
+00:02:52.085 --> 00:02:54.650
+Mu can be any
+parameterized function.
+
+71
+00:02:54.650 --> 00:02:56.165
+But to keep things simple,
+
+72
+00:02:56.165 --> 00:02:58.925
+let's make it a linear function
+of the state features.
+
+73
+00:02:58.925 --> 00:03:01.070
+The policy parameters
+associated with
+
+74
+00:03:01.070 --> 00:03:03.620
+Mu are denoted by Theta Mu.
+
+75
+00:03:03.620 --> 00:03:06.815
+The parameter's function
+Sigma has one constraint.
+
+76
+00:03:06.815 --> 00:03:08.405
+It must be positive.
+
+77
+00:03:08.405 --> 00:03:10.760
+To enforce this, we
+will parameterize it
+
+78
+00:03:10.760 --> 00:03:13.160
+as the exponential of
+a linear function.
+
+79
+00:03:13.160 --> 00:03:14.990
+The policy parameters
+associated with
+
+80
+00:03:14.990 --> 00:03:17.780
+Sigma are denoted by Theta Sigma.
+
+81
+00:03:17.780 --> 00:03:19.910
+Our policy parameters
+now consists of
+
+82
+00:03:19.910 --> 00:03:23.570
+these two stack parameter
+vectors of equal size.
+
+83
+00:03:23.570 --> 00:03:25.895
+We've defined our
+Gaussian policy.
+
+84
+00:03:25.895 --> 00:03:28.100
+Remember, the main point
+of a policy is
+
+85
+00:03:28.100 --> 00:03:30.515
+that it gives us a way
+to select actions.
+
+86
+00:03:30.515 --> 00:03:32.619
+To select actions
+with this policy,
+
+87
+00:03:32.619 --> 00:03:34.250
+we sample from the Gaussian.
+
+88
+00:03:34.250 --> 00:03:36.080
+Many programming
+libraries include
+
+89
+00:03:36.080 --> 00:03:37.865
+functions to sample
+from Gaussian,
+
+90
+00:03:37.865 --> 00:03:39.800
+so we won't worry
+about that here.
+
+91
+00:03:39.800 --> 00:03:41.435
+The procedure is simple.
+
+92
+00:03:41.435 --> 00:03:45.215
+In a state, we compute Mu
+and Sigma from that state.
+
+93
+00:03:45.215 --> 00:03:48.095
+We then call the Gaussian
+random number generator
+
+94
+00:03:48.095 --> 00:03:49.925
+with that Mu and Sigma.
+
+95
+00:03:49.925 --> 00:03:53.315
+In one state, Mu and Sigma
+might look like this.
+
+96
+00:03:53.315 --> 00:03:55.040
+For this state, a wide range
+
+97
+00:03:55.040 --> 00:03:57.200
+of actions are likely
+to be sampled.
+
+98
+00:03:57.200 --> 00:04:00.400
+Here's an action that might
+be sampled in this state.
+
+99
+00:04:00.400 --> 00:04:04.065
+In another state, Mu and
+Sigma might look like this.
+
+100
+00:04:04.065 --> 00:04:06.200
+For this state,
+only a narrow range
+
+101
+00:04:06.200 --> 00:04:08.195
+of actions are likely
+to be sampled.
+
+102
+00:04:08.195 --> 00:04:11.720
+Here's an action that might
+be sampled in this state.
+
+103
+00:04:11.720 --> 00:04:15.890
+Sigma essentially controls
+the degree of exploration.
+
+104
+00:04:15.890 --> 00:04:17.900
+We typically initialize
+the variance to be
+
+105
+00:04:17.900 --> 00:04:21.100
+large so that a wide range
+of actions are tried.
+
+106
+00:04:21.100 --> 00:04:24.740
+As learning progresses, we
+expect the variance to shrink
+
+107
+00:04:24.740 --> 00:04:26.405
+and the policy to concentrate
+
+108
+00:04:26.405 --> 00:04:28.730
+around the best action
+in each state.
+
+109
+00:04:28.730 --> 00:04:31.100
+Like many parameterized policies,
+
+110
+00:04:31.100 --> 00:04:32.630
+the agent can reduce
+the amount of
+
+111
+00:04:32.630 --> 00:04:35.780
+exploration over time
+through learning.
+
+112
+00:04:35.780 --> 00:04:38.240
+Though we now have
+continuous actions
+
+113
+00:04:38.240 --> 00:04:39.560
+instead of discrete actions,
+
+114
+00:04:39.560 --> 00:04:42.170
+we can use the same
+actor-critic architecture.
+
+115
+00:04:42.170 --> 00:04:44.510
+The algorithm is
+actually very similar.
+
+116
+00:04:44.510 --> 00:04:47.180
+The main difference is that
+the gradient of the policy
+
+117
+00:04:47.180 --> 00:04:50.035
+is different because the
+parameterization is different.
+
+118
+00:04:50.035 --> 00:04:52.940
+Underneath, the objective
+also looks slightly
+
+119
+00:04:52.940 --> 00:04:54.740
+different because we integrate
+
+120
+00:04:54.740 --> 00:04:57.170
+over actions instead of summing.
+
+121
+00:04:57.170 --> 00:05:00.425
+But sampling the gradient
+ends up being the same.
+
+122
+00:05:00.425 --> 00:05:02.570
+So all we have to do is work out
+
+123
+00:05:02.570 --> 00:05:05.240
+the gradient of
+the natural log of the policy.
+
+124
+00:05:05.240 --> 00:05:06.770
+We'll skip the steps here,
+
+125
+00:05:06.770 --> 00:05:08.780
+but the result is
+shown on the slide.
+
+126
+00:05:08.780 --> 00:05:12.365
+As an exercise, try to
+verify it for yourself.
+
+127
+00:05:12.365 --> 00:05:16.370
+So we now have an updated rule
+for continuous actions.
+
+128
+00:05:16.370 --> 00:05:17.870
+But why did we do all this
+
+129
+00:05:17.870 --> 00:05:19.430
+given that the
+discrete actions that
+
+130
+00:05:19.430 --> 00:05:22.790
+we used previously seemed to
+work fine on this problem?
+
+131
+00:05:22.790 --> 00:05:25.580
+The most obvious reason
+is it might not be
+
+132
+00:05:25.580 --> 00:05:28.550
+straightforward to choose
+a discrete set of actions.
+
+133
+00:05:28.550 --> 00:05:31.910
+For example, imagine a robot
+trained to play golf.
+
+134
+00:05:31.910 --> 00:05:35.195
+Putting accurately requires
+quite a bit of precision.
+
+135
+00:05:35.195 --> 00:05:37.670
+We could try to pick
+a discrete set of forces
+
+136
+00:05:37.670 --> 00:05:40.130
+to apply to the club and
+hope it's good enough.
+
+137
+00:05:40.130 --> 00:05:43.280
+But inevitably, there will be
+situations where it isn't.
+
+138
+00:05:43.280 --> 00:05:45.560
+Depending on the
+distance and terrain,
+
+139
+00:05:45.560 --> 00:05:48.410
+we may need to use
+the full range of forces.
+
+140
+00:05:48.410 --> 00:05:50.570
+Continuous actions also allow
+
+141
+00:05:50.570 --> 00:05:52.400
+us to generalize over actions.
+
+142
+00:05:52.400 --> 00:05:55.190
+For example, the Gaussian
+policies smoothly
+
+143
+00:05:55.190 --> 00:05:58.280
+assigns probability density
+to nearby actions.
+
+144
+00:05:58.280 --> 00:06:00.470
+Imagine an action is
+found to be good and
+
+145
+00:06:00.470 --> 00:06:03.035
+the update increases density
+for that action.
+
+146
+00:06:03.035 --> 00:06:06.290
+The density for a nearby action
+will also increase with
+
+147
+00:06:06.290 --> 00:06:07.640
+the agent generalizing that
+
+148
+00:06:07.640 --> 00:06:10.475
+those actions are
+likely also to be good.
+
+149
+00:06:10.475 --> 00:06:12.860
+Finally, even if the true action
+
+150
+00:06:12.860 --> 00:06:15.200
+said is discrete but very large,
+
+151
+00:06:15.200 --> 00:06:18.620
+it might be better to treat
+them as a continuous range.
+
+152
+00:06:18.620 --> 00:06:22.250
+This gives a natural way to
+generalize over them and
+
+153
+00:06:22.250 --> 00:06:24.050
+avoids the costly process of
+
+154
+00:06:24.050 --> 00:06:26.765
+exploring each one independently.
+
+155
+00:06:26.765 --> 00:06:29.630
+Now, let's see how this
+actor-critic algorithm
+
+156
+00:06:29.630 --> 00:06:31.955
+performs on the pendulum
+swing-up task.
+
+157
+00:06:31.955 --> 00:06:35.170
+Again, we swept over
+a many step size values.
+
+158
+00:06:35.170 --> 00:06:39.260
+We use separate step sizes
+for Theta Mu and Theta Sigma.
+
+159
+00:06:39.260 --> 00:06:42.755
+Here we visualize the policy
+in early learning.
+
+160
+00:06:42.755 --> 00:06:44.720
+It doesn't look too
+different from when we
+
+161
+00:06:44.720 --> 00:06:46.750
+were using a discrete action set.
+
+162
+00:06:46.750 --> 00:06:50.180
+It quickly learns to rock
+the pendulum back and forth.
+
+163
+00:06:50.180 --> 00:06:52.940
+The size of the area
+around the pivot indicates
+
+164
+00:06:52.940 --> 00:06:55.130
+the magnitude of
+the angular acceleration
+
+165
+00:06:55.130 --> 00:06:57.540
+applied at a given time.
+
+166
+00:06:59.000 --> 00:07:03.015
+Here we visualize the policy
+at the end of learning.
+
+167
+00:07:03.015 --> 00:07:05.720
+It's learning a very
+nice balancing policy.
+
+168
+00:07:05.720 --> 00:07:07.160
+Here again, we added
+
+169
+00:07:07.160 --> 00:07:09.320
+perturbations to highlight
+the robustness of
+
+170
+00:07:09.320 --> 00:07:14.975
+the learned policy.
+That's it for today.
+
+171
+00:07:14.975 --> 00:07:17.180
+You should now understand
+how we can apply
+
+172
+00:07:17.180 --> 00:07:19.835
+actor-critic to problems
+with continuous actions,
+
+173
+00:07:19.835 --> 00:07:23.150
+and we showed an example of
+how this can be done with
+
+174
+00:07:23.150 --> 00:07:25.160
+a Gaussian policy
+parameterization
+
+175
+00:07:25.160 --> 00:07:28.570
+in a simple environment.
+Bye for now.

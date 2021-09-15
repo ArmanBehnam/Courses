@@ -1,0 +1,568 @@
+WEBVTT
+
+1
+00:00:05.030 --> 00:00:08.220
+In this video, we get
+to see episodic sarsa
+
+2
+00:00:08.220 --> 00:00:11.070
+in action on a
+continuous state domain.
+
+3
+00:00:11.070 --> 00:00:13.350
+We'll visualize
+the learn values and gain
+
+4
+00:00:13.350 --> 00:00:16.575
+some intuition about
+the solutions learned by sarsa.
+
+5
+00:00:16.575 --> 00:00:18.420
+By the end of this video,
+
+6
+00:00:18.420 --> 00:00:20.220
+you will gain
+experience analyzing
+
+7
+00:00:20.220 --> 00:00:23.555
+the performance of an
+approximate TD control method.
+
+8
+00:00:23.555 --> 00:00:26.390
+Let's look at an example
+of episodic sarsa on
+
+9
+00:00:26.390 --> 00:00:29.305
+a classic control domain
+called Mountain Car.
+
+10
+00:00:29.305 --> 00:00:30.980
+Mountain car is an episodic
+
+11
+00:00:30.980 --> 00:00:32.270
+task where the objective is to
+
+12
+00:00:32.270 --> 00:00:35.690
+drive an underpowered car up
+the side of the mountain.
+
+13
+00:00:35.690 --> 00:00:38.300
+Gravity is stronger
+than the car's engine,
+
+14
+00:00:38.300 --> 00:00:41.195
+so the agent cannot directly
+drive up the mountain.
+
+15
+00:00:41.195 --> 00:00:43.190
+The only way to
+escape is to first
+
+16
+00:00:43.190 --> 00:00:45.530
+drive backwards up
+the left slope.
+
+17
+00:00:45.530 --> 00:00:47.540
+Then driving down
+the hill gives the car
+
+18
+00:00:47.540 --> 00:00:51.450
+enough momentum to drive up
+the right slope and out.
+
+19
+00:00:51.460 --> 00:00:53.960
+The episode begins with a car in
+
+20
+00:00:53.960 --> 00:00:57.185
+a random location near
+the bottom of the valley.
+
+21
+00:00:57.185 --> 00:00:59.360
+It ends when the car reaches
+
+22
+00:00:59.360 --> 00:01:01.555
+the flag at the top of the hill.
+
+23
+00:01:01.555 --> 00:01:03.470
+To encourage the agent to finish
+
+24
+00:01:03.470 --> 00:01:05.330
+the episode as
+quickly as possible,
+
+25
+00:01:05.330 --> 00:01:08.465
+the reward is minus
+one on each timestep,
+
+26
+00:01:08.465 --> 00:01:11.120
+and no discounting is used.
+
+27
+00:01:11.120 --> 00:01:13.760
+The agent can observe
+the current position
+
+28
+00:01:13.760 --> 00:01:15.350
+and velocity of the car.
+
+29
+00:01:15.350 --> 00:01:19.400
+This is a two-dimensional
+continuous-valued state.
+
+30
+00:01:19.400 --> 00:01:21.260
+The agent has a choice between
+
+31
+00:01:21.260 --> 00:01:23.455
+three actions:
+accelerate forward,
+
+32
+00:01:23.455 --> 00:01:26.190
+accelerate backward, or coast.
+
+33
+00:01:26.190 --> 00:01:29.120
+For this example,
+we jointly talco
+
+34
+00:01:29.120 --> 00:01:32.255
+the position and velocity
+to produce features.
+
+35
+00:01:32.255 --> 00:01:34.040
+We use eight tiles,
+
+36
+00:01:34.040 --> 00:01:35.945
+which means we use
+eight-by-eight grids
+
+37
+00:01:35.945 --> 00:01:38.090
+for the two-dimensional
+input space.
+
+38
+00:01:38.090 --> 00:01:39.930
+We use eight tilings,
+
+39
+00:01:39.930 --> 00:01:42.755
+which means we have
+eight overlapping grids.
+
+40
+00:01:42.755 --> 00:01:44.930
+We treat actions independently
+
+41
+00:01:44.930 --> 00:01:48.170
+by using a stacked
+feature representation.
+
+42
+00:01:48.170 --> 00:01:50.705
+We initialize
+the weights to zero.
+
+43
+00:01:50.705 --> 00:01:53.015
+This initialization is
+actually optimistic.
+
+44
+00:01:53.015 --> 00:01:55.665
+This is because a reward
+is minus one per step,
+
+45
+00:01:55.665 --> 00:01:58.895
+so the values under any policy
+will be less than zero.
+
+46
+00:01:58.895 --> 00:02:01.790
+In this problem,
+these optimistic initial values
+
+47
+00:02:01.790 --> 00:02:04.685
+cause extensive and
+systematic exploration.
+
+48
+00:02:04.685 --> 00:02:06.170
+Because of this, we can act
+
+49
+00:02:06.170 --> 00:02:09.800
+greedily without any
+additional random exploration.
+
+50
+00:02:09.800 --> 00:02:12.380
+Let's see what the value
+function looks like
+
+51
+00:02:12.380 --> 00:02:14.930
+after we run the agent
+for a very long time.
+
+52
+00:02:14.930 --> 00:02:16.610
+Ideally, we would like to plot
+
+53
+00:02:16.610 --> 00:02:18.175
+the value function
+for every state.
+
+54
+00:02:18.175 --> 00:02:20.030
+However, there is an uncountably
+
+55
+00:02:20.030 --> 00:02:21.455
+infinite number of states.
+
+56
+00:02:21.455 --> 00:02:24.170
+So we'll have to sample
+the set of states.
+
+57
+00:02:24.170 --> 00:02:27.680
+We'll use the max value
+in each sample state.
+
+58
+00:02:27.680 --> 00:02:30.380
+This number tells us
+the number of steps the agent
+
+59
+00:02:30.380 --> 00:02:33.845
+thinks it will take to escape
+under its greedy policy.
+
+60
+00:02:33.845 --> 00:02:36.995
+The reward is minus
+one for each step,
+
+61
+00:02:36.995 --> 00:02:38.870
+so we negate
+this number to produce
+
+62
+00:02:38.870 --> 00:02:40.430
+the agent's estimate
+of the number of
+
+63
+00:02:40.430 --> 00:02:43.195
+steps to go from each state.
+
+64
+00:02:43.195 --> 00:02:46.190
+Here's the agent's estimate
+of the expected number of
+
+65
+00:02:46.190 --> 00:02:48.860
+steps after 9,000 episodes.
+
+66
+00:02:48.860 --> 00:02:51.220
+This is a really long time
+for this problem,
+
+67
+00:02:51.220 --> 00:02:52.970
+so we're pretty sure
+the value estimates
+
+68
+00:02:52.970 --> 00:02:54.725
+are about as good as
+they're going to get.
+
+69
+00:02:54.725 --> 00:02:58.380
+But they're not perfect due
+to function approximation.
+
+70
+00:02:58.390 --> 00:03:00.590
+The green line represents
+
+71
+00:03:00.590 --> 00:03:03.755
+the goal position which does
+not depend on the velocity.
+
+72
+00:03:03.755 --> 00:03:07.130
+Near the goal, if
+the velocity is large enough,
+
+73
+00:03:07.130 --> 00:03:09.680
+the agent can directly drive out.
+
+74
+00:03:09.680 --> 00:03:11.830
+However, if the agent is near
+
+75
+00:03:11.830 --> 00:03:14.080
+the goal but
+the velocity is too low,
+
+76
+00:03:14.080 --> 00:03:16.675
+it will take
+many steps to escape.
+
+77
+00:03:16.675 --> 00:03:19.780
+This was because the agent
+must first go back down
+
+78
+00:03:19.780 --> 00:03:21.670
+the hill and up the left side
+
+79
+00:03:21.670 --> 00:03:24.740
+again to gain
+enough momentum to escape.
+
+80
+00:03:24.900 --> 00:03:28.150
+The peak corresponds
+to the start states
+
+81
+00:03:28.150 --> 00:03:31.480
+where it takes around 120 steps
+to reach the flag.
+
+82
+00:03:31.480 --> 00:03:34.135
+This green trajectory
+reveals the path
+
+83
+00:03:34.135 --> 00:03:36.620
+taken through the state-space
+by the learn policy.
+
+84
+00:03:36.620 --> 00:03:40.425
+The value function look
+pretty interesting,
+
+85
+00:03:40.425 --> 00:03:42.280
+but let's look at some
+learning curves to get
+
+86
+00:03:42.280 --> 00:03:44.560
+better insight into
+the speed of learning.
+
+87
+00:03:44.560 --> 00:03:47.440
+Let's try sarsa with
+three different values of Alpha,
+
+88
+00:03:47.440 --> 00:03:49.595
+so three variants
+of the algorithm.
+
+89
+00:03:49.595 --> 00:03:52.480
+Here we are interested
+in the steps to goal,
+
+90
+00:03:52.480 --> 00:03:55.390
+which in this case corresponds
+to the return per episode.
+
+91
+00:03:55.390 --> 00:03:57.160
+We expect the number of steps per
+
+92
+00:03:57.160 --> 00:03:59.050
+episode to decrease
+with learning.
+
+93
+00:03:59.050 --> 00:04:02.525
+Lower on the x-axis corresponds
+to better policies,
+
+94
+00:04:02.525 --> 00:04:04.150
+policies that can
+reach the goal in
+
+95
+00:04:04.150 --> 00:04:06.040
+the fewest steps on average.
+
+96
+00:04:06.040 --> 00:04:07.660
+As always, we average
+
+97
+00:04:07.660 --> 00:04:10.180
+the performance over
+many independent runs.
+
+98
+00:04:10.180 --> 00:04:12.055
+Here are the results.
+
+99
+00:04:12.055 --> 00:04:14.200
+By 500 episodes, the number of
+
+100
+00:04:14.200 --> 00:04:16.430
+steps per episode has
+roughly stabilized.
+
+101
+00:04:16.430 --> 00:04:17.800
+All the learning curves exhibit
+
+102
+00:04:17.800 --> 00:04:20.140
+the familiar exponential profile.
+
+103
+00:04:20.140 --> 00:04:22.390
+The smaller step size
+parameter value of
+
+104
+00:04:22.390 --> 00:04:24.985
+0.1 results in slower learning,
+
+105
+00:04:24.985 --> 00:04:28.000
+while Alpha of 0.5
+allow the agent to
+
+106
+00:04:28.000 --> 00:04:29.710
+learn more quickly and find
+
+107
+00:04:29.710 --> 00:04:32.635
+a better policy
+over 500 episodes.
+
+108
+00:04:32.635 --> 00:04:36.215
+Notice we divided
+each Alpha value by eight.
+
+109
+00:04:36.215 --> 00:04:38.750
+If we are not using
+a vector of step sizes,
+
+110
+00:04:38.750 --> 00:04:40.700
+we often scale
+the step size parameter
+
+111
+00:04:40.700 --> 00:04:42.530
+by the norm of
+the feature vector.
+
+112
+00:04:42.530 --> 00:04:45.065
+Here we use eight tilings
+in our tile coder.
+
+113
+00:04:45.065 --> 00:04:46.490
+That means the number of 1's in
+
+114
+00:04:46.490 --> 00:04:48.310
+the feature vector
+is always eight.
+
+115
+00:04:48.310 --> 00:04:50.070
+As a simple exercise,
+
+116
+00:04:50.070 --> 00:04:51.950
+prove to yourself that
+eight corresponds
+
+117
+00:04:51.950 --> 00:04:54.680
+to the L_1 norm of
+the feature vector.
+
+118
+00:04:54.680 --> 00:04:56.965
+Okay, that's enough for today.
+
+119
+00:04:56.965 --> 00:05:00.290
+In this video, we evaluated
+episodic sarsa with
+
+120
+00:05:00.290 --> 00:05:01.700
+linear function approximation in
+
+121
+00:05:01.700 --> 00:05:04.800
+mountain car. See you next time.

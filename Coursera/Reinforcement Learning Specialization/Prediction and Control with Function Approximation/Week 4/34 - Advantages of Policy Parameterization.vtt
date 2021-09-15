@@ -1,0 +1,420 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:06.000
+[MUSIC]
+
+2
+00:00:06.000 --> 00:00:09.600
+You now know it's possible to learn
+parameterize policies directly.
+
+3
+00:00:09.600 --> 00:00:14.000
+This means we can have more flexibility
+in how we solve our problems.
+
+4
+00:00:14.000 --> 00:00:18.470
+Now, we consider learning approximate
+values and learning approximate policies,
+
+5
+00:00:18.470 --> 00:00:21.148
+but is it really helpful
+directly learn policies?
+
+6
+00:00:21.148 --> 00:00:25.887
+[SOUND] After watching this video,
+you'll be able to understand
+
+7
+00:00:25.887 --> 00:00:30.198
+some of the advantages of
+using parameterized policies.
+
+8
+00:00:30.198 --> 00:00:33.222
+[SOUND] There are many advantages
+to directly learning the parameters
+
+9
+00:00:33.222 --> 00:00:33.800
+of a policy.
+
+10
+00:00:35.100 --> 00:00:39.300
+First, the agent can make its policy
+more greedy over time autonomously.
+
+11
+00:00:40.600 --> 00:00:41.825
+Why would you want that?
+
+12
+00:00:41.825 --> 00:00:46.300
+Well, in the beginning, the agent's
+estimates are not that accurate.
+
+13
+00:00:46.300 --> 00:00:48.900
+So you would want
+the agent to explore a lot.
+
+14
+00:00:48.900 --> 00:00:53.200
+As the estimates become more accurate, the
+agent should become more and more greedy.
+
+15
+00:00:54.900 --> 00:00:58.300
+Recall the Epsilon greedy
+policy we used before.
+
+16
+00:00:58.300 --> 00:01:03.563
+The Epsilon step chooses a random
+action to ensure continual exploration.
+
+17
+00:01:03.563 --> 00:01:07.520
+However, the Epsilon probability
+puts a cap on how good the resulting
+
+18
+00:01:07.520 --> 00:01:08.400
+policy can be.
+
+19
+00:01:09.400 --> 00:01:10.306
+We could, of course,
+
+20
+00:01:10.306 --> 00:01:14.700
+switch to a greedy policy when we think
+the agent has explored adequately.
+
+21
+00:01:14.700 --> 00:01:17.200
+But we want our agents to be autonomous.
+
+22
+00:01:17.200 --> 00:01:20.900
+We don't want them to rely on us to
+decide when exploration is done.
+
+23
+00:01:23.100 --> 00:01:26.000
+We can avoid this issue with
+parameterized policies.
+
+24
+00:01:26.000 --> 00:01:29.765
+The policy can start off stochastic
+to guarantee expiration.
+
+25
+00:01:29.765 --> 00:01:31.535
+Then as learning progresses,
+
+26
+00:01:31.535 --> 00:01:36.200
+the policy can naturally converge
+towards a deterministic greedy policy.
+
+27
+00:01:36.200 --> 00:01:40.049
+A softmax policy can adequately
+approximate a deterministic policy by
+
+28
+00:01:40.049 --> 00:01:42.365
+making one action preference very large.
+
+29
+00:01:42.365 --> 00:01:44.632
+[SOUND] In the tabular setting,
+
+30
+00:01:44.632 --> 00:01:49.000
+we learn there's always
+a deterministic optimal policy.
+
+31
+00:01:50.500 --> 00:01:52.454
+In function approximation,
+
+32
+00:01:52.454 --> 00:01:56.368
+we may not be able to represent
+this deterministic policy.
+
+33
+00:01:56.368 --> 00:02:00.500
+Instead, the optimal approximate
+policy might be a stochastic policy.
+
+34
+00:02:02.100 --> 00:02:05.125
+This suggests it might be useful
+to learn stochastic policies.
+
+35
+00:02:05.125 --> 00:02:10.229
+[SOUND] We can see why this is
+true by considering an example.
+
+36
+00:02:10.229 --> 00:02:12.100
+Imagine the agent is in a corridor.
+
+37
+00:02:12.100 --> 00:02:14.300
+It always starts in the far left state.
+
+38
+00:02:15.500 --> 00:02:17.500
+In the left and right states,
+the actions left and
+
+39
+00:02:17.500 --> 00:02:20.300
+right have their usual consequences.
+
+40
+00:02:20.300 --> 00:02:23.900
+In the middle state, however,
+the left and right actions are switched.
+
+41
+00:02:23.900 --> 00:02:26.100
+Moving left will take the agent right.
+
+42
+00:02:26.100 --> 00:02:29.390
+Moving right takes the agent
+to the left state.
+
+43
+00:02:29.390 --> 00:02:33.400
+The reward is -1 and every step and
+the task is episodic.
+
+44
+00:02:33.400 --> 00:02:37.100
+Imagine the function approximation
+treats all these states as the same.
+
+45
+00:02:37.100 --> 00:02:41.059
+All three states share
+the same approximate value.
+
+46
+00:02:41.059 --> 00:02:44.097
+If we choose to limit ourselves
+to deterministic policies,
+
+47
+00:02:44.097 --> 00:02:47.500
+we would have no choice but
+to pick the same action in all the states.
+
+48
+00:02:48.800 --> 00:02:50.500
+This would give us just two choices.
+
+49
+00:02:51.600 --> 00:02:55.067
+Always move left or always move right.
+
+50
+00:02:55.067 --> 00:02:58.600
+If we always move left,
+we will never leave the start state.
+
+51
+00:02:58.600 --> 00:03:03.073
+So the expected return for
+that policy is negative infinity.
+
+52
+00:03:03.073 --> 00:03:06.167
+If we always move,
+right we will reach the middle state and
+
+53
+00:03:06.167 --> 00:03:09.400
+then move back to the start state and
+continue this forever.
+
+54
+00:03:11.200 --> 00:03:13.700
+So the expected return is
+also negative Infinity.
+
+55
+00:03:15.200 --> 00:03:19.292
+If we are allowed to choose
+actions stochastically, however,
+
+56
+00:03:19.292 --> 00:03:20.739
+we can do much better.
+
+57
+00:03:20.739 --> 00:03:25.115
+We may get stuck for a while, but as long
+as each action has a nonzero probability,
+
+58
+00:03:25.115 --> 00:03:27.600
+we will eventually reach
+the terminal state.
+
+59
+00:03:28.800 --> 00:03:29.301
+In fact,
+
+60
+00:03:29.301 --> 00:03:33.320
+the best policy under this function
+approximation is a little particular.
+
+61
+00:03:33.320 --> 00:03:38.100
+Choose the right action 59% of the time
+and the left action the rest of the time.
+
+62
+00:03:39.300 --> 00:03:43.550
+This policy achieves an expected
+return of around -11.6,
+
+63
+00:03:43.550 --> 00:03:46.316
+clearly better than negative infinity.
+
+64
+00:03:46.316 --> 00:03:48.919
+This example may see a seem
+a bit contrived, but
+
+65
+00:03:48.919 --> 00:03:52.000
+similar situations can
+arise in the real world.
+
+66
+00:03:52.000 --> 00:03:55.780
+For example, in our own lab a robot gets
+stuck in the corner of the room because it
+
+67
+00:03:55.780 --> 00:03:58.950
+had a deterministic policy and
+a limited function approximator.
+
+68
+00:03:58.950 --> 00:04:04.900
+[SOUND] Sometimes the policy is more
+simple than the value function.
+
+69
+00:04:04.900 --> 00:04:06.353
+Remember the mountain car problem.
+
+70
+00:04:06.353 --> 00:04:09.286
+We spent a lot of time designing
+a value-based agent to
+
+71
+00:04:09.286 --> 00:04:11.500
+learn an optimal policy.
+
+72
+00:04:11.500 --> 00:04:12.975
+However, in this problem,
+
+73
+00:04:12.975 --> 00:04:16.300
+the energy pumping policy we saw
+previously is nearly optimal.
+
+74
+00:04:16.300 --> 00:04:21.126
+The agent simply selects its action in
+agreement with the current velocity.
+
+75
+00:04:21.126 --> 00:04:24.625
+If the velocity is negative, then the
+agent takes the accelerate left action.
+
+76
+00:04:24.625 --> 00:04:28.300
+If the velocity is positive, then the
+agent takes the accelerate right action.
+
+77
+00:04:29.300 --> 00:04:33.577
+This policy allows the agent to
+quickly escape from the valley.
+
+78
+00:04:33.577 --> 00:04:36.400
+As you can see,
+this is quite a simple policy.
+
+79
+00:04:37.500 --> 00:04:40.000
+The value function on the other
+hand is quite complex.
+
+80
+00:04:40.000 --> 00:04:43.300
+[SOUND] That's it for today.
+
+81
+00:04:43.300 --> 00:04:47.482
+You should now understand that
+parameterized stochastic policies
+
+82
+00:04:47.482 --> 00:04:52.115
+are useful because they can autonomously
+decrease expiration over time.
+
+83
+00:04:52.115 --> 00:04:54.878
+They can avoid failures due to
+deterministic policies with limited
+
+84
+00:04:54.878 --> 00:04:56.600
+function approximation.
+
+85
+00:04:56.600 --> 00:04:59.705
+And sometimes the policy is less
+complicated than the value function.
+
+86
+00:04:59.705 --> 00:05:04.000
+In the upcoming videos we'll see if there
+is not a strict distinction between action
+
+87
+00:05:04.000 --> 00:05:06.800
+value methods and policy based methods.
+
+88
+00:05:06.800 --> 00:05:11.400
+In fact, we can use action values to make
+it easier to learn a parameterized policy.
+
+89
+00:05:11.400 --> 00:05:12.100
+See you then.

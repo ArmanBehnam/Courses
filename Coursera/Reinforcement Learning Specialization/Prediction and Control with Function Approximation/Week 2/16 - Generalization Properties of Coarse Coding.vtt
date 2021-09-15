@@ -1,0 +1,603 @@
+WEBVTT
+
+1
+00:00:05.540 --> 00:00:08.070
+Previously, we talked about
+
+2
+00:00:08.070 --> 00:00:11.324
+a few different feature
+representations: Tabular,
+
+3
+00:00:11.324 --> 00:00:13.620
+State Aggregation,
+and Coarse Coding.
+
+4
+00:00:13.620 --> 00:00:16.665
+But we didn't tell you why
+coarse coding might be useful.
+
+5
+00:00:16.665 --> 00:00:19.170
+Today, we'll talk about how
+changing the properties of
+
+6
+00:00:19.170 --> 00:00:23.115
+coarse coding affects
+generalization and discrimination.
+
+7
+00:00:23.115 --> 00:00:25.305
+By the end of this video,
+
+8
+00:00:25.305 --> 00:00:26.670
+you'll be able to describe how
+
+9
+00:00:26.670 --> 00:00:28.290
+coarse coding parameters affect
+
+10
+00:00:28.290 --> 00:00:30.600
+generalization and
+discrimination,
+
+11
+00:00:30.600 --> 00:00:34.110
+and how that affects
+learning speed and accuracy.
+
+12
+00:00:34.110 --> 00:00:36.950
+We've talked about how coarse
+coding group states into
+
+13
+00:00:36.950 --> 00:00:39.485
+features of arbitrary
+shapes and sizes.
+
+14
+00:00:39.485 --> 00:00:41.600
+They can be circles, ellipses,
+
+15
+00:00:41.600 --> 00:00:44.450
+squares or a combination
+of different shapes.
+
+16
+00:00:44.450 --> 00:00:46.370
+Let's look at how
+changing the shapes
+
+17
+00:00:46.370 --> 00:00:48.170
+and sizes of features impacts
+
+18
+00:00:48.170 --> 00:00:51.065
+generalization and
+discrimination and so
+
+19
+00:00:51.065 --> 00:00:52.550
+affects the speed of learning and
+
+20
+00:00:52.550 --> 00:00:54.740
+the value functions
+we can represent.
+
+21
+00:00:54.740 --> 00:00:57.140
+Notice that performing
+an update to
+
+22
+00:00:57.140 --> 00:00:59.180
+the weights in one state changes
+
+23
+00:00:59.180 --> 00:01:01.145
+the value estimate for all states
+
+24
+00:01:01.145 --> 00:01:04.370
+within the receptive fields
+of the active features.
+
+25
+00:01:04.370 --> 00:01:06.710
+If the union of
+the receptive fields
+
+26
+00:01:06.710 --> 00:01:08.750
+for the active features is large,
+
+27
+00:01:08.750 --> 00:01:11.500
+the feature representation
+generalizes more.
+
+28
+00:01:11.500 --> 00:01:13.550
+Conversely, if the union is
+
+29
+00:01:13.550 --> 00:01:16.100
+small, there's
+little generalization.
+
+30
+00:01:16.100 --> 00:01:19.580
+Here, the larger circles on
+the right generalize more
+
+31
+00:01:19.580 --> 00:01:21.620
+broadly distributing the update
+
+32
+00:01:21.620 --> 00:01:24.340
+across a larger number of states.
+
+33
+00:01:24.340 --> 00:01:28.205
+Generalization is not
+just a scalar quantity however.
+
+34
+00:01:28.205 --> 00:01:30.800
+Using different shapes
+in coarse coding can
+
+35
+00:01:30.800 --> 00:01:33.710
+change the direction of
+generalization as well.
+
+36
+00:01:33.710 --> 00:01:37.190
+Let's compare the previous
+example with circles to
+
+37
+00:01:37.190 --> 00:01:38.960
+how coarse coding generalizes
+
+38
+00:01:38.960 --> 00:01:41.465
+with vertically
+elongated ellipses.
+
+39
+00:01:41.465 --> 00:01:43.280
+The receptive fields made from
+
+40
+00:01:43.280 --> 00:01:46.055
+ellipses are longer
+than they are wide.
+
+41
+00:01:46.055 --> 00:01:48.020
+With these ellipses,
+coarse coding
+
+42
+00:01:48.020 --> 00:01:51.620
+primarily generalizes in
+the vertical dimension.
+
+43
+00:01:51.620 --> 00:01:54.260
+So we've talked about
+how the shape and size of
+
+44
+00:01:54.260 --> 00:01:55.580
+the receptive fields impact
+
+45
+00:01:55.580 --> 00:01:58.220
+generalization and so
+the speed of learning.
+
+46
+00:01:58.220 --> 00:02:01.400
+But what about the final
+accuracy of our estimates?
+
+47
+00:02:01.400 --> 00:02:04.040
+This is where
+discrimination comes in.
+
+48
+00:02:04.040 --> 00:02:06.980
+Recall that the ability
+to distinguish between
+
+49
+00:02:06.980 --> 00:02:10.580
+values for two different states
+is called discrimination.
+
+50
+00:02:10.580 --> 00:02:13.340
+In coarse coding,
+the overlap between
+
+51
+00:02:13.340 --> 00:02:16.325
+circles dictates the level
+of discrimination.
+
+52
+00:02:16.325 --> 00:02:17.900
+It is impossible to do
+
+53
+00:02:17.900 --> 00:02:20.090
+perfect discrimination
+because we can never
+
+54
+00:02:20.090 --> 00:02:21.725
+update the value of one state
+
+55
+00:02:21.725 --> 00:02:24.500
+without impacting
+the values of other states.
+
+56
+00:02:24.500 --> 00:02:26.480
+The colored shapes depict
+
+57
+00:02:26.480 --> 00:02:28.040
+the discriminative ability of
+
+58
+00:02:28.040 --> 00:02:30.135
+this particular coarse coding.
+
+59
+00:02:30.135 --> 00:02:32.000
+We've only highlighted
+a few regions
+
+60
+00:02:32.000 --> 00:02:34.070
+to keep the visualization simple.
+
+61
+00:02:34.070 --> 00:02:36.710
+Every state within
+the same colored shape
+
+62
+00:02:36.710 --> 00:02:39.200
+will have the exact
+same feature vector.
+
+63
+00:02:39.200 --> 00:02:40.880
+As a result, they must all
+
+64
+00:02:40.880 --> 00:02:42.800
+have the same approximate value.
+
+65
+00:02:42.800 --> 00:02:44.600
+The smaller these regions are,
+
+66
+00:02:44.600 --> 00:02:46.310
+the better we can discriminate.
+
+67
+00:02:46.310 --> 00:02:48.260
+With many circles, the regions
+
+68
+00:02:48.260 --> 00:02:50.330
+becomes smaller and
+we can discriminate
+
+69
+00:02:50.330 --> 00:02:52.100
+more finely between the values of
+
+70
+00:02:52.100 --> 00:02:56.260
+different states or we can
+make the circles smaller.
+
+71
+00:02:56.260 --> 00:02:57.970
+So the size, number,
+
+72
+00:02:57.970 --> 00:02:59.780
+and shape of
+the features all affect
+
+73
+00:02:59.780 --> 00:03:03.230
+the discriminative ability
+of the representation.
+
+74
+00:03:03.230 --> 00:03:05.690
+Let's look at
+a simple example with
+
+75
+00:03:05.690 --> 00:03:07.745
+a one-dimensional input space.
+
+76
+00:03:07.745 --> 00:03:11.180
+Consider learning approximation
+to a step function.
+
+77
+00:03:11.180 --> 00:03:12.680
+Let's assume we can sample
+
+78
+00:03:12.680 --> 00:03:14.270
+the true function values in order
+
+79
+00:03:14.270 --> 00:03:16.235
+to update our estimates.
+
+80
+00:03:16.235 --> 00:03:18.050
+This example should
+help you better
+
+81
+00:03:18.050 --> 00:03:20.390
+understand how
+representation choices
+
+82
+00:03:20.390 --> 00:03:22.160
+impact the speed of learning
+
+83
+00:03:22.160 --> 00:03:25.160
+and the quality of
+the final approximation.
+
+84
+00:03:25.160 --> 00:03:27.470
+For our one-dimensional function,
+
+85
+00:03:27.470 --> 00:03:29.810
+the receptive fields of
+each feature will be
+
+86
+00:03:29.810 --> 00:03:32.315
+represented as
+overlapping intervals.
+
+87
+00:03:32.315 --> 00:03:35.170
+Let's start with
+this relatively short interval.
+
+88
+00:03:35.170 --> 00:03:37.790
+We'll lay about 50 of
+these intervals so that they
+
+89
+00:03:37.790 --> 00:03:41.075
+overlap randomly over
+the domain of our function.
+
+90
+00:03:41.075 --> 00:03:44.030
+Let's see how our estimate
+of the function changes as
+
+91
+00:03:44.030 --> 00:03:47.060
+we randomly sample
+the true values of the function.
+
+92
+00:03:47.060 --> 00:03:48.920
+We start with
+an initial estimate of
+
+93
+00:03:48.920 --> 00:03:51.455
+zero depicted as a flat-line.
+
+94
+00:03:51.455 --> 00:03:54.845
+The receptive field for
+each feature is quite small.
+
+95
+00:03:54.845 --> 00:03:57.110
+So even after many samples,
+
+96
+00:03:57.110 --> 00:04:00.260
+our approximation of the step
+function is not that great.
+
+97
+00:04:00.260 --> 00:04:01.820
+With much more training,
+
+98
+00:04:01.820 --> 00:04:03.650
+our approximation finally obtains
+
+99
+00:04:03.650 --> 00:04:05.615
+a close match to
+the true function.
+
+100
+00:04:05.615 --> 00:04:07.235
+But it's not perfect.
+
+101
+00:04:07.235 --> 00:04:09.140
+This is easy to see by inspecting
+
+102
+00:04:09.140 --> 00:04:11.240
+the approximation of
+the top of the function.
+
+103
+00:04:11.240 --> 00:04:13.910
+It's not nearly as
+flat or smooth.
+
+104
+00:04:13.910 --> 00:04:16.940
+Let's try this again
+with longer intervals.
+
+105
+00:04:16.940 --> 00:04:19.955
+The receptive field of
+each feature is quite large.
+
+106
+00:04:19.955 --> 00:04:22.550
+This means we can approximate
+the rough shape of
+
+107
+00:04:22.550 --> 00:04:25.960
+the function with
+relatively few samples.
+
+108
+00:04:25.960 --> 00:04:28.405
+As we sample the function more,
+
+109
+00:04:28.405 --> 00:04:31.310
+our estimate forms a better
+and better approximation
+
+110
+00:04:31.310 --> 00:04:32.840
+of the true function.
+
+111
+00:04:32.840 --> 00:04:34.520
+The broad generalization of
+
+112
+00:04:34.520 --> 00:04:37.010
+the longer intervals
+made learning faster.
+
+113
+00:04:37.010 --> 00:04:40.475
+We needed less samples to
+get a good approximation.
+
+114
+00:04:40.475 --> 00:04:42.695
+The large number of
+longer intervals
+
+115
+00:04:42.695 --> 00:04:44.920
+also resulted in
+better discrimination,
+
+116
+00:04:44.920 --> 00:04:48.305
+better final approximation
+of the true function.
+
+117
+00:04:48.305 --> 00:04:51.860
+In this example,
+longer intervals ended up
+
+118
+00:04:51.860 --> 00:04:54.785
+achieving better generalization
+and discrimination.
+
+119
+00:04:54.785 --> 00:04:56.900
+But this may not
+always be the case.
+
+120
+00:04:56.900 --> 00:04:58.190
+Each task may require
+
+121
+00:04:58.190 --> 00:04:59.750
+different feature
+properties and there's
+
+122
+00:04:59.750 --> 00:05:02.045
+not one general solution.
+
+123
+00:05:02.045 --> 00:05:06.245
+In this video, we talked
+about how the size, number,
+
+124
+00:05:06.245 --> 00:05:09.770
+and shape of the features
+affects generalization and how
+
+125
+00:05:09.770 --> 00:05:11.479
+the resulting shape intersections
+
+126
+00:05:11.479 --> 00:05:13.750
+affect the ability
+to discriminate.
+
+127
+00:05:13.750 --> 00:05:17.315
+coarse coding is a very general
+type of representation.
+
+128
+00:05:17.315 --> 00:05:20.510
+Understanding how it generalizes
+and discriminates during
+
+129
+00:05:20.510 --> 00:05:22.325
+learning will help us understand
+
+130
+00:05:22.325 --> 00:05:25.950
+other representations,
+including neural networks.

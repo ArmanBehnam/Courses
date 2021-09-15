@@ -1,0 +1,262 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.405
+[MUSIC]
+
+2
+00:00:05.405 --> 00:00:08.892
+The feature is used to construct
+value estimates are one of the most
+
+3
+00:00:08.892 --> 00:00:11.702
+important parts of
+a reinforcement learning agent.
+
+4
+00:00:11.702 --> 00:00:14.877
+Today, we'll discuss one simple but
+effective way to do this.
+
+5
+00:00:14.877 --> 00:00:17.068
+[MUSIC]
+
+6
+00:00:17.068 --> 00:00:22.445
+By the end of this video, you'll be
+able to describe course coding and
+
+7
+00:00:22.445 --> 00:00:26.103
+describe how it relates
+to state aggregation.
+
+8
+00:00:26.103 --> 00:00:30.467
+Let's talk about a new way to create
+features for linear value functions.
+
+9
+00:00:30.467 --> 00:00:36.015
+Recall that approximate value functions
+are parameterized by weight vector W.
+
+10
+00:00:36.015 --> 00:00:40.047
+To calculate the value of a state
+we first compute the features and
+
+11
+00:00:40.047 --> 00:00:42.476
+construct the feature vector X(S).
+
+12
+00:00:42.476 --> 00:00:47.127
+Then the value of the state is
+approximated by a DOT product between
+
+13
+00:00:47.127 --> 00:00:50.127
+the weight vector and the feature vector.
+
+14
+00:00:50.127 --> 00:00:55.196
+Recall that a tabular representation can
+be expressed as a binary feature vector.
+
+15
+00:00:55.196 --> 00:00:58.335
+Each state is associated
+with a different feature.
+
+16
+00:00:58.335 --> 00:01:03.202
+If the agent is in a state then the
+feature corresponding to that state is 1.
+
+17
+00:01:03.202 --> 00:01:05.780
+All other features are 0.
+
+18
+00:01:05.780 --> 00:01:10.540
+The tabular case is just a special
+case of linear function approximation
+
+19
+00:01:10.540 --> 00:01:15.390
+where the feature vector is an indicator
+or one hot encoding of the state.
+
+20
+00:01:15.390 --> 00:01:19.907
+Of course, this is not feasible when
+the size of the state space becomes much
+
+21
+00:01:19.907 --> 00:01:22.601
+larger than the agent's available memory.
+
+22
+00:01:22.601 --> 00:01:27.271
+Suppose we want to represent the location
+of this fish that's swimming in a pond,
+
+23
+00:01:27.271 --> 00:01:28.902
+a two-dimensional state.
+
+24
+00:01:28.902 --> 00:01:31.946
+The fish can be one of
+infinitely many locations.
+
+25
+00:01:31.946 --> 00:01:36.897
+It's impossible to represent all these
+locations with a finite lookup table.
+
+26
+00:01:36.897 --> 00:01:41.693
+Recall that we can use state aggregation
+to associate nearby states with
+
+27
+00:01:41.693 --> 00:01:42.956
+the same feature.
+
+28
+00:01:42.956 --> 00:01:48.141
+This is like treating all states
+within each square as the same state.
+
+29
+00:01:48.141 --> 00:01:52.622
+In this example, all the groups
+have roughly the same shape, but
+
+30
+00:01:52.622 --> 00:01:55.565
+it's not necessary to use the same shape.
+
+31
+00:01:55.565 --> 00:02:00.433
+In general we can aggregate states using
+any shapes we want as long as those
+
+32
+00:02:00.433 --> 00:02:03.038
+shapes do not have any gaps or overlap.
+
+33
+00:02:03.038 --> 00:02:06.359
+State aggregation does not usually
+allow the shapes to overlap.
+
+34
+00:02:06.359 --> 00:02:08.348
+But this restriction is not necessary.
+
+35
+00:02:08.348 --> 00:02:10.515
+In fact, by allowing overlap,
+
+36
+00:02:10.515 --> 00:02:16.150
+we obtain a more flexible class of feature
+representations called course coding.
+
+37
+00:02:16.150 --> 00:02:18.950
+Let's look at the example
+feature vector for
+
+38
+00:02:18.950 --> 00:02:21.537
+the fishes current location in the pond.
+
+39
+00:02:21.537 --> 00:02:26.268
+Remember each index in the feature
+vector corresponds to one of the shapes.
+
+40
+00:02:26.268 --> 00:02:30.110
+The feature corresponding
+to the circle is active or
+
+41
+00:02:30.110 --> 00:02:35.711
+set to 1 if the fish is within that
+circle, otherwise the feature set to 0.
+
+42
+00:02:35.711 --> 00:02:40.173
+The features receptive field
+corresponds to the locations that
+
+43
+00:02:40.173 --> 00:02:41.911
+activate that feature.
+
+44
+00:02:41.911 --> 00:02:44.599
+When the fish moves to a new location,
+
+45
+00:02:44.599 --> 00:02:48.384
+it's usually covered by
+a different set of circles.
+
+46
+00:02:48.384 --> 00:02:53.232
+Nearby states will have similar feature
+activations, but they may also have
+
+47
+00:02:53.232 --> 00:02:58.315
+different components active including
+different numbers of active features.
+
+48
+00:02:58.315 --> 00:03:03.019
+In this example, there is always
+at least one active feature and
+
+49
+00:03:03.019 --> 00:03:05.381
+at most three active features.
+
+50
+00:03:05.381 --> 00:03:09.812
+All the ideas we've discussed so
+far are not limited to 2D state spaces.
+
+51
+00:03:09.812 --> 00:03:12.930
+Course coding can also be applied
+to higher dimensional inputs.
+
+52
+00:03:12.930 --> 00:03:14.540
+[MUSIC]
+
+53
+00:03:14.540 --> 00:03:19.050
+In this video, we talked about how
+the tabular case can be represented with
+
+54
+00:03:19.050 --> 00:03:21.485
+a binary one hot encoding of the state and
+
+55
+00:03:21.485 --> 00:03:25.221
+how course coding is a generalization
+of state aggregation.
+
+56
+00:03:25.221 --> 00:03:26.100
+See you next time.

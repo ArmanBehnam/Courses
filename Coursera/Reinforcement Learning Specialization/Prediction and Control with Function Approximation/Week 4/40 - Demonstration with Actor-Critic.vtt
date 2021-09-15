@@ -1,0 +1,702 @@
+WEBVTT
+
+1
+00:00:05.120 --> 00:00:07.350
+In this video, we will see how
+
+2
+00:00:07.350 --> 00:00:08.655
+the actor-critic algorithm works
+
+3
+00:00:08.655 --> 00:00:10.335
+on a classic control task,
+
+4
+00:00:10.335 --> 00:00:12.970
+the pendulum swing up problem.
+
+5
+00:00:13.610 --> 00:00:15.765
+By the end of this video,
+
+6
+00:00:15.765 --> 00:00:17.050
+you'll be able to;
+
+7
+00:00:17.050 --> 00:00:18.800
+design a function
+approximator for
+
+8
+00:00:18.800 --> 00:00:20.945
+an average reward
+actor-critic algorithm
+
+9
+00:00:20.945 --> 00:00:24.460
+and analyze the performance
+of an average reward agent.
+
+10
+00:00:24.460 --> 00:00:27.815
+Today, we'll investigate
+the pendulum swing up task.
+
+11
+00:00:27.815 --> 00:00:29.810
+The agent controls the pendulum,
+
+12
+00:00:29.810 --> 00:00:31.130
+the controls are simple,
+
+13
+00:00:31.130 --> 00:00:32.600
+the agent can apply torque on
+
+14
+00:00:32.600 --> 00:00:35.165
+a pivot point marked
+by the black dot.
+
+15
+00:00:35.165 --> 00:00:38.105
+The goal is to get the pendulum
+to balance upright.
+
+16
+00:00:38.105 --> 00:00:39.770
+The pendulum starts in
+
+17
+00:00:39.770 --> 00:00:42.680
+its rest position hanging
+down with no velocity.
+
+18
+00:00:42.680 --> 00:00:45.410
+The pendulum can move
+freely subject only to
+
+19
+00:00:45.410 --> 00:00:48.320
+gravity and the actions
+applied by the agent.
+
+20
+00:00:48.320 --> 00:00:50.850
+The state of the pendulum
+is the angle of the pole,
+
+21
+00:00:50.850 --> 00:00:52.630
+and the angular velocity,
+
+22
+00:00:52.630 --> 00:00:55.140
+both are real valued quantities.
+
+23
+00:00:55.140 --> 00:00:57.860
+Our simulation has
+just three discrete actions,
+
+24
+00:00:57.860 --> 00:01:00.515
+apply a constant angular
+acceleration clockwise,
+
+25
+00:01:00.515 --> 00:01:04.325
+counterclockwise, or apply
+no angular acceleration.
+
+26
+00:01:04.325 --> 00:01:06.470
+We use a softmax policy for
+
+27
+00:01:06.470 --> 00:01:09.020
+this task because
+the action space is discrete.
+
+28
+00:01:09.020 --> 00:01:11.690
+Later on, we'll use
+a different parameterization for
+
+29
+00:01:11.690 --> 00:01:14.930
+a continuous action variant
+of the pendulum task.
+
+30
+00:01:14.930 --> 00:01:18.215
+The next step is to find
+the reward function.
+
+31
+00:01:18.215 --> 00:01:20.330
+The goal is to get
+the pendulum pointing
+
+32
+00:01:20.330 --> 00:01:22.640
+directly up and keep it that way.
+
+33
+00:01:22.640 --> 00:01:24.470
+So the reward is equal to
+
+34
+00:01:24.470 --> 00:01:27.455
+the negative absolute angle
+from vertical.
+
+35
+00:01:27.455 --> 00:01:30.755
+If the pendulum reaches
+a large angular velocity,
+
+36
+00:01:30.755 --> 00:01:33.440
+then it could damage
+the system, that would be bad.
+
+37
+00:01:33.440 --> 00:01:35.840
+To avoid this, we
+constrain the range of
+
+38
+00:01:35.840 --> 00:01:40.025
+the angular velocity to between
+minus two pi and two pi.
+
+39
+00:01:40.025 --> 00:01:41.870
+If this limit is exceeded,
+
+40
+00:01:41.870 --> 00:01:45.200
+then we reset the pendulum
+to the resting position.
+
+41
+00:01:45.200 --> 00:01:47.870
+The goal is to keep
+the pendulum as close to
+
+42
+00:01:47.870 --> 00:01:50.435
+operate as possible at all times.
+
+43
+00:01:50.435 --> 00:01:52.880
+This continues
+indefinitely, there
+
+44
+00:01:52.880 --> 00:01:55.025
+are no episodes and
+no terminations.
+
+45
+00:01:55.025 --> 00:01:58.655
+So it makes sense to formulate
+this as a continuing task.
+
+46
+00:01:58.655 --> 00:02:01.400
+The pendulum is interesting
+for a few reasons.
+
+47
+00:02:01.400 --> 00:02:03.830
+The actions are not strong
+enough to move the pendulum
+
+48
+00:02:03.830 --> 00:02:05.345
+directly to the vertical position
+
+49
+00:02:05.345 --> 00:02:07.055
+from the resting position.
+
+50
+00:02:07.055 --> 00:02:09.320
+A good policy must apply
+
+51
+00:02:09.320 --> 00:02:11.000
+actions that move
+the pendulum away
+
+52
+00:02:11.000 --> 00:02:12.590
+from the desired position in
+
+53
+00:02:12.590 --> 00:02:14.865
+order to gain enough
+momentum to swing up.
+
+54
+00:02:14.865 --> 00:02:17.660
+Finally, the vertical
+position is unstable.
+
+55
+00:02:17.660 --> 00:02:21.420
+So good policy must
+continually balance the pole.
+
+56
+00:02:21.610 --> 00:02:24.695
+Let's supply softmax
+actor-critic algorithm
+
+57
+00:02:24.695 --> 00:02:27.080
+to our simulated version
+of the pendulum task.
+
+58
+00:02:27.080 --> 00:02:29.060
+Before we can do that,
+we have to design
+
+59
+00:02:29.060 --> 00:02:30.304
+our function approximator
+
+60
+00:02:30.304 --> 00:02:32.525
+and our policy parameterization.
+
+61
+00:02:32.525 --> 00:02:35.270
+The pendulum task has
+a low dimensional state,
+
+62
+00:02:35.270 --> 00:02:37.790
+just the angle and
+angular velocity.
+
+63
+00:02:37.790 --> 00:02:39.410
+This two-dimensional problem is
+
+64
+00:02:39.410 --> 00:02:41.345
+a good fit for tile coding.
+
+65
+00:02:41.345 --> 00:02:43.400
+The approximate
+value function and
+
+66
+00:02:43.400 --> 00:02:46.220
+the action preferences will
+be linear in the tile coding,
+
+67
+00:02:46.220 --> 00:02:49.150
+but nonlinear and
+the state variables.
+
+68
+00:02:49.150 --> 00:02:52.070
+The first step in setting
+up a towel coding is to
+
+69
+00:02:52.070 --> 00:02:54.590
+figure out the range of each
+of the state variables.
+
+70
+00:02:54.590 --> 00:02:56.840
+This is easy for
+the angular position,
+
+71
+00:02:56.840 --> 00:02:59.875
+it just has to be
+between pi and minus pi.
+
+72
+00:02:59.875 --> 00:03:02.660
+The angular velocity
+will lie between two pi,
+
+73
+00:03:02.660 --> 00:03:03.950
+and minus two pi due to
+
+74
+00:03:03.950 --> 00:03:06.360
+the constraint we
+discussed earlier.
+
+75
+00:03:06.400 --> 00:03:10.385
+It's usually good to use
+large tiles and many tilings.
+
+76
+00:03:10.385 --> 00:03:12.095
+The broad tiles enable
+
+77
+00:03:12.095 --> 00:03:15.295
+considerable generalization
+and thus fast early learning,
+
+78
+00:03:15.295 --> 00:03:17.790
+while many tilings help
+with discrimination.
+
+79
+00:03:17.790 --> 00:03:19.970
+This should result in
+an accurate approximation
+
+80
+00:03:19.970 --> 00:03:22.445
+of value function and
+the action preferences.
+
+81
+00:03:22.445 --> 00:03:26.020
+We use 32 tilings of
+size eight by eight.
+
+82
+00:03:26.020 --> 00:03:28.305
+Remember, for action preferences,
+
+83
+00:03:28.305 --> 00:03:30.935
+we need a feature vector
+for each state action pair.
+
+84
+00:03:30.935 --> 00:03:32.540
+As before, we simply use
+
+85
+00:03:32.540 --> 00:03:35.730
+a separate copy of the state
+features for each action.
+
+86
+00:03:35.890 --> 00:03:39.035
+What about the step sizes
+for the average reward,
+
+87
+00:03:39.035 --> 00:03:40.475
+the actor, and the critic?
+
+88
+00:03:40.475 --> 00:03:42.225
+That's quite a few parameters,
+
+89
+00:03:42.225 --> 00:03:44.915
+and each of them have
+a big impact on performance.
+
+90
+00:03:44.915 --> 00:03:46.700
+We performed the systematic sweep
+
+91
+00:03:46.700 --> 00:03:48.875
+to determine
+a good setting for each.
+
+92
+00:03:48.875 --> 00:03:51.170
+This matches the general
+reason that we want
+
+93
+00:03:51.170 --> 00:03:53.495
+the critic to update
+at a faster rate.
+
+94
+00:03:53.495 --> 00:03:55.820
+That way, the critic
+can accurately
+
+95
+00:03:55.820 --> 00:03:58.835
+critique the more
+slowly changing policy.
+
+96
+00:03:58.835 --> 00:04:01.070
+There are a few other
+details required to
+
+97
+00:04:01.070 --> 00:04:02.840
+get good performance
+on this task.
+
+98
+00:04:02.840 --> 00:04:04.670
+For the sake of time
+we will skip those,
+
+99
+00:04:04.670 --> 00:04:06.290
+but don't worry, you'll learn all
+
+100
+00:04:06.290 --> 00:04:09.120
+about this implementation
+in your assessment.
+
+101
+00:04:09.470 --> 00:04:12.350
+Let's look at a video of
+the agent as it first
+
+102
+00:04:12.350 --> 00:04:14.660
+begins interacting with
+the pendulum environment.
+
+103
+00:04:14.660 --> 00:04:16.885
+The agent begins by
+acting randomly,
+
+104
+00:04:16.885 --> 00:04:18.650
+but it quickly
+learned to add energy
+
+105
+00:04:18.650 --> 00:04:20.940
+to reach states
+closer to vertical.
+
+106
+00:04:20.940 --> 00:04:23.480
+Let's skip ahead a bit,
+the final behavior
+
+107
+00:04:23.480 --> 00:04:25.055
+looks something like this.
+
+108
+00:04:25.055 --> 00:04:26.870
+We added random perturbation to
+
+109
+00:04:26.870 --> 00:04:29.915
+demonstrate the robustness
+of the learn policy.
+
+110
+00:04:29.915 --> 00:04:31.970
+This is like flicking
+the pendulum with
+
+111
+00:04:31.970 --> 00:04:33.770
+your finger every
+once in a while.
+
+112
+00:04:33.770 --> 00:04:35.870
+The perturbations are
+introduced only after
+
+113
+00:04:35.870 --> 00:04:38.480
+the agent had learned
+a good balancing policy.
+
+114
+00:04:38.480 --> 00:04:40.040
+The perturbations are shown with
+
+115
+00:04:40.040 --> 00:04:41.495
+black arrows in the video.
+
+116
+00:04:41.495 --> 00:04:44.000
+We can see how the trained agent
+is able to recover
+
+117
+00:04:44.000 --> 00:04:46.895
+smoothly and is robust
+to these flicks.
+
+118
+00:04:46.895 --> 00:04:49.160
+It's really satisfying
+to watch an agent we
+
+119
+00:04:49.160 --> 00:04:51.500
+programmed mastering
+the pendulum problem,
+
+120
+00:04:51.500 --> 00:04:54.260
+but we have to be
+skeptical scientists too.
+
+121
+00:04:54.260 --> 00:04:56.360
+This is just a demonstration.
+
+122
+00:04:56.360 --> 00:04:59.315
+Does the agent successfully
+learn to balance every time,
+
+123
+00:04:59.315 --> 00:05:00.950
+or do we just get lucky?
+
+124
+00:05:00.950 --> 00:05:03.875
+How quickly and
+robustly does it learn?
+
+125
+00:05:03.875 --> 00:05:06.365
+To answer these questions,
+we ran the experiment
+
+126
+00:05:06.365 --> 00:05:09.530
+100 times and average
+the performance.
+
+127
+00:05:09.530 --> 00:05:12.020
+To measure the
+performance of the agent,
+
+128
+00:05:12.020 --> 00:05:14.120
+let's plot an exponentially
+weighted average
+
+129
+00:05:14.120 --> 00:05:16.670
+of the reward over
+all time steps.
+
+130
+00:05:16.670 --> 00:05:19.595
+The error bars show
+the standard error and the mean.
+
+131
+00:05:19.595 --> 00:05:21.335
+The error bars are quite small.
+
+132
+00:05:21.335 --> 00:05:22.790
+In fact, the error bars are so
+
+133
+00:05:22.790 --> 00:05:24.815
+small you can hardly
+see them at all.
+
+134
+00:05:24.815 --> 00:05:27.785
+So we are pretty confident
+this plot accurately reflects
+
+135
+00:05:27.785 --> 00:05:29.330
+our agent's average
+performance on
+
+136
+00:05:29.330 --> 00:05:32.820
+this task with the parameters
+we have chosen.
+
+137
+00:05:33.620 --> 00:05:36.295
+The average reward
+starts off low,
+
+138
+00:05:36.295 --> 00:05:39.035
+but increases very
+quickly off the start.
+
+139
+00:05:39.035 --> 00:05:42.260
+After a short time, the rate
+of improvement slows,
+
+140
+00:05:42.260 --> 00:05:44.210
+but improvement
+continues as the agent
+
+141
+00:05:44.210 --> 00:05:46.535
+continues to refine it's policy.
+
+142
+00:05:46.535 --> 00:05:48.530
+Performance peaks near zero.
+
+143
+00:05:48.530 --> 00:05:50.540
+This means the agent is
+generally able to balance
+
+144
+00:05:50.540 --> 00:05:53.375
+the pendulum upright
+with minor deviations.
+
+145
+00:05:53.375 --> 00:05:55.130
+Then it stays steady
+from that point
+
+146
+00:05:55.130 --> 00:06:00.200
+forward. That's it for today.
+
+147
+00:06:00.200 --> 00:06:02.719
+We introduced
+a specific implementation
+
+148
+00:06:02.719 --> 00:06:04.505
+of an actor-critic
+learning system,
+
+149
+00:06:04.505 --> 00:06:09.600
+and we test it on a classic
+control task. Bye for now.

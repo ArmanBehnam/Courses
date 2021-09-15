@@ -1,0 +1,406 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.988
+[MUSIC]
+
+2
+00:00:05.988 --> 00:00:08.600
+We have an objective for
+policy optimization.
+
+3
+00:00:08.600 --> 00:00:12.153
+We also have the policy gradient theorem,
+which gives us a simple expression for
+
+4
+00:00:12.153 --> 00:00:13.626
+the gradient of that objective.
+
+5
+00:00:13.626 --> 00:00:17.833
+I this video we'll complete the puzzle
+by showing how to estimate this gradient
+
+6
+00:00:17.833 --> 00:00:21.525
+using the experience of an agent
+interacting with the environment.
+
+7
+00:00:21.525 --> 00:00:25.342
+[SOUND] After watching this video,
+you will be able to drive a sample-based
+
+8
+00:00:25.342 --> 00:00:28.444
+estimate for the gradient of
+the average reward objective.
+
+9
+00:00:28.444 --> 00:00:33.700
+[SOUND] We want to drive a gradient
+descent algorithm for our policy.
+
+10
+00:00:33.700 --> 00:00:36.842
+We have our objective and its gradient
+due to the policy gradient theorem.
+
+11
+00:00:36.842 --> 00:00:40.000
+Now, we need to figure out how
+to approximate this gradient.
+
+12
+00:00:40.000 --> 00:00:42.940
+In fact, what we will do is get
+a stochastic sample of the gradient.
+
+13
+00:00:42.940 --> 00:00:47.700
+Recall this expression for
+the gradient of the average reward.
+
+14
+00:00:47.700 --> 00:00:50.697
+Computing the sum over states
+is really impractical.
+
+15
+00:00:50.697 --> 00:00:54.625
+But we can do the same thing we did when
+deriving our stochastic gradient descent
+
+16
+00:00:54.625 --> 00:00:56.700
+rule for policy evaluation.
+
+17
+00:00:56.700 --> 00:01:00.916
+We simply make updates from states we
+observe while following policy pi.
+
+18
+00:01:00.916 --> 00:01:04.312
+This gradient from state St
+provides an approximation to
+
+19
+00:01:04.312 --> 00:01:06.513
+the gradient of the average reward.
+
+20
+00:01:06.513 --> 00:01:09.525
+As we discussed before for
+stochastic gradient descent,
+
+21
+00:01:09.525 --> 00:01:12.290
+we can adjust the weights
+with this approximation and
+
+22
+00:01:12.290 --> 00:01:15.700
+still guarantee you will
+reach a stationary point.
+
+23
+00:01:15.700 --> 00:01:18.500
+This is what the stochastic gradient
+descent update looks like for
+
+24
+00:01:18.500 --> 00:01:20.100
+the policy parameters.
+
+25
+00:01:20.100 --> 00:01:23.781
+We could stop here but
+let's simplify this further.
+
+26
+00:01:23.781 --> 00:01:28.400
+[SOUND] Let's re-examine this from
+a perspective based on expectations.
+
+27
+00:01:28.400 --> 00:01:30.830
+This will help us simplify the update and
+
+28
+00:01:30.830 --> 00:01:34.128
+give you more insight into
+why the update makes sense.
+
+29
+00:01:34.128 --> 00:01:38.204
+Notice that the sum over states
+waited by mu can be re-written as
+
+30
+00:01:38.204 --> 00:01:39.900
+an expectation under mu.
+
+31
+00:01:39.900 --> 00:01:43.008
+Recall that mu is
+the stationary distribution for
+
+32
+00:01:43.008 --> 00:01:45.894
+pi which reflects state
+visitation under pi.
+
+33
+00:01:45.894 --> 00:01:49.304
+In fact, the state's we observe
+while following pi are distributed
+
+34
+00:01:49.304 --> 00:01:50.800
+according to mu.
+
+35
+00:01:50.800 --> 00:01:53.536
+By computing the gradient from a state St,
+
+36
+00:01:53.536 --> 00:01:56.736
+we get an unbiased estimate
+of this expectation.
+
+37
+00:01:56.736 --> 00:02:00.770
+Thinking about our stochastic gradient as
+an unbiased estimate suggests one other
+
+38
+00:02:00.770 --> 00:02:02.400
+simplification.
+
+39
+00:02:02.400 --> 00:02:06.875
+Notice that inside the expectation
+we have a sum over all actions.
+
+40
+00:02:06.875 --> 00:02:11.101
+We want to make this term even simpler and
+get rid of the sum over all actions.
+
+41
+00:02:11.101 --> 00:02:13.532
+If this was an expectation over actions,
+
+42
+00:02:13.532 --> 00:02:18.425
+we could get a stochastic example of this
+two and so avoid summing over all actions.
+
+43
+00:02:18.425 --> 00:02:23.268
+[SOUND] Here we're going to see how we can
+get an unbiased gradient estimate using
+
+44
+00:02:23.268 --> 00:02:27.039
+only one action 80,
+which is the action taken by the agent.
+
+45
+00:02:27.039 --> 00:02:31.067
+It would be nice if the sum of our
+actions was weighted by pi and so
+
+46
+00:02:31.067 --> 00:02:33.000
+was an expectation under pi.
+
+47
+00:02:33.000 --> 00:02:36.100
+That way we could sample it using
+the agents action selection,
+
+48
+00:02:36.100 --> 00:02:38.500
+which is distributed according to pi.
+
+49
+00:02:38.500 --> 00:02:41.075
+It turns out this is
+an easy problem to solve.
+
+50
+00:02:41.075 --> 00:02:45.950
+To get a weighted sum corresponding to
+an expectation we can just multiply and
+
+51
+00:02:45.950 --> 00:02:48.200
+divided by pi of a given s.
+
+52
+00:02:48.200 --> 00:02:52.236
+Now we have an expectation of over
+actions drawn from pi for this term.
+
+53
+00:02:52.236 --> 00:02:59.500
+[SOUND] The new stochastic gradient
+ascent update now looks like this.
+
+54
+00:02:59.500 --> 00:03:04.205
+As an aside it is common to rewrite this
+gradient as the grading of the natural
+
+55
+00:03:04.205 --> 00:03:05.315
+logarithm of pi.
+
+56
+00:03:05.315 --> 00:03:09.800
+This is based on a formula from calculus
+for the gradient of a logarithm.
+
+57
+00:03:09.800 --> 00:03:15.464
+Using this rule we get that the gradient
+of pi equals the gradient of pi over pi.
+
+58
+00:03:15.464 --> 00:03:19.100
+So this update is equivalent
+to what we started with.
+
+59
+00:03:19.100 --> 00:03:20.022
+But why do we do this?
+
+60
+00:03:20.022 --> 00:03:24.213
+One reason is that it is actually simpler
+to compute the gradient of the logarithm
+
+61
+00:03:24.213 --> 00:03:26.200
+of certain distributions.
+
+62
+00:03:26.200 --> 00:03:30.422
+The other less important reason is simply
+that it lets us write this gradient more
+
+63
+00:03:30.422 --> 00:03:31.115
+compactly.
+
+64
+00:03:31.115 --> 00:03:33.700
+In the end it is just
+a mathematical trick.
+
+65
+00:03:33.700 --> 00:03:37.158
+So don't let it distract you
+from the underlying algorithm.
+
+66
+00:03:37.158 --> 00:03:41.800
+We now have something that looks like many
+of the learning rules used in this course.
+
+67
+00:03:41.800 --> 00:03:45.202
+We adjust the parameters theta
+proportionally to a stochastic gradient of
+
+68
+00:03:45.202 --> 00:03:45.961
+the objective.
+
+69
+00:03:45.961 --> 00:03:50.252
+We use a step size parameter alpha to
+control the magnitude of the step in that
+
+70
+00:03:50.252 --> 00:03:51.200
+direction.
+
+71
+00:03:51.200 --> 00:03:54.315
+So alpha has the same role at always has,
+and that's it.
+
+72
+00:03:54.315 --> 00:03:59.300
+We now have a nice clean update rule
+to learn the policy parameters.
+
+73
+00:03:59.300 --> 00:04:02.930
+[SOUND] The last thing to talk about is
+how to actually compute the stochastic
+
+74
+00:04:02.930 --> 00:04:04.842
+gradient for a given state and action.
+
+75
+00:04:04.842 --> 00:04:08.223
+We just need two components,
+the gradient of the policy and
+
+76
+00:04:08.223 --> 00:04:11.100
+an estimate of the differential values.
+
+77
+00:04:11.100 --> 00:04:12.003
+The first is easy.
+
+78
+00:04:12.003 --> 00:04:15.243
+We know the policy and
+this parameterization, and so
+
+79
+00:04:15.243 --> 00:04:17.600
+can compute its gradient.
+
+80
+00:04:17.600 --> 00:04:20.576
+The action value can be
+approximated in a variety of ways.
+
+81
+00:04:20.576 --> 00:04:25.800
+For example, we could use a TD algorithm
+that learns differential action values.
+
+82
+00:04:25.800 --> 00:04:29.801
+In an upcoming video we will go through
+one particular choice in detail,
+
+83
+00:04:29.801 --> 00:04:34.142
+as well as how to compute the gradient for
+specific policy parameterization.
+
+84
+00:04:34.142 --> 00:04:38.200
+[SOUND] In this video, we derived
+a policy gradient learning rule for
+
+85
+00:04:38.200 --> 00:04:39.991
+the average reward setting.
+
+86
+00:04:39.991 --> 00:04:42.300
+In the next video we will
+see how to use this rule.

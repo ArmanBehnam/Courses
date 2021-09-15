@@ -1,0 +1,1365 @@
+WEBVTT
+
+1
+00:00:06.350 --> 00:00:10.710
+I'm Satinder Singh.
+Thanks [inaudible]
+
+2
+00:00:10.710 --> 00:00:12.450
+and Adam for inviting
+me for this.
+
+3
+00:00:12.450 --> 00:00:14.080
+So I'm at deep mind right now,
+
+4
+00:00:14.080 --> 00:00:15.900
+I'm on leave at the
+University of Michigan.
+
+5
+00:00:15.900 --> 00:00:18.240
+I'm going to talk about
+the problem of where
+
+6
+00:00:18.240 --> 00:00:20.970
+do rewards come from in
+reinforcement learning.
+
+7
+00:00:20.970 --> 00:00:23.490
+Now, when we all study
+reinforcement learning,
+
+8
+00:00:23.490 --> 00:00:25.620
+we assume the rewards
+are given and the
+
+9
+00:00:25.620 --> 00:00:28.290
+rest we study how to
+optimize those rewards.
+
+10
+00:00:28.290 --> 00:00:30.390
+But could be an interesting
+question to ask where do
+
+11
+00:00:30.390 --> 00:00:33.150
+these reward come
+from to begin with.
+
+12
+00:00:33.150 --> 00:00:34.950
+So the way I'm going to set
+
+13
+00:00:34.950 --> 00:00:36.240
+this question up is by talking
+
+14
+00:00:36.240 --> 00:00:39.270
+about the preferences-parameters
+confound.
+
+15
+00:00:39.270 --> 00:00:41.985
+That's a mouthful, so I'm going
+to break it down for you.
+
+16
+00:00:41.985 --> 00:00:44.660
+So the starting point when we're
+
+17
+00:00:44.660 --> 00:00:47.990
+doing sort of AI is
+for an agent-designer
+
+18
+00:00:47.990 --> 00:00:50.000
+that has an objective or
+
+19
+00:00:50.000 --> 00:00:52.640
+extrinsic reward function that
+
+20
+00:00:52.640 --> 00:00:55.685
+specifies preferences
+over agent behavior.
+
+21
+00:00:55.685 --> 00:00:57.650
+So I am the agent designer.
+
+22
+00:00:57.650 --> 00:00:59.060
+I'm designing an agent.
+
+23
+00:00:59.060 --> 00:01:02.930
+I have preferences over
+the agent's behavior.
+
+24
+00:01:02.930 --> 00:01:04.790
+That's my objective or
+
+25
+00:01:04.790 --> 00:01:06.470
+extrinsic reward function and
+
+26
+00:01:06.470 --> 00:01:09.075
+often it's too
+sparse and delayed.
+
+27
+00:01:09.075 --> 00:01:11.245
+So the question then becomes
+
+28
+00:01:11.245 --> 00:01:13.315
+what function should
+I give the agent?
+
+29
+00:01:13.315 --> 00:01:15.740
+What should the agents
+reward function be?
+
+30
+00:01:15.740 --> 00:01:18.270
+Where do the rewards come
+from in another words?
+
+31
+00:01:18.270 --> 00:01:21.440
+So when we think
+about it this way,
+
+32
+00:01:21.440 --> 00:01:23.890
+the single reward function
+that you read about,
+
+33
+00:01:23.890 --> 00:01:25.285
+reinforcement learning,
+
+34
+00:01:25.285 --> 00:01:29.120
+confounds two roles from the
+designer's point of view.
+
+35
+00:01:29.120 --> 00:01:32.060
+Simultaneously, in
+reinforcement learning agent,
+
+36
+00:01:32.060 --> 00:01:35.215
+it embodies or it
+captures preferences
+
+37
+00:01:35.215 --> 00:01:36.460
+that is it expresses the
+
+38
+00:01:36.460 --> 00:01:38.890
+agent-designer's
+preferences over behavior.
+
+39
+00:01:38.890 --> 00:01:41.545
+It's also parameters because
+
+40
+00:01:41.545 --> 00:01:42.989
+through the reward hypothesis,
+
+41
+00:01:42.989 --> 00:01:45.645
+it expresses the
+RL agents goals or
+
+42
+00:01:45.645 --> 00:01:47.380
+purposes and therefore becomes
+
+43
+00:01:47.380 --> 00:01:50.305
+parameters of the
+actual agent behavior.
+
+44
+00:01:50.305 --> 00:01:52.770
+So the same single
+reward function in
+
+45
+00:01:52.770 --> 00:01:55.500
+the standard RL framework
+captures two things,
+
+46
+00:01:55.500 --> 00:01:57.490
+preferences by the
+agent-designer or
+
+47
+00:01:57.490 --> 00:01:59.980
+agent behavior and
+as parameters or
+
+48
+00:01:59.980 --> 00:02:02.140
+whatever RL algorithm
+the agent is
+
+49
+00:02:02.140 --> 00:02:05.700
+using to convert the reward
+function into behavior.
+
+50
+00:02:05.700 --> 00:02:07.730
+The question that I'm asking
+
+51
+00:02:07.730 --> 00:02:09.950
+is these roles seem
+distinct and should
+
+52
+00:02:09.950 --> 00:02:14.210
+they be confounded into a
+single reward function.
+
+53
+00:02:14.210 --> 00:02:15.665
+So the answer I'm going to
+
+54
+00:02:15.665 --> 00:02:16.940
+suggest is that they should not
+
+55
+00:02:16.940 --> 00:02:20.135
+be though we can imagine two
+different reward functions.
+
+56
+00:02:20.135 --> 00:02:21.980
+So here's a diagram of
+
+57
+00:02:21.980 --> 00:02:24.920
+the standard reinforcement
+learning agent
+
+58
+00:02:24.920 --> 00:02:26.270
+where the reward function is
+
+59
+00:02:26.270 --> 00:02:28.025
+assumed to be part
+of the environment.
+
+60
+00:02:28.025 --> 00:02:30.060
+The credit is part
+of the environment
+
+61
+00:02:30.060 --> 00:02:31.460
+and then the agent's task is to
+
+62
+00:02:31.460 --> 00:02:35.300
+optimize some cumulative measure
+overlap reward function.
+
+63
+00:02:35.300 --> 00:02:37.550
+Here's another diagram
+in which we blow up
+
+64
+00:02:37.550 --> 00:02:40.345
+the agent into let's
+call it the organism,
+
+65
+00:02:40.345 --> 00:02:44.540
+in which inside the
+agent is a critic which
+
+66
+00:02:44.540 --> 00:02:46.690
+then rewards the agent and then
+
+67
+00:02:46.690 --> 00:02:49.750
+the agent optimizes as
+an external environment,
+
+68
+00:02:49.750 --> 00:02:52.005
+which played the role of
+the previous environment
+
+69
+00:02:52.005 --> 00:02:54.105
+which the extrinsic
+reward would lie.
+
+70
+00:02:54.105 --> 00:02:56.944
+Of course, when you
+think of the organism,
+
+71
+00:02:56.944 --> 00:02:58.400
+you'd think of natural organisms.
+
+72
+00:02:58.400 --> 00:03:00.020
+For example, you would think
+
+73
+00:03:00.020 --> 00:03:02.165
+that evolution would
+have been able to reach
+
+74
+00:03:02.165 --> 00:03:04.280
+inside us and configure
+
+75
+00:03:04.280 --> 00:03:06.260
+our internal reward function and
+
+76
+00:03:06.260 --> 00:03:09.275
+sets a locus of adaptation.
+
+77
+00:03:09.275 --> 00:03:11.900
+So agent reward is internal or
+
+78
+00:03:11.900 --> 00:03:14.870
+intrinsic to the agent
+because there are
+
+79
+00:03:14.870 --> 00:03:16.490
+parameters in essence to
+
+80
+00:03:16.490 --> 00:03:18.050
+be designed by the agent-designer
+
+81
+00:03:18.050 --> 00:03:21.845
+in artificial agents or by
+evolution in natural agents.
+
+82
+00:03:21.845 --> 00:03:25.430
+So many people think about
+designing reward function.
+
+83
+00:03:25.430 --> 00:03:26.900
+There are many approaches to it.
+
+84
+00:03:26.900 --> 00:03:29.240
+For example, inverse reinforcement
+learning is a way of
+
+85
+00:03:29.240 --> 00:03:32.630
+converting expert behavior
+into a reward function.
+
+86
+00:03:32.630 --> 00:03:36.090
+Reward shaping are ideas
+about how to change
+
+87
+00:03:36.090 --> 00:03:38.180
+the reward function to
+make the reward function
+
+88
+00:03:38.180 --> 00:03:40.450
+more efficient for the
+agent to learn from.
+
+89
+00:03:40.450 --> 00:03:44.150
+A preference elicitation
+is a way of eliciting
+
+90
+00:03:44.150 --> 00:03:49.180
+preferences or rewards
+from an agent-designer.
+
+91
+00:03:49.180 --> 00:03:51.200
+Mechanism design in economics
+
+92
+00:03:51.200 --> 00:03:53.855
+thinks about how to
+design rewards and so on.
+
+93
+00:03:53.855 --> 00:03:55.535
+There are many other
+heuristic approaches,
+
+94
+00:03:55.535 --> 00:03:58.115
+often very successful empirically
+
+95
+00:03:58.115 --> 00:04:00.260
+in designing reward functions.
+
+96
+00:04:00.260 --> 00:04:01.870
+I'm going to tell you
+what a little line
+
+97
+00:04:01.870 --> 00:04:03.320
+of work that I've
+been pursuing called
+
+98
+00:04:03.320 --> 00:04:04.880
+the optimal reward framework
+
+99
+00:04:04.880 --> 00:04:06.320
+or the optimal reward problem.
+
+100
+00:04:06.320 --> 00:04:08.345
+So what is the optimal
+reward problem?
+
+101
+00:04:08.345 --> 00:04:10.010
+Again, as I've been
+arguing there are
+
+102
+00:04:10.010 --> 00:04:12.055
+two different notions of reward.
+
+103
+00:04:12.055 --> 00:04:14.860
+One which we can't change
+because the true reward is
+
+104
+00:04:14.860 --> 00:04:19.385
+the objective reward
+denoted here by R_0 or R_o.
+
+105
+00:04:19.385 --> 00:04:21.050
+Then the agents reward which
+
+106
+00:04:21.050 --> 00:04:23.575
+is the internal reward us by.
+
+107
+00:04:23.575 --> 00:04:26.840
+So the optimal reward
+problem in English,
+
+108
+00:04:26.840 --> 00:04:29.910
+shown back in the slides
+is the following.
+
+109
+00:04:29.910 --> 00:04:32.975
+Given space of reward functions,
+
+110
+00:04:32.975 --> 00:04:36.650
+what is the reward function
+I should give the agent so
+
+111
+00:04:36.650 --> 00:04:40.775
+that in translating the
+reward function to behavior,
+
+112
+00:04:40.775 --> 00:04:43.200
+the agent ends up optimizing the
+
+113
+00:04:43.200 --> 00:04:46.820
+agent-designer's or
+objective reward function?
+
+114
+00:04:46.820 --> 00:04:48.950
+So that's the optimal reward.
+
+115
+00:04:48.950 --> 00:04:51.290
+If you give me a space
+of reward functions,
+
+116
+00:04:51.290 --> 00:04:53.405
+you can essentially use
+any algorithm you want
+
+117
+00:04:53.405 --> 00:04:56.255
+potentially to search
+over the space and
+
+118
+00:04:56.255 --> 00:04:57.710
+design or recover or
+
+119
+00:04:57.710 --> 00:05:00.815
+discover the reward
+function that optimizes
+
+120
+00:05:00.815 --> 00:05:02.330
+the agent's behavior from
+
+121
+00:05:02.330 --> 00:05:03.950
+the agent designer's
+point of view or
+
+122
+00:05:03.950 --> 00:05:05.150
+the extrinsic with
+
+123
+00:05:05.150 --> 00:05:07.335
+the objective reward
+point of view equivalent.
+
+124
+00:05:07.335 --> 00:05:09.410
+So that's the optimal
+reward problem.
+
+125
+00:05:09.410 --> 00:05:11.075
+It's a search problem.
+
+126
+00:05:11.075 --> 00:05:12.660
+It's a problem that
+we can solve any way.
+
+127
+00:05:12.660 --> 00:05:14.650
+We can think of it
+as a meta problem,
+
+128
+00:05:14.650 --> 00:05:16.100
+write an outer loop where you're
+
+129
+00:05:16.100 --> 00:05:17.450
+optimizing the reward were
+
+130
+00:05:17.450 --> 00:05:19.580
+the inner loop is optimizing
+
+131
+00:05:19.580 --> 00:05:21.890
+the behavior given the reward.
+
+132
+00:05:21.890 --> 00:05:23.930
+That's why I'm going to
+show you a couple of
+
+133
+00:05:23.930 --> 00:05:25.370
+quick ideas but we've
+
+134
+00:05:25.370 --> 00:05:29.285
+developed my lab for optimizing
+the internal reward.
+
+135
+00:05:29.285 --> 00:05:32.445
+So here's the very first ideas.
+
+136
+00:05:32.445 --> 00:05:34.245
+Very simple intuition we call
+
+137
+00:05:34.245 --> 00:05:37.890
+PGRD or Policy Gradient
+for Reward Design.
+
+138
+00:05:37.890 --> 00:05:40.700
+It stems from the following
+simple observation.
+
+139
+00:05:40.700 --> 00:05:43.474
+We've always had policy gradient
+
+140
+00:05:43.474 --> 00:05:47.500
+approaches for optimizing
+an extrinsic reward.
+
+141
+00:05:47.500 --> 00:05:49.220
+Most policy gradient
+approaches take
+
+142
+00:05:49.220 --> 00:05:52.460
+parameters that specify
+the policy in some way.
+
+143
+00:05:52.460 --> 00:05:54.650
+One way to think about
+the intrinsic reward
+
+144
+00:05:54.650 --> 00:05:56.465
+is there is just parameters
+
+145
+00:05:56.465 --> 00:05:59.120
+that are in effect
+
+146
+00:05:59.120 --> 00:06:02.210
+parameterizing the
+policy of the agent.
+
+147
+00:06:02.210 --> 00:06:04.220
+So just as policy
+gradient methods can
+
+148
+00:06:04.220 --> 00:06:06.260
+optimize parameters
+of the policy,
+
+149
+00:06:06.260 --> 00:06:08.870
+they can optimize the
+internal reward function.
+
+150
+00:06:08.870 --> 00:06:13.970
+That's one approach is
+basically using gradients of
+
+151
+00:06:13.970 --> 00:06:16.670
+the extrinsic reward with respect
+
+152
+00:06:16.670 --> 00:06:17.930
+to policy parameters which
+
+153
+00:06:17.930 --> 00:06:20.245
+are intrinsic reward parameter.
+
+154
+00:06:20.245 --> 00:06:24.019
+So we did this in a
+particular paper,
+
+155
+00:06:24.019 --> 00:06:27.560
+NIPS 2010, and I'm
+going to tell you
+
+156
+00:06:27.560 --> 00:06:29.960
+a little bit about
+it by this slide.
+
+157
+00:06:29.960 --> 00:06:34.765
+So this slide
+describes how you can
+
+158
+00:06:34.765 --> 00:06:37.460
+compute the gradient
+with respect to
+
+159
+00:06:37.460 --> 00:06:39.634
+the intrinsic reward parameters
+
+160
+00:06:39.634 --> 00:06:41.570
+when you do policy gradients.
+
+161
+00:06:41.570 --> 00:06:45.020
+So the first box on
+top shows you how
+
+162
+00:06:45.020 --> 00:06:48.680
+you can define the gradient of
+
+163
+00:06:48.680 --> 00:06:52.370
+the objective reward or a
+trajectory with respect to
+
+164
+00:06:52.370 --> 00:06:56.960
+the probabilities of taking
+
+165
+00:06:56.960 --> 00:06:59.140
+actions embodied in the policy.
+
+166
+00:06:59.140 --> 00:07:01.310
+The second part tells you how
+
+167
+00:07:01.310 --> 00:07:02.930
+you can take the
+gradient with respect to
+
+168
+00:07:02.930 --> 00:07:05.450
+these policy choices
+or probabilities of
+
+169
+00:07:05.450 --> 00:07:06.860
+actions with respect to
+
+170
+00:07:06.860 --> 00:07:09.290
+the parameters of the
+intrinsic reward.
+
+171
+00:07:09.290 --> 00:07:12.440
+It's basically a pretty
+straightforward iterative process
+
+172
+00:07:12.440 --> 00:07:14.035
+and you can compute it.
+
+173
+00:07:14.035 --> 00:07:16.880
+That way, the agent can update
+
+174
+00:07:16.880 --> 00:07:20.270
+its intrinsic reward over
+
+175
+00:07:20.270 --> 00:07:23.120
+time as it learns through
+experience in the environment.
+
+176
+00:07:23.120 --> 00:07:25.580
+So one of the first
+projects we did
+
+177
+00:07:25.580 --> 00:07:30.420
+was to use this
+image [inaudible] ,
+
+178
+00:07:30.420 --> 00:07:33.920
+were we showed how you
+can use this procedure,
+
+179
+00:07:33.920 --> 00:07:36.680
+PGRD policy gradient
+for award design,
+
+180
+00:07:36.680 --> 00:07:40.460
+to optimize the intrinsic
+reward function to use with
+
+181
+00:07:40.460 --> 00:07:44.789
+UCT as a policy
+gradient algorithm,
+
+182
+00:07:44.789 --> 00:07:47.545
+as a planning algorithm
+
+183
+00:07:47.545 --> 00:07:50.900
+to compute behavior given
+an intrinsic reward.
+
+184
+00:07:50.900 --> 00:07:53.210
+So we have UCT which is
+
+185
+00:07:53.210 --> 00:07:55.550
+actually a look at
+search procedure
+
+186
+00:07:55.550 --> 00:08:01.450
+for computing policies
+from a model.
+
+187
+00:08:01.450 --> 00:08:05.190
+UCT has fixed number
+of trajectories
+
+188
+00:08:05.190 --> 00:08:08.210
+and fixed steps and
+it searches over as
+
+189
+00:08:08.210 --> 00:08:10.610
+parameters and we produce
+
+190
+00:08:10.610 --> 00:08:12.320
+an intrinsic reward
+and we were able to do
+
+191
+00:08:12.320 --> 00:08:15.350
+gradients through the
+UCT planning procedure
+
+192
+00:08:15.350 --> 00:08:17.240
+to obtain the reward function.
+
+193
+00:08:17.240 --> 00:08:20.030
+So I didn't walk through
+
+194
+00:08:20.030 --> 00:08:25.785
+the algorithm details but
+we did PGRD with UCT.
+
+195
+00:08:25.785 --> 00:08:28.520
+Here is a slide
+showing results at
+
+196
+00:08:28.520 --> 00:08:32.390
+25 ATARI games where
+the vertical line
+
+197
+00:08:32.390 --> 00:08:36.110
+is if a bar is on
+
+198
+00:08:36.110 --> 00:08:37.880
+the vertical line
+that means we were
+
+199
+00:08:37.880 --> 00:08:40.520
+able to just match the
+performance in UCT.
+
+200
+00:08:40.520 --> 00:08:42.505
+As bars go to the right,
+
+201
+00:08:42.505 --> 00:08:45.320
+that means we are improving
+the performance in UCT.
+
+202
+00:08:45.320 --> 00:08:47.390
+You can see that most
+of these games you were
+
+203
+00:08:47.390 --> 00:08:49.475
+able to improve
+performance significantly.
+
+204
+00:08:49.475 --> 00:08:51.920
+So the only thing
+that's being learned in
+
+205
+00:08:51.920 --> 00:08:54.680
+these results is the
+intrinsic reward function.
+
+206
+00:08:54.680 --> 00:08:57.005
+Recall we're using
+these UCT to plan.
+
+207
+00:08:57.005 --> 00:08:59.690
+So the conversion of
+intrinsic rewards of
+
+208
+00:08:59.690 --> 00:09:01.175
+behavior is through UCT
+
+209
+00:09:01.175 --> 00:09:02.870
+which is a fixed
+planning procedure.
+
+210
+00:09:02.870 --> 00:09:06.665
+The only thing we're
+learning from experience is
+
+211
+00:09:06.665 --> 00:09:08.510
+the intrinsic reward
+function and we can see
+
+212
+00:09:08.510 --> 00:09:12.125
+that we can improve
+performance significantly.
+
+213
+00:09:12.125 --> 00:09:14.780
+So this was for
+doing this one over
+
+214
+00:09:14.780 --> 00:09:17.440
+planning with respect to
+a planning algorithm.
+
+215
+00:09:17.440 --> 00:09:19.750
+Can we do this with respect
+to a learning algorithm?
+
+216
+00:09:19.750 --> 00:09:21.110
+So that's the next part
+
+217
+00:09:21.110 --> 00:09:22.355
+of the result I'm going
+to tell you about.
+
+218
+00:09:22.355 --> 00:09:25.745
+This is work presented
+NeurIPS in 2018,
+
+219
+00:09:25.745 --> 00:09:30.030
+my students Zeyu
+Zheng and Junhyuk Oh.
+
+220
+00:09:30.030 --> 00:09:32.420
+This was exactly the same idea
+
+221
+00:09:32.420 --> 00:09:33.680
+except now we're going to do
+
+222
+00:09:33.680 --> 00:09:35.135
+it through a learning algorithm
+
+223
+00:09:35.135 --> 00:09:37.320
+rather than through a
+planning algorithm.
+
+224
+00:09:37.320 --> 00:09:39.200
+It wasn't clear to me to begin
+
+225
+00:09:39.200 --> 00:09:41.645
+with that you can actually
+take the gradients
+
+226
+00:09:41.645 --> 00:09:43.760
+through a learning procedure
+
+227
+00:09:43.760 --> 00:09:45.230
+to update the intrinsic rewards
+
+228
+00:09:45.230 --> 00:09:46.700
+because conceptually you can
+
+229
+00:09:46.700 --> 00:09:49.655
+imagine that you perturb
+the intrinsic reward,
+
+230
+00:09:49.655 --> 00:09:51.740
+you perturb the
+dynamics of learning.
+
+231
+00:09:51.740 --> 00:09:53.740
+So what we need to do is
+take the gradient through
+
+232
+00:09:53.740 --> 00:09:56.000
+that change in dynamics of
+
+233
+00:09:56.000 --> 00:09:58.445
+learning and update
+the intrinsic reward
+
+234
+00:09:58.445 --> 00:10:00.770
+to update then the
+learning process.
+
+235
+00:10:00.770 --> 00:10:02.915
+That's what we show
+it that you can do
+
+236
+00:10:02.915 --> 00:10:05.250
+through a metagreated procedure.
+
+237
+00:10:05.250 --> 00:10:07.175
+So here's a diagram
+for the agent.
+
+238
+00:10:07.175 --> 00:10:09.575
+In this diagram, the
+agent has two boxes.
+
+239
+00:10:09.575 --> 00:10:12.680
+The policy box, we called
+the actor critic box which
+
+240
+00:10:12.680 --> 00:10:15.680
+will take an intrinsic reward
+or in this case the sum of
+
+241
+00:10:15.680 --> 00:10:18.530
+an extrinsic reward and do
+
+242
+00:10:18.530 --> 00:10:22.645
+policy gradients to critic
+to update the policy.
+
+243
+00:10:22.645 --> 00:10:25.880
+We're going to use this
+meta gradient procedure
+
+244
+00:10:25.880 --> 00:10:28.560
+for updating the
+intrinsic reward.
+
+245
+00:10:28.970 --> 00:10:32.285
+So I'm going to skip the notation
+
+246
+00:10:32.285 --> 00:10:35.840
+but there is a specific
+way of updating
+
+247
+00:10:35.840 --> 00:10:40.475
+the parameters of
+the intrinsic reward
+
+248
+00:10:40.475 --> 00:10:42.950
+given that we're updating
+
+249
+00:10:42.950 --> 00:10:45.530
+the parameters of the
+policy using actor critic.
+
+250
+00:10:45.530 --> 00:10:47.240
+So the first equation shows you
+
+251
+00:10:47.240 --> 00:10:49.865
+a standard actor critic update.
+
+252
+00:10:49.865 --> 00:10:51.440
+Essentially, I think
+this is showing
+
+253
+00:10:51.440 --> 00:10:53.840
+the reinforced version of
+the actor critic update.
+
+254
+00:10:53.840 --> 00:10:56.750
+The second set of
+equations shows you
+
+255
+00:10:56.750 --> 00:10:59.900
+how we update the parameters of
+
+256
+00:10:59.900 --> 00:11:03.065
+the intrinsic reward with respect
+
+257
+00:11:03.065 --> 00:11:07.955
+to the update of the
+policy parameters.
+
+258
+00:11:07.955 --> 00:11:10.250
+So we can move
+
+259
+00:11:10.250 --> 00:11:12.260
+the intrinsic reward
+parameters in a direction
+
+260
+00:11:12.260 --> 00:11:17.050
+that improves the performance
+of the learned policy.
+
+261
+00:11:17.050 --> 00:11:19.130
+Here's just some results where
+
+262
+00:11:19.130 --> 00:11:20.735
+we did this on a
+bunch of Atari games.
+
+263
+00:11:20.735 --> 00:11:23.210
+You can see the
+names on the X axis.
+
+264
+00:11:23.210 --> 00:11:24.620
+On the Y axis we show
+
+265
+00:11:24.620 --> 00:11:27.725
+the percentage improvement
+we get over using
+
+266
+00:11:27.725 --> 00:11:29.630
+just the extrinsic reward with
+
+267
+00:11:29.630 --> 00:11:32.420
+the same actor
+critic architecture
+
+268
+00:11:32.420 --> 00:11:35.150
+that we use with the
+learn intrinsic rewards.
+
+269
+00:11:35.150 --> 00:11:36.425
+So we can see that learning
+
+270
+00:11:36.425 --> 00:11:38.180
+the intrinsic rewards improves
+
+271
+00:11:38.180 --> 00:11:39.680
+performance quite significantly.
+
+272
+00:11:39.680 --> 00:11:43.010
+So I'm going to stop and
+just conclude by saying
+
+273
+00:11:43.010 --> 00:11:45.650
+that as we think
+
+274
+00:11:45.650 --> 00:11:48.215
+about the reinforcement
+learning problem,
+
+275
+00:11:48.215 --> 00:11:51.470
+the textbook and all the
+lectures you'll hear about,
+
+276
+00:11:51.470 --> 00:11:53.270
+start by assuming
+the reward function
+
+277
+00:11:53.270 --> 00:11:54.830
+is given and the goal of
+
+278
+00:11:54.830 --> 00:11:55.910
+the agent is to convert
+
+279
+00:11:55.910 --> 00:11:59.455
+that reward function
+into good behavior.
+
+280
+00:11:59.455 --> 00:12:01.880
+The question we asked
+in this little snippet
+
+281
+00:12:01.880 --> 00:12:05.975
+is how do we design those
+reward functions effectively?
+
+282
+00:12:05.975 --> 00:12:07.940
+The bottom line answer that
+
+283
+00:12:07.940 --> 00:12:10.880
+this little snippet
+tells you about is
+
+284
+00:12:10.880 --> 00:12:13.010
+a gradient procedure for updating
+
+285
+00:12:13.010 --> 00:12:14.840
+the intrinsic reward so that we
+
+286
+00:12:14.840 --> 00:12:16.770
+can learn better
+intrinsic reward.
+
+287
+00:12:16.770 --> 00:12:20.570
+This could be useful in
+many different ways.
+
+288
+00:12:20.570 --> 00:12:23.600
+The way I emphasize today is
+
+289
+00:12:23.600 --> 00:12:27.880
+that the agent can be bounded
+in many different ways.
+
+290
+00:12:27.880 --> 00:12:30.080
+So the intrinsic
+reward is a method
+
+291
+00:12:30.080 --> 00:12:33.320
+for overcoming those bounds.
+
+292
+00:12:33.320 --> 00:12:36.410
+Value alignment between user
+and the agent designer.
+
+293
+00:12:36.410 --> 00:12:37.910
+This can be thought of in
+
+294
+00:12:37.910 --> 00:12:39.800
+that way can also be
+thought of as a way
+
+295
+00:12:39.800 --> 00:12:43.980
+of addressing problems and
+continue of lifelong learning.
