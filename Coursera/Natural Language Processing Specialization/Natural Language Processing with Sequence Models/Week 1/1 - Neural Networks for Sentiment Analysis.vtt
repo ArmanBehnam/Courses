@@ -1,0 +1,415 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.920
+Welcome to the course.
+
+2
+00:00:01.920 --> 00:00:03.690
+This week I'll show you how to
+
+3
+00:00:03.690 --> 00:00:05.955
+create neural networks
+using layers.
+
+4
+00:00:05.955 --> 00:00:07.830
+This simplifies the
+task a lot as you
+
+5
+00:00:07.830 --> 00:00:10.005
+will see. Let's dive in.
+
+6
+00:00:10.005 --> 00:00:13.275
+First, you'll revisit
+the general structure
+
+7
+00:00:13.275 --> 00:00:16.125
+of neural networks and how
+they make predictions.
+
+8
+00:00:16.125 --> 00:00:18.690
+I'll show you the structure
+you'll be using to
+
+9
+00:00:18.690 --> 00:00:21.675
+perform sentiment analysis
+during this week.
+
+10
+00:00:21.675 --> 00:00:25.400
+Neural networks are
+computational structures that,
+
+11
+00:00:25.400 --> 00:00:27.185
+in a very simplistic way,
+
+12
+00:00:27.185 --> 00:00:28.610
+attempt to mimic the way
+
+13
+00:00:28.610 --> 00:00:31.055
+the human brain
+recognizes patterns.
+
+14
+00:00:31.055 --> 00:00:33.050
+They're used in many applications
+
+15
+00:00:33.050 --> 00:00:34.670
+of artificial intelligence
+
+16
+00:00:34.670 --> 00:00:38.480
+and have proven very effective
+on a variety of tasks,
+
+17
+00:00:38.480 --> 00:00:40.465
+including those in NLP.
+
+18
+00:00:40.465 --> 00:00:42.560
+Have a look at this example of
+
+19
+00:00:42.560 --> 00:00:46.175
+a simple neural network
+with n input parameters,
+
+20
+00:00:46.175 --> 00:00:49.510
+two hidden layers, and
+three output units.
+
+21
+00:00:49.510 --> 00:00:51.965
+As inputs, this neural
+network receives
+
+22
+00:00:51.965 --> 00:00:55.789
+a data representation
+x with n features,
+
+23
+00:00:55.789 --> 00:00:59.255
+then performs computations
+in its hidden layers.
+
+24
+00:00:59.255 --> 00:01:01.880
+Finally, it delivers an output
+
+25
+00:01:01.880 --> 00:01:04.195
+which in this case has size 3.
+
+26
+00:01:04.195 --> 00:01:07.070
+Let's take a look at how
+it works mathematically.
+
+27
+00:01:07.070 --> 00:01:11.865
+All the nodes every
+activation layer as a_i,
+
+28
+00:01:11.865 --> 00:01:14.800
+where i is the layer's number.
+
+29
+00:01:14.800 --> 00:01:20.085
+First, define a_0 to
+be the input vector x.
+
+30
+00:01:20.085 --> 00:01:24.180
+To get the values for each
+layer's activation, a,
+
+31
+00:01:24.180 --> 00:01:27.470
+you have to compute
+the value for z_i,
+
+32
+00:01:27.470 --> 00:01:30.919
+which depends on both
+the weights matrix
+
+33
+00:01:30.919 --> 00:01:33.230
+for that layer and
+the activations,
+
+34
+00:01:33.230 --> 00:01:35.285
+a, from the previous layer.
+
+35
+00:01:35.285 --> 00:01:37.295
+Finally, you get the values for
+
+36
+00:01:37.295 --> 00:01:40.280
+each layer by applying
+an activation function,
+
+37
+00:01:40.280 --> 00:01:42.475
+g, to the value of z.
+
+38
+00:01:42.475 --> 00:01:45.080
+As you can see, this
+computation moves
+
+39
+00:01:45.080 --> 00:01:46.250
+forward through the left of
+
+40
+00:01:46.250 --> 00:01:48.380
+the neural network
+towards the right.
+
+41
+00:01:48.380 --> 00:01:51.950
+That's why this process is
+called forward propagation.
+
+42
+00:01:51.950 --> 00:01:53.660
+For this module's assignments,
+
+43
+00:01:53.660 --> 00:01:54.695
+you're going to implement
+
+44
+00:01:54.695 --> 00:01:56.920
+a neural network that
+looks like this.
+
+45
+00:01:56.920 --> 00:01:59.809
+As inputs, it will receive
+
+46
+00:01:59.809 --> 00:02:03.055
+a simple vector representation
+of your tweets.
+
+47
+00:02:03.055 --> 00:02:05.840
+It will have an embedding
+layer that will transform
+
+48
+00:02:05.840 --> 00:02:09.590
+your representation into an
+optimal one for this task.
+
+49
+00:02:09.590 --> 00:02:12.485
+Finally, it will have
+a hidden layer with
+
+50
+00:02:12.485 --> 00:02:15.860
+a ReLU activation function
+and then output layer with
+
+51
+00:02:15.860 --> 00:02:19.475
+the softmax function that will
+give you the probabilities
+
+52
+00:02:19.475 --> 00:02:23.890
+for whether a tweet has a
+positive or negative sentiment.
+
+53
+00:02:23.890 --> 00:02:26.180
+This neural network
+will allow you to
+
+54
+00:02:26.180 --> 00:02:28.490
+predict sentiments
+for complex tweets,
+
+55
+00:02:28.490 --> 00:02:31.680
+such as a tweet like
+this one that says,
+
+56
+00:02:31.680 --> 00:02:33.770
+"This movie was almost good."
+
+57
+00:02:33.770 --> 00:02:35.420
+That you wouldn't have been able
+
+58
+00:02:35.420 --> 00:02:37.460
+to classify correctly using
+
+59
+00:02:37.460 --> 00:02:38.690
+simpler methods such as
+
+60
+00:02:38.690 --> 00:02:42.010
+Naive Bayes because they
+missed important information.
+
+61
+00:02:42.010 --> 00:02:44.440
+The initial representation, x,
+
+62
+00:02:44.440 --> 00:02:45.590
+that you'll use for
+
+63
+00:02:45.590 --> 00:02:48.964
+this neural network will
+be a vector of integers.
+
+64
+00:02:48.964 --> 00:02:52.185
+Similar to your previous work
+with sentiment analysis,
+
+65
+00:02:52.185 --> 00:02:53.840
+you will first need to list all
+
+66
+00:02:53.840 --> 00:02:55.760
+of your words from
+your vocabulary.
+
+67
+00:02:55.760 --> 00:02:57.590
+Next for this application,
+
+68
+00:02:57.590 --> 00:03:00.730
+you'll assign an integer
+index to each of them.
+
+69
+00:03:00.730 --> 00:03:04.730
+Then for each word in your
+tweets add the index from
+
+70
+00:03:04.730 --> 00:03:06.710
+your vocabulary to construct
+
+71
+00:03:06.710 --> 00:03:09.290
+a vector like this
+one for every tweet.
+
+72
+00:03:09.290 --> 00:03:10.970
+After you have all the vector
+
+73
+00:03:10.970 --> 00:03:12.935
+representations of your tweets,
+
+74
+00:03:12.935 --> 00:03:14.705
+you will need to identify
+
+75
+00:03:14.705 --> 00:03:16.910
+the maximum vector size and fill
+
+76
+00:03:16.910 --> 00:03:19.945
+every vector with zeros
+to match that size.
+
+77
+00:03:19.945 --> 00:03:23.360
+This process is called padding
+and ensures that all of
+
+78
+00:03:23.360 --> 00:03:25.160
+your vectors have the same size
+
+79
+00:03:25.160 --> 00:03:27.280
+even if your tweets don't.
+
+80
+00:03:27.280 --> 00:03:29.280
+Let's do a quick recap.
+
+81
+00:03:29.280 --> 00:03:31.100
+At this point,
+you're familiar with
+
+82
+00:03:31.100 --> 00:03:32.360
+the general structure of
+
+83
+00:03:32.360 --> 00:03:33.770
+the neural network that you'll be
+
+84
+00:03:33.770 --> 00:03:35.765
+using to classify sentiments for
+
+85
+00:03:35.765 --> 00:03:38.545
+a set of complex nuance tweets.
+
+86
+00:03:38.545 --> 00:03:41.390
+You also reviewed the
+integer representation
+
+87
+00:03:41.390 --> 00:03:43.870
+that's going to be
+used in this module.
+
+88
+00:03:43.870 --> 00:03:45.890
+Next, I'll introduce
+
+89
+00:03:45.890 --> 00:03:47.960
+the tracks library
+for neural networks
+
+90
+00:03:47.960 --> 00:03:50.330
+and demonstrate how
+the embedding layer
+
+91
+00:03:50.330 --> 00:03:53.100
+works. I'll see you later.

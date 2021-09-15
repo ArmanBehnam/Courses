@@ -1,0 +1,480 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.715
+Welcome to the last
+video of this week.
+
+2
+00:00:02.715 --> 00:00:06.510
+I'll be talking about GRUs
+or Gated Recurrent Units.
+
+3
+00:00:06.510 --> 00:00:08.955
+This type of model
+has some parameters
+
+4
+00:00:08.955 --> 00:00:11.430
+which allow you to control
+how much information
+
+5
+00:00:11.430 --> 00:00:13.200
+to forget from the past and
+
+6
+00:00:13.200 --> 00:00:16.350
+how much information to extract
+from the current input.
+
+7
+00:00:16.350 --> 00:00:18.300
+Let's see how you can use GRUs to
+
+8
+00:00:18.300 --> 00:00:20.815
+keep track of
+relevance information.
+
+9
+00:00:20.815 --> 00:00:25.290
+Here I'm going to introduce
+you to Gated Recurrent Units,
+
+10
+00:00:25.290 --> 00:00:29.639
+GRUs for shorts, with a
+comparison to vanilla RNNs.
+
+11
+00:00:29.639 --> 00:00:33.135
+One important difference is
+that GRUs work in a way that
+
+12
+00:00:33.135 --> 00:00:35.490
+allows relevant information to
+
+13
+00:00:35.490 --> 00:00:37.260
+be kept in the hidden states,
+
+14
+00:00:37.260 --> 00:00:39.225
+even over long sequences.
+
+15
+00:00:39.225 --> 00:00:41.495
+For example, with a GRU,
+
+16
+00:00:41.495 --> 00:00:44.860
+you'll be able to train a
+model that takes the sentence,
+
+17
+00:00:44.860 --> 00:00:47.755
+ants are really
+interesting, blank,
+
+18
+00:00:47.755 --> 00:00:50.510
+are everywhere and easily
+predicts the word,
+
+19
+00:00:50.510 --> 00:00:52.265
+they, to fill in the blank.
+
+20
+00:00:52.265 --> 00:00:54.350
+Because the GRU learn to
+
+21
+00:00:54.350 --> 00:00:56.545
+keep the information
+about the subject.
+
+22
+00:00:56.545 --> 00:00:58.745
+In this case,
+whether it is plural
+
+23
+00:00:58.745 --> 00:01:01.250
+or singular in the hidden states.
+
+24
+00:01:01.250 --> 00:01:03.740
+GRUs accomplish this by
+
+25
+00:01:03.740 --> 00:01:06.455
+computing irrelevance
+and update gates,
+
+26
+00:01:06.455 --> 00:01:08.060
+which I'll show you next.
+
+27
+00:01:08.060 --> 00:01:10.220
+You can think of GRUs as
+
+28
+00:01:10.220 --> 00:01:13.105
+vanilla RNNs with
+additional computations.
+
+29
+00:01:13.105 --> 00:01:16.460
+They take two inputs
+at every time step,
+
+30
+00:01:16.460 --> 00:01:18.740
+the variable x at time t,
+
+31
+00:01:18.740 --> 00:01:20.510
+and the hidden state, h,
+
+32
+00:01:20.510 --> 00:01:22.720
+which is passed from
+the previous units.
+
+33
+00:01:22.720 --> 00:01:25.160
+The first two computations made
+
+34
+00:01:25.160 --> 00:01:27.905
+in GRU are the relevance gates.
+
+35
+00:01:27.905 --> 00:01:31.900
+Gamma sub r and the
+update gate Gamma sub u.
+
+36
+00:01:31.900 --> 00:01:35.730
+These gates compute the
+sigmoid activation function,
+
+37
+00:01:35.730 --> 00:01:37.910
+so their result is a vector of
+
+38
+00:01:37.910 --> 00:01:39.290
+values which have been
+
+39
+00:01:39.290 --> 00:01:41.975
+squeezed to fits
+between zero and one.
+
+40
+00:01:41.975 --> 00:01:44.120
+The update and relevance gates in
+
+41
+00:01:44.120 --> 00:01:47.195
+GRUs are the most
+important computations.
+
+42
+00:01:47.195 --> 00:01:50.540
+Their outputs help determine
+which information from
+
+43
+00:01:50.540 --> 00:01:53.300
+the previous hidden
+state is relevant and
+
+44
+00:01:53.300 --> 00:01:56.950
+which values should be updated
+with currents information.
+
+45
+00:01:56.950 --> 00:01:59.645
+After the relevance
+gates is computed,
+
+46
+00:01:59.645 --> 00:02:03.365
+a candidate's h prime for
+the hidden state is found.
+
+47
+00:02:03.365 --> 00:02:06.110
+Its computation
+takes as parameters
+
+48
+00:02:06.110 --> 00:02:09.890
+the previous hidden state
+times the relevance gates,
+
+49
+00:02:09.890 --> 00:02:12.560
+and the variable x
+for the current time.
+
+50
+00:02:12.560 --> 00:02:15.530
+This value stores all
+the candidates for
+
+51
+00:02:15.530 --> 00:02:17.749
+information that's got overwrites
+
+52
+00:02:17.749 --> 00:02:20.485
+the one contained in the
+previous hidden states.
+
+53
+00:02:20.485 --> 00:02:24.080
+After that, a new value
+for the hidden state is
+
+54
+00:02:24.080 --> 00:02:26.269
+calculated using the information
+
+55
+00:02:26.269 --> 00:02:27.980
+from the previous hidden state,
+
+56
+00:02:27.980 --> 00:02:31.095
+the candidate hidden state
+and the update gate.
+
+57
+00:02:31.095 --> 00:02:33.710
+The update gate
+determines how much of
+
+58
+00:02:33.710 --> 00:02:34.820
+the information from
+
+59
+00:02:34.820 --> 00:02:37.895
+the previous hidden state
+will be overwritten.
+
+60
+00:02:37.895 --> 00:02:40.700
+Finally, a prediction y hat
+
+61
+00:02:40.700 --> 00:02:43.280
+is computed using the
+current hidden state.
+
+62
+00:02:43.280 --> 00:02:46.365
+Let's compare GRUs
+with vanilla RNNs.
+
+63
+00:02:46.365 --> 00:02:48.830
+Remember that a
+vanilla RNN such as
+
+64
+00:02:48.830 --> 00:02:51.485
+this one computes an
+activation function
+
+65
+00:02:51.485 --> 00:02:53.090
+with the previous
+hidden state and
+
+66
+00:02:53.090 --> 00:02:54.530
+current's variable x as
+
+67
+00:02:54.530 --> 00:02:57.365
+parameters to get the
+current hidden state.
+
+68
+00:02:57.365 --> 00:02:59.100
+With the current hidden state,
+
+69
+00:02:59.100 --> 00:03:00.830
+another activation function is
+
+70
+00:03:00.830 --> 00:03:03.920
+computed to get the
+current prediction y hat.
+
+71
+00:03:03.920 --> 00:03:05.720
+This architecture is updating
+
+72
+00:03:05.720 --> 00:03:07.765
+the hidden state at
+every time step.
+
+73
+00:03:07.765 --> 00:03:09.290
+So for a long sequences,
+
+74
+00:03:09.290 --> 00:03:11.480
+the information tends to vanish.
+
+75
+00:03:11.480 --> 00:03:12.770
+This is one cause of
+
+76
+00:03:12.770 --> 00:03:15.055
+the so-called vanishing
+gradients problem.
+
+77
+00:03:15.055 --> 00:03:17.220
+On the other hand, GRUs
+
+78
+00:03:17.220 --> 00:03:19.480
+compute significantly
+more operations,
+
+79
+00:03:19.480 --> 00:03:22.925
+which can cause longer processing
+times and memory usage.
+
+80
+00:03:22.925 --> 00:03:24.920
+The relevance and update gates
+
+81
+00:03:24.920 --> 00:03:26.870
+determine which information from
+
+82
+00:03:26.870 --> 00:03:28.190
+the previous hidden state is
+
+83
+00:03:28.190 --> 00:03:31.255
+relevant and what information
+should be updated.
+
+84
+00:03:31.255 --> 00:03:33.360
+The hidden state candidate stores
+
+85
+00:03:33.360 --> 00:03:35.250
+the information that could be
+
+86
+00:03:35.250 --> 00:03:37.160
+used to overwrite the one
+
+87
+00:03:37.160 --> 00:03:39.845
+passed from the
+previous hidden state.
+
+88
+00:03:39.845 --> 00:03:42.650
+The current hidden
+state is computed and
+
+89
+00:03:42.650 --> 00:03:44.690
+updates some of the information
+
+90
+00:03:44.690 --> 00:03:46.270
+from the last hidden state.
+
+91
+00:03:46.270 --> 00:03:47.990
+Any prediction y hat is
+
+92
+00:03:47.990 --> 00:03:50.420
+made with the updated
+hidden states.
+
+93
+00:03:50.420 --> 00:03:53.720
+All of these computations
+allow the network to learn
+
+94
+00:03:53.720 --> 00:03:55.280
+what type of information to
+
+95
+00:03:55.280 --> 00:03:57.715
+keep and when to overwrite it.
+
+96
+00:03:57.715 --> 00:04:01.430
+I just demonstrates how
+GRUs decide which of
+
+97
+00:04:01.430 --> 00:04:03.559
+the information in
+the hidden state
+
+98
+00:04:03.559 --> 00:04:05.600
+to overwrite at each step.
+
+99
+00:04:05.600 --> 00:04:09.680
+The relevance and updates
+gates and GRUs allow models to
+
+100
+00:04:09.680 --> 00:04:10.970
+keep some values in
+
+101
+00:04:10.970 --> 00:04:13.820
+the hidden state for a
+longer word sequences.
+
+102
+00:04:13.820 --> 00:04:16.700
+This is very useful
+to many NLP tasks.
+
+103
+00:04:16.700 --> 00:04:20.900
+GRUs are simplified versions
+of the popular LSTMs,
+
+104
+00:04:20.900 --> 00:04:22.340
+which you'll be encountering a
+
+105
+00:04:22.340 --> 00:04:25.020
+little later in the
+specialization.

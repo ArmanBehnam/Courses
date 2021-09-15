@@ -1,0 +1,365 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.280
+Welcome back. You're now going to
+
+2
+00:00:02.280 --> 00:00:04.845
+see the building blocks
+that make up an RNN.
+
+3
+00:00:04.845 --> 00:00:07.380
+I'll walk you through the
+feedforward equations,
+
+4
+00:00:07.380 --> 00:00:09.600
+and I'll also show you
+the cost function,
+
+5
+00:00:09.600 --> 00:00:12.015
+and then I'll show you
+how you can use those
+
+6
+00:00:12.015 --> 00:00:15.180
+to keep going through
+time. So let's dive in.
+
+7
+00:00:15.180 --> 00:00:18.869
+I will show you how plain
+RNNs propagates information
+
+8
+00:00:18.869 --> 00:00:21.495
+through time within a
+sequence of variables,
+
+9
+00:00:21.495 --> 00:00:24.225
+as well as how they make
+sequential predictions.
+
+10
+00:00:24.225 --> 00:00:25.860
+You'll get familiar with the math
+
+11
+00:00:25.860 --> 00:00:27.885
+behind basic recurrent units
+
+12
+00:00:27.885 --> 00:00:32.220
+to prepare you to implement
+forward propagation in RNNs.
+
+13
+00:00:32.220 --> 00:00:35.475
+Take a look at this
+plane or a Vanilla RNN.
+
+14
+00:00:35.475 --> 00:00:38.460
+It has a many-to-many
+architecture.
+
+15
+00:00:38.460 --> 00:00:41.930
+At each time-step,
+it takes an input x,
+
+16
+00:00:41.930 --> 00:00:45.850
+a hidden state h, and
+makes a prediction y-hat.
+
+17
+00:00:45.850 --> 00:00:49.220
+Additionally, it propagates
+a new hidden state
+
+18
+00:00:49.220 --> 00:00:50.615
+to the next time-step.
+
+19
+00:00:50.615 --> 00:00:53.450
+The hidden state
+at every time t is
+
+20
+00:00:53.450 --> 00:00:56.660
+computed with an
+activation function g with
+
+21
+00:00:56.660 --> 00:00:59.285
+arguments equal to the product
+
+22
+00:00:59.285 --> 00:01:02.945
+between a parameter matrix w_h,
+
+23
+00:01:02.945 --> 00:01:07.490
+and the previous hidden state
+h superscript t minus 1,
+
+24
+00:01:07.490 --> 00:01:10.190
+concatenated with
+the input variable
+
+25
+00:01:10.190 --> 00:01:13.590
+x superscript t plus a bias term.
+
+26
+00:01:13.590 --> 00:01:16.040
+The complete equation
+looks like this,
+
+27
+00:01:16.040 --> 00:01:19.160
+where x superscript t and h_t
+
+28
+00:01:19.160 --> 00:01:22.790
+minus 1 are multiplied
+by different parameters,
+
+29
+00:01:22.790 --> 00:01:26.275
+and the resulting vectors
+are summed up element-wise.
+
+30
+00:01:26.275 --> 00:01:28.155
+As you see in this equation,
+
+31
+00:01:28.155 --> 00:01:30.720
+an operation with a
+circle around it denotes
+
+32
+00:01:30.720 --> 00:01:33.690
+that it needs to be
+performed element-wise.
+
+33
+00:01:33.690 --> 00:01:36.680
+After computing the
+hidden state at time t,
+
+34
+00:01:36.680 --> 00:01:37.940
+it's possible to get
+
+35
+00:01:37.940 --> 00:01:40.100
+the prediction y-hat by
+
+36
+00:01:40.100 --> 00:01:42.875
+using an activation
+function g with
+
+37
+00:01:42.875 --> 00:01:45.110
+arguments equal to
+the product between
+
+38
+00:01:45.110 --> 00:01:49.690
+the hidden states and some
+parameters w plus a bias term.
+
+39
+00:01:49.690 --> 00:01:51.905
+These two equations together
+
+40
+00:01:51.905 --> 00:01:55.565
+represents all of the
+math behind a simple RNN.
+
+41
+00:01:55.565 --> 00:01:57.680
+But let's take a detailed look at
+
+42
+00:01:57.680 --> 00:02:00.140
+the order in which
+computations are made.
+
+43
+00:02:00.140 --> 00:02:03.470
+Let's focus on the first
+cell from the RNN.
+
+44
+00:02:03.470 --> 00:02:05.090
+It takes us inputs
+
+45
+00:02:05.090 --> 00:02:08.630
+the previous hidden state
+and the current variable x,
+
+46
+00:02:08.630 --> 00:02:11.365
+which might be the first
+word in a sentence.
+
+47
+00:02:11.365 --> 00:02:14.285
+To get the current
+hidden state, first,
+
+48
+00:02:14.285 --> 00:02:17.300
+you have to get the
+product of x and h
+
+49
+00:02:17.300 --> 00:02:20.620
+superscript t_0 with their
+respective parameters,
+
+50
+00:02:20.620 --> 00:02:23.050
+and then sum the
+vectors element-wise.
+
+51
+00:02:23.050 --> 00:02:26.180
+Next, as the resulting
+vector through
+
+52
+00:02:26.180 --> 00:02:29.510
+an activation function
+with the resulting value,
+
+53
+00:02:29.510 --> 00:02:32.960
+you can compute the current
+y-hat by multiplying
+
+54
+00:02:32.960 --> 00:02:34.970
+the hidden current state with
+
+55
+00:02:34.970 --> 00:02:37.595
+a set of learnable parameters,
+
+56
+00:02:37.595 --> 00:02:40.445
+w_y times h,
+
+57
+00:02:40.445 --> 00:02:42.985
+and going through another
+activation function.
+
+58
+00:02:42.985 --> 00:02:45.950
+In the literature,
+related to RNNs,
+
+59
+00:02:45.950 --> 00:02:48.950
+you'll find similar diagrams
+to what you see here,
+
+60
+00:02:48.950 --> 00:02:51.860
+which show the order
+of computation and how
+
+61
+00:02:51.860 --> 00:02:55.615
+information is propagated
+with the recurrent unit.
+
+62
+00:02:55.615 --> 00:02:57.680
+It is important for you to
+
+63
+00:02:57.680 --> 00:02:59.450
+take away that hidden states or
+
+64
+00:02:59.450 --> 00:03:00.635
+the variables that allow
+
+65
+00:03:00.635 --> 00:03:03.710
+RNNs to propagate
+information through time,
+
+66
+00:03:03.710 --> 00:03:05.240
+or in other words, through
+
+67
+00:03:05.240 --> 00:03:07.630
+different positions
+within a sequence.
+
+68
+00:03:07.630 --> 00:03:09.980
+As you saw, at every time step,
+
+69
+00:03:09.980 --> 00:03:12.020
+recurrent units have two inputs,
+
+70
+00:03:12.020 --> 00:03:16.075
+the previous hidden state
+and the current features x.
+
+71
+00:03:16.075 --> 00:03:18.650
+You now know the
+feedforward equations
+
+72
+00:03:18.650 --> 00:03:20.675
+and the cost function for an RNN.
+
+73
+00:03:20.675 --> 00:03:21.905
+In the next video,
+
+74
+00:03:21.905 --> 00:03:24.474
+I'll show you how you can
+implement these RNNs,
+
+75
+00:03:24.474 --> 00:03:26.870
+and I'll be talking
+about a scan function.
+
+76
+00:03:26.870 --> 00:03:30.095
+The scan function allows
+you to have faster training,
+
+77
+00:03:30.095 --> 00:03:31.970
+and it also allows
+your code to have
+
+78
+00:03:31.970 --> 00:03:34.800
+access to parallel computing.

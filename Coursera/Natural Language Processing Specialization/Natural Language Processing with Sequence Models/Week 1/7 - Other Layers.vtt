@@ -1,0 +1,312 @@
+WEBVTT
+
+1
+00:00:00.710 --> 00:00:02.940
+Earlier, you worked with
+
+2
+00:00:02.940 --> 00:00:05.775
+a few different ways to
+represent text data.
+
+3
+00:00:05.775 --> 00:00:08.460
+When using neural
+networks for NLP tasks,
+
+4
+00:00:08.460 --> 00:00:11.830
+embedding layers are often
+included in the model.
+
+5
+00:00:11.830 --> 00:00:15.870
+Going forward, I will
+introduce embedding layers,
+
+6
+00:00:15.870 --> 00:00:19.230
+and explain why you will need
+to include layers such as
+
+7
+00:00:19.230 --> 00:00:21.210
+the mean layer in serial models
+
+8
+00:00:21.210 --> 00:00:23.955
+directly after your
+embedding layer.
+
+9
+00:00:23.955 --> 00:00:26.805
+Let's now dive into
+the embedding layer.
+
+10
+00:00:26.805 --> 00:00:29.115
+In NLP, you usually have
+
+11
+00:00:29.115 --> 00:00:32.505
+a set of unique words
+called the vocabulary.
+
+12
+00:00:32.505 --> 00:00:34.190
+An embedding layer takes
+
+13
+00:00:34.190 --> 00:00:36.140
+an index assigned
+to each word from
+
+14
+00:00:36.140 --> 00:00:38.360
+your vocabulary and maps it to
+
+15
+00:00:38.360 --> 00:00:40.490
+a representation of that word
+
+16
+00:00:40.490 --> 00:00:42.020
+with a determined dimension.
+
+17
+00:00:42.020 --> 00:00:45.310
+In this example, embedding
+of size equal to two.
+
+18
+00:00:45.310 --> 00:00:48.560
+For instance, the embedding
+layer in this example,
+
+19
+00:00:48.560 --> 00:00:52.655
+we'll return a vector
+equal to 0.020,
+
+20
+00:00:52.655 --> 00:00:55.865
+and 0.006 for the word I,
+
+21
+00:00:55.865 --> 00:01:02.524
+and negative 0.009 and
+0.050 for the word NLP.
+
+22
+00:01:02.524 --> 00:01:04.700
+Every value from this part of
+
+23
+00:01:04.700 --> 00:01:07.550
+the table is trainable in tracks.
+
+24
+00:01:07.550 --> 00:01:10.910
+When using an embedding
+layer in your model,
+
+25
+00:01:10.910 --> 00:01:13.190
+you will learn the
+representation that
+
+26
+00:01:13.190 --> 00:01:16.000
+gives the best performance
+for your NLP task.
+
+27
+00:01:16.000 --> 00:01:18.470
+For the embedding
+layer in your model,
+
+28
+00:01:18.470 --> 00:01:21.320
+you'd have to learn
+a matrix of weights,
+
+29
+00:01:21.320 --> 00:01:22.970
+of size equal to
+
+30
+00:01:22.970 --> 00:01:26.165
+your vocabulary times the
+dimension of the embedding.
+
+31
+00:01:26.165 --> 00:01:28.160
+The size of the
+embedding could be
+
+32
+00:01:28.160 --> 00:01:31.300
+treated as a hyperparameter
+in your model.
+
+33
+00:01:31.300 --> 00:01:33.050
+With this layer, your model can
+
+34
+00:01:33.050 --> 00:01:35.480
+learn or improve the
+word embeddings for
+
+35
+00:01:35.480 --> 00:01:37.220
+your NLP task like it
+
+36
+00:01:37.220 --> 00:01:40.210
+improves the weights
+matrices on each layer.
+
+37
+00:01:40.210 --> 00:01:44.825
+The embedding layer is able
+to map words to embeddings.
+
+38
+00:01:44.825 --> 00:01:47.135
+If you had a series of words,
+
+39
+00:01:47.135 --> 00:01:48.725
+like a tweet that says,
+
+40
+00:01:48.725 --> 00:01:51.380
+"I am happy," the
+embedding layer will
+
+41
+00:01:51.380 --> 00:01:54.835
+map each of those words to
+their corresponding embedding,
+
+42
+00:01:54.835 --> 00:01:57.750
+and return a matrix
+of word embeddings.
+
+43
+00:01:57.750 --> 00:02:01.190
+If you had padded vectors
+representing your tweets,
+
+44
+00:02:01.190 --> 00:02:03.920
+you could unroll
+this matrix and feed
+
+45
+00:02:03.920 --> 00:02:07.210
+its values to the next layer
+on the neural network.
+
+46
+00:02:07.210 --> 00:02:08.585
+But in doing this,
+
+47
+00:02:08.585 --> 00:02:11.855
+you might end up with lots
+of parameters to train.
+
+48
+00:02:11.855 --> 00:02:14.480
+As an alternative, you could just
+
+49
+00:02:14.480 --> 00:02:17.060
+take the mean of each
+feature from the embedding,
+
+50
+00:02:17.060 --> 00:02:20.125
+and that's exactly what the
+mean layer does in tracks.
+
+51
+00:02:20.125 --> 00:02:21.920
+After the mean
+layer, you will have
+
+52
+00:02:21.920 --> 00:02:25.360
+the same number of features
+as you're embedding size.
+
+53
+00:02:25.360 --> 00:02:27.345
+Even for sequences of texts,
+
+54
+00:02:27.345 --> 00:02:28.875
+those are very long.
+
+55
+00:02:28.875 --> 00:02:31.035
+Note that this layer doesn't have
+
+56
+00:02:31.035 --> 00:02:33.545
+any trainable
+parameters because it's
+
+57
+00:02:33.545 --> 00:02:37.445
+only computing the mean
+of the word embeddings.
+
+58
+00:02:37.445 --> 00:02:39.710
+At this point, you are familiar
+
+59
+00:02:39.710 --> 00:02:41.420
+with what's embedding layers,
+
+60
+00:02:41.420 --> 00:02:44.015
+and mean layers are,
+and how they work.
+
+61
+00:02:44.015 --> 00:02:46.820
+An important takeaway
+here is that using
+
+62
+00:02:46.820 --> 00:02:49.790
+an embedding layer in
+your model allows you to
+
+63
+00:02:49.790 --> 00:02:51.920
+learn a good representation of
+
+64
+00:02:51.920 --> 00:02:56.380
+your vocabulary for the specific
+task you're working on,
+
+65
+00:02:56.380 --> 00:03:00.370
+and that's the mean layer
+takes a matrix of embeddings,
+
+66
+00:03:00.370 --> 00:03:02.915
+and returns a vector
+representation
+
+67
+00:03:02.915 --> 00:03:06.270
+for a set of words, like tweets.

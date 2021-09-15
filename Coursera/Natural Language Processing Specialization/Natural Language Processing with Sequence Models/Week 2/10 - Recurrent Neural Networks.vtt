@@ -1,0 +1,437 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.830
+Welcome back. You'll now see
+
+2
+00:00:01.830 --> 00:00:04.290
+some advantages of
+recurrent neural networks,
+
+3
+00:00:04.290 --> 00:00:06.030
+also known as RNNs,
+
+4
+00:00:06.030 --> 00:00:07.605
+and you'll see that using them,
+
+5
+00:00:07.605 --> 00:00:09.390
+you can capture some dependencies
+
+6
+00:00:09.390 --> 00:00:10.680
+that you could not have otherwise
+
+7
+00:00:10.680 --> 00:00:14.130
+captured with your traditional
+n-gram language model.
+
+8
+00:00:14.130 --> 00:00:18.120
+So let's dive in. You've
+already got the general idea
+
+9
+00:00:18.120 --> 00:00:22.485
+behind completion so let's
+look at the following example.
+
+10
+00:00:22.485 --> 00:00:25.290
+Nour was supposed
+to study with me.
+
+11
+00:00:25.290 --> 00:00:28.200
+I called her, but
+she did not blank.
+
+12
+00:00:28.200 --> 00:00:30.720
+If you used a traditional
+language model,
+
+13
+00:00:30.720 --> 00:00:33.690
+like a trigram, to try and
+complete the sentence,
+
+14
+00:00:33.690 --> 00:00:35.220
+you would compare different word
+
+15
+00:00:35.220 --> 00:00:37.200
+probabilities and then select
+
+16
+00:00:37.200 --> 00:00:38.835
+the word with the highest chance
+
+17
+00:00:38.835 --> 00:00:41.100
+of following the words did not.
+
+18
+00:00:41.100 --> 00:00:44.660
+For instance, your model
+might choose the word have,
+
+19
+00:00:44.660 --> 00:00:47.050
+because it is highly
+probable to see
+
+20
+00:00:47.050 --> 00:00:50.870
+that sequence of three words
+in a typical text corpus.
+
+21
+00:00:50.870 --> 00:00:53.295
+However, the use of
+
+22
+00:00:53.295 --> 00:00:56.405
+have in the sentence
+doesn't make any sense.
+
+23
+00:00:56.405 --> 00:00:58.260
+As a better alternative,
+
+24
+00:00:58.260 --> 00:01:00.040
+RNNs aren't limited to
+
+25
+00:01:00.040 --> 00:01:02.180
+looking at just the
+previous n words.
+
+26
+00:01:02.180 --> 00:01:04.900
+They propagate information from
+
+27
+00:01:04.900 --> 00:01:07.470
+the beginning of the
+sentence to the end.
+
+28
+00:01:07.470 --> 00:01:09.905
+So if you trained an
+RNN for this task,
+
+29
+00:01:09.905 --> 00:01:11.545
+you'd get a better prediction,
+
+30
+00:01:11.545 --> 00:01:15.505
+the word answer, even though
+that word is less probable.
+
+31
+00:01:15.505 --> 00:01:18.400
+If you wanted to have a n-gram
+
+32
+00:01:18.400 --> 00:01:21.280
+capable of completing
+sentences like this one,
+
+33
+00:01:21.280 --> 00:01:24.780
+you would have to account
+for six-word-long sequences,
+
+34
+00:01:24.780 --> 00:01:26.825
+which is pretty impractical.
+
+35
+00:01:26.825 --> 00:01:30.035
+To see how recurrent
+neural networks work,
+
+36
+00:01:30.035 --> 00:01:32.915
+take the second sentence
+from the last example.
+
+37
+00:01:32.915 --> 00:01:36.265
+I called her but
+she did not blank.
+
+38
+00:01:36.265 --> 00:01:40.085
+A plain RNN propagates
+information
+
+39
+00:01:40.085 --> 00:01:43.850
+from the beginning of the
+sentence through to the end,
+
+40
+00:01:43.850 --> 00:01:46.520
+starting with the first
+word of the sequence,
+
+41
+00:01:46.520 --> 00:01:48.050
+the hidden value at the far
+
+42
+00:01:48.050 --> 00:01:51.790
+left and the first values
+are computed here.
+
+43
+00:01:51.790 --> 00:01:55.645
+Then it propagates some of
+the computed information,
+
+44
+00:01:55.645 --> 00:01:58.040
+takes the second word
+in the sequence,
+
+45
+00:01:58.040 --> 00:01:59.585
+and gets new values.
+
+46
+00:01:59.585 --> 00:02:02.510
+You can see this process
+illustrated here.
+
+47
+00:02:02.510 --> 00:02:04.220
+The orange area denotes
+
+48
+00:02:04.220 --> 00:02:06.020
+the first computed values
+
+49
+00:02:06.020 --> 00:02:08.390
+and the green denotes
+the second word.
+
+50
+00:02:08.390 --> 00:02:11.120
+The second values
+are computed using
+
+51
+00:02:11.120 --> 00:02:15.355
+the older values in orange
+and the new word in green.
+
+52
+00:02:15.355 --> 00:02:18.630
+After that, it takes
+the third word and
+
+53
+00:02:18.630 --> 00:02:21.830
+the propagated values from
+the first and second words,
+
+54
+00:02:21.830 --> 00:02:23.360
+and computes another set of
+
+55
+00:02:23.360 --> 00:02:26.605
+values from both of
+those and so on.
+
+56
+00:02:26.605 --> 00:02:28.925
+Each of the boxes in this diagram
+
+57
+00:02:28.925 --> 00:02:31.370
+represents the
+computations made at
+
+58
+00:02:31.370 --> 00:02:33.890
+each step and the
+colors represent
+
+59
+00:02:33.890 --> 00:02:37.430
+the information that is
+used for every computation.
+
+60
+00:02:37.430 --> 00:02:40.400
+As you can see, the
+computations made at
+
+61
+00:02:40.400 --> 00:02:42.440
+the last step have information
+
+62
+00:02:42.440 --> 00:02:44.660
+from all the words
+in the sentence.
+
+63
+00:02:44.660 --> 00:02:46.025
+At the final step,
+
+64
+00:02:46.025 --> 00:02:47.675
+the recurrent neural network is
+
+65
+00:02:47.675 --> 00:02:50.095
+able to predict the word answer.
+
+66
+00:02:50.095 --> 00:02:52.835
+The magic of recurrent
+neural networks
+
+67
+00:02:52.835 --> 00:02:54.290
+is that the information from
+
+68
+00:02:54.290 --> 00:02:56.000
+every word in the sequence
+
+69
+00:02:56.000 --> 00:02:58.385
+is multiplied by the same weight,
+
+70
+00:02:58.385 --> 00:03:01.345
+W subscript of X,
+
+71
+00:03:01.345 --> 00:03:03.210
+The information propagates it
+
+72
+00:03:03.210 --> 00:03:04.845
+from the beginning to the end.
+
+73
+00:03:04.845 --> 00:03:11.285
+It is multiplied by W
+subscript H. In other words,
+
+74
+00:03:11.285 --> 00:03:15.080
+this block is repeated for
+every word in the sequence.
+
+75
+00:03:15.080 --> 00:03:17.660
+So the only learnable
+parameters are
+
+76
+00:03:17.660 --> 00:03:20.800
+the ones in W subscript X,
+
+77
+00:03:20.800 --> 00:03:23.310
+W subscript H, and W
+
+78
+00:03:23.310 --> 00:03:26.800
+- the weights used to make
+the final prediction.
+
+79
+00:03:26.800 --> 00:03:30.470
+That's why they're called
+recurrent neural networks.
+
+80
+00:03:30.470 --> 00:03:33.410
+They compute values that
+are fed over and over again
+
+81
+00:03:33.410 --> 00:03:36.640
+to themselves until a
+prediction is made.
+
+82
+00:03:36.640 --> 00:03:40.640
+The principle advantage of
+RNNs is that they propagate
+
+83
+00:03:40.640 --> 00:03:43.280
+information within sequences and
+
+84
+00:03:43.280 --> 00:03:45.940
+the computations share
+most of the parameters.
+
+85
+00:03:45.940 --> 00:03:48.060
+Here, you saw an example of
+
+86
+00:03:48.060 --> 00:03:51.140
+an RNN that's propagated
+information from
+
+87
+00:03:51.140 --> 00:03:52.700
+the beginning to the end of
+
+88
+00:03:52.700 --> 00:03:56.545
+a word sequence to make a
+single prediction at the end.
+
+89
+00:03:56.545 --> 00:03:59.585
+Next, you will see
+different types of RNNs,
+
+90
+00:03:59.585 --> 00:04:01.700
+the math behind
+simple architectures,
+
+91
+00:04:01.700 --> 00:04:04.300
+and the way to implement them.
+
+92
+00:04:04.300 --> 00:04:07.430
+You now know when you
+would like to use an RNN.
+
+93
+00:04:07.430 --> 00:04:09.140
+In the next video, I'll show you
+
+94
+00:04:09.140 --> 00:04:11.435
+different types of
+RNN architectures.
+
+95
+00:04:11.435 --> 00:04:14.760
+And I'll also show you
+when to use which.
