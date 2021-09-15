@@ -1,0 +1,421 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.150
+Welcome to this course on Convolutional Networks.
+
+2
+00:00:03.150 --> 00:00:05.430
+Computer vision is one of the areas that's been
+
+3
+00:00:05.430 --> 00:00:08.055
+advancing rapidly thanks to deep learning.
+
+4
+00:00:08.055 --> 00:00:11.490
+Deep learning computer vision is now helping self-driving cars
+
+5
+00:00:11.490 --> 00:00:15.320
+figure out where the other cars and pedestrians around so as to avoid them.
+
+6
+00:00:15.320 --> 00:00:18.825
+Is making face recognition work much better than ever before,
+
+7
+00:00:18.825 --> 00:00:21.660
+so that perhaps some of you will soon, or perhaps already,
+
+8
+00:00:21.660 --> 00:00:23.360
+be able to unlock a phone,
+
+9
+00:00:23.360 --> 00:00:25.925
+unlock even a door using just your face.
+
+10
+00:00:25.925 --> 00:00:27.435
+And if you look on your cell phone,
+
+11
+00:00:27.435 --> 00:00:29.680
+I bet you have many apps that show you pictures of food,
+
+12
+00:00:29.680 --> 00:00:32.790
+or pictures of a hotel, or just fun pictures of scenery.
+
+13
+00:00:32.790 --> 00:00:34.980
+And some of the companies that build those apps are
+
+14
+00:00:34.980 --> 00:00:37.890
+using deep learning to help show you the most attractive,
+
+15
+00:00:37.890 --> 00:00:40.475
+the most beautiful, or the most relevant pictures.
+
+16
+00:00:40.475 --> 00:00:45.410
+And I think deep learning is even enabling new types of art to be created.
+
+17
+00:00:45.410 --> 00:00:48.420
+So, I think the two reasons I'm excited about
+
+18
+00:00:48.420 --> 00:00:51.690
+deep learning for computer vision and why I think you might be too.
+
+19
+00:00:51.690 --> 00:00:57.445
+First, rapid advances in computer vision are enabling brand new applications to view,
+
+20
+00:00:57.445 --> 00:00:59.990
+though they just were impossible a few years ago.
+
+21
+00:00:59.990 --> 00:01:01.230
+And by learning these tools,
+
+22
+00:01:01.230 --> 00:01:06.030
+perhaps you will be able to invent some of these new products and applications.
+
+23
+00:01:06.030 --> 00:01:09.775
+Second, even if you don't end up building computer vision systems per se,
+
+24
+00:01:09.775 --> 00:01:13.740
+I found that because the computer vision research community has been so
+
+25
+00:01:13.740 --> 00:01:15.930
+creative and so inventive in coming up
+
+26
+00:01:15.930 --> 00:01:18.375
+with new neural network architectures and algorithms,
+
+27
+00:01:18.375 --> 00:01:23.010
+is actually inspire that creates a lot cross-fertilization into other areas as well.
+
+28
+00:01:23.010 --> 00:01:25.290
+For example, when I was working on speech recognition,
+
+29
+00:01:25.290 --> 00:01:27.840
+I sometimes actually took inspiration from ideas
+
+30
+00:01:27.840 --> 00:01:31.270
+from computer vision and borrowed them into the speech literature.
+
+31
+00:01:31.270 --> 00:01:33.570
+So, even if you don't end up working on computer vision,
+
+32
+00:01:33.570 --> 00:01:37.165
+I hope that you find some of the ideas you learn about in this course hopeful
+
+33
+00:01:37.165 --> 00:01:41.244
+for some of your algorithms and your architectures.
+
+34
+00:01:41.244 --> 00:01:43.290
+So with that, let's get started.
+
+35
+00:01:43.290 --> 00:01:48.570
+Here are some examples of computer vision problems we'll study in this course.
+
+36
+00:01:48.570 --> 00:01:50.870
+You've already seen image classifications,
+
+37
+00:01:50.870 --> 00:01:52.650
+sometimes also called image recognition,
+
+38
+00:01:52.650 --> 00:01:56.845
+where you might take as input say a 64 by 64 image and try to figure out,
+
+39
+00:01:56.845 --> 00:01:58.615
+is that a cat?
+
+40
+00:01:58.615 --> 00:02:02.870
+Another example of the computer vision problem is object detection.
+
+41
+00:02:02.870 --> 00:02:04.695
+So, if you're building a self-driving car,
+
+42
+00:02:04.695 --> 00:02:08.180
+maybe you don't just need to figure out that there are other cars in this image.
+
+43
+00:02:08.180 --> 00:02:12.640
+But instead, you need to figure out the position of the other cars in this picture,
+
+44
+00:02:12.640 --> 00:02:14.810
+so that your car can avoid them.
+
+45
+00:02:14.810 --> 00:02:16.680
+In object detection, usually,
+
+46
+00:02:16.680 --> 00:02:20.835
+we have to not just figure out that these other objects say cars and picture,
+
+47
+00:02:20.835 --> 00:02:23.760
+but also draw boxes around them.
+
+48
+00:02:23.760 --> 00:02:29.100
+We have some other way of recognizing where in the picture are these objects.
+
+49
+00:02:29.100 --> 00:02:30.990
+And notice also, in this example,
+
+50
+00:02:30.990 --> 00:02:34.650
+that they can be multiple cars in the same picture,
+
+51
+00:02:34.650 --> 00:02:38.515
+or at least every one of them within a certain distance of your car.
+
+52
+00:02:38.515 --> 00:02:42.560
+Here's another example, maybe a more fun one is neural style transfer.
+
+53
+00:02:42.560 --> 00:02:44.089
+Let's say you have a picture,
+
+54
+00:02:44.089 --> 00:02:49.305
+and you want this picture repainted in a different style.
+
+55
+00:02:49.305 --> 00:02:50.740
+So neural style transfer,
+
+56
+00:02:50.740 --> 00:02:52.290
+you have a content image,
+
+57
+00:02:52.290 --> 00:02:54.245
+and you have a style image.
+
+58
+00:02:54.245 --> 00:02:56.370
+The image on the right is actually a Picasso.
+
+59
+00:02:56.370 --> 00:02:59.200
+And you can have a neural network put them together to
+
+60
+00:02:59.200 --> 00:03:02.621
+repaint the content image (that is the image on the left),
+
+61
+00:03:02.621 --> 00:03:05.605
+but in the style of the image on the right,
+
+62
+00:03:05.605 --> 00:03:08.730
+and you end up with the image at the bottom.
+
+63
+00:03:08.730 --> 00:03:12.395
+So, algorithms like these are enabling new types of artwork to be created.
+
+64
+00:03:12.395 --> 00:03:15.980
+And in this course, you'll learn how to do this yourself as well.
+
+65
+00:03:15.980 --> 00:03:21.185
+One of the challenges of computer vision problems is that the inputs can get really big.
+
+66
+00:03:21.185 --> 00:03:23.040
+For example, in previous courses,
+
+67
+00:03:23.040 --> 00:03:25.185
+you've worked with 64 by 64 images.
+
+68
+00:03:25.185 --> 00:03:29.030
+And so that's 64 by 64 by 3 because there are three color channels.
+
+69
+00:03:29.030 --> 00:03:32.490
+And if you multiply that out, that's 12288.
+
+70
+00:03:32.490 --> 00:03:37.115
+So x the input features has dimension 12288.
+
+71
+00:03:37.115 --> 00:03:38.640
+And that's not too bad.
+
+72
+00:03:38.640 --> 00:03:42.105
+But 64 by 64 is actually a very small image.
+
+73
+00:03:42.105 --> 00:03:44.085
+If you work with larger images,
+
+74
+00:03:44.085 --> 00:03:48.615
+maybe this is a 1000 pixel by 1000 pixel image,
+
+75
+00:03:48.615 --> 00:03:51.095
+and that's actually just one megapixel.
+
+76
+00:03:51.095 --> 00:03:57.530
+But the dimension of the input features will be 1000 by 1000 by 3,
+
+77
+00:03:57.530 --> 00:03:59.640
+because you have three RGB channels,
+
+78
+00:03:59.640 --> 00:04:02.382
+and that's three million.
+
+79
+00:04:02.382 --> 00:04:04.590
+If you are viewing this on a smaller screen,
+
+80
+00:04:04.590 --> 00:04:05.790
+this might not be apparent,
+
+81
+00:04:05.790 --> 00:04:08.440
+but this is actually a low res 64 by 64 image,
+
+82
+00:04:08.440 --> 00:04:11.477
+and this is a higher res 1000 by 1000 image.
+
+83
+00:04:11.477 --> 00:04:14.190
+But if you have three million input features,
+
+84
+00:04:14.190 --> 00:04:21.155
+then this means that X here will be three million dimensional.
+
+85
+00:04:21.155 --> 00:04:27.525
+And so, if in the first hidden layer maybe you have just a 1000 hidden units,
+
+86
+00:04:27.525 --> 00:04:36.240
+then the total number of weights that is the matrix W1,
+
+87
+00:04:36.240 --> 00:04:42.620
+if you use a standard or fully connected network like we have in courses one or two.
+
+88
+00:04:42.620 --> 00:04:50.365
+This matrix will be a 1000 by 3 million dimensional matrix.
+
+89
+00:04:50.365 --> 00:04:55.130
+Because X is now R by three million.
+
+90
+00:04:55.130 --> 00:04:57.793
+3m. I'm using to denote three million.
+
+91
+00:04:57.793 --> 00:05:00.485
+And this means that this matrix here will have
+
+92
+00:05:00.485 --> 00:05:05.140
+three billion parameters which is just very, very large.
+
+93
+00:05:05.140 --> 00:05:06.820
+And with that many parameters,
+
+94
+00:05:06.820 --> 00:05:12.040
+it's difficult to get enough data to prevent a neural network from overfitting.
+
+95
+00:05:12.040 --> 00:05:16.100
+And also, the computational requirements and the memory requirements to train
+
+96
+00:05:16.100 --> 00:05:20.870
+a neural network with three billion parameters is just a bit infeasible.
+
+97
+00:05:20.870 --> 00:05:22.732
+But for computer vision applications,
+
+98
+00:05:22.732 --> 00:05:25.710
+you don't want to be stuck using only tiny little images.
+
+99
+00:05:25.710 --> 00:05:27.880
+You want to use large images.
+
+100
+00:05:27.880 --> 00:05:32.020
+To do that, you need to better implement the convolution operation,
+
+101
+00:05:32.020 --> 00:05:35.955
+which is one of the fundamental building blocks of convolutional neural networks.
+
+102
+00:05:35.955 --> 00:05:37.135
+Let's see what this means,
+
+103
+00:05:37.135 --> 00:05:39.505
+and how you can implement this, in the next video.
+
+104
+00:05:39.505 --> 00:05:40.915
+And we'll illustrate convolutions,
+
+105
+00:05:40.915 --> 00:05:43.410
+using the example of Edge Detection.

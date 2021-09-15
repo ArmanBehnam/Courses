@@ -1,0 +1,665 @@
+WEBVTT
+
+1
+00:00:01.000 --> 00:00:05.510
+You've seen how convolutions over 2D images works.
+
+2
+00:00:05.510 --> 00:00:08.505
+Now, let's see how you can implement convolutions over,
+
+3
+00:00:08.505 --> 00:00:10.190
+not just 2D images,
+
+4
+00:00:10.190 --> 00:00:13.265
+but over three dimensional volumes.
+
+5
+00:00:13.265 --> 00:00:15.610
+Let's start with an example,
+
+6
+00:00:15.610 --> 00:00:17.930
+let's say you want to detect features,
+
+7
+00:00:17.930 --> 00:00:20.920
+not just in a great scale image,
+
+8
+00:00:20.920 --> 00:00:22.550
+but in a RGB image.
+
+9
+00:00:22.550 --> 00:00:27.035
+So, an RGB image might be instead of a six by six image,
+
+10
+00:00:27.035 --> 00:00:29.330
+it could be six by six by three,
+
+11
+00:00:29.330 --> 00:00:32.980
+where the three here responds to the three color channels.
+
+12
+00:00:32.980 --> 00:00:37.575
+So, you think of this as a stack of three six by six images.
+
+13
+00:00:37.575 --> 00:00:41.925
+In order to detect edges or some other feature in this image,
+
+14
+00:00:41.925 --> 00:00:43.490
+you can vault this,
+
+15
+00:00:43.490 --> 00:00:47.320
+not with a three by three filter,
+
+16
+00:00:47.320 --> 00:00:49.120
+as we have previously,
+
+17
+00:00:49.120 --> 00:00:51.907
+but now with also with a 3D filter,
+
+18
+00:00:51.907 --> 00:00:54.865
+that's going to be three by three by three.
+
+19
+00:00:54.865 --> 00:01:01.960
+So the filter itself will also have three layers corresponding to the red,
+
+20
+00:01:01.960 --> 00:01:04.897
+green, and blue channels.
+
+21
+00:01:04.897 --> 00:01:07.180
+So to give these things some names,
+
+22
+00:01:07.180 --> 00:01:08.980
+this first six here,
+
+23
+00:01:08.980 --> 00:01:12.290
+that's the height of the image,
+
+24
+00:01:12.290 --> 00:01:19.360
+that's the width, and this three is the number of channels.
+
+25
+00:01:19.360 --> 00:01:24.075
+And your filter also similarly has a height,
+
+26
+00:01:24.075 --> 00:01:27.995
+a width, and the number of channels.
+
+27
+00:01:27.995 --> 00:01:31.170
+And the number of channels in
+
+28
+00:01:31.170 --> 00:01:35.143
+your image must match the number of channels in your filter,
+
+29
+00:01:35.143 --> 00:01:38.480
+so these two numbers have to be equal.
+
+30
+00:01:38.480 --> 00:01:42.365
+We'll see on the next slide how this convolution operation actually works,
+
+31
+00:01:42.365 --> 00:01:46.740
+but the output of this will be a four by four image.
+
+32
+00:01:46.740 --> 00:01:49.600
+And notice this is four by four by one,
+
+33
+00:01:49.600 --> 00:01:53.160
+there's no longer a three at the end.
+
+34
+00:01:53.160 --> 00:02:01.313
+Let's go through in detail how this works but let's use a more nicely drawn image.
+
+35
+00:02:01.313 --> 00:02:05.365
+So here's the six by six by three image,
+
+36
+00:02:05.365 --> 00:02:10.030
+and here's a three by three by three filter,
+
+37
+00:02:10.030 --> 00:02:11.830
+and this last number,
+
+38
+00:02:11.830 --> 00:02:17.395
+the number of channels matches the 3D image and the filter.
+
+39
+00:02:17.395 --> 00:02:22.195
+So to simplify the drawing of this three by three by three filter,
+
+40
+00:02:22.195 --> 00:02:26.674
+instead of joining it is a stack of the matrices, I'm also going to,
+
+41
+00:02:26.674 --> 00:02:32.325
+sometimes, just draw it as this three dimensional cube, like that.
+
+42
+00:02:32.325 --> 00:02:37.775
+So to compute the output of this convolutional operation,
+
+43
+00:02:37.775 --> 00:02:42.440
+what you would do is take the three by three by three filter and first,
+
+44
+00:02:42.440 --> 00:02:45.440
+place it in that upper left most position.
+
+45
+00:02:45.440 --> 00:02:51.026
+So, notice that this three by three by three filter has 27 numbers,
+
+46
+00:02:51.026 --> 00:02:53.988
+or 27 parameters, that's three cubes.
+
+47
+00:02:53.988 --> 00:02:56.180
+And so, what you do is take each of
+
+48
+00:02:56.180 --> 00:03:05.695
+these 27 numbers and multiply them with the corresponding numbers from the red,
+
+49
+00:03:05.695 --> 00:03:07.425
+green, and blue channels of the image,
+
+50
+00:03:07.425 --> 00:03:09.620
+so take the first nine numbers from red channel,
+
+51
+00:03:09.620 --> 00:03:12.080
+then the three beneath it to the green channel,
+
+52
+00:03:12.080 --> 00:03:13.970
+then the three beneath it to the blue channel,
+
+53
+00:03:13.970 --> 00:03:17.880
+and multiply it with the corresponding 27 numbers that gets
+
+54
+00:03:17.880 --> 00:03:22.310
+covered by this yellow cube show on the left.
+
+55
+00:03:22.310 --> 00:03:28.615
+Then add up all those numbers and this gives you this first number in the output,
+
+56
+00:03:28.615 --> 00:03:34.700
+and then to compute the next output you take this cube and slide it over by one,
+
+57
+00:03:34.700 --> 00:03:37.190
+and again, due to 27 multiplications,
+
+58
+00:03:37.190 --> 00:03:40.375
+add up the 27 numbers,
+
+59
+00:03:40.375 --> 00:03:42.545
+that gives you this next output,
+
+60
+00:03:42.545 --> 00:03:44.465
+do it for the next number over,
+
+61
+00:03:44.465 --> 00:03:45.647
+for the next position over,
+
+62
+00:03:45.647 --> 00:03:49.520
+that gives the third output and so on.
+
+63
+00:03:49.520 --> 00:03:54.080
+That dives you the forth and then one row down and then the next one,
+
+64
+00:03:54.080 --> 00:03:55.930
+to the next one, to the next one,
+
+65
+00:03:55.930 --> 00:03:58.760
+and so on, you get the idea,
+
+66
+00:03:58.760 --> 00:04:02.080
+until at the very end,
+
+67
+00:04:02.080 --> 00:04:09.090
+that's the position you'll have for that final output.
+
+68
+00:04:09.090 --> 00:04:10.741
+So, what does this allow you to do?
+
+69
+00:04:10.741 --> 00:04:12.775
+Well, here's an example,
+
+70
+00:04:12.775 --> 00:04:15.170
+this filter is three by three by three.
+
+71
+00:04:15.170 --> 00:04:20.455
+So, if you want to detect edges in the red channel of the image,
+
+72
+00:04:20.455 --> 00:04:24.990
+then you could have the first filter, the one, one, one, one is one,
+
+73
+00:04:24.990 --> 00:04:27.840
+one is one, one is one as usual,
+
+74
+00:04:27.840 --> 00:04:31.385
+and have the green channel be all zeros,
+
+75
+00:04:31.385 --> 00:04:35.120
+and have the blue filter be all zeros.
+
+76
+00:04:35.120 --> 00:04:42.410
+And if you have these three stock together to form your three by three by three filter,
+
+77
+00:04:42.410 --> 00:04:46.040
+then this would be a filter that detect edges,
+
+78
+00:04:46.040 --> 00:04:49.720
+vertical edges but only in the red channel.
+
+79
+00:04:49.720 --> 00:04:54.950
+Alternatively, if you don't care what color the vertical edge is in,
+
+80
+00:04:54.950 --> 00:04:58.871
+then you might have a filter that's like this,
+
+81
+00:04:58.871 --> 00:05:01.520
+whereas this one, one, one, minus one,
+
+82
+00:05:01.520 --> 00:05:02.800
+minus one, minus one,
+
+83
+00:05:02.800 --> 00:05:04.714
+in all three channels.
+
+84
+00:05:04.714 --> 00:05:08.791
+So, by setting this second alternative, set the parameters,
+
+85
+00:05:08.791 --> 00:05:10.980
+you then have a edge detector,
+
+86
+00:05:10.980 --> 00:05:12.710
+a three by three by three edge detector,
+
+87
+00:05:12.710 --> 00:05:15.935
+that detects edges in any color.
+
+88
+00:05:15.935 --> 00:05:19.460
+And with different choices of these parameters you can get
+
+89
+00:05:19.460 --> 00:05:24.280
+different feature detectors out of this three by three by three filter.
+
+90
+00:05:24.280 --> 00:05:26.320
+And by convention, in computer vision,
+
+91
+00:05:26.320 --> 00:05:31.790
+when you have an input with a certain height, a certain width,
+
+92
+00:05:31.790 --> 00:05:33.440
+and a certain number of channels, then
+
+93
+00:05:33.440 --> 00:05:36.200
+your filter will have a potential different height,
+
+94
+00:05:36.200 --> 00:05:39.542
+different width, but the same number of channels.
+
+95
+00:05:39.542 --> 00:05:44.780
+And in theory it's possible to have a filter that maybe only looks at the red channel
+
+96
+00:05:44.780 --> 00:05:50.776
+or maybe a filter looks at only the green channel and a blue channel.
+
+97
+00:05:50.776 --> 00:05:54.565
+And once again, you notice th\t convolving a volume,
+
+98
+00:05:54.565 --> 00:06:00.793
+a six by six by three convolve with a three by three by three,
+
+99
+00:06:00.793 --> 00:06:07.434
+that gives a four by four, a 2D output.
+
+100
+00:06:07.434 --> 00:06:10.629
+Now that you know how to convolve on volumes,
+
+101
+00:06:10.629 --> 00:06:17.125
+there is one last idea that will be crucial for building convolutional neural networks,
+
+102
+00:06:17.125 --> 00:06:20.550
+which is what if we don't just wanted to detect vertical edges?
+
+103
+00:06:20.550 --> 00:06:23.550
+What if we wanted to detect vertical edges and horizontal edges
+
+104
+00:06:23.550 --> 00:06:27.080
+and maybe 45 degree edges and maybe 70 degree edges as well,
+
+105
+00:06:27.080 --> 00:06:32.189
+but in other words, what if you want to use multiple filters at the same time?
+
+106
+00:06:32.189 --> 00:06:35.640
+So, here's the picture we had from the previous slide,
+
+107
+00:06:35.640 --> 00:06:38.380
+we had six by six by three convolved with the three by three by three,
+
+108
+00:06:38.380 --> 00:06:39.717
+gets four by four,
+
+109
+00:06:39.717 --> 00:06:42.420
+and maybe this is a vertical edge detector,
+
+110
+00:06:42.420 --> 00:06:46.023
+or maybe it's run to detect some other feature.
+
+111
+00:06:46.023 --> 00:06:52.950
+Now, maybe a second filter may be denoted by this orange-ish color,
+
+112
+00:06:52.950 --> 00:07:00.563
+which could be a horizontal edge detector.
+
+113
+00:07:00.563 --> 00:07:05.657
+So, maybe convolving it with the first filter gives you this first four by four output
+
+114
+00:07:05.657 --> 00:07:13.565
+and convolving with the second filter gives you a different four by four output.
+
+115
+00:07:13.565 --> 00:07:16.800
+And what we can do is then take these two four by four outputs,
+
+116
+00:07:16.800 --> 00:07:20.770
+take this first one within the front and you
+
+117
+00:07:20.770 --> 00:07:25.069
+can take this second filter output and well, let me draw it here,
+
+118
+00:07:25.069 --> 00:07:27.870
+put it at back as follows,
+
+119
+00:07:27.870 --> 00:07:29.465
+so that by stacking these two together,
+
+120
+00:07:29.465 --> 00:07:35.970
+you end up with a four by four by two output volume, right?
+
+121
+00:07:35.970 --> 00:07:39.900
+And you can think of the volume as if we draw this is a box,
+
+122
+00:07:39.900 --> 00:07:41.710
+I guess it would look like this.
+
+123
+00:07:41.710 --> 00:07:45.620
+So this would be a four by four by two output volume,
+
+124
+00:07:45.620 --> 00:07:49.740
+which is the result of taking your six by six by three image and
+
+125
+00:07:49.740 --> 00:07:54.885
+convolving it or applying two different three by three filters to it,
+
+126
+00:07:54.885 --> 00:07:57.870
+resulting in two four by four outputs that then gets stacked up
+
+127
+00:07:57.870 --> 00:08:02.093
+to form a four by four by two volume.
+
+128
+00:08:02.093 --> 00:08:07.830
+And the two here comes from the fact that we used two different filters.
+
+129
+00:08:07.830 --> 00:08:14.320
+So, let's just summarize the dimensions,
+
+130
+00:08:14.320 --> 00:08:19.570
+if you have a n by n by number of channels input image,
+
+131
+00:08:19.570 --> 00:08:22.975
+so an example, there's a six by six by three,
+
+132
+00:08:22.975 --> 00:08:26.960
+where n subscript C is the number of channels,
+
+133
+00:08:26.960 --> 00:08:31.675
+and you convolve that with a f by f by, and again,
+
+134
+00:08:31.675 --> 00:08:34.645
+this should be the same nC, so this was,
+
+135
+00:08:34.645 --> 00:08:38.360
+three by three by three,
+
+136
+00:08:38.360 --> 00:08:45.180
+and by convention this and this have to be the same number.
+
+137
+00:08:45.180 --> 00:08:52.150
+Then, what you get is n minus f plus one by
+
+138
+00:08:52.150 --> 00:08:59.970
+n minus f plus one by and you want to use this nC prime,
+
+139
+00:08:59.970 --> 00:09:02.314
+or its really nC of the next layer,
+
+140
+00:09:02.314 --> 00:09:06.850
+but this is the number of filters that you use.
+
+141
+00:09:06.850 --> 00:09:11.895
+So this in our example would be be four by four by two.
+
+142
+00:09:11.895 --> 00:09:16.335
+And I wrote this assuming that you use a stride of one and no padding.
+
+143
+00:09:16.335 --> 00:09:19.270
+But if you used a different stride of padding
+
+144
+00:09:19.270 --> 00:09:22.855
+than this n minus F plus one would be affected in a usual way,
+
+145
+00:09:22.855 --> 00:09:26.245
+as we see in the previous videos.
+
+146
+00:09:26.245 --> 00:09:29.280
+So this idea of convolution on volumes,
+
+147
+00:09:29.280 --> 00:09:31.519
+turns out to be really powerful.
+
+148
+00:09:31.519 --> 00:09:34.350
+Only a small part of it is that you can now operate
+
+149
+00:09:34.350 --> 00:09:38.080
+directly on RGB images with three channels.
+
+150
+00:09:38.080 --> 00:09:40.485
+But even more important is that
+
+151
+00:09:40.485 --> 00:09:43.420
+you can now detect two features, like vertical, horizontal edges,
+
+152
+00:09:43.420 --> 00:09:46.534
+or 10, or maybe a 128,
+
+153
+00:09:46.534 --> 00:09:49.365
+or maybe several hundreds of different features.
+
+154
+00:09:49.365 --> 00:09:51.390
+And the output will then have a number
+
+155
+00:09:51.390 --> 00:09:58.405
+of channels equal to the number of filters you are detecting.
+
+156
+00:09:58.405 --> 00:10:00.995
+And as a note of notation,
+
+157
+00:10:00.995 --> 00:10:07.125
+I've been using your number of channels to denote this last dimension in the literature,
+
+158
+00:10:07.125 --> 00:10:14.620
+people will also often call this the depth of this 3D volume and both notations,
+
+159
+00:10:14.620 --> 00:10:17.255
+channels or depth, are commonly used in the literature.
+
+160
+00:10:17.255 --> 00:10:19.375
+But they find depth more confusing
+
+161
+00:10:19.375 --> 00:10:22.855
+because you usually talk about the depth of the neural network as well,
+
+162
+00:10:22.855 --> 00:10:26.885
+so I'm going to use the term channels in these videos to refer to
+
+163
+00:10:26.885 --> 00:10:31.966
+the size of this third dimension of these filters.
+
+164
+00:10:31.966 --> 00:10:36.545
+So now that you know how to implement convolutions over volumes,
+
+165
+00:10:36.545 --> 00:10:41.595
+you now are ready to implement one layer of the convolutional neural network.
+
+166
+00:10:41.595 --> 00:10:44.000
+Let's see how to do that in the next video.

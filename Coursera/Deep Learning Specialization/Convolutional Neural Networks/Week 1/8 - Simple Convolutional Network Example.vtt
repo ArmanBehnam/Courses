@@ -1,0 +1,539 @@
+WEBVTT
+
+1
+00:00:00.252 --> 00:00:04.029
+In the last video, you saw
+the building blocks of a single layer,
+
+2
+00:00:04.029 --> 00:00:06.721
+of a single convolution
+layer in the ConvNet.
+
+3
+00:00:06.721 --> 00:00:12.339
+Now let's go through a concrete example
+of a deep convolutional neural network.
+
+4
+00:00:12.339 --> 00:00:15.876
+And this will give you some practice with
+the notation that we introduced toward
+
+5
+00:00:15.876 --> 00:00:17.373
+the end of the last video as well.
+
+6
+00:00:19.648 --> 00:00:22.203
+Let's say you have an image, and
+
+7
+00:00:22.203 --> 00:00:26.959
+you want to do image classification,
+or image recognition.
+
+8
+00:00:26.959 --> 00:00:31.745
+Where you want to take as input an image,
+x, and decide is this a cat or not, 0 or
+
+9
+00:00:31.745 --> 00:00:34.254
+1, so it's a classification problem.
+
+10
+00:00:34.254 --> 00:00:38.626
+Let's build an example of a ConvNet
+you could use for this task.
+
+11
+00:00:38.626 --> 00:00:42.943
+For the sake of this example,
+I'm going to use a fairly small image.
+
+12
+00:00:42.943 --> 00:00:48.499
+Let's say this image is 39 x 39 x 3.
+
+13
+00:00:48.499 --> 00:00:51.529
+This choice just makes some of
+the numbers work out a bit better.
+
+14
+00:00:51.529 --> 00:00:57.470
+And so, nH in layer 0 will
+be equal to nw height and
+
+15
+00:00:57.470 --> 00:01:00.581
+width are equal to 39 and
+
+16
+00:01:00.581 --> 00:01:06.532
+the number of channels and
+layer 0 is equal to 3.
+
+17
+00:01:06.532 --> 00:01:11.906
+Let's say the first layer
+uses a set of 3 by 3 filters
+
+18
+00:01:11.906 --> 00:01:16.924
+to detect features, so
+f = 3 or really f1 = 3,
+
+19
+00:01:16.924 --> 00:01:20.992
+because we're using a 3 by 3 process.
+
+20
+00:01:20.992 --> 00:01:26.871
+And let's say we're using a stride of 1,
+and no padding.
+
+21
+00:01:26.871 --> 00:01:32.641
+So using a same convolution, and
+let's say you have 10 filters.
+
+22
+00:01:34.632 --> 00:01:38.779
+Then the activations in this next layer of
+
+23
+00:01:38.779 --> 00:01:43.755
+the neutral network will be 37 x 37 x 10,
+and
+
+24
+00:01:43.755 --> 00:01:49.335
+this 10 comes from the fact
+that you use 10 filters.
+
+25
+00:01:49.335 --> 00:01:54.735
+And 37 comes from this formula
+
+26
+00:01:54.735 --> 00:01:58.739
+n + 2p- f over s + 1.
+
+27
+00:01:58.739 --> 00:02:03.919
+Right, then I guess you have 39
+
+28
+00:02:03.919 --> 00:02:10.401
++ 0- 3 over 1 + 1 that's = to 37.
+
+29
+00:02:10.401 --> 00:02:15.006
+So that's why the output is 37 by 37,
+it's a valid convolution and
+
+30
+00:02:15.006 --> 00:02:17.590
+that's the output size.
+
+31
+00:02:17.590 --> 00:02:25.029
+So in our notation you would
+have nh[1] = nw[1] = 37 and
+
+32
+00:02:25.029 --> 00:02:30.126
+nc[1] = 10, so nc[1] is also equal
+
+33
+00:02:30.126 --> 00:02:36.240
+to the number of filters
+from the first layer.
+
+34
+00:02:36.240 --> 00:02:42.040
+And so this becomes the dimension of
+the activation at the first layer.
+
+35
+00:02:43.300 --> 00:02:45.980
+Let's say you now have another
+convolutional layer and
+
+36
+00:02:45.980 --> 00:02:48.900
+let's say this time you
+use 5 by 5 filters.
+
+37
+00:02:48.900 --> 00:02:54.996
+So, in our notation f[2] at
+the next neural network = 5,
+
+38
+00:02:54.996 --> 00:02:59.231
+and let's say use a stride of 2 this time.
+
+39
+00:02:59.231 --> 00:03:03.922
+And maybe you have no padding and
+
+40
+00:03:03.922 --> 00:03:07.060
+say, 20 filters.
+
+41
+00:03:09.370 --> 00:03:15.933
+So then the output of this
+will be another volume,
+
+42
+00:03:15.933 --> 00:03:20.946
+this time it will be 17 x 17 x 20.
+
+43
+00:03:20.946 --> 00:03:23.866
+Notice that,
+because you're now using a stride of 2,
+
+44
+00:03:23.866 --> 00:03:25.926
+the dimension has shrunk much faster.
+
+45
+00:03:25.926 --> 00:03:32.800
+37 x 37 has gone down in size by slightly
+more than a factor of 2, to 17 x 17.
+
+46
+00:03:32.800 --> 00:03:37.554
+And because you're using 20 filters,
+the number of channels now is 20.
+
+47
+00:03:37.554 --> 00:03:42.167
+So it's this activation a2
+
+48
+00:03:42.167 --> 00:03:46.971
+would be that dimension and so
+
+49
+00:03:46.971 --> 00:03:52.160
+nh[2] = nw[2] = 17 and
+
+50
+00:03:52.160 --> 00:03:55.247
+nc[2] = 20.
+
+51
+00:03:55.247 --> 00:03:58.180
+All right,
+let's apply one last convolutional layer.
+
+52
+00:03:58.180 --> 00:04:04.071
+So let's say that you use
+a 5 by 5 filter again,
+
+53
+00:04:04.071 --> 00:04:07.390
+and again, a stride of 2.
+
+54
+00:04:07.390 --> 00:04:13.681
+So if you do that, I'll skip the math,
+but you end up with a 7 x 7, and
+
+55
+00:04:13.681 --> 00:04:19.251
+let's say you use 40 filters,
+no padding, 40 filters.
+
+56
+00:04:19.251 --> 00:04:22.760
+You end up with 7 x 7 x 40.
+
+57
+00:04:22.760 --> 00:04:27.860
+So now what you've done is
+taken your 39 x 39 x 3 input
+
+58
+00:04:29.380 --> 00:04:34.810
+image and computed your 7 x 7
+x 40 features for this image.
+
+59
+00:04:34.810 --> 00:04:41.075
+And then finally, what's commonly
+done is if you take this 7 x 7 x 40,
+
+60
+00:04:41.075 --> 00:04:45.137
+7 times 7 times 40 is actually 1,960.
+
+61
+00:04:45.137 --> 00:04:50.888
+And so what we can do is take
+this volume and flatten it or
+
+62
+00:04:50.888 --> 00:04:55.901
+unroll it into just 1,960 units, right?
+
+63
+00:04:55.901 --> 00:04:59.347
+Just flatten it out into a vector, and
+
+64
+00:04:59.347 --> 00:05:05.283
+then feed this to a logistic
+regression unit, or a softmax unit.
+
+65
+00:05:07.917 --> 00:05:11.682
+Depending on whether you're
+trying to recognize or
+
+66
+00:05:11.682 --> 00:05:15.150
+trying to recognize any one
+of key different objects and
+
+67
+00:05:15.150 --> 00:05:19.900
+then just have this give the final
+predicted output for the neural network.
+
+68
+00:05:20.925 --> 00:05:26.520
+So just be clear, this last step is
+just taking all of these numbers,
+
+69
+00:05:26.520 --> 00:05:32.222
+all 1,960 numbers, and
+unrolling them into a very long vector.
+
+70
+00:05:32.222 --> 00:05:36.483
+So then you just have one long vector that
+you can feed into softmax until it's just
+
+71
+00:05:36.483 --> 00:05:39.770
+a regression in order to make
+prediction for the final output.
+
+72
+00:05:41.600 --> 00:05:46.125
+So this would be a pretty
+typical example of a ConvNet.
+
+73
+00:05:47.380 --> 00:05:51.187
+A lot of the work in designing
+convolutional neural net is selecting
+
+74
+00:05:51.187 --> 00:05:54.880
+hyperparameters like these,
+deciding what's the total size?
+
+75
+00:05:54.880 --> 00:05:55.840
+What's the stride?
+
+76
+00:05:55.840 --> 00:05:58.860
+What's the padding and
+how many filters are used?
+
+77
+00:06:00.190 --> 00:06:03.980
+And both later this week as well as next
+week, we'll give some suggestions and
+
+78
+00:06:03.980 --> 00:06:07.440
+some guidelines on how
+to make these choices.
+
+79
+00:06:07.440 --> 00:06:12.510
+But for now, maybe one thing to take
+away from this is that as you go
+
+80
+00:06:12.510 --> 00:06:17.950
+deeper in a neural network, typically you
+start off with larger images, 39 by 39.
+
+81
+00:06:17.950 --> 00:06:21.202
+And then the height and
+width will stay the same for
+
+82
+00:06:21.202 --> 00:06:25.859
+a while and gradually trend down as
+you go deeper in the neural network.
+
+83
+00:06:25.859 --> 00:06:29.663
+It's gone from 39 to 37 to 17 to 14.
+
+84
+00:06:29.663 --> 00:06:33.961
+Excuse me,
+it's gone from 39 to 37 to 17 to 7.
+
+85
+00:06:33.961 --> 00:06:36.753
+Whereas the number of channels
+will generally increase.
+
+86
+00:06:36.753 --> 00:06:41.412
+It's gone from 3 to 10 to 20 to 40,
+and you see this general
+
+87
+00:06:41.412 --> 00:06:45.930
+trend in a lot of other convolutional
+neural networks as well.
+
+88
+00:06:47.060 --> 00:06:52.576
+So we'll get more guidelines about how to
+design these parameters in later videos.
+
+89
+00:06:52.576 --> 00:06:57.196
+But you've now seen your first example
+of a convolutional neural network, or
+
+90
+00:06:57.196 --> 00:06:59.210
+a ConvNet for short.
+
+91
+00:06:59.210 --> 00:07:00.770
+So congratulations on that.
+
+92
+00:07:02.050 --> 00:07:05.500
+And it turns out that
+in a typical ConvNet,
+
+93
+00:07:05.500 --> 00:07:07.870
+there are usually three types of layers.
+
+94
+00:07:07.870 --> 00:07:13.615
+One is the convolutional layer, and
+often we'll denote that as a Conv layer.
+
+95
+00:07:13.615 --> 00:07:17.025
+And that's what we've been
+using in the previous network.
+
+96
+00:07:17.025 --> 00:07:20.893
+It turns out that there are two other
+common types of layers that you haven't
+
+97
+00:07:20.893 --> 00:07:23.945
+seen yet but we'll talk about
+in the next couple of videos.
+
+98
+00:07:23.945 --> 00:07:28.272
+One is called a pooling layer,
+often I'll call this pool.
+
+99
+00:07:28.272 --> 00:07:32.241
+And then the last is a fully
+connected layer called FC.
+
+100
+00:07:32.241 --> 00:07:36.466
+And although it's possible to design
+a pretty good neural network using just
+
+101
+00:07:36.466 --> 00:07:41.278
+convolutional layers, most neural network
+architectures will also have a few pooling
+
+102
+00:07:41.278 --> 00:07:43.569
+layers and a few fully connected layers.
+
+103
+00:07:46.398 --> 00:07:48.103
+Fortunately pooling layers and
+
+104
+00:07:48.103 --> 00:07:52.340
+fully connected layers are a bit simpler
+than convolutional layers to define.
+
+105
+00:07:54.150 --> 00:07:58.472
+So we'll do that quickly in the next
+two videos and then you have a sense
+
+106
+00:07:58.472 --> 00:08:03.173
+of all of the most common types of layers
+in a convolutional neural network.
+
+107
+00:08:03.173 --> 00:08:06.725
+And you will put together even more
+powerful networks than the one we
+
+108
+00:08:06.725 --> 00:08:07.290
+just saw.
+
+109
+00:08:08.990 --> 00:08:14.110
+So congrats again on seeing your first
+full convolutional neural network.
+
+110
+00:08:14.110 --> 00:08:18.450
+We'll also talk later in this week
+about how to train these networks, but
+
+111
+00:08:18.450 --> 00:08:22.180
+first let's talk briefly about pooling and
+fully connected layers.
+
+112
+00:08:22.180 --> 00:08:24.659
+And then training these,
+we'll be using back propagation,
+
+113
+00:08:24.659 --> 00:08:26.241
+which you're already familiar with.
+
+114
+00:08:26.241 --> 00:08:30.421
+But in the next video, let's quickly go
+over how to implement a pooling layer for
+
+115
+00:08:30.421 --> 00:08:31.230
+your ConvNet.

@@ -1,0 +1,998 @@
+WEBVTT
+
+1
+00:00:03.945 --> 00:00:07.666
+Get now ready to see how to build one
+layer of a convolutional neural network,
+
+2
+00:00:07.666 --> 00:00:09.223
+let's go through the example.
+
+3
+00:00:12.432 --> 00:00:17.146
+You've seen at the previous video
+how to take a 3D volume and
+
+4
+00:00:17.146 --> 00:00:20.670
+convolve it with say
+two different filters.
+
+5
+00:00:21.810 --> 00:00:25.861
+In order to get in this example
+to different 4 by 4 outputs.
+
+6
+00:00:30.891 --> 00:00:35.548
+So let's say convolving with the first
+
+7
+00:00:35.548 --> 00:00:40.769
+filter gives this first 4 by 4 output, and
+
+8
+00:00:40.769 --> 00:00:49.108
+convolving with this second filter
+gives a different 4 by 4 output.
+
+9
+00:00:49.108 --> 00:00:55.574
+The final thing to turn this into
+a convolutional neural net layer,
+
+10
+00:00:55.574 --> 00:01:00.566
+is that for
+each of these we're going to add it bias,
+
+11
+00:01:00.566 --> 00:01:03.980
+so this is going to be a real number.
+
+12
+00:01:03.980 --> 00:01:08.840
+And where python broadcasting,
+you kind of have to add the same number so
+
+13
+00:01:08.840 --> 00:01:11.750
+every one of these 16 elements.
+
+14
+00:01:11.750 --> 00:01:16.805
+And then apply a non-linearity which for
+this illustration that says relative
+
+15
+00:01:16.805 --> 00:01:23.430
+non-linearity, and
+this gives you a 4 by 4 output, all right?
+
+16
+00:01:23.430 --> 00:01:27.295
+After applying the bias and
+the non-linearity.
+
+17
+00:01:27.295 --> 00:01:31.894
+And then for this thing at the bottom as
+well, you add some different bias, again,
+
+18
+00:01:31.894 --> 00:01:33.154
+this is a real number.
+
+19
+00:01:33.154 --> 00:01:36.473
+So you add the single number
+to all 16 numbers, and
+
+20
+00:01:36.473 --> 00:01:40.934
+then apply some non-linearity,
+let's say a real non-linearity.
+
+21
+00:01:40.934 --> 00:01:47.369
+And this gives you
+a different 4 by 4 output.
+
+22
+00:01:47.369 --> 00:01:52.461
+Then same as we did before,
+if we take this and
+
+23
+00:01:52.461 --> 00:01:59.698
+stack it up as follows, so
+we ends up with a 4 by 4 by 2 outputs.
+
+24
+00:01:59.698 --> 00:02:06.326
+Then this computation where you come
+from a 6 by 6 by 3 to 4 by 4 by 4,
+
+25
+00:02:06.326 --> 00:02:11.303
+this is one layer of
+a convolutional neural network.
+
+26
+00:02:11.303 --> 00:02:15.634
+So to map this back to one layer of
+four propagation in the standard neural
+
+27
+00:02:15.634 --> 00:02:18.832
+network, in a non-convolutional
+neural network.
+
+28
+00:02:18.832 --> 00:02:23.155
+Remember that one step before the prop
+was something like this, right?
+
+29
+00:02:23.155 --> 00:02:28.461
+z1 = w1 times a0, a 0 was also equal to x,
+
+30
+00:02:28.461 --> 00:02:31.265
+and then plus b[1].
+
+31
+00:02:31.265 --> 00:02:38.121
+And you apply the non-linearity
+to get a[1], so that's g(z[1]).
+
+32
+00:02:38.121 --> 00:02:43.400
+So this input here,
+in this analogy this is a[0], this is x3.
+
+33
+00:02:44.770 --> 00:02:48.076
+And these filters here,
+
+34
+00:02:48.076 --> 00:02:52.488
+this plays a role similar to w1.
+
+35
+00:02:52.488 --> 00:02:56.377
+And you remember during the convolution
+operation, you were taking
+
+36
+00:02:56.377 --> 00:03:01.149
+these 27 numbers, or really well,
+27 times 2, because you have two filters.
+
+37
+00:03:01.149 --> 00:03:03.900
+You're taking all of these numbers and
+multiplying them.
+
+38
+00:03:03.900 --> 00:03:09.631
+So you're really computing a linear
+function to get this 4 x 4 matrix.
+
+39
+00:03:09.631 --> 00:03:15.048
+So that 4 x 4 matrix,
+the output of the convolution operation,
+
+40
+00:03:15.048 --> 00:03:19.245
+that plays a rolesimilar to w1 times a0.
+
+41
+00:03:19.245 --> 00:03:25.340
+That's really maybe the output of
+this 4 x 4 as well as that 4 x 4.
+
+42
+00:03:25.340 --> 00:03:29.599
+And then the other thing
+you do is add the bias.
+
+43
+00:03:29.599 --> 00:03:35.138
+So, this thing here before applying value,
+
+44
+00:03:35.138 --> 00:03:38.939
+this plays a role similar to z.
+
+45
+00:03:38.939 --> 00:03:43.848
+And then it's finally by applying the
+non-linearity, this kind of this I guess.
+
+46
+00:03:43.848 --> 00:03:49.740
+So, this output plays a role,
+
+47
+00:03:49.740 --> 00:03:53.390
+this really becomes your
+activation at the next layer.
+
+48
+00:03:53.390 --> 00:03:58.794
+So this is how you go from a0 to a1,
+as far as tthe linear operation and
+
+49
+00:03:58.794 --> 00:04:02.192
+then convolution has all these multipled.
+
+50
+00:04:02.192 --> 00:04:05.507
+So the convolution is really
+applying a linear operation and
+
+51
+00:04:05.507 --> 00:04:08.437
+you have the biases and
+the applied value operation.
+
+52
+00:04:08.437 --> 00:04:14.107
+And you've gone from a 6 by 6 by 3,
+dimensional a0,
+
+53
+00:04:14.107 --> 00:04:18.210
+through one layer of neural network to,
+
+54
+00:04:18.210 --> 00:04:22.693
+I guess a 4 by 4 by 2 dimensional a(1).
+
+55
+00:04:22.693 --> 00:04:27.144
+And so 6 by 6 by 3 has gone
+to 4 by 4 by 2, and so
+
+56
+00:04:27.144 --> 00:04:30.860
+that is one layer of convolutional net.
+
+57
+00:04:33.697 --> 00:04:40.504
+Now in this example we have two filters,
+so we had two features of you will,
+
+58
+00:04:40.504 --> 00:04:45.270
+which is why we wound up
+with our output 4 by 4 by 2.
+
+59
+00:04:45.270 --> 00:04:49.248
+But if for example we instead
+had 10 filters instead of 2,
+
+60
+00:04:49.248 --> 00:04:54.396
+then we would have wound up with the 4
+by 4 by 10 dimensional output volume.
+
+61
+00:04:54.396 --> 00:05:00.334
+Because we'll be taking 10 of these naps
+not just two of them, and stacking them
+
+62
+00:05:00.334 --> 00:05:05.598
+up to form a 4 by 4 by 10 output volume,
+and that's what a1 would be.
+
+63
+00:05:05.598 --> 00:05:09.630
+So, to make sure you understand this,
+let's go through an exercise.
+
+64
+00:05:09.630 --> 00:05:14.655
+Let's suppose you have 10 filters, not
+just two filters, that are 3 by 3 by 3 and
+
+65
+00:05:14.655 --> 00:05:19.600
+1 layer of a neural network,
+how many parameters does this layer have?
+
+66
+00:05:21.000 --> 00:05:22.984
+Well, let's figure this out.
+
+67
+00:05:22.984 --> 00:05:29.439
+Each filter, is a 3 x 3 x 3 volume,
+so 3 x 3 x 3,
+
+68
+00:05:29.439 --> 00:05:35.318
+so each fill has 27 parameters, all right?
+
+69
+00:05:35.318 --> 00:05:39.800
+There's 27 numbers to be run,
+and plus the bias.
+
+70
+00:05:42.210 --> 00:05:46.818
+So that was the b parameter, so
+this gives you 28 parameters.
+
+71
+00:05:50.125 --> 00:05:54.456
+And then if you imagine that on the
+previous slide we had drawn two filters,
+
+72
+00:05:54.456 --> 00:05:58.329
+but now if you imagine that you
+actually have ten of these, right?
+
+73
+00:05:58.329 --> 00:06:01.747
+1, 2..., 10 of these,
+
+74
+00:06:01.747 --> 00:06:06.942
+then all together you'll have 28 times 10,
+
+75
+00:06:06.942 --> 00:06:10.753
+so that will be 280 parameters.
+
+76
+00:06:10.753 --> 00:06:16.316
+Notice one nice thing about this, is that
+no matter how big the input image is,
+
+77
+00:06:16.316 --> 00:06:22.051
+the input image could be 1,000 by 1,000 or
+5,000 by 5,000,
+
+78
+00:06:22.051 --> 00:06:26.973
+but the number of parameters you
+have still remains fixed as 280.
+
+79
+00:06:26.973 --> 00:06:31.453
+And you can use these ten filters
+to detect features, vertical edges,
+
+80
+00:06:31.453 --> 00:06:35.485
+horizontal edges maybe other
+features anywhere even in a very,
+
+81
+00:06:35.485 --> 00:06:39.240
+very large image is just a very
+small number of parameters.
+
+82
+00:06:40.920 --> 00:06:44.410
+So these is really one property of
+convolution neural network that
+
+83
+00:06:44.410 --> 00:06:48.000
+makes less prone to
+overfitting then if you could.
+
+84
+00:06:48.000 --> 00:06:51.450
+So once you've learned 10
+feature detectors that work,
+
+85
+00:06:51.450 --> 00:06:54.770
+you could apply this even to large images.
+
+86
+00:06:54.770 --> 00:06:58.300
+And the number of parameters still
+is fixed and relatively small,
+
+87
+00:06:58.300 --> 00:07:00.494
+as 280 in this example.
+
+88
+00:07:00.494 --> 00:07:05.130
+All right, so to wrap up this video
+let's just summarize the notation we
+
+89
+00:07:05.130 --> 00:07:09.766
+are going to use to describe one layer
+to describe a covolutional layer in
+
+90
+00:07:09.766 --> 00:07:11.980
+a convolutional neural network.
+
+91
+00:07:11.980 --> 00:07:14.302
+So layer l is a convolution layer,
+
+92
+00:07:14.302 --> 00:07:18.555
+l am going to use f superscript,[l]
+to denote the filter size.
+
+93
+00:07:18.555 --> 00:07:23.219
+So previously we've been seeing
+the filters are f by f, and
+
+94
+00:07:23.219 --> 00:07:28.163
+now this superscript square bracket
+l just denotes that this is
+
+95
+00:07:28.163 --> 00:07:31.074
+a filter size of f by f filter layer l.
+
+96
+00:07:31.074 --> 00:07:35.767
+And as usual the superscript square
+bracket l is the notation we're using to
+
+97
+00:07:35.767 --> 00:07:37.611
+refer to particular layer l.
+
+98
+00:07:39.812 --> 00:07:42.809
+going to use p[l] to denote
+the amount of padding.
+
+99
+00:07:42.809 --> 00:07:47.363
+And again, the amount of padding can also
+be specified just by saying that you want
+
+100
+00:07:47.363 --> 00:07:50.135
+a valid convolution,
+which means no padding, or
+
+101
+00:07:50.135 --> 00:07:53.240
+a same convolution which
+means you choose the padding.
+
+102
+00:07:53.240 --> 00:07:57.910
+So that the output size has the same
+height and width as the input size.
+
+103
+00:07:59.000 --> 00:08:01.590
+And then you're going to use
+s[l] to denote the stride.
+
+104
+00:08:03.250 --> 00:08:09.450
+Now, the input to this layer
+is going to be some dimension.
+
+105
+00:08:09.450 --> 00:08:18.590
+It's going be some n by n by number
+of channels in the previous layer.
+
+106
+00:08:18.590 --> 00:08:21.162
+Now, I'm going to modify
+this notation a little bit.
+
+107
+00:08:21.162 --> 00:08:25.385
+I'm going to us superscript l- 1,
+
+108
+00:08:25.385 --> 00:08:29.902
+because that's the activation from
+
+109
+00:08:29.902 --> 00:08:35.594
+the previous layer, l- 1 times nc of l- 1.
+
+110
+00:08:35.594 --> 00:08:40.966
+And in the example so far, we've been just
+using images of the same height and width.
+
+111
+00:08:40.966 --> 00:08:43.990
+That in case the height and
+width might differ,
+
+112
+00:08:43.990 --> 00:08:48.528
+l am going to use superscript h and
+superscript w, to denote the height and
+
+113
+00:08:48.528 --> 00:08:51.949
+width of the input of the previous layer,
+all right?
+
+114
+00:08:51.949 --> 00:08:56.418
+So in layer l,
+the size of the volume will be nh
+
+115
+00:08:56.418 --> 00:09:01.134
+by nw by nc with superscript
+squared bracket l.
+
+116
+00:09:01.134 --> 00:09:05.597
+It's just in layer l, the input to
+this layer Is whatever you had for
+
+117
+00:09:05.597 --> 00:09:09.451
+the previous layer, so
+that's why you have l- 1 there.
+
+118
+00:09:09.451 --> 00:09:16.730
+And then this layer of the neural
+network will itself output the value.
+
+119
+00:09:16.730 --> 00:09:23.065
+So that will be nh of l by nw of l,
+by nc of l,
+
+120
+00:09:23.065 --> 00:09:28.495
+that will be the size of the output.
+
+121
+00:09:28.495 --> 00:09:34.941
+And so whereas we approve this set
+that the output volume size or
+
+122
+00:09:34.941 --> 00:09:40.657
+at least the height and
+weight is given by this formula,
+
+123
+00:09:40.657 --> 00:09:47.971
+n + 2p- f over s + 1, and then take
+the full of that and round it down.
+
+124
+00:09:47.971 --> 00:09:55.605
+In this new notation what we have is that
+the outputs value that's in layer l,
+
+125
+00:09:55.605 --> 00:10:00.891
+is going to be the dimension
+from the previous layer,
+
+126
+00:10:00.891 --> 00:10:05.471
+plus the padding we're
+using in this layer l,
+
+127
+00:10:05.471 --> 00:10:11.760
+minus the filter size we're
+using this layer l and so on.
+
+128
+00:10:11.760 --> 00:10:16.580
+And technically this is true for
+the height, right?
+
+129
+00:10:16.580 --> 00:10:21.510
+So the height of the output volume is
+given by this, and you can compute it
+
+130
+00:10:21.510 --> 00:10:24.680
+with this formula on the right, and
+the same is true for the width as well.
+
+131
+00:10:24.680 --> 00:10:26.670
+So you cross out h and
+
+132
+00:10:26.670 --> 00:10:30.780
+throw in w as well, then the same
+formula with either the height or
+
+133
+00:10:30.780 --> 00:10:34.775
+the width plugged in for computing
+the height or width of the output value.
+
+134
+00:10:36.570 --> 00:10:44.024
+So that's how nhl -1 relates to nhl and
+wl- 1 relates to nwl.
+
+135
+00:10:44.024 --> 00:10:48.105
+Now, how about the number of channels,
+where did those numbers come from?
+
+136
+00:10:48.105 --> 00:10:52.784
+Let's take a look,
+if the output volume has this depth,
+
+137
+00:10:52.784 --> 00:10:57.662
+while we know from the previous
+examples that that's equal
+
+138
+00:10:57.662 --> 00:11:02.167
+to the number of filters we
+have in that layer, right?
+
+139
+00:11:02.167 --> 00:11:07.017
+So we had two filters, the output value
+was 4 by 4 by 2, was 2 dimensional.
+
+140
+00:11:07.017 --> 00:11:11.097
+And if you had 10 filters and
+your upper volume was 4 by 4 by 10.
+
+141
+00:11:11.097 --> 00:11:15.744
+So, this the number of
+channels in the output value,
+
+142
+00:11:15.744 --> 00:11:23.098
+that's just the number of filters we're
+using in this layer of the neural network.
+
+143
+00:11:23.098 --> 00:11:26.849
+Next, how about the size of this filter?
+
+144
+00:11:26.849 --> 00:11:33.057
+Well, each filter is going to be
+fl by fl by 100 number, right?
+
+145
+00:11:33.057 --> 00:11:34.704
+So what is this last number?
+
+146
+00:11:34.704 --> 00:11:39.465
+Well, we saw that you needed to
+convolve a 6 by 6 by 3 image,
+
+147
+00:11:39.465 --> 00:11:41.580
+with a 3 by 3 by 3 filter.
+
+148
+00:11:43.070 --> 00:11:48.150
+And so the number of channels in your
+filter, must match the number of channels
+
+149
+00:11:48.150 --> 00:11:54.360
+in your input, so this number
+should match that number, right?
+
+150
+00:11:54.360 --> 00:12:02.627
+Which is why each filter is going
+to be f(l) by f(l) by nc(l-1).
+
+151
+00:12:02.627 --> 00:12:07.875
+And the output of this layer often
+apply devices in non-linearity,
+
+152
+00:12:07.875 --> 00:12:11.745
+is going to be the activations
+of this layer al.
+
+153
+00:12:11.745 --> 00:12:15.115
+And that we've already seen
+will be this dimension, right?
+
+154
+00:12:15.115 --> 00:12:20.451
+The al will be a 3D volume,
+
+155
+00:12:20.451 --> 00:12:25.556
+that's nHl by nwl by ncl.
+
+156
+00:12:25.556 --> 00:12:31.082
+And when you are using a vectorized
+implementation or batch gradient
+
+157
+00:12:31.082 --> 00:12:36.891
+descent or mini batch gradient descent,
+then you actually outputs Al,
+
+158
+00:12:36.891 --> 00:12:41.387
+which is a set of m activations,
+if you have m examples.
+
+159
+00:12:41.387 --> 00:12:48.275
+So that would be M by nHl,
+by nwl by ncl right?
+
+160
+00:12:48.275 --> 00:12:51.375
+If say you're using
+bash grading decent and
+
+161
+00:12:51.375 --> 00:12:55.999
+in the programming sizes this will
+be ordering of the variables.
+
+162
+00:12:55.999 --> 00:12:59.962
+And we have the index and
+the trailing examples first,
+
+163
+00:12:59.962 --> 00:13:02.384
+and then these three variables.
+
+164
+00:13:02.384 --> 00:13:07.618
+Next how about the weights or the
+parameters, or kind of the w parameter?
+
+165
+00:13:07.618 --> 00:13:10.264
+Well we saw already what
+the filter dimension is.
+
+166
+00:13:10.264 --> 00:13:16.258
+So the filters are going to
+be f[l] by f[l] by nc [l- 1],
+
+167
+00:13:16.258 --> 00:13:20.230
+but that's the dimension of one filter.
+
+168
+00:13:20.230 --> 00:13:22.247
+How many filters do we have?
+
+169
+00:13:22.247 --> 00:13:25.097
+Well, this is a total number of filters,
+so
+
+170
+00:13:25.097 --> 00:13:30.029
+the weights really all of the filters
+put together will have dimension given
+
+171
+00:13:30.029 --> 00:13:33.513
+by this,
+times the total number of filters, right?
+
+172
+00:13:33.513 --> 00:13:38.625
+Because this,
+Last quantity is the number of
+
+173
+00:13:38.625 --> 00:13:43.750
+filters, In layer l.
+
+174
+00:13:45.680 --> 00:13:48.710
+And then finally,
+you have the bias parameters, and
+
+175
+00:13:48.710 --> 00:13:54.100
+you have one bias parameter,
+one real number for each filter.
+
+176
+00:13:54.100 --> 00:13:57.970
+So you're going to have,
+the bias will have this many variables,
+
+177
+00:13:57.970 --> 00:14:00.810
+it's just a vector of this dimension.
+
+178
+00:14:00.810 --> 00:14:05.052
+Although later on we'll
+see that the code will be
+
+179
+00:14:05.052 --> 00:14:09.813
+more convenient represented
+as 1 by 1 by 1 by nc[l]
+
+180
+00:14:09.813 --> 00:14:14.790
+four dimensional matrix, or
+four dimensional tensor.
+
+181
+00:14:16.430 --> 00:14:19.408
+So I know that was a lot of notation, and
+
+182
+00:14:19.408 --> 00:14:23.303
+this is the convention I'll use for
+the most part.
+
+183
+00:14:23.303 --> 00:14:27.498
+I just want to mention in case you search
+online and look at open source code.
+
+184
+00:14:27.498 --> 00:14:32.311
+There isn't a completely universal
+standard convention about the ordering of
+
+185
+00:14:32.311 --> 00:14:34.260
+height, width, and channel.
+
+186
+00:14:34.260 --> 00:14:39.142
+So If you look on source code on GitHub or
+these open source implementations,
+
+187
+00:14:39.142 --> 00:14:43.873
+you'll find that some authors use this
+order instead, where you first put
+
+188
+00:14:43.873 --> 00:14:48.631
+the channel first, and you sometimes
+see that ordering of the variables.
+
+189
+00:14:48.631 --> 00:14:52.154
+And in fact in some common frameworks,
+actually in multiple common frameworks,
+
+190
+00:14:52.154 --> 00:14:54.155
+there's actually a variable or
+a parameter.
+
+191
+00:14:54.155 --> 00:14:57.652
+Why do you want to list
+the number of channels first, or
+
+192
+00:14:57.652 --> 00:15:02.000
+list the number of channels last
+when indexing into these volumes.
+
+193
+00:15:02.000 --> 00:15:08.137
+I think both of these conventions work
+okay, so long as you're consistent.
+
+194
+00:15:08.137 --> 00:15:13.049
+And unfortunately maybe this is
+one piece of annotation where
+
+195
+00:15:13.049 --> 00:15:17.772
+there isn't consensus in
+the deep learning literature but
+
+196
+00:15:17.772 --> 00:15:21.752
+i'm going to use this convention for
+these videos.
+
+197
+00:15:24.681 --> 00:15:30.769
+Where we list height and width and
+then the number of channels last.
+
+198
+00:15:30.769 --> 00:15:34.327
+So I know there was certainly a lot of
+new notations you could use, but you're
+
+199
+00:15:34.327 --> 00:15:38.027
+thinking wow, that's a long notation,
+how do I need to remember all of these?
+
+200
+00:15:38.027 --> 00:15:41.994
+Don't worry about it, you don't need
+to remember all of this notation, and
+
+201
+00:15:41.994 --> 00:15:46.036
+through this week's exercises you become
+more familiar with it at that time.
+
+202
+00:15:46.036 --> 00:15:49.116
+But the key point I hope you
+take a way from this video,
+
+203
+00:15:49.116 --> 00:15:52.694
+is just one layer of how
+convolutional neural network works.
+
+204
+00:15:52.694 --> 00:15:57.006
+And the computations involved in taking
+the activations of one layer and
+
+205
+00:15:57.006 --> 00:16:00.052
+mapping that to the activations
+of the next layer.
+
+206
+00:16:00.052 --> 00:16:04.063
+And next, now that you know how one layer
+of the compositional neural network works,
+
+207
+00:16:04.063 --> 00:16:07.740
+let's stack a bunch of these together
+to actually form a deeper compositional
+
+208
+00:16:07.740 --> 00:16:09.040
+neural network.
+
+209
+00:16:09.040 --> 00:16:10.200
+Let's go on to the next video to see,
