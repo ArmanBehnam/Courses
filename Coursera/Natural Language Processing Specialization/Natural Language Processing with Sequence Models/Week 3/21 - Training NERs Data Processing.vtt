@@ -1,0 +1,317 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:02.020
+As you're probably aware by now,
+
+2
+00:00:02.020 --> 00:00:06.440
+most text data requires a fair
+amount of pre-processing.
+
+3
+00:00:06.440 --> 00:00:12.610
+For larger data sets processing training
+data in batches is very useful as well.
+
+4
+00:00:12.610 --> 00:00:17.410
+Let's go over how you can apply both
+to your named entity recognition model.
+
+5
+00:00:17.410 --> 00:00:20.010
+I'll show you how to
+convert entity classes and
+
+6
+00:00:20.010 --> 00:00:25.150
+label data into arrays of numbers
+that correspond to one another.
+
+7
+00:00:25.150 --> 00:00:29.760
+And how to create a data generator
+to process your data in batches,
+
+8
+00:00:29.760 --> 00:00:32.050
+saving you time and resources.
+
+9
+00:00:32.050 --> 00:00:33.720
+So, let's begin.
+
+10
+00:00:33.720 --> 00:00:37.710
+First, you'll assign each
+entity class a unique number.
+
+11
+00:00:37.710 --> 00:00:41.090
+So for example,
+a personal name might be 1,
+
+12
+00:00:41.090 --> 00:00:46.145
+geographical location might be 2,
+and a time indicator might be 3.
+
+13
+00:00:47.350 --> 00:00:53.050
+Next, assign each word a number that
+corresponds to its assigned entity class.
+
+14
+00:00:53.050 --> 00:00:58.040
+So given a sentence like Sharon
+flew to Miami last Friday.
+
+15
+00:00:58.040 --> 00:01:02.815
+You get a corresponding
+tokenized sentence, where
+
+16
+00:01:02.815 --> 00:01:07.730
+4,282 corresponds to the index of Sharon,
+
+17
+00:01:07.730 --> 00:01:14.010
+853 corresponds to flew,
+187 corresponds with to, and so forth.
+
+18
+00:01:14.010 --> 00:01:18.890
+The O corresponds to the O class, which
+denotes a filler or unrecognised word.
+
+19
+00:01:20.030 --> 00:01:23.230
+Note also that the numbers
+you see here are random and
+
+20
+00:01:23.230 --> 00:01:25.930
+are assigned when you process your data.
+
+21
+00:01:25.930 --> 00:01:31.030
+From this point, each sequence is then
+transformed into an array of numbers,
+
+22
+00:01:31.030 --> 00:01:35.610
+where each number corresponds to
+the index of the labeled word.
+
+23
+00:01:35.610 --> 00:01:38.280
+So from a labelled sentence
+that looks like this,
+
+24
+00:01:38.280 --> 00:01:40.840
+you'll be transforming it
+into a numerical array.
+
+25
+00:01:41.930 --> 00:01:46.970
+When processing the data sets, you need
+to represent each word in the vocabulary,
+
+26
+00:01:46.970 --> 00:01:49.600
+as a number as you just saw.
+
+27
+00:01:49.600 --> 00:01:53.950
+This gives you a numerical arrays,
+whatever the arrays are different sizes,
+
+28
+00:01:53.950 --> 00:01:55.270
+you'll need to handle that.
+
+29
+00:01:55.270 --> 00:01:58.200
+And here's why, LSTMs networks,
+
+30
+00:01:58.200 --> 00:02:01.600
+require that all your
+sequences are the same length.
+
+31
+00:02:01.600 --> 00:02:05.680
+To assist with this, you can set
+the length of your sequences to a certain
+
+32
+00:02:05.680 --> 00:02:11.200
+number and add the generic PAD
+token to fill all the empty spaces.
+
+33
+00:02:11.200 --> 00:02:13.140
+You'll be implementing
+this in the assignments.
+
+34
+00:02:14.370 --> 00:02:16.290
+But don't worry about it.
+
+35
+00:02:16.290 --> 00:02:21.150
+It's a relatively simple process and
+I'll show you exactly how to do it.
+
+36
+00:02:21.150 --> 00:02:25.740
+In order to train this NER entity
+recognition system, you will first create
+
+37
+00:02:25.740 --> 00:02:31.140
+a tensor for each input and its
+corresponding label, as you saw before.
+
+38
+00:02:31.140 --> 00:02:36.050
+Then, create a data generator
+to output them in batches.
+
+39
+00:02:36.050 --> 00:02:38.550
+The batch size can be anything you want.
+
+40
+00:02:38.550 --> 00:02:42.750
+But normally, you'd want a batch
+size that is in a power of two.
+
+41
+00:02:42.750 --> 00:02:49.150
+So something like 64, 128,
+256, 512, and so forth.
+
+42
+00:02:49.150 --> 00:02:52.880
+Doing this will speed up your
+processing time considerably.
+
+43
+00:02:52.880 --> 00:02:57.870
+If you felt alarmed by the words, create
+a data generator, don't worry about it.
+
+44
+00:02:58.880 --> 00:03:01.250
+There will be more on this to come.
+
+45
+00:03:01.250 --> 00:03:04.920
+After the batches are generated,
+feed them into an LSTM unit.
+
+46
+00:03:04.920 --> 00:03:10.550
+You will run the output from this through
+a dense or fully connected layer.
+
+47
+00:03:10.550 --> 00:03:14.760
+Then predict using a log softmax
+over K possible classes,
+
+48
+00:03:14.760 --> 00:03:18.760
+where K corresponds to
+the number of possible output.
+
+49
+00:03:18.760 --> 00:03:23.780
+Using log softmax instead of softmax
+is important here, because log softmax
+
+50
+00:03:23.780 --> 00:03:28.330
+gets better in numerical performance and
+gradients optimization.
+
+51
+00:03:28.330 --> 00:03:31.560
+Let's take a look at
+a visual of this process.
+
+52
+00:03:31.560 --> 00:03:33.000
+Here are the inputs,
+
+53
+00:03:33.000 --> 00:03:36.840
+which include the arrays you
+created when processing the data.
+
+54
+00:03:36.840 --> 00:03:41.270
+You feed them through an LSTM layer
+with its series of activations and
+
+55
+00:03:41.270 --> 00:03:46.490
+element wise operations, run the outputs
+of that through a final dense layer,
+
+56
+00:03:46.490 --> 00:03:49.980
+which is a linear operation
+on the input vectors.
+
+57
+00:03:49.980 --> 00:03:53.290
+And then you compute a log softmax
+to get the corresponding outputs.
+
+58
+00:03:54.380 --> 00:03:57.440
+Here's what the layers might look
+like when you're implementing them
+
+59
+00:03:57.440 --> 00:03:59.070
+in this week's assignments.
+
+60
+00:03:59.070 --> 00:04:00.610
+For your dense layer,
+
+61
+00:04:00.610 --> 00:04:04.260
+you will want to pass in the dimensions
+of the text arrays you just created.
+
+62
+00:04:05.440 --> 00:04:08.010
+Now we are ready to
+accomplish some mighty tasks
+
+63
+00:04:08.010 --> 00:04:10.970
+like numerical array
+conversion with token padding.
+
+64
+00:04:10.970 --> 00:04:13.760
+Training in batches for
+faster processing and
+
+65
+00:04:13.760 --> 00:04:18.190
+running your model through its final
+dense layer and activation function.
+
+66
+00:04:18.190 --> 00:04:21.870
+You've come a long way since the beginning
+of this course, just a bit more to go.

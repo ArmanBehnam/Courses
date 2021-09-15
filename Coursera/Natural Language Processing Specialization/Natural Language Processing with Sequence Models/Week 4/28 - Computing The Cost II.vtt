@@ -1,0 +1,471 @@
+WEBVTT
+
+1
+00:00:00.690 --> 00:00:05.530
+Previously, you set up the training
+data into two specific batches,
+
+2
+00:00:05.530 --> 00:00:09.210
+each batch containing no
+duplicate questions within it.
+
+3
+00:00:09.210 --> 00:00:12.180
+You ran those batches
+through one sub network each.
+
+4
+00:00:12.180 --> 00:00:15.193
+And that's produced a vector
+of supports per question.
+
+5
+00:00:15.193 --> 00:00:20.730
+Which has dimension 1 by d_model,
+where d_model is the embedding dimension.
+
+6
+00:00:20.730 --> 00:00:25.025
+And is equal to the number of columns
+in the matrix, which is five,
+
+7
+00:00:25.025 --> 00:00:26.723
+at least in this example.
+
+8
+00:00:26.723 --> 00:00:30.090
+The v1 vectors for
+a single batch are stuck together.
+
+9
+00:00:31.480 --> 00:00:35.570
+And in this case, the batch size is
+the number of rows shown in this matrix,
+
+10
+00:00:35.570 --> 00:00:37.070
+which is four.
+
+11
+00:00:37.070 --> 00:00:40.840
+You can see a similar batch
+of v2 vectors as well.
+
+12
+00:00:40.840 --> 00:00:45.030
+The last step was to combine the two
+branches of the Siamese network.
+
+13
+00:00:45.030 --> 00:00:49.250
+By calculating the similarity
+between all vector pair combinations
+
+14
+00:00:49.250 --> 00:00:51.717
+of the v1 vectors and v2 vectors.
+
+15
+00:00:53.190 --> 00:00:57.190
+For this example with a batch
+size of four, that last step
+
+16
+00:00:57.190 --> 00:01:01.850
+would produce a matrix of similarities
+that looks something like this.
+
+17
+00:01:03.170 --> 00:01:06.220
+This matrix has some important attributes.
+
+18
+00:01:06.220 --> 00:01:10.590
+The similarities along the green
+diagonal contain similarities for
+
+19
+00:01:10.590 --> 00:01:12.580
+the duplicate questions.
+
+20
+00:01:12.580 --> 00:01:17.367
+For a well trained model, these values
+should be greater than similarities for
+
+21
+00:01:17.367 --> 00:01:18.732
+the off-diagonals.
+
+22
+00:01:18.732 --> 00:01:23.110
+Reflecting the fact that the network
+produces similar vector outputs for
+
+23
+00:01:23.110 --> 00:01:25.350
+duplicate questions.
+
+24
+00:01:25.350 --> 00:01:29.860
+The orange values in the upper right and
+lower left are similarities for
+
+25
+00:01:29.860 --> 00:01:32.180
+the non duplicate questions.
+
+26
+00:01:32.180 --> 00:01:35.080
+Now this is where things
+get really interesting.
+
+27
+00:01:35.080 --> 00:01:39.677
+You can use this off diagonal information
+to make some modifications to the loss
+
+28
+00:01:39.677 --> 00:01:42.912
+function and
+really improve your models performance.
+
+29
+00:01:42.912 --> 00:01:46.960
+To do so,
+I'm going to make use of two concepts.
+
+30
+00:01:46.960 --> 00:01:51.444
+The first concept is the mean negative,
+which is just the mean or
+
+31
+00:01:51.444 --> 00:01:55.193
+average of all the off-diagonal
+values in each row.
+
+32
+00:01:55.193 --> 00:01:59.370
+Notice that off-diagonal elements
+can still be positive numbers.
+
+33
+00:01:59.370 --> 00:02:03.950
+So when I say mean negative, I'm referring
+to the mean of the similarity for
+
+34
+00:02:03.950 --> 00:02:07.720
+negative examples,
+not the mean of negative numbers in a row.
+
+35
+00:02:08.720 --> 00:02:12.160
+For example,
+the mean negative of the first row
+
+36
+00:02:12.160 --> 00:02:16.440
+is just the mean of all
+the off-diagonal values in that row.
+
+37
+00:02:16.440 --> 00:02:20.735
+In this case, -0.8, 0.3 and -0.5,
+
+38
+00:02:20.735 --> 00:02:26.510
+excluding the value 0.9,
+which is on the diagonal.
+
+39
+00:02:26.510 --> 00:02:30.280
+You can use the mean negative to help
+speed up training by modifying the loss
+
+40
+00:02:30.280 --> 00:02:33.070
+function, which I'll show you soon.
+
+41
+00:02:33.070 --> 00:02:37.400
+The next concept is what's
+called the closest negative.
+
+42
+00:02:37.400 --> 00:02:41.425
+As mentioned earlier, because of the way
+you define the triplet loss function,
+
+43
+00:02:41.425 --> 00:02:46.680
+you'll need to choose so
+called hard triplets to train on.
+
+44
+00:02:46.680 --> 00:02:48.180
+What this means is that for
+
+45
+00:02:48.180 --> 00:02:52.160
+training, you want to choose triplets
+where the cosine similarity of
+
+46
+00:02:52.160 --> 00:02:57.340
+the negative example is close to
+the similarity of the positive example.
+
+47
+00:02:57.340 --> 00:03:01.480
+This forces your model to learn what
+differentiates these examples and
+
+48
+00:03:01.480 --> 00:03:06.870
+ultimately drive those similarity
+values further apart through training.
+
+49
+00:03:06.870 --> 00:03:12.290
+To do this, you'll search each row in your
+output matrix for the closest negative.
+
+50
+00:03:12.290 --> 00:03:16.790
+Which is to say the off diagonal
+value which is closest to, but
+
+51
+00:03:16.790 --> 00:03:21.310
+still less than the value on
+the on diagonal for that row.
+
+52
+00:03:21.310 --> 00:03:26.299
+So in this first row,
+the value on the diagonal is 0.9.
+
+53
+00:03:26.299 --> 00:03:31.245
+So the closest off-diagonal
+elements in this case is 0.3.
+
+54
+00:03:31.245 --> 00:03:35.984
+What this means is that this negative
+example with a similarity of 0.3 has
+
+55
+00:03:35.984 --> 00:03:39.920
+the most to offer your model in
+terms of learning opportunity.
+
+56
+00:03:41.530 --> 00:03:43.260
+To make use of these new concepts,
+
+57
+00:03:43.260 --> 00:03:48.100
+recall that the triplet loss was defined
+as the max of the similarity of A and
+
+58
+00:03:48.100 --> 00:03:53.335
+N minus the similarity of A and
+B plus the margin alpha and 0.
+
+59
+00:03:54.520 --> 00:03:57.360
+Also recall that we refer to
+the difference between the two
+
+60
+00:03:57.360 --> 00:04:00.590
+similarities with the variable named diff.
+
+61
+00:04:00.590 --> 00:04:03.720
+Here, we're just writing
+out the definition of diff.
+
+62
+00:04:04.790 --> 00:04:09.340
+So in order to minimize the loss you
+want this diff plus the margin alpha
+
+63
+00:04:09.340 --> 00:04:11.776
+to be less than or equal to 0.
+
+64
+00:04:11.776 --> 00:04:14.600
+I'll introduce loss 1 to be the max
+
+65
+00:04:14.600 --> 00:04:19.620
+of the mean negative minus the similarity
+of A and P plus alpha and 0.
+
+66
+00:04:19.620 --> 00:04:23.395
+The change between the formulas for
+triplet loss and
+
+67
+00:04:23.395 --> 00:04:27.093
+loss 1 is the replacement
+of similarity of A and N.
+
+68
+00:04:27.093 --> 00:04:28.542
+With the mean negative,
+
+69
+00:04:28.542 --> 00:04:33.540
+this helps the model converge faster
+during training by reducing noise.
+
+70
+00:04:33.540 --> 00:04:38.203
+It reduces noise by training on just
+the average of several observations,
+
+71
+00:04:38.203 --> 00:04:42.803
+rather than training the model on
+each of these off-diagonal examples.
+
+72
+00:04:42.803 --> 00:04:47.810
+So why does taking the average of several
+observations usually reduce noise?
+
+73
+00:04:47.810 --> 00:04:51.340
+Well, we define noise to be a small value
+
+74
+00:04:51.340 --> 00:04:55.600
+that comes from a distribution
+that is centered around 0.
+
+75
+00:04:55.600 --> 00:05:00.570
+So in other words, the average of
+several noise values is usually 0.
+
+76
+00:05:00.570 --> 00:05:03.390
+So if we took the average
+of several examples,
+
+77
+00:05:03.390 --> 00:05:07.868
+this has the effect of cancelling out the
+individual noise from those observations.
+
+78
+00:05:07.868 --> 00:05:12.477
+Then loss 2 will be the max
+of the closest negative
+
+79
+00:05:12.477 --> 00:05:16.997
+minus the similarity of A and
+B plus alpha and 0.
+
+80
+00:05:16.997 --> 00:05:21.402
+The difference between the formulas this
+time is the replacement of the cosine
+
+81
+00:05:21.402 --> 00:05:22.010
+of A and N.
+
+82
+00:05:23.380 --> 00:05:28.400
+With the closest negative, this helps
+create a slightly larger penalty by
+
+83
+00:05:28.400 --> 00:05:32.920
+diminishing the effects of the otherwise
+more negative similarity of A and
+
+84
+00:05:32.920 --> 00:05:34.840
+N that it replaces.
+
+85
+00:05:34.840 --> 00:05:39.650
+You can think of the closest negative as
+finding the negative example that results
+
+86
+00:05:39.650 --> 00:05:44.010
+in the smallest difference between
+the two cosine similarities.
+
+87
+00:05:44.010 --> 00:05:48.076
+If you had that small difference to alpha,
+then you're able to
+
+88
+00:05:48.076 --> 00:05:52.612
+generate the largest loss among all
+of the other examples in that row.
+
+89
+00:05:52.612 --> 00:05:56.915
+By focusing the training on the examples
+that produce higher loss values,
+
+90
+00:05:56.915 --> 00:06:00.160
+you make the model
+update its weights more.
+
+91
+00:06:00.160 --> 00:06:03.835
+To learn from these more
+difficult examples,
+
+92
+00:06:03.835 --> 00:06:08.110
+then you can define the full
+loss as loss 1 + loss 2.
+
+93
+00:06:08.110 --> 00:06:13.390
+And you will use this new full loss as an
+improved triplet loss in the assignments.
+
+94
+00:06:14.630 --> 00:06:19.420
+The overall costs for your Siamese
+network will be the sum of these
+
+95
+00:06:19.420 --> 00:06:22.654
+individual losses over the training sets.
+
+96
+00:06:22.654 --> 00:06:26.770
+In the next video, you will use this
+cost function in one shot learning.
+
+97
+00:06:26.770 --> 00:06:30.930
+One shot learning is a very effective
+technique that can save you a lot of time
+
+98
+00:06:30.930 --> 00:06:35.770
+when comparing the authenticity of
+checks or of any other type of inputs

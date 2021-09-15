@@ -1,0 +1,286 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.745
+Hello. Let's say that
+you're trying to
+
+2
+00:00:02.745 --> 00:00:04.650
+identify whether the author for
+
+3
+00:00:04.650 --> 00:00:06.765
+a certain poem is Lucas or not.
+
+4
+00:00:06.765 --> 00:00:08.220
+You can either take all of
+
+5
+00:00:08.220 --> 00:00:10.800
+Lucas' poems and put
+them into datasets,
+
+6
+00:00:10.800 --> 00:00:13.080
+and instead of
+predicting K classes,
+
+7
+00:00:13.080 --> 00:00:15.165
+you will now predict
+K plus 1 classes.
+
+8
+00:00:15.165 --> 00:00:18.180
+All the previous poems of
+other authors plus Lucas',
+
+9
+00:00:18.180 --> 00:00:19.875
+so that's why it's k plus 1.
+
+10
+00:00:19.875 --> 00:00:23.985
+Or you can compare one of
+Lucas' poems to another poem,
+
+11
+00:00:23.985 --> 00:00:26.445
+and that is where one-shot
+learning comes in.
+
+12
+00:00:26.445 --> 00:00:29.580
+In this video, I'll show
+you how you can do that.
+
+13
+00:00:29.580 --> 00:00:31.700
+To understand the
+difference between
+
+14
+00:00:31.700 --> 00:00:33.875
+classification and
+one-shot learning,
+
+15
+00:00:33.875 --> 00:00:36.800
+first consider identifying
+or classifying
+
+16
+00:00:36.800 --> 00:00:40.250
+signatures based on one
+through K possible classes.
+
+17
+00:00:40.250 --> 00:00:42.920
+You might use some
+classification model
+
+18
+00:00:42.920 --> 00:00:44.605
+trained on the K classes,
+
+19
+00:00:44.605 --> 00:00:46.580
+probably with a
+softmax function at
+
+20
+00:00:46.580 --> 00:00:49.400
+the end to find the
+maximum probability.
+
+21
+00:00:49.400 --> 00:00:51.515
+Then at recognition time,
+
+22
+00:00:51.515 --> 00:00:53.480
+classify the input signature to
+
+23
+00:00:53.480 --> 00:00:55.520
+one of those
+corresponding classes.
+
+24
+00:00:55.520 --> 00:00:56.900
+That's great if you have
+
+25
+00:00:56.900 --> 00:00:59.300
+a signature list
+that's rarely changes.
+
+26
+00:00:59.300 --> 00:01:02.495
+But what if you get a new
+signature to classify?
+
+27
+00:01:02.495 --> 00:01:05.105
+It would be expensive
+to retrain the model
+
+28
+00:01:05.105 --> 00:01:07.850
+every time this
+happens, and besides,
+
+29
+00:01:07.850 --> 00:01:10.010
+unless you have a
+great many examples
+
+30
+00:01:10.010 --> 00:01:11.270
+of that new signature,
+
+31
+00:01:11.270 --> 00:01:13.655
+model training won't
+work very well.
+
+32
+00:01:13.655 --> 00:01:16.760
+In one-shot learning, you
+need to be able to recognize
+
+33
+00:01:16.760 --> 00:01:20.230
+a signature repeatedly
+from just one example.
+
+34
+00:01:20.230 --> 00:01:23.570
+You can do this with a
+learned similarity function.
+
+35
+00:01:23.570 --> 00:01:26.330
+Then you can test a
+similarity score against
+
+36
+00:01:26.330 --> 00:01:30.065
+some threshold to see if two
+signatures are the same.
+
+37
+00:01:30.065 --> 00:01:33.530
+So the problem changes to
+determining which class
+
+38
+00:01:33.530 --> 00:01:37.330
+to instead measuring similarity
+between two classes.
+
+39
+00:01:37.330 --> 00:01:39.580
+This is very useful,
+
+40
+00:01:39.580 --> 00:01:42.350
+especially in banks, for example.
+
+41
+00:01:42.350 --> 00:01:44.675
+Every time there's
+a new signature,
+
+42
+00:01:44.675 --> 00:01:46.790
+you can't retrain
+your entire system to
+
+43
+00:01:46.790 --> 00:01:50.090
+classify the signatures
+into K possible outputs.
+
+44
+00:01:50.090 --> 00:01:52.065
+So instead, you just learn
+
+45
+00:01:52.065 --> 00:01:54.140
+a similarity function that can be
+
+46
+00:01:54.140 --> 00:01:56.630
+used to calculate a
+similarity score.
+
+47
+00:01:56.630 --> 00:01:58.340
+That can in turn be used to
+
+48
+00:01:58.340 --> 00:02:01.580
+identify whether two
+signatures are the same.
+
+49
+00:02:01.580 --> 00:02:03.170
+You already did this using
+
+50
+00:02:03.170 --> 00:02:05.975
+cosine similarity as the
+similarity function.
+
+51
+00:02:05.975 --> 00:02:09.215
+If the result was greater
+than some threshold Tau,
+
+52
+00:02:09.215 --> 00:02:11.735
+you determine the
+inputs to be the same.
+
+53
+00:02:11.735 --> 00:02:14.165
+In the case of
+comparing signatures,
+
+54
+00:02:14.165 --> 00:02:17.210
+if the similarity is less
+than or equal to Tau,
+
+55
+00:02:17.210 --> 00:02:19.705
+then the signatures
+are different.
+
+56
+00:02:19.705 --> 00:02:22.820
+In this video, I spoke
+about one-shot learning
+
+57
+00:02:22.820 --> 00:02:25.475
+and I told you why it is a
+very effective technique.
+
+58
+00:02:25.475 --> 00:02:28.339
+One-shot learning makes
+use of Siamese networks.
+
+59
+00:02:28.339 --> 00:02:30.410
+In the next video, I'll
+show you how you can
+
+60
+00:02:30.410 --> 00:02:33.470
+train and test your
+Siamese network.

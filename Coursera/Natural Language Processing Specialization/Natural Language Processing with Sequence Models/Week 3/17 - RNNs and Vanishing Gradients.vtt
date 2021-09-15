@@ -1,0 +1,419 @@
+WEBVTT
+
+1
+00:00:00.560 --> 00:00:02.460
+Welcome, this week,
+
+2
+00:00:02.460 --> 00:00:07.000
+I will talk about long short term
+memory cells, which we call LSTMs.
+
+3
+00:00:07.000 --> 00:00:09.280
+To understand why they are important,
+
+4
+00:00:09.280 --> 00:00:13.400
+let me explain the vanishing
+gradient problem, so let's dive in.
+
+5
+00:00:13.400 --> 00:00:16.770
+>> I'll introduce you to
+vanishing/exploding gradients,
+
+6
+00:00:16.770 --> 00:00:22.400
+a problem common to RNNs, and then
+demonstrate a few ways to handle them.
+
+7
+00:00:22.400 --> 00:00:25.130
+Let's begin with a discussion
+of some of the pros and
+
+8
+00:00:25.130 --> 00:00:27.520
+cons of using a recurrent neural network.
+
+9
+00:00:28.540 --> 00:00:30.690
+For one, the way plain or
+
+10
+00:00:30.690 --> 00:00:35.930
+vanilla RNN model sequences by recalling
+information from the immediate past,
+
+11
+00:00:35.930 --> 00:00:40.100
+allows you to capture dependencies
+to a certain degree, at least.
+
+12
+00:00:40.100 --> 00:00:43.960
+They're also relatively lightweight
+compared to other n-gram models,
+
+13
+00:00:43.960 --> 00:00:46.560
+taking up less RAM and space.
+
+14
+00:00:46.560 --> 00:00:51.020
+But there are downsides,
+the RNNs architecture optimized for
+
+15
+00:00:51.020 --> 00:00:56.430
+recalling the immediate past causes
+it to struggle with longer sequences.
+
+16
+00:00:56.430 --> 00:00:59.720
+And the RNNs method of
+propagating information
+
+17
+00:00:59.720 --> 00:01:03.890
+is part of how vanishing/exploding
+gradients are created,
+
+18
+00:01:03.890 --> 00:01:06.515
+both of which can cause your
+model training to fail.
+
+19
+00:01:06.515 --> 00:01:10.460
+Vanishing/exploding gradients
+are a problem,
+
+20
+00:01:10.460 --> 00:01:13.290
+this can arise due to the fact that RNNs
+
+21
+00:01:13.290 --> 00:01:17.910
+propagates information from the beginning
+of the sequence through to the end.
+
+22
+00:01:17.910 --> 00:01:20.320
+Starting with the first
+word of the sequence,
+
+23
+00:01:20.320 --> 00:01:25.070
+the hidden value at the far left,
+the first values are computed here.
+
+24
+00:01:25.070 --> 00:01:28.860
+Then it propagates some of
+the computed information,
+
+25
+00:01:28.860 --> 00:01:32.860
+takes the second word in the sequence,
+and gets new values.
+
+26
+00:01:32.860 --> 00:01:36.230
+You can see that process illustrated here,
+the orange
+
+27
+00:01:36.230 --> 00:01:41.110
+area denotes the first computed values,
+and the green denotes the second word.
+
+28
+00:01:41.110 --> 00:01:45.630
+The second values are computed using
+the older values in orange, and
+
+29
+00:01:45.630 --> 00:01:47.440
+the new word in green.
+
+30
+00:01:47.440 --> 00:01:51.840
+After that, it takes the third word and
+propagates the values from the first and
+
+31
+00:01:51.840 --> 00:01:56.330
+second words and computes another set
+of values from both of those, and
+
+32
+00:01:56.330 --> 00:01:59.310
+it continues in a similar way from there.
+
+33
+00:01:59.310 --> 00:02:00.700
+At the final step,
+
+34
+00:02:00.700 --> 00:02:05.630
+the computations contain information
+from all the words in the sequence, and
+
+35
+00:02:05.630 --> 00:02:11.190
+the RNN is able to predict the next word,
+which in this example is goal.
+
+36
+00:02:11.190 --> 00:02:15.420
+Know that in an RNN,
+the information from the first step
+
+37
+00:02:15.420 --> 00:02:18.240
+doesn't have much
+influence on the outputs.
+
+38
+00:02:18.240 --> 00:02:21.650
+This is why you can see the orange
+portion from the first step
+
+39
+00:02:21.650 --> 00:02:24.580
+decreasing with each new step.
+
+40
+00:02:24.580 --> 00:02:29.005
+Correspondingly, computations
+made at the first step don't
+
+41
+00:02:29.005 --> 00:02:32.518
+have much influence on
+the cost function either.
+
+42
+00:02:32.518 --> 00:02:36.459
+The gradients are calculated
+during back propagation, or
+
+43
+00:02:36.459 --> 00:02:41.266
+the process of moving backwards towards
+the initial layer from the final
+
+44
+00:02:41.266 --> 00:02:44.522
+layer that was reached
+during the forward pass.
+
+45
+00:02:44.522 --> 00:02:49.150
+The derivatives from each layer
+are then multiplied from back to
+
+46
+00:02:49.150 --> 00:02:54.680
+front in order to compute
+the derivative of the initial layer.
+
+47
+00:02:54.680 --> 00:02:57.180
+You can think of gradients as a measure
+
+48
+00:02:57.180 --> 00:03:01.820
+of how much a model can improve
+over a series of time steps.
+
+49
+00:03:01.820 --> 00:03:05.000
+When your network performs
+back propagation,
+
+50
+00:03:06.040 --> 00:03:10.210
+it's weights receive an update
+that's proportional to the gradients
+
+51
+00:03:10.210 --> 00:03:13.450
+with respect to the current
+weights of that time step.
+
+52
+00:03:13.450 --> 00:03:18.770
+But in the network with many time steps or
+layers, having a gradient arrived back
+
+53
+00:03:18.770 --> 00:03:23.610
+at the early layers as the product of all
+the terms from the later layers makes for
+
+54
+00:03:23.610 --> 00:03:26.080
+an inherently unstable situation.
+
+55
+00:03:26.080 --> 00:03:28.630
+Especially if the values have become so
+
+56
+00:03:28.630 --> 00:03:32.300
+small, that's why it no
+longer updates properly.
+
+57
+00:03:32.300 --> 00:03:36.669
+For the problem of exploding gradients,
+imagine this process working in
+
+58
+00:03:36.669 --> 00:03:40.122
+the opposite direction,
+as the updated weights become so
+
+59
+00:03:40.122 --> 00:03:43.732
+large that they cause the whole
+network to become unstable.
+
+60
+00:03:43.732 --> 00:03:47.273
+This situation can lead
+to numerical overflow.
+
+61
+00:03:47.273 --> 00:03:52.061
+Now that you're appropriately terrified
+of vanishing/exploding gradients,
+
+62
+00:03:52.061 --> 00:03:54.620
+let's discuss some solutions.
+
+63
+00:03:54.620 --> 00:03:58.170
+I won't spend a whole lot of time
+on this since this week focuses
+
+64
+00:03:58.170 --> 00:04:02.120
+on a model approach that was
+designed to mitigate this problem.
+
+65
+00:04:02.120 --> 00:04:06.845
+You can deal with vanishing gradients
+by initializing your weights to
+
+66
+00:04:06.845 --> 00:04:11.972
+the identity matrix, which carries
+values of 1 along the main diagonal and
+
+67
+00:04:11.972 --> 00:04:15.434
+0 everywhere else, and
+using a ReLU activation.
+
+68
+00:04:15.434 --> 00:04:19.733
+What this essentially does is
+copy the previous hidden states,
+
+69
+00:04:19.733 --> 00:04:25.400
+add information from the current inputs,
+and replace any negative values with 0.
+
+70
+00:04:25.400 --> 00:04:29.994
+This has the effects of encouraging your
+network to stay close to the values in
+
+71
+00:04:29.994 --> 00:04:35.360
+the identity matrix, which act like
+1s during matrix multiplication.
+
+72
+00:04:35.360 --> 00:04:39.980
+This method is referred to,
+unsurprisingly, as an identity RNN.
+
+73
+00:04:41.050 --> 00:04:46.232
+The identity RNN approach only works for
+vanishing gradients through
+
+74
+00:04:46.232 --> 00:04:51.421
+as the derivative of ReLU is equal
+to 1 for all values greater than 0.
+
+75
+00:04:51.421 --> 00:04:54.227
+To account for
+values growing exponentially,
+
+76
+00:04:54.227 --> 00:04:56.421
+you can perform gradient clipping.
+
+77
+00:04:56.421 --> 00:04:57.840
+To clip your gradients,
+
+78
+00:04:57.840 --> 00:05:03.500
+simply choose a relevant value that
+you clip the gradients to, say 25.
+
+79
+00:05:03.500 --> 00:05:07.910
+Using this technique, any value
+greater than 25 will be clipped to 25,
+
+80
+00:05:07.910 --> 00:05:11.990
+this serves to limit
+the magnitude of the gradients.
+
+81
+00:05:11.990 --> 00:05:17.330
+Finally, skip connections provide a direct
+connection to the earlier layers.
+
+82
+00:05:17.330 --> 00:05:21.973
+This effectively skips over
+the activation functions and
+
+83
+00:05:21.973 --> 00:05:27.853
+adds the value from your initial
+inputs x to your outputs, or F(x) + x.
+
+84
+00:05:27.853 --> 00:05:28.534
+This way,
+
+85
+00:05:28.534 --> 00:05:33.393
+activations from early layers have
+more influence over the cost function.
+
+86
+00:05:33.393 --> 00:05:38.050
+>> Now you understand how RNNs can have
+a problem with vanishing gradients.
+
+87
+00:05:38.050 --> 00:05:42.390
+Next, I will show you a solution,
+the LSTM, let's go to the next video.
