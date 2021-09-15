@@ -1,0 +1,529 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.810
+In a previous video, you saw how to compute derivatives and implement
+
+2
+00:00:03.810 --> 00:00:08.325
+gradient descent with respect to just one training example for logistic regression.
+
+3
+00:00:08.325 --> 00:00:11.370
+Now, we want to do it for m training examples.
+
+4
+00:00:11.370 --> 00:00:15.420
+To get started, let's remind ourselves of the definition of the cost function
+
+5
+00:00:15.420 --> 00:00:19.815
+J. Cost- function w,b,which you care about is this average,
+
+6
+00:00:19.815 --> 00:00:23.505
+one over m sum from i equals one through m of
+
+7
+00:00:23.505 --> 00:00:28.545
+the loss when you algorithm output a_i on the example y,
+
+8
+00:00:28.545 --> 00:00:36.450
+where a_i is the prediction on the ith training example which is sigma of z_i,
+
+9
+00:00:36.450 --> 00:00:45.270
+which is equal to sigma of w transpose x_i plus b.
+
+10
+00:00:45.270 --> 00:00:49.835
+So, what we show in the previous slide is for any single training example,
+
+11
+00:00:49.835 --> 00:00:57.005
+how to compute the derivatives when you have just one training example.
+
+12
+00:00:57.005 --> 00:01:02.460
+So dw_1, dw_2 and d_b,
+
+13
+00:01:02.460 --> 00:01:04.670
+with now the superscript i to denote
+
+14
+00:01:04.670 --> 00:01:09.140
+the corresponding values you get if you were doing what we did on the previous slide,
+
+15
+00:01:09.140 --> 00:01:12.665
+but just using the one training example,
+
+16
+00:01:12.665 --> 00:01:15.065
+x_i y_i, excuse me,
+
+17
+00:01:15.065 --> 00:01:16.840
+missing an i there as well.
+
+18
+00:01:16.840 --> 00:01:22.110
+So, now you notice the overall cost functions as a sum was really average,
+
+19
+00:01:22.110 --> 00:01:25.805
+because the one over m term of the individual losses.
+
+20
+00:01:25.805 --> 00:01:28.865
+So, it turns out that the derivative,
+
+21
+00:01:28.865 --> 00:01:35.435
+respect to w_1 of the overall cost function is also going to be
+
+22
+00:01:35.435 --> 00:01:45.100
+the average of derivatives respect to w_1 of the individual lost terms.
+
+23
+00:01:45.100 --> 00:01:51.420
+But previously, we have already shown how to compute this term as dw_1_i,
+
+24
+00:01:52.100 --> 00:01:55.530
+which we, on the previous slide,
+
+25
+00:01:55.530 --> 00:01:58.275
+show how to compute this on a single training example.
+
+26
+00:01:58.275 --> 00:02:00.635
+So, what you need to do is really compute
+
+27
+00:02:00.635 --> 00:02:06.020
+these derivatives as we showed on the previous training example and average them,
+
+28
+00:02:06.020 --> 00:02:07.280
+and this will give you
+
+29
+00:02:07.280 --> 00:02:12.005
+the overall gradient that you can use to implement the gradient descent.
+
+30
+00:02:12.005 --> 00:02:14.330
+So, I know that was a lot of details,
+
+31
+00:02:14.330 --> 00:02:17.180
+but let's take all of this up and wrap this up into
+
+32
+00:02:17.180 --> 00:02:19.760
+a concrete algorithm until when you should
+
+33
+00:02:19.760 --> 00:02:23.480
+implement logistic regression with gradient descent working.
+
+34
+00:02:23.480 --> 00:02:29.105
+So, here's what you can do: let's initialize j equals zero,
+
+35
+00:02:29.105 --> 00:02:38.650
+dw_1 equals zero, dw_2 equals zero, d_b equals zero.
+
+36
+00:02:38.650 --> 00:02:43.580
+What we're going to do is use a for loop over the training set,
+
+37
+00:02:43.580 --> 00:02:47.995
+and compute the derivative with respect to each training example and then add them up.
+
+38
+00:02:47.995 --> 00:02:50.340
+So, here's how we do it, for i equals one through m,
+
+39
+00:02:50.340 --> 00:02:52.320
+so m is the number of training examples,
+
+40
+00:02:52.320 --> 00:02:56.705
+we compute z_i equals w transpose x_i plus b.
+
+41
+00:02:56.705 --> 00:03:00.650
+The prediction a_i is equal to sigma of z_i,
+
+42
+00:03:00.650 --> 00:03:03.590
+and then let's add up J,
+
+43
+00:03:03.590 --> 00:03:11.580
+J plus equals y_i log a_i plus one minus y_i log one minus a_i,
+
+44
+00:03:11.580 --> 00:03:14.405
+and then put the negative sign in front of the whole thing,
+
+45
+00:03:14.405 --> 00:03:15.710
+and then as we saw earlier,
+
+46
+00:03:15.710 --> 00:03:20.615
+we have dz_i, that's equal to a_i minus y_i,
+
+47
+00:03:20.615 --> 00:03:25.910
+and d_w gets plus equals x1_i dz_i,
+
+48
+00:03:25.910 --> 00:03:32.065
+dw_2 plus equals xi_2 dz_i,
+
+49
+00:03:32.065 --> 00:03:36.640
+and I'm doing this calculation assuming that you have just two features,
+
+50
+00:03:36.640 --> 00:03:38.530
+so that n equals to two otherwise,
+
+51
+00:03:38.530 --> 00:03:39.849
+you do this for dw_1,
+
+52
+00:03:39.849 --> 00:03:41.755
+dw_2, dw_3 and so on,
+
+53
+00:03:41.755 --> 00:03:44.750
+and then db plus equals dz_i,
+
+54
+00:03:44.750 --> 00:03:47.445
+and I guess that's the end of the for loop.
+
+55
+00:03:47.445 --> 00:03:50.815
+Then finally, having done this for all m training examples,
+
+56
+00:03:50.815 --> 00:03:55.720
+you will still need to divide by m because we're computing averages.
+
+57
+00:03:55.720 --> 00:03:58.870
+So, dw_1 divide equals m,
+
+58
+00:03:58.870 --> 00:04:01.465
+dw_2 divides equals m,
+
+59
+00:04:01.465 --> 00:04:03.520
+db divide equals m,
+
+60
+00:04:03.520 --> 00:04:05.200
+in order to compute averages.
+
+61
+00:04:05.200 --> 00:04:08.080
+So, with all of these calculations,
+
+62
+00:04:08.080 --> 00:04:11.710
+you've just computed the derivatives of the cost function J with respect
+
+63
+00:04:11.710 --> 00:04:15.595
+to each your parameters w_1, w_2 and b.
+
+64
+00:04:15.595 --> 00:04:17.685
+Just a couple of details about what we're doing,
+
+65
+00:04:17.685 --> 00:04:24.250
+we're using dw_1 and dw_2 and db as accumulators,
+
+66
+00:04:24.250 --> 00:04:26.450
+so that after this computation,
+
+67
+00:04:26.450 --> 00:04:30.700
+dw_1 is equal to the derivative of
+
+68
+00:04:30.700 --> 00:04:36.160
+your overall cost function with respect to w_1 and similarly for dw_2 and db.
+
+69
+00:04:36.160 --> 00:04:39.880
+So, notice that dw_1 and dw_2 do not have a superscript i,
+
+70
+00:04:39.880 --> 00:04:41.620
+because we're using them in this code as
+
+71
+00:04:41.620 --> 00:04:44.300
+accumulators to sum over the entire training set.
+
+72
+00:04:44.300 --> 00:04:46.595
+Whereas in contrast, dz_i here,
+
+73
+00:04:46.595 --> 00:04:51.190
+this was dz with respect to just one single training example.
+
+74
+00:04:51.190 --> 00:04:55.030
+So, that's why that had a superscript i to refer to the one training example,
+
+75
+00:04:55.030 --> 00:04:56.710
+i that is computerised.
+
+76
+00:04:56.710 --> 00:04:59.745
+So, having finished all these calculations,
+
+77
+00:04:59.745 --> 00:05:02.080
+to implement one step of gradient descent,
+
+78
+00:05:02.080 --> 00:05:03.730
+you will implement w_1,
+
+79
+00:05:03.730 --> 00:05:08.300
+gets updated as w_1 minus the learning rate times dw_1,
+
+80
+00:05:08.300 --> 00:05:12.515
+w_2, ends up this as w_2 minus learning rate times dw_2,
+
+81
+00:05:12.515 --> 00:05:17.390
+and b gets updated as b minus the learning rate times db,
+
+82
+00:05:17.390 --> 00:05:22.250
+where dw_1, dw_2 and db were as computed.
+
+83
+00:05:22.250 --> 00:05:27.530
+Finally, J here will also be a correct value for your cost function.
+
+84
+00:05:27.530 --> 00:05:32.150
+So, everything on the slide implements just one single step of gradient descent,
+
+85
+00:05:32.150 --> 00:05:35.270
+and so you have to repeat everything on this slide
+
+86
+00:05:35.270 --> 00:05:38.815
+multiple times in order to take multiple steps of gradient descent.
+
+87
+00:05:38.815 --> 00:05:42.700
+In case these details seem too complicated, again,
+
+88
+00:05:42.700 --> 00:05:44.485
+don't worry too much about it for now,
+
+89
+00:05:44.485 --> 00:05:47.215
+hopefully all this will be clearer when you
+
+90
+00:05:47.215 --> 00:05:49.850
+go and implement this in the programming assignments.
+
+91
+00:05:49.850 --> 00:05:53.425
+But it turns out there are two weaknesses
+
+92
+00:05:53.425 --> 00:05:57.975
+with the calculation as we've implemented it here,
+
+93
+00:05:57.975 --> 00:06:01.180
+which is that, to implement logistic regression this way,
+
+94
+00:06:01.180 --> 00:06:03.250
+you need to write two for loops.
+
+95
+00:06:03.250 --> 00:06:06.340
+The first for loop is this for loop over the m training examples,
+
+96
+00:06:06.340 --> 00:06:11.360
+and the second for loop is a for loop over all the features over here.
+
+97
+00:06:11.360 --> 00:06:12.600
+So, in this example,
+
+98
+00:06:12.600 --> 00:06:14.040
+we just had two features; so,
+
+99
+00:06:14.040 --> 00:06:16.695
+n is equal to two and x equals two,
+
+100
+00:06:16.695 --> 00:06:18.240
+but maybe we have more features,
+
+101
+00:06:18.240 --> 00:06:20.940
+you end up writing here dw_1 dw_2,
+
+102
+00:06:20.940 --> 00:06:23.295
+and you similar computations for dw_t,
+
+103
+00:06:23.295 --> 00:06:25.275
+and so on delta dw_n.
+
+104
+00:06:25.275 --> 00:06:31.310
+So, it seems like you need to have a for loop over the features, over n features.
+
+105
+00:06:31.310 --> 00:06:34.415
+When you're implementing deep learning algorithms,
+
+106
+00:06:34.415 --> 00:06:37.070
+you find that having explicit for loops in
+
+107
+00:06:37.070 --> 00:06:41.255
+your code makes your algorithm run less efficiency.
+
+108
+00:06:41.255 --> 00:06:43.130
+So, in the deep learning era,
+
+109
+00:06:43.130 --> 00:06:46.130
+we would move to a bigger and bigger datasets,
+
+110
+00:06:46.130 --> 00:06:50.180
+and so being able to implement your algorithms without using explicit
+
+111
+00:06:50.180 --> 00:06:54.800
+for loops is really important and will help you to scale to much bigger datasets.
+
+112
+00:06:54.800 --> 00:06:58.550
+So, it turns out that there are a set of techniques called vectorization
+
+113
+00:06:58.550 --> 00:07:03.610
+techniques that allow you to get rid of these explicit for-loops in your code.
+
+114
+00:07:03.610 --> 00:07:06.570
+I think in the pre-deep learning era,
+
+115
+00:07:06.570 --> 00:07:08.595
+that's before the rise of deep learning,
+
+116
+00:07:08.595 --> 00:07:10.810
+vectorization was a nice to have,
+
+117
+00:07:10.810 --> 00:07:14.780
+so you could sometimes do it to speed up your code and sometimes not.
+
+118
+00:07:14.780 --> 00:07:17.450
+But in the deep learning era, vectorization,
+
+119
+00:07:17.450 --> 00:07:19.250
+that is getting rid of for loops,
+
+120
+00:07:19.250 --> 00:07:20.920
+like this and like this,
+
+121
+00:07:20.920 --> 00:07:22.930
+has become really important,
+
+122
+00:07:22.930 --> 00:07:26.350
+because we're more and more training on very large datasets,
+
+123
+00:07:26.350 --> 00:07:28.975
+and so you really need your code to be very efficient.
+
+124
+00:07:28.975 --> 00:07:30.680
+So, in the next few videos,
+
+125
+00:07:30.680 --> 00:07:33.590
+we'll talk about vectorization and how to
+
+126
+00:07:33.590 --> 00:07:38.485
+implement all this without using even a single for loop.
+
+127
+00:07:38.485 --> 00:07:41.660
+So, with this, I hope you have a sense of how to
+
+128
+00:07:41.660 --> 00:07:45.305
+implement logistic regression or gradient descent for logistic regression.
+
+129
+00:07:45.305 --> 00:07:48.515
+Things will be clearer when you implement the programming exercise.
+
+130
+00:07:48.515 --> 00:07:51.170
+But before actually doing the programming exercise,
+
+131
+00:07:51.170 --> 00:07:55.580
+let's first talk about vectorization so that you can implement this whole thing,
+
+132
+00:07:55.580 --> 00:08:00.210
+implement a single iteration of gradient descent without using any for loops.

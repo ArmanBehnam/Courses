@@ -1,0 +1,563 @@
+WEBVTT
+
+1
+00:00:00.920 --> 00:00:02.860
+Hello, and welcome back.
+
+2
+00:00:02.860 --> 00:00:08.860
+In this week we're going to go over
+the basics of neural network programming.
+
+3
+00:00:08.860 --> 00:00:11.990
+It turns out that when you
+implement a neural network there
+
+4
+00:00:11.990 --> 00:00:16.260
+are some techniques that
+are going to be really important.
+
+5
+00:00:16.260 --> 00:00:21.150
+For example, if you have a training
+set of m training examples,
+
+6
+00:00:21.150 --> 00:00:25.110
+you might be used to processing
+the training set by having a four loop
+
+7
+00:00:25.110 --> 00:00:28.240
+step through your m training examples.
+
+8
+00:00:28.240 --> 00:00:31.260
+But it turns out that when you're
+implementing a neural network,
+
+9
+00:00:31.260 --> 00:00:34.540
+you usually want to process
+your entire training set
+
+10
+00:00:34.540 --> 00:00:39.040
+without using an explicit four loop to
+loop over your entire training set.
+
+11
+00:00:39.040 --> 00:00:42.940
+So, you'll see how to do that
+in this week's materials.
+
+12
+00:00:42.940 --> 00:00:47.700
+Another idea, when you organize
+the computation of, in your network,
+
+13
+00:00:47.700 --> 00:00:51.670
+usually you have what's called a forward
+pause or forward propagation step,
+
+14
+00:00:51.670 --> 00:00:56.100
+followed by a backward pause or
+what's called a backward propagation step.
+
+15
+00:00:56.100 --> 00:01:00.010
+And so in this week's materials,
+you also get an introduction about why
+
+16
+00:01:00.010 --> 00:01:04.830
+the computations, in learning an neural
+network can be organized in this for
+
+17
+00:01:04.830 --> 00:01:08.010
+propagation and
+a separate backward propagation.
+
+18
+00:01:09.100 --> 00:01:12.620
+For this week's materials I want
+to convey these ideas using
+
+19
+00:01:12.620 --> 00:01:16.170
+logistic regression in order to make
+the ideas easier to understand.
+
+20
+00:01:16.170 --> 00:01:19.970
+But even if you've seen logistic
+regression before, I think that there'll
+
+21
+00:01:19.970 --> 00:01:23.845
+be some new and interesting ideas for
+you to pick up in this week's materials.
+
+22
+00:01:23.845 --> 00:01:25.815
+So with that, let's get started.
+
+23
+00:01:25.815 --> 00:01:30.605
+Logistic regression is an algorithm for
+binary classification.
+
+24
+00:01:30.605 --> 00:01:33.145
+So let's start by setting up the problem.
+
+25
+00:01:33.145 --> 00:01:36.925
+Here's an example of a binary
+classification problem.
+
+26
+00:01:36.925 --> 00:01:41.545
+You might have an input of an image,
+like that, and
+
+27
+00:01:41.545 --> 00:01:47.260
+want to output a label to recognize
+this image as either being a cat,
+
+28
+00:01:47.260 --> 00:01:52.140
+in which case you output 1, or
+not-cat in which case you output 0,
+
+29
+00:01:52.140 --> 00:01:57.740
+and we're going to use y
+to denote the output label.
+
+30
+00:01:57.740 --> 00:02:01.550
+Let's look at how an image is
+represented in a computer.
+
+31
+00:02:01.550 --> 00:02:05.680
+To store an image your computer
+stores three separate matrices
+
+32
+00:02:05.680 --> 00:02:09.890
+corresponding to the red, green, and
+blue color channels of this image.
+
+33
+00:02:10.990 --> 00:02:15.900
+So if your input image is
+64 pixels by 64 pixels,
+
+34
+00:02:15.900 --> 00:02:21.700
+then you would have 3 64 by 64 matrices
+
+35
+00:02:21.700 --> 00:02:27.230
+corresponding to the red, green and blue
+pixel intensity values for your images.
+
+36
+00:02:27.230 --> 00:02:31.290
+Although to make this little slide I
+drew these as much smaller matrices, so
+
+37
+00:02:31.290 --> 00:02:35.320
+these are actually 5 by 4
+matrices rather than 64 by 64.
+
+38
+00:02:35.320 --> 00:02:41.640
+So to turn these pixel intensity values-
+Into a feature vector, what we're
+
+39
+00:02:41.640 --> 00:02:48.000
+going to do is unroll all of these pixel
+values into an input feature vector x.
+
+40
+00:02:48.000 --> 00:02:53.782
+So to unroll all these pixel intensity
+values into Feature vector, what we're
+
+41
+00:02:53.782 --> 00:02:59.580
+going to do is define a feature vector x
+corresponding to this image as follows.
+
+42
+00:02:59.580 --> 00:03:03.960
+We're just going to take all
+the pixel values 255, 231, and so on.
+
+43
+00:03:03.960 --> 00:03:10.827
+255, 231, and so
+on until we've listed all the red pixels.
+
+44
+00:03:10.827 --> 00:03:15.737
+And then eventually 255 134 255,
+134 and so
+
+45
+00:03:15.737 --> 00:03:20.952
+on until we get a long feature
+vector listing out all the red,
+
+46
+00:03:20.952 --> 00:03:25.570
+green and
+blue pixel intensity values of this image.
+
+47
+00:03:25.570 --> 00:03:31.043
+If this image is a 64 by 64 image,
+the total dimension
+
+48
+00:03:31.043 --> 00:03:36.401
+of this vector x will be 64
+by 64 by 3 because that's
+
+49
+00:03:36.401 --> 00:03:41.320
+the total numbers we have
+in all of these matrixes.
+
+50
+00:03:41.320 --> 00:03:44.097
+Which in this case,
+turns out to be 12,288,
+
+51
+00:03:44.097 --> 00:03:47.330
+that's what you get if you
+multiply all those numbers.
+
+52
+00:03:47.330 --> 00:03:51.870
+And so we're going to use nx=12288
+
+53
+00:03:51.870 --> 00:03:55.080
+to represent the dimension
+of the input features x.
+
+54
+00:03:55.080 --> 00:03:59.280
+And sometimes for brevity,
+I will also just use lowercase n
+
+55
+00:03:59.280 --> 00:04:02.720
+to represent the dimension of
+this input feature vector.
+
+56
+00:04:02.720 --> 00:04:07.510
+So in binary classification, our goal
+is to learn a classifier that can input
+
+57
+00:04:07.510 --> 00:04:10.760
+an image represented by
+this feature vector x.
+
+58
+00:04:10.760 --> 00:04:15.460
+And predict whether
+the corresponding label y is 1 or 0,
+
+59
+00:04:15.460 --> 00:04:19.000
+that is, whether this is a cat image or
+a non-cat image.
+
+60
+00:04:19.000 --> 00:04:21.560
+Let's now lay out some of
+the notation that we'll
+
+61
+00:04:21.560 --> 00:04:23.820
+use throughout the rest of this course.
+
+62
+00:04:23.820 --> 00:04:29.453
+A single training example
+is represented by a pair,
+
+63
+00:04:29.453 --> 00:04:34.446
+(x,y) where x is an x-dimensional feature
+
+64
+00:04:34.446 --> 00:04:39.320
+vector and y, the label, is either 0 or 1.
+
+65
+00:04:39.320 --> 00:04:44.550
+Your training sets will comprise
+lower-case m training examples.
+
+66
+00:04:44.550 --> 00:04:50.320
+And so your training sets will be
+written (x1, y1) which is the input and
+
+67
+00:04:50.320 --> 00:04:55.370
+output for your first training
+example (x(2), y(2)) for
+
+68
+00:04:55.370 --> 00:05:01.980
+the second training example up to <xm,
+ym) which is your last training example.
+
+69
+00:05:01.980 --> 00:05:05.650
+And then that altogether is
+your entire training set.
+
+70
+00:05:05.650 --> 00:05:10.170
+So I'm going to use lowercase m to
+denote the number of training samples.
+
+71
+00:05:10.170 --> 00:05:14.418
+And sometimes to emphasize that this
+is the number of train examples,
+
+72
+00:05:14.418 --> 00:05:16.437
+I might write this as M = M train.
+
+73
+00:05:16.437 --> 00:05:18.692
+And when we talk about a test set,
+
+74
+00:05:18.692 --> 00:05:24.430
+we might sometimes use m subscript test
+to denote the number of test examples.
+
+75
+00:05:24.430 --> 00:05:27.430
+So that's the number of test examples.
+
+76
+00:05:27.430 --> 00:05:33.440
+Finally, to output all of the training
+examples into a more compact notation,
+
+77
+00:05:33.440 --> 00:05:36.840
+we're going to define a matrix, capital X.
+
+78
+00:05:36.840 --> 00:05:41.592
+As defined by taking you
+training set inputs x1, x2 and
+
+79
+00:05:41.592 --> 00:05:44.568
+so on and stacking them in columns.
+
+80
+00:05:44.568 --> 00:05:49.958
+So we take X1 and
+put that as a first column of this matrix,
+
+81
+00:05:49.958 --> 00:05:54.798
+X2, put that as a second column and
+so on down to Xm,
+
+82
+00:05:54.798 --> 00:05:58.000
+then this is the matrix capital X.
+
+83
+00:05:58.000 --> 00:06:03.005
+So this matrix X will have M columns,
+where M is the number of train
+
+84
+00:06:03.005 --> 00:06:08.665
+examples and the number of railroads,
+or the height of this matrix is NX.
+
+85
+00:06:08.665 --> 00:06:14.400
+Notice that in other causes,
+you might see the matrix capital
+
+86
+00:06:14.400 --> 00:06:19.390
+X defined by stacking up the train
+examples in rows like so,
+
+87
+00:06:19.390 --> 00:06:23.940
+X1 transpose down to Xm transpose.
+
+88
+00:06:23.940 --> 00:06:27.704
+It turns out that when you're
+implementing neural networks using
+
+89
+00:06:27.704 --> 00:06:32.218
+this convention I have on the left,
+will make the implementation much easier.
+
+90
+00:06:32.218 --> 00:06:37.171
+So just to recap,
+x is a nx by m dimensional matrix, and
+
+91
+00:06:37.171 --> 00:06:40.404
+when you implement this in Python,
+
+92
+00:06:40.404 --> 00:06:45.362
+you see that x.shape,
+that's the python command for
+
+93
+00:06:45.362 --> 00:06:50.325
+finding the shape of the matrix,
+that this an nx, m.
+
+94
+00:06:50.325 --> 00:06:53.255
+That just means it is an nx
+by m dimensional matrix.
+
+95
+00:06:53.255 --> 00:06:58.785
+So that's how you group the training
+examples, input x into matrix.
+
+96
+00:06:58.785 --> 00:07:01.315
+How about the output labels Y?
+
+97
+00:07:01.315 --> 00:07:04.815
+It turns out that to make your
+implementation of a neural network easier,
+
+98
+00:07:04.815 --> 00:07:10.030
+it would be convenient to
+also stack Y In columns.
+
+99
+00:07:10.030 --> 00:07:14.650
+So we're going to define capital
+Y to be equal to Y 1, Y 2,
+
+100
+00:07:14.650 --> 00:07:18.580
+up to Y m like so.
+
+101
+00:07:18.580 --> 00:07:24.980
+So Y here will be a 1 by
+m dimensional matrix.
+
+102
+00:07:24.980 --> 00:07:30.530
+And again, to use the notation
+without the shape of Y will be 1, m.
+
+103
+00:07:30.530 --> 00:07:34.810
+Which just means this is a 1 by m matrix.
+
+104
+00:07:34.810 --> 00:07:39.660
+And as you influence your new network,
+mtrain discourse, you find that a useful
+
+105
+00:07:39.660 --> 00:07:43.630
+convention would be to take the data
+associated with different training
+
+106
+00:07:43.630 --> 00:07:48.580
+examples, and by data I mean either x or
+y, or other quantities you see later.
+
+107
+00:07:48.580 --> 00:07:49.900
+But to take the stuff or
+
+108
+00:07:49.900 --> 00:07:52.990
+the data associated with
+different training examples and
+
+109
+00:07:52.990 --> 00:07:57.430
+to stack them in different columns,
+like we've done here for both x and y.
+
+110
+00:07:58.450 --> 00:08:01.380
+So, that's a notation we we'll use e for
+a regression and for
+
+111
+00:08:01.380 --> 00:08:04.060
+neural networks networks
+later in this course.
+
+112
+00:08:04.060 --> 00:08:07.430
+If you ever forget what a piece of
+notation means, like what is M or
+
+113
+00:08:07.430 --> 00:08:08.300
+what is N or
+
+114
+00:08:08.300 --> 00:08:12.630
+what is something else, we've also posted
+on the course website a notation guide
+
+115
+00:08:12.630 --> 00:08:17.430
+that you can use to quickly look up what
+any particular piece of notation means.
+
+116
+00:08:17.430 --> 00:08:20.890
+So with that, let's go on to the next
+video where we'll start to fetch out
+
+117
+00:08:20.890 --> 00:08:23.190
+logistic regression using this notation.

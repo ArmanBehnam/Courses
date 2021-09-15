@@ -1,0 +1,522 @@
+WEBVTT
+
+1
+00:00:00.550 --> 00:00:02.370
+In the earlier videos from this week,
+
+2
+00:00:02.370 --> 00:00:05.890
+as well as from the videos
+from the past several weeks,
+
+3
+00:00:05.890 --> 00:00:09.500
+you've already seen the basic building
+blocks of forward propagation and
+
+4
+00:00:09.500 --> 00:00:14.200
+back propagation, the key components you
+need to implement a deep neural network.
+
+5
+00:00:14.200 --> 00:00:17.540
+Let's see how you can put these components
+together to build your deep net.
+
+6
+00:00:18.560 --> 00:00:20.440
+Here's a network of a few layers.
+
+7
+00:00:20.440 --> 00:00:21.610
+Let's pick one layer.
+
+8
+00:00:22.650 --> 00:00:27.330
+And look into the computations
+focusing on just that layer for now.
+
+9
+00:00:27.330 --> 00:00:32.130
+So for layer L,
+you have some parameters wl and
+
+10
+00:00:33.250 --> 00:00:37.638
+bl and for the forward prop, you will input
+
+11
+00:00:37.638 --> 00:00:44.762
+the activations a l-1
+from your previous layer and
+
+12
+00:00:44.762 --> 00:00:48.930
+output a l.
+
+13
+00:00:48.930 --> 00:00:54.618
+So the way we did this
+previously was you compute z l =
+
+14
+00:00:54.618 --> 00:00:59.136
+w l times al - 1 + b l.
+
+15
+00:00:59.136 --> 00:01:07.050
+And then al = g of z l.
+
+16
+00:01:07.050 --> 00:01:08.180
+All right.
+
+17
+00:01:08.180 --> 00:01:13.100
+So, that's how you go from the input
+al minus one to the output al.
+
+18
+00:01:13.100 --> 00:01:20.900
+And, it turns out that for later use it'll
+be useful to also cache the value zl.
+
+19
+00:01:20.900 --> 00:01:25.640
+So, let me include this on cache as
+well because storing the value zl
+
+20
+00:01:25.640 --> 00:01:30.930
+would be useful for backward, for
+the back propagation step later.
+
+21
+00:01:30.930 --> 00:01:35.854
+And then for the backward step or for
+the back propagation step, again,
+
+22
+00:01:35.854 --> 00:01:37.760
+focusing on computation for this layer l,
+
+23
+00:01:37.760 --> 00:01:43.530
+you're going to implement
+a function that inputs da(l).
+
+24
+00:01:45.830 --> 00:01:53.750
+And outputs da(l-1), and
+just to flesh out the details,
+
+25
+00:01:53.750 --> 00:01:59.230
+the input is actually da(l),
+as well as the cache so
+
+26
+00:01:59.230 --> 00:02:04.230
+you have available to you the value
+of zl that you computed and
+
+27
+00:02:04.230 --> 00:02:10.150
+then in addition, outputing da(l)
+minus 1 you bring the output or
+
+28
+00:02:10.150 --> 00:02:13.100
+the gradients you want in order
+to implement gradient descent for
+
+29
+00:02:13.500 --> 00:02:14.330
+learning, okay?
+
+30
+00:02:14.330 --> 00:02:19.830
+So this is the basic structure of
+how you implement this forward step,
+
+31
+00:02:19.830 --> 00:02:23.050
+what we call the forward function
+as well as this backward step,
+
+32
+00:02:23.050 --> 00:02:25.170
+which we'll call backward function.
+
+33
+00:02:25.170 --> 00:02:28.150
+So just to summarize, in layer l,
+
+34
+00:02:28.150 --> 00:02:32.250
+you're going to have the forward step or
+the forward prop of the forward function.
+
+35
+00:02:32.250 --> 00:02:39.360
+Input al- 1 and output, al, and
+
+36
+00:02:39.360 --> 00:02:45.300
+in order to make this computation
+you need to use wl and bl.
+
+37
+00:02:45.300 --> 00:02:52.690
+And also output a cache,
+which contains zl, right?
+
+38
+00:02:52.690 --> 00:02:56.300
+And then the backward function,
+using the back prop step,
+
+39
+00:02:56.300 --> 00:03:01.170
+will be another function that now
+
+40
+00:03:01.170 --> 00:03:08.460
+inputs da(l) and outputs da(l-1).
+
+41
+00:03:08.460 --> 00:03:14.390
+So it tells you, given the derivatives
+respect to these activations,
+
+42
+00:03:14.390 --> 00:03:17.400
+that's da(l), what are the derivatives?
+
+43
+00:03:17.400 --> 00:03:18.540
+How much do I wish?
+
+44
+00:03:18.540 --> 00:03:23.170
+You know, al- 1 changes the computed
+derivatives respect to deactivations
+
+45
+00:03:23.170 --> 00:03:24.580
+from a previous layer.
+
+46
+00:03:25.380 --> 00:03:26.800
+Within this box, right?
+
+47
+00:03:26.800 --> 00:03:31.610
+You need to use wl and bl, and
+it turns out along the way you end up
+
+48
+00:03:31.610 --> 00:03:36.910
+computing dzl, and then this box,
+
+49
+00:03:36.910 --> 00:03:42.790
+this backward function
+can also output dwl and
+
+50
+00:03:42.790 --> 00:03:47.360
+dbl, but I was sometimes using red arrows
+to denote the backward iteration.
+
+51
+00:03:47.360 --> 00:03:50.520
+So if you prefer,
+we could draw these arrows in red.
+
+52
+00:03:51.680 --> 00:03:55.450
+So if you can implement
+these two functions
+
+53
+00:03:55.450 --> 00:03:59.660
+then the basic computation of
+the neural network will be as follows.
+
+54
+00:03:59.660 --> 00:04:05.120
+You're going to take the input
+features a0, feed that in, and
+
+55
+00:04:05.120 --> 00:04:10.170
+that would compute the activations of
+the first layer, let's call that a1 and
+
+56
+00:04:10.170 --> 00:04:16.180
+to do that, you need a w1 and
+b1 and then will also,
+
+57
+00:04:16.180 --> 00:04:19.760
+you know, cache away z1, right?
+
+58
+00:04:21.520 --> 00:04:26.340
+Now having done that, you feed that to
+the second layer and then using w2 and b2,
+
+59
+00:04:26.340 --> 00:04:34.330
+you're going to compute deactivations
+in the next layer a2 and so on.
+
+60
+00:04:34.330 --> 00:04:38.110
+Until eventually, you end up outputting
+
+61
+00:04:38.110 --> 00:04:43.540
+a l which is equal to y hat.
+
+62
+00:04:43.540 --> 00:04:50.160
+And along the way,
+we cached all of these values z.
+
+63
+00:04:52.660 --> 00:04:55.030
+So that's the forward propagation step.
+
+64
+00:04:55.370 --> 00:04:59.600
+Now, for the back propagation step,
+what we're going to do
+
+65
+00:04:59.600 --> 00:05:03.960
+will be a backward sequence of iterations
+
+66
+00:05:05.260 --> 00:05:09.960
+in which you are going backwards and
+computing gradients like so.
+
+67
+00:05:12.260 --> 00:05:17.560
+So what you're going to feed in here,
+da(l) and
+
+68
+00:05:17.560 --> 00:05:30.700
+then this box will give us da(l- 1) and
+so on until we get da(2) da(1).
+
+69
+00:05:30.950 --> 00:05:36.940
+You could actually get one more
+output to compute da(0) but
+
+70
+00:05:36.940 --> 00:05:38.650
+this is derivative with respect to your
+
+71
+00:05:38.650 --> 00:05:40.950
+input features, which is
+not useful at least for
+
+72
+00:05:40.950 --> 00:05:46.700
+training the weights of these
+supervised neural networks.
+
+73
+00:05:46.700 --> 00:05:49.180
+So you could just stop it there. But
+along the way,
+
+74
+00:05:49.180 --> 00:05:54.680
+back prop also ends up outputting dwl,
+dbl.
+
+75
+00:05:54.680 --> 00:05:59.170
+I just used the prompt as wl and bl.
+
+76
+00:05:59.170 --> 00:06:06.750
+This would output dw3, db3 and so on.
+
+77
+00:06:10.500 --> 00:06:13.510
+So you end up computing all
+the derivatives you need.
+
+78
+00:06:16.560 --> 00:06:21.110
+And so just to maybe fill in
+the structure of this a little bit more,
+
+79
+00:06:21.110 --> 00:06:24.380
+these boxes will use
+those parameters as well.
+
+80
+00:06:26.180 --> 00:06:31.930
+wl, bl and it turns out that
+
+81
+00:06:31.930 --> 00:06:37.400
+we'll see later that inside these boxes
+we end up computing the dz's as well.
+
+82
+00:06:37.400 --> 00:06:42.250
+So one iteration of training through
+a neural network involves: starting with
+
+83
+00:06:42.250 --> 00:06:46.930
+a(0) which is x and
+going through forward prop as follows.
+
+84
+00:06:46.930 --> 00:06:50.840
+Computing y hat and
+then using that to compute this and
+
+85
+00:06:50.840 --> 00:06:56.480
+then back prop, right, doing that and
+
+86
+00:06:56.480 --> 00:07:01.560
+now you have all these derivative
+terms and so, you know,
+
+87
+00:07:01.560 --> 00:07:06.370
+w would get updated as w1 =
+the learning rate times dw, right?
+
+88
+00:07:06.370 --> 00:07:13.260
+For each of the layers and
+similarly for b rate.
+
+89
+00:07:13.260 --> 00:07:17.690
+Now the computed back prop
+have all these derivatives.
+
+90
+00:07:17.690 --> 00:07:21.930
+So that's one iteration of gradient
+descent for your neural network.
+
+91
+00:07:21.930 --> 00:07:25.390
+Now before moving on,
+just one more informational detail.
+
+92
+00:07:25.390 --> 00:07:30.110
+Conceptually, it will be useful
+to think of the cache here as
+
+93
+00:07:30.110 --> 00:07:34.110
+storing the value of z for
+the backward functions.
+
+94
+00:07:34.110 --> 00:07:37.130
+But when you implement this, and
+you see this in the programming exercise,
+
+95
+00:07:37.130 --> 00:07:40.060
+When you implement this,
+you find that the cache may be
+
+96
+00:07:40.060 --> 00:07:43.650
+a convenient way to get to this
+value of the parameters of w1, b1,
+
+97
+00:07:43.650 --> 00:07:46.510
+into the backward function as well.
+So for
+
+98
+00:07:46.510 --> 00:07:51.000
+this exercise you actually store in your
+cache to z as well as w
+
+99
+00:07:51.000 --> 00:07:59.800
+and b. So this stores z2, w2, b2.
+But from an implementation standpoint,
+
+100
+00:07:59.800 --> 00:08:03.790
+I just find it a convenient way
+to just get the parameters,
+
+101
+00:08:03.790 --> 00:08:08.630
+copy to where you need to use them later
+when you're computing back propagation.
+
+102
+00:08:08.630 --> 00:08:12.030
+So that's just an implementational
+detail that you see when
+
+103
+00:08:12.030 --> 00:08:15.330
+you do the programming exercise.
+
+104
+00:08:15.330 --> 00:08:18.000
+So you've now seen what
+are the basic building blocks for
+
+105
+00:08:18.000 --> 00:08:19.910
+implementing a deep neural network.
+
+106
+00:08:19.910 --> 00:08:22.040
+In each layer there's
+a forward propagation step and
+
+107
+00:08:22.040 --> 00:08:24.270
+there's a corresponding
+backward propagation step.
+
+108
+00:08:24.270 --> 00:08:27.870
+And has a cache to pass
+information from one to the other.
+
+109
+00:08:27.870 --> 00:08:28.810
+In the next video,
+
+110
+00:08:28.810 --> 00:08:32.190
+we'll talk about how you can actually
+implement these building blocks.
+
+111
+00:08:32.190 --> 00:08:33.340
+Let's go on to the next video.

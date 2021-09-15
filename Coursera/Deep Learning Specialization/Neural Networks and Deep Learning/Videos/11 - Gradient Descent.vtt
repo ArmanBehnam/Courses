@@ -1,0 +1,808 @@
+WEBVTT
+
+1
+00:00:00.590 --> 00:00:03.210
+You've seen the logistic regression model.
+
+2
+00:00:03.210 --> 00:00:06.560
+You've seen the loss function that
+measures how well you're doing on
+
+3
+00:00:06.560 --> 00:00:08.780
+the single training example.
+
+4
+00:00:08.780 --> 00:00:13.530
+You've also seen the cost function that
+measures how well your parameters w and
+
+5
+00:00:13.530 --> 00:00:16.590
+b are doing on your entire training set.
+
+6
+00:00:16.590 --> 00:00:21.600
+Now let's talk about how you can use
+the gradient descent algorithm to train,
+
+7
+00:00:21.600 --> 00:00:25.730
+or to learn, the parameters w and
+b on your training set.
+
+8
+00:00:25.730 --> 00:00:30.030
+To recap, here is the familiar
+logistic regression algorithm.
+
+9
+00:00:31.130 --> 00:00:34.700
+And we have on the second
+line the cost function, J,
+
+10
+00:00:34.700 --> 00:00:37.879
+which is a function of
+your parameters w and b.
+
+11
+00:00:37.879 --> 00:00:39.960
+And that's defined as the average.
+
+12
+00:00:39.960 --> 00:00:44.140
+So it's 1 over m times the sum
+of this loss function.
+
+13
+00:00:44.140 --> 00:00:48.470
+And so the loss function
+measures how well your algorithms
+
+14
+00:00:48.470 --> 00:00:53.170
+outputs y-hat(i) on each of
+the training examples stacks up or
+
+15
+00:00:53.170 --> 00:00:58.000
+compares to the ground true label y(i)
+on each of the training examples.
+
+16
+00:00:58.000 --> 00:01:00.886
+And the full formula is
+expanded out on the right.
+
+17
+00:01:00.886 --> 00:01:04.130
+So the cost function measures
+how well your parameters w and
+
+18
+00:01:04.130 --> 00:01:06.760
+b are doing on the training set.
+
+19
+00:01:06.760 --> 00:01:11.510
+So in order to learn the set of parameters
+w and b it seems natural that we want to
+
+20
+00:01:11.510 --> 00:01:17.930
+find w and b that make the cost
+function J(w, b) as small as possible.
+
+21
+00:01:17.930 --> 00:01:21.320
+So here's an illustration
+of gradient descent.
+
+22
+00:01:21.320 --> 00:01:25.320
+In this diagram
+the horizontal axes represent
+
+23
+00:01:25.320 --> 00:01:28.510
+your spatial parameters, w and b.
+
+24
+00:01:28.510 --> 00:01:32.350
+In practice, w can be much higher
+dimensional, but for the purposes of
+
+25
+00:01:32.350 --> 00:01:38.190
+plotting, let's illustrate w as a single
+real number and b as a single real number.
+
+26
+00:01:38.190 --> 00:01:40.770
+The cost function J(w,b,) is,
+
+27
+00:01:40.770 --> 00:01:45.130
+then, some surface above these
+horizontal axes w and b.
+
+28
+00:01:45.130 --> 00:01:50.720
+So the height of the surface represents
+the value of J(w,b) at a certain point.
+
+29
+00:01:50.720 --> 00:01:55.070
+And what we want to do is really
+to find the value of w and
+
+30
+00:01:55.070 --> 00:01:59.730
+b that corresponds to the minimum
+of the cost function J.
+
+31
+00:02:00.830 --> 00:02:06.050
+It turns out that this cost
+function J is a convex function.
+
+32
+00:02:06.050 --> 00:02:10.327
+So it's just a single big bowl,
+so this is a convex function and
+
+33
+00:02:10.327 --> 00:02:13.717
+this is opposed to functions
+that look like this,
+
+34
+00:02:13.717 --> 00:02:18.120
+which are non-convex and
+has lots of different local.
+
+35
+00:02:18.120 --> 00:02:22.240
+So the fact that our cost
+function J(w,b) as defined
+
+36
+00:02:22.240 --> 00:02:27.020
+here is convex is one of the huge reasons
+why we use this particular cost function,
+
+37
+00:02:27.020 --> 00:02:29.610
+J, for logistic regression.
+
+38
+00:02:29.610 --> 00:02:33.810
+So to find a good value for
+the parameters,
+
+39
+00:02:33.810 --> 00:02:39.160
+what we'll do is initialize w and
+b to some initial value,
+
+40
+00:02:39.160 --> 00:02:43.360
+maybe denoted by that little red dot.
+
+41
+00:02:43.360 --> 00:02:47.562
+And for logistic regression almost
+any initialization method works,
+
+42
+00:02:47.562 --> 00:02:50.690
+usually you initialize the value to zero.
+
+43
+00:02:50.690 --> 00:02:52.910
+Random initialization also works, but
+
+44
+00:02:52.910 --> 00:02:55.630
+people don't usually do that for
+logistic regression.
+
+45
+00:02:55.630 --> 00:02:59.310
+But because this function is convex,
+no matter where you initialize,
+
+46
+00:02:59.310 --> 00:03:02.180
+you should get to the same point or
+roughly the same point.
+
+47
+00:03:02.180 --> 00:03:06.450
+And what gradient descent does is
+it starts at that initial point and
+
+48
+00:03:06.450 --> 00:03:10.310
+then takes a step in
+the steepest downhill direction.
+
+49
+00:03:10.310 --> 00:03:15.290
+So after one step of gradient descent
+you might end up there, because
+
+50
+00:03:15.290 --> 00:03:19.320
+it's trying to take a step downhill in
+the direction of steepest descent or
+
+51
+00:03:19.320 --> 00:03:21.250
+as quickly downhill as possible.
+
+52
+00:03:21.250 --> 00:03:23.600
+So that's one iteration
+of gradient descent.
+
+53
+00:03:23.600 --> 00:03:27.084
+And after two iterations of gradient
+descent you might step there,
+
+54
+00:03:27.084 --> 00:03:28.830
+three iterations and so on.
+
+55
+00:03:28.830 --> 00:03:32.640
+I guess this is now hidden by the back of
+the plot until eventually, hopefully you
+
+56
+00:03:32.640 --> 00:03:38.880
+converge to this global optimum or get to
+something close to the global optimum.
+
+57
+00:03:38.880 --> 00:03:42.300
+So this picture illustrates
+the gradient descent algorithm.
+
+58
+00:03:42.300 --> 00:03:44.310
+Let's write a bit more of the details.
+
+59
+00:03:44.310 --> 00:03:47.750
+For the purpose of illustration, let's
+say that there's some function, J(w),
+
+60
+00:03:47.750 --> 00:03:51.700
+that you want to minimize, and
+maybe that function looks like this.
+
+61
+00:03:51.700 --> 00:03:54.650
+To make this easier to draw,
+I'm going to ignore b for
+
+62
+00:03:54.650 --> 00:03:59.210
+now, just to make this a one-dimensional
+plot instead of a high-dimensional plot.
+
+63
+00:03:59.210 --> 00:04:01.240
+So gradient descent does this,
+
+64
+00:04:01.240 --> 00:04:06.740
+we're going to repeatedly carry
+out the following update.
+
+65
+00:04:06.740 --> 00:04:09.467
+Were going to take the value of w and
+update it,
+
+66
+00:04:09.467 --> 00:04:12.508
+going to use colon equals
+to represent updating w.
+
+67
+00:04:12.508 --> 00:04:17.426
+So set w to w minus alpha, times, and
+
+68
+00:04:17.426 --> 00:04:22.200
+this is a derivative dJ(w)/dw.
+
+69
+00:04:22.200 --> 00:04:26.230
+I will repeatedly do that
+until the algorithm converges.
+
+70
+00:04:26.230 --> 00:04:30.666
+So couple of points in the notation,
+alpha here, is the learning rate, and
+
+71
+00:04:30.666 --> 00:04:36.820
+controls how big a step we take on
+each iteration or gradient descent.
+
+72
+00:04:36.820 --> 00:04:41.200
+We'll talk later about some ways by
+choosing the learning rate alpha.
+
+73
+00:04:41.200 --> 00:04:44.490
+And second, this quantity here,
+this is a derivative.
+
+74
+00:04:44.490 --> 00:04:48.010
+This is basically the update or the change
+you want to make to the parameters w.
+
+75
+00:04:48.010 --> 00:04:52.700
+When we start to write code to
+implement gradient descent,
+
+76
+00:04:52.700 --> 00:04:57.380
+we're going to use the convention
+that the variable name in our code
+
+77
+00:04:58.620 --> 00:05:02.300
+dw will be used to represent
+this derivative term.
+
+78
+00:05:02.300 --> 00:05:06.551
+So when you write code
+you write something like
+
+79
+00:05:06.551 --> 00:05:10.046
+w colon equals w minus alpha times dw.
+
+80
+00:05:10.046 --> 00:05:14.750
+And so we use dw to be the variable
+name to represent this derivative term.
+
+81
+00:05:14.750 --> 00:05:19.330
+Now let's just make sure that this
+gradient descent update makes sense.
+
+82
+00:05:19.330 --> 00:05:21.880
+Let's say that w was over here.
+
+83
+00:05:21.880 --> 00:05:26.060
+So you're at this point on
+the cost function J(w).
+
+84
+00:05:26.060 --> 00:05:29.270
+Remember that the definition
+of a derivative
+
+85
+00:05:29.270 --> 00:05:31.420
+is the slope of a function at the point.
+
+86
+00:05:31.420 --> 00:05:36.190
+So the slope of the function is really
+the height divided by the width, right,
+
+87
+00:05:36.190 --> 00:05:40.290
+of a low triangle here at this
+tangent to J(w) at that point.
+
+88
+00:05:40.290 --> 00:05:43.900
+And so, here the derivative is positive.
+
+89
+00:05:43.900 --> 00:05:48.830
+W gets updated as w minus a learning
+rate times the derivative.
+
+90
+00:05:48.830 --> 00:05:53.310
+The derivative is positive and so
+you end up subtracting from w, so
+
+91
+00:05:53.310 --> 00:05:55.260
+you end up taking a step to the left.
+
+92
+00:05:55.260 --> 00:05:59.380
+And so gradient descent will
+make your algorithm slowly
+
+93
+00:05:59.380 --> 00:06:04.450
+decrease the parameter if you have
+started off with this large value of w.
+
+94
+00:06:04.450 --> 00:06:08.545
+As another example, if w was over here,
+
+95
+00:06:08.545 --> 00:06:15.050
+then at this point the slope here
+of dJ/dw will be negative and so
+
+96
+00:06:15.050 --> 00:06:22.771
+the gradient descent update would
+subtract alpha times a negative number.
+
+97
+00:06:22.771 --> 00:06:27.122
+And so end up slowly increasing w,
+so you end up making w bigger and
+
+98
+00:06:27.122 --> 00:06:31.530
+bigger with successive iterations and
+gradient descent.
+
+99
+00:06:31.530 --> 00:06:34.387
+So that hopefully whether you
+initialize on the left or
+
+100
+00:06:34.387 --> 00:06:39.000
+on the right gradient descent will move
+you towards this global minimum here.
+
+101
+00:06:39.000 --> 00:06:43.100
+If you're not familiar with derivates or
+with calculus and
+
+102
+00:06:43.100 --> 00:06:49.710
+what this term dJ(w)/dw means,
+don't worry too much about it.
+
+103
+00:06:49.710 --> 00:06:53.770
+We'll talk some more about
+derivatives in the next video.
+
+104
+00:06:53.770 --> 00:06:56.761
+If you have a deep knowledge of calculus,
+
+105
+00:06:56.761 --> 00:07:02.321
+you might be able to have a deeper
+intuitions about how neural networks work.
+
+106
+00:07:02.321 --> 00:07:05.471
+But even if you're not that
+familiar with calculus,
+
+107
+00:07:05.471 --> 00:07:10.091
+in the next few videos we'll give you
+enough intuitions about derivatives and
+
+108
+00:07:10.091 --> 00:07:14.980
+about calculus that you'll be able
+to effectively use neural networks.
+
+109
+00:07:14.980 --> 00:07:16.410
+But the overall intuition for
+
+110
+00:07:16.410 --> 00:07:21.520
+now is that this term represents
+the slope of the function, and
+
+111
+00:07:21.520 --> 00:07:26.760
+we want to know the slope of the function
+at the current setting of the parameters
+
+112
+00:07:26.760 --> 00:07:31.140
+so that we can take these steps of
+steepest descent, so that we know what
+
+113
+00:07:31.140 --> 00:07:35.450
+direction to step in in order to go
+downhill on the cost function J.
+
+114
+00:07:36.660 --> 00:07:42.520
+So we wrote our gradient descent for
+J(s) if only w was your parameter.
+
+115
+00:07:42.520 --> 00:07:47.150
+In logistic regression, your cost
+function is a function of both w and b.
+
+116
+00:07:47.150 --> 00:07:50.894
+So in that case, the inner loop of
+gradient descent, that is this thing here,
+
+117
+00:07:50.894 --> 00:07:53.302
+this thing you have to
+repeat becomes as follows.
+
+118
+00:07:53.302 --> 00:07:57.970
+You end up updating w as w
+minus the learning rate times
+
+119
+00:07:57.970 --> 00:08:02.030
+the derivative of J(w,b) respect to w.
+
+120
+00:08:02.030 --> 00:08:07.460
+And you update b as b minus
+the learning rate times
+
+121
+00:08:07.460 --> 00:08:12.270
+the derivative of the cost
+function in respect to b.
+
+122
+00:08:12.270 --> 00:08:17.300
+So these two equations at the bottom
+are the actual update you implement.
+
+123
+00:08:17.300 --> 00:08:22.320
+As an aside I just want to mention one
+notational convention in calculus that
+
+124
+00:08:22.320 --> 00:08:24.560
+is a bit confusing to some people.
+
+125
+00:08:24.560 --> 00:08:28.387
+I don't think it's super important
+that you understand calculus, but
+
+126
+00:08:28.387 --> 00:08:32.411
+in case you see this I want to make sure
+that you don't think too much of this.
+
+127
+00:08:32.411 --> 00:08:35.519
+Which is that in calculus, this term here,
+
+128
+00:08:35.519 --> 00:08:40.730
+we actually write as fallows,
+of that funny squiggle symbol.
+
+129
+00:08:40.730 --> 00:08:46.160
+So this symbol,
+this is actually just a lower case d
+
+130
+00:08:46.160 --> 00:08:51.070
+in a fancy font, in a stylized font for
+when you see this expression all this
+
+131
+00:08:51.070 --> 00:08:56.145
+means is this isn't [INAUDIBLE] J(w,b) or
+really the slope of the function
+
+132
+00:08:56.145 --> 00:09:01.580
+J(w,b), how much that function
+slopes in the w direction.
+
+133
+00:09:01.580 --> 00:09:06.640
+And the rule of the notation in calculus,
+which I think isn't totally logical,
+
+134
+00:09:06.640 --> 00:09:11.780
+but the rule in the notation for calculus,
+which I think just makes things much
+
+135
+00:09:11.780 --> 00:09:16.940
+more complicated than you need to be
+is that if J is a function of two or
+
+136
+00:09:16.940 --> 00:09:21.550
+more variables, then instead of using
+lowercase d you use this funny symbol.
+
+137
+00:09:21.550 --> 00:09:24.380
+This is called a partial
+derivative symbol.
+
+138
+00:09:24.380 --> 00:09:26.120
+But don't worry about this,
+
+139
+00:09:26.120 --> 00:09:31.090
+and if J is a function of only one
+variable, then you use lowercase d.
+
+140
+00:09:31.090 --> 00:09:33.960
+So the only difference between
+whether you use this funny
+
+141
+00:09:33.960 --> 00:09:38.040
+partial derivative symbol or
+lowercase d as we did on top,
+
+142
+00:09:38.040 --> 00:09:41.570
+is whether J is a function of two or
+more variables.
+
+143
+00:09:41.570 --> 00:09:45.900
+In which case, you use this symbol,
+the partial derivative symbol, or
+
+144
+00:09:45.900 --> 00:09:51.480
+if J is only a function of one
+variable then you use lower case d.
+
+145
+00:09:51.480 --> 00:09:55.410
+This is one of those funny rules
+of notation in calculus that
+
+146
+00:09:55.410 --> 00:09:58.540
+I think just make things more
+complicated than they need to be.
+
+147
+00:09:58.540 --> 00:10:03.300
+But if you see this partial derivative
+symbol all it means is you're measure
+
+148
+00:10:03.300 --> 00:10:07.290
+the slope of the function,
+with respect to one of the variables.
+
+149
+00:10:07.290 --> 00:10:12.530
+And similarly to adhere to
+the formerly correct mathematical
+
+150
+00:10:12.530 --> 00:10:18.070
+notation in calculus, because here
+J has two inputs not just one.
+
+151
+00:10:18.070 --> 00:10:22.540
+This thing at the bottom should be written
+with this partial derivative simple.
+
+152
+00:10:22.540 --> 00:10:28.290
+But it really means the same thing as,
+almost the same thing as lower case d.
+
+153
+00:10:28.290 --> 00:10:31.360
+Finally, when you implement this in code,
+
+154
+00:10:31.360 --> 00:10:36.220
+we're going to use the convention that
+this quantity, really the amount by which
+
+155
+00:10:36.220 --> 00:10:41.980
+you update w, will denote as
+the variable dw in your code.
+
+156
+00:10:41.980 --> 00:10:44.220
+And this quantity, right?
+
+157
+00:10:44.220 --> 00:10:47.230
+The amount by which you want to update b
+
+158
+00:10:47.230 --> 00:10:50.740
+will denote by the variable
+db in your code.
+
+159
+00:10:50.740 --> 00:10:55.580
+All right, so, that's how you
+can implement gradient descent.
+
+160
+00:10:55.580 --> 00:10:59.830
+Now if you haven't seen calculus for a few
+years, I know that that might seem like
+
+161
+00:10:59.830 --> 00:11:03.770
+a lot more derivatives in calculus than
+you might be comfortable with so far.
+
+162
+00:11:03.770 --> 00:11:06.330
+But if you're feeling that way,
+don't worry about it.
+
+163
+00:11:06.330 --> 00:11:10.150
+In the next video, we'll give you
+better intuition about derivatives.
+
+164
+00:11:10.150 --> 00:11:13.560
+And even without the deep mathematical
+understanding of calculus,
+
+165
+00:11:13.560 --> 00:11:16.310
+with just an intuitive
+understanding of calculus
+
+166
+00:11:16.310 --> 00:11:19.130
+you will be able to make neural
+networks work effectively.
+
+167
+00:11:19.130 --> 00:11:22.743
+So that, let's go onto the next video
+where we'll talk a little bit more about
+
+168
+00:11:22.743 --> 00:11:23.470
+derivatives.

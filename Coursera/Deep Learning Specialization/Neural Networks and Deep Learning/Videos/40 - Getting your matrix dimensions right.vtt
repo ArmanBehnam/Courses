@@ -1,0 +1,849 @@
+WEBVTT
+
+1
+00:00:03.870 --> 00:00:08.296
+All right. Now that we know what mean field is and we've derived the formulas,
+
+2
+00:00:08.296 --> 00:00:09.730
+let's see an example.
+
+3
+00:00:09.730 --> 00:00:11.780
+It is called an Ising model.
+
+4
+00:00:11.780 --> 00:00:15.315
+This model is widely used in physics.
+
+5
+00:00:15.315 --> 00:00:17.095
+So we have a model,
+
+6
+00:00:17.095 --> 00:00:20.165
+that is a two dimensional lattice.
+
+7
+00:00:20.165 --> 00:00:27.285
+Its elements are running variables that can take value of -1 or +1.
+
+8
+00:00:27.285 --> 00:00:32.670
+We also need a functional neighbor that returns a set of neighboring elements.
+
+9
+00:00:32.670 --> 00:00:36.695
+For example, here, that will have three neighbors.
+
+10
+00:00:36.695 --> 00:00:41.595
+We define the joint probability over all these variables in the following way.
+
+11
+00:00:41.595 --> 00:00:48.245
+It would be proportional to an exponent of 1/2 times J,
+
+12
+00:00:48.245 --> 00:00:50.431
+that is a parameter form model,
+
+13
+00:00:50.431 --> 00:00:53.390
+times the sum over all edges,
+
+14
+00:00:53.390 --> 00:00:56.390
+and the product of the two random variables.
+
+15
+00:00:56.390 --> 00:01:00.475
+If the neighboring values have the same sign,
+
+16
+00:01:00.475 --> 00:01:03.735
+it will contribute one to the total sum.
+
+17
+00:01:03.735 --> 00:01:05.505
+And if the product is -1,
+
+18
+00:01:05.505 --> 00:01:08.515
+it will contribute -1 to the total sum.
+
+19
+00:01:08.515 --> 00:01:17.565
+And also we have another term that is sum over all nodes are the letters, bi times yi.
+
+20
+00:01:17.565 --> 00:01:19.875
+This is called an external field.
+
+21
+00:01:19.875 --> 00:01:25.975
+So we'd know this function exponent of some terms as phi y,
+
+22
+00:01:25.975 --> 00:01:28.900
+and we'll see what we can do with this model.
+
+23
+00:01:28.900 --> 00:01:30.257
+But first of all,
+
+24
+00:01:30.257 --> 00:01:32.285
+let's interpret it somehow.
+
+25
+00:01:32.285 --> 00:01:34.678
+If J is greater than one,
+
+26
+00:01:34.678 --> 00:01:40.220
+then the values yi will tend to have the same sign.
+
+27
+00:01:40.220 --> 00:01:42.214
+This is the case for ferromagnetics.
+
+28
+00:01:42.214 --> 00:01:47.275
+And yi's can be interpreted as spins of atoms.
+
+29
+00:01:47.275 --> 00:01:49.690
+If J is less than one,
+
+30
+00:01:49.690 --> 00:01:53.575
+the neighboring spins will tend to anti-align,
+
+31
+00:01:53.575 --> 00:01:55.660
+and this is shown on the right.
+
+32
+00:01:55.660 --> 00:02:00.825
+So, we have defined the distribution up to a normalization constant.
+
+33
+00:02:00.825 --> 00:02:06.325
+But to compute it, we'll have to sum up over all possible states.
+
+34
+00:02:06.325 --> 00:02:13.970
+And there are two power and square terms and it seems impossible for large lattices.
+
+35
+00:02:13.970 --> 00:02:22.405
+So let's try to apply a meaningful approximation to compute the p or y approximately.
+
+36
+00:02:22.405 --> 00:02:25.920
+So we'll try to approximate this by product of
+
+37
+00:02:25.920 --> 00:02:31.310
+some terms and each term would be a distribution over each variable.
+
+38
+00:02:31.310 --> 00:02:34.642
+So here's an example.
+
+39
+00:02:34.642 --> 00:02:37.449
+We have four nodes here,
+
+40
+00:02:37.449 --> 00:02:39.770
+and the central node i.
+
+41
+00:02:39.770 --> 00:02:43.890
+The external field parameterized by branches
+
+42
+00:02:43.890 --> 00:02:48.390
+B is shown here as the yellow and the green sides.
+
+43
+00:02:48.390 --> 00:02:49.770
+On the yellow side,
+
+44
+00:02:49.770 --> 00:02:52.343
+there is a strong negative field,
+
+45
+00:02:52.343 --> 00:02:55.580
+and on the green side there is strong positive field.
+
+46
+00:02:55.580 --> 00:02:57.028
+So on the positive field,
+
+47
+00:02:57.028 --> 00:03:04.080
+the values of the corresponding nodes would try to have both positive sign.
+
+48
+00:03:04.080 --> 00:03:08.985
+In negative field, the nodes would try to have a negative sign.
+
+49
+00:03:08.985 --> 00:03:11.565
+So actually in this case,
+
+50
+00:03:11.565 --> 00:03:13.485
+the left node would say something like,
+
+51
+00:03:13.485 --> 00:03:16.530
+I feel the negative field on me.
+
+52
+00:03:16.530 --> 00:03:21.645
+And the other three nodes will say something like,
+
+53
+00:03:21.645 --> 00:03:23.850
+they feel the positive field.
+
+54
+00:03:23.850 --> 00:03:26.040
+And so they have some information and
+
+55
+00:03:26.040 --> 00:03:29.665
+they will try to contribute it to the current node i.
+
+56
+00:03:29.665 --> 00:03:34.683
+And this would be done using mean field formula.
+
+57
+00:03:34.683 --> 00:03:37.995
+So here is our joint distribution.
+
+58
+00:03:37.995 --> 00:03:40.705
+And here's a small picture of our model.
+
+59
+00:03:40.705 --> 00:03:46.740
+So we're interested now in deriving the update formula for the mean field approximation.
+
+60
+00:03:46.740 --> 00:03:47.895
+So what we'd like to do,
+
+61
+00:03:47.895 --> 00:03:55.778
+is to find the q of Yk.
+
+62
+00:03:55.778 --> 00:04:00.440
+We'll do this using mean field approximation.
+
+63
+00:04:00.440 --> 00:04:06.965
+So, the idea is that the neighboring points already know some information,
+
+64
+00:04:06.965 --> 00:04:09.105
+about the external fields B.
+
+65
+00:04:09.105 --> 00:04:13.771
+For example, this says that there is external field of the sign plus,
+
+66
+00:04:13.771 --> 00:04:17.105
+this also plus, here minus and minus.
+
+67
+00:04:17.105 --> 00:04:21.918
+So it has some information and they want to propagate it to our node.
+
+68
+00:04:21.918 --> 00:04:24.885
+And we'll see how it is done.
+
+69
+00:04:24.885 --> 00:04:29.440
+So the formula that we derived in the previous video looks as follows.
+
+70
+00:04:29.440 --> 00:04:35.805
+We know that the logarithm of qk,
+
+71
+00:04:35.805 --> 00:04:38.505
+let me write it down an index K here,
+
+72
+00:04:38.505 --> 00:04:44.065
+equals to the expectation over all variables except for the K,
+
+73
+00:04:44.065 --> 00:04:48.883
+and we write it down as q minus K,
+
+74
+00:04:48.883 --> 00:04:53.715
+the logarithm of the actual preview that we are trying to approximate.
+
+75
+00:04:53.715 --> 00:04:59.555
+So it will be p of y, plus some constant.
+
+76
+00:04:59.555 --> 00:05:04.725
+Notice here that we didn't write down the full distribution,
+
+77
+00:05:04.725 --> 00:05:08.098
+since we do not know the minimization constant.
+
+78
+00:05:08.098 --> 00:05:11.610
+However, here we can take it out into the constant.
+
+79
+00:05:11.610 --> 00:05:17.505
+So now we can omit the terms that do not depend on Yk.
+
+80
+00:05:17.505 --> 00:05:19.070
+And if we write it down carefully,
+
+81
+00:05:19.070 --> 00:05:21.268
+we'll get the following formula.
+
+82
+00:05:21.268 --> 00:05:23.420
+So have that expectation,
+
+83
+00:05:23.420 --> 00:05:27.425
+over all terms except for the K's.
+
+84
+00:05:27.425 --> 00:05:29.150
+So the overall of these terms.
+
+85
+00:05:29.150 --> 00:05:33.520
+So we can omit the exponent and have it on this thing.
+
+86
+00:05:33.520 --> 00:05:35.431
+So let me write it down.
+
+87
+00:05:35.431 --> 00:05:42.380
+It's like this, J sum over J that are
+
+88
+00:05:42.380 --> 00:05:50.558
+neighbors of K, Yk,Yj.
+
+89
+00:05:50.558 --> 00:05:54.605
+So I omitted one half here since in this formula,
+
+90
+00:05:54.605 --> 00:05:58.370
+we use each edge twice.
+
+91
+00:05:58.370 --> 00:06:01.660
+And so here, we only want to write down once.
+
+92
+00:06:01.660 --> 00:06:08.845
+And plus Bk, Yk.
+
+93
+00:06:08.845 --> 00:06:15.850
+So this goes under the exponent and goes on constant.
+
+94
+00:06:15.850 --> 00:06:17.980
+All right.
+
+95
+00:06:17.980 --> 00:06:24.240
+We can tell you the expectation and put it under the summation.
+
+96
+00:06:24.240 --> 00:06:29.970
+We'll get J times the sum over J that are
+
+97
+00:06:29.970 --> 00:06:37.171
+neighboring points for the current note.
+
+98
+00:06:37.171 --> 00:06:41.120
+We take expectation over all variables except for the
+
+99
+00:06:41.120 --> 00:06:45.710
+K. So Yk is actually constant with respect to the integration,
+
+100
+00:06:45.710 --> 00:06:50.165
+so we can write it down here and take the expectation Yj.
+
+101
+00:06:50.165 --> 00:06:56.985
+And this term is simply a constant with respect to integration here.
+
+102
+00:06:56.985 --> 00:07:06.420
+So we'll have just Bk, Yk plus on constant.
+
+103
+00:07:06.420 --> 00:07:12.750
+So let's note the expected value of Yj as mu J.
+
+104
+00:07:12.750 --> 00:07:20.820
+It's just that mean value of the J's node.
+
+105
+00:07:20.820 --> 00:07:26.350
+And actually, the information that the node obtained from the other nodes or
+
+106
+00:07:26.350 --> 00:07:32.765
+from the external field in this point is contained in the value of mu J.
+
+107
+00:07:32.765 --> 00:07:37.280
+So, this equals to,
+
+108
+00:07:37.280 --> 00:07:45.105
+we can actually group the terms corresponding to Yk and get the following function.
+
+109
+00:07:45.105 --> 00:07:55.980
+This would be Yk times the J sum over mu J under the neighbors.
+
+110
+00:07:56.540 --> 00:08:05.400
+Plus BK. Since we don't want to write this down multiple times,
+
+111
+00:08:05.400 --> 00:08:09.415
+let's say that this thing equals to some constant M,
+
+112
+00:08:09.415 --> 00:08:16.190
+and find the close constant.
+
+113
+00:08:16.190 --> 00:08:22.971
+So now, I want to estimate the distribution QK but for now it's only up to a constant.
+
+114
+00:08:22.971 --> 00:08:26.635
+Let's take the exponent of both parts,
+
+115
+00:08:26.635 --> 00:08:31.840
+and also remember that the interval of QK should be equal to one.
+
+116
+00:08:31.840 --> 00:08:36.970
+In this case, it means that Q of plus one,
+
+117
+00:08:36.970 --> 00:08:43.300
+plus Q of minus one should be equal to one.
+
+118
+00:08:43.300 --> 00:08:48.245
+We can plug in this formula here.
+
+119
+00:08:48.245 --> 00:08:52.320
+I will have exponent of,
+
+120
+00:08:52.320 --> 00:08:59.070
+so here Yk equals to plus one exponent of M times the exponent of the constant,
+
+121
+00:08:59.070 --> 00:09:00.680
+let's right it down C,
+
+122
+00:09:00.680 --> 00:09:04.810
+plus again the same constant C,
+
+123
+00:09:04.810 --> 00:09:10.520
+and the E to power of minus M, and it should be equal to one.
+
+124
+00:09:10.520 --> 00:09:19.330
+C here should be equal to one over E to the power of M,
+
+125
+00:09:19.330 --> 00:09:27.595
+plus E to the power of minus M. This is the value for the constant.
+
+126
+00:09:27.595 --> 00:09:31.023
+And finally, we can compute the probabilities.
+
+127
+00:09:31.023 --> 00:09:32.960
+So the probability that Q equals one,
+
+128
+00:09:32.960 --> 00:09:38.450
+equals E to the power of M over this constant C,
+
+129
+00:09:38.450 --> 00:09:45.525
+each with the power of M, plus E to the power of minus M. What is this function?
+
+130
+00:09:45.525 --> 00:09:51.605
+What do you think? We can multiply it by each with the power of minus M,
+
+131
+00:09:51.605 --> 00:09:57.235
+we'll have one over one plus E with the power of the minus 2M,
+
+132
+00:09:57.235 --> 00:10:03.785
+and actually equals the sigmoid function of 2M.
+
+133
+00:10:03.785 --> 00:10:08.780
+All right, so now we can update the distributions,
+
+134
+00:10:08.780 --> 00:10:12.305
+however, we need to do one more thing.
+
+135
+00:10:12.305 --> 00:10:17.270
+Notice here that we used the value of μj.
+
+136
+00:10:17.270 --> 00:10:22.330
+For the other nodes to be able to use these constants μj,
+
+137
+00:10:22.330 --> 00:10:26.260
+we need to update the μj for our node.
+
+138
+00:10:26.260 --> 00:10:33.304
+We need to compute the μK. This is an expectation of Yk.
+
+139
+00:10:33.304 --> 00:10:37.880
+It is simply Q at the position plus one,
+
+140
+00:10:37.880 --> 00:10:40.980
+minus Q at the position of minus one.
+
+141
+00:10:40.980 --> 00:10:45.655
+We can again plug in the similar formulas.
+
+142
+00:10:45.655 --> 00:10:50.825
+This would be each with the power of M minus E to
+
+143
+00:10:50.825 --> 00:10:57.110
+the power minus M over the normalization constant.
+
+144
+00:10:57.110 --> 00:11:00.414
+As you may notice,
+
+145
+00:11:00.414 --> 00:11:09.385
+this actually equals to the hyperbolic tangent.
+
+146
+00:11:09.385 --> 00:11:12.915
+Here's our final formula.
+
+147
+00:11:12.915 --> 00:11:16.520
+Let's again and see how it works.
+
+148
+00:11:16.520 --> 00:11:17.694
+We iterate our nodes,
+
+149
+00:11:17.694 --> 00:11:19.950
+we select some node.
+
+150
+00:11:19.950 --> 00:11:24.255
+We compute the probabilities Q,
+
+151
+00:11:24.255 --> 00:11:28.290
+and then update the value of μk.
+
+152
+00:11:28.290 --> 00:11:34.809
+And while we update the probabilities Q, we also use the values μj.
+
+153
+00:11:34.809 --> 00:11:38.170
+Also actually, here it is QK,
+
+154
+00:11:38.170 --> 00:11:45.870
+which is actually true since we're estimating the values for the μK.
+
+155
+00:11:45.870 --> 00:11:49.860
+Now that we've derived an update formula,
+
+156
+00:11:49.860 --> 00:11:51.954
+let's see how this one will work for different values of J.
+
+157
+00:11:51.954 --> 00:11:54.380
+Here's our setup.
+
+158
+00:11:54.380 --> 00:11:56.595
+We have two areas,
+
+159
+00:11:56.595 --> 00:12:00.025
+the white one corresponds to the positive external field,
+
+160
+00:12:00.025 --> 00:12:03.360
+and the black one corresponds to the negative external field.
+
+161
+00:12:03.360 --> 00:12:05.025
+If J is 0,
+
+162
+00:12:05.025 --> 00:12:09.125
+then with probability one on the white area,
+
+163
+00:12:09.125 --> 00:12:12.330
+the spins would tend to be plus one.
+
+164
+00:12:12.330 --> 00:12:15.615
+On the black area,
+
+165
+00:12:15.615 --> 00:12:19.715
+the probability would be one for having minus one.
+
+166
+00:12:19.715 --> 00:12:24.605
+And everywhere else we'll have the probability 0.5 for each possible state.
+
+167
+00:12:24.605 --> 00:12:29.600
+It happens because there is no interaction between neighboring points since J is 0.
+
+168
+00:12:29.600 --> 00:12:32.085
+You will have the negative J.
+
+169
+00:12:32.085 --> 00:12:35.200
+We'll have a chess-like field.
+
+170
+00:12:35.200 --> 00:12:41.960
+The neighboring points would try to have opposite signs,
+
+171
+00:12:41.960 --> 00:12:45.775
+there will be blacks and whites nearby.
+
+172
+00:12:45.775 --> 00:12:49.320
+As we go further from external field,
+
+173
+00:12:49.320 --> 00:12:51.870
+the interaction is slower,
+
+174
+00:12:51.870 --> 00:12:54.640
+and so when we're really far away from the field,
+
+175
+00:12:54.640 --> 00:12:57.945
+the probability is actually nearly 0.5,
+
+176
+00:12:57.945 --> 00:13:03.630
+which will indicate that there can be either plus one or minus one.
+
+177
+00:13:03.630 --> 00:13:08.735
+All right. The final example is a strong positive J.
+
+178
+00:13:08.735 --> 00:13:12.315
+In this case, we'll get a picture like this,
+
+179
+00:13:12.315 --> 00:13:15.605
+one part would be white that means that we'll
+
+180
+00:13:15.605 --> 00:13:20.770
+have plus one with probability one on the left upper corner,
+
+181
+00:13:20.770 --> 00:13:25.100
+and everywhere else we'll have minus one with probability one.
+
+182
+00:13:25.100 --> 00:13:28.733
+So actually, this situation should have be symmetric.
+
+183
+00:13:28.733 --> 00:13:35.205
+Why didn't we get the opposite picture when there would be a right lower corner,
+
+184
+00:13:35.205 --> 00:13:39.270
+black, and other things would be white?
+
+185
+00:13:39.270 --> 00:13:42.615
+This is actually a property of the KL diversions.
+
+186
+00:13:42.615 --> 00:13:48.850
+Here I have a [inaudible] the bimodal distribution,
+
+187
+00:13:48.850 --> 00:13:53.334
+and I try to, approximate it by fitting the KL diversions.
+
+188
+00:13:53.334 --> 00:13:56.855
+There could be two possible cases.
+
+189
+00:13:56.855 --> 00:14:01.155
+One is left is that the KL diversions would fit one node,
+
+190
+00:14:01.155 --> 00:14:08.090
+and on the second one is that we fit something in the middle.
+
+191
+00:14:08.090 --> 00:14:11.280
+What do you think would happen when minimize the KL diversions
+
+192
+00:14:11.280 --> 00:14:15.260
+between the bayesian distribution and [inaudible].
+
+193
+00:14:15.260 --> 00:14:20.445
+Let's first of all see what are the properties of those two things.
+
+194
+00:14:20.445 --> 00:14:22.290
+The second one captures the statistics,
+
+195
+00:14:22.290 --> 00:14:25.770
+so it would have for example the correct mean.
+
+196
+00:14:25.770 --> 00:14:27.450
+However, the first one has
+
+197
+00:14:27.450 --> 00:14:31.955
+the very important property that the mode has high probability.
+
+198
+00:14:31.955 --> 00:14:34.140
+In the second example,
+
+199
+00:14:34.140 --> 00:14:36.030
+the probability of mode is really low.
+
+200
+00:14:36.030 --> 00:14:39.795
+It seems that the mode is actually impossible, and so,
+
+201
+00:14:39.795 --> 00:14:42.655
+for many practical cases,
+
+202
+00:14:42.655 --> 00:14:45.883
+the first fit would be nicer and actually this is the case.
+
+203
+00:14:45.883 --> 00:14:48.985
+Let's see why it happens. All right.
+
+204
+00:14:48.985 --> 00:14:51.270
+So here's our KL diversions.
+
+205
+00:14:51.270 --> 00:14:55.200
+It is an integral of Q of Z times log of the ratio.
+
+206
+00:14:55.200 --> 00:14:58.260
+Let's see what happens if we assign
+
+207
+00:14:58.260 --> 00:15:03.160
+non-zero probability to the Q and zero probability to the P-star.
+
+208
+00:15:03.160 --> 00:15:08.230
+In this case, the KL diversions would have a value of plus infinity.
+
+209
+00:15:08.230 --> 00:15:12.630
+And so, the KL divergence would try to avoid
+
+210
+00:15:12.630 --> 00:15:17.480
+giving non-zero probability to the regions that are impossible from the first tier.
+
+211
+00:15:17.480 --> 00:15:23.575
+It is called a zero avoiding property of KL divergence,
+
+212
+00:15:23.575 --> 00:15:27.250
+and it turns out to be useful in many cases.

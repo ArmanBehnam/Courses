@@ -1,0 +1,681 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.350
+In the previous video,
+
+2
+00:00:01.350 --> 00:00:05.065
+you saw the basic blocks of implementing a deep neural network.
+
+3
+00:00:05.065 --> 00:00:07.696
+A forward propagation step for each layer,
+
+4
+00:00:07.696 --> 00:00:09.975
+and a corresponding backward propagation step.
+
+5
+00:00:09.975 --> 00:00:12.370
+Let's see how you can actually implement these steps.
+
+6
+00:00:12.370 --> 00:00:14.230
+We'll start with forward propagation.
+
+7
+00:00:14.230 --> 00:00:20.045
+Recall that what this will do is input a[l-1] and output a[l],
+
+8
+00:00:20.045 --> 00:00:21.795
+and the cache z[l].
+
+9
+00:00:21.795 --> 00:00:24.615
+And we just said that an implementational point of view,
+
+10
+00:00:24.615 --> 00:00:28.145
+maybe where cache w[l] and b[l] as well,
+
+11
+00:00:28.145 --> 00:00:31.585
+just to make the functions come a bit easier in the problem exercise.
+
+12
+00:00:31.585 --> 00:00:35.438
+And so, the equations for this should already look familiar.
+
+13
+00:00:35.438 --> 00:00:46.813
+The way to implement a forward function is just this equals w[l] * a[l-1] + b[l],
+
+14
+00:00:46.813 --> 00:00:53.620
+and then, a[l] equals deactivation function applied to z.
+
+15
+00:00:53.620 --> 00:00:57.250
+And if you want to vectorize implementation,
+
+16
+00:00:57.250 --> 00:01:06.218
+then it's just that times a[l-1] + b,
+
+17
+00:01:06.218 --> 00:01:09.930
+adding b, being a hyper-broadcasting,
+
+18
+00:01:09.930 --> 00:01:15.296
+and a[l] = g applied element-wise to z.
+
+19
+00:01:15.296 --> 00:01:20.128
+And you remember, on the diagram for the forward step,
+
+20
+00:01:20.128 --> 00:01:22.565
+remember we had this chain of boxes going forward,
+
+21
+00:01:22.565 --> 00:01:26.775
+so you initialize that with feeding an a[0],
+
+22
+00:01:26.775 --> 00:01:29.305
+which is equal to X.
+
+23
+00:01:29.305 --> 00:01:31.440
+So, you initialized this.
+
+24
+00:01:31.440 --> 00:01:33.380
+Really, what is the input to the first one, right?
+
+25
+00:01:33.380 --> 00:01:40.207
+It's really a[0] which is the input features to either for one training sample,
+
+26
+00:01:40.207 --> 00:01:42.255
+if you're doing one example at a time,
+
+27
+00:01:42.255 --> 00:01:45.800
+or A[0], the entire training set,
+
+28
+00:01:45.800 --> 00:01:48.215
+if you are processing the entire training set.
+
+29
+00:01:48.215 --> 00:01:51.990
+So that's the input to the first four functions in the chain,
+
+30
+00:01:51.990 --> 00:01:53.970
+and then just repeating this allows you to
+
+31
+00:01:53.970 --> 00:01:57.085
+compute forward propagation from left to right.
+
+32
+00:01:57.085 --> 00:02:00.110
+Next, let's talk about the backward propagation step.
+
+33
+00:02:00.110 --> 00:02:03.585
+Here, your goal is to input da[l],
+
+34
+00:02:03.585 --> 00:02:08.040
+and output da[l-1] and dW[l] and db.
+
+35
+00:02:08.040 --> 00:02:16.240
+Let me just right out the steps you need to compute these things: dz[l] = da[l],
+
+36
+00:02:16.240 --> 00:02:23.866
+element-wise product with g[l]` z[l],
+
+37
+00:02:23.866 --> 00:02:27.405
+and then, to compute the derivatives
+
+38
+00:02:27.405 --> 00:02:34.420
+dW[l] = dz[l] * a[l - 1].
+
+39
+00:02:34.420 --> 00:02:37.445
+I didn't explicitly put that in the cache but it turns out,
+
+40
+00:02:37.445 --> 00:02:39.114
+you need this as well.
+
+41
+00:02:39.114 --> 00:02:47.560
+And then, db[l] = dz[l], and finally,
+
+42
+00:02:47.560 --> 00:02:59.089
+da[l-1] = w[l]_transpose * dz[l], okay?
+
+43
+00:02:59.089 --> 00:03:02.310
+And, I don't want to go through the detailed derivation for this,
+
+44
+00:03:02.310 --> 00:03:06.605
+but it turns out that if you take this definition for da and plug it in here,
+
+45
+00:03:06.605 --> 00:03:10.260
+then you get the same formula as we had in the previous week,
+
+46
+00:03:10.260 --> 00:03:16.617
+for how you compute dz[l] as a function of the previous dz[l], in fact, well,
+
+47
+00:03:16.617 --> 00:03:18.135
+If I just plug that in here,
+
+48
+00:03:18.135 --> 00:03:33.817
+you end up that dz[l] = w[l+1]_transpose dz[l+1] * g[l]` z[l].
+
+49
+00:03:33.817 --> 00:03:36.165
+I know this looks like a lot of algebra,
+
+50
+00:03:36.165 --> 00:03:38.360
+You can actually double check for yourself that
+
+51
+00:03:38.360 --> 00:03:40.820
+this is the equation we have written down for
+
+52
+00:03:40.820 --> 00:03:43.055
+back propagation last week when we
+
+53
+00:03:43.055 --> 00:03:45.930
+are doing a neural network with just a single hidden layer.
+
+54
+00:03:45.930 --> 00:03:48.602
+And as reminder, this time, this element-wise product,
+
+55
+00:03:48.602 --> 00:03:54.950
+and so all you need is those four equations to implement your backward function.
+
+56
+00:03:54.950 --> 00:03:58.735
+And then finally, I'll just write out a vectorized version.
+
+57
+00:03:58.735 --> 00:04:04.135
+So the first line becomes dz[l] = dA[l],
+
+58
+00:04:04.135 --> 00:04:11.045
+element-wise product with g[l]` of z[l].
+
+59
+00:04:11.045 --> 00:04:13.060
+Maybe no surprise there.
+
+60
+00:04:13.060 --> 00:04:23.715
+dW[l] becomes 1/m, dz[l] * a[l-1]_transpose and then,
+
+61
+00:04:23.715 --> 00:04:30.844
+db[l] becomes 1/m np.sum dz[l],
+
+62
+00:04:30.844 --> 00:04:37.970
+then, axis = 1, keepdims = true.
+
+63
+00:04:37.970 --> 00:04:44.095
+We talked about the use of np.sum in the previous week to compute db.
+
+64
+00:04:44.095 --> 00:04:56.155
+And then finally, dA[l-1] is W[l]_transpose * dz[l].
+
+65
+00:04:56.155 --> 00:05:02.435
+So this allows you to input this quantity, da, over here,
+
+66
+00:05:02.435 --> 00:05:07.950
+and output dW[l], db[l],
+
+67
+00:05:07.950 --> 00:05:10.100
+the derivatives you need,
+
+68
+00:05:10.100 --> 00:05:16.022
+as well as dA[l-1], right? As follows.
+
+69
+00:05:16.022 --> 00:05:18.905
+So that's how you implement the backward function.
+
+70
+00:05:18.905 --> 00:05:20.560
+So just to summarize,
+
+71
+00:05:20.560 --> 00:05:23.585
+take the input X,
+
+72
+00:05:23.585 --> 00:05:25.060
+you might have the first layer,
+
+73
+00:05:25.060 --> 00:05:28.445
+maybe has a ReLU activation function.
+
+74
+00:05:28.445 --> 00:05:30.570
+Then go to the second layer,
+
+75
+00:05:30.570 --> 00:05:33.340
+maybe uses another ReLU activation function,
+
+76
+00:05:33.340 --> 00:05:35.175
+goes to the third layer,
+
+77
+00:05:35.175 --> 00:05:39.595
+maybe has a Sigmoid activation function if you're doing binary classification,
+
+78
+00:05:39.595 --> 00:05:41.875
+and this outputs y_hat.
+
+79
+00:05:41.875 --> 00:05:43.890
+And then, using y_hat,
+
+80
+00:05:43.890 --> 00:05:46.265
+you can compute the loss,
+
+81
+00:05:46.265 --> 00:05:49.685
+and this allows you to start your backward iteration.
+
+82
+00:05:49.685 --> 00:05:51.775
+I'll draw the arrows first, okay?
+
+83
+00:05:51.775 --> 00:05:54.320
+So I don't have to change pens too much.
+
+84
+00:05:54.320 --> 00:06:03.430
+Where you will then have back-prop compute the derivatives, to compute
+
+85
+00:06:03.430 --> 00:06:16.063
+dW[3], db[3], dW[2], db[2], dW[1], db[1],
+
+86
+00:06:16.063 --> 00:06:18.865
+and along the way you would be computing,
+
+87
+00:06:18.865 --> 00:06:24.820
+I guess, the cache would transfer z[1], z[2], z[3],
+
+88
+00:06:24.820 --> 00:06:32.250
+and here you pause backward da[2] and da[1].
+
+89
+00:06:32.250 --> 00:06:34.730
+This could compute da[0],
+
+90
+00:06:34.730 --> 00:06:35.880
+but we won't use that.
+
+91
+00:06:35.880 --> 00:06:37.935
+So you can just discard that, right?
+
+92
+00:06:37.935 --> 00:06:40.785
+And so, this is how you implement forward-prop and back-prop for
+
+93
+00:06:40.785 --> 00:06:44.040
+a three layer neural network.
+
+94
+00:06:44.040 --> 00:06:46.140
+Now, there's just one last detail that I didn't
+
+95
+00:06:46.140 --> 00:06:48.735
+talk about which is for the forward recursion,
+
+96
+00:06:48.735 --> 00:06:52.420
+we will initialize it with the input data X.
+
+97
+00:06:52.420 --> 00:06:54.090
+How about the backward recursion?
+
+98
+00:06:54.090 --> 00:06:59.235
+Well, it turns out that da[L],
+
+99
+00:06:59.235 --> 00:07:01.065
+when you're using logistic regression,
+
+100
+00:07:01.065 --> 00:07:02.977
+when you're doing binary classification,
+
+101
+00:07:02.977 --> 00:07:09.685
+is equal to y/a + 1-y/1-a.
+
+102
+00:07:09.685 --> 00:07:12.575
+So it turns out that the derivative for the loss function,
+
+103
+00:07:12.575 --> 00:07:14.180
+respect to the output,
+
+104
+00:07:14.180 --> 00:07:17.475
+with respect to y_hat, can be shown to be what it is.
+
+105
+00:07:17.475 --> 00:07:19.105
+If you're familiar with calculus,
+
+106
+00:07:19.105 --> 00:07:21.328
+If you look up the loss function L,
+
+107
+00:07:21.328 --> 00:07:24.150
+and take the riveters, respect to y_hat or respect to a,
+
+108
+00:07:24.150 --> 00:07:26.505
+you can show that you get that formula.
+
+109
+00:07:26.505 --> 00:07:31.350
+So this is the formula you should use for da for the final layer, capital L.
+
+110
+00:07:31.350 --> 00:07:35.715
+And of course, if you were to have a vectorized implementation,
+
+111
+00:07:35.715 --> 00:07:38.351
+then you initialize the backward recursion,
+
+112
+00:07:38.351 --> 00:07:43.706
+not with this but with dA for the layer l,
+
+113
+00:07:43.706 --> 00:07:48.465
+which is going to be the same thing for the different examples,
+
+114
+00:07:48.465 --> 00:07:54.011
+over a, for the first training example, + 1-y,
+
+115
+00:07:54.011 --> 00:07:55.285
+for the first training example,
+
+116
+00:07:55.285 --> 00:07:58.153
+over 1-a, for the first training example,
+
+117
+00:07:58.153 --> 00:08:05.185
+...down to the end training example, so 1-a[m].
+
+118
+00:08:05.185 --> 00:08:09.423
+So that's how you implement the vectorized version.
+
+119
+00:08:09.423 --> 00:08:13.055
+That's how you initialize the vectorized version of back propagation.
+
+120
+00:08:13.055 --> 00:08:16.100
+So you've now seen the basic building blocks of
+
+121
+00:08:16.100 --> 00:08:20.030
+both forward propagation as well as back propagation.
+
+122
+00:08:20.030 --> 00:08:22.340
+Now, if you implement these equations,
+
+123
+00:08:22.340 --> 00:08:24.530
+you will get a correct implementation of
+
+124
+00:08:24.530 --> 00:08:27.640
+forward-prop and back-prop to get you the derivatives you need.
+
+125
+00:08:27.640 --> 00:08:29.660
+You might be thinking, while there was a lot of equation,
+
+126
+00:08:29.660 --> 00:08:32.080
+I'm slightly confused, I'm not quite sure I see how this works.
+
+127
+00:08:32.080 --> 00:08:34.645
+And if you're feeling that way, my advice is,
+
+128
+00:08:34.645 --> 00:08:37.205
+when you get to this week's programming assignment,
+
+129
+00:08:37.205 --> 00:08:40.175
+you will be able to implement these for yourself,
+
+130
+00:08:40.175 --> 00:08:42.020
+and they will be much more concrete.
+
+131
+00:08:42.020 --> 00:08:43.805
+And I know there is lot of equations,
+
+132
+00:08:43.805 --> 00:08:46.265
+and maybe some equations didn't make complete sense,
+
+133
+00:08:46.265 --> 00:08:49.055
+but if you work through the calculus,
+
+134
+00:08:49.055 --> 00:08:50.905
+and the linear algebra, which is not easy,
+
+135
+00:08:50.905 --> 00:08:52.430
+so feel free to try,
+
+136
+00:08:52.430 --> 00:08:56.390
+but that's actually one of the more difficult derivations in machine learning.
+
+137
+00:08:56.390 --> 00:08:57.950
+It turns out the equations roll down,
+
+138
+00:08:57.950 --> 00:09:02.685
+or just the calculus equations for computing the derivatives specially in back-prop.
+
+139
+00:09:02.685 --> 00:09:04.750
+But once again, if this feels a little bit abstract,
+
+140
+00:09:04.750 --> 00:09:06.400
+a little bit mysterious to you,
+
+141
+00:09:06.400 --> 00:09:09.108
+my advice is, when you've done the primary exercise,
+
+142
+00:09:09.108 --> 00:09:11.465
+it will feel a bit more concrete to you.
+
+143
+00:09:11.465 --> 00:09:14.120
+Although I have to say, even today,
+
+144
+00:09:14.120 --> 00:09:16.805
+when I implement a learning algorithm, sometimes,
+
+145
+00:09:16.805 --> 00:09:18.000
+even I'm surprised when
+
+146
+00:09:18.000 --> 00:09:21.170
+my learning algorithms implementation works and it's because a lot of
+
+147
+00:09:21.170 --> 00:09:25.670
+complexity of machine learning comes from the data rather than from the lines of code.
+
+148
+00:09:25.670 --> 00:09:27.095
+So sometimes, you feel like,
+
+149
+00:09:27.095 --> 00:09:28.685
+you implement a few lines of code,
+
+150
+00:09:28.685 --> 00:09:30.110
+not quite sure what it did,
+
+151
+00:09:30.110 --> 00:09:31.625
+but this almost magically works,
+
+152
+00:09:31.625 --> 00:09:35.296
+because a lot of magic is actually not in the piece of code you write,
+
+153
+00:09:35.296 --> 00:09:37.090
+which is often not too long.
+
+154
+00:09:37.090 --> 00:09:38.705
+It's not exactly simple,
+
+155
+00:09:38.705 --> 00:09:40.730
+but it's not ten thousand,
+
+156
+00:09:40.730 --> 00:09:42.115
+a hundred thousand lines of code,
+
+157
+00:09:42.115 --> 00:09:44.750
+but your feeding so much data that sometimes,
+
+158
+00:09:44.750 --> 00:09:46.850
+even though I've worked in machine learning for a long time,
+
+159
+00:09:46.850 --> 00:09:49.400
+sometimes, it still surprises me a bit when
+
+160
+00:09:49.400 --> 00:09:53.274
+my learning algorithm works because a lot of complexity of your learning algorithm
+
+161
+00:09:53.274 --> 00:09:55.970
+comes from the data rather than
+
+162
+00:09:55.970 --> 00:10:01.020
+necessarily from your writing thousands and thousands of lines of code.
+
+163
+00:10:01.020 --> 00:10:05.935
+All right. So, that's how you implement deep neural networks.
+
+164
+00:10:05.935 --> 00:10:10.325
+And again, this will become more concrete when you done the primary exercise.
+
+165
+00:10:10.325 --> 00:10:14.220
+Before moving on, in the next video,
+
+166
+00:10:14.220 --> 00:10:17.480
+I want to discuss hyper parameters and parameters.
+
+167
+00:10:17.480 --> 00:10:19.681
+It turns out that when you're training deep nets,
+
+168
+00:10:19.681 --> 00:10:22.225
+being able to organize your hyper parameters well
+
+169
+00:10:22.225 --> 00:10:25.400
+will help you be more efficient in developing your networks.
+
+170
+00:10:25.400 --> 00:10:29.000
+In the next video, let's talk about exactly what that means.

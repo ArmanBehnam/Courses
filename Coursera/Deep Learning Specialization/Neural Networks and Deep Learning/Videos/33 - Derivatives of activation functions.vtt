@@ -1,0 +1,597 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.030
+When you implement back propagation
+for your neural network,
+
+2
+00:00:03.030 --> 00:00:07.620
+you need to either compute the slope or
+the derivative of the activation functions.
+
+3
+00:00:07.620 --> 00:00:09.990
+So, let's take a look at our choices of
+
+4
+00:00:09.990 --> 00:00:14.565
+activation functions and how you can
+compute the slope of these functions.
+
+5
+00:00:14.565 --> 00:00:18.225
+Here's the familiar Sigmoid
+activation function.
+
+6
+00:00:18.225 --> 00:00:20.835
+So, for any given value of z,
+
+7
+00:00:20.835 --> 00:00:22.160
+maybe this value of z.
+
+8
+00:00:22.160 --> 00:00:27.075
+This function will have some slope or
+some derivative corresponding to,
+
+9
+00:00:27.075 --> 00:00:28.860
+if you draw a little line there,
+
+10
+00:00:28.860 --> 00:00:32.460
+the height over width of this
+lower triangle here.
+
+11
+00:00:32.460 --> 00:00:36.630
+So, if g of z is the sigmoid function,
+
+12
+00:00:36.630 --> 00:00:39.930
+then the slope of the function is d,
+
+13
+00:00:39.930 --> 00:00:41.655
+dz g of z,
+
+14
+00:00:41.655 --> 00:00:48.685
+and so we know from calculus that
+it is the slope of g of x at z.
+
+15
+00:00:48.685 --> 00:00:53.210
+If you are familiar with calculus
+and know how to take derivatives,
+
+16
+00:00:53.210 --> 00:00:56.060
+if you take the derivative of
+the Sigmoid function,
+
+17
+00:00:56.060 --> 00:00:59.915
+it is possible to show that it is
+equal to this formula.
+
+18
+00:00:59.915 --> 00:01:02.930
+Again, I'm not going to do
+the calculus steps,
+
+19
+00:01:02.930 --> 00:01:04.730
+but if you are familiar with calculus,
+
+20
+00:01:04.730 --> 00:01:08.180
+feel free to post a video and
+try to prove this yourself.
+
+21
+00:01:08.180 --> 00:01:12.545
+So, this is equal to just g of z,
+
+22
+00:01:12.545 --> 00:01:16.505
+times 1 minus g of z.
+
+23
+00:01:16.505 --> 00:01:21.465
+So, let's just sanity check that
+this expression make sense.
+
+24
+00:01:21.465 --> 00:01:24.045
+First, if z is very large,
+
+25
+00:01:24.045 --> 00:01:25.800
+so say z is equal to 10,
+
+26
+00:01:25.800 --> 00:01:30.315
+then g of z will be close to 1,
+
+27
+00:01:30.315 --> 00:01:38.760
+and so the formula we have on the left tells
+us that d dz g of z does be close to g of z,
+
+28
+00:01:38.760 --> 00:01:43.210
+which is equal to 1 times 1 minus 1,
+
+29
+00:01:43.210 --> 00:01:46.575
+which is therefore very close to 0.
+
+30
+00:01:46.575 --> 00:01:49.110
+This isn't the correct because
+when z is very large,
+
+31
+00:01:49.110 --> 00:01:51.135
+the slope is close to 0.
+
+32
+00:01:51.135 --> 00:01:53.955
+Conversely, if z is equal to minus 10,
+
+33
+00:01:53.955 --> 00:01:55.965
+so it says well there,
+
+34
+00:01:55.965 --> 00:01:59.340
+then g of z is close to 0.
+
+35
+00:01:59.340 --> 00:02:04.560
+So, the formula on the left tells us
+d dz g of z would be close to g of z,
+
+36
+00:02:04.560 --> 00:02:07.095
+which is 0 times 1 minus 0.
+
+37
+00:02:07.095 --> 00:02:10.685
+So it is also very close to 0,
+which is correct.
+
+38
+00:02:10.685 --> 00:02:13.675
+Finally, if z is equal to 0,
+
+39
+00:02:13.675 --> 00:02:17.355
+then g of z is equal to one-half,
+
+40
+00:02:17.355 --> 00:02:19.275
+that's the sigmoid function right here,
+
+41
+00:02:19.275 --> 00:02:26.620
+and so the derivative is equal to
+one-half times 1 minus one-half,
+
+42
+00:02:26.620 --> 00:02:28.665
+which is equal to one-quarter,
+
+43
+00:02:28.665 --> 00:02:32.330
+and that actually turns out to
+be the correct value of
+
+44
+00:02:32.330 --> 00:02:36.140
+the derivative or the slope of this
+function when z is equal to 0.
+
+45
+00:02:36.140 --> 00:02:39.370
+Finally, just to introduce
+one more piece of notation,
+
+46
+00:02:39.370 --> 00:02:42.895
+sometimes instead of writing this thing,
+
+47
+00:02:42.895 --> 00:02:46.340
+the shorthand for the derivative
+is g prime of z.
+
+48
+00:02:46.340 --> 00:02:48.440
+So, g prime of z in calculus,
+
+49
+00:02:48.440 --> 00:02:52.250
+the little dash on top is called prime,
+
+50
+00:02:52.250 --> 00:02:55.970
+but so g prime of z is a
+shorthand for the calculus for
+
+51
+00:02:55.970 --> 00:03:01.250
+the derivative of the function of g
+with respect to the input variable z.
+
+52
+00:03:01.250 --> 00:03:05.295
+Then in a neural network,
+
+53
+00:03:05.295 --> 00:03:10.740
+we have a equals g of z,
+
+54
+00:03:10.740 --> 00:03:17.530
+equals this, then this formula
+also simplifies to a times 1 minus a.
+
+55
+00:03:17.530 --> 00:03:19.710
+So, sometimes in implementation,
+
+56
+00:03:19.710 --> 00:03:25.355
+you might see something like
+g prime of z equals a times 1 minus a,
+
+57
+00:03:25.355 --> 00:03:30.330
+and that just refers to the
+observation that g prime,
+
+58
+00:03:30.330 --> 00:03:31.710
+which just means the derivative,
+
+59
+00:03:31.710 --> 00:03:33.390
+is equal to this over here.
+
+60
+00:03:33.390 --> 00:03:38.980
+The advantage of this formula is that
+if you've already computed the value for a,
+
+61
+00:03:38.980 --> 00:03:40.705
+then by using this expression,
+
+62
+00:03:40.705 --> 00:03:44.860
+you can very quickly compute the
+value for the slope for g prime as well.
+
+63
+00:03:44.860 --> 00:03:47.980
+All right. So, that was the
+sigmoid activation function.
+
+64
+00:03:47.980 --> 00:03:51.220
+Let's now look at the Tanh
+activation function.
+
+65
+00:03:51.220 --> 00:03:53.285
+Similar to what we had previously,
+
+66
+00:03:53.285 --> 00:03:57.330
+the definition of d dz g of z is
+
+67
+00:03:57.330 --> 00:04:04.225
+the slope of g of z at
+a particular point of z,
+
+68
+00:04:04.225 --> 00:04:10.605
+and if you look at the formula for
+the hyperbolic tangent function,
+
+69
+00:04:10.605 --> 00:04:12.390
+and if you know calculus,
+
+70
+00:04:12.390 --> 00:04:15.905
+you can take derivatives and
+show that this simplifies to
+
+71
+00:04:15.905 --> 00:04:21.230
+this formula and using
+
+72
+00:04:21.230 --> 00:04:27.050
+the shorthand we have previously
+when we call this g prime of z again.
+
+73
+00:04:27.050 --> 00:04:30.735
+So, if you want you can sanity check
+that this formula makes sense.
+
+74
+00:04:30.735 --> 00:04:33.395
+So, for example, if z is equal to 10,
+
+75
+00:04:33.395 --> 00:04:37.545
+Tanh of z will be very close to 1.
+
+76
+00:04:37.545 --> 00:04:42.330
+This goes from plus 1 to minus 1.
+
+77
+00:04:42.330 --> 00:04:45.030
+Then g prime of z,
+
+78
+00:04:45.030 --> 00:04:46.425
+according to this formula,
+
+79
+00:04:46.425 --> 00:04:48.300
+would be about 1 minus 1 squared,
+
+80
+00:04:48.300 --> 00:04:50.115
+so there's very close to 0.
+
+81
+00:04:50.115 --> 00:04:52.190
+So, that was if z is very large,
+
+82
+00:04:52.190 --> 00:04:53.765
+the slope is close to 0.
+
+83
+00:04:53.765 --> 00:04:56.375
+Conversely, if z is very small,
+
+84
+00:04:56.375 --> 00:04:58.750
+say z is equal to minus 10,
+
+85
+00:04:58.750 --> 00:05:02.715
+then Tanh of z will be close to minus 1,
+
+86
+00:05:02.715 --> 00:05:08.970
+and so g prime of z will be
+close to 1 minus negative 1 squared.
+
+87
+00:05:08.970 --> 00:05:10.470
+So, it's close to 1 minus 1,
+
+88
+00:05:10.470 --> 00:05:12.420
+which is also close to 0.
+
+89
+00:05:12.420 --> 00:05:14.775
+Then finally, if z is equal to 0,
+
+90
+00:05:14.775 --> 00:05:18.844
+then Tanh of z is equal to 0,
+
+91
+00:05:18.844 --> 00:05:21.630
+and then the slope is
+actually equal to 1,
+
+92
+00:05:21.630 --> 00:05:25.740
+which is actually the slope
+when z is equal to 0.
+
+93
+00:05:25.740 --> 00:05:27.255
+So, just to summarize,
+
+94
+00:05:27.255 --> 00:05:29.955
+if a is equal to g of z,
+
+95
+00:05:29.955 --> 00:05:34.170
+so if a is equal to this
+Tanh of z, then the derivative,
+
+96
+00:05:34.170 --> 00:05:38.580
+g prime of z, is equal to
+1 minus a squared.
+
+97
+00:05:38.580 --> 00:05:41.990
+So, once again, if you've already
+computed the value of a,
+
+98
+00:05:41.990 --> 00:05:46.285
+you can use this formula to very
+quickly compute the derivative as well.
+
+99
+00:05:46.285 --> 00:05:48.740
+Finally, here's how you
+compute the derivatives for
+
+100
+00:05:48.740 --> 00:05:51.560
+the ReLU and Leaky ReLU
+activation functions.
+
+101
+00:05:51.560 --> 00:05:57.710
+For the value g of z is
+equal to max of 0,z,
+
+102
+00:05:57.710 --> 00:06:00.840
+so the derivative is equal to,
+
+103
+00:06:00.840 --> 00:06:02.460
+turns out to be 0 ,
+
+104
+00:06:02.460 --> 00:06:09.525
+if z is less than 0 and 1
+if z is greater than 0.
+
+105
+00:06:09.525 --> 00:06:16.300
+It's actually undefined, technically
+undefined if z is equal to exactly 0.
+
+106
+00:06:16.300 --> 00:06:19.399
+But if you're implementing
+this in software,
+
+107
+00:06:19.399 --> 00:06:21.960
+it might not be a 100 percent
+mathematically correct,
+
+108
+00:06:21.960 --> 00:06:26.630
+but it'll work just fine
+if z is exactly a 0,
+
+109
+00:06:26.630 --> 00:06:28.960
+if you set the derivative
+to be equal to 1.
+
+110
+00:06:28.960 --> 00:06:32.095
+It always had to be 0,
+it doesn't matter.
+
+111
+00:06:32.095 --> 00:06:34.540
+If you're an expert in
+optimization, technically,
+
+112
+00:06:34.540 --> 00:06:39.380
+g prime then becomes what's called a
+sub-gradient of the activation function g of z,
+
+113
+00:06:39.380 --> 00:06:41.795
+which is why gradient
+descent still works.
+
+114
+00:06:41.795 --> 00:06:43.490
+But you can think of it as that,
+
+115
+00:06:43.490 --> 00:06:47.505
+the chance of z being
+exactly 0.000000.
+
+116
+00:06:47.505 --> 00:06:51.080
+It's so small that it almost
+doesn't matter where you
+
+117
+00:06:51.080 --> 00:06:54.245
+set the derivative to be equal to
+when z is equal to 0.
+
+118
+00:06:54.245 --> 00:06:59.090
+So, in practice, this is what
+people implement for the derivative of z.
+
+119
+00:06:59.090 --> 00:07:04.645
+Finally, if you are training a neural network
+with a Leaky ReLU activation function,
+
+120
+00:07:04.645 --> 00:07:14.630
+then g of z is going to be
+max of say 0.01 z, z, and so,
+
+121
+00:07:14.630 --> 00:07:20.300
+g prime of z is equal to 0.01 if z
+
+122
+00:07:20.300 --> 00:07:26.685
+is less than 0 and 1 if z is greater than 0.
+
+123
+00:07:26.685 --> 00:07:31.250
+Once again, the gradient is technically
+not defined when z is exactly equal to 0,
+
+124
+00:07:31.250 --> 00:07:34.250
+but if you implement a
+piece of code that sets
+
+125
+00:07:34.250 --> 00:07:38.585
+the derivative or that sets
+g prime to either 0.01 or or to 1,
+
+126
+00:07:38.585 --> 00:07:40.160
+either way, it doesn't really matter.
+
+127
+00:07:40.160 --> 00:07:42.610
+When z is exactly 0,
+your code will work just.
+
+128
+00:07:42.610 --> 00:07:44.430
+So, under these formulas,
+
+129
+00:07:44.430 --> 00:07:49.355
+you should either compute the slopes or
+the derivatives of your activation functions.
+
+130
+00:07:49.355 --> 00:07:51.260
+Now, we have this building block,
+
+131
+00:07:51.260 --> 00:07:55.235
+you're ready to see how to implement
+gradient descent for your neural network.
+
+132
+00:07:55.235 --> 00:07:57.330
+Let's go on to the next video to see that.

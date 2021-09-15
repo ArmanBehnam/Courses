@@ -1,0 +1,463 @@
+WEBVTT
+
+1
+00:00:00.390 --> 00:00:03.860
+In an earlier video, I've written
+down a form for the cost function for
+
+2
+00:00:03.860 --> 00:00:05.230
+logistic regression.
+
+3
+00:00:05.230 --> 00:00:09.370
+In this optional video, I want to
+give you a quick justification for
+
+4
+00:00:09.370 --> 00:00:13.490
+why we like to use that cost function for
+logistic regression.
+
+5
+00:00:13.490 --> 00:00:16.060
+To quickly recap, in logistic regression,
+
+6
+00:00:16.060 --> 00:00:22.000
+we have that the prediction y hat
+is sigmoid of w transpose x + b,
+
+7
+00:00:22.000 --> 00:00:27.711
+where sigmoid is this familiar function.
+
+8
+00:00:27.711 --> 00:00:37.250
+And we said that we want to interpret
+y hat as the p( y = 1 | x).
+
+9
+00:00:37.250 --> 00:00:40.170
+So we want our algorithm to
+output y hat as the chance
+
+10
+00:00:40.170 --> 00:00:45.030
+that y = 1 for
+a given set of input features x.
+
+11
+00:00:45.030 --> 00:00:50.090
+So another way to say this
+is that if y is equal to 1
+
+12
+00:00:50.090 --> 00:00:56.020
+then the chance of y given
+x is equal to y hat.
+
+13
+00:00:56.020 --> 00:00:59.170
+And conversely if y is equal to 0 then
+
+14
+00:01:00.310 --> 00:01:05.840
+the chance that y was 0 was 1- y hat,
+right?
+
+15
+00:01:05.840 --> 00:01:09.150
+So if y hat was a chance, that y = 1,
+
+16
+00:01:09.150 --> 00:01:13.620
+then 1- y hat is the chance that y = 0.
+
+17
+00:01:13.620 --> 00:01:18.057
+So, let me take these last two equations
+and just copy them to the next slide.
+
+18
+00:01:18.057 --> 00:01:22.684
+So what I'm going to do is
+take these two equations which
+
+19
+00:01:22.684 --> 00:01:28.010
+basically define p(y|x) for
+the two cases of y = 0 or y = 1.
+
+20
+00:01:28.010 --> 00:01:33.110
+And then take these two equations and
+summarize them into a single equation.
+
+21
+00:01:33.110 --> 00:01:37.543
+And just to point out y has to be either 0
+or 1 because in binary cost equations,
+
+22
+00:01:37.543 --> 00:01:41.110
+y = 0 or 1 are the only two
+possible cases, all right.
+
+23
+00:01:41.110 --> 00:01:44.653
+When someone take these two equations and
+summarize them as follows.
+
+24
+00:01:44.653 --> 00:01:48.774
+Let me just write out what it looks like,
+then we'll explain why it looks like that.
+
+25
+00:01:48.774 --> 00:01:54.040
+So (1 – y hat) to the power of (1 – y).
+
+26
+00:01:54.040 --> 00:01:58.920
+So it turns out this one line
+summarizes the two equations on top.
+
+27
+00:01:58.920 --> 00:02:00.500
+Let me explain why.
+
+28
+00:02:00.500 --> 00:02:04.643
+So in the first case,
+suppose y = 1, right?
+
+29
+00:02:04.643 --> 00:02:09.562
+So if y = 1 then this
+term ends up being y hat,
+
+30
+00:02:09.562 --> 00:02:13.970
+because that's y hat to the power of 1.
+
+31
+00:02:13.970 --> 00:02:21.120
+This term ends up being 1- y hat to the
+power of 1- 1, so that's the power of 0.
+
+32
+00:02:21.120 --> 00:02:26.320
+But, anything to the power of 0
+is equal to 1, so that goes away.
+
+33
+00:02:26.320 --> 00:02:33.030
+And so, this equation,
+just as p(y|x) = y hat, when y = 1.
+
+34
+00:02:33.030 --> 00:02:37.480
+So that's exactly what we wanted.
+
+35
+00:02:37.480 --> 00:02:40.250
+Now how about the second case,
+what if y = 0?
+
+36
+00:02:40.250 --> 00:02:47.057
+If y = 0, then this equation
+above is p(y|x) = y hat to the 0,
+
+37
+00:02:47.057 --> 00:02:51.920
+but anything to the power
+of 0 is equal to 1, so
+
+38
+00:02:51.920 --> 00:02:58.267
+that's just equal to 1 times
+1- y hat to the power of 1- y.
+
+39
+00:02:58.267 --> 00:03:02.770
+So 1- y is 1- 0, so this is just 1.
+
+40
+00:03:02.770 --> 00:03:07.610
+And so this is equal to 1
+times (1- y hat) = 1- y hat.
+
+41
+00:03:10.700 --> 00:03:17.230
+And so here we have that the y = 0,
+p (y|x) = 1- y hat,
+
+42
+00:03:17.230 --> 00:03:21.570
+which is exactly what we wanted above.
+
+43
+00:03:21.570 --> 00:03:23.690
+So what we've just shown
+is that this equation
+
+44
+00:03:25.330 --> 00:03:30.331
+is a correct definition for p(ylx).
+
+45
+00:03:30.331 --> 00:03:36.513
+Now, finally, because the log function is a
+strictly monotonically increasing function,
+
+46
+00:03:36.513 --> 00:03:43.223
+your maximizing log p(y|x) should
+give you a similar result as
+
+47
+00:03:43.223 --> 00:03:48.672
+optimizing p(y|x). And if you compute
+log of p(y|x), that’s equal to
+
+48
+00:03:48.672 --> 00:03:54.330
+log of y hat to the power of y,
+1 - y hat to the power of 1 - y.
+
+49
+00:03:54.330 --> 00:04:00.810
+And so that simplifies to y log y hat
+
+50
+00:04:00.810 --> 00:04:07.430
++ 1- y times log 1- y hat, right?
+
+51
+00:04:07.430 --> 00:04:10.830
+And so
+this is actually negative of the loss
+
+52
+00:04:10.830 --> 00:04:14.310
+function that we had to find previously.
+
+53
+00:04:14.310 --> 00:04:17.470
+And there's a negative sign there because
+usually if you're training a learning
+
+54
+00:04:17.470 --> 00:04:20.460
+algorithm, you want to
+make probabilities large
+
+55
+00:04:20.460 --> 00:04:23.980
+whereas in logistic regression
+we're expressing this.
+
+56
+00:04:23.980 --> 00:04:25.820
+We want to minimize the loss function.
+
+57
+00:04:25.820 --> 00:04:30.640
+So minimizing the loss corresponds to
+maximizing the log of the probability.
+
+58
+00:04:30.640 --> 00:04:33.925
+So this is what the loss function
+on a single example looks like.
+
+59
+00:04:33.925 --> 00:04:35.435
+How about the cost function,
+
+60
+00:04:35.435 --> 00:04:40.435
+the overall cost function on
+the entire training set on m examples?
+
+61
+00:04:40.435 --> 00:04:41.385
+Let's figure that out.
+
+62
+00:04:41.385 --> 00:04:45.710
+So, the probability of all
+the labels In the training set.
+
+63
+00:04:45.710 --> 00:04:47.750
+Writing this a little bit informally.
+
+64
+00:04:47.750 --> 00:04:51.945
+If you assume that the training examples
+I've drawn independently or drawn IID,
+
+65
+00:04:51.945 --> 00:04:54.198
+identically independently distributed,
+
+66
+00:04:54.198 --> 00:04:57.810
+then the probability of the example
+is the product of probabilities.
+
+67
+00:04:57.810 --> 00:05:03.143
+The product from i = 1 through
+m p(y(i) ) given x(i).
+
+68
+00:05:03.143 --> 00:05:07.970
+And so if you want to carry out
+maximum likelihood estimation, right,
+
+69
+00:05:07.970 --> 00:05:12.476
+then you want to maximize the,
+find the parameters that maximizes
+
+70
+00:05:12.476 --> 00:05:15.948
+the chance of your observations and
+training set.
+
+71
+00:05:15.948 --> 00:05:20.200
+But maximizing this is the same
+as maximizing the log, so
+
+72
+00:05:20.200 --> 00:05:22.990
+we just put logs on both sides.
+
+73
+00:05:22.990 --> 00:05:28.640
+So log of the probability of the labels
+in the training set is equal to,
+
+74
+00:05:28.640 --> 00:05:30.990
+log of a product is the sum of the log.
+
+75
+00:05:30.990 --> 00:05:39.000
+So that's sum from i=1 through
+m of log p(y(i)) given x(i).
+
+76
+00:05:39.000 --> 00:05:43.582
+And we have previously
+figured out on the previous
+
+77
+00:05:43.582 --> 00:05:47.630
+slide that this is negative L of y hat i,
+y i.
+
+78
+00:05:48.850 --> 00:05:55.220
+And so in statistics, there's a principle
+called the principle of maximum likelihood
+
+79
+00:05:55.220 --> 00:06:00.720
+estimation, which just means to choose
+the parameters that maximizes this thing.
+
+80
+00:06:00.720 --> 00:06:04.220
+Or in other words,
+that maximizes this thing.
+
+81
+00:06:04.220 --> 00:06:09.510
+Negative sum from i = 1 through
+m L(y hat ,y) and
+
+82
+00:06:09.510 --> 00:06:11.840
+just move the negative sign
+outside the summation.
+
+83
+00:06:11.840 --> 00:06:15.749
+So this justifies the cost we had for
+
+84
+00:06:15.749 --> 00:06:21.235
+logistic regression
+which is J(w,b) of this.
+
+85
+00:06:21.235 --> 00:06:27.349
+And because we now want to minimize
+the cost instead of maximizing likelihood,
+
+86
+00:06:27.349 --> 00:06:30.095
+we've got to rid of the minus sign.
+
+87
+00:06:30.095 --> 00:06:35.467
+And then finally for convenience, to make
+sure that our quantities are better scale,
+
+88
+00:06:35.467 --> 00:06:39.310
+we just add a 1 over m
+extra scaling factor there.
+
+89
+00:06:39.310 --> 00:06:43.960
+But so to summarize, by minimizing
+this cost function J(w,b) we're really
+
+90
+00:06:43.960 --> 00:06:48.430
+carrying out maximum likelihood estimation
+with the logistic regression model.
+
+91
+00:06:48.430 --> 00:06:53.120
+Under the assumption that our
+training examples were IID, or
+
+92
+00:06:53.120 --> 00:06:55.530
+identically independently distributed.
+
+93
+00:06:55.530 --> 00:06:59.550
+So thank you for watching this video,
+even though this is optional.
+
+94
+00:06:59.550 --> 00:07:03.845
+I hope this gives you a sense of why
+we use the cost function we do for
+
+95
+00:07:03.845 --> 00:07:05.200
+logistic regression.
+
+96
+00:07:05.200 --> 00:07:09.287
+And with that, I hope you go on to
+the programming exercises and
+
+97
+00:07:09.287 --> 00:07:11.277
+the quiz questions of this week.
+
+98
+00:07:11.277 --> 00:07:14.735
+And best of luck with both the quizzes,
+and the programming exercise.

@@ -1,0 +1,484 @@
+WEBVTT
+
+1
+00:00:00.450 --> 00:00:04.786
+The ability of python to allow you
+to use broadcasting operations and
+
+2
+00:00:04.786 --> 00:00:09.944
+more generally, the great flexibility of
+the python numpy program language is,
+
+3
+00:00:09.944 --> 00:00:14.748
+I think, both a strength as well as
+a weakness of the programming language.
+
+4
+00:00:14.748 --> 00:00:18.393
+I think it's a strength because they
+create expressivity of the language.
+
+5
+00:00:18.393 --> 00:00:22.547
+A great flexibility of the language lets
+you get a lot done even with just a single
+
+6
+00:00:22.547 --> 00:00:24.165
+line of code.
+
+7
+00:00:24.165 --> 00:00:28.530
+But there's also weakness because with
+broadcasting and this great amount of
+
+8
+00:00:28.530 --> 00:00:32.610
+flexibility, sometimes it's possible
+you can introduce very subtle bugs or
+
+9
+00:00:32.610 --> 00:00:36.530
+very strange looking bugs, if you're not
+familiar with all of the intricacies of
+
+10
+00:00:36.530 --> 00:00:39.800
+how broadcasting and
+how features like broadcasting work.
+
+11
+00:00:39.800 --> 00:00:44.500
+For example, if you take a column vector
+and add it to a row vector, you would
+
+12
+00:00:44.500 --> 00:00:48.700
+expect it to throw up a dimension
+mismatch or type error or something.
+
+13
+00:00:48.700 --> 00:00:52.620
+But you might actually get back
+a matrix as a sum of a row vector and
+
+14
+00:00:52.620 --> 00:00:54.030
+a column vector.
+
+15
+00:00:54.030 --> 00:00:58.370
+So there is an internal logic to
+these strange effects of Python.
+
+16
+00:00:58.370 --> 00:01:03.370
+But if you're not familiar with Python,
+I've seen some students have very strange,
+
+17
+00:01:03.370 --> 00:01:05.680
+very hard to find bugs.
+
+18
+00:01:05.680 --> 00:01:09.380
+So what I want to do in this video is
+share with you some couple tips and
+
+19
+00:01:09.380 --> 00:01:12.800
+tricks that have been very useful for
+me to eliminate or
+
+20
+00:01:12.800 --> 00:01:17.320
+simplify and eliminate all the strange
+looking bugs in my own code.
+
+21
+00:01:17.320 --> 00:01:19.280
+And I hope that with these tips and
+tricks,
+
+22
+00:01:19.280 --> 00:01:24.193
+you'll also be able to much more easily
+write bug-free, python and numpy code.
+
+23
+00:01:25.430 --> 00:01:30.200
+To illustrate one of the less
+intuitive effects of Python-Numpy,
+
+24
+00:01:30.200 --> 00:01:34.990
+especially how you construct vectors in
+Python-Numpy, let me do a quick demo.
+
+25
+00:01:34.990 --> 00:01:40.817
+Let's set a = np.random.randn(5),
+
+26
+00:01:40.817 --> 00:01:45.699
+so this creates five random Gaussian
+
+27
+00:01:45.699 --> 00:01:49.640
+variables stored in array a.
+
+28
+00:01:49.640 --> 00:01:55.420
+And so let's print(a) and
+now it turns out that
+
+29
+00:01:55.420 --> 00:02:02.740
+the shape of a when you do this
+is this five color structure.
+
+30
+00:02:02.740 --> 00:02:06.320
+And so this is called a rank
+1 array in Python and
+
+31
+00:02:06.320 --> 00:02:09.750
+it's neither a row vector nor
+a column vector.
+
+32
+00:02:09.750 --> 00:02:12.570
+And this leads it to have some
+slightly non-intuitive effects.
+
+33
+00:02:12.570 --> 00:02:17.180
+So for example, if I print a transpose,
+it ends up looking the same as a.
+
+34
+00:02:17.180 --> 00:02:20.220
+So a and
+a transpose end up looking the same.
+
+35
+00:02:20.220 --> 00:02:25.800
+And if I print the inner product between
+a and a transpose, you might think
+
+36
+00:02:25.800 --> 00:02:30.190
+a times a transpose is maybe the outer
+product should give you matrix maybe.
+
+37
+00:02:30.190 --> 00:02:34.170
+But if I do that,
+you instead get back a number.
+
+38
+00:02:34.170 --> 00:02:39.612
+So what I would recommend is that
+when you're coding new networks,
+
+39
+00:02:39.612 --> 00:02:46.115
+that you just not use data structures
+where the shape is 5, or n, rank 1 array.
+
+40
+00:02:46.115 --> 00:02:52.134
+Instead, if you set a to be this, (5,1),
+
+41
+00:02:52.134 --> 00:02:58.764
+then this commits a to
+be (5,1) column vector.
+
+42
+00:02:58.764 --> 00:03:02.399
+And whereas previously, a and
+a transpose looked the same,
+
+43
+00:03:02.399 --> 00:03:06.590
+it becomes now a transpose,
+now a transpose is a row vector.
+
+44
+00:03:06.590 --> 00:03:08.437
+Notice one subtle difference.
+
+45
+00:03:08.437 --> 00:03:12.213
+In this data structure, there are two
+square brackets when we print a transpose.
+
+46
+00:03:12.213 --> 00:03:14.460
+Whereas previously,
+there was one square bracket.
+
+47
+00:03:14.460 --> 00:03:19.393
+So that's the difference
+between this is really a 1 by
+
+48
+00:03:19.393 --> 00:03:23.481
+5 matrix versus one of
+these rank 1 arrays.
+
+49
+00:03:23.481 --> 00:03:28.129
+And if you print, say,
+the product between a and a transpose,
+
+50
+00:03:28.129 --> 00:03:32.444
+then this gives you the outer
+product of a vector, right?
+
+51
+00:03:32.444 --> 00:03:35.795
+And so, the outer product of
+a vector gives you a matrix.
+
+52
+00:03:35.795 --> 00:03:40.305
+So, let's look in greater detail
+at what we just saw here.
+
+53
+00:03:40.305 --> 00:03:43.185
+The first command that we ran,
+just now, was this.
+
+54
+00:03:43.185 --> 00:03:47.839
+And this created a data structure with
+
+55
+00:03:47.839 --> 00:03:52.930
+a.shape was this funny thing (5,) so
+
+56
+00:03:52.930 --> 00:03:57.270
+this is called a rank 1 array.
+
+57
+00:03:57.270 --> 00:03:58.960
+And this is a very funny data structure.
+
+58
+00:03:58.960 --> 00:04:04.000
+It doesn't behave consistently as either
+a row vector nor a column vector,
+
+59
+00:04:04.000 --> 00:04:06.750
+which makes some of its
+effects nonintuitive.
+
+60
+00:04:06.750 --> 00:04:10.770
+So what I'm going to recommend is that
+when you're doing your programing
+
+61
+00:04:10.770 --> 00:04:14.050
+exercises, or in fact when you're
+implementing logistic regression or
+
+62
+00:04:14.050 --> 00:04:19.740
+neural networks that you just
+do not use these rank 1 arrays.
+
+63
+00:04:21.020 --> 00:04:24.098
+Instead, if every time
+you create an array,
+
+64
+00:04:24.098 --> 00:04:27.500
+you commit to making it
+either a column vector, so
+
+65
+00:04:27.500 --> 00:04:32.360
+this creates a (5,1) vector, or
+commit to making it a row vector,
+
+66
+00:04:32.360 --> 00:04:36.670
+then the behavior of your vectors
+may be easier to understand.
+
+67
+00:04:36.670 --> 00:04:43.115
+So in this case,
+a.shape is going to be equal to 5,1.
+
+68
+00:04:43.115 --> 00:04:48.510
+And so this behaves a lot like a, but
+in fact, this is a column vector.
+
+69
+00:04:48.510 --> 00:04:53.233
+And that's why you can think of this as
+(5,1) matrix, where it's a column vector.
+
+70
+00:04:53.233 --> 00:04:56.880
+And here a.shape is going to be 1,5,
+
+71
+00:04:56.880 --> 00:05:01.000
+and this behaves consistently
+as a row vector.
+
+72
+00:05:02.150 --> 00:05:06.258
+So when you need a vector,
+I would say either use this or this, but
+
+73
+00:05:06.258 --> 00:05:07.538
+not a rank 1 array.
+
+74
+00:05:07.538 --> 00:05:12.061
+One more thing that I do a lot in my
+code is if I'm not entirely sure what's
+
+75
+00:05:12.061 --> 00:05:17.029
+the dimension of one of my vectors,
+I'll often throw in an assertion statement
+
+76
+00:05:17.029 --> 00:05:21.720
+like this, to make sure, in this case,
+that this is a (5,1) vector.
+
+77
+00:05:21.720 --> 00:05:23.730
+So this is a column vector.
+
+78
+00:05:23.730 --> 00:05:26.900
+These assertions are really
+Set to execute, and
+
+79
+00:05:26.900 --> 00:05:30.250
+they also help to serve as
+documentation for your code.
+
+80
+00:05:30.250 --> 00:05:34.160
+So don't hesitate to throw in assertion
+statements like this whenever you
+
+81
+00:05:34.160 --> 00:05:35.320
+feel like.
+
+82
+00:05:35.320 --> 00:05:39.510
+And then finally, if for some reason
+you do end up with a rank 1 array,
+
+83
+00:05:39.510 --> 00:05:43.960
+You can reshape this, a equals a.reshape
+
+84
+00:05:43.960 --> 00:05:48.900
+into say a (5,1) array or a (1,5) array so
+
+85
+00:05:48.900 --> 00:05:53.750
+that it behaves more consistently as
+either column vector or row vector.
+
+86
+00:05:53.750 --> 00:05:57.626
+So I've sometimes seen students
+end up with very hard to track
+
+87
+00:05:57.626 --> 00:06:01.119
+because those are the nonintuitive
+effects of rank 1 arrays.
+
+88
+00:06:01.119 --> 00:06:06.246
+By eliminating rank 1 arrays in my old
+code, I think my code became simpler.
+
+89
+00:06:06.246 --> 00:06:09.463
+And I did not actually find it
+restrictive in terms of things I could
+
+90
+00:06:09.463 --> 00:06:10.335
+express in code.
+
+91
+00:06:10.335 --> 00:06:12.469
+I just never used a rank 1 array.
+
+92
+00:06:12.469 --> 00:06:17.090
+And so takeaways are to simplify
+your code, don't use rank 1 arrays.
+
+93
+00:06:17.090 --> 00:06:19.437
+Always use either n by one matrices,
+
+94
+00:06:19.437 --> 00:06:24.510
+basically column vectors, or one by
+n matrices, or basically row vectors.
+
+95
+00:06:24.510 --> 00:06:26.599
+Feel free to toss a lot of
+insertion statements, so
+
+96
+00:06:26.599 --> 00:06:29.590
+double-check the dimensions
+of your matrices and arrays.
+
+97
+00:06:29.590 --> 00:06:34.480
+And also, don't be shy about calling the
+reshape operation to make sure that your
+
+98
+00:06:34.480 --> 00:06:38.780
+matrices or your vectors
+are the dimension that you need it to be.
+
+99
+00:06:38.780 --> 00:06:39.420
+So that,
+
+100
+00:06:39.420 --> 00:06:44.770
+I hope that this set of suggestions
+helps you to eliminate a cause of bugs
+
+101
+00:06:44.770 --> 00:06:48.840
+from Python code, and makes the problem
+exercise easier for you to complete.

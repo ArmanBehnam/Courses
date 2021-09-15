@@ -1,0 +1,766 @@
+WEBVTT
+
+1
+00:00:00.870 --> 00:00:04.550
+When you build your neural network,
+one of the choices you get to make is what
+
+2
+00:00:04.550 --> 00:00:07.570
+activation function to
+use in the hidden layers,
+
+3
+00:00:07.570 --> 00:00:10.950
+as well as what is the output
+units of your neural network.
+
+4
+00:00:10.950 --> 00:00:14.360
+So far, we've just been using
+the sigmoid activation function.
+
+5
+00:00:14.360 --> 00:00:17.980
+But sometimes other choices
+can work much better.
+
+6
+00:00:17.980 --> 00:00:19.970
+Let's take a look at some of the options.
+
+7
+00:00:19.970 --> 00:00:23.840
+In the fourth propagation steps for
+the neural network,
+
+8
+00:00:23.840 --> 00:00:28.279
+we have these three steps where
+we use the sigmoid function here.
+
+9
+00:00:28.279 --> 00:00:32.460
+So that sigmoid is called
+an activation function.
+
+10
+00:00:32.460 --> 00:00:35.871
+And here's the familiar sigmoid function,
+
+11
+00:00:35.871 --> 00:00:39.980
+a equals one over one
+plus e to the negative z.
+
+12
+00:00:39.980 --> 00:00:43.910
+So in the more general case,
+we can have a different function,
+
+13
+00:00:45.050 --> 00:00:50.100
+g of z, which I'm going to write here,
+
+14
+00:00:51.300 --> 00:00:57.300
+where g could be a nonlinear function
+that may not be the sigmoid function.
+
+15
+00:00:57.300 --> 00:01:02.530
+So for example, the sigmoid function
+goes within zero and one, and
+
+16
+00:01:02.530 --> 00:01:07.040
+activation function that almost always
+works better than the sigmoid function
+
+17
+00:01:07.040 --> 00:01:12.220
+is the tangent function or
+the hyperbolic tangent function.
+
+18
+00:01:12.220 --> 00:01:18.909
+So this is z, this is a,
+this is a equals tanh(z),
+
+19
+00:01:18.909 --> 00:01:24.390
+and this goes between plus 1 and minus 1.
+
+20
+00:01:24.390 --> 00:01:29.745
+The formula for the tanh function is e to
+
+21
+00:01:29.745 --> 00:01:35.920
+the z minus e to the negative
+z over their sum.
+
+22
+00:01:35.920 --> 00:01:42.829
+And is actually mathematically,
+a shifted version of the sigmoid function.
+
+23
+00:01:42.829 --> 00:01:47.399
+So, as a sigmoid function just like that,
+but shifted so
+
+24
+00:01:47.399 --> 00:01:54.180
+that it now crosses a zero zero point and
+v scale, so it goes 15 minus 1 and plus 1.
+
+25
+00:01:54.180 --> 00:01:59.406
+And it turns out for hidden units,
+if you let the function g
+
+26
+00:01:59.406 --> 00:02:06.775
+of z be equal to tanh(z),
+
+27
+00:02:06.775 --> 00:02:11.490
+this almost always works
+better than the sigmoid
+
+28
+00:02:11.490 --> 00:02:16.540
+function because the values between plus 1
+and minus 1, the mean of the activations
+
+29
+00:02:16.540 --> 00:02:20.360
+that come out of your head, and
+they are closer to having a 0 mean.
+
+30
+00:02:20.360 --> 00:02:24.468
+And so just as sometimes when
+you train a learning algorithm,
+
+31
+00:02:24.468 --> 00:02:26.364
+you might center the data and
+
+32
+00:02:26.364 --> 00:02:31.029
+have your data have 0 mean using
+a tanh instead of a sigmoid function.
+
+33
+00:02:31.029 --> 00:02:34.500
+It kind of has the effect
+of centering your data so
+
+34
+00:02:34.500 --> 00:02:39.420
+that the mean of your data is
+closer to 0 rather than, maybe 0.5.
+
+35
+00:02:39.420 --> 00:02:43.200
+And this actually makes learning for
+the next layer a little bit easier.
+
+36
+00:02:43.200 --> 00:02:46.900
+We'll say more about this in the second
+course when we talk about optimization
+
+37
+00:02:46.900 --> 00:02:47.990
+algorithms as well.
+
+38
+00:02:47.990 --> 00:02:50.480
+But one takeaway is that I
+
+39
+00:02:50.480 --> 00:02:54.500
+pretty much never use the sigmoid
+activation function anymore.
+
+40
+00:02:54.500 --> 00:02:58.410
+The tanh function is almost
+always strictly superior.
+
+41
+00:02:58.410 --> 00:03:04.880
+The one exception is for the output
+layer because if y is either 0 or
+
+42
+00:03:04.880 --> 00:03:10.070
+1, then it makes sense for
+y hat to be a number,
+
+43
+00:03:10.070 --> 00:03:14.830
+the one to output that's between 0 and
+1 rather than between minus 1 and 1.
+
+44
+00:03:14.830 --> 00:03:19.380
+So the one exception where
+I would use the sigmoid
+
+45
+00:03:19.380 --> 00:03:23.610
+activation function is when you
+are using binary classification,
+
+46
+00:03:23.610 --> 00:03:28.760
+in which case you might use the sigmoid
+activation function for the output layer.
+
+47
+00:03:28.760 --> 00:03:34.828
+So g of z 2 here is equal to sigma of z 2.
+
+48
+00:03:34.828 --> 00:03:40.236
+And so what you see in this example
+is where you might have a tanh
+
+49
+00:03:40.236 --> 00:03:47.102
+activation function for the hidden layer,
+and sigmoid for the output layer.
+
+50
+00:03:47.102 --> 00:03:50.982
+So deactivation functions can be
+different for different layers.
+
+51
+00:03:50.982 --> 00:03:55.112
+And sometimes to note that activation
+functions are different for
+
+52
+00:03:55.112 --> 00:03:59.907
+different layers, we might use these
+square bracket superscripts as well to
+
+53
+00:03:59.907 --> 00:04:05.270
+indicate that g of square bracket one may
+be different than g of square bracket two.
+
+54
+00:04:05.270 --> 00:04:09.360
+And again, square bracket one
+superscript refers to this layer, and
+
+55
+00:04:09.360 --> 00:04:12.280
+superscript square bracket two
+refers to the output layer.
+
+56
+00:04:13.830 --> 00:04:17.050
+Now, one of the downsides of
+both the sigmoid function and
+
+57
+00:04:17.050 --> 00:04:21.920
+the tanh function is that if z is
+either very large or very small,
+
+58
+00:04:21.920 --> 00:04:26.380
+then the gradient or the derivative or the
+slope of this function becomes very small.
+
+59
+00:04:26.380 --> 00:04:29.550
+So if z is very large or z is very small,
+
+60
+00:04:29.550 --> 00:04:33.740
+the slope of the function
+ends up being close to 0.
+
+61
+00:04:33.740 --> 00:04:35.600
+And so
+this can slow down gradient descent.
+
+62
+00:04:36.630 --> 00:04:39.850
+So one other choice
+that is very popular in
+
+63
+00:04:39.850 --> 00:04:44.650
+machine learning is what's
+called the rectify linear unit.
+
+64
+00:04:44.650 --> 00:04:47.925
+So the value function looks like this.
+
+65
+00:04:50.463 --> 00:04:57.020
+And the formula is a = max(0,z).
+
+66
+00:04:57.020 --> 00:05:01.755
+So the derivative is 1,
+so long as z is positive.
+
+67
+00:05:01.755 --> 00:05:05.785
+And the derivative or
+the slope is 0, when z is negative.
+
+68
+00:05:05.785 --> 00:05:06.855
+If you're implementing this,
+
+69
+00:05:06.855 --> 00:05:11.425
+technically the derivative when z
+is exactly 0 is not well defined.
+
+70
+00:05:11.425 --> 00:05:13.175
+But when you implement
+this in the computer,
+
+71
+00:05:13.175 --> 00:05:17.947
+the answer you get exactly
+is z equals 0000000000000.
+
+72
+00:05:17.947 --> 00:05:22.697
+It's very small so you don't need
+to worry about it in practice.
+
+73
+00:05:22.697 --> 00:05:26.729
+You could pretend the derivative,
+when z is equal to 0,
+
+74
+00:05:26.729 --> 00:05:31.775
+you can pretend it's either 1 or 0 and
+then you kind of work just fine.
+
+75
+00:05:31.775 --> 00:05:35.640
+So the fact that it's not differentiable,
+and the fact that, so
+
+76
+00:05:35.640 --> 00:05:39.670
+here are some rules of thumb for
+choosing activation functions.
+
+77
+00:05:39.670 --> 00:05:44.940
+If your output is 0, 1 value,
+if you're using binary classification,
+
+78
+00:05:44.940 --> 00:05:49.390
+then the sigmoid activation function is a
+very natural choice for the output layer.
+
+79
+00:05:49.390 --> 00:05:54.272
+And then for all other unit's ReLU,
+
+80
+00:05:54.272 --> 00:05:58.374
+or the rectified linear unit,
+
+81
+00:06:02.348 --> 00:06:06.689
+Is increasingly the default
+choice of activation function.
+
+82
+00:06:06.689 --> 00:06:11.000
+So if you're not sure what to use for
+your hidden layer,
+
+83
+00:06:11.000 --> 00:06:14.681
+I would just use the ReLU
+activation function.
+
+84
+00:06:14.681 --> 00:06:16.820
+It's what you see most
+people using most days.
+
+85
+00:06:16.820 --> 00:06:21.460
+Although sometimes people also
+use the tanh activation function.
+
+86
+00:06:21.460 --> 00:06:25.852
+One disadvantage of the ReLU is that
+the derivative is equal to zero,
+
+87
+00:06:25.852 --> 00:06:27.152
+when z is negative.
+
+88
+00:06:27.152 --> 00:06:29.136
+In practice, this works just fine.
+
+89
+00:06:29.136 --> 00:06:33.323
+But there is another version of
+the ReLU called the leaky ReLU.
+
+90
+00:06:33.323 --> 00:06:35.174
+I will give you the formula
+on the next slide.
+
+91
+00:06:35.174 --> 00:06:38.581
+But instead of it being
+0 when z is negative,
+
+92
+00:06:38.581 --> 00:06:43.890
+it just takes a slight slope like so,
+so this is called the leaky ReLU.
+
+93
+00:06:45.870 --> 00:06:49.850
+This usually works better than
+the ReLU activation function,
+
+94
+00:06:49.850 --> 00:06:53.790
+although it's just not
+used as much in practice.
+
+95
+00:06:53.790 --> 00:06:55.130
+Either one should be fine, although,
+
+96
+00:06:55.130 --> 00:06:59.140
+if you had to pick one,
+I usually just use the ReLU.
+
+97
+00:06:59.140 --> 00:07:03.255
+And the advantage of both the ReLU and
+the leaky ReLU is that for
+
+98
+00:07:03.255 --> 00:07:07.765
+a lot of the space of Z,
+the derivative of the activation function,
+
+99
+00:07:07.765 --> 00:07:12.061
+the slope of the activation
+function is very different from 0.
+
+100
+00:07:12.061 --> 00:07:15.472
+And so in practice,
+using the ReLU activation function,
+
+101
+00:07:15.472 --> 00:07:19.855
+your neural network will often learn
+much faster than when using the tanh or
+
+102
+00:07:19.855 --> 00:07:21.959
+the sigmoid activation function.
+
+103
+00:07:21.959 --> 00:07:26.148
+And the main reason is that there is
+less of these effects of the slope of
+
+104
+00:07:26.148 --> 00:07:30.015
+the function going to 0,
+which slows down learning.
+
+105
+00:07:30.015 --> 00:07:34.425
+And I know that for half of the range
+of z, the slope of ReLU is 0,
+
+106
+00:07:34.425 --> 00:07:39.585
+but in practice, enough of your hidden
+units will have z greater than 0.
+
+107
+00:07:39.585 --> 00:07:43.040
+So learning can still be quite fast for
+most training examples.
+
+108
+00:07:43.040 --> 00:07:47.490
+So let's just quickly recap the pros and
+cons of different activation functions.
+
+109
+00:07:47.490 --> 00:07:49.160
+Here's a sigmoid activation function.
+
+110
+00:07:49.160 --> 00:07:53.360
+I will say never use this,
+except for the output layer,
+
+111
+00:07:53.360 --> 00:07:56.740
+if you are doing binary classification,
+or maybe almost never use this.
+
+112
+00:07:57.950 --> 00:08:01.860
+And the reason I almost never
+use this is because the tanh
+
+113
+00:08:01.860 --> 00:08:04.330
+is pretty much strictly superior.
+
+114
+00:08:04.330 --> 00:08:06.532
+So the tanh activation function is this.
+
+115
+00:08:11.012 --> 00:08:12.476
+And then the default,
+
+116
+00:08:12.476 --> 00:08:17.190
+the most commonly used activation
+function is the ReLU, which is this.
+
+117
+00:08:18.400 --> 00:08:22.790
+So if you're not sure what else to use,
+use this one, and
+
+118
+00:08:22.790 --> 00:08:27.668
+maybe feel free also
+to try the leaky ReLU.
+
+119
+00:08:27.668 --> 00:08:34.540
+Where it might be (0.01 z, z).
+
+120
+00:08:34.540 --> 00:08:39.140
+Right?
+So a is the max of 0.01 times z and
+
+121
+00:08:39.140 --> 00:08:43.200
+z, so that gives you these
+some bends in the function.
+
+122
+00:08:43.200 --> 00:08:48.210
+And you might say,
+why is that constant 0.01?
+
+123
+00:08:48.210 --> 00:08:53.366
+Well, you can also make that another
+parameter of the learning algorithm.
+
+124
+00:08:53.366 --> 00:08:55.320
+And some people say
+that works even better.
+
+125
+00:08:55.320 --> 00:08:56.790
+But i hardly see people do that.
+
+126
+00:08:58.380 --> 00:09:01.910
+But if you feel like trying that in your
+application, please feel free to do so.
+
+127
+00:09:01.910 --> 00:09:05.460
+And you can just see how it works,
+and how well it works, and
+
+128
+00:09:05.460 --> 00:09:07.980
+stick with it if it
+gives you a good result.
+
+129
+00:09:07.980 --> 00:09:11.828
+So I hope that gives you a sense of some
+of the choices of activation functions you
+
+130
+00:09:11.828 --> 00:09:13.389
+can use in your neural network.
+
+131
+00:09:13.389 --> 00:09:17.276
+One of the themes we'll see in deep
+learning is that you often have a lot of
+
+132
+00:09:17.276 --> 00:09:20.299
+different choices in how you
+code your neural network.
+
+133
+00:09:20.299 --> 00:09:24.024
+Ranging from number of hidden units,
+to the choice activation function,
+
+134
+00:09:24.024 --> 00:09:26.752
+to how you initialize the ways
+which we'll see later.
+
+135
+00:09:26.752 --> 00:09:28.310
+A lot of choices like that.
+
+136
+00:09:28.310 --> 00:09:32.630
+And it turns out that it's sometimes
+difficult to get good guidelines for
+
+137
+00:09:32.630 --> 00:09:35.280
+exactly what would work best for
+your problem.
+
+138
+00:09:35.280 --> 00:09:38.410
+So throughout these courses I
+keep on giving you a sense of
+
+139
+00:09:38.410 --> 00:09:41.890
+what I see in the industry in terms
+of what's more or less popular.
+
+140
+00:09:41.890 --> 00:09:45.215
+But for your application,
+with your application's idiosyncrasies,
+
+141
+00:09:45.215 --> 00:09:49.330
+it's actually very difficult to know
+in advance exactly what will work best.
+
+142
+00:09:49.330 --> 00:09:52.480
+So a common piece of advice would be,
+if you're not sure which one of these
+
+143
+00:09:52.480 --> 00:09:57.220
+activation functions work best,
+try them all, and evaluate on
+
+144
+00:09:57.220 --> 00:10:02.220
+a holdout validation set, or a development
+set, which we'll talk about later, and
+
+145
+00:10:02.220 --> 00:10:05.780
+see which one works better,
+and then go with that.
+
+146
+00:10:05.780 --> 00:10:10.303
+And I think that by testing these
+different choices for your application,
+
+147
+00:10:10.303 --> 00:10:15.189
+you'd be better at future-proofing your
+neural network architecture against
+
+148
+00:10:15.189 --> 00:10:20.030
+the idiosyncracies of your problem,
+as well as evolutions of the algorithms.
+
+149
+00:10:20.030 --> 00:10:24.694
+Rather than if I were to tell you
+always use a ReLU activation and
+
+150
+00:10:24.694 --> 00:10:26.720
+don't use anything else.
+
+151
+00:10:26.720 --> 00:10:30.877
+That just may or may not apply for
+whatever problem you end up working on
+
+152
+00:10:30.877 --> 00:10:33.925
+either in the near future or
+in the distant future.
+
+153
+00:10:33.925 --> 00:10:37.420
+All right, so that was the choice
+of activation functions and
+
+154
+00:10:37.420 --> 00:10:39.890
+you've seen the most popular
+activation functions.
+
+155
+00:10:39.890 --> 00:10:43.120
+There's one other question
+that sometimes you could ask,
+
+156
+00:10:43.120 --> 00:10:46.490
+which is, why do you even need to
+use an activation function at all?
+
+157
+00:10:46.490 --> 00:10:48.260
+Why not just do away with that?
+
+158
+00:10:48.260 --> 00:10:51.510
+So let's talk about that
+in the next video, where
+
+159
+00:10:51.510 --> 00:10:56.230
+you see why neural networks do need some
+sort of nonlinear activation function.

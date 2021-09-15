@@ -1,0 +1,401 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.530
+In the previous video,
+
+2
+00:00:01.530 --> 00:00:06.885
+we saw how with your training examples stacked up horizontally in the matrix x,
+
+3
+00:00:06.885 --> 00:00:11.158
+you can derive a vectorized implementation for propagation through your neural network.
+
+4
+00:00:11.158 --> 00:00:14.760
+Let's give a bit more justification for why the equations we wrote
+
+5
+00:00:14.760 --> 00:00:19.775
+down is a correct implementation of vectorizing across multiple examples.
+
+6
+00:00:19.775 --> 00:00:25.590
+So let's go through part of the propagation calculation for the few examples.
+
+7
+00:00:25.590 --> 00:00:27.645
+Let's say that for the first training example,
+
+8
+00:00:27.645 --> 00:00:29.130
+you end up computing
+
+9
+00:00:29.130 --> 00:00:38.970
+this x1 plus b1 and then for the second training example,
+
+10
+00:00:38.970 --> 00:00:49.310
+you end up computing this x2 plus b1 and
+
+11
+00:00:49.310 --> 00:00:50.900
+then for the third training example,
+
+12
+00:00:50.900 --> 00:00:56.064
+you end up computing this 3 plus b1.
+
+13
+00:00:56.064 --> 00:01:00.930
+So, just to simplify the explanation on this slide, I'm going to ignore b.
+
+14
+00:01:00.930 --> 00:01:08.395
+So let's just say, to simplify this justification a little bit that b is equal to zero.
+
+15
+00:01:08.395 --> 00:01:11.140
+But the argument we're going to lay out will work with
+
+16
+00:01:11.140 --> 00:01:14.320
+just a little bit of a change even when b is non-zero.
+
+17
+00:01:14.320 --> 00:01:17.610
+It does just simplify the description on the slide a bit.
+
+18
+00:01:17.610 --> 00:01:21.110
+Now, w1 is going to be some matrix, right?
+
+19
+00:01:21.110 --> 00:01:25.625
+So I have some number of rows in this matrix.
+
+20
+00:01:25.625 --> 00:01:28.296
+So if you look at this calculation x1,
+
+21
+00:01:28.296 --> 00:01:30.070
+what you have is
+
+22
+00:01:30.070 --> 00:01:40.021
+that w1 times x1 gives you some column vector which you must draw like this.
+
+23
+00:01:40.021 --> 00:01:47.420
+And similarly, if you look at this vector x2,
+
+24
+00:01:47.420 --> 00:01:54.730
+you have that w1 times
+
+25
+00:01:54.730 --> 00:02:00.460
+x2 gives some other column vector, right?
+
+26
+00:02:00.460 --> 00:02:03.250
+And that's gives you this z12.
+
+27
+00:02:03.250 --> 00:02:06.730
+And finally, if you look at x3,
+
+28
+00:02:06.730 --> 00:02:12.315
+you have w1 times x3,
+
+29
+00:02:12.315 --> 00:02:19.530
+gives you some third column vector, that's this z13.
+
+30
+00:02:19.530 --> 00:02:25.250
+So now, if you consider the training set capital X,
+
+31
+00:02:25.250 --> 00:02:31.475
+which we form by stacking together all of our training examples.
+
+32
+00:02:31.475 --> 00:02:37.010
+So the matrix capital X is formed by taking the vector x1 and
+
+33
+00:02:37.010 --> 00:02:43.430
+stacking it vertically with x2 and then also x3.
+
+34
+00:02:43.430 --> 00:02:46.250
+This is if we have only three training examples.
+
+35
+00:02:46.250 --> 00:02:50.371
+If you have more, you know, they'll keep stacking horizontally like that.
+
+36
+00:02:50.371 --> 00:02:57.790
+But if you now take this matrix x and multiply it by w then you end up with,
+
+37
+00:02:57.790 --> 00:03:00.190
+if you think about how matrix multiplication works,
+
+38
+00:03:00.190 --> 00:03:02.680
+you end up with the first column being
+
+39
+00:03:02.680 --> 00:03:06.313
+these same values that I had drawn up there in purple.
+
+40
+00:03:06.313 --> 00:03:10.930
+The second column will be those same four values.
+
+41
+00:03:10.930 --> 00:03:16.612
+And the third column will be those orange values,
+
+42
+00:03:16.612 --> 00:03:19.480
+what they turn out to be.
+
+43
+00:03:19.480 --> 00:03:27.740
+But of course this is just equal to z11 expressed as
+
+44
+00:03:27.740 --> 00:03:37.185
+a column vector followed by z12 expressed as a column vector followed by z13,
+
+45
+00:03:37.185 --> 00:03:39.273
+also expressed as a column vector.
+
+46
+00:03:39.273 --> 00:03:41.100
+And this is if you have three training examples.
+
+47
+00:03:41.100 --> 00:03:44.255
+You get more examples then there'd be more columns.
+
+48
+00:03:44.255 --> 00:03:51.220
+And so, this is just our matrix capital Z1.
+
+49
+00:03:51.220 --> 00:03:55.230
+So I hope this gives a justification for why we had
+
+50
+00:03:55.230 --> 00:04:02.830
+previously w1 times xi equals
+
+51
+00:04:02.830 --> 00:04:08.310
+z1i when we're looking at single training example at the time.
+
+52
+00:04:08.310 --> 00:04:12.565
+When you took the different training examples and stacked them up in different columns,
+
+53
+00:04:12.565 --> 00:04:15.250
+then the corresponding result is that you end up
+
+54
+00:04:15.250 --> 00:04:18.725
+with the z's also stacked at the columns.
+
+55
+00:04:18.725 --> 00:04:24.565
+And I won't show but you can convince yourself if you want that with Python broadcasting,
+
+56
+00:04:24.565 --> 00:04:26.245
+if you add back in,
+
+57
+00:04:26.245 --> 00:04:30.534
+these values of b to the values are still correct.
+
+58
+00:04:30.534 --> 00:04:34.540
+And what actually ends up happening is you end up with Python broadcasting,
+
+59
+00:04:34.540 --> 00:04:41.790
+you end up having bi individually to each of the columns of this matrix.
+
+60
+00:04:41.790 --> 00:04:48.220
+So on this slide, I've only justified that z1 equals
+
+61
+00:04:48.220 --> 00:04:51.980
+w1x plus b1 is
+
+62
+00:04:51.980 --> 00:04:54.020
+a correct vectorization of
+
+63
+00:04:54.020 --> 00:04:57.493
+the first step of the four steps we have in the previous slide,
+
+64
+00:04:57.493 --> 00:04:59.990
+but it turns out that a similar analysis allows you to
+
+65
+00:04:59.990 --> 00:05:02.660
+show that the other steps also work on using
+
+66
+00:05:02.660 --> 00:05:08.105
+a very similar logic where if you stack the inputs in columns then after the equation,
+
+67
+00:05:08.105 --> 00:05:11.510
+you get the corresponding outputs also stacked up in columns.
+
+68
+00:05:11.510 --> 00:05:14.970
+Finally, let's just recap everything we talked about in this video.
+
+69
+00:05:14.970 --> 00:05:16.520
+If this is your neural network,
+
+70
+00:05:16.520 --> 00:05:21.693
+we said that this is what you need to do if you were to implement for propagation,
+
+71
+00:05:21.693 --> 00:05:27.693
+one training example at a time going from i equals 1 through m. And then we said,
+
+72
+00:05:27.693 --> 00:05:34.100
+let's stack up the training examples in columns like so and for each of these values z1,
+
+73
+00:05:34.100 --> 00:05:38.265
+a1, z2, a2, let's stack up the corresponding columns as follows.
+
+74
+00:05:38.265 --> 00:05:43.820
+So this is an example for a1 but this is true for z1,
+
+75
+00:05:43.820 --> 00:05:46.975
+a1, z2, and a2.
+
+76
+00:05:46.975 --> 00:05:51.090
+Then what we show on the previous slide was that
+
+77
+00:05:51.090 --> 00:05:58.785
+this line allows you to vectorize this across all m examples at the same time.
+
+78
+00:05:58.785 --> 00:06:00.555
+And it turns out with the similar reasoning,
+
+79
+00:06:00.555 --> 00:06:03.880
+you can show that all of the other lines are
+
+80
+00:06:03.880 --> 00:06:08.811
+correct vectorizations of all four of these lines of code.
+
+81
+00:06:08.811 --> 00:06:10.675
+And just as a reminder,
+
+82
+00:06:10.675 --> 00:06:18.960
+because x is also equal to a0 because remember that
+
+83
+00:06:18.960 --> 00:06:27.980
+the input feature vector x was equal to a0, so xi equals a0i.
+
+84
+00:06:27.980 --> 00:06:30.870
+Then there's actually a certain symmetry to
+
+85
+00:06:30.870 --> 00:06:34.110
+these equations where this first equation can also be
+
+86
+00:06:34.110 --> 00:06:41.790
+written z1 equals w1 a0 plus b1.
+
+87
+00:06:41.790 --> 00:06:45.680
+And so, you see that this pair of equations and this pair of
+
+88
+00:06:45.680 --> 00:06:51.805
+equations actually look very similar but just of all of the indices advance by one.
+
+89
+00:06:51.805 --> 00:06:55.880
+So this kind of shows that the different layers of a neural network are
+
+90
+00:06:55.880 --> 00:07:00.585
+roughly doing the same thing or just doing the same computation over and over.
+
+91
+00:07:00.585 --> 00:07:04.220
+And here we have two-layer neural network where we go to
+
+92
+00:07:04.220 --> 00:07:08.475
+a much deeper neural network in next week's videos.
+
+93
+00:07:08.475 --> 00:07:11.670
+You see that even deeper neural networks are basically taking
+
+94
+00:07:11.670 --> 00:07:16.215
+these two steps and just doing them even more times than you're seeing here.
+
+95
+00:07:16.215 --> 00:07:21.255
+So that's how you can vectorize your neural network across multiple training examples.
+
+96
+00:07:21.255 --> 00:07:25.590
+Next, we've so far been using the sigmoid functions throughout our neural networks.
+
+97
+00:07:25.590 --> 00:07:27.925
+It turns out that's actually not the best choice.
+
+98
+00:07:27.925 --> 00:07:29.675
+In the next video, let's dive a little bit
+
+99
+00:07:29.675 --> 00:07:32.450
+further into how you can use different, what's called,
+
+100
+00:07:32.450 --> 00:07:37.190
+activation functions of which the sigmoid function is just one possible choice.

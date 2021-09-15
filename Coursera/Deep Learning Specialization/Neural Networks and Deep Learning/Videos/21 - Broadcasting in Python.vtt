@@ -1,0 +1,762 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:03.240
+In the previous video,
+I mentioned that broadcasting
+
+2
+00:00:03.240 --> 00:00:07.040
+is another technique that you can use
+to make your Python code run faster.
+
+3
+00:00:07.040 --> 00:00:11.860
+In this video, let's delve into how
+broadcasting in Python actually works.
+
+4
+00:00:11.860 --> 00:00:14.240
+Let's suppose today
+broadcasting with an example.
+
+5
+00:00:14.240 --> 00:00:18.730
+In this matrix, I've shown the number
+of calories from carbohydrates,
+
+6
+00:00:18.730 --> 00:00:22.320
+proteins, and
+fats in 100 grams of four different foods.
+
+7
+00:00:22.320 --> 00:00:25.380
+So for example,
+a 100 grams of apples turns out,
+
+8
+00:00:25.380 --> 00:00:29.690
+has 56 calories from carbs, and
+much less from proteins and fats.
+
+9
+00:00:29.690 --> 00:00:35.110
+Whereas, in contrast, a 100 grams of
+beef has 104 calories from protein and
+
+10
+00:00:35.110 --> 00:00:37.620
+135 calories from fat.
+
+11
+00:00:37.620 --> 00:00:43.330
+Now, let's say your goal is to
+calculate the percentage of calories
+
+12
+00:00:43.330 --> 00:00:48.440
+from carbs, proteins and
+fats for each of the four foods.
+
+13
+00:00:48.440 --> 00:00:52.338
+So, for example,
+if you look at this column and
+
+14
+00:00:52.338 --> 00:00:57.697
+add up the numbers in that column
+you get that 100 grams of apple
+
+15
+00:00:57.697 --> 00:01:02.580
+has 56 plus 1.2 plus 1.8 so
+that's 59 calories.
+
+16
+00:01:02.580 --> 00:01:06.806
+And so as a percentage the percentage of
+
+17
+00:01:06.806 --> 00:01:11.800
+calories from carbohydrates
+in an apple would
+
+18
+00:01:11.800 --> 00:01:16.932
+be 56 over 59, that's about 94.9%.
+
+19
+00:01:16.932 --> 00:01:22.399
+So most of the calories in an apple
+come from carbs, whereas in contrast,
+
+20
+00:01:22.399 --> 00:01:27.630
+most of the calories of beef come
+from protein and fat and so on.
+
+21
+00:01:27.630 --> 00:01:33.630
+So the calculation you want is really
+to sum up each of the four columns
+
+22
+00:01:33.630 --> 00:01:38.740
+of this matrix to get the total number
+of calories in 100 grams of apples,
+
+23
+00:01:38.740 --> 00:01:40.920
+beef, eggs, and potatoes.
+
+24
+00:01:40.920 --> 00:01:45.090
+And then to divide throughout the matrix,
+
+25
+00:01:47.230 --> 00:01:51.230
+so as to get the percentage of
+calories from carbs, proteins and
+
+26
+00:01:51.230 --> 00:01:54.870
+fats for each of the four foods.
+
+27
+00:01:54.870 --> 00:02:01.370
+So the question is, can you do
+this without an explicit for-loop?
+
+28
+00:02:01.370 --> 00:02:03.290
+Let's take a look at
+how you could do that.
+
+29
+00:02:04.450 --> 00:02:08.602
+What I'm going to do is
+show you how you can set,
+
+30
+00:02:08.602 --> 00:02:12.990
+say this matrix equal to
+three by four matrix A.
+
+31
+00:02:12.990 --> 00:02:18.300
+And then with one line of Python code
+we're going to sum down the columns.
+
+32
+00:02:18.300 --> 00:02:22.078
+So we're going to get four numbers
+corresponding to the total number
+
+33
+00:02:22.078 --> 00:02:25.046
+of calories in these four
+different types of foods,
+
+34
+00:02:25.046 --> 00:02:28.095
+100 grams of these four
+different types of foods.
+
+35
+00:02:28.095 --> 00:02:32.113
+And I'm going to use a second line
+of Python code to divide each of
+
+36
+00:02:32.113 --> 00:02:35.390
+the four columns by
+their corresponding sum.
+
+37
+00:02:35.390 --> 00:02:37.250
+If that verbal description
+wasn't very clearly,
+
+38
+00:02:37.250 --> 00:02:40.670
+hopefully it will be clearer in a second
+when we look in the Python code.
+
+39
+00:02:40.670 --> 00:02:42.460
+So here we are in the Jupiter notebook.
+
+40
+00:02:42.460 --> 00:02:46.150
+I've already written this first
+piece of code to prepopulate
+
+41
+00:02:46.150 --> 00:02:49.860
+the matrix A with the numbers we had
+just now, so we'll hit shift enter and
+
+42
+00:02:49.860 --> 00:02:51.220
+just run that, so there's the matrix A.
+
+43
+00:02:51.220 --> 00:02:55.080
+And now here are the two
+lines of Python code.
+
+44
+00:02:55.080 --> 00:02:59.983
+First, we're going to compute
+tau equals a, that sum.
+
+45
+00:02:59.983 --> 00:03:02.280
+And x is equals 0 means to sum vertically.
+
+46
+00:03:02.280 --> 00:03:05.280
+We'll say more about that in a little bit.
+
+47
+00:03:05.280 --> 00:03:06.076
+And then print cal.
+
+48
+00:03:06.076 --> 00:03:07.825
+So we'll sum vertically.
+
+49
+00:03:07.825 --> 00:03:13.735
+Now 59 is the total number of
+calories in the apple, 239 was
+
+50
+00:03:13.735 --> 00:03:19.575
+the total number of calories in the beef
+and the eggs and potato and so on.
+
+51
+00:03:19.575 --> 00:03:25.151
+And then with a compute percentage
+
+52
+00:03:25.151 --> 00:03:30.733
+equals A/cal.reshape 1,4.
+
+53
+00:03:30.733 --> 00:03:33.927
+Actually we want percentages,
+so multiply by 100 here.
+
+54
+00:03:35.913 --> 00:03:38.860
+And then let's print percentage.
+
+55
+00:03:40.800 --> 00:03:41.950
+Let's run that.
+
+56
+00:03:41.950 --> 00:03:46.870
+And so
+that command we've taken the matrix A and
+
+57
+00:03:46.870 --> 00:03:50.820
+divided it by this one by four matrix.
+
+58
+00:03:50.820 --> 00:03:52.672
+And this gives us
+the matrix of percentages.
+
+59
+00:03:52.672 --> 00:03:57.327
+So as we worked out kind of by
+hand just now in the apple there
+
+60
+00:03:57.327 --> 00:04:02.480
+was a first column 94.9% of
+the calories are from carbs.
+
+61
+00:04:02.480 --> 00:04:04.000
+Let's go back to the slides.
+
+62
+00:04:04.000 --> 00:04:06.310
+So just to repeat the two
+lines of code we had,
+
+63
+00:04:06.310 --> 00:04:09.940
+this is what have written
+out in the Jupiter notebook.
+
+64
+00:04:09.940 --> 00:04:13.306
+To add a bit of detail this parameter,
+
+65
+00:04:13.306 --> 00:04:18.540
+(axis = 0), means that you
+want Python to sum vertically.
+
+66
+00:04:18.540 --> 00:04:21.567
+So if this is axis 0 this
+means to sum vertically,
+
+67
+00:04:21.567 --> 00:04:24.029
+where as the horizontal axis is axis 1.
+
+68
+00:04:24.029 --> 00:04:28.050
+So be able to write axis 1 or sum
+horizontally instead of sum vertically.
+
+69
+00:04:28.050 --> 00:04:30.670
+And then this command here,
+
+70
+00:04:30.670 --> 00:04:35.210
+this is an example of Python
+broadcasting where you take a matrix A.
+
+71
+00:04:35.210 --> 00:04:43.330
+So this is a three by four matrix and
+you divide it by a one by four matrix.
+
+72
+00:04:43.330 --> 00:04:47.370
+And technically, after this first
+line of codes cal, the variable cal,
+
+73
+00:04:47.370 --> 00:04:49.590
+is already a one by four matrix.
+
+74
+00:04:49.590 --> 00:04:52.616
+So technically you don't need
+to call reshape here again, so
+
+75
+00:04:52.616 --> 00:04:54.722
+that's actually a little bit redundant.
+
+76
+00:04:54.722 --> 00:04:59.140
+But when I'm writing Python codes if
+I'm not entirely sure what matrix,
+
+77
+00:04:59.140 --> 00:05:04.056
+whether the dimensions of a matrix I often
+would just call a reshape command just to
+
+78
+00:05:04.056 --> 00:05:07.833
+make sure that it's the right
+column vector or the row vector or
+
+79
+00:05:07.833 --> 00:05:09.500
+whatever you want it to be.
+
+80
+00:05:09.500 --> 00:05:11.840
+The reshape command is a constant time.
+
+81
+00:05:11.840 --> 00:05:15.150
+It's a order one operation
+that's very cheap to call.
+
+82
+00:05:15.150 --> 00:05:18.404
+So don't be shy about using the reshape
+command to make sure that your matrices
+
+83
+00:05:18.404 --> 00:05:20.830
+are the size you need it to be.
+
+84
+00:05:21.920 --> 00:05:27.272
+Now, let's explain in greater detail how
+this type of operation works, right?
+
+85
+00:05:27.272 --> 00:05:33.780
+We had a three by four matrix and
+we divided it by a one by four matrix.
+
+86
+00:05:33.780 --> 00:05:37.840
+So, how can you divide a three by
+four matrix by a one by four matrix?
+
+87
+00:05:37.840 --> 00:05:38.860
+Or by one by four vector?
+
+88
+00:05:40.130 --> 00:05:43.160
+Let's go through a few more
+examples of broadcasting.
+
+89
+00:05:43.160 --> 00:05:47.920
+If you take a 4 by 1 vector and
+add it to a number, what
+
+90
+00:05:47.920 --> 00:05:53.011
+Python will do is take this number and
+auto-expand
+
+91
+00:05:53.011 --> 00:05:58.180
+it into a four by one vector as well,
+as follows.
+
+92
+00:05:58.180 --> 00:06:00.257
+And so the vector [1, 2, 3,
+
+93
+00:06:00.257 --> 00:06:04.450
+4] plus the number 100 ends up
+with that vector on the right.
+
+94
+00:06:04.450 --> 00:06:09.280
+You're adding a 100 to every element,
+and in fact we use this form of
+
+95
+00:06:09.280 --> 00:06:14.365
+broadcasting where that constant was
+the parameter b in an earlier video.
+
+96
+00:06:14.365 --> 00:06:19.414
+And this type of broadcasting works with
+both column vectors and row vectors,
+
+97
+00:06:19.414 --> 00:06:24.157
+and in fact we use a similar form of
+broadcasting earlier with the constant
+
+98
+00:06:24.157 --> 00:06:29.330
+we're adding to a vector being
+the parameter b in logistic regression.
+
+99
+00:06:29.330 --> 00:06:31.610
+Here's another example.
+
+100
+00:06:31.610 --> 00:06:35.900
+Let's say you have a two
+by three matrix and
+
+101
+00:06:35.900 --> 00:06:39.420
+you add it to this one by n matrix.
+
+102
+00:06:40.950 --> 00:06:45.682
+So the general case would be if you
+
+103
+00:06:45.682 --> 00:06:50.583
+have some (m,n) matrix here and
+
+104
+00:06:50.583 --> 00:06:55.330
+you add it to a (1,n) matrix.
+
+105
+00:06:55.330 --> 00:06:58.667
+What Python will do is copy the matrix m,
+
+106
+00:06:58.667 --> 00:07:03.672
+times to turn this into m by n matrix,
+so instead of this one by
+
+107
+00:07:03.672 --> 00:07:09.980
+three matrix it'll copy it twice in
+this example to turn it into this.
+
+108
+00:07:09.980 --> 00:07:14.092
+Also, two by three matrix and
+we'll add these so
+
+109
+00:07:14.092 --> 00:07:18.270
+you'll end up with the sum on the right,
+okay?
+
+110
+00:07:18.270 --> 00:07:21.583
+So you taken,
+you added 100 to the first column,
+
+111
+00:07:21.583 --> 00:07:25.812
+added 200 to second column,
+added 300 to the third column.
+
+112
+00:07:25.812 --> 00:07:28.796
+And this is basically what we
+did on the previous slide,
+
+113
+00:07:28.796 --> 00:07:32.810
+except that we use a division operation
+instead of an addition operation.
+
+114
+00:07:34.180 --> 00:07:40.402
+So one last example,
+whether you have a (m,n) matrix and
+
+115
+00:07:40.402 --> 00:07:46.260
+you add this to a (m,1) vector,
+(m,1) matrix.
+
+116
+00:07:47.310 --> 00:07:50.760
+Then just copy this n times horizontally.
+
+117
+00:07:50.760 --> 00:07:53.510
+So you end up with an (m,n) matrix.
+
+118
+00:07:53.510 --> 00:07:56.990
+So as you can imagine you copy
+it horizontally three times.
+
+119
+00:07:56.990 --> 00:07:58.650
+And you add those.
+
+120
+00:07:58.650 --> 00:08:01.070
+So when you add them you end up with this.
+
+121
+00:08:01.070 --> 00:08:06.890
+So we've added 100 to the first row and
+added 200 to the second row.
+
+122
+00:08:08.270 --> 00:08:12.061
+Here's the more general principle
+of broadcasting in Python.
+
+123
+00:08:12.061 --> 00:08:17.353
+If you have an (m,n) matrix and you add or
+
+124
+00:08:17.353 --> 00:08:24.409
+subtract or multiply or
+divide with a (1,n) matrix,
+
+125
+00:08:24.409 --> 00:08:31.177
+then this will copy it n
+times into an (m,n) matrix.
+
+126
+00:08:31.177 --> 00:08:33.781
+And then apply the addition,
+subtraction, and
+
+127
+00:08:33.781 --> 00:08:36.140
+multiplication of division element wise.
+
+128
+00:08:37.250 --> 00:08:42.250
+If conversely, you were to take the (m,n)
+matrix and add, subtract, multiply,
+
+129
+00:08:42.250 --> 00:08:49.060
+divide by an (m,1) matrix,
+then also this would copy it now n times.
+
+130
+00:08:49.060 --> 00:08:54.740
+And turn that into an (m,n) matrix and
+then apply the operation element wise.
+
+131
+00:08:54.740 --> 00:09:00.327
+Just one of the broadcasting,
+which is if you have an (m,1) matrix,
+
+132
+00:09:00.327 --> 00:09:05.175
+so that's really a column vector
+like [1,2,3], and you add,
+
+133
+00:09:05.175 --> 00:09:08.482
+subtract, multiply or
+divide by a row number.
+
+134
+00:09:08.482 --> 00:09:11.080
+So maybe a (1,1) matrix.
+
+135
+00:09:11.080 --> 00:09:16.117
+So such as that plus 100,
+then you end up copying
+
+136
+00:09:16.117 --> 00:09:23.512
+this real number n times until you'll
+also get another (n,1) matrix.
+
+137
+00:09:23.512 --> 00:09:29.700
+And then you perform the operation such
+as addition on this example element-wise.
+
+138
+00:09:29.700 --> 00:09:35.823
+And something similar also works for
+row vectors.
+
+139
+00:09:38.281 --> 00:09:43.730
+The fully general version of broadcasting
+can do even a little bit more than this.
+
+140
+00:09:43.730 --> 00:09:49.080
+If you're interested you can
+read the documentation for
+
+141
+00:09:49.080 --> 00:09:52.240
+NumPy, and look at broadcasting
+in that documentation.
+
+142
+00:09:52.240 --> 00:09:56.380
+That gives an even slightly more
+general definition of broadcasting.
+
+143
+00:09:56.380 --> 00:10:00.140
+But the ones on the slide are the main
+forms of broadcasting that you end up
+
+144
+00:10:00.140 --> 00:10:02.560
+needing to use when you
+implement a neural network.
+
+145
+00:10:03.890 --> 00:10:06.840
+Before we wrap up,
+just one last comment, which is for
+
+146
+00:10:06.840 --> 00:10:10.210
+those of you that are used to
+programming in either MATLAB or
+
+147
+00:10:10.210 --> 00:10:15.760
+Octave, if you've ever used the MATLAB or
+Octave function bsxfun
+
+148
+00:10:15.760 --> 00:10:20.590
+in neural network programming bsxfun does
+something similar, not quite the same.
+
+149
+00:10:20.590 --> 00:10:25.750
+But it is often used for similar purpose
+as what we use broadcasting in Python for.
+
+150
+00:10:25.750 --> 00:10:28.505
+But this is really only for
+very advanced MATLAB and
+
+151
+00:10:28.505 --> 00:10:31.600
+Octave users, if you've not heard of this,
+don't worry about it.
+
+152
+00:10:31.600 --> 00:10:35.524
+You don't need to know it when you're
+coding up neural networks in Python.
+
+153
+00:10:35.524 --> 00:10:38.720
+So, that was broadcasting in Python.
+
+154
+00:10:38.720 --> 00:10:42.360
+I hope that when you do the programming
+homework that broadcasting will allow you
+
+155
+00:10:42.360 --> 00:10:44.580
+to not only make a code run faster,
+
+156
+00:10:44.580 --> 00:10:48.920
+but also help you get what you want
+done with fewer lines of code.
+
+157
+00:10:50.360 --> 00:10:53.630
+Before you dive into the programming
+excercise, I want to share with you just
+
+158
+00:10:53.630 --> 00:10:56.290
+one more set of ideas,
+which is that there's some tips and
+
+159
+00:10:56.290 --> 00:11:00.700
+tricks that I've found reduces
+the number of bugs in my Python code and
+
+160
+00:11:00.700 --> 00:11:02.640
+that I hope will help you too.
+
+161
+00:11:02.640 --> 00:11:05.550
+So with that,
+let's talk about that in the next video.

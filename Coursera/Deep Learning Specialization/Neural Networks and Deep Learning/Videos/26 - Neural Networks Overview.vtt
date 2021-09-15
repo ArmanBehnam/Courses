@@ -1,0 +1,289 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.190
+Welcome back. In this week,
+
+2
+00:00:02.190 --> 00:00:04.530
+you learned to implement a neural network.
+
+3
+00:00:04.530 --> 00:00:06.885
+Before diving into the technical details,
+
+4
+00:00:06.885 --> 00:00:08.070
+I want in this video,
+
+5
+00:00:08.070 --> 00:00:12.000
+to give you a quick overview of what you'll be seeing in this week's videos.
+
+6
+00:00:12.000 --> 00:00:14.910
+So, if you don't follow all the details in this video,
+
+7
+00:00:14.910 --> 00:00:18.810
+don't worry about it, we'll delve into the technical details in the next few videos.
+
+8
+00:00:18.810 --> 00:00:23.490
+But for now, let's give a quick overview of how you implement in your network.
+
+9
+00:00:23.490 --> 00:00:26.250
+Last week, we had talked about logistic regression,
+
+10
+00:00:26.250 --> 00:00:31.965
+and we saw how this model corresponds to the following computation draft,
+
+11
+00:00:31.965 --> 00:00:35.640
+where you didn't put the features x and parameters
+
+12
+00:00:35.640 --> 00:00:40.140
+w and b that allows you to compute z which is then used to computes a,
+
+13
+00:00:40.140 --> 00:00:43.280
+and we were using a interchangeably with
+
+14
+00:00:43.280 --> 00:00:48.065
+this output y hat and then you can compute the loss function,
+
+15
+00:00:48.065 --> 00:00:51.390
+L. A neural network looks like this.
+
+16
+00:00:51.390 --> 00:00:53.415
+As I'd already previously alluded,
+
+17
+00:00:53.415 --> 00:00:58.640
+you can form a neural network by stacking together a lot of little sigmoid units.
+
+18
+00:00:58.640 --> 00:01:03.785
+Whereas previously, this node corresponds to two steps to calculations.
+
+19
+00:01:03.785 --> 00:01:05.975
+The first is compute the z-value,
+
+20
+00:01:05.975 --> 00:01:08.630
+second is it computes this a value.
+
+21
+00:01:08.630 --> 00:01:10.460
+In this neural network,
+
+22
+00:01:10.460 --> 00:01:16.565
+this stack of notes will correspond to a z-like calculation like this,
+
+23
+00:01:16.565 --> 00:01:20.165
+as well as, an a-like calculation like that.
+
+24
+00:01:20.165 --> 00:01:26.270
+Then, that node will correspond to another z and another a like calculation.
+
+25
+00:01:26.270 --> 00:01:30.380
+So the notation which we will introduce later will look like this.
+
+26
+00:01:30.380 --> 00:01:33.365
+First, we'll inputs the features, x,
+
+27
+00:01:33.365 --> 00:01:36.190
+together with some parameters w and b,
+
+28
+00:01:36.190 --> 00:01:39.840
+and this will allow you to compute z one.
+
+29
+00:01:39.840 --> 00:01:43.625
+So, new notation that we'll introduce is that we'll use
+
+30
+00:01:43.625 --> 00:01:47.060
+superscript square bracket one to refer to
+
+31
+00:01:47.060 --> 00:01:51.185
+quantities associated with this stack of nodes, it's called a layer.
+
+32
+00:01:51.185 --> 00:01:54.080
+Then later, we'll use superscript square bracket
+
+33
+00:01:54.080 --> 00:01:58.355
+two to refer to quantities associated with that node.
+
+34
+00:01:58.355 --> 00:02:01.445
+That's called another layer of the neural network.
+
+35
+00:02:01.445 --> 00:02:03.680
+The superscript square brackets,
+
+36
+00:02:03.680 --> 00:02:05.135
+like we have here,
+
+37
+00:02:05.135 --> 00:02:06.905
+are not to be confused with
+
+38
+00:02:06.905 --> 00:02:12.980
+the superscript round brackets which we use to refer to individual training examples.
+
+39
+00:02:12.980 --> 00:02:17.885
+So, whereas x superscript round bracket I refer to the ith training example,
+
+40
+00:02:17.885 --> 00:02:23.180
+superscript square bracket one and two refer to these different layers;
+
+41
+00:02:23.180 --> 00:02:27.530
+layer one and layer two in this neural network.
+
+42
+00:02:27.530 --> 00:02:33.920
+But so going on, after computing z_1 similar to logistic regression,
+
+43
+00:02:33.920 --> 00:02:37.715
+there'll be a computation to compute a_1,
+
+44
+00:02:37.715 --> 00:02:40.970
+and that's just sigmoid of z_1,
+
+45
+00:02:40.970 --> 00:02:51.530
+and then you compute z_2 using another linear equation and then compute a_2.
+
+46
+00:02:51.530 --> 00:02:55.325
+A_2 is the final output
+
+47
+00:02:55.325 --> 00:02:59.270
+of the neural network and will also be used interchangeably with y-hat.
+
+48
+00:02:59.270 --> 00:03:02.390
+So, I know that was a lot of details but the key intuition to
+
+49
+00:03:02.390 --> 00:03:05.925
+take away is that whereas for logistic regression,
+
+50
+00:03:05.925 --> 00:03:09.435
+we had this z followed by a calculation.
+
+51
+00:03:09.435 --> 00:03:10.665
+In this neural network,
+
+52
+00:03:10.665 --> 00:03:12.830
+here we just do it multiple times,
+
+53
+00:03:12.830 --> 00:03:14.870
+as a z followed by a calculation,
+
+54
+00:03:14.870 --> 00:03:17.745
+and a z followed by a calculation,
+
+55
+00:03:17.745 --> 00:03:21.590
+and then you finally compute the loss at the end.
+
+56
+00:03:21.590 --> 00:03:24.200
+You remember that for logistic regression,
+
+57
+00:03:24.200 --> 00:03:27.800
+we had this backward calculation in order
+
+58
+00:03:27.800 --> 00:03:32.045
+to compute derivatives or as you're computing your d a,
+
+59
+00:03:32.045 --> 00:03:33.365
+d z and so on.
+
+60
+00:03:33.365 --> 00:03:34.805
+So, in the same way,
+
+61
+00:03:34.805 --> 00:03:38.990
+a neural network will end up doing a backward calculation that looks like
+
+62
+00:03:38.990 --> 00:03:47.370
+this in which you end up computing da_2,
+
+63
+00:03:47.370 --> 00:03:51.060
+dz_2, that allows you to compute dw_2,
+
+64
+00:03:51.060 --> 00:03:56.130
+db_2, and so on.
+
+65
+00:03:56.130 --> 00:04:04.060
+This right to left backward calculation that is denoting with the red arrows.
+
+66
+00:04:04.060 --> 00:04:08.750
+So, that gives you a quick overview of what a neural network looks like.
+
+67
+00:04:08.750 --> 00:04:12.470
+It's basically taken logistic regression and repeating it twice.
+
+68
+00:04:12.470 --> 00:04:14.780
+I know there was a lot of new notation laws,
+
+69
+00:04:14.780 --> 00:04:16.910
+new details, don't worry about saving them,
+
+70
+00:04:16.910 --> 00:04:21.575
+follow everything, we'll go into the details most probably in the next few videos.
+
+71
+00:04:21.575 --> 00:04:23.060
+So, let's go on to the next video.
+
+72
+00:04:23.060 --> 00:04:26.270
+We'll start to talk about the neural network representation.

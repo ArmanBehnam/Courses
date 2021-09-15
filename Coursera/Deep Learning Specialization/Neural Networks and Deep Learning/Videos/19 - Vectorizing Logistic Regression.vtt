@@ -1,0 +1,497 @@
+WEBVTT
+
+1
+00:00:00.860 --> 00:00:05.760
+We have talked about how vectorization lets you speed up your code significantly.
+
+2
+00:00:05.760 --> 00:00:08.160
+In this video, we'll talk about how you can vectorize
+
+3
+00:00:08.160 --> 00:00:10.545
+the implementation of logistic regression,
+
+4
+00:00:10.545 --> 00:00:12.960
+so they can process an entire training set,
+
+5
+00:00:12.960 --> 00:00:15.930
+that is implement a single elevation of grading descent with respect to
+
+6
+00:00:15.930 --> 00:00:22.330
+an entire training set without using even a single explicit for loop.
+
+7
+00:00:22.330 --> 00:00:24.039
+I'm super excited about this technique,
+
+8
+00:00:24.039 --> 00:00:26.670
+and when we talk about neural networks later without
+
+9
+00:00:26.670 --> 00:00:30.050
+using even a single explicit for loop.
+
+10
+00:00:30.050 --> 00:00:35.965
+Let's get started. Let's first examine the four propagation steps of logistic regression.
+
+11
+00:00:35.965 --> 00:00:37.860
+So, if you have M training examples,
+
+12
+00:00:37.860 --> 00:00:40.605
+then to make a prediction on the first example,
+
+13
+00:00:40.605 --> 00:00:42.105
+you need to compute that,
+
+14
+00:00:42.105 --> 00:00:45.480
+compute Z. I'm using this familiar formula,
+
+15
+00:00:45.480 --> 00:00:47.370
+then compute the activations,
+
+16
+00:00:47.370 --> 00:00:49.485
+you compute [inaudible] in the first example.
+
+17
+00:00:49.485 --> 00:00:52.705
+Then to make a prediction on the second training example,
+
+18
+00:00:52.705 --> 00:00:54.405
+you need to compute that.
+
+19
+00:00:54.405 --> 00:00:57.085
+Then, to make a prediction on the third example,
+
+20
+00:00:57.085 --> 00:00:59.045
+you need to compute that, and so on.
+
+21
+00:00:59.045 --> 00:01:01.020
+And you might need to do this M times,
+
+22
+00:01:01.020 --> 00:01:03.855
+if you have M training examples.
+
+23
+00:01:03.855 --> 00:01:08.250
+So, it turns out, that in order to carry out the four propagation step,
+
+24
+00:01:08.250 --> 00:01:13.435
+that is to compute these predictions on our M training examples,
+
+25
+00:01:13.435 --> 00:01:14.865
+there is a way to do so,
+
+26
+00:01:14.865 --> 00:01:17.925
+without needing an explicit for loop.
+
+27
+00:01:17.925 --> 00:01:20.450
+Let's see how you can do it.
+
+28
+00:01:20.450 --> 00:01:26.455
+First, remember that we defined a matrix capital X to be your training inputs,
+
+29
+00:01:26.455 --> 00:01:30.895
+stacked together in different columns like this.
+
+30
+00:01:30.895 --> 00:01:33.810
+So, this is a matrix,
+
+31
+00:01:33.810 --> 00:01:38.425
+that is a NX by M matrix.
+
+32
+00:01:38.425 --> 00:01:41.885
+So, I'm writing this as a Python draw pie shape,
+
+33
+00:01:41.885 --> 00:01:50.350
+this just means that X is a NX by M dimensional matrix.
+
+34
+00:01:50.350 --> 00:01:54.670
+Now, the first thing I want to do is show how you can compute Z1, Z2,
+
+35
+00:01:54.670 --> 00:01:56.512
+Z3 and so on,
+
+36
+00:01:56.512 --> 00:01:58.665
+all in one step,
+
+37
+00:01:58.665 --> 00:02:01.195
+in fact, with one line of code.
+
+38
+00:02:01.195 --> 00:02:06.930
+So, I'm going to construct a 1
+
+39
+00:02:06.930 --> 00:02:13.100
+by M matrix that's really a row vector while I'm going to compute Z1,
+
+40
+00:02:13.100 --> 00:02:15.405
+Z2, and so on,
+
+41
+00:02:15.405 --> 00:02:18.480
+down to ZM, all at the same time.
+
+42
+00:02:18.480 --> 00:02:22.175
+It turns out that this can be expressed as
+
+43
+00:02:22.175 --> 00:02:29.225
+W transpose to capital matrix X plus and then this vector B,
+
+44
+00:02:29.225 --> 00:02:31.040
+B and so on.
+
+45
+00:02:31.040 --> 00:02:33.315
+B, where this thing,
+
+46
+00:02:33.315 --> 00:02:34.480
+this B, B, B, B,
+
+47
+00:02:34.480 --> 00:02:38.980
+B thing is a 1xM vector or
+
+48
+00:02:38.980 --> 00:02:46.725
+1xM matrix or that is as a M dimensional row vector.
+
+49
+00:02:46.725 --> 00:02:50.495
+So hopefully there you are with matrix multiplication.
+
+50
+00:02:50.495 --> 00:02:56.300
+You might see that W transpose X1,
+
+51
+00:02:56.300 --> 00:02:58.760
+X2 and so on to XM,
+
+52
+00:02:58.760 --> 00:03:05.755
+that W transpose can be a row vector.
+
+53
+00:03:05.755 --> 00:03:10.655
+So this W transpose will be a row vector like that.
+
+54
+00:03:10.655 --> 00:03:18.614
+And so this first term will evaluate to W transpose X1,
+
+55
+00:03:18.614 --> 00:03:22.970
+W transpose X2 and so on, dot, dot, dot,
+
+56
+00:03:22.970 --> 00:03:29.840
+W transpose XM, and then we add this second term B,
+
+57
+00:03:29.840 --> 00:03:30.960
+B, B, and so on,
+
+58
+00:03:30.960 --> 00:03:33.565
+you end up adding B to each element.
+
+59
+00:03:33.565 --> 00:03:37.650
+So you end up with another 1xM vector.
+
+60
+00:03:37.650 --> 00:03:38.955
+Well that's the first element,
+
+61
+00:03:38.955 --> 00:03:40.590
+that's the second element and so on,
+
+62
+00:03:40.590 --> 00:03:42.810
+and that's the nth element.
+
+63
+00:03:42.810 --> 00:03:45.605
+And if you refer to the definitions above,
+
+64
+00:03:45.605 --> 00:03:51.250
+this first element is exactly the definition of Z1.
+
+65
+00:03:51.250 --> 00:03:57.305
+The second element is exactly the definition of Z2 and so on.
+
+66
+00:03:57.305 --> 00:04:00.035
+So just as X was once obtained,
+
+67
+00:04:00.035 --> 00:04:02.870
+when you took your training examples and
+
+68
+00:04:02.870 --> 00:04:07.400
+stacked them next to each other, stacked them horizontally.
+
+69
+00:04:07.400 --> 00:04:11.069
+I'm going to define capital Z to be this where
+
+70
+00:04:11.069 --> 00:04:16.385
+you take the lowercase Z's and stack them horizontally.
+
+71
+00:04:16.385 --> 00:04:21.080
+So when you stack the lower case X's corresponding to a different training examples,
+
+72
+00:04:21.080 --> 00:04:24.350
+horizontally you get this variable capital X and
+
+73
+00:04:24.350 --> 00:04:27.420
+the same way when you take these lowercase Z variables,
+
+74
+00:04:27.420 --> 00:04:28.805
+and stack them horizontally,
+
+75
+00:04:28.805 --> 00:04:34.050
+you get this variable capital Z.
+
+76
+00:04:34.050 --> 00:04:37.400
+And it turns out, that in order to implement this,
+
+77
+00:04:37.400 --> 00:04:45.773
+the non-pie command is capital Z equals NP dot W dot T,
+
+78
+00:04:45.773 --> 00:04:51.095
+that's W transpose X and then plus B.
+
+79
+00:04:51.095 --> 00:04:53.645
+Now there is a subtlety in Python,
+
+80
+00:04:53.645 --> 00:04:59.405
+which is at here B is a real number or if you want to say you know 1x1 matrix,
+
+81
+00:04:59.405 --> 00:05:01.330
+is just a normal real number.
+
+82
+00:05:01.330 --> 00:05:06.230
+But, when you add this vector to this real number,
+
+83
+00:05:06.230 --> 00:05:13.235
+Python automatically takes this real number B and expands it out to this 1XM row vector.
+
+84
+00:05:13.235 --> 00:05:16.490
+So in case this operation seems a little bit mysterious,
+
+85
+00:05:16.490 --> 00:05:20.120
+this is called broadcasting in Python,
+
+86
+00:05:20.120 --> 00:05:22.210
+and you don't have to worry about it for now,
+
+87
+00:05:22.210 --> 00:05:25.760
+we'll talk about it some more in the next video.
+
+88
+00:05:25.760 --> 00:05:29.180
+But the takeaway is that with just one line of code, with this line of code,
+
+89
+00:05:29.180 --> 00:05:33.290
+you can calculate capital Z and capital Z is
+
+90
+00:05:33.290 --> 00:05:37.698
+going to be a 1XM matrix that contains all of the lower cases Z's.
+
+91
+00:05:37.698 --> 00:05:41.200
+Lowercase Z1 through lower case ZM.
+
+92
+00:05:41.200 --> 00:05:46.255
+So that was Z, how about these values A.
+
+93
+00:05:46.255 --> 00:05:48.260
+What we like to do next,
+
+94
+00:05:48.260 --> 00:05:52.685
+is find a way to compute A1,
+
+95
+00:05:52.685 --> 00:05:57.220
+A2 and so on to AM,
+
+96
+00:05:57.220 --> 00:05:58.700
+all at the same time,
+
+97
+00:05:58.700 --> 00:06:03.350
+and just as stacking lowercase X's resulted in
+
+98
+00:06:03.350 --> 00:06:08.870
+capital X and stacking horizontally lowercase Z's resulted in capital Z,
+
+99
+00:06:08.870 --> 00:06:10.810
+stacking lower case A,
+
+100
+00:06:10.810 --> 00:06:12.470
+is going to result in a new variable,
+
+101
+00:06:12.470 --> 00:06:15.200
+which we are going to define as capital A.
+
+102
+00:06:15.200 --> 00:06:18.075
+And in the program assignment,
+
+103
+00:06:18.075 --> 00:06:22.790
+you see how to implement a vector valued sigmoid function,
+
+104
+00:06:22.790 --> 00:06:24.480
+so that the sigmoid function,
+
+105
+00:06:24.480 --> 00:06:32.380
+inputs this capital Z as a variable and very efficiently outputs capital A.
+
+106
+00:06:32.380 --> 00:06:36.620
+So you see the details of that in the programming assignment.
+
+107
+00:06:36.620 --> 00:06:38.110
+So just to recap,
+
+108
+00:06:38.110 --> 00:06:42.655
+what we've seen on this slide is that instead of needing to loop over
+
+109
+00:06:42.655 --> 00:06:47.515
+M training examples to compute lowercase Z and lowercase A,
+
+110
+00:06:47.515 --> 00:06:52.090
+one of the time, you can implement this one line of code,
+
+111
+00:06:52.090 --> 00:06:54.290
+to compute all these Z's at the same time.
+
+112
+00:06:54.290 --> 00:06:57.100
+And then, this one line of code,
+
+113
+00:06:57.100 --> 00:06:59.260
+with appropriate implementation of
+
+114
+00:06:59.260 --> 00:07:04.115
+lowercase Sigma to compute all the lowercase A's all at the same time.
+
+115
+00:07:04.115 --> 00:07:05.965
+So this is how you implement
+
+116
+00:07:05.965 --> 00:07:07.948
+a vectorize implementation of
+
+117
+00:07:07.948 --> 00:07:11.560
+the four propagation for all M training examples at the same time.
+
+118
+00:07:11.560 --> 00:07:13.985
+So to summarize, you've just seen how you can use
+
+119
+00:07:13.985 --> 00:07:18.100
+vectorization to very efficiently compute all of the activations,
+
+120
+00:07:18.100 --> 00:07:21.700
+all the lowercase A's at the same time.
+
+121
+00:07:21.700 --> 00:07:24.860
+Next, it turns out, you can also use vectorization very
+
+122
+00:07:24.860 --> 00:07:27.910
+efficiently to compute the backward propagation,
+
+123
+00:07:27.910 --> 00:07:29.650
+to compute the gradients.
+
+124
+00:07:29.650 --> 00:07:32.000
+Let's see how you can do that, in the next video.
