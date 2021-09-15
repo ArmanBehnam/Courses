@@ -1,0 +1,401 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.560
+You've now learned so much about deep learning, and sequence models,
+
+2
+00:00:04.560 --> 00:00:09.120
+that we can actually describe a trigger word system quite simply,
+
+3
+00:00:09.120 --> 00:00:11.430
+just on one slide as you see in this video.
+
+4
+00:00:11.430 --> 00:00:13.590
+But, with the rise of speech recognition,
+
+5
+00:00:13.590 --> 00:00:15.120
+there have been more and more devices.
+
+6
+00:00:15.120 --> 00:00:16.755
+You can wake up with your voice,
+
+7
+00:00:16.755 --> 00:00:20.085
+and those are sometimes called trigger word detection systems.
+
+8
+00:00:20.085 --> 00:00:23.265
+So, let's see how you can build a trigger word system.
+
+9
+00:00:23.265 --> 00:00:26.355
+Examples of trigger word systems include;
+
+10
+00:00:26.355 --> 00:00:29.925
+Amazon Echo, which is broken out with the word Alexa,
+
+11
+00:00:29.925 --> 00:00:32.429
+the Baidu DuerOS power devices,
+
+12
+00:00:32.429 --> 00:00:35.130
+broken out with the phrase Xiadunihao,
+
+13
+00:00:35.130 --> 00:00:37.470
+Apple Siri broken up with Hey Siri,
+
+14
+00:00:37.470 --> 00:00:40.350
+and Google Home broken up with Okay Google.
+
+15
+00:00:40.350 --> 00:00:42.700
+So, [inaudible] trigger word detection,
+
+16
+00:00:42.700 --> 00:00:46.400
+that if you have say an Amazon echo in your living room,
+
+17
+00:00:46.400 --> 00:00:48.470
+you can walk through the living room and just say,
+
+18
+00:00:48.470 --> 00:00:50.045
+"Alexa, what time is it",
+
+19
+00:00:50.045 --> 00:00:51.155
+and have it wake up,
+
+20
+00:00:51.155 --> 00:00:53.090
+or be triggered by the voice Alexa,
+
+21
+00:00:53.090 --> 00:00:55.890
+and answer your voice query.
+
+22
+00:00:55.890 --> 00:00:59.050
+So, if you can build a trigger word detection system;
+
+23
+00:00:59.050 --> 00:01:04.610
+maybe you can make your computer do something by telling your computer, "activate."
+
+24
+00:01:04.610 --> 00:01:10.070
+One of my friends also works on turning on and off a particular lamp,
+
+25
+00:01:10.070 --> 00:01:11.585
+using a trigger word,
+
+26
+00:01:11.585 --> 00:01:13.310
+as a fun project.
+
+27
+00:01:13.310 --> 00:01:18.020
+But, what I want to show you is how you can build a trigger word detection system.
+
+28
+00:01:18.020 --> 00:01:21.620
+The literature on triggered detection algorithm is still evolving,
+
+29
+00:01:21.620 --> 00:01:23.930
+so there isn't wide consensus yet,
+
+30
+00:01:23.930 --> 00:01:26.750
+on what's the best algorithm for trigger word detection.
+
+31
+00:01:26.750 --> 00:01:30.665
+So, I'm just going to show you one example of an algorithm you can use.
+
+32
+00:01:30.665 --> 00:01:33.440
+Now, you've seen RNNs like this,
+
+33
+00:01:33.440 --> 00:01:34.520
+and what we really do,
+
+34
+00:01:34.520 --> 00:01:35.945
+is to take an audio clip,
+
+35
+00:01:35.945 --> 00:01:38.210
+maybe compute spectrogram features,
+
+36
+00:01:38.210 --> 00:01:42.065
+and that generates audio features X-1 X-2 X-3,
+
+37
+00:01:42.065 --> 00:01:45.195
+that you pass through an RNN.
+
+38
+00:01:45.195 --> 00:01:47.715
+So, all that remains to be done,
+
+39
+00:01:47.715 --> 00:01:51.320
+is to define the target labels y.
+
+40
+00:01:51.320 --> 00:01:55.955
+So, this point in the audio clip,
+
+41
+00:01:55.955 --> 00:01:59.235
+is when someone just finished saying the trigger word,
+
+42
+00:01:59.235 --> 00:02:01.470
+such as Alexa or Xiadunihao,
+
+43
+00:02:01.470 --> 00:02:03.465
+or Hey Siri, or okay Google.
+
+44
+00:02:03.465 --> 00:02:04.780
+Then, in the training set,
+
+45
+00:02:04.780 --> 00:02:09.665
+you can set the target labels to be zero for everything before that point,
+
+46
+00:02:09.665 --> 00:02:11.015
+and right after that,
+
+47
+00:02:11.015 --> 00:02:13.975
+to set the target label of one.
+
+48
+00:02:13.975 --> 00:02:17.100
+Then, if a little bit later on,
+
+49
+00:02:17.100 --> 00:02:22.405
+the trigger word was said again at this point,
+
+50
+00:02:22.405 --> 00:02:28.165
+then you can again set the target label to be one, right after that.
+
+51
+00:02:28.165 --> 00:02:34.580
+Now, this type of labeling scheme for an RNN could work.
+
+52
+00:02:34.580 --> 00:02:37.595
+Actually it just won't actually work reasonably well.
+
+53
+00:02:37.595 --> 00:02:40.460
+One slight disadvantage of this is,
+
+54
+00:02:40.460 --> 00:02:43.040
+it creates a very imbalanced training set,
+
+55
+00:02:43.040 --> 00:02:45.155
+so we have a lot more zeros than we want.
+
+56
+00:02:45.155 --> 00:02:47.645
+So, one other thing you could do,
+
+57
+00:02:47.645 --> 00:02:49.370
+that it's little bit of a hack,
+
+58
+00:02:49.370 --> 00:02:52.879
+but could make the model a little bit easier to train,
+
+59
+00:02:52.879 --> 00:02:56.780
+is instead of setting only a single time step to operate one,
+
+60
+00:02:56.780 --> 00:03:00.780
+you could actually make it to operate a few ones for several times.
+
+61
+00:03:00.780 --> 00:03:02.250
+So, for a fixed period of time,
+
+62
+00:03:02.250 --> 00:03:04.590
+before reverting back to zero.
+
+63
+00:03:04.590 --> 00:03:14.890
+So that slightly evens out the ratio of one's to zero's,
+
+64
+00:03:14.890 --> 00:03:16.975
+but there's this little bit of a hack.
+
+65
+00:03:16.975 --> 00:03:22.250
+But, if this is when in the audio clip,
+
+66
+00:03:22.250 --> 00:03:24.735
+the trigger word was said, then right after that,
+
+67
+00:03:24.735 --> 00:03:26.520
+you can set the target label to one,
+
+68
+00:03:26.520 --> 00:03:28.845
+and if this is the trigger word said again,
+
+69
+00:03:28.845 --> 00:03:29.885
+then right after that,
+
+70
+00:03:29.885 --> 00:03:35.540
+is when you want the RNN to output one.
+
+71
+00:03:35.540 --> 00:03:38.310
+So, you get to play more off this as well,
+
+72
+00:03:38.310 --> 00:03:40.215
+in the programming exercise,
+
+73
+00:03:40.215 --> 00:03:44.110
+but I think you should feel quite proud of yourself.
+
+74
+00:03:44.110 --> 00:03:45.850
+We've learned enough about deep learning,
+
+75
+00:03:45.850 --> 00:03:47.800
+that it just takes one picture;
+
+76
+00:03:47.800 --> 00:03:53.200
+one slide, to describe something as complicated as trigger word detection.
+
+77
+00:03:53.200 --> 00:03:57.795
+Based on this, I hope you'll implement something that works,
+
+78
+00:03:57.795 --> 00:04:00.515
+and allows you to detect trigger words.
+
+79
+00:04:00.515 --> 00:04:04.435
+Well, you see more of this in the programming exercise.
+
+80
+00:04:04.435 --> 00:04:06.870
+So, that's it for trigger words.
+
+81
+00:04:06.870 --> 00:04:09.110
+I hope you feel quite proud of yourself,
+
+82
+00:04:09.110 --> 00:04:11.045
+for how much you've learned about deep learning,
+
+83
+00:04:11.045 --> 00:04:15.650
+that you can now describe trigger words in just one slide in a few minutes,
+
+84
+00:04:15.650 --> 00:04:19.115
+and that you prepare hopefully to implemented it, and get it to work.
+
+85
+00:04:19.115 --> 00:04:21.800
+Maybe even make it do something fun in your house even,
+
+86
+00:04:21.800 --> 00:04:23.000
+like turn on or turn off,
+
+87
+00:04:23.000 --> 00:04:24.770
+or you could do something on your computer,
+
+88
+00:04:24.770 --> 00:04:28.080
+when you or when someone else says the trigger words.
+
+89
+00:04:28.080 --> 00:04:31.475
+This is the last technical video of this course,
+
+90
+00:04:31.475 --> 00:04:35.140
+and to wrap up in discourse on sequence models,
+
+91
+00:04:35.140 --> 00:04:36.695
+you learned about RNNs,
+
+92
+00:04:36.695 --> 00:04:40.025
+including both GR use and LSTMs.
+
+93
+00:04:40.025 --> 00:04:41.840
+Then in the second week,
+
+94
+00:04:41.840 --> 00:04:44.085
+you've learned a lot about word embeddings,
+
+95
+00:04:44.085 --> 00:04:46.545
+and also learned representations of words.
+
+96
+00:04:46.545 --> 00:04:48.370
+Then in this week,
+
+97
+00:04:48.370 --> 00:04:51.320
+you learned about the attention model,
+
+98
+00:04:51.320 --> 00:04:54.710
+as well as how to use it to process audio theater.
+
+99
+00:04:54.710 --> 00:05:00.380
+I hope you have fun implementing all of these ideas in this peace-pro exercise.
+
+100
+00:05:00.380 --> 00:05:02.950
+Let's go on to the last video.

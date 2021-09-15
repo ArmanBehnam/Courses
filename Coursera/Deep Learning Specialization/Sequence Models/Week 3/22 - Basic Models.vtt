@@ -1,0 +1,369 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.398
+Hello, and welcome to this final week of this course,
+
+2
+00:00:03.398 --> 00:00:05.805
+as well as to the final week of this sequence of
+
+3
+00:00:05.805 --> 00:00:09.215
+five courses in the deep learning specialization.
+
+4
+00:00:09.215 --> 00:00:11.430
+You're nearly at the finish line.
+
+5
+00:00:11.430 --> 00:00:14.875
+In this week, you hear about sequence-to-sequence models,
+
+6
+00:00:14.875 --> 00:00:19.590
+which are useful for everything from machine translation to speech recognition.
+
+7
+00:00:19.590 --> 00:00:22.710
+Let's start with the basic models and then later this week you,
+
+8
+00:00:22.710 --> 00:00:23.738
+hear about beam search,
+
+9
+00:00:23.738 --> 00:00:25.847
+the attention model, and we'll wrap up
+
+10
+00:00:25.847 --> 00:00:29.540
+the discussion of models for audio data, like speech.
+
+11
+00:00:29.540 --> 00:00:32.160
+Let's get started.
+
+12
+00:00:32.160 --> 00:00:38.770
+Let's say you want to input a French sentence like Jane visite l'Afrique en septembre,
+
+13
+00:00:38.770 --> 00:00:41.620
+and you want to translate it to the English sentence,
+
+14
+00:00:41.620 --> 00:00:44.160
+Jane is visiting Africa in September.
+
+15
+00:00:44.160 --> 00:00:48.380
+As usual, let's use x<1> through x,
+
+16
+00:00:48.380 --> 00:00:49.655
+in this case <5>,
+
+17
+00:00:49.655 --> 00:00:52.445
+to represent the words in the input sequence,
+
+18
+00:00:52.445 --> 00:00:58.460
+and we'll use y<1> through y<6> to represent the words in the output sequence.
+
+19
+00:00:58.460 --> 00:01:05.895
+So, how can you train a new network to input the sequence x and output the sequence y?
+
+20
+00:01:05.895 --> 00:01:08.010
+Well, here's something you could do,
+
+21
+00:01:08.010 --> 00:01:14.630
+and the ideas I'm about to present are mainly from these two papers due to Sutskever,
+
+22
+00:01:14.630 --> 00:01:16.580
+Oriol Vinyals, and Quoc Le,
+
+23
+00:01:16.580 --> 00:01:23.023
+and that one by Kyunghyun Cho,
+
+24
+00:01:23.023 --> 00:01:26.023
+Bart van Merrienboer, Caglar Gulcehre, Dzmitry Bahdanau, Fethi Bougares,
+
+25
+00:01:26.023 --> 00:01:29.023
+Holger Schwen, and Yoshua Bengio.
+
+26
+00:01:29.023 --> 00:01:31.875
+First, let's have a network,
+
+27
+00:01:31.875 --> 00:01:38.060
+which we're going to call the encoder network be built as a RNN,
+
+28
+00:01:38.060 --> 00:01:41.473
+and this could be a GRU and LSTM,
+
+29
+00:01:41.473 --> 00:01:44.945
+feed in the input French words one word at a time.
+
+30
+00:01:44.945 --> 00:01:49.135
+And after ingesting the input sequence,
+
+31
+00:01:49.135 --> 00:01:55.770
+the RNN then offers a vector that represents the input sentence.
+
+32
+00:01:55.770 --> 00:02:00.755
+After that, you can build a decoder network which I'm going to draw here,
+
+33
+00:02:00.755 --> 00:02:02.525
+which takes as input
+
+34
+00:02:02.525 --> 00:02:07.220
+the encoding output by the encoder network shown in black on the left,
+
+35
+00:02:07.220 --> 00:02:10.900
+and then can be trained to output
+
+36
+00:02:10.900 --> 00:02:15.720
+the translation one word
+
+37
+00:02:15.720 --> 00:02:22.300
+at a time until eventually it outputs say,
+
+38
+00:02:22.300 --> 00:02:25.783
+the end of sequence or end the sentence token upon
+
+39
+00:02:25.783 --> 00:02:29.900
+which the decoder stops and as usual we could take
+
+40
+00:02:29.900 --> 00:02:34.460
+the generated tokens and feed them to the next [inaudible]
+
+41
+00:02:34.460 --> 00:02:39.640
+in the sequence like we 're doing before when synthesizing text using the language model.
+
+42
+00:02:39.640 --> 00:02:45.915
+One of the most remarkable recent results in deep learning is that this model works,
+
+43
+00:02:45.915 --> 00:02:49.725
+given enough pairs of French and English sentences.
+
+44
+00:02:49.725 --> 00:02:52.815
+If you train the model to input
+
+45
+00:02:52.815 --> 00:02:57.144
+a French sentence and output the corresponding English translation,
+
+46
+00:02:57.144 --> 00:02:59.695
+this will actually work decently well.
+
+47
+00:02:59.695 --> 00:03:03.270
+And this model simply uses an encoder network,
+
+48
+00:03:03.270 --> 00:03:08.400
+whose job it is to find an encoding of the input French sentence and then use
+
+49
+00:03:08.400 --> 00:03:13.860
+a decoder network to then generate the corresponding English translation.
+
+50
+00:03:13.860 --> 00:03:18.630
+An architecture very similar to this also works
+
+51
+00:03:18.630 --> 00:03:24.060
+for image captioning so given an image like the one shown here,
+
+52
+00:03:24.060 --> 00:03:29.260
+maybe wanted to be captioned automatically as a cat sitting on a chair.
+
+53
+00:03:29.260 --> 00:03:32.790
+So how do you train a new network to input an image and
+
+54
+00:03:32.790 --> 00:03:38.405
+output a caption like that phrase up there?
+
+55
+00:03:38.405 --> 00:03:43.715
+Here's what you can do. From the earlier course on [inaudible] you've seen
+
+56
+00:03:43.715 --> 00:03:48.453
+how you can input an image into a convolutional network,
+
+57
+00:03:48.453 --> 00:03:50.555
+maybe a pre-trained AlexNet,
+
+58
+00:03:50.555 --> 00:03:56.360
+and have that learn an encoding or learn a set of features of the input image.
+
+59
+00:03:56.360 --> 00:03:57.440
+So, this is actually
+
+60
+00:03:57.440 --> 00:04:04.295
+the AlexNet architecture and if we get rid of this final Softmax unit,
+
+61
+00:04:04.295 --> 00:04:06.770
+the pre-trained AlexNet can give you
+
+62
+00:04:06.770 --> 00:04:12.705
+a 4096-dimensional feature vector of which to represent this picture of a cat.
+
+63
+00:04:12.705 --> 00:04:18.760
+And so this pre-trained network can be the encoder network for the image
+
+64
+00:04:18.760 --> 00:04:25.120
+and you now have a 4096-dimensional vector that represents the image.
+
+65
+00:04:25.120 --> 00:04:28.870
+You can then take this and feed it to an RNN,
+
+66
+00:04:28.870 --> 00:04:36.878
+whose job it is to generate the caption one word at a time.
+
+67
+00:04:36.878 --> 00:04:43.985
+So similar to what we saw with machine translation translating from French to English,
+
+68
+00:04:43.985 --> 00:04:50.590
+you can now input a feature vector describing the input and then have it
+
+69
+00:04:50.590 --> 00:04:58.180
+generate an output sequence or output set of words one word at a time.
+
+70
+00:04:58.180 --> 00:05:01.941
+And this actually works pretty well for image captioning,
+
+71
+00:05:01.941 --> 00:05:04.610
+especially if the caption you want to generate is not too long.
+
+72
+00:05:04.610 --> 00:05:07.730
+As far as I know,
+
+73
+00:05:07.730 --> 00:05:10.115
+this type of model
+
+74
+00:05:10.115 --> 00:05:12.731
+was first proposed by Junhua Mao, Wei Xu, Yi Yang, Jiang Wang, Zhiheng Huang,
+
+75
+00:05:12.731 --> 00:05:18.185
+and Alan Yuille, although it turns out there were
+
+76
+00:05:18.185 --> 00:05:20.030
+multiple groups coming up with
+
+77
+00:05:20.030 --> 00:05:25.080
+very similar models independently and at about the same time.
+
+78
+00:05:25.080 --> 00:05:29.560
+So two other groups that had done very similar work
+
+79
+00:05:29.560 --> 00:05:33.260
+at about the same time and I think independently of Mao et al were Oriol Vinyals,
+
+80
+00:05:33.260 --> 00:05:35.025
+Alexander Toshev, Samy Bengio,
+
+81
+00:05:35.025 --> 00:05:38.750
+and Dumitru Erhan, as well as Andrej Karpathy and Fei-Fei Yi.
+
+82
+00:05:38.750 --> 00:05:45.040
+So, you've now seen how a basic sequence-to-sequence model works,
+
+83
+00:05:45.040 --> 00:05:49.340
+or how a basic image-to-sequence or image captioning model works,
+
+84
+00:05:49.340 --> 00:05:53.460
+but there are some differences between how you would run a model like this,
+
+85
+00:05:53.460 --> 00:05:56.550
+so generating a sequence compared to how you were
+
+86
+00:05:56.550 --> 00:06:00.495
+synthesizing novel text using a language model.
+
+87
+00:06:00.495 --> 00:06:02.050
+One of the key differences is,
+
+88
+00:06:02.050 --> 00:06:04.887
+you don't want a randomly chosen translation,
+
+89
+00:06:04.887 --> 00:06:07.626
+you maybe want the most likely translation,
+
+90
+00:06:07.626 --> 00:06:10.345
+or you don't want a randomly chosen caption, maybe not,
+
+91
+00:06:10.345 --> 00:06:13.870
+but you might want the best caption and most likely caption.
+
+92
+00:06:13.870 --> 00:06:18.000
+So let's see in the next video how you go about generating that.

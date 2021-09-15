@@ -1,0 +1,733 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.110
+In this video, you learn about the beam search algorithm.
+
+2
+00:00:04.110 --> 00:00:05.545
+In the last video,
+
+3
+00:00:05.545 --> 00:00:09.655
+you remember how for machine translation given an input French sentence,
+
+4
+00:00:09.655 --> 00:00:12.735
+you don't want to output a random English translation,
+
+5
+00:00:12.735 --> 00:00:16.365
+you want to output the best and the most likely English translation.
+
+6
+00:00:16.365 --> 00:00:21.126
+The same is also true for speech recognition where given an input audio clip,
+
+7
+00:00:21.126 --> 00:00:24.465
+you don't want to output a random text transcript of that audio,
+
+8
+00:00:24.465 --> 00:00:25.745
+you want to output the best,
+
+9
+00:00:25.745 --> 00:00:28.315
+maybe the most likely, text transcript.
+
+10
+00:00:28.315 --> 00:00:30.623
+Beam search is the most widely used algorithm to do this.
+
+11
+00:00:30.623 --> 00:00:33.810
+And in this video, you see how to get beam search to work for yourself.
+
+12
+00:00:33.810 --> 00:00:37.605
+Let's just try Beam Search using our running example of the French sentence,
+
+13
+00:00:37.605 --> 00:00:39.495
+"Jane, visite l'Afrique en Septembre".
+
+14
+00:00:39.495 --> 00:00:41.034
+Hopefully being translated into,
+
+15
+00:00:41.034 --> 00:00:43.170
+"Jane, visits Africa in September".
+
+16
+00:00:43.170 --> 00:00:45.855
+The first thing Beam search has to do is try to pick
+
+17
+00:00:45.855 --> 00:00:48.679
+the first words of the English translation,
+
+18
+00:00:48.679 --> 00:00:50.085
+that's going to operate.
+
+19
+00:00:50.085 --> 00:00:51.470
+So here I've listed,
+
+20
+00:00:51.470 --> 00:00:54.195
+say, 10,000 words into vocabulary.
+
+21
+00:00:54.195 --> 00:00:56.140
+And to simplify the problem a bit,
+
+22
+00:00:56.140 --> 00:00:58.000
+I'm going to ignore capitalization.
+
+23
+00:00:58.000 --> 00:01:00.605
+So I'm just listing all the words in lower case.
+
+24
+00:01:00.605 --> 00:01:02.870
+So, in the first step of Beam Search,
+
+25
+00:01:02.870 --> 00:01:08.085
+I use this network fragment with the coalition in green and decoalition in purple,
+
+26
+00:01:08.085 --> 00:01:12.165
+to try to evaluate what is the probability of that for a square.
+
+27
+00:01:12.165 --> 00:01:14.745
+So, what's the probability of the first output y,
+
+28
+00:01:14.745 --> 00:01:18.670
+given the input sentence x gives the French input.
+
+29
+00:01:18.670 --> 00:01:24.725
+So, whereas greedy search will pick only the one most likely words and move on,
+
+30
+00:01:24.725 --> 00:01:28.590
+Beam Search instead can consider multiple alternatives.
+
+31
+00:01:28.590 --> 00:01:32.344
+So, the Beam Search algorithm has a parameter called B,
+
+32
+00:01:32.344 --> 00:01:33.810
+which is called the beam width and for
+
+33
+00:01:33.810 --> 00:01:37.715
+this example I'm going to set the beam width to be with the three.
+
+34
+00:01:37.715 --> 00:01:40.330
+And what this means is Beam search will cause that
+
+35
+00:01:40.330 --> 00:01:44.030
+not just one possibility but consider three at the time.
+
+36
+00:01:44.030 --> 00:01:46.950
+So in particular, let's say evaluating
+
+37
+00:01:46.950 --> 00:01:50.151
+this probability over different choices the first words,
+
+38
+00:01:50.151 --> 00:01:52.815
+it finds that the choices in,
+
+39
+00:01:52.815 --> 00:01:55.740
+Jane and September are
+
+40
+00:01:55.740 --> 00:02:01.150
+the most likely three possibilities for the first words in the English outputs.
+
+41
+00:02:01.150 --> 00:02:03.905
+Then Beam search will stowaway in
+
+42
+00:02:03.905 --> 00:02:07.800
+computer memory that it wants to try all of three of these words,
+
+43
+00:02:07.800 --> 00:02:10.680
+and if the beam width parameter were said differently,
+
+44
+00:02:10.680 --> 00:02:12.640
+the beam width parameter was 10,
+
+45
+00:02:12.640 --> 00:02:15.760
+then we keep track of not just three but of the ten,
+
+46
+00:02:15.760 --> 00:02:18.950
+most likely possible choices for the first word.
+
+47
+00:02:18.950 --> 00:02:23.680
+So, to be clear in order to perform this first step of Beam search,
+
+48
+00:02:23.680 --> 00:02:26.790
+what you need to do is run the input French sentence through
+
+49
+00:02:26.790 --> 00:02:31.435
+this encoder network and then this first step will then decode the network,
+
+50
+00:02:31.435 --> 00:02:35.915
+this is a softmax output overall 10,000 possibilities.
+
+51
+00:02:35.915 --> 00:02:39.165
+Then you would take those 10,000 possible
+
+52
+00:02:39.165 --> 00:02:44.535
+outputs and keep in memory which were the top three.
+
+53
+00:02:44.535 --> 00:02:47.195
+Let's go into the second step of Beam search.
+
+54
+00:02:47.195 --> 00:02:53.705
+Having picked in, Jane and September as the three most likely choice of the first word,
+
+55
+00:02:53.705 --> 00:02:55.100
+what Beam search will do now,
+
+56
+00:02:55.100 --> 00:02:59.330
+is for each of these three choices consider what should be the second word,
+
+57
+00:02:59.330 --> 00:03:03.065
+so after "in" maybe a second word is "a" or maybe as Aaron,
+
+58
+00:03:03.065 --> 00:03:05.340
+I'm just listing words from the vocabulary,
+
+59
+00:03:05.340 --> 00:03:10.370
+from the dictionary or somewhere down the list will be September,
+
+60
+00:03:10.370 --> 00:03:13.595
+somewhere down the list there's visit and then all the way
+
+61
+00:03:13.595 --> 00:03:16.910
+to z and then the last word is zulu.
+
+62
+00:03:16.910 --> 00:03:19.015
+So, to evaluate the probability of second word,
+
+63
+00:03:19.015 --> 00:03:23.150
+it will use this new network fragments where is coder in
+
+64
+00:03:23.150 --> 00:03:28.785
+green and for the decoder portion when trying to decide what comes after in.
+
+65
+00:03:28.785 --> 00:03:33.055
+Remember the decoder first outputs, y hat one.
+
+66
+00:03:33.055 --> 00:03:39.177
+So, I'm going to set to this y hat one to the word "in" as it goes back in.
+
+67
+00:03:39.177 --> 00:03:43.570
+So there's the word "in" because it decided for now.
+
+68
+00:03:43.570 --> 00:03:47.085
+That's because It trying to figure out that the first word was "in",
+
+69
+00:03:47.085 --> 00:03:48.630
+what is the second word,
+
+70
+00:03:48.630 --> 00:03:53.460
+and then this will output I guess y hat two.
+
+71
+00:03:53.460 --> 00:03:58.065
+And so by hard wiring y hat one here,
+
+72
+00:03:58.065 --> 00:04:01.065
+really the inputs here to be the first words
+
+73
+00:04:01.065 --> 00:04:06.079
+"in" this time were fragment can be used to evaluate whether it's
+
+74
+00:04:06.079 --> 00:04:09.775
+the probability of the second word given
+
+75
+00:04:09.775 --> 00:04:12.400
+the input french sentence and that
+
+76
+00:04:12.400 --> 00:04:16.200
+the first words of the translation has been the word "in".
+
+77
+00:04:16.200 --> 00:04:20.080
+Now notice that what we also need help out in this second step would be
+
+78
+00:04:20.080 --> 00:04:24.580
+assertions to find the pair of the first and second words that is most
+
+79
+00:04:24.580 --> 00:04:26.560
+likely it's not just a second where is most
+
+80
+00:04:26.560 --> 00:04:28.710
+likely that the pair of the first and second whereas
+
+81
+00:04:28.710 --> 00:04:33.363
+the most likely and by the rules of conditional probability.
+
+82
+00:04:33.363 --> 00:04:37.520
+This can be expressed as P of the first words
+
+83
+00:04:37.520 --> 00:04:45.553
+times P of probability of the second words.
+
+84
+00:04:45.553 --> 00:04:48.250
+Which you are getting from
+
+85
+00:04:48.250 --> 00:04:55.200
+this network fragment and so if for each of the three words you've chosen "in",
+
+86
+00:04:55.200 --> 00:04:59.830
+"Jane," and "September" you save away this probability then you can multiply them by
+
+87
+00:04:59.830 --> 00:05:05.140
+this second probabilities to get the probability of the first and second words.
+
+88
+00:05:05.140 --> 00:05:08.095
+So now you've seen how if the first word was
+
+89
+00:05:08.095 --> 00:05:11.630
+"in" how you can evaluate the probability of the second word.
+
+90
+00:05:11.630 --> 00:05:14.510
+Now at first it was "Jane" you do the same thing.
+
+91
+00:05:14.510 --> 00:05:17.823
+The sentence could be "Jane a"," Jane Aaron",
+
+92
+00:05:17.823 --> 00:05:22.185
+and so on down to "Jane is",
+
+93
+00:05:22.185 --> 00:05:26.935
+"Jane visits" and so on.
+
+94
+00:05:26.935 --> 00:05:30.690
+And you will use this in
+
+95
+00:05:30.690 --> 00:05:37.060
+your network fragments let me draw this in as well where here you will hardwire,
+
+96
+00:05:37.060 --> 00:05:39.590
+Y hat One to be Jane.
+
+97
+00:05:39.590 --> 00:05:46.675
+And so with the First word y one hat's hard wired
+
+98
+00:05:46.675 --> 00:05:51.095
+as Jane than just the network fragments
+
+99
+00:05:51.095 --> 00:05:54.425
+can tell you what's the probability of the second words to me.
+
+100
+00:05:54.425 --> 00:05:57.630
+And given that the first word is "Jane".
+
+101
+00:05:57.630 --> 00:06:05.595
+And then same as above you can multiply with P of Y1 to get the probability
+
+102
+00:06:05.595 --> 00:06:14.130
+of Y1 and Y2 for each of these 10,000 different possible choices for the second word.
+
+103
+00:06:14.130 --> 00:06:16.980
+And then finally do the same thing for
+
+104
+00:06:16.980 --> 00:06:23.935
+September although words from a down to Zulu and use this network fragment.
+
+105
+00:06:23.935 --> 00:06:31.085
+That just goes in as well to see if the first word was September.
+
+106
+00:06:31.085 --> 00:06:35.938
+What was the most likely options for the second words.
+
+107
+00:06:35.938 --> 00:06:40.100
+So for this second step of beam search because we're
+
+108
+00:06:40.100 --> 00:06:44.450
+continuing to use a beam width of three and because there are
+
+109
+00:06:44.450 --> 00:06:48.400
+10,000 words in the vocabulary you'd end up considering three times
+
+110
+00:06:48.400 --> 00:06:53.555
+10000 or thirty thousand possibilities because there are 10,000 here,
+
+111
+00:06:53.555 --> 00:06:55.820
+10,000 here, 10,000 here as
+
+112
+00:06:55.820 --> 00:07:01.880
+the beam width times the number of words in the vocabulary and what you
+
+113
+00:07:01.880 --> 00:07:05.900
+do is you evaluate all of these 30000 options
+
+114
+00:07:05.900 --> 00:07:10.685
+according to the probably the first and second words and then pick the top three.
+
+115
+00:07:10.685 --> 00:07:12.050
+So with a cut down,
+
+116
+00:07:12.050 --> 00:07:15.309
+these 30,000 possibilities down to three again down
+
+117
+00:07:15.309 --> 00:07:19.770
+the beam width rounded again so let's say that 30,000 choices,
+
+118
+00:07:19.770 --> 00:07:26.030
+the most likely were in September and say Jane is,
+
+119
+00:07:26.030 --> 00:07:34.336
+and Jane visits sorry this bit messy but those are the most likely three out of the
+
+120
+00:07:34.336 --> 00:07:37.655
+30,000 choices then that's what Beam's search would memorize
+
+121
+00:07:37.655 --> 00:07:43.965
+away and take on to the next step being surge.
+
+122
+00:07:43.965 --> 00:07:47.195
+So notice one thing if beam search decides that
+
+123
+00:07:47.195 --> 00:07:52.305
+the most likely choices are the first and second words are in September,
+
+124
+00:07:52.305 --> 00:07:55.470
+or Jane is, or Jane visits.
+
+125
+00:07:55.470 --> 00:07:59.745
+Then what that means is that it is now rejecting September as
+
+126
+00:07:59.745 --> 00:08:05.920
+a candidate for the first words of the output English translation
+
+127
+00:08:05.920 --> 00:08:12.420
+so we're now down to two possibilities for the first words but we still have a beam width
+
+128
+00:08:12.420 --> 00:08:19.660
+of three keeping track of three choices for pairs of Y1,
+
+129
+00:08:19.660 --> 00:08:23.540
+Y2 before going onto the third step of beam search.
+
+130
+00:08:23.540 --> 00:08:26.946
+Just want to notice that because of beam width is equal to three,
+
+131
+00:08:26.946 --> 00:08:31.710
+every step you instantiate three copies of
+
+132
+00:08:31.710 --> 00:08:38.160
+the network to evaluate these partial sentence fragments and the output.
+
+133
+00:08:38.160 --> 00:08:42.060
+And it's because of beam width is equal to three that you have
+
+134
+00:08:42.060 --> 00:08:46.740
+three copies of the network with different choices for the first words,
+
+135
+00:08:46.740 --> 00:08:50.490
+but these three copies of the network can be very efficiently used to
+
+136
+00:08:50.490 --> 00:08:56.110
+evaluate all 30,000 options for the second word.
+
+137
+00:08:56.110 --> 00:09:02.620
+So just don't instantiate 30,000 copies of the network or three copies of the network to
+
+138
+00:09:02.620 --> 00:09:09.521
+very quickly evaluate all 10,000 possible outputs at that softmax output say for Y2.
+
+139
+00:09:09.521 --> 00:09:14.120
+Let's just quickly illustrate one more step of beam search.
+
+140
+00:09:14.120 --> 00:09:18.822
+So said that the most likely choices for first two words were in September, Jane is,
+
+141
+00:09:18.822 --> 00:09:21.180
+and Jane visits and for each of
+
+142
+00:09:21.180 --> 00:09:23.850
+these pairs of words which we should have saved the way in computer memory
+
+143
+00:09:23.850 --> 00:09:31.805
+the probability of Y1 and Y2 given the input X given the French sentence X.
+
+144
+00:09:31.805 --> 00:09:33.120
+So similar to before,
+
+145
+00:09:33.120 --> 00:09:35.735
+we now want to consider what is the third word.
+
+146
+00:09:35.735 --> 00:09:37.160
+So in September a?
+
+147
+00:09:37.160 --> 00:09:38.860
+In September Aaron?
+
+148
+00:09:38.860 --> 00:09:40.800
+All the way down to is in
+
+149
+00:09:40.800 --> 00:09:45.920
+September Zulu and to evaluate possible choices for the third word,
+
+150
+00:09:45.920 --> 00:09:49.275
+you use this network fragments where you Hardwire
+
+151
+00:09:49.275 --> 00:09:53.253
+the first word here to be in the second word to be September.
+
+152
+00:09:53.253 --> 00:09:56.280
+And so this network fragment allows you to evaluate what's
+
+153
+00:09:56.280 --> 00:09:59.940
+the probability of the third word given the input French sentence
+
+154
+00:09:59.940 --> 00:10:08.110
+X and given that the first two words are in September and English output.
+
+155
+00:10:08.110 --> 00:10:13.415
+And then you do the same thing for the second fragment.
+
+156
+00:10:13.415 --> 00:10:15.385
+So like so.
+
+157
+00:10:15.385 --> 00:10:17.930
+And same thing for
+
+158
+00:10:17.930 --> 00:10:23.265
+Jane visits and so
+
+159
+00:10:23.265 --> 00:10:25.735
+beam search will then once again pick
+
+160
+00:10:25.735 --> 00:10:29.410
+the top three possibilities may be that things in September.
+
+161
+00:10:29.410 --> 00:10:38.284
+Jane is a likely outcome or Jane is visiting is likely or maybe Jane visits
+
+162
+00:10:38.284 --> 00:10:42.820
+Africa is likely for that first three words and then it keeps
+
+163
+00:10:42.820 --> 00:10:44.680
+going and then you go onto the fourth step of
+
+164
+00:10:44.680 --> 00:10:48.300
+beam search hat one more word and on it goes.
+
+165
+00:10:48.300 --> 00:10:50.920
+And the outcome of this process hopefully will be
+
+166
+00:10:50.920 --> 00:10:54.570
+that adding one word at a time that Beam search will decide that.
+
+167
+00:10:54.570 --> 00:10:57.610
+Jane visits Africa in September will be terminated by
+
+168
+00:10:57.610 --> 00:11:02.275
+the end of sentence symbol using that system is quite common.
+
+169
+00:11:02.275 --> 00:11:06.070
+They'll find that this is a likely output English sentence
+
+170
+00:11:06.070 --> 00:11:08.690
+and you'll see more details of this yourself.
+
+171
+00:11:08.690 --> 00:11:15.420
+In this week's exercise as well where you get to play with beam search yourself.
+
+172
+00:11:15.420 --> 00:11:21.400
+So with a beam of three being searched considers three possibilities at a time.
+
+173
+00:11:21.400 --> 00:11:24.535
+Notice that if the beam width was said to be equal to one,
+
+174
+00:11:24.535 --> 00:11:26.075
+say cause there's only one,
+
+175
+00:11:26.075 --> 00:11:27.940
+then this essentially becomes
+
+176
+00:11:27.940 --> 00:11:34.450
+the greedy search algorithm which we had discussed in the last video but by considering
+
+177
+00:11:34.450 --> 00:11:38.140
+multiple possibilities say three or ten or some other number at
+
+178
+00:11:38.140 --> 00:11:40.270
+the same time beam search will usually
+
+179
+00:11:40.270 --> 00:11:43.645
+find a much better output sentence than greedy search.
+
+180
+00:11:43.645 --> 00:11:47.470
+You've now seen how Beam Search works but it turns out there's
+
+181
+00:11:47.470 --> 00:11:49.607
+some additional tips and tricks from our partners
+
+182
+00:11:49.607 --> 00:11:52.445
+that help you to make beam search work even better.
+
+183
+00:11:52.445 --> 00:11:54.210
+Let's go onto the next video to take a look.

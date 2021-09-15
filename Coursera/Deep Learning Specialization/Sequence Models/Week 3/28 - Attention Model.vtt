@@ -1,0 +1,673 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.500
+In the last video, you saw how the attention model allows
+
+2
+00:00:04.500 --> 00:00:06.780
+a neural network to pay attention to
+
+3
+00:00:06.780 --> 00:00:11.310
+only part of an input sentence while it's generating a translation,
+
+4
+00:00:11.310 --> 00:00:14.080
+much like a human translator might.
+
+5
+00:00:14.080 --> 00:00:16.470
+Let's now formalize that intuition into
+
+6
+00:00:16.470 --> 00:00:20.800
+the exact details of how you would implement an attention model.
+
+7
+00:00:20.800 --> 00:00:23.700
+So same as in the previous video,
+
+8
+00:00:23.700 --> 00:00:30.160
+let's assume you have an input sentence and you use a bidirectional RNN,
+
+9
+00:00:30.160 --> 00:00:35.775
+or bidirectional GRU, or bidirectional LSTM to compute features on every word.
+
+10
+00:00:35.775 --> 00:00:40.660
+In practice, GRUs and LSTMs are often used for this,
+
+11
+00:00:40.660 --> 00:00:43.655
+with maybe LSTMs be more common.
+
+12
+00:00:43.655 --> 00:00:46.770
+And so for the forward occurrence,
+
+13
+00:00:46.770 --> 00:00:51.625
+you have a forward occurrence first time step.
+
+14
+00:00:51.625 --> 00:00:55.140
+Activation backward occurrence, first time step.
+
+15
+00:00:55.140 --> 00:00:58.620
+Activation forward occurrence, second time step.
+
+16
+00:00:58.620 --> 00:01:02.070
+Activation backward and so on.
+
+17
+00:01:02.070 --> 00:01:09.120
+For all of them in just a forward fifth time step a backwards fifth time step.
+
+18
+00:01:09.120 --> 00:01:13.260
+We had a zero here technically we can also
+
+19
+00:01:13.260 --> 00:01:19.580
+have I guess a backwards sixth as a factor of all zero,
+
+20
+00:01:19.580 --> 00:01:22.190
+actually that's a factor of all zeroes.
+
+21
+00:01:22.190 --> 00:01:29.034
+And then to simplify the notation going forwards at every time step,
+
+22
+00:01:29.034 --> 00:01:32.030
+even though you have the features computed from
+
+23
+00:01:32.030 --> 00:01:37.850
+the forward occurrence and from the backward occurrence in the bidirectional RNN.
+
+24
+00:01:37.850 --> 00:01:46.640
+I'm just going to use a of t to represent both of these concatenated together.
+
+25
+00:01:46.640 --> 00:01:50.345
+So a of t is going to be a feature vector for
+
+26
+00:01:50.345 --> 00:01:55.300
+time step t. Although to be consistent with notation,
+
+27
+00:01:55.300 --> 00:01:58.190
+we're using second, I'm going to call this t_prime.
+
+28
+00:01:58.190 --> 00:02:04.035
+Actually, I'm going to use t_prime to index into the words in the French sentence.
+
+29
+00:02:04.035 --> 00:02:08.930
+Next, we have our forward only,
+
+30
+00:02:08.930 --> 00:02:16.255
+so it's a single direction RNN with state s to generate the translation.
+
+31
+00:02:16.255 --> 00:02:18.100
+And so the first time step,
+
+32
+00:02:18.100 --> 00:02:24.765
+it should generate y1 and just will have as input some context
+
+33
+00:02:24.765 --> 00:02:30.022
+C. And if you want to index it with time I guess you
+
+34
+00:02:30.022 --> 00:02:36.750
+could write a C1 but sometimes I just right C without the superscript one.
+
+35
+00:02:36.750 --> 00:02:43.390
+And this will depend on the attention parameters so alpha_11,
+
+36
+00:02:43.390 --> 00:02:50.960
+alpha_12 and so on tells us how much attention.
+
+37
+00:02:50.960 --> 00:02:57.610
+And so these alpha parameters tells us how much the context would depend
+
+38
+00:02:57.610 --> 00:03:01.275
+on the features we're getting or the activations we're
+
+39
+00:03:01.275 --> 00:03:05.820
+getting from the different time steps.
+
+40
+00:03:05.820 --> 00:03:10.760
+And so the way we define the context is actually be a way to some of
+
+41
+00:03:10.760 --> 00:03:16.770
+the features from the different time steps waited by these attention waits.
+
+42
+00:03:16.770 --> 00:03:25.120
+So more formally the attention waits will satisfy this that they are all be non-negative,
+
+43
+00:03:25.120 --> 00:03:29.005
+so it will be a zero positive and they'll sum to one.
+
+44
+00:03:29.005 --> 00:03:32.100
+We'll see later how to make sure this is true.
+
+45
+00:03:32.100 --> 00:03:36.690
+And we will have the context or the context at time one
+
+46
+00:03:36.690 --> 00:03:41.625
+often drop that superscript that's going to be sum over t_prime,
+
+47
+00:03:41.625 --> 00:03:45.620
+all the values of t_prime of this waited
+
+48
+00:03:45.620 --> 00:03:54.358
+sum of these activations.
+
+49
+00:03:54.358 --> 00:04:03.530
+So this term here are the attention waits and this term here comes from here.
+
+50
+00:04:03.530 --> 00:04:14.250
+So alpha(t_prime) is the amount of attention that's
+
+51
+00:04:14.250 --> 00:04:26.480
+yt should pay to a of t_prime.
+
+52
+00:04:26.480 --> 00:04:27.740
+So in other words,
+
+53
+00:04:27.740 --> 00:04:30.630
+when you're generating the t of the output words,
+
+54
+00:04:30.630 --> 00:04:35.540
+how much you should be paying attention to the t_primeth input to word.
+
+55
+00:04:35.540 --> 00:04:41.875
+So that's one step of generating the output and then at the next time step,
+
+56
+00:04:41.875 --> 00:04:47.070
+you generate the second output and is again done some of
+
+57
+00:04:47.070 --> 00:04:52.725
+where now you have a new set of attention waits on they to find a new way to sum.
+
+58
+00:04:52.725 --> 00:04:55.385
+That generates a new context.
+
+59
+00:04:55.385 --> 00:05:00.175
+This is also input and that allows you to generate the second word.
+
+60
+00:05:00.175 --> 00:05:05.930
+Only now just this way to sum becomes the context of
+
+61
+00:05:05.930 --> 00:05:12.910
+the second time step is sum over t_prime alpha(2, t_prime).
+
+62
+00:05:12.910 --> 00:05:16.500
+So using these context vectors.
+
+63
+00:05:16.500 --> 00:05:18.163
+C1 right there back,
+
+64
+00:05:18.163 --> 00:05:24.630
+C2, and so on.
+
+65
+00:05:24.630 --> 00:05:30.590
+This network up here looks like a pretty standard RNN sequence
+
+66
+00:05:30.590 --> 00:05:33.890
+with the context vectors as output and we
+
+67
+00:05:33.890 --> 00:05:37.880
+can just generate the translation one word at a time.
+
+68
+00:05:37.880 --> 00:05:42.590
+We have also define how to compute the context vectors in terms of
+
+69
+00:05:42.590 --> 00:05:46.815
+these attention ways and those features of the input sentence.
+
+70
+00:05:46.815 --> 00:05:49.220
+So the only remaining thing to do is to
+
+71
+00:05:49.220 --> 00:05:53.322
+define how to actually compute these attention waits.
+
+72
+00:05:53.322 --> 00:05:55.015
+Let's do that on the next slide.
+
+73
+00:05:55.015 --> 00:05:57.454
+So just to recap, alpha(t,
+
+74
+00:05:57.454 --> 00:06:01.065
+t_prime) is the amount of attention you should paid to
+
+75
+00:06:01.065 --> 00:06:07.225
+a(t_prime ) when you're trying to generate the t th words in the output translation.
+
+76
+00:06:07.225 --> 00:06:11.268
+So let me just write down the formula and we talk of how this works.
+
+77
+00:06:11.268 --> 00:06:14.395
+This is formula you could use the compute alpha(t,
+
+78
+00:06:14.395 --> 00:06:18.136
+t_prime) which is going to compute these terms e(t,
+
+79
+00:06:18.136 --> 00:06:21.735
+t_prime) and then use essentially a soft pass to make sure that
+
+80
+00:06:21.735 --> 00:06:25.770
+these waits sum to one if you sum over t_prime.
+
+81
+00:06:25.770 --> 00:06:28.555
+So for every fix value of t,
+
+82
+00:06:28.555 --> 00:06:34.765
+these things sum to one if you're summing over t_prime.
+
+83
+00:06:34.765 --> 00:06:38.795
+And using this soft max prioritization,
+
+84
+00:06:38.795 --> 00:06:41.405
+just ensures this properly sums to one.
+
+85
+00:06:41.405 --> 00:06:44.760
+Now how do we compute these factors e. Well,
+
+86
+00:06:44.760 --> 00:06:48.960
+one way to do so is to use a small neural network as follows.
+
+87
+00:06:48.960 --> 00:06:56.315
+So s t minus one was the neural network state from the previous time step.
+
+88
+00:06:56.315 --> 00:06:59.134
+So here is the network we have.
+
+89
+00:06:59.134 --> 00:07:04.950
+If you're trying to generate yt then st minus one was the hidden state from
+
+90
+00:07:04.950 --> 00:07:07.598
+the previous step that just fell into st
+
+91
+00:07:07.598 --> 00:07:12.005
+and that's one input to very small neural network.
+
+92
+00:07:12.005 --> 00:07:16.260
+Usually, one hidden layer in neural network because you need to compute these a lot.
+
+93
+00:07:16.260 --> 00:07:23.015
+And then a(t_prime) the features from time step t_prime is the other inputs.
+
+94
+00:07:23.015 --> 00:07:24.795
+And the intuition is,
+
+95
+00:07:24.795 --> 00:07:31.465
+if you want to decide how much attention to pay to the activation of t_prime.
+
+96
+00:07:31.465 --> 00:07:35.220
+Well, the things that seems like it should depend the most on
+
+97
+00:07:35.220 --> 00:07:39.345
+is what is your own hidden state activation from the previous time step.
+
+98
+00:07:39.345 --> 00:07:41.545
+You don't have the current state activation yet
+
+99
+00:07:41.545 --> 00:07:43.680
+because of context feeds into this so you haven't computed that.
+
+100
+00:07:43.680 --> 00:07:47.269
+But look at whatever you're hidden stages of this RNN generating
+
+101
+00:07:47.269 --> 00:07:51.260
+the upper translation and then for each of the positions,
+
+102
+00:07:51.260 --> 00:07:53.531
+each of the words look at their features.
+
+103
+00:07:53.531 --> 00:07:57.126
+So it seems pretty natural that alpha(t,
+
+104
+00:07:57.126 --> 00:08:03.015
+t_prime) and e(t, t_prime) should depend on these two quantities.
+
+105
+00:08:03.015 --> 00:08:04.820
+But we don't know what the function is.
+
+106
+00:08:04.820 --> 00:08:07.805
+So one thing you could do is just train a very small neural network
+
+107
+00:08:07.805 --> 00:08:10.710
+to learn whatever this function should be.
+
+108
+00:08:10.710 --> 00:08:18.080
+And trust that obligation trust wait and descent to learn the right function.
+
+109
+00:08:18.080 --> 00:08:21.700
+And it turns out that if you implemented
+
+110
+00:08:21.700 --> 00:08:25.660
+this whole model and train it with gradient descent,
+
+111
+00:08:25.660 --> 00:08:27.490
+the whole thing actually works.
+
+112
+00:08:27.490 --> 00:08:31.270
+This little neural network does a pretty decent job telling
+
+113
+00:08:31.270 --> 00:08:35.545
+you how much attention yt should pay to
+
+114
+00:08:35.545 --> 00:08:40.000
+a(t_prime) and this formula makes sure that
+
+115
+00:08:40.000 --> 00:08:45.713
+the attention waits sum to one and then as you chug along generating one word at a time,
+
+116
+00:08:45.713 --> 00:08:50.200
+this neural network actually pays attention to the right parts of
+
+117
+00:08:50.200 --> 00:08:54.973
+the input sentence that learns all this automatically using gradient descent.
+
+118
+00:08:54.973 --> 00:08:58.765
+Now, one downside to this algorithm is that
+
+119
+00:08:58.765 --> 00:09:03.950
+it does take quadratic time or quadratic cost to run this algorithm.
+
+120
+00:09:03.950 --> 00:09:09.550
+If you have tx words in the input and ty words in
+
+121
+00:09:09.550 --> 00:09:12.655
+the output then the total number of
+
+122
+00:09:12.655 --> 00:09:17.025
+these attention parameters are going to be tx times ty.
+
+123
+00:09:17.025 --> 00:09:21.940
+And so this algorithm runs in quadratic cost.
+
+124
+00:09:21.940 --> 00:09:26.450
+Although in machine translation applications where
+
+125
+00:09:26.450 --> 00:09:29.290
+neither input nor output sentences is
+
+126
+00:09:29.290 --> 00:09:33.430
+usually that long maybe quadratic cost is actually acceptable.
+
+127
+00:09:33.430 --> 00:09:38.230
+Although, there is some research work on trying to reduce costs as well.
+
+128
+00:09:38.230 --> 00:09:47.575
+Now, so far up in describing the attention idea in the context of machine translation.
+
+129
+00:09:47.575 --> 00:09:53.160
+Without going too much into detail this idea has been applied to other problems as well.
+
+130
+00:09:53.160 --> 00:09:55.100
+So just image captioning.
+
+131
+00:09:55.100 --> 00:09:58.420
+So in the image capturing problem the task is to
+
+132
+00:09:58.420 --> 00:10:02.155
+look at the picture and write a caption for that picture.
+
+133
+00:10:02.155 --> 00:10:06.015
+So in this paper set to the bottom by Kevin Chu,
+
+134
+00:10:06.015 --> 00:10:08.835
+Jimmy Barr, Ryan Kiros, Kelvin Shaw, Aaron Korver,
+
+135
+00:10:08.835 --> 00:10:11.190
+Russell Zarkutnov, Virta Zemo,
+
+136
+00:10:11.190 --> 00:10:16.620
+and Andrew Benjo they also showed that you could have a very similar architecture.
+
+137
+00:10:16.620 --> 00:10:21.220
+Look at the picture and pay attention only to parts
+
+138
+00:10:21.220 --> 00:10:26.500
+of the picture at a time while you're writing a caption for a picture.
+
+139
+00:10:26.500 --> 00:10:30.745
+So if you're interested, then I encourage you to take a look at that paper as well.
+
+140
+00:10:30.745 --> 00:10:36.310
+And you get to play with all this and more in the programming exercise.
+
+141
+00:10:36.310 --> 00:10:42.100
+Whereas machine translation is a very complicated problem in the prior exercise you
+
+142
+00:10:42.100 --> 00:10:44.910
+get to implement and play of the attention while you
+
+143
+00:10:44.910 --> 00:10:48.002
+yourself for the date normalization problem.
+
+144
+00:10:48.002 --> 00:10:50.625
+So the problem inputting a date like this.
+
+145
+00:10:50.625 --> 00:10:55.390
+This actually has a date of the Apollo Moon landing and normalizing it into
+
+146
+00:10:55.390 --> 00:11:01.165
+standard formats or a date like this and having a neural network a sequence,
+
+147
+00:11:01.165 --> 00:11:04.250
+sequence model normalize it to this format.
+
+148
+00:11:04.250 --> 00:11:07.710
+This by the way is the birthday of William Shakespeare.
+
+149
+00:11:07.710 --> 00:11:09.433
+Also it's believed to be.
+
+150
+00:11:09.433 --> 00:11:12.430
+And what you see in prior exercises as you can train
+
+151
+00:11:12.430 --> 00:11:15.940
+a neural network to input dates in any of
+
+152
+00:11:15.940 --> 00:11:18.975
+these formats and have it use an attention model
+
+153
+00:11:18.975 --> 00:11:23.470
+to generate a normalized format for these dates.
+
+154
+00:11:23.470 --> 00:11:26.500
+One other thing that sometimes fun to do is
+
+155
+00:11:26.500 --> 00:11:29.775
+to look at the visualizations of the attention waits.
+
+156
+00:11:29.775 --> 00:11:36.437
+So here's a machine translation example and here were plotted in different colors.
+
+157
+00:11:36.437 --> 00:11:39.605
+the magnitude of the different attention waits.
+
+158
+00:11:39.605 --> 00:11:42.865
+I don't want to spend too much time on this but you find that
+
+159
+00:11:42.865 --> 00:11:46.930
+the corresponding input and output words
+
+160
+00:11:46.930 --> 00:11:51.460
+you find that the attention waits will tend to be high.
+
+161
+00:11:51.460 --> 00:11:56.005
+Thus, suggesting that when it's generating a specific word in output is,
+
+162
+00:11:56.005 --> 00:12:01.885
+usually paying attention to the correct words in the input and all this including
+
+163
+00:12:01.885 --> 00:12:04.660
+learning where to pay attention when was all
+
+164
+00:12:04.660 --> 00:12:08.560
+learned using propagation with an attention model.
+
+165
+00:12:08.560 --> 00:12:11.310
+So that's it for the attention model
+
+166
+00:12:11.310 --> 00:12:15.255
+really one of the most powerful ideas in deep learning.
+
+167
+00:12:15.255 --> 00:12:18.153
+I hope you enjoy implementing and playing with
+
+168
+00:12:18.153 --> 00:12:22.000
+these ideas yourself later in this week's programming exercises.

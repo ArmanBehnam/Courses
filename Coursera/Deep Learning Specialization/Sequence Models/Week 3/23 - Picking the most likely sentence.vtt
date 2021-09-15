@@ -1,0 +1,585 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.525
+There are some similarities between the sequence to sequence machine translation model
+
+2
+00:00:05.525 --> 00:00:11.058
+and the language models that you have worked within the first week of this course,
+
+3
+00:00:11.058 --> 00:00:14.060
+but there are some significant differences as well.
+
+4
+00:00:14.060 --> 00:00:16.335
+Let's take a look. So, you can think of
+
+5
+00:00:16.335 --> 00:00:20.625
+machine translation as building a conditional language model.
+
+6
+00:00:20.625 --> 00:00:23.378
+Here's what I mean, in language modeling,
+
+7
+00:00:23.378 --> 00:00:27.473
+this was the network we had built in the first week.
+
+8
+00:00:27.473 --> 00:00:35.350
+And this model allows you to estimate the probability of a sentence.
+
+9
+00:00:35.350 --> 00:00:38.175
+That's what a language model does.
+
+10
+00:00:38.175 --> 00:00:42.235
+And you can also use this to generate novel sentences,
+
+11
+00:00:42.235 --> 00:00:46.450
+and sometimes when you are writing x1 and x2 here,
+
+12
+00:00:46.450 --> 00:00:47.740
+where in this example,
+
+13
+00:00:47.740 --> 00:00:53.210
+x2 would be equal to y1 or equal to y and one is just a feedback.
+
+14
+00:00:53.210 --> 00:00:56.040
+But x1, x2, and so on were not important.
+
+15
+00:00:56.040 --> 00:00:57.950
+So just to clean this up for this slide,
+
+16
+00:00:57.950 --> 00:00:59.800
+I'm going to just cross these off.
+
+17
+00:00:59.800 --> 00:01:02.660
+X1 could be the vector of all zeros and x2,
+
+18
+00:01:02.660 --> 00:01:06.995
+x3 are just the previous output you are generating.
+
+19
+00:01:06.995 --> 00:01:09.243
+So that was the language model.
+
+20
+00:01:09.243 --> 00:01:12.315
+The machine translation model looks as follows,
+
+21
+00:01:12.315 --> 00:01:14.200
+and I am going to use a couple different colors,
+
+22
+00:01:14.200 --> 00:01:17.490
+green and purple, to denote respectively
+
+23
+00:01:17.490 --> 00:01:22.369
+the coded network in green and the decoded network in purple.
+
+24
+00:01:22.369 --> 00:01:27.820
+And you notice that the decoded network looks pretty much
+
+25
+00:01:27.820 --> 00:01:33.938
+identical to the language model that we had up there.
+
+26
+00:01:33.938 --> 00:01:35.520
+So what the machine translation model is,
+
+27
+00:01:35.520 --> 00:01:38.715
+is very similar to the language model,
+
+28
+00:01:38.715 --> 00:01:43.690
+except that instead of always starting along with the vector of all zeros,
+
+29
+00:01:43.690 --> 00:01:46.385
+it instead has an encoded network
+
+30
+00:01:46.385 --> 00:01:49.960
+that figures out some representation for the input sentence,
+
+31
+00:01:49.960 --> 00:01:54.425
+and it takes that input sentence and starts off the decoded network with
+
+32
+00:01:54.425 --> 00:02:01.915
+representation of the input sentence rather than with the representation of all zeros.
+
+33
+00:02:01.915 --> 00:02:07.355
+So, that's why I call this a conditional language model,
+
+34
+00:02:07.355 --> 00:02:11.345
+and instead of modeling the probability of any sentence,
+
+35
+00:02:11.345 --> 00:02:14.790
+it is now modeling the probability of, say,
+
+36
+00:02:14.790 --> 00:02:17.490
+the output English translation,
+
+37
+00:02:17.490 --> 00:02:22.745
+conditions on some input French sentence.
+
+38
+00:02:22.745 --> 00:02:28.780
+So in other words, you're trying to estimate the probability of an English translation.
+
+39
+00:02:28.780 --> 00:02:33.795
+Like, what's the chance that the translation is "Jane is visiting Africa in September,"
+
+40
+00:02:33.795 --> 00:02:38.870
+but conditions on the input French censors like,
+
+41
+00:02:38.870 --> 00:02:42.271
+"Jane visite I'Afrique en septembre."
+
+42
+00:02:42.271 --> 00:02:46.830
+So, this is really the probability of an English sentence conditions on
+
+43
+00:02:46.830 --> 00:02:51.710
+an input French sentence which is why it is a conditional language model.
+
+44
+00:02:51.710 --> 00:02:54.830
+Now, if you want to apply this model to actually
+
+45
+00:02:54.830 --> 00:02:58.790
+translate a sentence from French into English,
+
+46
+00:02:58.790 --> 00:03:02.045
+given this input French sentence,
+
+47
+00:03:02.045 --> 00:03:05.285
+the model might tell you what is the probability
+
+48
+00:03:05.285 --> 00:03:08.550
+of difference in corresponding English translations.
+
+49
+00:03:08.550 --> 00:03:11.900
+So, x is the French sentence,
+
+50
+00:03:11.900 --> 00:03:13.669
+"Jane visite l'Afrique en septembre."
+
+51
+00:03:13.669 --> 00:03:17.330
+And, this now tells you what is the probability of
+
+52
+00:03:17.330 --> 00:03:22.058
+different English translations of that French input.
+
+53
+00:03:22.058 --> 00:03:28.235
+And, what you do not want is to sample outputs at random.
+
+54
+00:03:28.235 --> 00:03:31.970
+If you sample words from this distribution,
+
+55
+00:03:31.970 --> 00:03:36.343
+p of y given x, maybe one time you get a pretty good translation,
+
+56
+00:03:36.343 --> 00:03:38.081
+"Jane is visiting Africa in September."
+
+57
+00:03:38.081 --> 00:03:40.850
+But, maybe another time you get a different translation,
+
+58
+00:03:40.850 --> 00:03:42.770
+"Jane is going to be visiting Africa in September. "
+
+59
+00:03:42.770 --> 00:03:46.805
+Which sounds a little awkward but is not a terrible translation,
+
+60
+00:03:46.805 --> 00:03:48.120
+just not the best one.
+
+61
+00:03:48.120 --> 00:03:49.970
+And sometimes, just by chance,
+
+62
+00:03:49.970 --> 00:03:52.432
+you get, say, others: "In September,
+
+63
+00:03:52.432 --> 00:03:54.055
+Jane will visit Africa."
+
+64
+00:03:54.055 --> 00:03:55.580
+And maybe, just by chance,
+
+65
+00:03:55.580 --> 00:03:57.930
+sometimes you sample a really bad translation:
+
+66
+00:03:57.930 --> 00:04:00.055
+"Her African friend welcomed Jane in September."
+
+67
+00:04:00.055 --> 00:04:04.475
+So, when you're using this model for machine translation,
+
+68
+00:04:04.475 --> 00:04:08.810
+you're not trying to sample at random from this distribution.
+
+69
+00:04:08.810 --> 00:04:13.130
+Instead, what you would like is to find the English sentence,
+
+70
+00:04:13.130 --> 00:04:16.910
+y, that maximizes that conditional probability.
+
+71
+00:04:16.910 --> 00:04:20.660
+So in developing a machine translation system,
+
+72
+00:04:20.660 --> 00:04:25.910
+one of the things you need to do is come up with an algorithm that can actually find
+
+73
+00:04:25.910 --> 00:04:31.805
+the value of y that maximizes this term over here.
+
+74
+00:04:31.805 --> 00:04:34.810
+The most common algorithm for doing this is called beam search,
+
+75
+00:04:34.810 --> 00:04:37.565
+and it's something you'll see in the next video.
+
+76
+00:04:37.565 --> 00:04:39.730
+But, before moving on to describe beam search,
+
+77
+00:04:39.730 --> 00:04:43.700
+you might wonder, why not just use greedy search? So, what is greedy search?
+
+78
+00:04:43.700 --> 00:04:49.310
+Well, greedy search is an algorithm from computer science which says to generate
+
+79
+00:04:49.310 --> 00:04:50.960
+the first word just pick whatever is
+
+80
+00:04:50.960 --> 00:04:55.390
+the most likely first word according to your conditional language model.
+
+81
+00:04:55.390 --> 00:05:01.160
+Going to your machine translation model and then after having picked the first word,
+
+82
+00:05:01.160 --> 00:05:04.685
+you then pick whatever is the second word that seems most likely,
+
+83
+00:05:04.685 --> 00:05:07.335
+then pick the third word that seems most likely.
+
+84
+00:05:07.335 --> 00:05:10.685
+This algorithm is called greedy search.
+
+85
+00:05:10.685 --> 00:05:16.759
+And, what you would really like is to pick the entire sequence of words, y1, y2,
+
+86
+00:05:16.759 --> 00:05:21.973
+up to yTy, that's there,
+
+87
+00:05:21.973 --> 00:05:27.705
+that maximizes the joint probability of that whole thing.
+
+88
+00:05:27.705 --> 00:05:30.176
+And it turns out that the greedy approach,
+
+89
+00:05:30.176 --> 00:05:31.620
+where you just pick the best first word,
+
+90
+00:05:31.620 --> 00:05:34.280
+and then, after having picked the best first word,
+
+91
+00:05:34.280 --> 00:05:36.104
+try to pick the best second word,
+
+92
+00:05:36.104 --> 00:05:37.395
+and then, after that,
+
+93
+00:05:37.395 --> 00:05:39.318
+try to pick the best third word,
+
+94
+00:05:39.318 --> 00:05:41.545
+that approach doesn't really work.
+
+95
+00:05:41.545 --> 00:05:44.990
+To demonstrate that, let's consider the following two translations.
+
+96
+00:05:44.990 --> 00:05:46.920
+The first one is a better translation,
+
+97
+00:05:46.920 --> 00:05:50.610
+so hopefully, in our machine translation model,
+
+98
+00:05:50.610 --> 00:05:56.330
+it will say that p of y given x is higher for the first sentence.
+
+99
+00:05:56.330 --> 00:05:59.907
+It's just a better, more succinct translation of the French input.
+
+100
+00:05:59.907 --> 00:06:02.394
+The second one is not a bad translation,
+
+101
+00:06:02.394 --> 00:06:03.665
+it's just more verbose,
+
+102
+00:06:03.665 --> 00:06:05.970
+it has more unnecessary words.
+
+103
+00:06:05.970 --> 00:06:10.485
+But, if the algorithm has picked "Jane is" as the first two words,
+
+104
+00:06:10.485 --> 00:06:14.298
+because "going" is a more common English word,
+
+105
+00:06:14.298 --> 00:06:21.930
+probably the chance of "Jane is going," given the French input,
+
+106
+00:06:21.930 --> 00:06:26.610
+this might actually be higher than the chance of "Jane is
+
+107
+00:06:26.610 --> 00:06:32.710
+visiting," given the French sentence.
+
+108
+00:06:32.710 --> 00:06:35.760
+So, it's quite possible that if you just pick
+
+109
+00:06:35.760 --> 00:06:40.215
+the third word based on whatever maximizes the probability of just the first three words,
+
+110
+00:06:40.215 --> 00:06:43.670
+you end up choosing option number two.
+
+111
+00:06:43.670 --> 00:06:50.710
+But, this ultimately ends up resulting in a less optimal sentence,
+
+112
+00:06:50.710 --> 00:06:55.325
+in a less good sentence as measured by this model for p of y given
+
+113
+00:06:55.325 --> 00:07:01.280
+x. I know this was may be a slightly hand-wavey argument,
+
+114
+00:07:01.280 --> 00:07:05.110
+but, this is an example of a broader phenomenon,
+
+115
+00:07:05.110 --> 00:07:08.860
+where if you want to find the sequence of words, y1, y2,
+
+116
+00:07:08.860 --> 00:07:13.822
+all the way up to the final word that together maximize the probability,
+
+117
+00:07:13.822 --> 00:07:17.845
+it's not always optimal to just pick one word at a time.
+
+118
+00:07:17.845 --> 00:07:21.730
+And, of course, the total number of combinations of
+
+119
+00:07:21.730 --> 00:07:25.660
+words in the English sentence is exponentially larger.
+
+120
+00:07:25.660 --> 00:07:30.365
+So, if you have just 10,000 words in a dictionary and if you're
+
+121
+00:07:30.365 --> 00:07:35.211
+contemplating translations that are up to ten words long,
+
+122
+00:07:35.211 --> 00:07:42.085
+then there are 10000 to the tenth possible sentences that are ten words long.
+
+123
+00:07:42.085 --> 00:07:44.955
+Picking words from the vocabulary size,
+
+124
+00:07:44.955 --> 00:07:47.970
+the dictionary size of 10000 words.
+
+125
+00:07:47.970 --> 00:07:51.260
+So, this is just a huge space of possible sentences,
+
+126
+00:07:51.260 --> 00:07:53.455
+and it's impossible to rate them all,
+
+127
+00:07:53.455 --> 00:08:00.880
+which is why the most common thing to do is use an approximate search out of them.
+
+128
+00:08:00.880 --> 00:08:02.540
+And, what an approximate search algorithm does,
+
+129
+00:08:02.540 --> 00:08:03.724
+is it will try,
+
+130
+00:08:03.724 --> 00:08:05.135
+it won't always succeed,
+
+131
+00:08:05.135 --> 00:08:07.737
+but it will to pick the sentence, y,
+
+132
+00:08:07.737 --> 00:08:11.900
+that maximizes that conditional probability.
+
+133
+00:08:11.900 --> 00:08:16.925
+And, even though it's not guaranteed to find the value of y that maximizes this,
+
+134
+00:08:16.925 --> 00:08:19.025
+it usually does a good enough job.
+
+135
+00:08:19.025 --> 00:08:20.570
+So, to summarize, in this video,
+
+136
+00:08:20.570 --> 00:08:26.430
+you saw how machine translation can be posed as a conditional language modeling problem.
+
+137
+00:08:26.430 --> 00:08:28.880
+But one major difference between this and
+
+138
+00:08:28.880 --> 00:08:31.460
+the earlier language modeling problems is rather
+
+139
+00:08:31.460 --> 00:08:34.313
+than wanting to generate a sentence at random,
+
+140
+00:08:34.313 --> 00:08:37.910
+you may want to try to find the most likely English sentence,
+
+141
+00:08:37.910 --> 00:08:40.130
+most likely English translation.
+
+142
+00:08:40.130 --> 00:08:43.655
+But the set of all English sentences of a certain length
+
+143
+00:08:43.655 --> 00:08:47.420
+is too large to exhaustively enumerate.
+
+144
+00:08:47.420 --> 00:08:51.155
+So, we have to resort to a search algorithm.
+
+145
+00:08:51.155 --> 00:08:53.369
+So, with that, let's go onto the next video where
+
+146
+00:08:53.369 --> 00:08:56.000
+you'll learn about beam search algorithm.

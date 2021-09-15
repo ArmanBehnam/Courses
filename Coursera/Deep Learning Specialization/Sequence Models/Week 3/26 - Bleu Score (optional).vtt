@@ -1,0 +1,1020 @@
+WEBVTT
+
+1
+00:00:00.580 --> 00:00:03.503
+One of the challenges of
+machine translation is that,
+
+2
+00:00:03.503 --> 00:00:07.635
+given a French sentence, there could
+be multiple English translations that
+
+3
+00:00:07.635 --> 00:00:11.290
+are equally good translations
+of that French sentence.
+
+4
+00:00:11.290 --> 00:00:15.482
+So how do you evaluate a machine
+translation system if there are multiple
+
+5
+00:00:15.482 --> 00:00:16.856
+equally good answers,
+
+6
+00:00:16.856 --> 00:00:20.858
+unlike, say, image recognition
+where there's one right answer?
+
+7
+00:00:20.858 --> 00:00:22.430
+You just measure accuracy.
+
+8
+00:00:22.430 --> 00:00:26.118
+If there are multiple great answers,
+how do you measure accuracy?
+
+9
+00:00:26.118 --> 00:00:29.877
+The way this is done conventionally is
+through something called the BLEU score.
+
+10
+00:00:29.877 --> 00:00:33.007
+So, in this optional video,
+I want to share with you,
+
+11
+00:00:33.007 --> 00:00:36.010
+I want to give you a sense
+of how the BLEU score works.
+
+12
+00:00:37.030 --> 00:00:40.956
+Let's say you are given a French
+sentence Le chat est sur le tapis.
+
+13
+00:00:40.956 --> 00:00:46.548
+And you are given a reference,
+human generated translation of this,
+
+14
+00:00:46.548 --> 00:00:49.218
+which is the the cat is on the mat.
+
+15
+00:00:49.218 --> 00:00:51.681
+But there are multiple,
+pretty good translations of this.
+
+16
+00:00:51.681 --> 00:00:53.095
+So a different human,
+
+17
+00:00:53.095 --> 00:00:57.290
+different person might translate
+it as there is a cat on the mat.
+
+18
+00:00:57.290 --> 00:01:01.417
+And both of these are actually just
+perfectly fine translations of
+
+19
+00:01:01.417 --> 00:01:02.823
+the French sentence.
+
+20
+00:01:02.823 --> 00:01:08.714
+What the BLEU score does is given
+a machine generated translation,
+
+21
+00:01:08.714 --> 00:01:13.157
+it allows you to automatically
+compute a score that
+
+22
+00:01:13.157 --> 00:01:17.411
+measures how good is
+that machine translation.
+
+23
+00:01:20.325 --> 00:01:25.225
+And the intuition is so
+long as the machine generated translation
+
+24
+00:01:25.225 --> 00:01:29.770
+is pretty close to any of
+the references provided by humans,
+
+25
+00:01:29.770 --> 00:01:32.368
+then it will get a high BLEU score.
+
+26
+00:01:37.370 --> 00:01:42.199
+BLEU, by the way, stands for
+bilingual evaluation,
+
+27
+00:01:45.209 --> 00:01:47.470
+Understudy.
+
+28
+00:01:47.470 --> 00:01:49.090
+So in the theater world,
+
+29
+00:01:49.090 --> 00:01:53.567
+an understudy is someone that learns
+the role of a more senior actor so
+
+30
+00:01:53.567 --> 00:01:57.986
+they can take over the role of
+the more senior actor, if necessary.
+
+31
+00:01:57.986 --> 00:02:03.307
+And motivation for BLEU is that,
+whereas you could ask human
+
+32
+00:02:03.307 --> 00:02:08.421
+evaluators to evaluate
+the machine translation system,
+
+33
+00:02:08.421 --> 00:02:13.532
+the BLEU score is an understudy,
+could be a substitute for
+
+34
+00:02:13.532 --> 00:02:19.820
+having humans evaluate every output
+of a machine translation system.
+
+35
+00:02:22.344 --> 00:02:26.823
+So the BLEU score was due to
+Kishore Papineni, Salim Roukos,
+
+36
+00:02:26.823 --> 00:02:29.160
+Todd Ward, and Wei-Jing Zhu.
+
+37
+00:02:29.160 --> 00:02:33.360
+This paper has been incredibly
+influential, and is,
+
+38
+00:02:33.360 --> 00:02:36.199
+actually, quite a readable paper.
+
+39
+00:02:36.199 --> 00:02:41.921
+So I encourage you to take
+a look if you have time.
+
+40
+00:02:41.921 --> 00:02:47.048
+So, the intuition behind the BLEU
+score is we're going to look
+
+41
+00:02:47.048 --> 00:02:52.078
+at the machine generated output and
+see if the types of words it
+
+42
+00:02:52.078 --> 00:02:57.712
+generates appear in at least one
+of the human generated references.
+
+43
+00:02:57.712 --> 00:03:02.538
+And so these human generated
+references would be provided as part
+
+44
+00:03:02.538 --> 00:03:06.200
+of the depth set or
+as part of the test set.
+
+45
+00:03:06.200 --> 00:03:08.018
+Now, let's look at
+a somewhat extreme example.
+
+46
+00:03:08.018 --> 00:03:12.709
+Let's say that the machine
+translation system abbreviating
+
+47
+00:03:12.709 --> 00:03:15.080
+machine translation is MT.
+
+48
+00:03:15.080 --> 00:03:18.490
+So the machine translation, or the MT
+output, is the the the the the the the.
+
+49
+00:03:18.490 --> 00:03:22.230
+So this is clearly a pretty
+terrible translation.
+
+50
+00:03:23.440 --> 00:03:29.146
+So one way to measure how good
+the machine translation output is,
+
+51
+00:03:29.146 --> 00:03:36.115
+is to look at each the words in the output
+and see if it appears in the references.
+
+52
+00:03:36.115 --> 00:03:42.243
+And so, this would be called a precision
+of the machine translation output.
+
+53
+00:03:42.243 --> 00:03:48.860
+And in this case, there are seven words
+in the machine translation output.
+
+54
+00:03:48.860 --> 00:03:55.075
+And every one of these 7 words appears in
+either Reference 1 or Reference 2, right?
+
+55
+00:03:55.075 --> 00:03:58.584
+So the word the appears
+in both references.
+
+56
+00:03:58.584 --> 00:04:01.378
+So each of these words looks like
+a pretty good word to include.
+
+57
+00:04:01.378 --> 00:04:04.549
+So this will have a precision of 7 over 7.
+
+58
+00:04:04.549 --> 00:04:07.275
+It looks like it was a great precision.
+
+59
+00:04:07.275 --> 00:04:11.496
+So this is why the basic precision
+measure of what fraction of
+
+60
+00:04:11.496 --> 00:04:15.482
+the words in the MT output
+also appear in the references.
+
+61
+00:04:15.482 --> 00:04:17.983
+This is not a particularly useful measure,
+
+62
+00:04:17.983 --> 00:04:21.978
+because it seems to imply that this
+MT output has very high precision.
+
+63
+00:04:21.978 --> 00:04:26.913
+So instead, what we're going
+to use is a modified precision
+
+64
+00:04:26.913 --> 00:04:32.331
+measure in which we will give each
+word credit only up to the maximum
+
+65
+00:04:32.331 --> 00:04:37.270
+number of times it appears
+in the reference sentences.
+
+66
+00:04:37.270 --> 00:04:40.536
+So in Reference 1, the word,
+the, appears twice.
+
+67
+00:04:40.536 --> 00:04:44.536
+In Reference 2, the word,
+the, appears just once.
+
+68
+00:04:44.536 --> 00:04:49.870
+So 2 is bigger than 1, and so
+we're going to say that the word,
+
+69
+00:04:49.870 --> 00:04:53.090
+the, gets credit up to twice.
+
+70
+00:04:53.090 --> 00:04:58.186
+So, with a modified precision,
+we will say that,
+
+71
+00:04:58.186 --> 00:05:03.637
+it gets a score of 2 out of 7,
+because out of 7 words,
+
+72
+00:05:03.637 --> 00:05:07.920
+we'll give it a 2 credits for appearing.
+
+73
+00:05:10.360 --> 00:05:16.378
+So here, the denominator is the count
+of the number of times the word,
+
+74
+00:05:16.378 --> 00:05:19.444
+the, appears of 7 words in total.
+
+75
+00:05:19.444 --> 00:05:26.860
+And the numerator is the count of the
+number of times the word, the, appears.
+
+76
+00:05:26.860 --> 00:05:31.429
+We clip this count, we take a max,
+or we clip this count, at 2.
+
+77
+00:05:32.699 --> 00:05:35.945
+So this gives us the modified
+precision measure.
+
+78
+00:05:35.945 --> 00:05:39.470
+Now, so far,
+we've been looking at words in isolation.
+
+79
+00:05:39.470 --> 00:05:42.384
+In the BLEU score, you don't want to
+just look at isolated words.
+
+80
+00:05:42.384 --> 00:05:45.375
+You maybe want to look at
+pairs of words as well.
+
+81
+00:05:45.375 --> 00:05:50.090
+Let's define a portion of
+the BLEU score on bigrams.
+
+82
+00:05:50.090 --> 00:05:54.433
+And bigrams just means pairs of
+words appearing next to each other.
+
+83
+00:05:54.433 --> 00:06:00.492
+So now, let's see how we could use
+bigrams to define the BLEU score.
+
+84
+00:06:00.492 --> 00:06:04.620
+And this will just be a portion
+of the final BLEU score.
+
+85
+00:06:04.620 --> 00:06:09.573
+And we'll take unigrams, or single words,
+as well as bigrams, which means pairs
+
+86
+00:06:09.573 --> 00:06:13.748
+of words into account as well as
+maybe even longer sequences of words,
+
+87
+00:06:13.748 --> 00:06:17.523
+such as trigrams,
+which means three words pairing together.
+
+88
+00:06:17.523 --> 00:06:21.907
+So, let's continue our
+example from before.
+
+89
+00:06:21.907 --> 00:06:24.787
+We have to same Reference 1 and
+Reference 2.
+
+90
+00:06:24.787 --> 00:06:27.577
+But now let's say
+the machine translation or
+
+91
+00:06:27.577 --> 00:06:30.430
+the MT System has
+a slightly better output.
+
+92
+00:06:30.430 --> 00:06:31.254
+The cat the cat on the mat.
+
+93
+00:06:31.254 --> 00:06:34.580
+Still not a great translation, but
+maybe better than the last one.
+
+94
+00:06:36.260 --> 00:06:41.482
+So here, the possible bigrams are,
+well there's the cat, but ignore case.
+
+95
+00:06:41.482 --> 00:06:45.790
+And then there's cat the,
+that's another bigram.
+
+96
+00:06:45.790 --> 00:06:50.916
+And then there's the cat again, but
+I've already had that, so let's skip that.
+
+97
+00:06:50.916 --> 00:06:53.804
+And then cat on is the next one.
+
+98
+00:06:53.804 --> 00:06:55.890
+And then on the, and the mat.
+
+99
+00:06:55.890 --> 00:06:58.207
+So these are the bigrams in
+the machine translation output.
+
+100
+00:07:03.760 --> 00:07:10.261
+And so let's count up, How many
+times each of these bigrams appear.
+
+101
+00:07:10.261 --> 00:07:16.390
+The cat appears twice, cat the appears
+once, and the others all appear just once.
+
+102
+00:07:17.830 --> 00:07:25.426
+And then finally, let's define the clipped
+count, so count, and then subscript clip.
+
+103
+00:07:25.426 --> 00:07:29.901
+And to define that,
+let's take this column of numbers, but
+
+104
+00:07:29.901 --> 00:07:34.553
+give our algorithm credit only up
+to the maximum number of times
+
+105
+00:07:34.553 --> 00:07:39.410
+that that bigram appears in either
+Reference 1 or Reference 2.
+
+106
+00:07:39.410 --> 00:07:45.335
+So the cat appears a maximum of
+once in either of the references.
+
+107
+00:07:45.335 --> 00:07:48.055
+So I'm going to clip that count to 1.
+
+108
+00:07:48.055 --> 00:07:52.951
+Cat the, well, it doesn't appear
+in Reference 1 or Reference 2, so
+
+109
+00:07:52.951 --> 00:07:54.182
+I clip that to 0.
+
+110
+00:07:54.182 --> 00:07:56.550
+Cat on, yep, that appears once.
+
+111
+00:07:56.550 --> 00:07:58.145
+We give it credit for once.
+
+112
+00:07:58.145 --> 00:08:02.576
+On the appears once, give that credit for
+once, and the mat appears once.
+
+113
+00:08:02.576 --> 00:08:03.983
+So these are the clipped counts.
+
+114
+00:08:03.983 --> 00:08:09.640
+We're taking all the counts and clipping
+them, really reducing them to be no
+
+115
+00:08:09.640 --> 00:08:15.750
+more than the number of times that bigram
+appears in at least one of the references.
+
+116
+00:08:19.360 --> 00:08:20.974
+And then, finally,
+
+117
+00:08:20.974 --> 00:08:26.099
+our modified bigram precision will
+be the sum of the count clipped.
+
+118
+00:08:26.099 --> 00:08:32.167
+So that's 1, 2, 3,
+4 divided by the total number of bigrams.
+
+119
+00:08:32.167 --> 00:08:36.786
+That's 2, 3, 4, 5, 6, so 4 out of 6 or
+
+120
+00:08:36.786 --> 00:08:41.870
+two-thirds is the modified
+precision on bigrams.
+
+121
+00:08:43.714 --> 00:08:47.096
+So let's just formalize
+this a little bit further.
+
+122
+00:08:47.096 --> 00:08:51.661
+With what we had developed on unigrams,
+
+123
+00:08:51.661 --> 00:09:00.270
+we defined this modified precision
+computed on unigrams as P subscript 1.
+
+124
+00:09:00.270 --> 00:09:01.920
+The P stands for precision and
+
+125
+00:09:01.920 --> 00:09:05.487
+the subscript 1 here means that
+we're referring to unigrams.
+
+126
+00:09:05.487 --> 00:09:09.804
+But that is defined as
+sum over the unigrams.
+
+127
+00:09:09.804 --> 00:09:16.350
+So that just means sum over the words that
+appear in the machine translation output.
+
+128
+00:09:16.350 --> 00:09:25.003
+So this is called y hat of count clip,
+Of that unigram.
+
+129
+00:09:29.080 --> 00:09:37.592
+Divided by sum of our unigrams in
+the machine translation output of count,
+
+130
+00:09:37.592 --> 00:09:42.469
+number of counts of that unigram, right?
+
+131
+00:09:42.469 --> 00:09:47.783
+And so this is what we had gotten I guess
+
+132
+00:09:47.783 --> 00:09:52.275
+is 2 out of 7, 2 slides back.
+
+133
+00:09:52.275 --> 00:09:54.633
+So the 1 here refers to unigram,
+
+134
+00:09:54.633 --> 00:09:58.520
+meaning we're looking at
+single words in isolation.
+
+135
+00:09:58.520 --> 00:10:04.821
+You can also define Pn
+as the n-gram version,
+
+136
+00:10:07.074 --> 00:10:10.967
+Instead of unigram, for n-gram.
+
+137
+00:10:10.967 --> 00:10:16.654
+So this would be sum over the n-grams
+
+138
+00:10:16.654 --> 00:10:21.974
+in the machine translation output
+
+139
+00:10:21.974 --> 00:10:28.028
+of count clip of that n-gram divided by
+
+140
+00:10:28.028 --> 00:10:35.374
+sum over n-grams of
+the count of that n-gram.
+
+141
+00:10:40.801 --> 00:10:46.244
+And so these precisions, or
+these modified precision scores,
+
+142
+00:10:46.244 --> 00:10:52.188
+measured on unigrams or on bigrams,
+which we did on a previous slide,
+
+143
+00:10:52.188 --> 00:10:56.016
+or on trigrams,
+which are triples of words,
+
+144
+00:10:56.016 --> 00:11:00.010
+or even higher values of n for
+other n-grams.
+
+145
+00:11:00.010 --> 00:11:04.910
+This allows you to measure the degree
+to which the machine translation
+
+146
+00:11:04.910 --> 00:11:08.991
+output is similar or
+maybe overlaps with the references.
+
+147
+00:11:14.268 --> 00:11:19.100
+And one thing that you could probably
+convince yourself of is if the MT
+
+148
+00:11:19.100 --> 00:11:23.765
+output is exactly the same as
+either Reference 1 or Reference 2,
+
+149
+00:11:23.765 --> 00:11:29.462
+then all of these values P1, and P2 and
+so on, they'll all be equal to 1.0.
+
+150
+00:11:29.462 --> 00:11:32.375
+So to get a modified precision of 1.0,
+
+151
+00:11:32.375 --> 00:11:36.465
+you just have to be exactly
+equal to one of the references.
+
+152
+00:11:36.465 --> 00:11:41.249
+And sometimes it's possible to
+achieve this even if you aren't
+
+153
+00:11:41.249 --> 00:11:44.445
+exactly the same as any of the references.
+
+154
+00:11:44.445 --> 00:11:48.970
+But you kind of combine them
+in a way that hopefully still
+
+155
+00:11:48.970 --> 00:11:51.580
+results in a good translation.
+
+156
+00:11:57.235 --> 00:12:06.754
+Finally, Finally,
+
+157
+00:12:06.754 --> 00:12:11.338
+let's put this together to
+form the final BLEU score.
+
+158
+00:12:11.338 --> 00:12:16.997
+So P subscript n is the BLEU
+score computed on n-grams only.
+
+159
+00:12:16.997 --> 00:12:22.806
+Also the modified precision
+computed on n-grams only.
+
+160
+00:12:22.806 --> 00:12:28.222
+And by convention to compute one number,
+you compute P1,
+
+161
+00:12:28.222 --> 00:12:35.173
+P2, P3 and P4, and combine them
+together using the following formula.
+
+162
+00:12:35.173 --> 00:12:41.415
+It's going to be the average, so sum from
+n = 1 to 4 of Pn and divide that by 4.
+
+163
+00:12:41.415 --> 00:12:44.475
+So basically taking the average.
+
+164
+00:12:45.525 --> 00:12:51.095
+By convention the BLEU score is defined
+as, e to the this, then exponentiations,
+
+165
+00:12:51.095 --> 00:12:56.271
+and linear operate, exponentiation
+is strictly monotonically increasing
+
+166
+00:12:56.271 --> 00:13:01.385
+operation and then we actually adjust
+this with one more factor called the,
+
+167
+00:13:06.935 --> 00:13:09.770
+BP penalty.
+
+168
+00:13:09.770 --> 00:13:19.354
+So BP, Stands
+
+169
+00:13:19.354 --> 00:13:23.222
+for brevity penalty.
+
+170
+00:13:23.222 --> 00:13:26.000
+The details maybe aren't super important.
+
+171
+00:13:26.000 --> 00:13:30.217
+But to just give you a sense,
+it turns out that if you output very short
+
+172
+00:13:30.217 --> 00:13:33.518
+translations, it's easier
+to get high precision.
+
+173
+00:13:33.518 --> 00:13:39.300
+Because probably most of the words
+you output appear in the references.
+
+174
+00:13:40.300 --> 00:13:42.983
+But we don't want translations
+that are very short.
+
+175
+00:13:42.983 --> 00:13:47.622
+So the BP, or the brevity penalty,
+is an adjustment factor that penalizes
+
+176
+00:13:47.622 --> 00:13:52.380
+translation systems that output
+translations that are too short.
+
+177
+00:13:52.380 --> 00:13:55.686
+So the formula for
+the brevity penalty is the following.
+
+178
+00:13:55.686 --> 00:14:01.259
+It's equal to 1 if your machine
+translation system actually outputs
+
+179
+00:14:01.259 --> 00:14:06.745
+things that are longer than the human
+generated reference outputs.
+
+180
+00:14:06.745 --> 00:14:11.483
+And otherwise is some
+formula like that that
+
+181
+00:14:11.483 --> 00:14:16.229
+overall penalizes shorter translations.
+
+182
+00:14:19.269 --> 00:14:24.373
+So, in the details you
+can find in this paper.
+
+183
+00:14:24.373 --> 00:14:27.784
+So, once again,
+earlier in this set of courses,
+
+184
+00:14:27.784 --> 00:14:32.840
+you saw the importance of having
+a single real number evaluation metric.
+
+185
+00:14:32.840 --> 00:14:36.560
+Because it allows you to try out two
+ideas, see which one achieves a higher
+
+186
+00:14:36.560 --> 00:14:40.280
+score, and then try to stick with
+the one that achieved the higher score.
+
+187
+00:14:40.280 --> 00:14:43.169
+So the reason the BLEU
+score was revolutionary for
+
+188
+00:14:43.169 --> 00:14:47.983
+machine translation was because this gave
+a pretty good, by no means perfect, but
+
+189
+00:14:47.983 --> 00:14:51.040
+pretty good single real
+number evaluation metric.
+
+190
+00:14:51.040 --> 00:14:56.700
+And so that accelerated the progress of
+the entire field of machine translation.
+
+191
+00:14:56.700 --> 00:15:00.115
+I hope this video gave you a sense
+of how the BLEU score works.
+
+192
+00:15:00.115 --> 00:15:04.324
+In practice, few people would
+implement a BLEU score from scratch.
+
+193
+00:15:04.324 --> 00:15:07.689
+There are open source implementations
+that you can download and
+
+194
+00:15:07.689 --> 00:15:09.689
+just use to evaluate your own system.
+
+195
+00:15:09.689 --> 00:15:14.525
+But today, BLEU score is used to evaluate
+many systems that generate text,
+
+196
+00:15:14.525 --> 00:15:19.437
+such as machine translation systems,
+as well as the example I showed briefly
+
+197
+00:15:19.437 --> 00:15:23.745
+earlier of image captioning systems
+where you would have a system,
+
+198
+00:15:23.745 --> 00:15:26.868
+have a neural network
+generated image caption.
+
+199
+00:15:26.868 --> 00:15:31.550
+And then use the BLEU score to see how
+much that overlaps with maybe a reference
+
+200
+00:15:31.550 --> 00:15:35.960
+caption or multiple reference captions
+that were generated by people.
+
+201
+00:15:35.960 --> 00:15:40.556
+So the BLEU score is a useful single
+real number evaluation metric to use
+
+202
+00:15:40.556 --> 00:15:44.548
+whenever you want your algorithm
+to generate a piece of text.
+
+203
+00:15:44.548 --> 00:15:49.402
+And you want to see whether it has
+similar meaning as a reference
+
+204
+00:15:49.402 --> 00:15:52.160
+piece of text generated by humans.
+
+205
+00:15:52.160 --> 00:15:55.731
+This is not used for speech recognition,
+because in speech recognition,
+
+206
+00:15:55.731 --> 00:15:57.496
+there's usually one ground truth.
+
+207
+00:15:57.496 --> 00:16:02.072
+And you just use other measures to see
+if you got the speech transcription on
+
+208
+00:16:02.072 --> 00:16:04.913
+pretty much, exactly word for
+word correct.
+
+209
+00:16:04.913 --> 00:16:08.687
+But for things like image captioning,
+and multiple captions for a picture,
+
+210
+00:16:08.687 --> 00:16:11.730
+it could be about equally good or
+for machine translations.
+
+211
+00:16:11.730 --> 00:16:14.121
+There are multiple translations,
+but equally good.
+
+212
+00:16:14.121 --> 00:16:18.333
+The BLEU score gives you a way to
+evaluate that automatically and
+
+213
+00:16:18.333 --> 00:16:21.460
+therefore speed up your development.
+
+214
+00:16:21.460 --> 00:16:25.551
+So with that, I hope you have
+a sense of how the BLEU score works.

@@ -1,0 +1,545 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.645
+One of the most exciting developments were sequence-to-sequence
+
+2
+00:00:03.645 --> 00:00:08.780
+models has been the rise of very accurate speech recognition.
+
+3
+00:00:08.780 --> 00:00:10.140
+We're nearing the end of the course,
+
+4
+00:00:10.140 --> 00:00:13.800
+we want to take just a couple of videos to give you a sense of how
+
+5
+00:00:13.800 --> 00:00:19.195
+these sequence-to-sequence models are applied to audio data, such as the speech.
+
+6
+00:00:19.195 --> 00:00:22.110
+So, what is the speech recognition problem?
+
+7
+00:00:22.110 --> 00:00:24.505
+You're given an audio clip, x,
+
+8
+00:00:24.505 --> 00:00:31.058
+and your job is to automatically find a text transcript, y.
+
+9
+00:00:31.058 --> 00:00:32.565
+So, an audio clip,
+
+10
+00:00:32.565 --> 00:00:34.649
+if you plot it looks like this,
+
+11
+00:00:34.649 --> 00:00:37.211
+the horizontal axis here is time,
+
+12
+00:00:37.211 --> 00:00:43.313
+and what a microphone does is it really measures minuscule changes in air pressure,
+
+13
+00:00:43.313 --> 00:00:46.470
+and the way you're hearing my voice right now is that
+
+14
+00:00:46.470 --> 00:00:50.130
+your ear is detecting little changes in air pressure,
+
+15
+00:00:50.130 --> 00:00:55.065
+probably generated either by your speakers or by a headset.
+
+16
+00:00:55.065 --> 00:01:01.145
+And some audio clips like this plots with the air pressure against time.
+
+17
+00:01:01.145 --> 00:01:06.192
+And, if this audio clip is of me saying,
+
+18
+00:01:06.192 --> 00:01:08.835
+"the quick brown fox", then hopefully,
+
+19
+00:01:08.835 --> 00:01:14.175
+a speech recognition algorithm can input that audio clip and output that transcript.
+
+20
+00:01:14.175 --> 00:01:18.398
+And because even the human ear doesn't process raw wave forms,
+
+21
+00:01:18.398 --> 00:01:21.090
+but the human ear has physical structures that
+
+22
+00:01:21.090 --> 00:01:25.183
+measures the amounts of intensity of different frequencies,
+
+23
+00:01:25.183 --> 00:01:29.745
+there is, a common pre-processing step for audio data
+
+24
+00:01:29.745 --> 00:01:34.985
+is to run your raw audio clip and generate a spectrogram.
+
+25
+00:01:34.985 --> 00:01:39.100
+So, this is the plots where the horizontal axis is time,
+
+26
+00:01:39.100 --> 00:01:42.390
+and the vertical axis is frequencies,
+
+27
+00:01:42.390 --> 00:01:46.820
+and intensity of different colors shows the amount of energy.
+
+28
+00:01:46.820 --> 00:01:51.385
+So, how loud is the sound at different frequencies? At different times?
+
+29
+00:01:51.385 --> 00:01:55.390
+And so, these types of spectrograms,
+
+30
+00:01:55.390 --> 00:01:58.810
+or you might also hear people talk about false back outputs,
+
+31
+00:01:58.810 --> 00:02:01.870
+is often commonly applied
+
+32
+00:02:01.870 --> 00:02:06.470
+pre-processing step before audio is pass into in the running algorithm.
+
+33
+00:02:06.470 --> 00:02:12.990
+And the human ear does a computation pretty similar to this pre-processing step.
+
+34
+00:02:12.990 --> 00:02:18.164
+So, one of the most exciting trends in speech recognition is that,
+
+35
+00:02:18.164 --> 00:02:19.735
+once upon a time,
+
+36
+00:02:19.735 --> 00:02:27.072
+speech recognition systems used to be built using phonemes and this where,
+
+37
+00:02:27.072 --> 00:02:31.135
+I want to say hand-engineered basic units of cells.
+
+38
+00:02:31.135 --> 00:02:34.175
+So, the quick brown fox represented as phonemes.
+
+39
+00:02:34.175 --> 00:02:36.074
+I'm going to simplify a bit, let say,
+
+40
+00:02:36.074 --> 00:02:38.960
+"The" has a "de" and "e" sound and Quick,
+
+41
+00:02:38.960 --> 00:02:42.578
+has a "ku" and "wu", "ik", "k" sound,
+
+42
+00:02:42.578 --> 00:02:46.270
+and linguist used to write off these basic units of sound,
+
+43
+00:02:46.270 --> 00:02:50.293
+and try the Greek language down to these basic units of sound.
+
+44
+00:02:50.293 --> 00:02:52.670
+So, brown, this aren't
+
+45
+00:02:52.670 --> 00:02:57.400
+the official phonemes which are written with more complicated notation,
+
+46
+00:02:57.400 --> 00:03:02.620
+but linguists use to hypothesize that writing down audio in terms of
+
+47
+00:03:02.620 --> 00:03:04.475
+these basic units of sound called
+
+48
+00:03:04.475 --> 00:03:08.290
+phonemes would be the best way to do speech recognition.
+
+49
+00:03:08.290 --> 00:03:10.776
+But with end-to-end deep learning,
+
+50
+00:03:10.776 --> 00:03:15.505
+we're finding that phonemes representations are no longer necessary.
+
+51
+00:03:15.505 --> 00:03:21.010
+But instead, you can built systems that input an audio clip and directly
+
+52
+00:03:21.010 --> 00:03:27.795
+output a transcript without needing to use hand-engineered representations like these.
+
+53
+00:03:27.795 --> 00:03:33.420
+One of the things that made this possible was going to much larger data sets.
+
+54
+00:03:33.420 --> 00:03:43.425
+So, academic data sets on speech recognition might be as a 300 hours, and in academia,
+
+55
+00:03:43.425 --> 00:03:49.220
+3000 hour data sets of transcribed audio would be considered reasonable size,
+
+56
+00:03:49.220 --> 00:03:50.965
+so lot of research has been done,
+
+57
+00:03:50.965 --> 00:03:56.065
+a lot of research papers that are written on data sets there are several thousand voice.
+
+58
+00:03:56.065 --> 00:03:59.890
+But, the best commercial systems are now trains
+
+59
+00:03:59.890 --> 00:04:04.681
+on over 10,000 hours and sometimes over a 100,000 hours of audio.
+
+60
+00:04:04.681 --> 00:04:10.325
+And, it's really moving to a much larger audio data sets,
+
+61
+00:04:10.325 --> 00:04:12.925
+transcribe audio data sets were both x and y,
+
+62
+00:04:12.925 --> 00:04:15.487
+together with deep learning algorithm,
+
+63
+00:04:15.487 --> 00:04:18.745
+that has driven a lot of progress is speech recognition.
+
+64
+00:04:18.745 --> 00:04:22.310
+So, how do you build a speech recognition system?
+
+65
+00:04:22.310 --> 00:04:23.634
+In the last video,
+
+66
+00:04:23.634 --> 00:04:25.870
+we're talking about the attention model.
+
+67
+00:04:25.870 --> 00:04:28.768
+So, one thing you could do is actually do that,
+
+68
+00:04:28.768 --> 00:04:30.655
+where on the horizontal axis,
+
+69
+00:04:30.655 --> 00:04:34.604
+you take in different time frames of the audio input,
+
+70
+00:04:34.604 --> 00:04:38.905
+and then you have an attention model try to output the transcript like,
+
+71
+00:04:38.905 --> 00:04:40.975
+"the quick brown fox",
+
+72
+00:04:40.975 --> 00:04:42.873
+or what it was said.
+
+73
+00:04:42.873 --> 00:04:47.933
+One other method that seems to work well is to use the CTC cost for speech recognition.
+
+74
+00:04:47.933 --> 00:04:53.540
+CTC stands for Connection is Temporal Classification and is due to Alex Graves,
+
+75
+00:04:53.540 --> 00:04:57.220
+Santiago Fernandes, Faustino Gomez, and Jürgen Schmidhuber.
+
+76
+00:04:57.220 --> 00:05:01.398
+So, here's the idea. Let's say the audio clip was someone saying,
+
+77
+00:05:01.398 --> 00:05:02.915
+"the quick brown fox".
+
+78
+00:05:02.915 --> 00:05:07.090
+We're going to use a new network structured
+
+79
+00:05:07.090 --> 00:05:11.460
+like this with an equal number of input x's and output y's,
+
+80
+00:05:11.460 --> 00:05:17.350
+and I have drawn a simple of what uni-directional for the RNN for this, but in practice,
+
+81
+00:05:17.350 --> 00:05:20.518
+this will usually be a bidirectional LSP and
+
+82
+00:05:20.518 --> 00:05:23.847
+bidirectional GIU and usually, a deeper model.
+
+83
+00:05:23.847 --> 00:05:30.280
+But notice that the number of time steps here is very large and in speech recognition,
+
+84
+00:05:30.280 --> 00:05:32.950
+usually the number of input time steps is much
+
+85
+00:05:32.950 --> 00:05:35.790
+bigger than the number of output time steps.
+
+86
+00:05:35.790 --> 00:05:39.940
+So, for example, if you have 10 seconds of audio and your features
+
+87
+00:05:39.940 --> 00:05:44.437
+come at a 100 hertz so 100 samples per second,
+
+88
+00:05:44.437 --> 00:05:48.750
+then a 10 second audio clip would end up with a thousand inputs.
+
+89
+00:05:48.750 --> 00:05:51.050
+Right, so it's 100 hertz times 10 seconds,
+
+90
+00:05:51.050 --> 00:05:53.553
+and so with a thousand inputs.
+
+91
+00:05:53.553 --> 00:05:56.828
+But your output might not have a thousand alphabets,
+
+92
+00:05:56.828 --> 00:05:59.910
+might not have a thousand characters.
+
+93
+00:05:59.910 --> 00:06:01.790
+So, what do you do?
+
+94
+00:06:01.790 --> 00:06:08.788
+The CTC cost function allows the RNN to generate an output like this ttt,
+
+95
+00:06:08.788 --> 00:06:10.810
+there's a special character called
+
+96
+00:06:10.810 --> 00:06:12.860
+the blank character, which we're going to write as an underscore here,
+
+97
+00:06:12.860 --> 00:06:22.645
+h_eee___, and then maybe a space,
+
+98
+00:06:22.645 --> 00:06:32.995
+we're going to write like this, so that a space and then ___ qqq__.
+
+99
+00:06:32.995 --> 00:06:40.615
+And, this is considered a correct output for the first parts of the space,
+
+100
+00:06:40.615 --> 00:06:42.345
+quick with the Q,
+
+101
+00:06:42.345 --> 00:06:46.460
+and the basic rule for the CTC cost function is to collapse
+
+102
+00:06:46.460 --> 00:06:51.488
+repeated characters not separated by "blank".
+
+103
+00:06:51.488 --> 00:06:52.956
+So, to be clear,
+
+104
+00:06:52.956 --> 00:06:55.135
+I'm using this underscore to denote
+
+105
+00:06:55.135 --> 00:07:01.620
+a special blank character and that's different than the space character.
+
+106
+00:07:01.620 --> 00:07:05.181
+So, there is a space here between the and quick,
+
+107
+00:07:05.181 --> 00:07:07.025
+so I should output a space.
+
+108
+00:07:07.025 --> 00:07:09.605
+But, by collapsing repeated characters,
+
+109
+00:07:09.605 --> 00:07:11.025
+not separated by blank,
+
+110
+00:07:11.025 --> 00:07:18.142
+it actually collapse the sequence into t, h,
+
+111
+00:07:18.142 --> 00:07:20.686
+e, and then space, and q,
+
+112
+00:07:20.686 --> 00:07:26.400
+and this allows your network
+
+113
+00:07:26.400 --> 00:07:31.380
+to have a thousand outputs by repeating characters allow the times.
+
+114
+00:07:31.380 --> 00:07:34.830
+So, inserting a bunch of blank characters and still ends
+
+115
+00:07:34.830 --> 00:07:38.990
+up with a much shorter output text transcript.
+
+116
+00:07:38.990 --> 00:07:42.150
+So, this phrase here "the quick brown fox" including spaces
+
+117
+00:07:42.150 --> 00:07:46.140
+actually has 19 characters, and if somehow,
+
+118
+00:07:46.140 --> 00:07:48.090
+the newer network is forced upwards of
+
+119
+00:07:48.090 --> 00:07:52.714
+a thousand characters by allowing the network to insert blanks and
+
+120
+00:07:52.714 --> 00:07:55.171
+repeated characters and can still represent
+
+121
+00:07:55.171 --> 00:08:00.480
+this 19 character upwards with this 1000 outputs of values of Y.
+
+122
+00:08:00.480 --> 00:08:03.615
+So, this paper by Alex Grace,
+
+123
+00:08:03.615 --> 00:08:08.323
+as well as by those deep speech recognition system,
+
+124
+00:08:08.323 --> 00:08:10.120
+which I was involved in,
+
+125
+00:08:10.120 --> 00:08:14.190
+used this idea to build effective Speech recognition systems.
+
+126
+00:08:14.190 --> 00:08:19.935
+So, I hope that gives you a rough sense of how speech recognition models work.
+
+127
+00:08:19.935 --> 00:08:23.415
+Attention like models work and CTC models work and
+
+128
+00:08:23.415 --> 00:08:27.430
+present two different options of how to go about building these systems.
+
+129
+00:08:27.430 --> 00:08:30.400
+Now, today, building effective where
+
+130
+00:08:30.400 --> 00:08:33.330
+production skills speech recognition system is
+
+131
+00:08:33.330 --> 00:08:37.585
+a pretty significant effort and requires a very large data set.
+
+132
+00:08:37.585 --> 00:08:40.688
+But, what I like to do in the next video is share you,
+
+133
+00:08:40.688 --> 00:08:43.610
+how you can build a trigger word detection system,
+
+134
+00:08:43.610 --> 00:08:47.115
+where keyword detection system which is actually much easier and can
+
+135
+00:08:47.115 --> 00:08:50.995
+be done with even a smaller or more reasonable amount of data.
+
+136
+00:08:50.995 --> 00:08:53.000
+So, let's talk about that in the next video.
