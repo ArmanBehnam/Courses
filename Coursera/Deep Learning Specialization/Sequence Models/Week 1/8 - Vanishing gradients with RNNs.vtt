@@ -1,0 +1,461 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.420
+You've learned about how RNNs work and how they
+
+2
+00:00:03.420 --> 00:00:06.840
+can be applied to problems like name entity recognition,
+
+3
+00:00:06.840 --> 00:00:09.537
+as well as to language modeling,
+
+4
+00:00:09.537 --> 00:00:12.330
+and you saw how backpropagation can be used to train in RNN.
+
+5
+00:00:12.330 --> 00:00:15.400
+It turns out that one of the problems with
+
+6
+00:00:15.400 --> 00:00:20.660
+a basic RNN algorithm is that it runs into vanishing gradient problems.
+
+7
+00:00:20.660 --> 00:00:23.245
+Let's discuss that, and then in the next few videos,
+
+8
+00:00:23.245 --> 00:00:27.102
+we'll talk about some solutions that will help to address this problem.
+
+9
+00:00:27.102 --> 00:00:30.710
+So, you've seen pictures of RNNS that look like this.
+
+10
+00:00:30.710 --> 00:00:34.585
+And let's take a language modeling example.
+
+11
+00:00:34.585 --> 00:00:36.975
+Let's say you see this sentence,
+
+12
+00:00:36.975 --> 00:00:45.400
+"The cat which already ate and maybe already ate a bunch of food that was delicious dot,
+
+13
+00:00:45.400 --> 00:00:50.033
+dot, dot, dot, was full."
+
+14
+00:00:50.033 --> 00:00:52.280
+And so, to be consistent,
+
+15
+00:00:52.280 --> 00:00:53.540
+just because cat is singular,
+
+16
+00:00:53.540 --> 00:00:56.300
+it should be the cat was, were then was,
+
+17
+00:00:56.300 --> 00:01:01.665
+"The cats which already ate a bunch of food was delicious,
+
+18
+00:01:01.665 --> 00:01:02.730
+and apples, and pears,
+
+19
+00:01:02.730 --> 00:01:06.930
+and so on, were full."
+
+20
+00:01:06.930 --> 00:01:08.100
+So to be consistent,
+
+21
+00:01:08.100 --> 00:01:14.381
+it should be cat was or cats were.
+
+22
+00:01:14.381 --> 00:01:19.285
+And this is one example of when language can have very long-term dependencies,
+
+23
+00:01:19.285 --> 00:01:22.020
+where it worked at this much earlier can
+
+24
+00:01:22.020 --> 00:01:26.435
+affect what needs to come much later in the sentence.
+
+25
+00:01:26.435 --> 00:01:29.610
+But it turns out the basics RNN we've seen so far it's not
+
+26
+00:01:29.610 --> 00:01:33.355
+very good at capturing very long-term dependencies.
+
+27
+00:01:33.355 --> 00:01:36.465
+To explain why, you might remember from
+
+28
+00:01:36.465 --> 00:01:40.035
+our early discussions of training very deep neural networks,
+
+29
+00:01:40.035 --> 00:01:43.590
+that we talked about the vanishing gradients problem.
+
+30
+00:01:43.590 --> 00:01:46.040
+So this is a very, very deep neural network say,
+
+31
+00:01:46.040 --> 00:01:51.720
+100 layers or even much deeper than you would carry out forward prop,
+
+32
+00:01:51.720 --> 00:01:54.311
+from left to right and then back prop.
+
+33
+00:01:54.311 --> 00:01:57.315
+And we said that, if this is a very deep neural network,
+
+34
+00:01:57.315 --> 00:01:59.530
+then the gradient from just output y,
+
+35
+00:01:59.530 --> 00:02:02.460
+would have a very hard time propagating back to
+
+36
+00:02:02.460 --> 00:02:05.550
+affect the weights of these earlier layers,
+
+37
+00:02:05.550 --> 00:02:07.865
+to affect the computations in the earlier layers.
+
+38
+00:02:07.865 --> 00:02:10.545
+And for an RNN with a similar problem,
+
+39
+00:02:10.545 --> 00:02:13.560
+you have forward prop came from left to right,
+
+40
+00:02:13.560 --> 00:02:14.985
+and then back prop,
+
+41
+00:02:14.985 --> 00:02:18.160
+going from right to left.
+
+42
+00:02:18.160 --> 00:02:20.560
+And it can be quite difficult,
+
+43
+00:02:20.560 --> 00:02:23.020
+because of the same vanishing gradients problem,
+
+44
+00:02:23.020 --> 00:02:26.500
+for the outputs of the errors associated with
+
+45
+00:02:26.500 --> 00:02:32.685
+the later time steps to affect the computations that are earlier.
+
+46
+00:02:32.685 --> 00:02:34.675
+And so in practice, what this means is,
+
+47
+00:02:34.675 --> 00:02:38.140
+it might be difficult to get a neural network to realize that it needs
+
+48
+00:02:38.140 --> 00:02:41.759
+to memorize the just see a singular noun or a plural noun,
+
+49
+00:02:41.759 --> 00:02:45.715
+so that later on in the sequence that can generate either was or were,
+
+50
+00:02:45.715 --> 00:02:49.435
+depending on whether it was singular or plural.
+
+51
+00:02:49.435 --> 00:02:50.975
+And notice that in English,
+
+52
+00:02:50.975 --> 00:02:53.910
+this stuff in the middle could be arbitrarily long, right?
+
+53
+00:02:53.910 --> 00:02:58.030
+So you might need to memorize the singular/plural for
+
+54
+00:02:58.030 --> 00:03:04.227
+a very long time before you get to use that bit of information.
+
+55
+00:03:04.227 --> 00:03:06.185
+So because of this problem,
+
+56
+00:03:06.185 --> 00:03:10.240
+the basic RNN model has many local influences,
+
+57
+00:03:10.240 --> 00:03:19.295
+meaning that the output y^<3> is mainly influenced by values close to y^<3>.
+
+58
+00:03:19.295 --> 00:03:23.926
+And a value here is mainly influenced by inputs that are somewhere close.
+
+59
+00:03:23.926 --> 00:03:27.160
+And it's difficult for the output here to be strongly
+
+60
+00:03:27.160 --> 00:03:30.950
+influenced by an input that was very early in the sequence.
+
+61
+00:03:30.950 --> 00:03:33.415
+And this is because whatever the output is,
+
+62
+00:03:33.415 --> 00:03:35.180
+whether this got it right, this got it wrong,
+
+63
+00:03:35.180 --> 00:03:37.600
+it's just very difficult for the area to
+
+64
+00:03:37.600 --> 00:03:40.475
+backpropagate all the way to the beginning of the sequence,
+
+65
+00:03:40.475 --> 00:03:43.620
+and therefore to modify how the neural network
+
+66
+00:03:43.620 --> 00:03:46.745
+is doing computations earlier in the sequence.
+
+67
+00:03:46.745 --> 00:03:50.590
+So this is a weakness of the basic RNN algorithm.
+
+68
+00:03:50.590 --> 00:03:54.385
+One, which was not addressed in the next few videos.
+
+69
+00:03:54.385 --> 00:03:57.025
+But if we don't address it, then RNNs
+
+70
+00:03:57.025 --> 00:04:01.920
+tend not to be very good at capturing long-range dependencies.
+
+71
+00:04:01.920 --> 00:04:06.165
+And even though this discussion has focused on vanishing gradients,
+
+72
+00:04:06.165 --> 00:04:09.160
+you will remember when we talked about very deep neural networks,
+
+73
+00:04:09.160 --> 00:04:11.935
+that we also talked about exploding gradients.
+
+74
+00:04:11.935 --> 00:04:13.175
+We're doing back prop,
+
+75
+00:04:13.175 --> 00:04:15.795
+the gradients should not just decrease exponentially,
+
+76
+00:04:15.795 --> 00:04:19.432
+they may also increase exponentially with the number of layers you go through.
+
+77
+00:04:19.432 --> 00:04:24.213
+It turns out that vanishing gradients tends to be the bigger problem with training RNNs,
+
+78
+00:04:24.213 --> 00:04:26.920
+although when exploding gradients happens,
+
+79
+00:04:26.920 --> 00:04:28.630
+it can be catastrophic because
+
+80
+00:04:28.630 --> 00:04:31.870
+the exponentially large gradients can cause your parameters
+
+81
+00:04:31.870 --> 00:04:37.252
+to become so large that your neural network parameters get really messed up.
+
+82
+00:04:37.252 --> 00:04:40.780
+So it turns out that exploding gradients are easier to spot because
+
+83
+00:04:40.780 --> 00:04:44.350
+the parameters just blow up and you might often see NaNs,
+
+84
+00:04:44.350 --> 00:04:45.950
+or not a numbers,
+
+85
+00:04:45.950 --> 00:04:52.018
+meaning results of a numerical overflow in your neural network computation.
+
+86
+00:04:52.018 --> 00:04:53.995
+And if you do see exploding gradients,
+
+87
+00:04:53.995 --> 00:04:58.015
+one solution to that is apply gradient clipping.
+
+88
+00:04:58.015 --> 00:04:59.440
+And what that really means,
+
+89
+00:04:59.440 --> 00:05:02.400
+all that means is look at your gradient vectors,
+
+90
+00:05:02.400 --> 00:05:07.025
+and if it is bigger than some threshold,
+
+91
+00:05:07.025 --> 00:05:10.240
+re-scale some of your gradient vector so that is not too big.
+
+92
+00:05:10.240 --> 00:05:13.675
+So there are clips according to some maximum value.
+
+93
+00:05:13.675 --> 00:05:16.335
+So if you see exploding gradients,
+
+94
+00:05:16.335 --> 00:05:18.758
+if your derivatives do explode or you see NaNs,
+
+95
+00:05:18.758 --> 00:05:21.355
+just apply gradient clipping,
+
+96
+00:05:21.355 --> 00:05:26.910
+and that's a relatively robust solution that will take care of exploding gradients.
+
+97
+00:05:26.910 --> 00:05:30.365
+But vanishing gradients is much harder to solve
+
+98
+00:05:30.365 --> 00:05:34.227
+and it will be the subject of the next few videos.
+
+99
+00:05:34.227 --> 00:05:36.730
+So to summarize, in an earlier course,
+
+100
+00:05:36.730 --> 00:05:39.470
+you saw how the training of very deep neural network,
+
+101
+00:05:39.470 --> 00:05:43.950
+you can run into a vanishing gradient or exploding gradient problems with the derivative,
+
+102
+00:05:43.950 --> 00:05:46.480
+either decreases exponentially or grows
+
+103
+00:05:46.480 --> 00:05:50.070
+exponentially as a function of the number of layers.
+
+104
+00:05:50.070 --> 00:05:54.708
+And in RNN, say in RNN processing data over a thousand times sets,
+
+105
+00:05:54.708 --> 00:05:56.038
+over 10,000 times sets,
+
+106
+00:05:56.038 --> 00:06:00.490
+that's basically a 1,000 layer or they go 10,000 layer neural network,
+
+107
+00:06:00.490 --> 00:06:04.075
+and so, it too runs into these types of problems.
+
+108
+00:06:04.075 --> 00:06:08.875
+Exploding gradients, you could sort of address by just using gradient clipping,
+
+109
+00:06:08.875 --> 00:06:12.185
+but vanishing gradients will take more work to address.
+
+110
+00:06:12.185 --> 00:06:14.650
+So what we do in the next video is talk about GRU,
+
+111
+00:06:14.650 --> 00:06:16.315
+the greater recurrent units,
+
+112
+00:06:16.315 --> 00:06:19.282
+which is a very effective solution for addressing
+
+113
+00:06:19.282 --> 00:06:21.690
+the vanishing gradient problem and will allow
+
+114
+00:06:21.690 --> 00:06:25.805
+your neural network to capture much longer range dependencies.
+
+115
+00:06:25.805 --> 00:06:28.000
+So, lets go on to the next video.

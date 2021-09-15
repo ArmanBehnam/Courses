@@ -1,0 +1,393 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.585
+You've already learned about the basic structure of an RNN.
+
+2
+00:00:03.585 --> 00:00:08.730
+In this video, you'll see how backpropagation in a recurrent neural network works.
+
+3
+00:00:08.730 --> 00:00:12.570
+As usual, when you implement this in one of the programming frameworks, often,
+
+4
+00:00:12.570 --> 00:00:16.848
+the programming framework will automatically take care of backpropagation.
+
+5
+00:00:16.848 --> 00:00:21.887
+But I think it's still useful to have a rough sense of how backprop works in RNNs.
+
+6
+00:00:21.887 --> 00:00:23.575
+Let's take a look.
+
+7
+00:00:23.575 --> 00:00:25.719
+You've seen how, for forward prop,
+
+8
+00:00:25.719 --> 00:00:33.965
+you would computes these activations from left to right as follows in the neural network,
+
+9
+00:00:33.965 --> 00:00:37.365
+and so you've outputs all of the predictions.
+
+10
+00:00:37.365 --> 00:00:40.605
+In backprop, as you might already have guessed,
+
+11
+00:00:40.605 --> 00:00:42.375
+you end up carrying
+
+12
+00:00:42.375 --> 00:00:46.830
+backpropagation calculations in basically the opposite direction
+
+13
+00:00:46.830 --> 00:00:49.071
+of the forward prop arrows.
+
+14
+00:00:49.071 --> 00:00:52.815
+So, let's go through the forward propagation calculation.
+
+15
+00:00:52.815 --> 00:00:56.120
+You're given this input sequence x_1, x_2,
+
+16
+00:00:56.120 --> 00:01:01.690
+x_3, up to x_tx.
+
+17
+00:01:01.690 --> 00:01:06.385
+And then using x_1 and say, a_0,
+
+18
+00:01:06.385 --> 00:01:11.390
+you're going to compute the activation, times that one,
+
+19
+00:01:11.390 --> 00:01:17.490
+and then together, x_2 together with a_1 are used to compute a_2,
+
+20
+00:01:17.490 --> 00:01:24.853
+and then a_3, and so on, up to a_tx.
+
+21
+00:01:24.853 --> 00:01:27.753
+All right. And then to actually compute a_1,
+
+22
+00:01:27.753 --> 00:01:29.760
+you also need the parameters.
+
+23
+00:01:29.760 --> 00:01:32.595
+We'll just draw this in green, W_a and b_a,
+
+24
+00:01:32.595 --> 00:01:35.570
+those are the parameters that are used to compute a_1.
+
+25
+00:01:35.570 --> 00:01:39.950
+And then, these parameters are actually used for every single timestep so,
+
+26
+00:01:39.950 --> 00:01:45.035
+these parameters are actually used to compute a_2, a_3,
+
+27
+00:01:45.035 --> 00:01:52.329
+and so on, all the activations up to last timestep depend on the parameters W_a and b_a.
+
+28
+00:01:52.329 --> 00:01:55.090
+Let's keep fleshing out this graph.
+
+29
+00:01:55.090 --> 00:02:01.980
+Now, given a_1, your neural network can then compute the first prediction, y-hat_1,
+
+30
+00:02:01.980 --> 00:02:07.340
+and then the second timestep, y-hat_2, y-hat_3,
+
+31
+00:02:07.340 --> 00:02:14.985
+and so on, with y-hat_ty.
+
+32
+00:02:14.985 --> 00:02:18.600
+And let me again draw the parameters of a different color.
+
+33
+00:02:18.600 --> 00:02:22.590
+So, to compute y-hat,
+
+34
+00:02:22.590 --> 00:02:24.700
+you need the parameters,
+
+35
+00:02:24.700 --> 00:02:27.350
+W_y as well as b_y,
+
+36
+00:02:27.350 --> 00:02:32.230
+and this goes into this node as well as all the others.
+
+37
+00:02:32.230 --> 00:02:34.900
+So, I'll draw this in green as well.
+
+38
+00:02:34.900 --> 00:02:36.670
+Next, in order to compute backpropagation,
+
+39
+00:02:36.670 --> 00:02:39.361
+you need a loss function.
+
+40
+00:02:39.361 --> 00:02:42.370
+So let's define an element-wise loss force,
+
+41
+00:02:42.370 --> 00:02:45.625
+which is supposed for a certain word in the sequence.
+
+42
+00:02:45.625 --> 00:02:46.975
+It is a person's name,
+
+43
+00:02:46.975 --> 00:02:48.220
+so y_t is one.
+
+44
+00:02:48.220 --> 00:02:51.395
+And your neural network outputs some probability of maybe
+
+45
+00:02:51.395 --> 00:02:55.303
+0.1 of the particular word being a person's name.
+
+46
+00:02:55.303 --> 00:03:00.385
+So I'm going to define this as the standard logistic regression loss,
+
+47
+00:03:00.385 --> 00:03:04.045
+also called the cross entropy loss.
+
+48
+00:03:04.045 --> 00:03:07.240
+This may look familiar to you from where we were previously
+
+49
+00:03:07.240 --> 00:03:10.502
+looking at binary classification problems.
+
+50
+00:03:10.502 --> 00:03:12.190
+So this is the loss associated with
+
+51
+00:03:12.190 --> 00:03:15.671
+a single prediction at a single position or at a single time set,
+
+52
+00:03:15.671 --> 00:03:17.661
+t, for a single word.
+
+53
+00:03:17.661 --> 00:03:21.700
+Let's now define the overall loss of the entire sequence,
+
+54
+00:03:21.700 --> 00:03:28.235
+so L will be defined as the sum overall t equals one to,
+
+55
+00:03:28.235 --> 00:03:29.940
+i guess, T_x or T_y.
+
+56
+00:03:29.940 --> 00:03:33.890
+T_x is equals to T_y in this example of the losses
+
+57
+00:03:33.890 --> 00:03:38.605
+for the individual timesteps, comma y_t.
+
+58
+00:03:38.605 --> 00:03:42.712
+And then, so, just have to L without this
+
+59
+00:03:42.712 --> 00:03:47.575
+superscript T. This is the loss for the entire sequence.
+
+60
+00:03:47.575 --> 00:03:48.910
+So, in a computation graph,
+
+61
+00:03:48.910 --> 00:03:52.225
+to compute the loss given y-hat_1,
+
+62
+00:03:52.225 --> 00:03:54.380
+you can then compute the loss for
+
+63
+00:03:54.380 --> 00:03:59.785
+the first timestep given that you compute the loss for the second timestep,
+
+64
+00:03:59.785 --> 00:04:03.094
+the loss for the third timestep,
+
+65
+00:04:03.094 --> 00:04:07.265
+and so on, the loss for the final timestep.
+
+66
+00:04:07.265 --> 00:04:11.945
+And then lastly, to compute the overall loss,
+
+67
+00:04:11.945 --> 00:04:19.525
+we will take these and sum them all up to compute the final L using that equation,
+
+68
+00:04:19.525 --> 00:04:23.550
+which is the sum of the individual per timestep losses.
+
+69
+00:04:23.550 --> 00:04:25.975
+So, this is the computation problem
+
+70
+00:04:25.975 --> 00:04:29.950
+and from the earlier examples you've seen of backpropagation,
+
+71
+00:04:29.950 --> 00:04:34.390
+it shouldn't surprise you that backprop then just requires
+
+72
+00:04:34.390 --> 00:04:39.880
+doing computations or parsing messages in the opposite directions.
+
+73
+00:04:39.880 --> 00:04:43.700
+So, all of the four propagation steps arrows,
+
+74
+00:04:43.700 --> 00:04:46.605
+so you end up doing that.
+
+75
+00:04:46.605 --> 00:04:53.095
+And that then, allows you to compute all the appropriate quantities that lets you then,
+
+76
+00:04:53.095 --> 00:04:55.705
+take the riveters, respected parameters,
+
+77
+00:04:55.705 --> 00:04:59.305
+and update the parameters using gradient descent.
+
+78
+00:04:59.305 --> 00:05:02.070
+Now, in this back propagation procedure,
+
+79
+00:05:02.070 --> 00:05:08.575
+the most significant message or the most significant recursive calculation is this one,
+
+80
+00:05:08.575 --> 00:05:11.260
+which goes from right to left,
+
+81
+00:05:11.260 --> 00:05:13.600
+and that's why it gives this algorithm as well,
+
+82
+00:05:13.600 --> 00:05:17.380
+a pretty fast full name called backpropagation through time.
+
+83
+00:05:17.380 --> 00:05:20.180
+And the motivation for this name is that for forward prop,
+
+84
+00:05:20.180 --> 00:05:22.305
+you are scanning from left to right,
+
+85
+00:05:22.305 --> 00:05:25.075
+increasing indices of the time, t, whereas,
+
+86
+00:05:25.075 --> 00:05:27.695
+the backpropagation, you're going from right to left,
+
+87
+00:05:27.695 --> 00:05:29.380
+you're kind of going backwards in time.
+
+88
+00:05:29.380 --> 00:05:31.870
+So this gives this, I think a really cool name,
+
+89
+00:05:31.870 --> 00:05:36.180
+backpropagation through time, where you're going backwards in time, right?
+
+90
+00:05:36.180 --> 00:05:40.039
+That phrase really makes it sound like you need a time machine to implement this output,
+
+91
+00:05:40.039 --> 00:05:42.460
+but I just thought that backprop through time is
+
+92
+00:05:42.460 --> 00:05:45.360
+just one of the coolest names for an algorithm.
+
+93
+00:05:45.360 --> 00:05:50.890
+So, I hope that gives you a sense of how forward prop and backprop in RNN works.
+
+94
+00:05:50.890 --> 00:05:54.766
+Now, so far, you've only seen this main motivating example in RNN,
+
+95
+00:05:54.766 --> 00:06:00.220
+in which the length of the input sequence was equal to the length of the output sequence.
+
+96
+00:06:00.220 --> 00:06:01.660
+In the next video,
+
+97
+00:06:01.660 --> 00:06:06.033
+I want to show you a much wider range of RNN architecture,
+
+98
+00:06:06.033 --> 00:06:10.880
+so I'll let you tackle a much wider set of applications. Let's go on to the next video.

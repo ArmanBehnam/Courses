@@ -1,0 +1,598 @@
+WEBVTT
+
+1
+00:00:01.090 --> 00:00:06.380
+After you train a sequence model, one of
+the ways you can informally get a sense of
+
+2
+00:00:06.380 --> 00:00:09.950
+what is learned is to have
+a sample novel sequences.
+
+3
+00:00:09.950 --> 00:00:11.330
+Let's take a look at
+how you could do that.
+
+4
+00:00:12.520 --> 00:00:17.550
+So remember that a sequence model,
+models the chance of any
+
+5
+00:00:17.550 --> 00:00:22.860
+particular sequence of words as follows,
+and so what we like to do is
+
+6
+00:00:22.860 --> 00:00:27.610
+sample from this distribution to
+generate noble sequences of words.
+
+7
+00:00:28.980 --> 00:00:35.850
+So the network was trained using
+this structure shown at the top.
+
+8
+00:00:35.850 --> 00:00:40.830
+But to sample, you do something
+slightly different, so what you want to
+
+9
+00:00:40.830 --> 00:00:45.790
+do is first sample what is the first
+word you want your model to generate.
+
+10
+00:00:45.790 --> 00:00:50.380
+And so for that you input the usual
+x1 equals 0, a0 equals 0.
+
+11
+00:00:50.380 --> 00:00:54.010
+And now your first time stamp
+
+12
+00:00:54.010 --> 00:00:58.720
+will have some max probability
+over possible outputs.
+
+13
+00:00:58.720 --> 00:01:05.690
+So what you do is you then randomly sample
+according to this soft max distribution.
+
+14
+00:01:05.690 --> 00:01:09.740
+So what the soft max distribution gives
+you is it tells you what is the chance
+
+15
+00:01:09.740 --> 00:01:13.850
+that it refers to this a, what is
+the chance that it refers to this Aaron?
+
+16
+00:01:13.850 --> 00:01:16.570
+What's the chance it refers to Zulu,
+
+17
+00:01:16.570 --> 00:01:20.350
+what is the chance that the first
+word is the Unknown word token.
+
+18
+00:01:20.350 --> 00:01:23.840
+Maybe it was a chance it was
+a end of sentence token.
+
+19
+00:01:23.840 --> 00:01:29.418
+And then you take this vector and
+use, for example, the numpy command
+
+20
+00:01:29.418 --> 00:01:35.090
+np.random.choice to sample
+according to distribution
+
+21
+00:01:35.090 --> 00:01:40.850
+defined by this vector probabilities, and
+that lets you sample the first words.
+
+22
+00:01:40.850 --> 00:01:45.765
+Next you then go on to
+the second time step, and
+
+23
+00:01:45.765 --> 00:01:53.690
+now remember that the second time
+step is expecting this y1 as input.
+
+24
+00:01:53.690 --> 00:01:58.660
+But what you do is you then take
+the y1 hat that you just sampled and
+
+25
+00:01:58.660 --> 00:02:02.718
+pass that in here as the input
+to the next timestep.
+
+26
+00:02:02.718 --> 00:02:03.450
+So whatever works,
+
+27
+00:02:03.450 --> 00:02:08.570
+you just chose the first time step passes
+this input in the second position, and
+
+28
+00:02:08.570 --> 00:02:14.227
+then this soft max will make
+a prediction for what is y hat 2.
+
+29
+00:02:14.227 --> 00:02:17.000
+Example, let's say that after
+you sample the first word,
+
+30
+00:02:17.000 --> 00:02:21.850
+the first word happened to be z,
+which is very common choice of first word.
+
+31
+00:02:21.850 --> 00:02:26.112
+Then you pass in v as x2,
+
+32
+00:02:26.112 --> 00:02:32.420
+which is now equal to y hat 1.
+
+33
+00:02:32.420 --> 00:02:37.260
+And now you're trying to figure
+out what is the chance of what
+
+34
+00:02:37.260 --> 00:02:40.500
+the second word is given
+that the first word is d.
+
+35
+00:02:40.500 --> 00:02:42.830
+And this is going to be y hat 2.
+
+36
+00:02:42.830 --> 00:02:48.610
+Then you again use this type of
+sampling function to sample y hat 2.
+
+37
+00:02:48.610 --> 00:02:51.130
+And then at the next time stamp,
+
+38
+00:02:51.130 --> 00:02:55.940
+you take whatever choice you had
+represented say as a one hard encoding.
+
+39
+00:02:55.940 --> 00:03:00.220
+And pass that to next timestep and
+
+40
+00:03:00.220 --> 00:03:05.480
+then you sample the third word
+to that whatever you chose, and
+
+41
+00:03:05.480 --> 00:03:08.990
+you keep going until you
+get to the last time step.
+
+42
+00:03:08.990 --> 00:03:11.900
+And so
+how do you know when the sequence ends?
+
+43
+00:03:11.900 --> 00:03:16.940
+Well, one thing you could do is if
+the end of sentence token is part
+
+44
+00:03:16.940 --> 00:03:21.970
+of your vocabulary, you could keep
+sampling until you generate an EOS token.
+
+45
+00:03:21.970 --> 00:03:25.140
+And that tells you you've hit the end
+of a sentence and you can stop.
+
+46
+00:03:25.140 --> 00:03:28.650
+Or alternatively, if you do not
+include this in your vocabulary
+
+47
+00:03:28.650 --> 00:03:33.520
+then you can also just decide to sample
+20 words or 100 words or something, and
+
+48
+00:03:33.520 --> 00:03:37.300
+then keep going until you've
+reached that number of time steps.
+
+49
+00:03:37.300 --> 00:03:43.260
+And this particular procedure will
+sometimes generate an unknown word token.
+
+50
+00:03:43.260 --> 00:03:47.710
+If you want to make sure that your
+algorithm never generates this token,
+
+51
+00:03:47.710 --> 00:03:51.360
+one thing you could do is just reject any
+
+52
+00:03:51.360 --> 00:03:55.540
+sample that came out as unknown word token
+and just keep resampling from the rest of
+
+53
+00:03:55.540 --> 00:03:59.240
+the vocabulary until you get
+a word that's not an unknown word.
+
+54
+00:03:59.240 --> 00:04:02.860
+Or you can just leave it in the output as
+well if you don't mind having an unknown
+
+55
+00:04:02.860 --> 00:04:04.260
+word output.
+
+56
+00:04:04.260 --> 00:04:08.580
+So this is how you would generate
+a randomly chosen sentence
+
+57
+00:04:08.580 --> 00:04:11.280
+from your RNN language model.
+
+58
+00:04:11.280 --> 00:04:15.150
+Now, so
+far we've been building a words level RNN,
+
+59
+00:04:15.150 --> 00:04:19.840
+by which I mean the vocabulary
+are words from English.
+
+60
+00:04:19.840 --> 00:04:21.640
+Depending on your application,
+
+61
+00:04:21.640 --> 00:04:26.070
+one thing you can do is also
+build a character level RNN.
+
+62
+00:04:26.070 --> 00:04:30.168
+So in this case your vocabulary
+will just be the alphabets.
+
+63
+00:04:30.168 --> 00:04:35.990
+Up to z, and as well as maybe space,
+
+64
+00:04:35.990 --> 00:04:40.820
+punctuation if you wish,
+the digits 0 to 9.
+
+65
+00:04:40.820 --> 00:04:44.370
+And if you want to distinguish
+the uppercase and lowercase,
+
+66
+00:04:44.370 --> 00:04:47.990
+you can include the uppercase
+alphabets as well, and
+
+67
+00:04:47.990 --> 00:04:52.800
+one thing you can do as you just
+look at your training set and
+
+68
+00:04:52.800 --> 00:04:57.250
+look at the characters that appears there
+and use that to define the vocabulary.
+
+69
+00:04:57.250 --> 00:05:02.250
+And if you build a character level
+language model rather than a word level
+
+70
+00:05:02.250 --> 00:05:06.779
+language model,
+then your sequence y1, y2, y3,
+
+71
+00:05:06.779 --> 00:05:12.440
+would be the individual
+characters in your training data,
+
+72
+00:05:12.440 --> 00:05:15.430
+rather than the individual
+words in your training data.
+
+73
+00:05:15.430 --> 00:05:22.950
+So for our previous example, the sentence
+cats average 15 hours of sleep a day.
+
+74
+00:05:22.950 --> 00:05:27.160
+In this example,
+c would be y1, a would be y2,
+
+75
+00:05:27.160 --> 00:05:33.050
+t will be y3,
+the space will be y4 and so on.
+
+76
+00:05:33.050 --> 00:05:37.080
+Using a character level language
+model has some pros and cons.
+
+77
+00:05:37.080 --> 00:05:40.760
+One is that you don't ever have to
+worry about unknown word tokens.
+
+78
+00:05:40.760 --> 00:05:44.246
+In particular,
+a character level language model
+
+79
+00:05:44.246 --> 00:05:48.811
+is able to assign a sequence like mau,
+a non-zero probability.
+
+80
+00:05:48.811 --> 00:05:53.419
+Whereas if mau was not in your vocabulary
+for the word level language model,
+
+81
+00:05:53.419 --> 00:05:56.451
+you just have to assign it
+the unknown word token.
+
+82
+00:05:56.451 --> 00:06:01.051
+But the main disadvantage of
+the character level language model
+
+83
+00:06:01.051 --> 00:06:04.570
+is that you end up with
+much longer sequences.
+
+84
+00:06:04.570 --> 00:06:08.450
+So many english sentences
+will have 10 to 20 words but
+
+85
+00:06:08.450 --> 00:06:11.640
+may have many, many dozens of characters.
+
+86
+00:06:11.640 --> 00:06:16.850
+And so character language models are not
+as good as word level language models at
+
+87
+00:06:16.850 --> 00:06:19.567
+capturing long range
+dependencies between how
+
+88
+00:06:19.567 --> 00:06:23.650
+the the earlier parts of the sentence also
+affect the later part of the sentence.
+
+89
+00:06:23.650 --> 00:06:28.730
+And character level models are also just
+more computationally expensive to train.
+
+90
+00:06:28.730 --> 00:06:32.500
+So the trend I've been seeing in
+natural language processing is that for
+
+91
+00:06:32.500 --> 00:06:36.510
+the most part, word level language
+model are still used, but
+
+92
+00:06:36.510 --> 00:06:41.710
+as computers gets faster there are more
+and more applications where people are,
+
+93
+00:06:41.710 --> 00:06:47.460
+at least in some special cases, starting
+to look at more character level models.
+
+94
+00:06:47.460 --> 00:06:50.410
+But they tend to be much hardware, much
+more computationally expensive to train,
+
+95
+00:06:50.410 --> 00:06:53.690
+so they are not in widespread use today.
+
+96
+00:06:53.690 --> 00:06:57.810
+Except for maybe specialized applications
+where you might need to deal with
+
+97
+00:06:57.810 --> 00:07:00.210
+unknown words or
+other vocabulary words a lot.
+
+98
+00:07:00.210 --> 00:07:02.340
+Or they are also used in more
+specialized applications where you
+
+99
+00:07:02.340 --> 00:07:06.460
+have a more specialized vocabulary.
+
+100
+00:07:06.460 --> 00:07:08.890
+So under these methods,
+
+101
+00:07:08.890 --> 00:07:13.356
+what you can now do is build an RNN to
+look at the purpose of English text,
+
+102
+00:07:13.356 --> 00:07:18.682
+build a word level, build a character
+
+103
+00:07:18.682 --> 00:07:23.610
+language model, sample from
+the language model that you've trained.
+
+104
+00:07:23.610 --> 00:07:27.930
+So here are some examples of text
+thatwere examples from a language model,
+
+105
+00:07:27.930 --> 00:07:30.690
+actually from a culture
+level language model.
+
+106
+00:07:30.690 --> 00:07:34.080
+And you get to implement something like
+this yourself in the [INAUDIBLE] exercise.
+
+107
+00:07:34.080 --> 00:07:36.850
+If the model was trained on news articles,
+
+108
+00:07:36.850 --> 00:07:39.240
+then it generates texts like
+that shown on the left.
+
+109
+00:07:39.240 --> 00:07:44.460
+And this looks vaguely like news text,
+not quite grammatical,
+
+110
+00:07:44.460 --> 00:07:48.630
+but maybe sounds a little bit like
+things that could be appearing news,
+
+111
+00:07:48.630 --> 00:07:50.490
+concussion epidemic to be examined.
+
+112
+00:07:50.490 --> 00:07:52.394
+And it was trained on
+Shakespearean text and
+
+113
+00:07:52.394 --> 00:07:55.750
+then it generates stuff that sounds
+like Shakespeare could have written it.
+
+114
+00:07:55.750 --> 00:07:57.510
+The mortal moon hath her eclipse in love.
+
+115
+00:07:57.510 --> 00:08:00.100
+And subject of this thou
+art another this fold.
+
+116
+00:08:00.100 --> 00:08:02.210
+When besser be my love to me see sabl's.
+
+117
+00:08:02.210 --> 00:08:04.910
+For whose are ruse of mine eyes heaves.
+
+118
+00:08:06.390 --> 00:08:11.470
+So that's it for the basic RNN, and how
+you can build a language model using it,
+
+119
+00:08:11.470 --> 00:08:15.680
+as well as sample from the language
+model that you've trained.
+
+120
+00:08:15.680 --> 00:08:20.180
+In the next few videos, I want to discuss
+further some of the challenges of training
+
+121
+00:08:20.180 --> 00:08:24.908
+RNNs, as well as how to adjust some of
+these challenges, specifically vanishing
+
+122
+00:08:24.908 --> 00:08:28.780
+gradients by building even more
+powerful models of the RNN.
+
+123
+00:08:28.780 --> 00:08:32.760
+So in the next video let's talk about
+the problem of vanishing the gradient and
+
+124
+00:08:32.760 --> 00:08:38.300
+we will go on to talk about the GRU, Gate
+Recurring Unit as well as the LSTM models.

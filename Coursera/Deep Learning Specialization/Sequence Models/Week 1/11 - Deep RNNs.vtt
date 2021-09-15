@@ -1,0 +1,317 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.704
+The different versions of RNNs you've seen so far
+
+2
+00:00:02.704 --> 00:00:05.055
+will already work quite well by themselves.
+
+3
+00:00:05.055 --> 00:00:09.240
+But for learning very complex functions sometimes is useful to stack
+
+4
+00:00:09.240 --> 00:00:13.860
+multiple layers of RNNs together to build even deeper versions of these models.
+
+5
+00:00:13.860 --> 00:00:19.195
+In this video, you'll see how to build these deeper RNNs. Let's take a look.
+
+6
+00:00:19.195 --> 00:00:20.850
+So you remember for a standard neural network,
+
+7
+00:00:20.850 --> 00:00:23.520
+you will have an input X.
+
+8
+00:00:23.520 --> 00:00:29.580
+And then that's stacked to some hidden layer and so that might have activations of say,
+
+9
+00:00:29.580 --> 00:00:33.610
+a1 for the first hidden layer,
+
+10
+00:00:33.610 --> 00:00:36.790
+and then that's stacked to the next layer with activations a2,
+
+11
+00:00:36.790 --> 00:00:40.000
+then maybe another layer,
+
+12
+00:00:40.000 --> 00:00:42.880
+activations a3 and then you make a prediction ŷ.
+
+13
+00:00:42.880 --> 00:00:45.290
+So a deep RNN is a bit like this,
+
+14
+00:00:45.290 --> 00:00:47.900
+by taking this network that I just drew by hand and
+
+15
+00:00:47.900 --> 00:00:51.370
+unrolling that in time. So let's take a look.
+
+16
+00:00:51.370 --> 00:00:54.070
+So here's the standard RNN that you've seen so far.
+
+17
+00:00:54.070 --> 00:00:56.395
+But I've changed the notation a little bit which is that,
+
+18
+00:00:56.395 --> 00:01:01.450
+instead of writing this as a0 for the activation time zero,
+
+19
+00:01:01.450 --> 00:01:06.605
+I've added this square bracket 1 to denote that this is for layer one.
+
+20
+00:01:06.605 --> 00:01:12.970
+So the notation we're going to use is a[l] to denote that it's an activation
+
+21
+00:01:12.970 --> 00:01:20.285
+associated with layer l and then <t> to denote that that's associated over time t.
+
+22
+00:01:20.285 --> 00:01:23.830
+So this will have an activation on a[1]<1>,
+
+23
+00:01:23.830 --> 00:01:32.688
+this would be a[1]<2>, a[1]<3>, a[1]<4>.
+
+24
+00:01:32.688 --> 00:01:38.950
+And then we can just stack these things on
+
+25
+00:01:38.950 --> 00:01:45.697
+top and so this will be a new network with three hidden layers.
+
+26
+00:01:45.697 --> 00:01:51.740
+So let's look at an example of how this value is computed.
+
+27
+00:01:51.740 --> 00:01:56.440
+So a[2]<3> has two inputs.
+
+28
+00:01:56.440 --> 00:01:58.750
+It has the input coming from the bottom,
+
+29
+00:01:58.750 --> 00:02:03.005
+and there's the input coming from the left.
+
+30
+00:02:03.005 --> 00:02:09.055
+So the computer has an activation function g applied to a way matrix.
+
+31
+00:02:09.055 --> 00:02:14.140
+This is going to be Wa because computing an a quantity, an activation quantity.
+
+32
+00:02:14.140 --> 00:02:16.097
+And for the second layer,
+
+33
+00:02:16.097 --> 00:02:19.510
+and so I'm going to give this a[2]<2>,
+
+34
+00:02:19.510 --> 00:02:25.045
+there's that thing, comma a[1]<3>, there's that thing,
+
+35
+00:02:25.045 --> 00:02:34.653
+plus ba associated to the second layer.
+
+36
+00:02:34.653 --> 00:02:37.400
+And that's how you get that activation value.
+
+37
+00:02:37.400 --> 00:02:41.985
+And so the same parameters Wa[2] and
+
+38
+00:02:41.985 --> 00:02:48.515
+ba[2] are used for every one of these computations at this layer.
+
+39
+00:02:48.515 --> 00:02:57.150
+Whereas, in contrast, the first layer would have its own parameters Wa[1] and ba[1].
+
+40
+00:02:57.150 --> 00:03:01.625
+So whereas for standard RNNs like the one on the left,
+
+41
+00:03:01.625 --> 00:03:03.580
+you know we've seen neural networks that are very,
+
+42
+00:03:03.580 --> 00:03:05.575
+very deep, maybe over 100 layers.
+
+43
+00:03:05.575 --> 00:03:10.970
+For RNNs, having three layers is already quite a lot.
+
+44
+00:03:10.970 --> 00:03:12.720
+Because of the temporal dimension,
+
+45
+00:03:12.720 --> 00:03:17.260
+these networks can already get quite big even if you have just a small handful of layers.
+
+46
+00:03:17.260 --> 00:03:22.535
+And you don't usually see these stacked up to be like 100 layers.
+
+47
+00:03:22.535 --> 00:03:26.080
+One thing you do see sometimes is
+
+48
+00:03:26.080 --> 00:03:30.040
+that you have recurrent layers that are stacked on top of each other.
+
+49
+00:03:30.040 --> 00:03:32.988
+But then you might take the output here, let's get rid of this,
+
+50
+00:03:32.988 --> 00:03:36.730
+and then just have a bunch of deep layers that are not connected
+
+51
+00:03:36.730 --> 00:03:41.495
+horizontally but have a deep network here that then finally predicts y<1>.
+
+52
+00:03:41.495 --> 00:03:48.000
+And you can have the same deep network here that predicts y<2>.
+
+53
+00:03:48.000 --> 00:03:51.270
+So this is a type of network architecture that we're seeing a little bit more where you
+
+54
+00:03:51.270 --> 00:03:55.065
+have three recurrent units that connected in time,
+
+55
+00:03:55.065 --> 00:03:56.655
+followed by a network,
+
+56
+00:03:56.655 --> 00:03:58.285
+followed by a network after that,
+
+57
+00:03:58.285 --> 00:04:00.705
+as we seen for y<3> and y<4>, of course.
+
+58
+00:04:00.705 --> 00:04:04.105
+There's a deep network, but that does not have the horizontal connections.
+
+59
+00:04:04.105 --> 00:04:08.095
+So that's one type of architecture we seem to be seeing more of.
+
+60
+00:04:08.095 --> 00:04:12.410
+And quite often, these blocks don't just have to be standard RNN,
+
+61
+00:04:12.410 --> 00:04:14.390
+the simple RNN model.
+
+62
+00:04:14.390 --> 00:04:17.770
+They can also be GRU blocks LSTM blocks.
+
+63
+00:04:17.770 --> 00:04:24.110
+And finally, you can also build deep versions of the bidirectional RNN.
+
+64
+00:04:24.110 --> 00:04:30.085
+Because deep RNNs are quite computationally expensive to train,
+
+65
+00:04:30.085 --> 00:04:32.715
+there's often a large temporal extent already,
+
+66
+00:04:32.715 --> 00:04:37.700
+though you just don't see as many deep recurrent layers.
+
+67
+00:04:37.700 --> 00:04:42.320
+This has, I guess, three deep recurrent layers that are connected in time.
+
+68
+00:04:42.320 --> 00:04:45.530
+You don't see as many deep recurrent layers as you would see
+
+69
+00:04:45.530 --> 00:04:48.940
+in a number of layers in a deep conventional neural network.
+
+70
+00:04:48.940 --> 00:04:51.510
+So that's it for deep RNNs.
+
+71
+00:04:51.510 --> 00:04:53.810
+With what you've seen this week,
+
+72
+00:04:53.810 --> 00:04:55.621
+ranging from the basic RNN,
+
+73
+00:04:55.621 --> 00:04:57.050
+the basic recurrent unit,
+
+74
+00:04:57.050 --> 00:04:58.149
+to the GRU, to the LSTM, to the bidirectional RNN,
+
+75
+00:04:58.149 --> 00:05:01.770
+to the deep versions of this that you just saw,
+
+76
+00:05:01.770 --> 00:05:04.685
+you now have a very rich toolbox for constructing
+
+77
+00:05:04.685 --> 00:05:08.530
+very powerful models for learning sequence models.
+
+78
+00:05:08.530 --> 00:05:11.450
+I hope you enjoyed this week's videos.
+
+79
+00:05:11.450 --> 00:05:16.000
+Best of luck with the problem exercises and I look forward to seeing you next week.
