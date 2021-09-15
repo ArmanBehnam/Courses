@@ -1,0 +1,585 @@
+WEBVTT
+
+1
+00:00:00.190 --> 00:00:01.320
+In a previous video,
+
+2
+00:00:01.320 --> 00:00:06.420
+you've already seen all the basic
+building blocks of the Inception network.
+
+3
+00:00:06.420 --> 00:00:10.680
+In this video, let's see how you can
+put these building blocks together
+
+4
+00:00:10.680 --> 00:00:12.780
+to build your own Inception network.
+
+5
+00:00:13.910 --> 00:00:17.970
+So the inception module takes
+as input the activation or
+
+6
+00:00:17.970 --> 00:00:20.260
+the output from some previous layer.
+
+7
+00:00:20.260 --> 00:00:25.860
+So let's say for the sake of
+argument this is 28 by 28 by 192,
+
+8
+00:00:25.860 --> 00:00:28.030
+same as our previous video.
+
+9
+00:00:28.030 --> 00:00:35.130
+The example we worked through in depth
+was the 1 by 1 followed by 5 by 5.
+
+10
+00:00:35.130 --> 00:00:41.120
+There, so
+maybe the 1 by 1 has 16 channels and
+
+11
+00:00:41.120 --> 00:00:48.170
+then the 5 by 5 will output a 28 by 28 by,
+let's say, 32 channels.
+
+12
+00:00:49.700 --> 00:00:53.790
+And this is the example we worked through
+on the last slide of the previous video.
+
+13
+00:00:54.900 --> 00:01:02.260
+Then to save computation on your 3 by 3
+convolution you can also do the same here.
+
+14
+00:01:02.260 --> 00:01:08.310
+And then the 3 by 3 outputs,
+28 by 28 by 1 by 28.
+
+15
+00:01:09.390 --> 00:01:14.100
+And then maybe you want to consider
+a 1 by 1 convolution as well.
+
+16
+00:01:14.100 --> 00:01:18.481
+There's no need to do a 1 by 1 conv
+followed by another 1 by 1 conv so
+
+17
+00:01:18.481 --> 00:01:23.409
+there's just one step here and
+let's say these outputs 28 by 28 by 64.
+
+18
+00:01:23.409 --> 00:01:31.900
+And then finally is the pulling layer.
+
+19
+00:01:34.000 --> 00:01:35.730
+So here I'm going to do something funny.
+
+20
+00:01:35.730 --> 00:01:40.154
+In order to really concatenate
+all of these outputs at the end
+
+21
+00:01:40.154 --> 00:01:44.073
+we are going to use the same
+type of padding for pooling.
+
+22
+00:01:44.073 --> 00:01:47.480
+So that the output height and
+width is still 28 by 28.
+
+23
+00:01:47.480 --> 00:01:53.300
+So we can concatenate it
+with these other outputs.
+
+24
+00:01:53.300 --> 00:01:57.842
+But notice that if you do max-pooling,
+even with same padding,
+
+25
+00:01:57.842 --> 00:01:59.917
+3 by 3 filter is tried at 1.
+
+26
+00:01:59.917 --> 00:02:07.016
+The output here will be 28 by 28, By 192.
+
+27
+00:02:07.016 --> 00:02:10.790
+It will have the same
+number of channels and
+
+28
+00:02:10.790 --> 00:02:15.570
+the same depth as
+the input that we had here.
+
+29
+00:02:15.570 --> 00:02:19.252
+So, this seems like is
+has a lot of channels.
+
+30
+00:02:19.252 --> 00:02:23.752
+So what we're going to do is
+actually add one more 1 by 1 conv
+
+31
+00:02:23.752 --> 00:02:28.607
+layer to then to what we saw in
+the one by one convilational video,
+
+32
+00:02:28.607 --> 00:02:31.541
+to strengthen the number of channels.
+
+33
+00:02:31.541 --> 00:02:37.730
+So it gets us down to 28
+by 28 by let's say, 32.
+
+34
+00:02:37.730 --> 00:02:44.770
+And the way you do that,
+is to use 32 filters,
+
+35
+00:02:44.770 --> 00:02:49.660
+of dimension 1 by 1 by 192.
+
+36
+00:02:49.660 --> 00:02:54.110
+So that's why the output dimension has
+a number of channels shrunk down to 32.
+
+37
+00:02:54.110 --> 00:02:58.460
+So then we don't end up
+with the pulling layer
+
+38
+00:02:58.460 --> 00:03:00.920
+taking up all the channels
+in the final output.
+
+39
+00:03:02.310 --> 00:03:08.121
+And finally you take all of these blocks
+and you do channel concatenation.
+
+40
+00:03:08.121 --> 00:03:12.865
+Just concatenate across
+this 64 plus 128 plus
+
+41
+00:03:12.865 --> 00:03:18.165
+32 plus 32 and
+this if you add it up this gives you
+
+42
+00:03:18.165 --> 00:03:24.055
+a 28 by 28 by 256 dimension output.
+
+43
+00:03:24.055 --> 00:03:30.879
+Concat is just this concatenating the
+blocks that we saw in the previous video.
+
+44
+00:03:33.918 --> 00:03:39.598
+So this is one inception module, and
+what the inception network does,
+
+45
+00:03:39.598 --> 00:03:44.057
+is, more or less,
+put a lot of these modules together.
+
+46
+00:03:45.624 --> 00:03:50.671
+Here's a picture of the inception network,
+taken from the paper by Szegedy et al
+
+47
+00:03:53.615 --> 00:03:56.570
+And you notice a lot of
+repeated blocks in this.
+
+48
+00:03:56.570 --> 00:03:58.580
+Maybe this picture looks
+really complicated.
+
+49
+00:03:58.580 --> 00:04:03.563
+But if you look at one of the blocks
+there, that block is basically
+
+50
+00:04:03.563 --> 00:04:07.920
+the inception module that you
+saw on the previous slide.
+
+51
+00:04:10.046 --> 00:04:17.085
+And subject to little details I won't
+discuss, this is another inception block.
+
+52
+00:04:17.085 --> 00:04:19.460
+This is another inception block.
+
+53
+00:04:19.460 --> 00:04:23.200
+There's some extra max pooling
+layers here to change the dimension
+
+54
+00:04:24.250 --> 00:04:25.800
+of the heightened width.
+
+55
+00:04:25.800 --> 00:04:28.140
+But that's another inception block.
+
+56
+00:04:28.140 --> 00:04:31.020
+And then there's another max put here
+to change the height and width but
+
+57
+00:04:31.020 --> 00:04:33.280
+basically there's another inception block.
+
+58
+00:04:33.280 --> 00:04:37.370
+But the inception network is just a lot
+of these blocks that you've learned about
+
+59
+00:04:37.370 --> 00:04:40.930
+repeated to different
+positions of the network.
+
+60
+00:04:40.930 --> 00:04:44.509
+But so you understand the inception
+block from the previous slide,
+
+61
+00:04:44.509 --> 00:04:46.914
+then you understand the inception network.
+
+62
+00:04:49.518 --> 00:04:53.403
+It turns out that there's one last detail
+to the inception network if we read
+
+63
+00:04:53.403 --> 00:04:55.430
+the optional research paper.
+
+64
+00:04:55.430 --> 00:04:59.311
+Which is that there are these additional
+side-branches that I just added.
+
+65
+00:05:01.835 --> 00:05:03.440
+So what do they do?
+
+66
+00:05:03.440 --> 00:05:07.800
+Well, the last few layers of
+the network is a fully connected layer
+
+67
+00:05:07.800 --> 00:05:11.360
+followed by a softmax layer
+to try to make a prediction.
+
+68
+00:05:11.360 --> 00:05:15.430
+What these side branches do is
+it takes some hidden layer and
+
+69
+00:05:15.430 --> 00:05:17.760
+it tries to use that to make a prediction.
+
+70
+00:05:17.760 --> 00:05:22.140
+So this is actually a softmax output and
+so is that.
+
+71
+00:05:22.140 --> 00:05:23.952
+And this other side branch,
+
+72
+00:05:23.952 --> 00:05:29.173
+again it is a hidden layer passes through
+a few layers like a few connected layers.
+
+73
+00:05:29.173 --> 00:05:33.243
+And then has the softmax try to
+predict what's the output label.
+
+74
+00:05:35.545 --> 00:05:38.798
+And you should think of this as maybe
+just another detail of the inception
+
+75
+00:05:38.798 --> 00:05:40.000
+that's worked.
+
+76
+00:05:40.000 --> 00:05:44.460
+But what is does is it helps to
+ensure that the features computed.
+
+77
+00:05:44.460 --> 00:05:48.060
+Even in the heading units,
+even at intermediate layers.
+
+78
+00:05:48.060 --> 00:05:52.490
+That they're not too bad for
+protecting the output cause of a image.
+
+79
+00:05:52.490 --> 00:05:56.875
+And this appears to have a regularizing
+effect on the inception network and
+
+80
+00:05:56.875 --> 00:05:59.667
+helps prevent this
+network from overfitting.
+
+81
+00:06:03.048 --> 00:06:07.907
+And by the way,
+this particular Inception network
+
+82
+00:06:07.907 --> 00:06:11.770
+was developed by authors at Google.
+
+83
+00:06:11.770 --> 00:06:18.850
+Who called it GoogleNet, spelled like
+that, to pay homage to the network.
+
+84
+00:06:18.850 --> 00:06:21.350
+That you learned about in
+an earlier video as well.
+
+85
+00:06:23.460 --> 00:06:29.086
+So I think it's actually really nice
+that the Deep Learning Community is so
+
+86
+00:06:29.086 --> 00:06:30.436
+collaborative.
+
+87
+00:06:30.436 --> 00:06:32.593
+And that there's such
+strong healthy respect for
+
+88
+00:06:32.593 --> 00:06:35.865
+each other's' work in
+the Deep Learning Learning community.
+
+89
+00:06:35.865 --> 00:06:37.895
+FInally here's one fun fact.
+
+90
+00:06:37.895 --> 00:06:40.425
+Where does the name
+inception network come from?
+
+91
+00:06:41.585 --> 00:06:47.375
+The inception paper actually cites
+this meme for we need to go deeper.
+
+92
+00:06:47.375 --> 00:06:52.315
+And this URL is an actual
+reference in the inception paper,
+
+93
+00:06:52.315 --> 00:06:54.320
+which links to this image.
+
+94
+00:06:54.320 --> 00:06:57.610
+And if you've seen the movie
+titled The Inception,
+
+95
+00:06:57.610 --> 00:07:00.070
+maybe this meme will make sense to you.
+
+96
+00:07:00.070 --> 00:07:05.380
+But the authors actually cite
+this meme as motivation for
+
+97
+00:07:05.380 --> 00:07:09.040
+needing to build deeper new networks.
+
+98
+00:07:09.040 --> 00:07:12.890
+And that's how they came up with
+the inception architecture.
+
+99
+00:07:12.890 --> 00:07:17.830
+So I guess it's not often that research
+papers get to cite Internet memes
+
+100
+00:07:17.830 --> 00:07:19.030
+in their citations.
+
+101
+00:07:19.030 --> 00:07:22.165
+But in this case,
+I guess it worked out quite well.
+
+102
+00:07:23.285 --> 00:07:27.015
+So to summarize,
+if you understand the inception module,
+
+103
+00:07:27.015 --> 00:07:29.765
+then you understand the inception network.
+
+104
+00:07:29.765 --> 00:07:33.865
+Which is largely the inception
+module repeated a bunch of times
+
+105
+00:07:33.865 --> 00:07:35.435
+throughout the network.
+
+106
+00:07:35.435 --> 00:07:40.025
+Since the development of the original
+inception module, the author and
+
+107
+00:07:40.025 --> 00:07:43.760
+others have built on it and
+come up with other versions as well.
+
+108
+00:07:43.760 --> 00:07:49.090
+So there are research papers on newer
+versions of the inception algorithm.
+
+109
+00:07:49.090 --> 00:07:53.380
+And you sometimes see people use
+some of these later versions as well
+
+110
+00:07:53.380 --> 00:07:57.040
+in their work, like inception v2,
+inception v3, inception v4.
+
+111
+00:07:57.040 --> 00:07:59.360
+There's also an inception version.
+
+112
+00:07:59.360 --> 00:08:02.800
+This combined with the resonant
+idea of having skipped connections,
+
+113
+00:08:02.800 --> 00:08:05.740
+and that sometimes works even better.
+
+114
+00:08:05.740 --> 00:08:10.600
+But all of these variations are built on
+the basic idea that you learned about
+
+115
+00:08:10.600 --> 00:08:14.710
+this in the previous video of coming
+up with the inception module and
+
+116
+00:08:14.710 --> 00:08:17.510
+then stacking up a bunch of them together.
+
+117
+00:08:17.510 --> 00:08:20.530
+And with these videos you
+should be able to read and
+
+118
+00:08:20.530 --> 00:08:23.940
+understand, I think, the inception paper,
+
+119
+00:08:23.940 --> 00:08:28.790
+as well as maybe some of the papers
+describing the later derivation as well.
+
+120
+00:08:28.790 --> 00:08:30.020
+So that's it,
+
+121
+00:08:30.020 --> 00:08:34.820
+you've gone through quite a lot of
+specialized neural network architectures.
+
+122
+00:08:34.820 --> 00:08:39.650
+In the next video, I want to start showing
+you some more practical advice on how you
+
+123
+00:08:39.650 --> 00:08:43.830
+actually use these algorithms to build
+your own computer vision system.
+
+124
+00:08:43.830 --> 00:08:45.090
+Let's go on to the next video.

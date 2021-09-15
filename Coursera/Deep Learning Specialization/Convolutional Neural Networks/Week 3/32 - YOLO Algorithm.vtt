@@ -1,0 +1,477 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.900
+You've already seen most of the components of object detection.
+
+2
+00:00:03.900 --> 00:00:06.690
+In this video, let's put all the components
+
+3
+00:00:06.690 --> 00:00:10.850
+together to form the YOLO object detection algorithm.
+
+4
+00:00:10.850 --> 00:00:14.130
+First, let's see how you construct your training set.
+
+5
+00:00:14.130 --> 00:00:16.380
+Suppose you're trying to train an algorithm to detect
+
+6
+00:00:16.380 --> 00:00:19.425
+three objects: pedestrians, cars, and motorcycles.
+
+7
+00:00:19.425 --> 00:00:23.262
+And you will need to explicitly have the full background class,
+
+8
+00:00:23.262 --> 00:00:25.390
+so just the class labels here.
+
+9
+00:00:25.390 --> 00:00:28.305
+If you're using two anchor boxes,
+
+10
+00:00:28.305 --> 00:00:33.495
+then the outputs y will be three by three because you are using three by three grid cell,
+
+11
+00:00:33.495 --> 00:00:36.225
+by two, this is the number of anchors,
+
+12
+00:00:36.225 --> 00:00:39.880
+by eight because that's the dimension of this.
+
+13
+00:00:39.880 --> 00:00:45.650
+Eight is actually five which is plus the number of classes.
+
+14
+00:00:45.650 --> 00:00:49.533
+So five because you have Pc and then the bounding boxes,
+
+15
+00:00:49.533 --> 00:00:53.505
+that's five, and then C1, C2, C3.
+
+16
+00:00:53.505 --> 00:00:56.340
+That dimension is equal to the number of classes.
+
+17
+00:00:56.340 --> 00:00:59.535
+And you can either view this as three by three by two by eight,
+
+18
+00:00:59.535 --> 00:01:03.310
+or by three by three by sixteen.
+
+19
+00:01:03.310 --> 00:01:05.415
+So to construct the training set,
+
+20
+00:01:05.415 --> 00:01:11.160
+you go through each of these nine grid cells and form the appropriate target vector y.
+
+21
+00:01:11.160 --> 00:01:13.050
+So take this first grid cell,
+
+22
+00:01:13.050 --> 00:01:16.470
+there's nothing worth detecting in that grid cell.
+
+23
+00:01:16.470 --> 00:01:19.410
+None of the three classes pedestrian, car and motocycle,
+
+24
+00:01:19.410 --> 00:01:22.680
+appear in the upper left grid cell and so,
+
+25
+00:01:22.680 --> 00:01:27.870
+the target y corresponding to that grid cell would be equal to this.
+
+26
+00:01:27.870 --> 00:01:31.276
+Where Pc for the first anchor box
+
+27
+00:01:31.276 --> 00:01:34.215
+is zero because there's nothing associated for the first anchor box,
+
+28
+00:01:34.215 --> 00:01:37.830
+and is also zero for the second anchor box and
+
+29
+00:01:37.830 --> 00:01:42.355
+so on all of these other values are don't cares.
+
+30
+00:01:42.355 --> 00:01:45.227
+Now, most of the grid cells have nothing in them,
+
+31
+00:01:45.227 --> 00:01:47.790
+but for that box over there,
+
+32
+00:01:47.790 --> 00:01:53.550
+you would have this target vector y.
+
+33
+00:01:53.550 --> 00:01:58.680
+So assuming that your training set has a bounding box like this for the car,
+
+34
+00:01:58.680 --> 00:02:01.560
+it's just a little bit wider than it is tall.
+
+35
+00:02:01.560 --> 00:02:04.005
+And so if your anchor boxes are that,
+
+36
+00:02:04.005 --> 00:02:05.475
+this is a anchor box one,
+
+37
+00:02:05.475 --> 00:02:07.191
+this is anchor box two,
+
+38
+00:02:07.191 --> 00:02:12.475
+then the red box has just slightly higher IoU with anchor box two.
+
+39
+00:02:12.475 --> 00:02:17.320
+And so the car gets associated with this lower portion of the vector.
+
+40
+00:02:17.320 --> 00:02:22.435
+So notice then that Pc associate anchor box one is zero.
+
+41
+00:02:22.435 --> 00:02:24.965
+So you have don't cares all these components.
+
+42
+00:02:24.965 --> 00:02:28.005
+Then you have this Pc is equal to one,
+
+43
+00:02:28.005 --> 00:02:33.390
+then you should use these to specify the position of the red bounding box,
+
+44
+00:02:33.390 --> 00:02:38.820
+and then specify that the correct object is class two.
+
+45
+00:02:38.820 --> 00:02:41.865
+Right that it is a car.
+
+46
+00:02:41.865 --> 00:02:44.010
+So you go through this and for each of
+
+47
+00:02:44.010 --> 00:02:47.485
+your nine grid positions each of your three by three grid positions,
+
+48
+00:02:47.485 --> 00:02:50.085
+you would come up with a vector like this.
+
+49
+00:02:50.085 --> 00:02:52.299
+Come up with a 16 dimensional vector.
+
+50
+00:02:52.299 --> 00:02:59.375
+And so that's why the final output volume is going to be 3 by 3 by 16.
+
+51
+00:02:59.375 --> 00:03:04.530
+Oh and as usual for simplicity on the slide I've used a 3 by 3 the grid.
+
+52
+00:03:04.530 --> 00:03:09.540
+In practice it might be more like a 19 by 19 by 16.
+
+53
+00:03:09.540 --> 00:03:12.265
+Or in fact if you use more anchor boxes,
+
+54
+00:03:12.265 --> 00:03:17.363
+maybe 19 by 19 by 5 x 8 because five times eight is 40.
+
+55
+00:03:17.363 --> 00:03:20.405
+So it will be 19 by 19 by 40.
+
+56
+00:03:20.405 --> 00:03:23.475
+That's if you use five anchor boxes.
+
+57
+00:03:23.475 --> 00:03:30.080
+So that's training and you train ConvNet that inputs an image,
+
+58
+00:03:30.080 --> 00:03:32.395
+maybe 100 by 100 by 3,
+
+59
+00:03:32.395 --> 00:03:39.565
+and your ConvNet would then finally output this output volume in our example,
+
+60
+00:03:39.565 --> 00:03:43.204
+3 by 3 by 16 or 3 by 3 by 2 by 8.
+
+61
+00:03:43.204 --> 00:03:47.505
+Next, let's look at how your algorithm can make predictions.
+
+62
+00:03:47.505 --> 00:03:53.445
+Given an image, your neural network will output this by 3 by 3 by 2 by 8 volume,
+
+63
+00:03:53.445 --> 00:03:57.690
+where for each of the nine grid cells you get a vector like that.
+
+64
+00:03:57.690 --> 00:04:00.795
+So for the grid cell here on the upper left,
+
+65
+00:04:00.795 --> 00:04:02.925
+if there's no object there,
+
+66
+00:04:02.925 --> 00:04:06.150
+hopefully, your neural network will output zero here,
+
+67
+00:04:06.150 --> 00:04:08.990
+and zero here, and it will output some other values.
+
+68
+00:04:08.990 --> 00:04:11.080
+Your neural network can't output a question mark,
+
+69
+00:04:11.080 --> 00:04:12.540
+can't output a don't care.
+
+70
+00:04:12.540 --> 00:04:15.205
+So I'll put some numbers for the rest.
+
+71
+00:04:15.205 --> 00:04:17.400
+But these numbers will basically be ignored because
+
+72
+00:04:17.400 --> 00:04:20.580
+the neural network is telling you that there's no object there.
+
+73
+00:04:20.580 --> 00:04:23.910
+So it doesn't really matter whether the output is a bounding box or there's is a car.
+
+74
+00:04:23.910 --> 00:04:28.170
+So basically just be some set of numbers, more or less noise.
+
+75
+00:04:28.170 --> 00:04:32.370
+In contrast, for this box over here hopefully,
+
+76
+00:04:32.370 --> 00:04:37.308
+the value of y to the output for that box at the bottom left,
+
+77
+00:04:37.308 --> 00:04:40.850
+hopefully would be something like zero for bounding box one.
+
+78
+00:04:40.850 --> 00:04:43.650
+And then just open a bunch of numbers, just noise.
+
+79
+00:04:43.650 --> 00:04:47.880
+Hopefully, you'll also output a set of numbers that
+
+80
+00:04:47.880 --> 00:04:52.980
+corresponds to specifying a pretty accurate bounding box for the car.
+
+81
+00:04:52.980 --> 00:04:56.970
+So that's how the neural network will make predictions.
+
+82
+00:04:56.970 --> 00:05:00.675
+Finally, you run this through non-max suppression.
+
+83
+00:05:00.675 --> 00:05:02.240
+So just to make it interesting.
+
+84
+00:05:02.240 --> 00:05:04.740
+Let's look at the new test set image.
+
+85
+00:05:04.740 --> 00:05:08.280
+Here's how you would run non-max suppression.
+
+86
+00:05:08.280 --> 00:05:10.680
+If you're using two anchor boxes,
+
+87
+00:05:10.680 --> 00:05:12.690
+then for each of the non-grid cells,
+
+88
+00:05:12.690 --> 00:05:15.445
+you get two predicted bounding boxes.
+
+89
+00:05:15.445 --> 00:05:17.835
+Some of them will have very low probability,
+
+90
+00:05:17.835 --> 00:05:20.760
+very low Pc, but you still get
+
+91
+00:05:20.760 --> 00:05:24.235
+two predicted bounding boxes for each of the nine grid cells.
+
+92
+00:05:24.235 --> 00:05:27.540
+So let's say, those are the bounding boxes you get.
+
+93
+00:05:27.540 --> 00:05:30.060
+And notice that some of the bounding boxes can go
+
+94
+00:05:30.060 --> 00:05:34.645
+outside the height and width of the grid cell that they came from.
+
+95
+00:05:34.645 --> 00:05:38.725
+Next, you then get rid of the low probability predictions.
+
+96
+00:05:38.725 --> 00:05:41.635
+So get rid of the ones that even the neural network says,
+
+97
+00:05:41.635 --> 00:05:44.025
+gee this object probably isn't there.
+
+98
+00:05:44.025 --> 00:05:45.855
+So get rid of those.
+
+99
+00:05:45.855 --> 00:05:49.868
+And then finally if you have three classes you're trying to detect,
+
+100
+00:05:49.868 --> 00:05:53.665
+you're trying to detect pedestrians, cars and motorcycles.
+
+101
+00:05:53.665 --> 00:05:56.655
+What you do is, for each of the three classes,
+
+102
+00:05:56.655 --> 00:05:59.760
+independently run non-max suppression for
+
+103
+00:05:59.760 --> 00:06:03.010
+the objects that were predicted to come from that class.
+
+104
+00:06:03.010 --> 00:06:07.620
+But use non-max suppression for the predictions of the pedestrians class,
+
+105
+00:06:07.620 --> 00:06:10.080
+run non-max suppression for the car class,
+
+106
+00:06:10.080 --> 00:06:13.100
+and non-max suppression for the motorcycle class.
+
+107
+00:06:13.100 --> 00:06:17.865
+But run that basically three times to generate the final predictions.
+
+108
+00:06:17.865 --> 00:06:20.970
+And so the output of this is hopefully that you will have
+
+109
+00:06:20.970 --> 00:06:25.465
+detected all the cars and all the pedestrians in this image.
+
+110
+00:06:25.465 --> 00:06:29.170
+So that's it for the YOLO object detection algorithm.
+
+111
+00:06:29.170 --> 00:06:33.170
+Which is really one of the most effective object detection algorithms,
+
+112
+00:06:33.170 --> 00:06:36.560
+that also encompasses many of the best ideas across
+
+113
+00:06:36.560 --> 00:06:41.275
+the entire computer vision literature that relate to object detection.
+
+114
+00:06:41.275 --> 00:06:46.056
+And you get a chance to practice implementing many components of this yourself,
+
+115
+00:06:46.056 --> 00:06:47.840
+in this week's problem exercise.
+
+116
+00:06:47.840 --> 00:06:51.520
+So I hope you enjoy this week's problem exercise.
+
+117
+00:06:51.520 --> 00:06:54.120
+There's also an optional video that follows this one
+
+118
+00:06:54.120 --> 00:06:57.010
+which you can either watch or not watch as you please.
+
+119
+00:06:57.010 --> 00:07:01.000
+But either way I also look forward to seeing you next week.

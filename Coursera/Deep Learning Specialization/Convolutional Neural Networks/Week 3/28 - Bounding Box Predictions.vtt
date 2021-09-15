@@ -1,0 +1,993 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.380
+In the last video,
+
+2
+00:00:01.380 --> 00:00:06.300
+you learned how to use a convolutional implementation of sliding windows.
+
+3
+00:00:06.300 --> 00:00:08.780
+That's more computationally efficient,
+
+4
+00:00:08.780 --> 00:00:14.130
+but it still has a problem of not quite outputting the most accurate bounding boxes.
+
+5
+00:00:14.130 --> 00:00:16.710
+In this video, let's see how you can get
+
+6
+00:00:16.710 --> 00:00:19.520
+your bounding box predictions to be more accurate.
+
+7
+00:00:19.520 --> 00:00:21.495
+With sliding windows, you take
+
+8
+00:00:21.495 --> 00:00:26.190
+this three sets of locations and run the crossfire through it.
+
+9
+00:00:26.190 --> 00:00:27.825
+And in this case,
+
+10
+00:00:27.825 --> 00:00:32.636
+none of the boxes really match up perfectly with the position of the car.
+
+11
+00:00:32.636 --> 00:00:35.900
+So, maybe that box is the best match.
+
+12
+00:00:35.900 --> 00:00:38.465
+And also, it looks like in drawn through,
+
+13
+00:00:38.465 --> 00:00:41.585
+the perfect bounding box isn't even quite square,
+
+14
+00:00:41.585 --> 00:00:48.750
+it's actually has a slightly wider rectangle or slightly horizontal aspect ratio.
+
+15
+00:00:48.750 --> 00:00:53.975
+So, is there a way to get this algorithm to outputs more accurate bounding boxes?
+
+16
+00:00:53.975 --> 00:00:59.275
+A good way to get this output more accurate bounding boxes is with the YOLO algorithm.
+
+17
+00:00:59.275 --> 00:01:03.225
+YOLO stands for, You Only Look Once.
+
+18
+00:01:03.225 --> 00:01:06.195
+And is an algorithm due to Joseph Redmon,
+
+19
+00:01:06.195 --> 00:01:07.975
+Santosh Divvala, Ross Girshick and Ali Farhadi.
+
+20
+00:01:07.975 --> 00:01:10.735
+Here's what you do.
+
+21
+00:01:10.735 --> 00:01:14.230
+Let's say you have an input image at 100 by 100,
+
+22
+00:01:14.230 --> 00:01:17.175
+you're going to place down a grid on this image.
+
+23
+00:01:17.175 --> 00:01:19.425
+And for the purposes of illustration,
+
+24
+00:01:19.425 --> 00:01:21.780
+I'm going to use a 3 by 3 grid.
+
+25
+00:01:21.780 --> 00:01:23.640
+Although in an actual implementation,
+
+26
+00:01:23.640 --> 00:01:24.840
+you use a finer one,
+
+27
+00:01:24.840 --> 00:01:27.880
+like maybe a 19 by 19 grid.
+
+28
+00:01:27.880 --> 00:01:30.660
+And the basic idea is you're going to take
+
+29
+00:01:30.660 --> 00:01:36.345
+the image classification and localization algorithm that you saw a few videos back,
+
+30
+00:01:36.345 --> 00:01:40.165
+and apply it to each of the nine grids.
+
+31
+00:01:40.165 --> 00:01:47.910
+And the basic idea is you're going to take the image classification and
+
+32
+00:01:47.910 --> 00:01:52.170
+localization algorithm that you saw in the first video of
+
+33
+00:01:52.170 --> 00:01:58.440
+this week and apply that to each of the nine grid cells of this image.
+
+34
+00:01:58.440 --> 00:01:59.851
+So the more concrete,
+
+35
+00:01:59.851 --> 00:02:05.171
+here's how you define the labels you use for training.
+
+36
+00:02:05.171 --> 00:02:08.070
+So for each of the nine grid cells, you specify a label Y,
+
+37
+00:02:08.070 --> 00:02:14.561
+where the label Y is this eight dimensional vector,
+
+38
+00:02:14.561 --> 00:02:16.470
+same as you saw previously.
+
+39
+00:02:16.470 --> 00:02:19.610
+Your first output PC 01 depending on whether or
+
+40
+00:02:19.610 --> 00:02:24.170
+not there's an image in that grid cell and then BX,
+
+41
+00:02:24.170 --> 00:02:30.800
+BY, BH, BW to specify the bounding box if there is an image,
+
+42
+00:02:30.800 --> 00:02:33.348
+if there is an object associated with that grid cell.
+
+43
+00:02:33.348 --> 00:02:36.320
+And then say, C1, C2, C3,
+
+44
+00:02:36.320 --> 00:02:40.935
+if you try and recognize three classes not counting the background class.
+
+45
+00:02:40.935 --> 00:02:43.120
+So you try to recognize pedestrian's class,
+
+46
+00:02:43.120 --> 00:02:45.110
+motorcycles and the background class.
+
+47
+00:02:45.110 --> 00:02:47.720
+Then C1 C2 C3 can be the pedestrian,
+
+48
+00:02:47.720 --> 00:02:50.570
+car and motorcycle classes.
+
+49
+00:02:50.570 --> 00:02:52.505
+So in this image,
+
+50
+00:02:52.505 --> 00:02:53.870
+we have nine grid cells,
+
+51
+00:02:53.870 --> 00:02:59.105
+so you have a vector like this for each of the grid cells.
+
+52
+00:02:59.105 --> 00:03:02.316
+So let's start with the upper left grid cell,
+
+53
+00:03:02.316 --> 00:03:03.955
+this one up here.
+
+54
+00:03:03.955 --> 00:03:06.115
+For that one, there is no object.
+
+55
+00:03:06.115 --> 00:03:11.960
+So, the label vector Y for the upper left grid cell would be zero,
+
+56
+00:03:11.960 --> 00:03:16.655
+and then don't cares for the rest of these.
+
+57
+00:03:16.655 --> 00:03:20.707
+The output label Y would be the same for this grid cell,
+
+58
+00:03:20.707 --> 00:03:24.640
+and this grid cell, and all the grid cells with nothing,
+
+59
+00:03:24.640 --> 00:03:27.845
+with no interesting object in them.
+
+60
+00:03:27.845 --> 00:03:32.435
+Now, how about this grid cell?
+
+61
+00:03:32.435 --> 00:03:34.385
+To give a bit more detail,
+
+62
+00:03:34.385 --> 00:03:36.355
+this image has two objects.
+
+63
+00:03:36.355 --> 00:03:40.270
+And what the YOLO algorithm does is it takes the midpoint of reach of
+
+64
+00:03:40.270 --> 00:03:45.690
+the two objects and then assigns the object to the grid cell containing the midpoint.
+
+65
+00:03:45.690 --> 00:03:49.900
+So the left car is assigned to this grid cell,
+
+66
+00:03:49.900 --> 00:03:51.445
+and the car on the right,
+
+67
+00:03:51.445 --> 00:03:53.140
+which is this midpoint,
+
+68
+00:03:53.140 --> 00:03:57.265
+is assigned to this grid cell.
+
+69
+00:03:57.265 --> 00:04:02.510
+And so even though the central grid cell has some parts of both cars,
+
+70
+00:04:02.510 --> 00:04:06.175
+we'll pretend the central grid cell has no interesting object so that
+
+71
+00:04:06.175 --> 00:04:11.560
+the central grid cell the class label Y also looks like this vector with no object,
+
+72
+00:04:11.560 --> 00:04:13.450
+and so the first component PC,
+
+73
+00:04:13.450 --> 00:04:15.000
+and then the rest are don't cares.
+
+74
+00:04:15.000 --> 00:04:17.091
+Whereas for this cell,
+
+75
+00:04:17.091 --> 00:04:21.005
+this cell that I have circled in green on the left,
+
+76
+00:04:21.005 --> 00:04:23.765
+the target label Y would be as follows.
+
+77
+00:04:23.765 --> 00:04:25.085
+There is an object,
+
+78
+00:04:25.085 --> 00:04:26.770
+and then you write BX, BY, BH,
+
+79
+00:04:26.770 --> 00:04:32.830
+BW, to specify the position of this bounding box.
+
+80
+00:04:32.830 --> 00:04:34.870
+And then you have, let's see,
+
+81
+00:04:34.870 --> 00:04:38.680
+if class one was a pedestrian, then that was zero.
+
+82
+00:04:38.680 --> 00:04:40.420
+Class two is a car, that's one.
+
+83
+00:04:40.420 --> 00:04:43.960
+Class three was a motorcycle, that's zero.
+
+84
+00:04:43.960 --> 00:04:45.900
+And then similarly, for the grid cell on
+
+85
+00:04:45.900 --> 00:04:48.415
+their right because that does have an object in it,
+
+86
+00:04:48.415 --> 00:04:52.690
+it will also have some vector like
+
+87
+00:04:52.690 --> 00:04:58.325
+this as the target label corresponding to the grid cell on the right.
+
+88
+00:04:58.325 --> 00:05:00.715
+So, for each of these nine grid cells,
+
+89
+00:05:00.715 --> 00:05:04.815
+you end up with a eight dimensional output vector.
+
+90
+00:05:04.815 --> 00:05:08.415
+And because you have 3 by 3 grid cells,
+
+91
+00:05:08.415 --> 00:05:09.863
+you have nine grid cells,
+
+92
+00:05:09.863 --> 00:05:17.435
+the total volume of the output is going to be 3 by 3 by 8.
+
+93
+00:05:17.435 --> 00:05:24.760
+So the target output is going to be 3 by 3 by 8 because you have 3 by 3 grid cells.
+
+94
+00:05:24.760 --> 00:05:28.045
+And for each of the 3 by 3 grid cells,
+
+95
+00:05:28.045 --> 00:05:32.790
+you have a eight dimensional Y vector.
+
+96
+00:05:32.790 --> 00:05:36.250
+So the target output volume is 3 by 3 by 8.
+
+97
+00:05:36.250 --> 00:05:41.245
+Where for example, this 1 by 1 by 8 volume in
+
+98
+00:05:41.245 --> 00:05:42.970
+the upper left corresponds to
+
+99
+00:05:42.970 --> 00:05:47.770
+the target output vector for the upper left of the nine grid cells.
+
+100
+00:05:47.770 --> 00:05:50.710
+And so for each of the 3 by 3 positions,
+
+101
+00:05:50.710 --> 00:05:52.345
+for each of these nine grid cells,
+
+102
+00:05:52.345 --> 00:05:58.180
+does it correspond in eight dimensional target vector Y that you want to the output.
+
+103
+00:05:58.180 --> 00:05:59.610
+Some of which could be don't cares,
+
+104
+00:05:59.610 --> 00:06:01.010
+if there's no object there.
+
+105
+00:06:01.010 --> 00:06:03.360
+And that's why the total target outputs,
+
+106
+00:06:03.360 --> 00:06:08.635
+the output label for this image is now itself a 3 by 3 by 8 volume.
+
+107
+00:06:08.635 --> 00:06:11.245
+So now, to train your neural network,
+
+108
+00:06:11.245 --> 00:06:17.475
+the input is 100 by 100 by 3,
+
+109
+00:06:17.475 --> 00:06:19.015
+that's the input image.
+
+110
+00:06:19.015 --> 00:06:22.795
+And then you have a usual convnet with conv,
+
+111
+00:06:22.795 --> 00:06:27.690
+layers of max pool layers, and so on.
+
+112
+00:06:27.690 --> 00:06:28.870
+So that in the end,
+
+113
+00:06:28.870 --> 00:06:34.440
+you have this, should choose the conv layers and the max pool layers,
+
+114
+00:06:34.440 --> 00:06:42.320
+and so on, so that this eventually maps to a 3 by 3 by 8 output volume.
+
+115
+00:06:42.320 --> 00:06:46.470
+And so what you do is you have an input X which is the input image like that,
+
+116
+00:06:46.470 --> 00:06:50.125
+and you have these target labels Y which are 3 by 3 by 8,
+
+117
+00:06:50.125 --> 00:06:54.160
+and you use map propagation to train the neural network to map
+
+118
+00:06:54.160 --> 00:06:58.565
+from any input X to this type of output volume Y.
+
+119
+00:06:58.565 --> 00:07:01.360
+So the advantage of this algorithm is that
+
+120
+00:07:01.360 --> 00:07:07.228
+the neural network outputs precise bounding boxes as follows.
+
+121
+00:07:07.228 --> 00:07:08.320
+So at test time,
+
+122
+00:07:08.320 --> 00:07:10.930
+what you do is you feed an input image X
+
+123
+00:07:10.930 --> 00:07:14.255
+and run forward prop until you get this output Y.
+
+124
+00:07:14.255 --> 00:07:16.735
+And then for each of the nine outputs
+
+125
+00:07:16.735 --> 00:07:19.480
+of each of the 3 by 3 positions in which of the output,
+
+126
+00:07:19.480 --> 00:07:22.810
+you can then just read off 1 or 0.
+
+127
+00:07:22.810 --> 00:07:27.153
+Is there an object associated with that one of the nine positions?
+
+128
+00:07:27.153 --> 00:07:29.590
+And that there is an object, what object it is,
+
+129
+00:07:29.590 --> 00:07:36.065
+and where is the bounding box for the object in that grid cell?
+
+130
+00:07:36.065 --> 00:07:39.118
+And so long as you don't have more than one object in each grid cell,
+
+131
+00:07:39.118 --> 00:07:41.810
+this algorithm should work okay.
+
+132
+00:07:41.810 --> 00:07:43.900
+And the problem of having multiple objects within
+
+133
+00:07:43.900 --> 00:07:46.600
+the grid cell is something we'll address later.
+
+134
+00:07:46.600 --> 00:07:51.985
+Of use a relatively small 3 by 3 grid,
+
+135
+00:07:51.985 --> 00:07:54.470
+in practice, you might use a much finer,
+
+136
+00:07:54.470 --> 00:07:56.160
+grid maybe 19 by 19.
+
+137
+00:07:56.160 --> 00:07:58.900
+So you end up with 19 by 19 by 8,
+
+138
+00:07:58.900 --> 00:08:02.315
+and that also makes your grid much finer.
+
+139
+00:08:02.315 --> 00:08:07.180
+It reduces the chance that there are multiple objects assigned to the same grid cell.
+
+140
+00:08:07.180 --> 00:08:08.800
+And just as a reminder,
+
+141
+00:08:08.800 --> 00:08:11.590
+the way you assign an object to grid cell as
+
+142
+00:08:11.590 --> 00:08:14.290
+you look at the midpoint of an object and then
+
+143
+00:08:14.290 --> 00:08:19.930
+you assign that object to whichever one grid cell contains the midpoint of the object.
+
+144
+00:08:19.930 --> 00:08:23.926
+So each object, even if the objects spends multiple grid cells,
+
+145
+00:08:23.926 --> 00:08:27.410
+that object is assigned only to one of the nine grid cells,
+
+146
+00:08:27.410 --> 00:08:29.018
+or one of the 3 by 3,
+
+147
+00:08:29.018 --> 00:08:31.565
+or one of the 19 by 19 grid cells.
+
+148
+00:08:31.565 --> 00:08:33.584
+Algorithm of a 19 by 19 grid,
+
+149
+00:08:33.584 --> 00:08:36.715
+the chance of an object of two midpoints of
+
+150
+00:08:36.715 --> 00:08:41.445
+objects appearing in the same grid cell is just a bit smaller.
+
+151
+00:08:41.445 --> 00:08:44.043
+So notice two things, first,
+
+152
+00:08:44.043 --> 00:08:46.930
+this is a lot like the image classification and
+
+153
+00:08:46.930 --> 00:08:51.530
+localization algorithm that we talked about in the first video of this week.
+
+154
+00:08:51.530 --> 00:08:55.380
+And that it outputs the bounding balls coordinates explicitly.
+
+155
+00:08:55.380 --> 00:08:58.235
+And so this allows in your network to output bounding
+
+156
+00:08:58.235 --> 00:09:02.440
+boxes of any aspect ratio, as well as,
+
+157
+00:09:02.440 --> 00:09:05.690
+output much more precise coordinates that aren't just
+
+158
+00:09:05.690 --> 00:09:10.530
+dictated by the stripe size of your sliding windows classifier.
+
+159
+00:09:10.530 --> 00:09:12.220
+And second, this is
+
+160
+00:09:12.220 --> 00:09:17.320
+a convolutional implementation and you're not implementing this algorithm nine
+
+161
+00:09:17.320 --> 00:09:25.540
+times on the 3 by 3 grid or if you're using a 19 by 19 grid.19 squared is 361.
+
+162
+00:09:25.540 --> 00:09:31.090
+So, you're not running the same algorithm 361 times or 19 squared times.
+
+163
+00:09:31.090 --> 00:09:34.285
+Instead, this is one single convolutional implantation,
+
+164
+00:09:34.285 --> 00:09:39.610
+where you use one consonant with a lot of shared computation between
+
+165
+00:09:39.610 --> 00:09:46.780
+all the computations needed for all of your 3 by 3 or all of your 19 by 19 grid cells.
+
+166
+00:09:46.780 --> 00:09:49.135
+So, this is a pretty efficient algorithm.
+
+167
+00:09:49.135 --> 00:09:52.720
+And in fact, one nice thing about the YOLO algorithm,
+
+168
+00:09:52.720 --> 00:09:57.445
+which is constant popularity is because this is a convolutional implementation,
+
+169
+00:09:57.445 --> 00:09:58.930
+it actually runs very fast.
+
+170
+00:09:58.930 --> 00:10:02.530
+So this works even for real time object detection.
+
+171
+00:10:02.530 --> 00:10:03.915
+Now, before wrapping up,
+
+172
+00:10:03.915 --> 00:10:06.610
+there's one more detail I want to share with you,
+
+173
+00:10:06.610 --> 00:10:12.495
+which is, how do you encode these bounding boxes bx, by, BH, BW?
+
+174
+00:10:12.495 --> 00:10:16.135
+Let's discuss that on the next slide.
+
+175
+00:10:16.135 --> 00:10:18.610
+So, given these two cars,
+
+176
+00:10:18.610 --> 00:10:21.465
+remember, we have the 3 by 3 grid.
+
+177
+00:10:21.465 --> 00:10:25.120
+Let's take the example of the car on the right.
+
+178
+00:10:25.120 --> 00:10:32.220
+So, in this grid cell there is an object and so the target label y will be one,
+
+179
+00:10:32.220 --> 00:10:34.270
+that was PC is equal to one.
+
+180
+00:10:34.270 --> 00:10:37.060
+And then bx, by,
+
+181
+00:10:37.060 --> 00:10:40.970
+BH, BW, and then 0 1 0.
+
+182
+00:10:40.970 --> 00:10:43.790
+So, how do you specify the bounding box?
+
+183
+00:10:43.790 --> 00:10:48.310
+In the YOLO algorithm, relative to this square,
+
+184
+00:10:48.310 --> 00:10:51.545
+when I take the convention that the upper left point here is
+
+185
+00:10:51.545 --> 00:10:56.180
+0 0 and this lower right point is 1 1.
+
+186
+00:10:56.180 --> 00:10:59.155
+So to specify the position of that midpoint,
+
+187
+00:10:59.155 --> 00:11:02.715
+that orange dot, bx might be,
+
+188
+00:11:02.715 --> 00:11:05.980
+let's say x looks like is about 0.4.
+
+189
+00:11:05.980 --> 00:11:09.760
+Maybe its about 0.4 of the way to their right.
+
+190
+00:11:09.760 --> 00:11:15.945
+And then y, looks I guess maybe 0.3.
+
+191
+00:11:15.945 --> 00:11:19.380
+And then the height of the bounding box is specified as
+
+192
+00:11:19.380 --> 00:11:24.090
+a fraction of the overall width of this box.
+
+193
+00:11:24.090 --> 00:11:30.931
+So, the width of this red box is maybe 90% of that blue line.
+
+194
+00:11:30.931 --> 00:11:35.030
+And so BH is 0.9 and the height of
+
+195
+00:11:35.030 --> 00:11:42.075
+this is maybe one half of the overall height of the grid cell.
+
+196
+00:11:42.075 --> 00:11:46.670
+So in that case, BW would be, let's say 0.5.
+
+197
+00:11:46.670 --> 00:11:49.455
+So, in other words, this bx, by, BH,
+
+198
+00:11:49.455 --> 00:11:53.690
+BW as specified relative to the grid cell.
+
+199
+00:11:53.690 --> 00:11:55.505
+And so bx and by,
+
+200
+00:11:55.505 --> 00:11:58.455
+this has to be between 0 and 1, right?
+
+201
+00:11:58.455 --> 00:12:01.055
+Because pretty much by definition that
+
+202
+00:12:01.055 --> 00:12:04.340
+orange dot is within the bounds of that grid cell is assigned to.
+
+203
+00:12:04.340 --> 00:12:08.509
+If it wasn't between 0 and 1 it was outside the square,
+
+204
+00:12:08.509 --> 00:12:11.680
+then we'll have been assigned to a different grid cell.
+
+205
+00:12:11.680 --> 00:12:14.495
+But these could be greater than one.
+
+206
+00:12:14.495 --> 00:12:18.785
+In particular if you have a car where the bounding box was that,
+
+207
+00:12:18.785 --> 00:12:21.045
+then the height and width of the bounding box,
+
+208
+00:12:21.045 --> 00:12:23.440
+this could be greater than one.
+
+209
+00:12:23.440 --> 00:12:27.007
+So, there are multiple ways of specifying the bounding boxes,
+
+210
+00:12:27.007 --> 00:12:30.710
+but this would be one convention that's quite reasonable.
+
+211
+00:12:30.710 --> 00:12:33.710
+Although, if you read the YOLO research papers,
+
+212
+00:12:33.710 --> 00:12:35.970
+the YOLO research line there were
+
+213
+00:12:35.970 --> 00:12:39.040
+other parameterizations that work even a little bit better,
+
+214
+00:12:39.040 --> 00:12:44.925
+but I hope this gives one reasonable condition that should work okay.
+
+215
+00:12:44.925 --> 00:12:47.690
+Although, there are some more complicated parameterizations
+
+216
+00:12:47.690 --> 00:12:51.980
+involving sigmoid functions to make sure this is between 0 and 1.
+
+217
+00:12:51.980 --> 00:12:57.185
+And using an explanation parameterization to make sure that these are non-negative,
+
+218
+00:12:57.185 --> 00:13:01.245
+since 0.9, 0.5, this has to be greater or equal to zero.
+
+219
+00:13:01.245 --> 00:13:03.915
+There are some other more advanced parameterizations
+
+220
+00:13:03.915 --> 00:13:05.457
+that work things a little bit better,
+
+221
+00:13:05.457 --> 00:13:09.635
+but the one you saw here should work okay.
+
+222
+00:13:09.635 --> 00:13:14.775
+So, that's it for the YOLO or the You Only Look Once algorithm.
+
+223
+00:13:14.775 --> 00:13:17.115
+And in the next few videos I'll show you
+
+224
+00:13:17.115 --> 00:13:21.470
+a few other ideas that will help make this algorithm even better.
+
+225
+00:13:21.470 --> 00:13:23.170
+In the meantime, if you want,
+
+226
+00:13:23.170 --> 00:13:24.445
+you can take a look at
+
+227
+00:13:24.445 --> 00:13:29.667
+YOLO paper reference at the bottom of these past couple slides I use.
+
+228
+00:13:29.667 --> 00:13:31.325
+Although, just one warning,
+
+229
+00:13:31.325 --> 00:13:33.530
+if you take a look at these papers which is
+
+230
+00:13:33.530 --> 00:13:37.425
+the YOLO paper is one of the harder papers to read.
+
+231
+00:13:37.425 --> 00:13:40.265
+I remember, when I was reading this paper for the first time,
+
+232
+00:13:40.265 --> 00:13:43.325
+I had a really hard time figuring out what was going on.
+
+233
+00:13:43.325 --> 00:13:46.356
+And I wound up asking a couple of my friends,
+
+234
+00:13:46.356 --> 00:13:48.950
+very good researchers to help me figure it out,
+
+235
+00:13:48.950 --> 00:13:53.125
+and even they had a hard time understanding some of the details of the paper.
+
+236
+00:13:53.125 --> 00:13:54.845
+So, if you look at the paper,
+
+237
+00:13:54.845 --> 00:13:58.195
+it's okay if you have a hard time figuring it out.
+
+238
+00:13:58.195 --> 00:14:00.885
+I wish it was more uncommon,
+
+239
+00:14:00.885 --> 00:14:02.795
+but it's not that uncommon, sadly,
+
+240
+00:14:02.795 --> 00:14:05.130
+for even senior researchers,
+
+241
+00:14:05.130 --> 00:14:08.840
+that review research papers and have a hard time figuring out the details.
+
+242
+00:14:08.840 --> 00:14:10.895
+And have to look at open source code,
+
+243
+00:14:10.895 --> 00:14:12.005
+or contact the authors,
+
+244
+00:14:12.005 --> 00:14:15.610
+or something else to figure out the details of these outcomes.
+
+245
+00:14:15.610 --> 00:14:19.715
+But don't let me stop you from taking a look at the paper yourself though if you wish,
+
+246
+00:14:19.715 --> 00:14:21.700
+but this is one of the harder ones.
+
+247
+00:14:21.700 --> 00:14:25.975
+So, that though, you now understand the basics of the YOLO algorithm.
+
+248
+00:14:25.975 --> 00:14:31.000
+Let's go on to some additional pieces that will make this algorithm work even better.

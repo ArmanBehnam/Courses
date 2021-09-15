@@ -1,0 +1,653 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.440
+In the last video,
+
+2
+00:00:01.440 --> 00:00:03.705
+you learned about the sliding windows
+
+3
+00:00:03.705 --> 00:00:08.170
+object detection algorithm using a convnet but we saw that it was too slow.
+
+4
+00:00:08.170 --> 00:00:13.090
+In this video, you'll learn how to implement that algorithm convolutionally.
+
+5
+00:00:13.090 --> 00:00:14.640
+Let's see what this means.
+
+6
+00:00:14.640 --> 00:00:20.040
+To build up towards the convolutional implementation of sliding windows let's first see
+
+7
+00:00:20.040 --> 00:00:25.590
+how you can turn fully connected layers in neural network into convolutional layers.
+
+8
+00:00:25.590 --> 00:00:28.620
+We'll do that first on this slide and then the next slide,
+
+9
+00:00:28.620 --> 00:00:33.600
+we'll use the ideas from this slide to show you the convolutional implementation.
+
+10
+00:00:33.600 --> 00:00:39.560
+So let's say that your object detection algorithm inputs 14 by 14 by 3 images.
+
+11
+00:00:39.560 --> 00:00:42.240
+This is quite small but just for illustrative purposes,
+
+12
+00:00:42.240 --> 00:00:45.650
+and let's say it then uses 5 by 5 filters,
+
+13
+00:00:45.650 --> 00:00:52.155
+and let's say it uses 16 of them to map it from 14 by 14 by 3 to 10 by 10 by 16.
+
+14
+00:00:52.155 --> 00:00:56.970
+And then does a 2 by 2 max pooling to reduce it to 5 by 5 by 16.
+
+15
+00:00:56.970 --> 00:01:01.700
+Then has a fully connected layer to connect to 400 units.
+
+16
+00:01:01.700 --> 00:01:07.425
+Then now they're fully connected layer and then finally outputs a Y using a softmax unit.
+
+17
+00:01:07.425 --> 00:01:11.220
+In order to make the change we'll need to in a second,
+
+18
+00:01:11.220 --> 00:01:14.100
+I'm going to change this picture a little bit and instead I'm
+
+19
+00:01:14.100 --> 00:01:18.105
+going to view Y as four numbers,
+
+20
+00:01:18.105 --> 00:01:21.035
+corresponding to the cause probabilities of
+
+21
+00:01:21.035 --> 00:01:26.050
+the four causes that softmax units is classified amongst.
+
+22
+00:01:26.050 --> 00:01:31.405
+And the full causes could be pedestrian,
+
+23
+00:01:31.405 --> 00:01:35.609
+car, motorcycle, and background or something else.
+
+24
+00:01:35.609 --> 00:01:38.530
+Now, what I'd like to do is show how
+
+25
+00:01:38.530 --> 00:01:43.030
+these layers can be turned into convolutional layers.
+
+26
+00:01:43.030 --> 00:01:47.710
+So, the convnet will draw same as before for the first few layers.
+
+27
+00:01:47.710 --> 00:01:51.010
+And now, one way of implementing this next layer,
+
+28
+00:01:51.010 --> 00:01:55.030
+this fully connected layer is to implement this as a 5 by
+
+29
+00:01:55.030 --> 00:02:02.625
+5 filter and let's use 400 5 by 5 filters.
+
+30
+00:02:02.625 --> 00:02:08.950
+So if you take a 5 by 5 by 16 image and convolve it with a 5 by 5 filter, remember,
+
+31
+00:02:08.950 --> 00:02:13.450
+a 5 by 5 filter is implemented as 5 by 5 by
+
+32
+00:02:13.450 --> 00:02:19.240
+16 because our convention is that the filter looks across all 16 channels.
+
+33
+00:02:19.240 --> 00:02:25.375
+So this 16 and this 16 must match and so the outputs will be 1 by 1.
+
+34
+00:02:25.375 --> 00:02:30.445
+And if you have 400 of these 5 by 5 by 16 filters,
+
+35
+00:02:30.445 --> 00:02:36.056
+then the output dimension is going to be 1 by 1 by 400.
+
+36
+00:02:36.056 --> 00:02:41.016
+So rather than viewing these 400 as just a set of nodes,
+
+37
+00:02:41.016 --> 00:02:44.602
+we're going to view this as a 1 by 1 by 400 volume.
+
+38
+00:02:44.602 --> 00:02:50.260
+Mathematically, this is the same as a fully connected layer
+
+39
+00:02:50.260 --> 00:02:57.154
+because each of these 400 nodes has a filter of dimension 5 by 5 by 16.
+
+40
+00:02:57.154 --> 00:02:59.770
+So each of those 400 values is
+
+41
+00:02:59.770 --> 00:03:07.705
+some arbitrary linear function of these 5 by 5 by 16 activations from the previous layer.
+
+42
+00:03:07.705 --> 00:03:10.654
+Next, to implement the next convolutional layer,
+
+43
+00:03:10.654 --> 00:03:14.230
+we're going to implement a 1 by 1 convolution.
+
+44
+00:03:14.230 --> 00:03:18.500
+If you have 400 1 by 1 filters then,
+
+45
+00:03:18.500 --> 00:03:24.955
+with 400 filters the next layer will again be 1 by 1 by 400.
+
+46
+00:03:24.955 --> 00:03:29.030
+So that gives you this next fully connected layer.
+
+47
+00:03:29.030 --> 00:03:35.215
+And then finally, we're going to have another 1 by 1 filter,
+
+48
+00:03:35.215 --> 00:03:37.360
+followed by a softmax activation.
+
+49
+00:03:37.360 --> 00:03:40.140
+So as to give a 1 by 1 by 4 volume
+
+50
+00:03:40.140 --> 00:03:46.115
+to take the place of these four numbers that the network was operating.
+
+51
+00:03:46.115 --> 00:03:50.035
+So this shows how you can take these fully connected layers
+
+52
+00:03:50.035 --> 00:03:54.310
+and implement them using convolutional layers so
+
+53
+00:03:54.310 --> 00:03:57.815
+that these sets of units instead are not implemented
+
+54
+00:03:57.815 --> 00:04:02.680
+as 1 by 1 by 400 and 1 by 1 by 4 volumes.
+
+55
+00:04:02.680 --> 00:04:06.580
+After this conversion, let's see how you
+
+56
+00:04:06.580 --> 00:04:11.400
+can have a convolutional implementation of sliding windows object detection.
+
+57
+00:04:11.400 --> 00:04:16.850
+The presentation on this slide is based on the OverFeat paper,
+
+58
+00:04:16.850 --> 00:04:18.650
+referenced at the bottom, by Pierre Sermanet,
+
+59
+00:04:18.650 --> 00:04:21.010
+David Eigen, Xiang Zhang,
+
+60
+00:04:21.010 --> 00:04:24.290
+Michael Mathieu, Robert Fergus and Yann Lecun.
+
+61
+00:04:24.290 --> 00:04:31.385
+Let's say that your sliding windows convnet inputs 14 by 14 by 3 images and again,
+
+62
+00:04:31.385 --> 00:04:35.495
+I'm just using small numbers like the 14 by 14 image
+
+63
+00:04:35.495 --> 00:04:40.790
+in this slide mainly to make the numbers and illustrations simpler.
+
+64
+00:04:40.790 --> 00:04:44.450
+So as before, you have a neural network as
+
+65
+00:04:44.450 --> 00:04:49.100
+follows that eventually outputs a 1 by 1 by 4 volume,
+
+66
+00:04:49.100 --> 00:04:52.465
+which is the output of your softmax.
+
+67
+00:04:52.465 --> 00:04:54.815
+Again, to simplify the drawing here,
+
+68
+00:04:54.815 --> 00:05:01.185
+14 by 14 by 3 is technically a volume 5 by 5 or 10 by 10 by 16,
+
+69
+00:05:01.185 --> 00:05:02.530
+the second clear volume.
+
+70
+00:05:02.530 --> 00:05:04.490
+But to simplify the drawing for this slide,
+
+71
+00:05:04.490 --> 00:05:07.620
+I'm just going to draw the front face of this volume.
+
+72
+00:05:07.620 --> 00:05:10.940
+So instead of drawing 1 by 1 by 400 volume,
+
+73
+00:05:10.940 --> 00:05:14.480
+I'm just going to draw the 1 by 1 cause of all of these.
+
+74
+00:05:14.480 --> 00:05:19.368
+So just dropped the three components of these drawings, just for this slide.
+
+75
+00:05:19.368 --> 00:05:23.810
+So let's say that your convnet inputs 14 by 14 images or 14 by
+
+76
+00:05:23.810 --> 00:05:29.035
+14 by 3 images and your tested image is 16 by 16 by 3.
+
+77
+00:05:29.035 --> 00:05:33.615
+So now added that yellow stripe to the border of this image.
+
+78
+00:05:33.615 --> 00:05:36.335
+In the original sliding windows algorithm,
+
+79
+00:05:36.335 --> 00:05:41.150
+you might want to input the blue region into
+
+80
+00:05:41.150 --> 00:05:46.485
+a convnet and run that once to generate a consecration 01 and then slightly down a bit,
+
+81
+00:05:46.485 --> 00:05:54.020
+least he uses a stride of two pixels and then you might slide that to the right by
+
+82
+00:05:54.020 --> 00:05:56.090
+two pixels to input
+
+83
+00:05:56.090 --> 00:05:59.130
+this green rectangle into the convnet and
+
+84
+00:05:59.130 --> 00:06:02.945
+we run the whole convnet and get another label, 01.
+
+85
+00:06:02.945 --> 00:06:05.180
+Then you might input
+
+86
+00:06:05.180 --> 00:06:12.595
+this orange region into the convnet and run it one more time to get another label.
+
+87
+00:06:12.595 --> 00:06:21.634
+And then do it the fourth and final time with this lower right purple square.
+
+88
+00:06:21.634 --> 00:06:26.115
+To run sliding windows on this 16 by 16 by 3 image is pretty small image.
+
+89
+00:06:26.115 --> 00:06:32.065
+You run this convnet four times in order to get four labels.
+
+90
+00:06:32.065 --> 00:06:34.685
+But it turns out a lot of this computation
+
+91
+00:06:34.685 --> 00:06:38.345
+done by these four convnets is highly duplicative.
+
+92
+00:06:38.345 --> 00:06:42.485
+So what the convolutional implementation of sliding windows does is it allows
+
+93
+00:06:42.485 --> 00:06:48.150
+these four pauses in the convnet to share a lot of computation.
+
+94
+00:06:48.150 --> 00:06:49.955
+Specifically, here's what you can do.
+
+95
+00:06:49.955 --> 00:06:54.170
+You can take the convnet and just run it same parameters,
+
+96
+00:06:54.170 --> 00:06:56.731
+the same 5 by 5 filters,
+
+97
+00:06:56.731 --> 00:07:00.230
+also 16 5 by 5 filters and run it.
+
+98
+00:07:00.230 --> 00:07:04.850
+Now, you can have a 12 by 12 by 16 output volume.
+
+99
+00:07:04.850 --> 00:07:07.280
+Then do the max pool, same as before.
+
+100
+00:07:07.280 --> 00:07:09.210
+Now you have a 6 by 6 by 16,
+
+101
+00:07:09.210 --> 00:07:18.093
+runs through your same 400 5 by 5 filters to get now your 2 by 2 by 40 volume.
+
+102
+00:07:18.093 --> 00:07:24.835
+So now instead of a 1 by 1 by 400 volume,
+
+103
+00:07:24.835 --> 00:07:29.105
+we have instead a 2 by 2 by 400 volume.
+
+104
+00:07:29.105 --> 00:07:32.870
+Run it through a 1 by 1 filter gives
+
+105
+00:07:32.870 --> 00:07:37.260
+you another 2 by 2 by 400 instead of 1 by 1 like 400.
+
+106
+00:07:37.260 --> 00:07:40.220
+Do that one more time and now you're left with a
+
+107
+00:07:40.220 --> 00:07:44.320
+2 by 2 by 4 output volume instead of 1 by 1 by 4.
+
+108
+00:07:44.320 --> 00:07:49.250
+It turns out that this blue 1 by 1 by 4 subset gives
+
+109
+00:07:49.250 --> 00:07:54.368
+you the result of running in the upper left hand corner 14 by 14 image.
+
+110
+00:07:54.368 --> 00:08:01.215
+This upper right 1 by 1 by 4 volume gives you the upper right result.
+
+111
+00:08:01.215 --> 00:08:04.820
+The lower left gives you the results of
+
+112
+00:08:04.820 --> 00:08:08.660
+implementing the convnet on the lower left 14 by 14 region.
+
+113
+00:08:08.660 --> 00:08:13.310
+And the lower right 1 by 1 by 4 volume gives you the same result
+
+114
+00:08:13.310 --> 00:08:18.040
+as running the convnet on the lower right 14 by 14 medium.
+
+115
+00:08:18.040 --> 00:08:20.990
+And if you step through all the steps of the calculation,
+
+116
+00:08:20.990 --> 00:08:23.110
+let's look at the green example,
+
+117
+00:08:23.110 --> 00:08:25.850
+if you had cropped out just this region
+
+118
+00:08:25.850 --> 00:08:29.120
+and passed it through the convnet through the convnet on top,
+
+119
+00:08:29.120 --> 00:08:34.105
+then the first layer's activations would have been exactly this region.
+
+120
+00:08:34.105 --> 00:08:37.037
+The next layer's activation after max pooling would have been
+
+121
+00:08:37.037 --> 00:08:40.490
+exactly this region and then the next layer,
+
+122
+00:08:40.490 --> 00:08:43.460
+the next layer would have been as follows.
+
+123
+00:08:43.460 --> 00:08:44.805
+So what this process does,
+
+124
+00:08:44.805 --> 00:08:47.216
+what this convolution implementation does is,
+
+125
+00:08:47.216 --> 00:08:50.345
+instead of forcing you to run four propagation
+
+126
+00:08:50.345 --> 00:08:54.635
+on four subsets of the input image independently, Instead,
+
+127
+00:08:54.635 --> 00:08:58.730
+it combines all four into one form of computation and shares
+
+128
+00:08:58.730 --> 00:09:02.713
+a lot of the computation in the regions of image that are common.
+
+129
+00:09:02.713 --> 00:09:07.895
+So all four of the 14 by 14 patches we saw here.
+
+130
+00:09:07.895 --> 00:09:09.935
+Now let's just go through a bigger example.
+
+131
+00:09:09.935 --> 00:09:14.845
+Let's say you now want to run sliding windows on a 28 by 28 by 3 image.
+
+132
+00:09:14.845 --> 00:09:16.820
+It turns out If you run four from
+
+133
+00:09:16.820 --> 00:09:21.410
+the same way then you end up with an 8 by 8 by 4 output.
+
+134
+00:09:21.410 --> 00:09:27.735
+And just go small and surviving sliding windows with that 14 by 14 region.
+
+135
+00:09:27.735 --> 00:09:33.380
+And that corresponds to running a sliding windows first on that region thus,
+
+136
+00:09:33.380 --> 00:09:36.496
+giving you the output corresponding the upper left hand corner.
+
+137
+00:09:36.496 --> 00:09:39.661
+Then using a slider too to shift one window over,
+
+138
+00:09:39.661 --> 00:09:43.775
+one window over, one window over and so on and the eight positions.
+
+139
+00:09:43.775 --> 00:09:48.830
+So that gives you this first row and then as you go down the image as well,
+
+140
+00:09:48.830 --> 00:09:53.350
+that gives you all of these 8 by 8 by 4 outputs.
+
+141
+00:09:53.350 --> 00:09:58.760
+Because of the max pooling up too that this corresponds to
+
+142
+00:09:58.760 --> 00:10:04.055
+running your neural network with a stride of two on the original image.
+
+143
+00:10:04.055 --> 00:10:05.335
+So just to recap,
+
+144
+00:10:05.335 --> 00:10:07.853
+to implement sliding windows,
+
+145
+00:10:07.853 --> 00:10:11.715
+previously, what you do is you crop out a region.
+
+146
+00:10:11.715 --> 00:10:14.750
+Let's say this is 14 by 14
+
+147
+00:10:14.750 --> 00:10:18.811
+and run that through your convnet and do that for the next region over,
+
+148
+00:10:18.811 --> 00:10:21.604
+then do that for the next 14 by 14 region,
+
+149
+00:10:21.604 --> 00:10:23.210
+then the next one, then the next one,
+
+150
+00:10:23.210 --> 00:10:25.700
+then the next one, then the next one and so on,
+
+151
+00:10:25.700 --> 00:10:29.070
+until hopefully that one recognizes the car.
+
+152
+00:10:29.070 --> 00:10:31.610
+But now, instead of doing it sequentially,
+
+153
+00:10:31.610 --> 00:10:35.540
+with this convolutional implementation that you saw in the previous slide,
+
+154
+00:10:35.540 --> 00:10:37.745
+you can implement the entire image,
+
+155
+00:10:37.745 --> 00:10:42.890
+all maybe 28 by 28 and convolutionally make all the predictions at
+
+156
+00:10:42.890 --> 00:10:46.270
+the same time by one forward pass through this big convnet
+
+157
+00:10:46.270 --> 00:10:50.357
+and hopefully have it recognize the position of the car.
+
+158
+00:10:50.357 --> 00:10:53.490
+So that's how you implement sliding windows
+
+159
+00:10:53.490 --> 00:10:57.700
+convolutionally and it makes the whole thing much more efficient.
+
+160
+00:10:57.700 --> 00:10:59.960
+Now, this [inaudible] still has one weakness,
+
+161
+00:10:59.960 --> 00:11:04.585
+which is the position of the bounding boxes is not going to be too accurate.
+
+162
+00:11:04.585 --> 00:11:05.786
+In the next video,
+
+163
+00:11:05.786 --> 00:11:08.030
+let's see how you can fix that problem.

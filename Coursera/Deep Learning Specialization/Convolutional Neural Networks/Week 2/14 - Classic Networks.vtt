@@ -1,0 +1,1153 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.470
+In this video, you'll learn about some of
+
+2
+00:00:02.470 --> 00:00:05.418
+the classic neural network architecture starting with LeNet-5,
+
+3
+00:00:05.418 --> 00:00:10.122
+and then AlexNet, and then VGGNet. Let's take a look.
+
+4
+00:00:10.122 --> 00:00:12.935
+Here is the LeNet-5 architecture.
+
+5
+00:00:12.935 --> 00:00:15.700
+You start off with an image which say,
+
+6
+00:00:15.700 --> 00:00:17.540
+32 by 32 by 1.
+
+7
+00:00:17.540 --> 00:00:21.520
+And the goal of LeNet-5 was to recognize handwritten digits,
+
+8
+00:00:21.520 --> 00:00:25.490
+so maybe an image of a digits like that.
+
+9
+00:00:25.490 --> 00:00:28.815
+And LeNet-5 was trained on grayscale images,
+
+10
+00:00:28.815 --> 00:00:32.180
+which is why it's 32 by 32 by 1.
+
+11
+00:00:32.180 --> 00:00:34.400
+This neural network architecture is actually quite
+
+12
+00:00:34.400 --> 00:00:38.315
+similar to the last example you saw last week.
+
+13
+00:00:38.315 --> 00:00:39.847
+In the first step,
+
+14
+00:00:39.847 --> 00:00:41.765
+you use a set of six,
+
+15
+00:00:41.765 --> 00:00:45.220
+5 by 5 filters with a stride of one because you use
+
+16
+00:00:45.220 --> 00:00:50.218
+six filters you end up with a 20 by 20 by 6 over there.
+
+17
+00:00:50.218 --> 00:00:52.730
+And with a stride of one and no padding,
+
+18
+00:00:52.730 --> 00:00:58.640
+the image dimensions reduces from 32 by 32 down to 28 by 28.
+
+19
+00:00:58.640 --> 00:01:02.295
+Then the LeNet neural network applies pooling.
+
+20
+00:01:02.295 --> 00:01:04.970
+And back then when this paper was written,
+
+21
+00:01:04.970 --> 00:01:07.576
+people use average pooling much more.
+
+22
+00:01:07.576 --> 00:01:09.290
+If you're building a modern variant,
+
+23
+00:01:09.290 --> 00:01:12.145
+you probably use max pooling instead.
+
+24
+00:01:12.145 --> 00:01:13.360
+But in this example,
+
+25
+00:01:13.360 --> 00:01:17.825
+you average pool and with a filter width two and a stride of two,
+
+26
+00:01:17.825 --> 00:01:20.780
+you wind up reducing the dimensions,
+
+27
+00:01:20.780 --> 00:01:22.730
+the height and width by a factor of two,
+
+28
+00:01:22.730 --> 00:01:28.784
+so we now end up with a 14 by 14 by 6 volume.
+
+29
+00:01:28.784 --> 00:01:32.180
+I guess the height and width of these volumes aren't entirely drawn to scale.
+
+30
+00:01:32.180 --> 00:01:35.210
+Now technically, if I were drawing these volumes to scale,
+
+31
+00:01:35.210 --> 00:01:38.150
+the height and width would be stronger by a factor of two.
+
+32
+00:01:38.150 --> 00:01:41.180
+Next, you apply another convolutional layer.
+
+33
+00:01:41.180 --> 00:01:44.070
+This time you use a set of 16 filters,
+
+34
+00:01:44.070 --> 00:01:48.515
+the 5 by 5, so you end up with 16 channels to the next volume.
+
+35
+00:01:48.515 --> 00:01:52.355
+And back when this paper was written in 1998,
+
+36
+00:01:52.355 --> 00:01:57.200
+people didn't really use padding or you always using valid convolutions,
+
+37
+00:01:57.200 --> 00:01:59.635
+which is why every time you apply convolutional layer,
+
+38
+00:01:59.635 --> 00:02:01.965
+they heightened with strengths.
+
+39
+00:02:01.965 --> 00:02:03.380
+So that's why, here,
+
+40
+00:02:03.380 --> 00:02:06.393
+you go from 14 to 14 down to 10 by 10.
+
+41
+00:02:06.393 --> 00:02:08.580
+Then another pooling layer,
+
+42
+00:02:08.580 --> 00:02:11.060
+so that reduces the height and width by a factor of two,
+
+43
+00:02:11.060 --> 00:02:13.715
+then you end up with 5 by 5 over here.
+
+44
+00:02:13.715 --> 00:02:16.640
+And if you multiply all these numbers 5 by 5 by 16,
+
+45
+00:02:16.640 --> 00:02:20.375
+this multiplies up to 400.
+
+46
+00:02:20.375 --> 00:02:24.020
+That's 25 times 16 is 400.
+
+47
+00:02:24.020 --> 00:02:29.900
+And the next layer is then a fully connected layer that fully connects each of
+
+48
+00:02:29.900 --> 00:02:36.840
+these 400 nodes with every one of 120 neurons,
+
+49
+00:02:36.840 --> 00:02:38.385
+so there's a fully connected layer.
+
+50
+00:02:38.385 --> 00:02:41.955
+And sometimes, that would draw out exclusively
+
+51
+00:02:41.955 --> 00:02:46.080
+a layer with 400 nodes, I'm skipping that here.
+
+52
+00:02:46.080 --> 00:02:49.590
+There's a fully connected layer and then another a fully connected layer.
+
+53
+00:02:49.590 --> 00:02:51.690
+And then the final step is it uses
+
+54
+00:02:51.690 --> 00:02:57.280
+these essentially 84 features and uses it with one final output.
+
+55
+00:02:57.280 --> 00:03:01.375
+I guess you could draw one more node here to make a prediction for ŷ.
+
+56
+00:03:01.375 --> 00:03:04.560
+And ŷ took on 10 possible values
+
+57
+00:03:04.560 --> 00:03:09.090
+corresponding to recognising each of the digits from 0 to 9.
+
+58
+00:03:09.090 --> 00:03:11.100
+A modern version of this neural network,
+
+59
+00:03:11.100 --> 00:03:17.300
+we'll use a softmax layer with a 10 way classification output.
+
+60
+00:03:17.300 --> 00:03:23.385
+Although back then, LeNet-5 actually use a different classifier at the output layer,
+
+61
+00:03:23.385 --> 00:03:25.633
+one that's useless today.
+
+62
+00:03:25.633 --> 00:03:29.220
+So this neural network was small by modern standards,
+
+63
+00:03:29.220 --> 00:03:32.645
+had about 60,000 parameters.
+
+64
+00:03:32.645 --> 00:03:35.934
+And today, you often see neural networks with
+
+65
+00:03:35.934 --> 00:03:39.690
+anywhere from 10 million to 100 million parameters,
+
+66
+00:03:39.690 --> 00:03:41.850
+and it's not unusual to see networks that are
+
+67
+00:03:41.850 --> 00:03:45.295
+literally about a thousand times bigger than this network.
+
+68
+00:03:45.295 --> 00:03:49.600
+But one thing you do see is that as you go deeper in a network,
+
+69
+00:03:49.600 --> 00:03:51.790
+so as you go from left to right,
+
+70
+00:03:51.790 --> 00:03:55.360
+the height and width tend to go down.
+
+71
+00:03:55.360 --> 00:03:57.690
+So you went from 32 by 32, to 28 to 14,
+
+72
+00:03:57.690 --> 00:04:03.100
+to 10 to 5, whereas the number of channels does increase.
+
+73
+00:04:03.100 --> 00:04:11.250
+It goes from 1 to 6 to 16 as you go deeper into the layers of the network.
+
+74
+00:04:11.250 --> 00:04:15.400
+One other pattern you see in this neural network that's still often repeated today is
+
+75
+00:04:15.400 --> 00:04:20.500
+that you might have some one or more conu layers followed by pooling layer,
+
+76
+00:04:20.500 --> 00:04:25.758
+and then one or sometimes more than one conu layer followed by a pooling layer,
+
+77
+00:04:25.758 --> 00:04:29.940
+and then some fully connected layers and then the outputs.
+
+78
+00:04:29.940 --> 00:04:34.090
+So this type of arrangement of layers is quite common.
+
+79
+00:04:34.090 --> 00:04:39.515
+Now finally, this is maybe only for those of you that want to try reading the paper.
+
+80
+00:04:39.515 --> 00:04:41.880
+There are a couple other things that were different.
+
+81
+00:04:41.880 --> 00:04:43.690
+The rest of this slide,
+
+82
+00:04:43.690 --> 00:04:47.065
+I'm going to make a few more advanced comments,
+
+83
+00:04:47.065 --> 00:04:52.265
+only for those of you that want to try to read this classic paper.
+
+84
+00:04:52.265 --> 00:04:54.903
+And so, everything I'm going to write in red,
+
+85
+00:04:54.903 --> 00:04:57.490
+you can safely skip on the slide,
+
+86
+00:04:57.490 --> 00:05:00.520
+and there's maybe an interesting historical footnote
+
+87
+00:05:00.520 --> 00:05:04.350
+that is okay if you don't follow fully.
+
+88
+00:05:04.350 --> 00:05:07.990
+So it turns out that if you read the original paper, back then,
+
+89
+00:05:07.990 --> 00:05:12.453
+people used sigmoid and tanh nonlinearities,
+
+90
+00:05:12.453 --> 00:05:16.330
+and people weren't using value nonlinearities back then.
+
+91
+00:05:16.330 --> 00:05:20.065
+So if you look at the paper, you see sigmoid and tanh referred to.
+
+92
+00:05:20.065 --> 00:05:23.260
+And there are also some funny ways about
+
+93
+00:05:23.260 --> 00:05:26.835
+this network was wired that is funny by modern standards.
+
+94
+00:05:26.835 --> 00:05:33.775
+So for example, you've seen how if you have a nh by nw by nc network with
+
+95
+00:05:33.775 --> 00:05:40.985
+nc channels then you use f by f by nc dimensional filter,
+
+96
+00:05:40.985 --> 00:05:44.480
+where everything looks at every one of these channels.
+
+97
+00:05:44.480 --> 00:05:47.195
+But back then, computers were much slower.
+
+98
+00:05:47.195 --> 00:05:50.230
+And so to save on computation as well as some parameters,
+
+99
+00:05:50.230 --> 00:05:53.785
+the original LeNet-5 had some crazy complicated way
+
+100
+00:05:53.785 --> 00:05:58.040
+where different filters would look at different channels of the input block.
+
+101
+00:05:58.040 --> 00:06:00.343
+And so the paper talks about those details,
+
+102
+00:06:00.343 --> 00:06:07.090
+but the more modern implementation wouldn't have that type of complexity these days.
+
+103
+00:06:07.090 --> 00:06:12.280
+And then one last thing that was done back then I guess but isn't really done right
+
+104
+00:06:12.280 --> 00:06:19.705
+now is that the original LeNet-5 had a non-linearity after pooling,
+
+105
+00:06:19.705 --> 00:06:25.005
+and I think it actually uses sigmoid non-linearity after the pooling layer.
+
+106
+00:06:25.005 --> 00:06:27.130
+So if you do read this paper,
+
+107
+00:06:27.130 --> 00:06:29.345
+and this is one of the harder ones to read than
+
+108
+00:06:29.345 --> 00:06:32.100
+the ones we'll go over in the next few videos,
+
+109
+00:06:32.100 --> 00:06:34.670
+the next one might be an easy one to start with.
+
+110
+00:06:34.670 --> 00:06:40.135
+Most of the ideas on the slide I just tried in sections two and three of the paper,
+
+111
+00:06:40.135 --> 00:06:44.485
+and later sections of the paper talked about some other ideas.
+
+112
+00:06:44.485 --> 00:06:47.260
+It talked about something called the graph transformer network,
+
+113
+00:06:47.260 --> 00:06:49.215
+which isn't widely used today.
+
+114
+00:06:49.215 --> 00:06:50.935
+So if you do try to read this paper,
+
+115
+00:06:50.935 --> 00:06:55.660
+I recommend focusing really on section two which talks about this architecture,
+
+116
+00:06:55.660 --> 00:06:58.165
+and maybe take a quick look at section three
+
+117
+00:06:58.165 --> 00:07:01.720
+which has a bunch of experiments and results, which is pretty interesting.
+
+118
+00:07:01.720 --> 00:07:06.155
+The second example of a neural network I want to show you is AlexNet,
+
+119
+00:07:06.155 --> 00:07:12.510
+named after Alex Krizhevsky, who was the first author of the paper describing this work.
+
+120
+00:07:12.510 --> 00:07:13.725
+The other author's were Ilya Sutskever and Geoffrey Hinton.
+
+121
+00:07:13.725 --> 00:07:21.048
+So, AlexNet input starts with 227 by 227 by 3 images.
+
+122
+00:07:21.048 --> 00:07:22.525
+And if you read the paper,
+
+123
+00:07:22.525 --> 00:07:27.010
+the paper refers to 224 by 224 by 3 images.
+
+124
+00:07:27.010 --> 00:07:28.120
+But if you look at the numbers,
+
+125
+00:07:28.120 --> 00:07:33.100
+I think that the numbers make sense only of actually 227 by 227.
+
+126
+00:07:33.100 --> 00:07:40.230
+And then the first layer applies a set of 96 11 by 11 filters with a stride of four.
+
+127
+00:07:40.230 --> 00:07:42.740
+And because it uses a large stride of four,
+
+128
+00:07:42.740 --> 00:07:45.574
+the dimensions shrinks to 55 by 55.
+
+129
+00:07:45.574 --> 00:07:50.930
+So roughly, going down by a factor of 4 because of a large stride.
+
+130
+00:07:50.930 --> 00:07:55.110
+And then it applies max pooling with a 3 by 3 filter.
+
+131
+00:07:55.110 --> 00:07:57.925
+So f equals three and a stride of two.
+
+132
+00:07:57.925 --> 00:08:04.570
+So this reduces the volume to 27 by 27 by 96,
+
+133
+00:08:04.570 --> 00:08:08.530
+and then it performs a 5 by 5 same convolution,
+
+134
+00:08:08.530 --> 00:08:14.730
+same padding, so you end up with 27 by 27 by 276.
+
+135
+00:08:14.730 --> 00:08:20.025
+Max pooling again, this reduces the height and width to 13.
+
+136
+00:08:20.025 --> 00:08:23.860
+And then another same convolution, so same padding.
+
+137
+00:08:23.860 --> 00:08:29.805
+So it's 13 by 13 by now 384 filters.
+
+138
+00:08:29.805 --> 00:08:35.275
+And then 3 by 3, same convolution again, gives you that.
+
+139
+00:08:35.275 --> 00:08:39.680
+Then 3 by 3, same convolution, gives you that.
+
+140
+00:08:39.680 --> 00:08:45.285
+Then max pool, brings it down to 6 by 6 by 256.
+
+141
+00:08:45.285 --> 00:08:52.020
+If you multiply all these numbers,6 times 6 times 256, that's 9216.
+
+142
+00:08:52.020 --> 00:08:56.947
+So we're going to unroll this into 9216 nodes.
+
+143
+00:08:56.947 --> 00:09:00.790
+And then finally, it has a few fully connected layers.
+
+144
+00:09:00.790 --> 00:09:04.250
+And then finally, it uses a softmax to output
+
+145
+00:09:04.250 --> 00:09:09.515
+which one of 1000 causes the object could be.
+
+146
+00:09:09.515 --> 00:09:16.920
+So this neural network actually had a lot of similarities to LeNet,
+
+147
+00:09:16.920 --> 00:09:20.210
+but it was much bigger.
+
+148
+00:09:20.210 --> 00:09:27.740
+So whereas the LeNet-5 from previous slide had about 60,000 parameters,
+
+149
+00:09:27.740 --> 00:09:31.935
+this AlexNet that had about 60 million parameters.
+
+150
+00:09:31.935 --> 00:09:34.024
+And the fact that they could take
+
+151
+00:09:34.024 --> 00:09:36.925
+pretty similar basic building blocks that
+
+152
+00:09:36.925 --> 00:09:40.270
+have a lot more hidden units and training on a lot more data,
+
+153
+00:09:40.270 --> 00:09:42.820
+they trained on the image that dataset that
+
+154
+00:09:42.820 --> 00:09:46.255
+allowed it to have a just remarkable performance.
+
+155
+00:09:46.255 --> 00:09:49.810
+Another aspect of this architecture that made it much
+
+156
+00:09:49.810 --> 00:09:53.575
+better than LeNet was using the value activation function.
+
+157
+00:09:53.575 --> 00:09:56.425
+And then again, just if you read the bay paper
+
+158
+00:09:56.425 --> 00:09:59.020
+some more advanced details that you don't really need
+
+159
+00:09:59.020 --> 00:10:01.840
+to worry about if you don't read the paper, one is that,
+
+160
+00:10:01.840 --> 00:10:03.445
+when this paper was written,
+
+161
+00:10:03.445 --> 00:10:06.197
+GPUs was still a little bit slower,
+
+162
+00:10:06.197 --> 00:10:11.135
+so it had a complicated way of training on two GPUs.
+
+163
+00:10:11.135 --> 00:10:13.310
+And the basic idea was that,
+
+164
+00:10:13.310 --> 00:10:18.250
+a lot of these layers was actually split across two different GPUs and there was
+
+165
+00:10:18.250 --> 00:10:23.497
+a thoughtful way for when the two GPUs would communicate with each other.
+
+166
+00:10:23.497 --> 00:10:25.360
+And the paper also,
+
+167
+00:10:25.360 --> 00:10:29.650
+the original AlexNet architecture also had another set of a layer
+
+168
+00:10:29.650 --> 00:10:34.125
+called a Local Response Normalization.
+
+169
+00:10:34.125 --> 00:10:36.820
+And this type of layer isn't really used much,
+
+170
+00:10:36.820 --> 00:10:38.830
+which is why I didn't talk about it.
+
+171
+00:10:38.830 --> 00:10:42.220
+But the basic idea of Local Response Normalization is,
+
+172
+00:10:42.220 --> 00:10:44.845
+if you look at one of these blocks,
+
+173
+00:10:44.845 --> 00:10:46.940
+one of these volumes that we have on top,
+
+174
+00:10:46.940 --> 00:10:49.360
+let's say for the sake of argument, this one,
+
+175
+00:10:49.360 --> 00:10:52.380
+13 by 13 by 256,
+
+176
+00:10:52.380 --> 00:10:54.765
+what Local Response Normalization,
+
+177
+00:10:54.765 --> 00:10:57.805
+(LRN) does, is you look at one position.
+
+178
+00:10:57.805 --> 00:10:59.570
+So one position height and width,
+
+179
+00:10:59.570 --> 00:11:02.935
+and look down this across all the channels,
+
+180
+00:11:02.935 --> 00:11:07.195
+look at all 256 numbers and normalize them.
+
+181
+00:11:07.195 --> 00:11:10.750
+And the motivation for this Local Response Normalization was that for
+
+182
+00:11:10.750 --> 00:11:14.934
+each position in this 13 by 13 image,
+
+183
+00:11:14.934 --> 00:11:20.123
+maybe you don't want too many neurons with a very high activation.
+
+184
+00:11:20.123 --> 00:11:25.730
+But subsequently, many researchers have found that this doesn't help that much so this is
+
+185
+00:11:25.730 --> 00:11:27.995
+one of those ideas I guess I'm drawing in red
+
+186
+00:11:27.995 --> 00:11:31.880
+because it's less important for you to understand this one.
+
+187
+00:11:31.880 --> 00:11:33.940
+And in practice, I don't really use
+
+188
+00:11:33.940 --> 00:11:38.760
+local response normalizations really in the networks language trained today.
+
+189
+00:11:38.760 --> 00:11:41.380
+So if you are interested in the history of deep learning,
+
+190
+00:11:41.380 --> 00:11:43.395
+I think even before AlexNet,
+
+191
+00:11:43.395 --> 00:11:48.978
+deep learning was starting to gain traction in speech recognition and a few other areas,
+
+192
+00:11:48.978 --> 00:11:52.690
+but it was really just paper that convinced a lot of
+
+193
+00:11:52.690 --> 00:11:56.350
+the computer vision community to take a serious look at
+
+194
+00:11:56.350 --> 00:12:00.280
+deep learning to convince them that deep learning really works in computer vision.
+
+195
+00:12:00.280 --> 00:12:02.710
+And then it grew on to have a huge impact not
+
+196
+00:12:02.710 --> 00:12:05.508
+just in computer vision but beyond computer vision as well.
+
+197
+00:12:05.508 --> 00:12:08.170
+And if you want to try reading some of these papers
+
+198
+00:12:08.170 --> 00:12:11.635
+yourself and you really don't have to for this course,
+
+199
+00:12:11.635 --> 00:12:14.200
+but if you want to try reading some of these papers,
+
+200
+00:12:14.200 --> 00:12:19.354
+this one is one of the easier ones to read so this might be a good one to take a look at.
+
+201
+00:12:19.354 --> 00:12:23.257
+So whereas AlexNet had a relatively complicated architecture,
+
+202
+00:12:23.257 --> 00:12:25.585
+there's just a lot of hyperparameters, right?
+
+203
+00:12:25.585 --> 00:12:28.255
+Where you have all these numbers
+
+204
+00:12:28.255 --> 00:12:33.240
+that Alex Krizhevsky and his co-authors had to come up with.
+
+205
+00:12:33.240 --> 00:12:39.765
+Let me show you a third and final example on this video called the VGG or VGG-16 network.
+
+206
+00:12:39.765 --> 00:12:44.820
+And a remarkable thing about the VGG-16 net is that they said,
+
+207
+00:12:44.820 --> 00:12:46.966
+instead of having so many hyperparameters,
+
+208
+00:12:46.966 --> 00:12:52.495
+let's use a much simpler network where you focus on just having conv-layers
+
+209
+00:12:52.495 --> 00:12:58.690
+that are just three-by-three filters with a stride of one and always use same padding.
+
+210
+00:12:58.690 --> 00:13:03.640
+And make all your max pulling layers two-by-two with a stride of two.
+
+211
+00:13:03.640 --> 00:13:06.250
+And so, one very nice thing about
+
+212
+00:13:06.250 --> 00:13:12.224
+the VGG network was it really simplified this neural network architectures.
+
+213
+00:13:12.224 --> 00:13:14.494
+So, let's go through the architecture.
+
+214
+00:13:14.494 --> 00:13:19.660
+So, you solve up with an image for them and then the first two layers are convolutions,
+
+215
+00:13:19.660 --> 00:13:24.315
+which are therefore these three-by-three filters.
+
+216
+00:13:24.315 --> 00:13:27.930
+And in the first two layers use 64 filters.
+
+217
+00:13:27.930 --> 00:13:35.830
+You end up with a 224 by 224 because using same convolutions and then with 64 channels.
+
+218
+00:13:35.830 --> 00:13:39.345
+So because VGG-16 is a relatively deep network,
+
+219
+00:13:39.345 --> 00:13:42.335
+am going to not draw all the volumes here.
+
+220
+00:13:42.335 --> 00:13:46.270
+So what this little picture denotes is what we would previously have
+
+221
+00:13:46.270 --> 00:13:50.890
+drawn as this 224 by 224 by 3.
+
+222
+00:13:50.890 --> 00:13:55.362
+And then a convolution that results in I guess a 224
+
+223
+00:13:55.362 --> 00:14:00.535
+by 224 by 64 is to be drawn as a deeper volume,
+
+224
+00:14:00.535 --> 00:14:07.227
+and then another layer that results in 224 by 224 by 64.
+
+225
+00:14:07.227 --> 00:14:15.730
+So this conv64 times two represents that you're doing two conv-layers with 64 filters.
+
+226
+00:14:15.730 --> 00:14:17.380
+And as I mentioned earlier,
+
+227
+00:14:17.380 --> 00:14:20.555
+the filters are always three-by-three
+
+228
+00:14:20.555 --> 00:14:24.455
+with a stride of one and they are always same convolutions.
+
+229
+00:14:24.455 --> 00:14:26.395
+So rather than drawing all these volumes,
+
+230
+00:14:26.395 --> 00:14:28.400
+am just going to use text to represent this network.
+
+231
+00:14:28.400 --> 00:14:31.413
+Next, then uses are pulling layer,
+
+232
+00:14:31.413 --> 00:14:33.580
+so the pulling layer will reduce.
+
+233
+00:14:33.580 --> 00:14:36.725
+I think it goes from 224 by 224 down to what?
+
+234
+00:14:36.725 --> 00:14:40.755
+Right. Goes to 112 by 112 by 64.
+
+235
+00:14:40.755 --> 00:14:44.339
+And then it has a couple more conv-layers.
+
+236
+00:14:44.339 --> 00:14:50.426
+So this means it has 128 filters and because these are the same convolutions,
+
+237
+00:14:50.426 --> 00:14:52.365
+let's see what is the new dimension.
+
+238
+00:14:52.365 --> 00:14:57.020
+Right? It will be 112 by 112 by 128 and then
+
+239
+00:14:57.020 --> 00:15:02.205
+pulling layer so you can figure out what's the new dimension of that.
+
+240
+00:15:02.205 --> 00:15:07.210
+And now, three conv-layers with
+
+241
+00:15:07.210 --> 00:15:14.300
+256 filters to the pulling layer and then a few more conv-layers,
+
+242
+00:15:14.300 --> 00:15:18.945
+pulling layer, more conv-layers, pulling layer.
+
+243
+00:15:18.945 --> 00:15:26.345
+And then it takes this final 7 by 7 by 512 these in to fully connected layer,
+
+244
+00:15:26.345 --> 00:15:30.230
+fully connected with four thousand ninety six
+
+245
+00:15:30.230 --> 00:15:36.080
+units and then a softmax output one of a thousand classes.
+
+246
+00:15:36.080 --> 00:15:39.875
+By the way, the 16 in the VGG-16
+
+247
+00:15:39.875 --> 00:15:45.080
+refers to the fact that this has 16 layers that have weights.
+
+248
+00:15:45.080 --> 00:15:47.470
+And this is a pretty large network,
+
+249
+00:15:47.470 --> 00:15:52.415
+this network has a total of about 138 million parameters.
+
+250
+00:15:52.415 --> 00:15:55.615
+And that's pretty large even by modern standards.
+
+251
+00:15:55.615 --> 00:16:00.673
+But the simplicity of the VGG-16 architecture made it quite appealing.
+
+252
+00:16:00.673 --> 00:16:03.935
+You can tell his architecture is really quite uniform.
+
+253
+00:16:03.935 --> 00:16:07.130
+There is a few conv-layers followed by a pulling layer,
+
+254
+00:16:07.130 --> 00:16:09.590
+which reduces the height and width, right?
+
+255
+00:16:09.590 --> 00:16:13.396
+So the pulling layers reduce the height and width.
+
+256
+00:16:13.396 --> 00:16:15.570
+You have a few of them here.
+
+257
+00:16:15.570 --> 00:16:20.260
+But then also, if you look at the number of filters in the conv-layers,
+
+258
+00:16:20.260 --> 00:16:28.675
+here you have 64 filters and then you double to 128 double to 256 doubles to 512.
+
+259
+00:16:28.675 --> 00:16:33.160
+And then I guess the authors thought 512 was big enough and did double on the game here.
+
+260
+00:16:33.160 --> 00:16:36.410
+But this sort of roughly doubling on every step,
+
+261
+00:16:36.410 --> 00:16:39.915
+or doubling through every stack of conv-layers was
+
+262
+00:16:39.915 --> 00:16:45.040
+another simple principle used to design the architecture of this network.
+
+263
+00:16:45.040 --> 00:16:48.230
+And so I think the relative uniformity of
+
+264
+00:16:48.230 --> 00:16:52.460
+this architecture made it quite attractive to researchers.
+
+265
+00:16:52.460 --> 00:16:54.680
+The main downside was that it was
+
+266
+00:16:54.680 --> 00:16:58.910
+a pretty large network in terms of the number of parameters you had to train.
+
+267
+00:16:58.910 --> 00:17:00.995
+And if you read the literature,
+
+268
+00:17:00.995 --> 00:17:04.700
+you sometimes see people talk about the VGG-19,
+
+269
+00:17:04.700 --> 00:17:08.600
+that is an even bigger version of this network.
+
+270
+00:17:08.600 --> 00:17:11.780
+And you could see the details in the paper cited at
+
+271
+00:17:11.780 --> 00:17:16.595
+the bottom by Karen Simonyan and Andrew Zisserman.
+
+272
+00:17:16.595 --> 00:17:20.875
+But because VGG-16 does almost as well as VGG-19.
+
+273
+00:17:20.875 --> 00:17:23.570
+A lot of people will use VGG-16.
+
+274
+00:17:23.570 --> 00:17:26.090
+But the thing I liked most about this was that,
+
+275
+00:17:26.090 --> 00:17:28.540
+this made this pattern of how,
+
+276
+00:17:28.540 --> 00:17:31.100
+as you go deeper and height and width goes down,
+
+277
+00:17:31.100 --> 00:17:33.540
+it just goes down by a factor of two each time for
+
+278
+00:17:33.540 --> 00:17:36.890
+the pulling layers whereas the number of channels increases.
+
+279
+00:17:36.890 --> 00:17:42.855
+And here roughly goes up by a factor of two every time you have a new set of conv-layers.
+
+280
+00:17:42.855 --> 00:17:49.155
+So by making the rate at which it goes down and that go up very systematic,
+
+281
+00:17:49.155 --> 00:17:54.410
+I thought this paper was very attractive from that perspective.
+
+282
+00:17:54.410 --> 00:17:57.845
+So that's it for the three classic architecture's.
+
+283
+00:17:57.845 --> 00:18:00.931
+If you want, you should really now read some of these papers.
+
+284
+00:18:00.931 --> 00:18:05.270
+I recommend starting with the AlexNet paper followed by the VGG net paper and
+
+285
+00:18:05.270 --> 00:18:07.460
+then the LeNet paper is a bit harder to
+
+286
+00:18:07.460 --> 00:18:09.984
+read but it is a good classic once you go over that.
+
+287
+00:18:09.984 --> 00:18:14.725
+But next, let's go beyond these classic networks and look at some even more advanced,
+
+288
+00:18:14.725 --> 00:18:18.040
+even more powerful neural network architectures. Let's go onto the next video.

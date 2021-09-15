@@ -1,0 +1,784 @@
+WEBVTT
+
+1
+00:00:01.100 --> 00:00:02.740
+Hello and welcome back.
+
+2
+00:00:02.740 --> 00:00:05.368
+This week you learn
+about object detection.
+
+3
+00:00:05.368 --> 00:00:08.980
+This is one of the areas of computer
+vision that's just exploding and
+
+4
+00:00:08.980 --> 00:00:12.460
+is working so much better than
+just a couple of years ago.
+
+5
+00:00:12.460 --> 00:00:18.430
+In order to build up to object detection,
+you first learn about object localization.
+
+6
+00:00:18.430 --> 00:00:20.595
+Let's start by defining what that means.
+
+7
+00:00:20.595 --> 00:00:25.760
+You're already familiar with the image
+classification task where an algorithm
+
+8
+00:00:25.760 --> 00:00:30.500
+looks at this picture and might be
+responsible for saying this is a car.
+
+9
+00:00:30.500 --> 00:00:31.920
+So that was classification.
+
+10
+00:00:34.560 --> 00:00:38.964
+The problem you learn to build in your
+network to address later on this video is
+
+11
+00:00:38.964 --> 00:00:41.550
+classification with localization.
+
+12
+00:00:41.550 --> 00:00:45.659
+Which means not only do you have
+to label this as say a car but
+
+13
+00:00:45.659 --> 00:00:49.758
+the algorithm also is responsible for
+putting a bounding box,
+
+14
+00:00:49.758 --> 00:00:55.090
+or drawing a red rectangle around
+the position of the car in the image.
+
+15
+00:00:55.090 --> 00:00:59.310
+So that's called the classification
+with localization problem.
+
+16
+00:00:59.310 --> 00:01:03.790
+Where the term localization refers
+to figuring out where in the picture
+
+17
+00:01:03.790 --> 00:01:05.760
+is the car you've detective.
+
+18
+00:01:05.760 --> 00:01:09.530
+Later this week,
+you then learn about the detection problem
+
+19
+00:01:09.530 --> 00:01:13.590
+where now there might be multiple
+objects in the picture and
+
+20
+00:01:13.590 --> 00:01:17.900
+you have to detect them all and
+and localized them all.
+
+21
+00:01:17.900 --> 00:01:21.820
+And if you're doing this for
+an autonomous driving application,
+
+22
+00:01:21.820 --> 00:01:24.480
+then you might need to
+detect not just other cars,
+
+23
+00:01:24.480 --> 00:01:29.310
+but maybe other pedestrians and
+motorcycles and maybe even other objects.
+
+24
+00:01:29.310 --> 00:01:31.090
+So you'll see that later this week.
+
+25
+00:01:31.090 --> 00:01:36.220
+So in the terminology we'll use this week,
+the classification and
+
+26
+00:01:36.220 --> 00:01:42.130
+the classification of localization
+problems usually have one object.
+
+27
+00:01:42.130 --> 00:01:45.930
+Usually one big object in the middle of
+the image that you're trying to recognize
+
+28
+00:01:45.930 --> 00:01:47.600
+or recognize and localize.
+
+29
+00:01:47.600 --> 00:01:53.150
+In contrast, in the detection problem
+there can be multiple objects.
+
+30
+00:01:53.150 --> 00:01:57.450
+And in fact, maybe even multiple
+objects of different categories
+
+31
+00:01:57.450 --> 00:01:59.110
+within a single image.
+
+32
+00:01:59.110 --> 00:02:03.195
+So the ideas you've learned about for
+image classification will be useful for
+
+33
+00:02:03.195 --> 00:02:04.815
+classification with localization.
+
+34
+00:02:04.815 --> 00:02:06.885
+And that the ideas you learn for
+
+35
+00:02:06.885 --> 00:02:10.795
+localization will then turn out
+to be useful for detection.
+
+36
+00:02:10.795 --> 00:02:14.245
+So let's start by talking about
+classification with localization.
+
+37
+00:02:15.255 --> 00:02:20.535
+You're already familiar with the image
+classification problem, in which you might
+
+38
+00:02:20.535 --> 00:02:26.210
+input a picture into a ConfNet with
+multiple layers so that's our ConfNet.
+
+39
+00:02:26.210 --> 00:02:31.348
+And this results in a vector
+features that is fed
+
+40
+00:02:31.348 --> 00:02:38.170
+to maybe a softmax unit that
+outputs the predicted clause.
+
+41
+00:02:38.170 --> 00:02:41.070
+So if you are building a self driving car,
+
+42
+00:02:41.070 --> 00:02:44.370
+maybe your object categories
+are the following.
+
+43
+00:02:44.370 --> 00:02:49.740
+Where you might have a pedestrian, or
+a car, or a motorcycle, or a background.
+
+44
+00:02:49.740 --> 00:02:51.660
+This means none of the above.
+
+45
+00:02:51.660 --> 00:02:53.160
+So if there's no pedestrian,
+
+46
+00:02:53.160 --> 00:02:57.735
+no car, no motorcycle,
+then you might have an output background.
+
+47
+00:02:57.735 --> 00:03:03.755
+So these are your classes, they have
+a softmax with four possible outputs.
+
+48
+00:03:03.755 --> 00:03:07.775
+So this is the standard
+classification pipeline.
+
+49
+00:03:07.775 --> 00:03:12.585
+How about if you want to localize
+the car in the image as well.
+
+50
+00:03:12.585 --> 00:03:17.156
+To do that,
+you can change your neural network to have
+
+51
+00:03:17.156 --> 00:03:21.940
+a few more output units
+that output a bounding box.
+
+52
+00:03:21.940 --> 00:03:27.179
+So, in particular, you can have
+the neural network output four
+
+53
+00:03:27.179 --> 00:03:32.236
+more numbers, and
+I'm going to call them bx, by, bh, and bw.
+
+54
+00:03:32.236 --> 00:03:40.110
+And these four numbers parameterized
+the bounding box of the detected object.
+
+55
+00:03:40.110 --> 00:03:44.820
+So in these videos, I am going to use
+the notational convention that the upper
+
+56
+00:03:44.820 --> 00:03:49.610
+left of the image, I'm going to
+denote as the coordinate (0,0),
+
+57
+00:03:49.610 --> 00:03:52.660
+and at the lower right is (1,1).
+
+58
+00:03:52.660 --> 00:03:55.442
+So, specifying the bounding box,
+
+59
+00:03:55.442 --> 00:04:00.060
+the red rectangle requires
+specifying the midpoint.
+
+60
+00:04:00.060 --> 00:04:03.057
+So that’s the point bx,
+
+61
+00:04:03.057 --> 00:04:08.193
+by as well as the height,
+that would be bh,
+
+62
+00:04:08.193 --> 00:04:14.300
+as well as the width,
+bw of this bounding box.
+
+63
+00:04:14.300 --> 00:04:19.868
+So now if your training set contains
+not just the object cross label,
+
+64
+00:04:19.868 --> 00:04:23.950
+which a neural network is
+trying to predict up here, but
+
+65
+00:04:23.950 --> 00:04:26.740
+it also contains four additional numbers.
+
+66
+00:04:26.740 --> 00:04:31.430
+Giving the bounding box then you can use
+supervised learning to make your algorithm
+
+67
+00:04:31.430 --> 00:04:35.910
+outputs not just a class label but
+also the four parameters
+
+68
+00:04:35.910 --> 00:04:39.830
+to tell you where is the bounding
+box of the object you detected.
+
+69
+00:04:39.830 --> 00:04:42.415
+So in this example the ideal bx might
+
+70
+00:04:42.415 --> 00:04:47.254
+be about 0.5 because this is about
+halfway to the right to the image.
+
+71
+00:04:47.254 --> 00:04:55.863
+by might be about 0.7 since it's about
+maybe 70% to the way down to the image.
+
+72
+00:04:55.863 --> 00:05:00.620
+bh might be about 0.3 because
+the height of this red square is
+
+73
+00:05:00.620 --> 00:05:04.960
+about 30% of the overall
+height of the image.
+
+74
+00:05:04.960 --> 00:05:10.170
+And bw might be about 0.4
+let's say because the width
+
+75
+00:05:10.170 --> 00:05:14.510
+of the red box is about 0.4 of
+the overall width of the entire image.
+
+76
+00:05:15.940 --> 00:05:20.905
+So let's formalize this a bit more in
+terms of how we define the target label
+
+77
+00:05:20.905 --> 00:05:24.581
+y for this as a supervised learning task.
+
+78
+00:05:24.581 --> 00:05:29.195
+So just as a reminder these
+are our four classes, and
+
+79
+00:05:29.195 --> 00:05:34.775
+the neural network now outputs those
+four numbers as well as a class label,
+
+80
+00:05:36.035 --> 00:05:39.195
+or maybe probabilities
+of the class labels.
+
+81
+00:05:40.530 --> 00:05:47.710
+So, let's define the target
+label y as follows.
+
+82
+00:05:47.710 --> 00:05:53.480
+Is going to be a vector where
+the first component pc is going to be,
+
+83
+00:05:53.480 --> 00:05:54.560
+is there an object?
+
+84
+00:05:55.930 --> 00:06:02.140
+So, if the object is, classes 1,
+2 or 3, pc will be equal to 1.
+
+85
+00:06:02.140 --> 00:06:04.477
+And if it's the background class, so
+
+86
+00:06:04.477 --> 00:06:09.018
+if it's none of the objects you're
+trying to detect, then pc will be 0.
+
+87
+00:06:09.018 --> 00:06:11.973
+And pc you can think of
+that as standing for
+
+88
+00:06:11.973 --> 00:06:15.020
+the probability that there's an object.
+
+89
+00:06:15.020 --> 00:06:19.320
+Probability that one of the classes
+you're trying to detect is there.
+
+90
+00:06:19.320 --> 00:06:22.640
+So something other than
+the background class.
+
+91
+00:06:22.640 --> 00:06:28.338
+Next if there is an object,
+then you wanted to output bx,
+
+92
+00:06:28.338 --> 00:06:35.010
+by, bh and bw, the bounding box for
+the object you detected.
+
+93
+00:06:35.010 --> 00:06:40.436
+And finally if there is an object,
+so if pc is equal to 1,
+
+94
+00:06:40.436 --> 00:06:44.054
+you wanted to also output c1, c2 and
+
+95
+00:06:44.054 --> 00:06:49.610
+c3 which tells us is it the class 1,
+class 2 or class 3.
+
+96
+00:06:49.610 --> 00:06:53.030
+So is it a pedestrian,
+a car or a motorcycle.
+
+97
+00:06:53.030 --> 00:06:56.340
+And remember in the problem
+we're addressing
+
+98
+00:06:56.340 --> 00:06:59.450
+we assume that your image
+has only one object.
+
+99
+00:06:59.450 --> 00:07:03.040
+So at most, one of these
+objects appears in the picture,
+
+100
+00:07:03.040 --> 00:07:06.490
+in this classification
+with localization problem.
+
+101
+00:07:06.490 --> 00:07:09.240
+So let's go through a couple of examples.
+
+102
+00:07:09.240 --> 00:07:16.310
+If this is a training set image,
+so if that is x, then y will be
+
+103
+00:07:16.310 --> 00:07:22.650
+the first component pc will be equal to 1
+because there is an object, then bx, by,
+
+104
+00:07:22.650 --> 00:07:27.870
+by, bh and
+bw will specify the bounding box.
+
+105
+00:07:27.870 --> 00:07:32.260
+So your labeled training set will
+need bounding boxes in the labels.
+
+106
+00:07:32.260 --> 00:07:35.570
+And then finally this is a car,
+so it's class 2.
+
+107
+00:07:35.570 --> 00:07:38.680
+So c1 will be 0 because
+it's not a pedestrian,
+
+108
+00:07:38.680 --> 00:07:44.640
+c2 will be 1 because it is car,
+c3 will be 0 since it is not a motorcycle.
+
+109
+00:07:44.640 --> 00:07:50.630
+So among c1, c2 and c3 at most
+one of them should be equal to 1.
+
+110
+00:07:50.630 --> 00:07:54.010
+So that's if there's
+an object in the image.
+
+111
+00:07:54.010 --> 00:07:55.890
+What if there's no object in the image?
+
+112
+00:07:55.890 --> 00:07:59.957
+What if we have a training
+example where x is equal to that?
+
+113
+00:07:59.957 --> 00:08:03.807
+In this case, pc would be equal to 0, and
+
+114
+00:08:03.807 --> 00:08:08.979
+the rest of the elements of this,
+will be don't cares,
+
+115
+00:08:08.979 --> 00:08:13.940
+so I'm going to write question
+marks in all of them.
+
+116
+00:08:13.940 --> 00:08:18.318
+So this is a don't care, because if
+there is no object in this image,
+
+117
+00:08:18.318 --> 00:08:23.074
+then you don't care what bounding box
+the neural network outputs as well as
+
+118
+00:08:23.074 --> 00:08:27.280
+which of the three objects,
+c1, c2, c3 it thinks it is.
+
+119
+00:08:27.280 --> 00:08:33.870
+So given a set of label training examples,
+this is how you will construct x,
+
+120
+00:08:33.870 --> 00:08:38.680
+the input image as well as y,
+the cost label both for
+
+121
+00:08:38.680 --> 00:08:42.880
+images where there is an object and
+for images where there is no object.
+
+122
+00:08:42.880 --> 00:08:45.660
+And the set of this will then
+define your training set.
+
+123
+00:08:47.100 --> 00:08:51.520
+Finally, next let's
+describe the loss function
+
+124
+00:08:51.520 --> 00:08:53.930
+you use to train the neural network.
+
+125
+00:08:53.930 --> 00:08:59.070
+So the ground true label was y and
+the neural network outputs some yhat.
+
+126
+00:08:59.070 --> 00:09:01.010
+What should be the loss be?
+
+127
+00:09:01.010 --> 00:09:05.484
+Well if you're using squared error
+
+128
+00:09:05.484 --> 00:09:10.105
+then the loss can be (y1 hat- y1)
+
+129
+00:09:10.105 --> 00:09:15.026
+squared + (y2 hat- y2) squared +
+
+130
+00:09:15.026 --> 00:09:19.810
+...+( y8 hat- y8) squared.
+
+131
+00:09:19.810 --> 00:09:23.970
+Notice that y here has eight components.
+
+132
+00:09:23.970 --> 00:09:28.200
+So that goes from sum of the squares
+of the difference of the elements.
+
+133
+00:09:28.200 --> 00:09:33.650
+And that's the loss if y1=1.
+
+134
+00:09:33.650 --> 00:09:36.690
+So that's the case where
+there is an object.
+
+135
+00:09:36.690 --> 00:09:39.671
+So y1= pc.
+
+136
+00:09:39.671 --> 00:09:43.685
+So, pc = 1,
+that if there is an object in the image
+
+137
+00:09:43.685 --> 00:09:47.475
+then the loss can be the sum of
+squares of all the different elements.
+
+138
+00:09:48.675 --> 00:09:53.418
+The other case is if y1=0,
+
+139
+00:09:53.418 --> 00:09:57.790
+so that's if this pc = 0.
+
+140
+00:09:57.790 --> 00:10:04.930
+In that case the loss can be
+just (y1 hat-y1) squared,
+
+141
+00:10:04.930 --> 00:10:11.170
+because in that second case, all of the
+rest of the components are don't care us.
+
+142
+00:10:11.170 --> 00:10:16.068
+And so all you care about is
+how accurately is the neural
+
+143
+00:10:16.068 --> 00:10:19.390
+network ourputting pc in that case.
+
+144
+00:10:19.390 --> 00:10:23.304
+So just a recap, if y1 = 1,
+that's this case,
+
+145
+00:10:23.304 --> 00:10:28.343
+then you can use squared error to
+penalize square deviation from
+
+146
+00:10:28.343 --> 00:10:33.402
+the predicted, and
+the actual output of all eight components.
+
+147
+00:10:33.402 --> 00:10:39.749
+Whereas if y1 = 0, then the second to
+the eighth components I don't care.
+
+148
+00:10:39.749 --> 00:10:44.698
+So all you care about is how
+accurately is your neural network
+
+149
+00:10:44.698 --> 00:10:48.880
+estimating y1, which is equal to pc.
+
+150
+00:10:48.880 --> 00:10:53.554
+Just as a side comment for those of
+you that want to know all the details,
+
+151
+00:10:53.554 --> 00:10:57.760
+I've used the squared error just
+to simplify the description here.
+
+152
+00:10:57.760 --> 00:11:02.840
+In practice you could probably
+use a log like feature loss for
+
+153
+00:11:02.840 --> 00:11:06.438
+the c1, c2, c3 to the softmax output.
+
+154
+00:11:06.438 --> 00:11:10.118
+One of those elements usually
+you can use squared error or
+
+155
+00:11:10.118 --> 00:11:14.414
+something like squared error for
+the bounding box coordinates and
+
+156
+00:11:14.414 --> 00:11:19.200
+if a pc you could use something
+like the logistics regression loss.
+
+157
+00:11:19.200 --> 00:11:22.830
+Although even if you use squared
+error it'll probably work okay.
+
+158
+00:11:22.830 --> 00:11:27.030
+So that's how you get a neural network
+to not just classify an object but
+
+159
+00:11:27.030 --> 00:11:29.140
+also to localize it.
+
+160
+00:11:29.140 --> 00:11:33.270
+The idea of having a neural network
+output a bunch of real numbers
+
+161
+00:11:33.270 --> 00:11:38.040
+to tell you where things are in a picture
+turns out to be a very powerful idea.
+
+162
+00:11:38.040 --> 00:11:42.940
+In the next video I want to share with
+you some other places where this idea of
+
+163
+00:11:42.940 --> 00:11:48.180
+having a neural network output a set of
+real numbers, almost as a regression task,
+
+164
+00:11:48.180 --> 00:11:51.980
+can be very powerful to use elsewhere
+in computer vision as well.
+
+165
+00:11:51.980 --> 00:11:53.360
+So let's go on to the next video.

@@ -1,0 +1,505 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:04.240
+If you're building a computer vision application rather than
+
+2
+00:00:04.240 --> 00:00:07.630
+training the ways from scratch, from random initialization,
+
+3
+00:00:07.630 --> 00:00:10.010
+you often make much faster progress if you download
+
+4
+00:00:10.010 --> 00:00:12.530
+ways that someone else has already trained on
+
+5
+00:00:12.530 --> 00:00:15.640
+the network architecture and use that as pre-training
+
+6
+00:00:15.640 --> 00:00:19.525
+and transfer that to a new task that you might be interested in.
+
+7
+00:00:19.525 --> 00:00:24.230
+The computer vision research community has been pretty good at posting lots of
+
+8
+00:00:24.230 --> 00:00:28.860
+data sets on the Internet so if you hear of things like Image Net, or MS COCO,
+
+9
+00:00:28.860 --> 00:00:31.082
+or Pascal types of data sets,
+
+10
+00:00:31.082 --> 00:00:33.995
+these are the names of different data sets that people have post
+
+11
+00:00:33.995 --> 00:00:39.640
+online and a lot of computer researchers have trained their algorithms on.
+
+12
+00:00:39.640 --> 00:00:44.760
+Sometimes these training takes several weeks and might take many GP use
+
+13
+00:00:44.760 --> 00:00:47.020
+and the fact that someone else has done
+
+14
+00:00:47.020 --> 00:00:50.005
+this and gone through the painful high-performance search process,
+
+15
+00:00:50.005 --> 00:00:55.360
+means that you can often download open source ways that took someone else many weeks or
+
+16
+00:00:55.360 --> 00:00:57.570
+months to figure out and use that as
+
+17
+00:00:57.570 --> 00:01:01.550
+a very good initialization for your own neural network.
+
+18
+00:01:01.550 --> 00:01:05.012
+And use transfer learning to sort of transfer knowledge from some of
+
+19
+00:01:05.012 --> 00:01:08.761
+these very large public data sets to your own problem.
+
+20
+00:01:08.761 --> 00:01:11.710
+Let's take a deeper look at how to do this.
+
+21
+00:01:11.710 --> 00:01:13.760
+Let's start with the example,
+
+22
+00:01:13.760 --> 00:01:18.820
+let's say you're building a cat detector to recognize your own pet cat.
+
+23
+00:01:18.820 --> 00:01:22.570
+According to the internet,
+
+24
+00:01:22.570 --> 00:01:32.855
+Tigger is a common cat name and Misty is another common cat name.
+
+25
+00:01:32.855 --> 00:01:41.480
+Let's say your cats are called Tiger and Misty and there's also neither.
+
+26
+00:01:41.480 --> 00:01:44.570
+You have a classification problem with three clauses.
+
+27
+00:01:44.570 --> 00:01:46.300
+Is this picture Tigger,
+
+28
+00:01:46.300 --> 00:01:49.075
+or is it Misty, or is it neither.
+
+29
+00:01:49.075 --> 00:01:53.875
+And in all the case of both of you cats appearing in the picture.
+
+30
+00:01:53.875 --> 00:01:57.020
+Now, you probably don't have a lot of pictures of Tigger
+
+31
+00:01:57.020 --> 00:02:00.745
+or Misty so your training set will be small.
+
+32
+00:02:00.745 --> 00:02:02.170
+What can you do?
+
+33
+00:02:02.170 --> 00:02:06.920
+I recommend you go online and download some open source implementation of
+
+34
+00:02:06.920 --> 00:02:12.600
+a neural network and download not just the code but also the weights.
+
+35
+00:02:12.600 --> 00:02:19.900
+There are a lot of networks you can download that have been trained on for example,
+
+36
+00:02:19.900 --> 00:02:25.130
+the Init Net data sets which has a thousand different clauses so the network
+
+37
+00:02:25.130 --> 00:02:31.180
+might have a softmax unit that outputs one of a thousand possible clauses.
+
+38
+00:02:31.180 --> 00:02:36.110
+What you can do is then get rid of the softmax layer and create
+
+39
+00:02:36.110 --> 00:02:46.025
+your own softmax unit that outputs Tigger or Misty or neither.
+
+40
+00:02:46.025 --> 00:02:48.710
+In terms of the network,
+
+41
+00:02:48.710 --> 00:02:52.350
+I'd encourage you to think of all of these layers as
+
+42
+00:02:52.350 --> 00:02:56.415
+frozen so you freeze the parameters in
+
+43
+00:02:56.415 --> 00:03:00.300
+all of these layers of the network and you would then just
+
+44
+00:03:00.300 --> 00:03:05.700
+train the parameters associated with your softmax layer.
+
+45
+00:03:05.700 --> 00:03:08.982
+Which is the softmax layer with three possible outputs,
+
+46
+00:03:08.982 --> 00:03:11.790
+Tigger, Misty or neither.
+
+47
+00:03:11.790 --> 00:03:16.560
+By using someone else's free trade ways,
+
+48
+00:03:16.560 --> 00:03:22.600
+you might probably get pretty good performance on this even with a small data set.
+
+49
+00:03:22.600 --> 00:03:25.100
+Fortunately, a lot of people learning frameworks
+
+50
+00:03:25.100 --> 00:03:28.000
+support this mode of operation and in fact,
+
+51
+00:03:28.000 --> 00:03:35.085
+depending on the framework it might have things like trainable parameter equals zero,
+
+52
+00:03:35.085 --> 00:03:37.660
+you might set that for some of these early layers.
+
+53
+00:03:37.660 --> 00:03:39.117
+In others they just say,
+
+54
+00:03:39.117 --> 00:03:42.885
+don't train those ways or sometimes you have a parameter
+
+55
+00:03:42.885 --> 00:03:47.295
+like freeze equals one and these are
+
+56
+00:03:47.295 --> 00:03:50.730
+different ways and different deep learning program frameworks that let you
+
+57
+00:03:50.730 --> 00:03:56.245
+specify whether or not to train the ways associated with particular layer.
+
+58
+00:03:56.245 --> 00:03:58.440
+In this case, you will train
+
+59
+00:03:58.440 --> 00:04:04.945
+only the softmax layers ways but freeze all of the earlier layers ways.
+
+60
+00:04:04.945 --> 00:04:07.930
+One other neat trick that may help for some implementations
+
+61
+00:04:07.930 --> 00:04:12.380
+is that because all of these early leads are frozen,
+
+62
+00:04:12.380 --> 00:04:16.345
+there are some fixed function that doesn't change because you're not changing it,
+
+63
+00:04:16.345 --> 00:04:20.040
+you not training it that takes this input image acts and
+
+64
+00:04:20.040 --> 00:04:24.305
+maps it to some set of activations in that layer.
+
+65
+00:04:24.305 --> 00:04:30.455
+One of the trick that could speed up training is we just pre-compute that layer,
+
+66
+00:04:30.455 --> 00:04:36.615
+the features of re-activations from that layer and just save them to disk.
+
+67
+00:04:36.615 --> 00:04:40.620
+What you're doing is using this fixed function,
+
+68
+00:04:40.620 --> 00:04:43.030
+in this first part of the neural network,
+
+69
+00:04:43.030 --> 00:04:49.680
+to take this input any image X and compute some feature vector for it and then you're
+
+70
+00:04:49.680 --> 00:04:56.445
+training a shallow softmax model from this feature vector to make a prediction.
+
+71
+00:04:56.445 --> 00:05:04.170
+One step that could help your computation as you just pre-compute that layers activation,
+
+72
+00:05:04.170 --> 00:05:06.330
+for all the examples in training sets and save them to
+
+73
+00:05:06.330 --> 00:05:10.525
+disk and then just train the softmax clause right on top of that.
+
+74
+00:05:10.525 --> 00:05:12.585
+The advantage of the safety disk or
+
+75
+00:05:12.585 --> 00:05:15.990
+the pre-compute method or the safety disk is that you don't need to
+
+76
+00:05:15.990 --> 00:05:19.020
+recompute those activations everytime
+
+77
+00:05:19.020 --> 00:05:23.150
+you take a epoch or take a post through a training set.
+
+78
+00:05:23.150 --> 00:05:28.585
+This is what you do if you have a pretty small training set for your task.
+
+79
+00:05:28.585 --> 00:05:31.215
+Whether you have a larger training set.
+
+80
+00:05:31.215 --> 00:05:33.810
+One rule of thumb is if you have
+
+81
+00:05:33.810 --> 00:05:39.164
+a larger label data set so maybe you just have a ton of pictures of Tigger,
+
+82
+00:05:39.164 --> 00:05:41.940
+Misty as well as I guess pictures neither of them,
+
+83
+00:05:41.940 --> 00:05:45.935
+one thing you could do is then freeze fewer layers.
+
+84
+00:05:45.935 --> 00:05:52.761
+Maybe you freeze just these layers and then train these later layers.
+
+85
+00:05:52.761 --> 00:05:57.540
+Although if the output layer has different clauses then you need to have
+
+86
+00:05:57.540 --> 00:06:04.321
+your own output unit any way Tigger, Misty or neither.
+
+87
+00:06:04.321 --> 00:06:07.550
+There are a couple of ways to do this.
+
+88
+00:06:07.550 --> 00:06:10.980
+You could take the last few layers ways
+
+89
+00:06:10.980 --> 00:06:17.346
+and just use that as initialization and do gradient descent
+
+90
+00:06:17.346 --> 00:06:22.050
+from there or you can also blow away these last few layers and
+
+91
+00:06:22.050 --> 00:06:27.990
+just use your own new hidden units and in your own final softmax outputs.
+
+92
+00:06:27.990 --> 00:06:32.000
+Either of these matters could be worth trying.
+
+93
+00:06:32.000 --> 00:06:35.220
+But maybe one pattern is if you have more data,
+
+94
+00:06:35.220 --> 00:06:39.090
+the number of layers you've freeze could be smaller and then
+
+95
+00:06:39.090 --> 00:06:43.810
+the number of layers you train on top could be greater.
+
+96
+00:06:43.810 --> 00:06:46.710
+And the idea is that if you pick a data set and maybe have
+
+97
+00:06:46.710 --> 00:06:51.090
+enough data not just to train a single softmax unit but to train
+
+98
+00:06:51.090 --> 00:06:54.960
+some other size neural network that comprises
+
+99
+00:06:54.960 --> 00:07:00.400
+the last few layers of this final network that you end up using.
+
+100
+00:07:00.400 --> 00:07:03.965
+Finally, if you have a lot of data,
+
+101
+00:07:03.965 --> 00:07:09.710
+one thing you might do is take this open source network and ways and use
+
+102
+00:07:09.710 --> 00:07:15.430
+the whole thing just as initialization and train the whole network.
+
+103
+00:07:15.430 --> 00:07:20.945
+Although again if this was a thousand of softmax and you have just three outputs,
+
+104
+00:07:20.945 --> 00:07:23.610
+you need your own softmax output.
+
+105
+00:07:23.610 --> 00:07:26.133
+The output of labels you care about.
+
+106
+00:07:26.133 --> 00:07:29.760
+But the more label data you have for
+
+107
+00:07:29.760 --> 00:07:33.630
+your task or the more pictures you have of Tigger, Misty and neither,
+
+108
+00:07:33.630 --> 00:07:37.005
+the more layers you could train and in the extreme case,
+
+109
+00:07:37.005 --> 00:07:40.365
+you could use the ways you download just as
+
+110
+00:07:40.365 --> 00:07:42.405
+initialization so they would replace
+
+111
+00:07:42.405 --> 00:07:45.260
+random initialization and then could do gradient descent,
+
+112
+00:07:45.260 --> 00:07:50.838
+training updating all the ways and all the layers of the network.
+
+113
+00:07:50.838 --> 00:07:54.510
+That's transfer learning for the training of ConvNets.
+
+114
+00:07:54.510 --> 00:08:00.090
+In practice, because the open data sets on the internet are so big and the ways you
+
+115
+00:08:00.090 --> 00:08:05.580
+can download that someone else has spent weeks training has learned from so much data,
+
+116
+00:08:05.580 --> 00:08:08.385
+you find that for a lot of computer vision applications,
+
+117
+00:08:08.385 --> 00:08:10.980
+you just do much better if you download
+
+118
+00:08:10.980 --> 00:08:16.080
+someone else's open source ways and use that as initialization for your problem.
+
+119
+00:08:16.080 --> 00:08:18.410
+In all the different disciplines,
+
+120
+00:08:18.410 --> 00:08:21.720
+in all the different applications of deep learning,
+
+121
+00:08:21.720 --> 00:08:25.220
+I think that computer vision is one where transfer learning is
+
+122
+00:08:25.220 --> 00:08:28.815
+something that you should almost always do unless,
+
+123
+00:08:28.815 --> 00:08:35.145
+you have an exceptionally large data set to train everything else from scratch yourself.
+
+124
+00:08:35.145 --> 00:08:40.560
+But transfer learning is just very worth seriously considering unless you have
+
+125
+00:08:40.560 --> 00:08:43.745
+an exceptionally large data set and a very large computation budget
+
+126
+00:08:43.745 --> 00:08:47.350
+to train everything from scratch by yourself.

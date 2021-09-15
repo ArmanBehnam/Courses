@@ -1,0 +1,255 @@
+WEBVTT
+
+1
+00:00:00.380 --> 00:00:01.980
+Hello and welcome back.
+
+2
+00:00:01.980 --> 00:00:06.560
+This week the first thing we'll do is show
+you a number of case studies of the factor
+
+3
+00:00:06.560 --> 00:00:08.570
+convolutional neural networks.
+
+4
+00:00:08.570 --> 00:00:10.330
+So why look at case studies?
+
+5
+00:00:10.330 --> 00:00:13.480
+Last week we learned about the basic
+building blocks such as convolutional
+
+6
+00:00:13.480 --> 00:00:17.220
+layers, proving layers and
+fully connected layers of conv nets.
+
+7
+00:00:17.220 --> 00:00:21.320
+It turns out a lot of the past few years
+of computer vision research has been on
+
+8
+00:00:21.320 --> 00:00:23.910
+how to put together these
+basic building blocks
+
+9
+00:00:23.910 --> 00:00:26.770
+to form effective
+convolutional neural networks.
+
+10
+00:00:26.770 --> 00:00:27.990
+And one of the best ways for
+
+11
+00:00:27.990 --> 00:00:32.220
+you to get intuition yourself is
+to see some of these examples.
+
+12
+00:00:32.220 --> 00:00:36.753
+I think just as many of you may have
+learned to write codes by reading other
+
+13
+00:00:36.753 --> 00:00:41.210
+people's codes, I think that a good
+way to get intuition on how to build
+
+14
+00:00:41.210 --> 00:00:46.140
+conv nets is to read or to see other
+examples of effective conv nets.
+
+15
+00:00:46.140 --> 00:00:50.270
+And it turns out that a net neural
+network architecture that works well on
+
+16
+00:00:50.270 --> 00:00:54.740
+one computer vision task often works well
+on other tasks as well such as maybe on
+
+17
+00:00:54.740 --> 00:00:55.750
+your task.
+
+18
+00:00:55.750 --> 00:00:59.530
+So if someone else is training neural
+network as speak it out in your network
+
+19
+00:00:59.530 --> 00:01:03.012
+architecture is very good at recognizing
+cats and dogs and people but
+
+20
+00:01:03.012 --> 00:01:06.792
+you have a different computer vision
+task like maybe you're trying to sell
+
+21
+00:01:06.792 --> 00:01:07.900
+self-driving car.
+
+22
+00:01:07.900 --> 00:01:11.867
+You might well be able to take someone
+else's neural network architecture and
+
+23
+00:01:11.867 --> 00:01:14.070
+apply that to your problem.
+
+24
+00:01:14.070 --> 00:01:18.130
+And finally, after the next few videos,
+you'll be able to read some
+
+25
+00:01:18.130 --> 00:01:21.630
+of the research papers from
+the theater computer vision and
+
+26
+00:01:21.630 --> 00:01:24.515
+I hope that you might find
+it satisfying as well.
+
+27
+00:01:24.515 --> 00:01:28.545
+You don't have to do this as a class but
+I hope you might find it satisfying to be
+
+28
+00:01:28.545 --> 00:01:32.141
+able to read some of these seminal
+computer vision research paper and
+
+29
+00:01:32.141 --> 00:01:34.191
+see yourself able to understand them.
+
+30
+00:01:34.191 --> 00:01:36.634
+So with that, let's get started.
+
+31
+00:01:36.634 --> 00:01:40.711
+As an outline of what we'll
+do in the next few videos,
+
+32
+00:01:40.711 --> 00:01:44.256
+we'll first show you
+a few classic networks.
+
+33
+00:01:44.256 --> 00:01:48.663
+The LeNEt-5 network which came from,
+I guess, in 1980s,
+
+34
+00:01:48.663 --> 00:01:52.108
+AlexNet which is often cited and
+the VGG network and
+
+35
+00:01:52.108 --> 00:01:56.050
+these are examples of pretty
+effective neural networks.
+
+36
+00:01:56.050 --> 00:02:00.550
+And some of the ideas lay the foundation
+for modern computer vision.
+
+37
+00:02:00.550 --> 00:02:05.640
+And you see ideas in these papers that
+are probably useful for your own.
+
+38
+00:02:06.820 --> 00:02:10.340
+And you see ideas from these papers
+that were probably be useful for
+
+39
+00:02:10.340 --> 00:02:12.520
+your own work as well.
+
+40
+00:02:12.520 --> 00:02:17.960
+Then I want to show you the ResNet or
+conv residual network and
+
+41
+00:02:17.960 --> 00:02:21.190
+you might have heard that neural
+networks are getting deeper and deeper.
+
+42
+00:02:21.190 --> 00:02:23.698
+The ResNet neural network trained a very,
+
+43
+00:02:23.698 --> 00:02:28.439
+very deep 152-layer neural network
+that has some very interesting tricks,
+
+44
+00:02:28.439 --> 00:02:32.070
+interesting ideas how
+to do that effectively.
+
+45
+00:02:32.070 --> 00:02:38.720
+And then finally you also see a case
+study of the Inception neural network.
+
+46
+00:02:38.720 --> 00:02:43.436
+After seeing these neural networks, l
+think you have much better intuition about
+
+47
+00:02:43.436 --> 00:02:46.745
+how to built effective
+convolutional neural networks.
+
+48
+00:02:46.745 --> 00:02:49.947
+And even if you end up not
+working computer vision yourself,
+
+49
+00:02:49.947 --> 00:02:53.295
+I think you find a lot of the ideas
+from some of these examples,
+
+50
+00:02:53.295 --> 00:02:57.665
+such as ResNet Inception network,
+many of these ideas are cross-fertilizing
+
+51
+00:02:57.665 --> 00:03:00.105
+on making their way
+into other disciplines.
+
+52
+00:03:00.105 --> 00:03:03.715
+So even if you don't end up building
+computer vision applications yourself, I
+
+53
+00:03:03.715 --> 00:03:06.925
+think you'll find some of these ideas very
+interesting and helpful for your work.

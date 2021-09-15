@@ -1,0 +1,441 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.235
+If you look at the object detection literature,
+
+2
+00:00:03.235 --> 00:00:06.790
+there's a set of ideas called region proposals
+
+3
+00:00:06.790 --> 00:00:10.995
+that's been very influential in computer vision as well.
+
+4
+00:00:10.995 --> 00:00:14.460
+I wanted to make this video optional because I tend to use
+
+5
+00:00:14.460 --> 00:00:19.275
+the region proposal instead of algorithm a bit less often but nonetheless,
+
+6
+00:00:19.275 --> 00:00:22.170
+it has been an influential body of work
+
+7
+00:00:22.170 --> 00:00:25.675
+and an idea that you might come across in your own work.
+
+8
+00:00:25.675 --> 00:00:29.640
+Let's take a look. So if you recall the sliding windows idea,
+
+9
+00:00:29.640 --> 00:00:33.225
+you would take a train crossfire and run it
+
+10
+00:00:33.225 --> 00:00:37.695
+across all of these different windows and run the detector to see if there's a car,
+
+11
+00:00:37.695 --> 00:00:40.190
+pedestrian, or maybe a motorcycle.
+
+12
+00:00:40.190 --> 00:00:42.515
+Now, you could run the algorithm convolutionally,
+
+13
+00:00:42.515 --> 00:00:45.570
+but one downside that the algorithm is it just
+
+14
+00:00:45.570 --> 00:00:49.410
+crossfires a lot of the regions where there's clearly no object.
+
+15
+00:00:49.410 --> 00:00:52.569
+So this rectangle down here is pretty much blank.
+
+16
+00:00:52.569 --> 00:00:55.658
+It's clearly nothing interesting there to classify,
+
+17
+00:00:55.658 --> 00:00:58.610
+and maybe it was also running it on this rectangle,
+
+18
+00:00:58.610 --> 00:01:01.365
+which look likes there's nothing that interesting there.
+
+19
+00:01:01.365 --> 00:01:04.275
+So what Russ Girshik, Jeff Donahue, Trevor Darrell,
+
+20
+00:01:04.275 --> 00:01:06.548
+and Jitendra Malik proposed in the paper,
+
+21
+00:01:06.548 --> 00:01:07.905
+as cited to the bottom of the slide,
+
+22
+00:01:07.905 --> 00:01:10.470
+is an algorithm called R-CNN,
+
+23
+00:01:10.470 --> 00:01:15.915
+which stands for Regions with convolutional networks or regions with CNNs.
+
+24
+00:01:15.915 --> 00:01:18.330
+And what that does is it tries to pick
+
+25
+00:01:18.330 --> 00:01:22.925
+just a few regions that makes sense to run your continent crossfire.
+
+26
+00:01:22.925 --> 00:01:27.505
+So rather than running your sliding windows on every single window,
+
+27
+00:01:27.505 --> 00:01:30.330
+you instead select just a few windows and
+
+28
+00:01:30.330 --> 00:01:33.570
+run your continent crossfire on just a few windows.
+
+29
+00:01:33.570 --> 00:01:35.205
+The way that they perform
+
+30
+00:01:35.205 --> 00:01:40.425
+the region proposals is to run an algorithm called a segmentation algorithm,
+
+31
+00:01:40.425 --> 00:01:42.915
+that results in this output on the right,
+
+32
+00:01:42.915 --> 00:01:46.170
+in order to figure out what could be objects.
+
+33
+00:01:46.170 --> 00:01:50.306
+So, for example, the segmentation algorithm finds a blob over here.
+
+34
+00:01:50.306 --> 00:01:53.625
+And so you might pick that pounding balls and say,
+
+35
+00:01:53.625 --> 00:01:55.680
+"Let's run a crossfire on that blob."
+
+36
+00:01:55.680 --> 00:01:58.730
+It looks like this little green thing finds a blob there,
+
+37
+00:01:58.730 --> 00:02:00.960
+as you might also run the crossfire on
+
+38
+00:02:00.960 --> 00:02:04.650
+that rectangle to see if there's some interesting there.
+
+39
+00:02:04.650 --> 00:02:06.000
+And in this case,
+
+40
+00:02:06.000 --> 00:02:08.830
+this blue blob, if you run a crossfire on that,
+
+41
+00:02:08.830 --> 00:02:10.793
+hope you find the pedestrian,
+
+42
+00:02:10.793 --> 00:02:13.575
+and if you run it on this light cyan blob,
+
+43
+00:02:13.575 --> 00:02:16.120
+maybe you'll find a car, maybe not,.
+
+44
+00:02:16.120 --> 00:02:17.535
+I'm not sure. So the details of this,
+
+45
+00:02:17.535 --> 00:02:20.080
+this is called a segmentation algorithm,
+
+46
+00:02:20.080 --> 00:02:25.410
+and what you do is you find maybe 2000 blobs and place bounding
+
+47
+00:02:25.410 --> 00:02:31.544
+boxes around about 2000 blobs and value crossfire on just those 2000 blobs,
+
+48
+00:02:31.544 --> 00:02:34.380
+and this can be a much smaller number of positions
+
+49
+00:02:34.380 --> 00:02:37.529
+on which to run your continent crossfire,
+
+50
+00:02:37.529 --> 00:02:40.935
+then if you have to run it at every single position throughout the image.
+
+51
+00:02:40.935 --> 00:02:44.172
+And this is a special case if you are running your continent
+
+52
+00:02:44.172 --> 00:02:48.055
+not just on square-shaped regions but running them on
+
+53
+00:02:48.055 --> 00:02:51.870
+tall skinny regions to try to find pedestrians or running them on
+
+54
+00:02:51.870 --> 00:02:57.915
+your white fat regions try to find cars and running them at multiple scales as well.
+
+55
+00:02:57.915 --> 00:03:02.170
+So that's the R-CNN or the region with CNN,
+
+56
+00:03:02.170 --> 00:03:04.380
+a region of CNN features idea.
+
+57
+00:03:04.380 --> 00:03:08.305
+Now, it turns out the R-CNN algorithm is still quite slow.
+
+58
+00:03:08.305 --> 00:03:13.320
+So there's been a line of work to explore how to speed up this algorithm.
+
+59
+00:03:13.320 --> 00:03:16.920
+So the basic R-CNN algorithm with proposed regions using
+
+60
+00:03:16.920 --> 00:03:20.933
+some algorithm and then crossfire the proposed regions one at a time.
+
+61
+00:03:20.933 --> 00:03:22.380
+And for each of the regions,
+
+62
+00:03:22.380 --> 00:03:23.844
+they will output the label.
+
+63
+00:03:23.844 --> 00:03:25.960
+So is there a car? Is there a pedestrian?
+
+64
+00:03:25.960 --> 00:03:27.580
+Is there a motorcycle there?
+
+65
+00:03:27.580 --> 00:03:30.090
+And then also outputs a bounding box,
+
+66
+00:03:30.090 --> 00:03:36.510
+so you can get an accurate bounding box if indeed there is a object in that region.
+
+67
+00:03:36.510 --> 00:03:37.645
+So just to be clear,
+
+68
+00:03:37.645 --> 00:03:42.075
+the R-CNN algorithm doesn't just trust the bounding box it was given.
+
+69
+00:03:42.075 --> 00:03:44.540
+It also outputs a bounding box,
+
+70
+00:03:44.540 --> 00:03:46.620
+B X B Y B H B W,
+
+71
+00:03:46.620 --> 00:03:51.045
+in order to get a more accurate bounding box and whatever happened
+
+72
+00:03:51.045 --> 00:03:56.070
+to surround the blob that the image segmentation algorithm gave it.
+
+73
+00:03:56.070 --> 00:03:58.705
+So it can get pretty accurate bounding boxes.
+
+74
+00:03:58.705 --> 00:04:03.425
+Now, one downside of the R-CNN algorithm was that it is actually quite slow.
+
+75
+00:04:03.425 --> 00:04:04.470
+So over the years,
+
+76
+00:04:04.470 --> 00:04:08.295
+there been a few improvements to the R-CNN algorithm.
+
+77
+00:04:08.295 --> 00:04:12.180
+Russ Girshik proposed the fast R-CNN algorithm,
+
+78
+00:04:12.180 --> 00:04:15.150
+and it's basically the R-CNN algorithm but with
+
+79
+00:04:15.150 --> 00:04:18.290
+a convolutional implementation of sliding windows.
+
+80
+00:04:18.290 --> 00:04:23.745
+So the original implementation would actually classify the regions one at a time.
+
+81
+00:04:23.745 --> 00:04:28.955
+So far, R-CNN use a convolutional implementation of sliding windows,
+
+82
+00:04:28.955 --> 00:04:35.550
+and this is roughly similar to the idea you saw in the fourth video of this week.
+
+83
+00:04:35.550 --> 00:04:39.850
+And that speeds up R-CNN quite a bit.
+
+84
+00:04:40.390 --> 00:04:46.680
+It turns out that one of the problems of fast R-CNN algorithm is that
+
+85
+00:04:46.680 --> 00:04:53.270
+the clustering step to propose the regions is still quite slow and so a different group,
+
+86
+00:04:53.270 --> 00:04:56.025
+Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Son,
+
+87
+00:04:56.025 --> 00:04:59.043
+proposed the faster R-CNN algorithm,
+
+88
+00:04:59.043 --> 00:05:02.520
+which uses a convolutional neural network instead of one of
+
+89
+00:05:02.520 --> 00:05:07.550
+the more traditional segmentation algorithms to propose a blob on those regions,
+
+90
+00:05:07.550 --> 00:05:12.487
+and that wound up running quite a bit faster than the fast R-CNN algorithm.
+
+91
+00:05:12.487 --> 00:05:15.810
+Although, I think the faster R-CNN algorithm,
+
+92
+00:05:15.810 --> 00:05:21.730
+most implementations are usually still quit a bit slower than the YOLO algorithm.
+
+93
+00:05:21.730 --> 00:05:27.090
+So the idea of region proposals has been quite influential in computer vision,
+
+94
+00:05:27.090 --> 00:05:32.995
+and I wanted you to know about these ideas because you see others still used these ideas,
+
+95
+00:05:32.995 --> 00:05:35.595
+for myself, and this is my personal opinion,
+
+96
+00:05:35.595 --> 00:05:38.893
+not the opinion of the computer vision research committee as a whole.
+
+97
+00:05:38.893 --> 00:05:44.100
+I think that we can propose an interesting idea but that not having two steps,
+
+98
+00:05:44.100 --> 00:05:45.630
+first, proposed region and then crossfire,
+
+99
+00:05:45.630 --> 00:05:49.800
+being able to do everything more or at the same time,
+
+100
+00:05:49.800 --> 00:05:53.085
+similar to the YOLO or the You Only Look Once algorithm
+
+101
+00:05:53.085 --> 00:05:56.885
+that seems to me like a more promising direction for the long term.
+
+102
+00:05:56.885 --> 00:05:58.995
+But that's my personal opinion and not necessary
+
+103
+00:05:58.995 --> 00:06:01.865
+the opinion of the whole computer vision research committee.
+
+104
+00:06:01.865 --> 00:06:04.868
+So feel free to take that with a grain of salt,
+
+105
+00:06:04.868 --> 00:06:07.550
+but I think that the R-CNN idea,
+
+106
+00:06:07.550 --> 00:06:10.438
+you might come across others using it.
+
+107
+00:06:10.438 --> 00:06:14.460
+So it was worth learning as well so you can understand others algorithms better.
+
+108
+00:06:14.460 --> 00:06:21.565
+So we're now finished up our material for this week on object detection.
+
+109
+00:06:21.565 --> 00:06:25.133
+I hope you enjoy working on this week's problem exercise,
+
+110
+00:06:25.133 --> 00:06:27.000
+and I look forward to seeing you this week.

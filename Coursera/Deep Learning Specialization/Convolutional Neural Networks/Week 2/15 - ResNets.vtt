@@ -1,0 +1,461 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.390
+Very, very deep neural networks are difficult to train because
+
+2
+00:00:03.390 --> 00:00:07.215
+of vanishing and exploding gradient types of problems.
+
+3
+00:00:07.215 --> 00:00:08.790
+In this video, you'll learn about
+
+4
+00:00:08.790 --> 00:00:12.150
+skip connections which allows you to take the activation from
+
+5
+00:00:12.150 --> 00:00:17.498
+one layer and suddenly feed it to another layer even much deeper in the neural network.
+
+6
+00:00:17.498 --> 00:00:22.600
+And using that, you'll build ResNet which enables you to train very, very deep networks.
+
+7
+00:00:22.600 --> 00:00:26.865
+Sometimes even networks of over 100 layers. Let's take a look.
+
+8
+00:00:26.865 --> 00:00:30.390
+ResNets are built out of something called a residual block,
+
+9
+00:00:30.390 --> 00:00:33.185
+let's first describe what that is.
+
+10
+00:00:33.185 --> 00:00:35.370
+Here are two layers of a neural network where you
+
+11
+00:00:35.370 --> 00:00:38.005
+start off with some activations in layer a[l],
+
+12
+00:00:38.005 --> 00:00:43.940
+then goes a[l+1] and then deactivation two layers later is a[l+2].
+
+13
+00:00:43.940 --> 00:00:48.798
+So let's to through the steps in this computation you have a[l],
+
+14
+00:00:48.798 --> 00:00:54.459
+and then the first thing you do is you apply this linear operator to it,
+
+15
+00:00:54.459 --> 00:00:57.660
+which is governed by this equation.
+
+16
+00:00:57.660 --> 00:01:01.690
+So you go from a[l] to compute z[l
+
+17
+00:01:01.690 --> 00:01:07.975
++1] by multiplying by the weight matrix and adding that bias vector.
+
+18
+00:01:07.975 --> 00:01:17.945
+After that, you apply the ReLU nonlinearity, to get a[l+1].
+
+19
+00:01:17.945 --> 00:01:24.750
+And that's governed by this equation where a[l+1] is g(z[l+1]).
+
+20
+00:01:24.750 --> 00:01:26.280
+Then in the next layer,
+
+21
+00:01:26.280 --> 00:01:30.540
+you apply this linear step again,
+
+22
+00:01:30.540 --> 00:01:33.432
+so is governed by that equation.
+
+23
+00:01:33.432 --> 00:01:38.040
+So this is quite similar to this equation we saw on the left.
+
+24
+00:01:38.040 --> 00:01:43.890
+And then finally, you apply another ReLU operation which is
+
+25
+00:01:43.890 --> 00:01:52.105
+now governed by that equation where G here would be the ReLU nonlinearity.
+
+26
+00:01:52.105 --> 00:01:56.880
+And this gives you a[l+2].
+
+27
+00:01:56.880 --> 00:01:57.900
+So in other words,
+
+28
+00:01:57.900 --> 00:02:03.035
+for information from a[l] to flow to a[l+2],
+
+29
+00:02:03.035 --> 00:02:07.455
+it needs to go through all of these steps which I'm going to call
+
+30
+00:02:07.455 --> 00:02:13.140
+the main path of this set of layers.
+
+31
+00:02:13.140 --> 00:02:14.550
+In a residual net,
+
+32
+00:02:14.550 --> 00:02:16.900
+we're going to make a change to this.
+
+33
+00:02:16.900 --> 00:02:18.495
+We're going to take a[l],
+
+34
+00:02:18.495 --> 00:02:22.805
+and just first forward it, copy it,
+
+35
+00:02:22.805 --> 00:02:26.200
+match further into the neural network to here,
+
+36
+00:02:26.200 --> 00:02:28.860
+and just at a[l],
+
+37
+00:02:28.860 --> 00:02:34.080
+before applying to non-linearity, the ReLU non-linearity.
+
+38
+00:02:34.080 --> 00:02:37.730
+And I'm going to call this the shortcut.
+
+39
+00:02:37.730 --> 00:02:40.725
+So rather than needing to follow the main path,
+
+40
+00:02:40.725 --> 00:02:43.335
+the information from a[l] can now follow
+
+41
+00:02:43.335 --> 00:02:46.910
+a shortcut to go much deeper into the neural network.
+
+42
+00:02:46.910 --> 00:02:49.680
+And what that means is that this last equation
+
+43
+00:02:49.680 --> 00:02:52.760
+goes away and we instead have that the output
+
+44
+00:02:52.760 --> 00:03:00.810
+a[l+2] is the ReLU non-linearity g applied to z[l+2] as before,
+
+45
+00:03:00.810 --> 00:03:02.830
+but now plus a[l].
+
+46
+00:03:02.830 --> 00:03:05.515
+So, the addition of this a[l] here,
+
+47
+00:03:05.515 --> 00:03:07.355
+it makes this a residual block.
+
+48
+00:03:07.355 --> 00:03:11.070
+And in pictures, you can also modify this picture on
+
+49
+00:03:11.070 --> 00:03:15.945
+top by drawing this picture shortcut to go here.
+
+50
+00:03:15.945 --> 00:03:20.805
+And we are going to draw it as it going into this second layer here
+
+51
+00:03:20.805 --> 00:03:26.220
+because the short cut is actually added before the ReLU non-linearity.
+
+52
+00:03:26.220 --> 00:03:27.570
+So each of these nodes here,
+
+53
+00:03:27.570 --> 00:03:30.560
+whwre there applies a linear function and a ReLU.
+
+54
+00:03:30.560 --> 00:03:34.320
+So a[l] is being injected after the linear part but before the ReLU part.
+
+55
+00:03:34.320 --> 00:03:37.815
+And sometimes instead of a term short cut,
+
+56
+00:03:37.815 --> 00:03:40.485
+you also hear the term skip connection,
+
+57
+00:03:40.485 --> 00:03:44.835
+and that refers to a[l] just skipping over a layer or kind of skipping over
+
+58
+00:03:44.835 --> 00:03:51.090
+almost two layers in order to process information deeper into the neural network.
+
+59
+00:03:51.090 --> 00:03:54.030
+So, what the inventors of ResNet,
+
+60
+00:03:54.030 --> 00:03:55.950
+so that'll will be Kaiming He, Xiangyu Zhang,
+
+61
+00:03:55.950 --> 00:03:58.925
+Shaoqing Ren and Jian Sun.
+
+62
+00:03:58.925 --> 00:04:02.010
+What they found was that using residual blocks
+
+63
+00:04:02.010 --> 00:04:05.920
+allows you to train much deeper neural networks.
+
+64
+00:04:05.920 --> 00:04:10.785
+And the way you build a ResNet is by taking many of these residual blocks,
+
+65
+00:04:10.785 --> 00:04:15.695
+blocks like these, and stacking them together to form a deep network.
+
+66
+00:04:15.695 --> 00:04:18.150
+So, let's look at this network.
+
+67
+00:04:18.150 --> 00:04:19.730
+This is not the residual network,
+
+68
+00:04:19.730 --> 00:04:22.950
+this is called as a plain network.
+
+69
+00:04:22.950 --> 00:04:26.830
+This is the terminology of the ResNet paper.
+
+70
+00:04:26.830 --> 00:04:28.675
+To turn this into a ResNet,
+
+71
+00:04:28.675 --> 00:04:31.050
+what you do is you add all those
+
+72
+00:04:31.050 --> 00:04:36.475
+skip connections although those short like a connections like so.
+
+73
+00:04:36.475 --> 00:04:39.875
+So every two layers ends up with
+
+74
+00:04:39.875 --> 00:04:44.710
+that additional change that we saw on
+
+75
+00:04:44.710 --> 00:04:49.520
+the previous slide to turn each of these into residual block.
+
+76
+00:04:49.520 --> 00:04:53.770
+So this picture shows five residual blocks stacked together,
+
+77
+00:04:53.770 --> 00:04:56.565
+and this is a residual network.
+
+78
+00:04:56.565 --> 00:04:59.615
+And it turns out that if you use
+
+79
+00:04:59.615 --> 00:05:02.620
+your standard optimization algorithm such as
+
+80
+00:05:02.620 --> 00:05:04.120
+a gradient descent or one of
+
+81
+00:05:04.120 --> 00:05:07.340
+the fancier optimization algorithms to the train or plain network.
+
+82
+00:05:07.340 --> 00:05:10.270
+So without all the extra residual,
+
+83
+00:05:10.270 --> 00:05:14.030
+without all the extra short cuts or skip connections I just drew in.
+
+84
+00:05:14.030 --> 00:05:18.965
+Empirically, you find that as you increase the number of layers,
+
+85
+00:05:18.965 --> 00:05:21.100
+the training error will tend to decrease after
+
+86
+00:05:21.100 --> 00:05:24.240
+a while but then they'll tend to go back up.
+
+87
+00:05:24.240 --> 00:05:29.170
+And in theory as you make a neural network deeper,
+
+88
+00:05:29.170 --> 00:05:32.935
+it should only do better and better on the training set.
+
+89
+00:05:32.935 --> 00:05:35.155
+Right. So, the theory, in theory,
+
+90
+00:05:35.155 --> 00:05:37.815
+having a deeper network should only help.
+
+91
+00:05:37.815 --> 00:05:40.435
+But in practice or in reality,
+
+92
+00:05:40.435 --> 00:05:42.925
+having a plain network, so no ResNet,
+
+93
+00:05:42.925 --> 00:05:45.890
+having a plain network that is very deep means that
+
+94
+00:05:45.890 --> 00:05:50.220
+all your optimization algorithm just has a much harder time training.
+
+95
+00:05:50.220 --> 00:05:51.685
+And so, in reality,
+
+96
+00:05:51.685 --> 00:05:55.865
+your training error gets worse if you pick a network that's too deep.
+
+97
+00:05:55.865 --> 00:06:01.530
+But what happens with ResNet is that even as the number of layers gets deeper,
+
+98
+00:06:01.530 --> 00:06:06.120
+you can have the performance of the training error kind of keep on going down.
+
+99
+00:06:06.120 --> 00:06:10.030
+Even if we train a network with over a hundred layers.
+
+100
+00:06:10.030 --> 00:06:12.820
+And then now some people experimenting with networks of
+
+101
+00:06:12.820 --> 00:06:17.845
+over a thousand layers although I don't see that it used much in practice yet.
+
+102
+00:06:17.845 --> 00:06:20.230
+But by taking these activations be it X of
+
+103
+00:06:20.230 --> 00:06:24.950
+these intermediate activations and allowing it to go much deeper in the neural network,
+
+104
+00:06:24.950 --> 00:06:30.355
+this really helps with the vanishing and exploding gradient problems
+
+105
+00:06:30.355 --> 00:06:31.930
+and allows you to train
+
+106
+00:06:31.930 --> 00:06:36.220
+much deeper neural networks without really appreciable loss in performance,
+
+107
+00:06:36.220 --> 00:06:39.370
+and maybe at some point, this will plateau, this will flatten out,
+
+108
+00:06:39.370 --> 00:06:43.090
+and it doesn't help that much deeper and deeper networks.
+
+109
+00:06:43.090 --> 00:06:49.120
+But ResNet is not even effective at helping train very deep networks.
+
+110
+00:06:49.120 --> 00:06:52.645
+So you've now gotten an overview of how ResNets work.
+
+111
+00:06:52.645 --> 00:06:55.495
+And in fact, in this week's programming exercise,
+
+112
+00:06:55.495 --> 00:06:59.205
+you get to implement these ideas and see it work for yourself.
+
+113
+00:06:59.205 --> 00:07:02.350
+But next, I want to share with you better intuition or
+
+114
+00:07:02.350 --> 00:07:06.160
+even more intuition about why ResNets work so well,
+
+115
+00:07:06.160 --> 00:07:07.730
+let's go onto the next video.

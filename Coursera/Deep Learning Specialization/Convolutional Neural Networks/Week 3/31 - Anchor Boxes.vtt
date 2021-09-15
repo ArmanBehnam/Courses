@@ -1,0 +1,637 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.790
+One of the problems with object detection as you have seen it so far is
+
+2
+00:00:04.790 --> 00:00:08.870
+that each of the grid cells can detect only one object.
+
+3
+00:00:08.870 --> 00:00:12.500
+What if a grid cell wants to detect multiple objects?
+
+4
+00:00:12.500 --> 00:00:14.050
+Here is what you can do.
+
+5
+00:00:14.050 --> 00:00:16.700
+You can use the idea of anchor boxes.
+
+6
+00:00:16.700 --> 00:00:17.920
+Let's start with an example.
+
+7
+00:00:17.920 --> 00:00:20.990
+Let's say you have an image like this.
+
+8
+00:00:20.990 --> 00:00:22.460
+And for this example,
+
+9
+00:00:22.460 --> 00:00:26.160
+I am going to continue to use a 3 by 3 grid.
+
+10
+00:00:26.160 --> 00:00:31.190
+Notice that the midpoint of the pedestrian and the midpoint of the car are
+
+11
+00:00:31.190 --> 00:00:37.340
+in almost the same place and both of them fall into the same grid cell.
+
+12
+00:00:37.340 --> 00:00:38.590
+So, for that grid cell,
+
+13
+00:00:38.590 --> 00:00:44.559
+if Y outputs this vector where you are detecting three causes,
+
+14
+00:00:44.559 --> 00:00:48.105
+pedestrians, cars and motorcycles,
+
+15
+00:00:48.105 --> 00:00:51.530
+it won't be able to output two detections.
+
+16
+00:00:51.530 --> 00:00:55.545
+So I have to pick one of the two detections to output.
+
+17
+00:00:55.545 --> 00:00:57.297
+With the idea of anchor boxes,
+
+18
+00:00:57.297 --> 00:00:59.170
+what you are going to do,
+
+19
+00:00:59.170 --> 00:01:03.129
+is pre-define two different shapes called, anchor boxes or anchor box shapes.
+
+20
+00:01:03.129 --> 00:01:08.015
+And what you are going to do is now,
+
+21
+00:01:08.015 --> 00:01:13.085
+be able to associate two predictions with the two anchor boxes.
+
+22
+00:01:13.085 --> 00:01:15.585
+And in general, you might use more anchor boxes,
+
+23
+00:01:15.585 --> 00:01:17.660
+maybe five or even more.
+
+24
+00:01:17.660 --> 00:01:20.060
+But for this video, I am just going to use
+
+25
+00:01:20.060 --> 00:01:23.660
+two anchor boxes just to make the description easier.
+
+26
+00:01:23.660 --> 00:01:27.680
+So what you do is you define the cross label to be,
+
+27
+00:01:27.680 --> 00:01:30.190
+instead of this vector on the left,
+
+28
+00:01:30.190 --> 00:01:33.170
+you basically repeat this twice.
+
+29
+00:01:33.170 --> 00:01:35.120
+S, you will have PC, PX, PY,
+
+30
+00:01:35.120 --> 00:01:39.610
+PH, PW, C1, C2, C3,
+
+31
+00:01:39.610 --> 00:01:46.047
+and these are the eight outputs associated with anchor box 1.
+
+32
+00:01:46.047 --> 00:01:50.355
+And then you repeat that PC,
+
+33
+00:01:50.355 --> 00:01:51.905
+PX and so on down to C1,
+
+34
+00:01:51.905 --> 00:01:59.490
+C2, C3, and other eight outputs associated with anchor box 2.
+
+35
+00:01:59.490 --> 00:02:01.820
+So, because the shape of
+
+36
+00:02:01.820 --> 00:02:06.012
+the pedestrian is more similar to the shape of anchor box 1 and anchor box 2,
+
+37
+00:02:06.012 --> 00:02:13.730
+you can use these eight numbers to encode that PC as one,
+
+38
+00:02:13.730 --> 00:02:15.020
+yes there is a pedestrian.
+
+39
+00:02:15.020 --> 00:02:20.739
+Use this to encode the bounding box around the pedestrian,
+
+40
+00:02:20.739 --> 00:02:26.300
+and then use this to encode that that object is a pedestrian.
+
+41
+00:02:26.300 --> 00:02:29.240
+And then because the box
+
+42
+00:02:29.240 --> 00:02:32.516
+around the car is more similar to the shape of anchor box 2 than anchor box 1,
+
+43
+00:02:32.516 --> 00:02:40.021
+you can then use this to encode that the second object here is the car,
+
+44
+00:02:40.021 --> 00:02:42.830
+and have the bounding box and so
+
+45
+00:02:42.830 --> 00:02:45.984
+on be all the parameters associated with the detected car.
+
+46
+00:02:45.984 --> 00:02:50.459
+So to summarize, previously,
+
+47
+00:02:50.459 --> 00:02:51.693
+before you are using anchor boxes,
+
+48
+00:02:51.693 --> 00:02:53.505
+you did the following,
+
+49
+00:02:53.505 --> 00:02:57.665
+which is for each object in the training set and the training set image,
+
+50
+00:02:57.665 --> 00:03:03.580
+it was assigned to the grid cell that corresponds to that object's midpoint.
+
+51
+00:03:03.580 --> 00:03:11.298
+And so the output Y was 3 by 3 by 8 because you have a 3 by 3 grid.
+
+52
+00:03:11.298 --> 00:03:13.400
+And for each grid position,
+
+53
+00:03:13.400 --> 00:03:17.080
+we had that output vector which is PC, then the bounding box, and C1, C2, C3.
+
+54
+00:03:17.080 --> 00:03:18.892
+With the anchor box,
+
+55
+00:03:18.892 --> 00:03:21.877
+you now do that following.
+
+56
+00:03:21.877 --> 00:03:27.553
+Now, each object is assigned to the same grid cell as before,
+
+57
+00:03:27.553 --> 00:03:29.860
+assigned to the grid cell that contains the object's midpoint,
+
+58
+00:03:29.860 --> 00:03:33.488
+but it is assigned to a grid cell and
+
+59
+00:03:33.488 --> 00:03:41.020
+anchor box with the highest IoU with the object's shape.
+
+60
+00:03:41.020 --> 00:03:43.070
+So, you have two anchor boxes,
+
+61
+00:03:43.070 --> 00:03:45.845
+you will take an object and see.
+
+62
+00:03:45.845 --> 00:03:50.060
+So if you have an object with this shape,
+
+63
+00:03:50.060 --> 00:03:53.270
+what you do is take your two anchor boxes.
+
+64
+00:03:53.270 --> 00:03:55.286
+Maybe one anchor box is this this shape that's anchor box 1,
+
+65
+00:03:55.286 --> 00:03:58.325
+maybe anchor box 2 is this shape,
+
+66
+00:03:58.325 --> 00:04:01.940
+and then you see which of the two anchor boxes has a higher IoU,
+
+67
+00:04:01.940 --> 00:04:04.500
+will be drawn through bounding box.
+
+68
+00:04:04.500 --> 00:04:05.810
+And whichever it is,
+
+69
+00:04:05.810 --> 00:04:11.055
+that object then gets assigned not just to a grid cell but to a pair.
+
+70
+00:04:11.055 --> 00:04:18.905
+It gets assigned to grid cell comma anchor box pair.
+
+71
+00:04:18.905 --> 00:04:22.985
+And that's how that object gets encoded in the target label.
+
+72
+00:04:22.985 --> 00:04:31.505
+And so now, the output Y is going to be 3 by 3 by 16.
+
+73
+00:04:31.505 --> 00:04:34.120
+Because as you saw on the previous slide,
+
+74
+00:04:34.120 --> 00:04:36.610
+Y is now 16 dimensional.
+
+75
+00:04:36.610 --> 00:04:37.788
+Or if you want,
+
+76
+00:04:37.788 --> 00:04:42.565
+you can also view this as 3 by 3 by 2 by 8
+
+77
+00:04:42.565 --> 00:04:48.675
+because there are now two anchor boxes and Y is eight dimensional.
+
+78
+00:04:48.675 --> 00:04:54.516
+And dimension of Y being eight was because we have three objects causes
+
+79
+00:04:54.516 --> 00:05:01.070
+if you have more objects than the dimension of Y would be even higher.
+
+80
+00:05:01.070 --> 00:05:04.890
+So let's go through a complete example.
+
+81
+00:05:04.890 --> 00:05:09.040
+For this grid cell,
+
+82
+00:05:09.040 --> 00:05:12.070
+let's specify what is Y.
+
+83
+00:05:12.070 --> 00:05:21.075
+So the pedestrian is more similar to the shape of anchor box 1.
+
+84
+00:05:21.075 --> 00:05:22.280
+So for the pedestrian,
+
+85
+00:05:22.280 --> 00:05:25.620
+we're going to assign it to the top half of this vector.
+
+86
+00:05:25.620 --> 00:05:27.235
+So yes, there is an object,
+
+87
+00:05:27.235 --> 00:05:31.150
+there will be some bounding box associated at the pedestrian.
+
+88
+00:05:31.150 --> 00:05:33.734
+And I guess if a pedestrian is cos one,
+
+89
+00:05:33.734 --> 00:05:36.665
+then we see one as one, and then zero, zero.
+
+90
+00:05:36.665 --> 00:05:41.420
+And then the shape of the car is more similar to anchor box 2.
+
+91
+00:05:41.420 --> 00:05:43.430
+And so the rest of this vector will be
+
+92
+00:05:43.430 --> 00:05:47.960
+one and then the bounding box associated with the car,
+
+93
+00:05:47.960 --> 00:05:51.330
+and then the car is C2,
+
+94
+00:05:51.330 --> 00:05:53.170
+so there's zero, one, zero.
+
+95
+00:05:53.170 --> 00:05:56.715
+And so that's the label Y for
+
+96
+00:05:56.715 --> 00:06:02.685
+that lower middle grid cell that this arrow was pointing to.
+
+97
+00:06:02.685 --> 00:06:09.760
+Now, what if this grid cell only had a car and had no pedestrian?
+
+98
+00:06:09.760 --> 00:06:11.410
+If it only had a car,
+
+99
+00:06:11.410 --> 00:06:14.300
+then assuming that the shape of the bounding box around
+
+100
+00:06:14.300 --> 00:06:18.460
+the car is still more similar to anchor box 2,
+
+101
+00:06:18.460 --> 00:06:20.410
+then the target label Y,
+
+102
+00:06:20.410 --> 00:06:24.325
+if there was just a car there and the pedestrian had gone away,
+
+103
+00:06:24.325 --> 00:06:30.271
+it will still be the same for the anchor box 2 component.
+
+104
+00:06:30.271 --> 00:06:37.530
+Remember that this is a part of the vector corresponding to anchor box 2.
+
+105
+00:06:37.530 --> 00:06:42.590
+And for the part of the vector corresponding to anchor box 1,
+
+106
+00:06:42.590 --> 00:06:46.017
+what you do is you just say there is no object there.
+
+107
+00:06:46.017 --> 00:06:47.912
+So PC is zero,
+
+108
+00:06:47.912 --> 00:06:52.900
+and then the rest of these will be don't cares.
+
+109
+00:06:52.900 --> 00:06:55.155
+Now, just some additional details.
+
+110
+00:06:55.155 --> 00:06:59.730
+What if you have two anchor boxes but three objects in the same grid cell?
+
+111
+00:06:59.730 --> 00:07:04.000
+That's one case that this algorithm doesn't handle well.
+
+112
+00:07:04.000 --> 00:07:06.705
+Hopefully, it won't happen.
+
+113
+00:07:06.705 --> 00:07:11.440
+But if it does, this algorithm doesn't have a great way of handling it.
+
+114
+00:07:11.440 --> 00:07:15.025
+I will just influence some default tiebreaker for that case.
+
+115
+00:07:15.025 --> 00:07:17.160
+Or what if you have two objects associated with the same grid cell,
+
+116
+00:07:17.160 --> 00:07:21.316
+but both of them have the same anchor box shape?
+
+117
+00:07:21.316 --> 00:07:24.335
+Again, that's another case that this algorithm doesn't handle well.
+
+118
+00:07:24.335 --> 00:07:28.855
+If you influence some default way of tiebreaking if that happens,
+
+119
+00:07:28.855 --> 00:07:31.101
+hopefully this won't happen with your data set,
+
+120
+00:07:31.101 --> 00:07:32.740
+it won't happen much at all.
+
+121
+00:07:32.740 --> 00:07:35.834
+And so, it shouldn't affect performance as much.
+
+122
+00:07:35.834 --> 00:07:38.575
+So, that's it for anchor boxes.
+
+123
+00:07:38.575 --> 00:07:42.370
+And even though I'd motivated anchor boxes as a way to
+
+124
+00:07:42.370 --> 00:07:46.880
+deal with what happens if two objects appear in the same grid cell,
+
+125
+00:07:46.880 --> 00:07:49.345
+in practice, that happens quite rarely,
+
+126
+00:07:49.345 --> 00:07:54.335
+especially if you use a 19 by 19 rather than a 3 by 3 grid.
+
+127
+00:07:54.335 --> 00:07:59.065
+The chance of two objects having the same midpoint rather these 361 cells,
+
+128
+00:07:59.065 --> 00:08:02.340
+it does happen, but it doesn't happen that often.
+
+129
+00:08:02.340 --> 00:08:06.810
+Maybe even better motivation or even better results that
+
+130
+00:08:06.810 --> 00:08:12.325
+anchor boxes gives you is it allows your learning algorithm to specialize better.
+
+131
+00:08:12.325 --> 00:08:15.400
+In particular, if your data set has some tall,
+
+132
+00:08:15.400 --> 00:08:17.380
+skinny objects like pedestrians,
+
+133
+00:08:17.380 --> 00:08:20.245
+and some white objects like cars,
+
+134
+00:08:20.245 --> 00:08:23.590
+then this allows your learning algorithm to specialize so
+
+135
+00:08:23.590 --> 00:08:27.115
+that some of the outputs can specialize in detecting white,
+
+136
+00:08:27.115 --> 00:08:28.750
+fat objects like cars,
+
+137
+00:08:28.750 --> 00:08:32.243
+and some of the output units can specialize in detecting tall,
+
+138
+00:08:32.243 --> 00:08:34.830
+skinny objects like pedestrians.
+
+139
+00:08:34.830 --> 00:08:38.005
+So finally, how do you choose the anchor boxes?
+
+140
+00:08:38.005 --> 00:08:43.435
+And people used to just choose them by hand or choose maybe five or 10 anchor box
+
+141
+00:08:43.435 --> 00:08:46.270
+shapes that spans a variety of shapes that seems
+
+142
+00:08:46.270 --> 00:08:49.510
+to cover the types of objects you seem to detect.
+
+143
+00:08:49.510 --> 00:08:51.505
+As a much more advanced version,
+
+144
+00:08:51.505 --> 00:08:55.890
+just in the advance common for those of who have other knowledge in machine learning,
+
+145
+00:08:55.890 --> 00:09:00.385
+and even better way to do this in one of the later YOLO research papers,
+
+146
+00:09:00.385 --> 00:09:02.430
+is to use a K-means algorithm,
+
+147
+00:09:02.430 --> 00:09:05.795
+to group together two types of objects shapes you tend to get.
+
+148
+00:09:05.795 --> 00:09:09.150
+And then to use that to select a set of anchor boxes that
+
+149
+00:09:09.150 --> 00:09:13.140
+this most stereotypically representative of the maybe multiple,
+
+150
+00:09:13.140 --> 00:09:16.330
+of the maybe dozens of object causes you're trying to detect.
+
+151
+00:09:16.330 --> 00:09:20.915
+But that's a more advanced way to automatically choose the anchor boxes.
+
+152
+00:09:20.915 --> 00:09:24.160
+And if you just choose by hand a variety of shapes
+
+153
+00:09:24.160 --> 00:09:27.580
+that reasonably expands the set of object shapes,
+
+154
+00:09:27.580 --> 00:09:29.260
+you expect to detect some tall,
+
+155
+00:09:29.260 --> 00:09:31.270
+skinny ones, some fat, white ones.
+
+156
+00:09:31.270 --> 00:09:33.535
+That should work with these as well.
+
+157
+00:09:33.535 --> 00:09:34.760
+So that's it for anchor boxes.
+
+158
+00:09:34.760 --> 00:09:37.120
+In the next video,
+
+159
+00:09:37.120 --> 00:09:42.000
+let's take everything we've seen and tie it back together into the YOLO algorithm.

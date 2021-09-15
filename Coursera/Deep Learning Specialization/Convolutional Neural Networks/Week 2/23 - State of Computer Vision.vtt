@@ -1,0 +1,805 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.650
+Deep learning has been successfully
+
+2
+00:00:01.650 --> 00:00:03.850
+applied to computer vision, natural language processing,
+
+3
+00:00:03.850 --> 00:00:05.990
+speech recognition, online advertising,
+
+4
+00:00:05.990 --> 00:00:08.550
+logistics, many, many, many problems.
+
+5
+00:00:08.550 --> 00:00:10.470
+There are a few things that are unique about
+
+6
+00:00:10.470 --> 00:00:12.990
+the application of deep learning to computer vision,
+
+7
+00:00:12.990 --> 00:00:15.570
+about the status of computer vision.
+
+8
+00:00:15.570 --> 00:00:20.160
+In this video, I will share with you some of my observations about deep learning
+
+9
+00:00:20.160 --> 00:00:25.335
+for computer vision and I hope that that will help you better navigate the literature,
+
+10
+00:00:25.335 --> 00:00:27.270
+and the set of ideas out there,
+
+11
+00:00:27.270 --> 00:00:31.880
+and how you build these systems yourself for computer vision.
+
+12
+00:00:31.880 --> 00:00:38.180
+So, you can think of most machine learning problems as falling somewhere on
+
+13
+00:00:38.180 --> 00:00:40.730
+the spectrum between where you have relatively little data
+
+14
+00:00:40.730 --> 00:00:45.585
+to where you have lots of data.
+
+15
+00:00:45.585 --> 00:00:50.840
+So, for example I think that today we have a decent amount of
+
+16
+00:00:50.840 --> 00:00:57.230
+data for speech recognition and it's relative to the complexity of the problem.
+
+17
+00:00:57.230 --> 00:00:59.540
+And even though there are
+
+18
+00:00:59.540 --> 00:01:05.315
+reasonably large data sets today for image recognition or image classification,
+
+19
+00:01:05.315 --> 00:01:07.460
+because image recognition is
+
+20
+00:01:07.460 --> 00:01:11.222
+just a complicated problem to look at all those pixels and figure out what it is.
+
+21
+00:01:11.222 --> 00:01:16.250
+It feels like even though the online data sets are quite big like over a million images,
+
+22
+00:01:16.250 --> 00:01:20.098
+feels like we still wish we had more data.
+
+23
+00:01:20.098 --> 00:01:28.006
+And there are some problems like object detection where we have even less data.
+
+24
+00:01:28.006 --> 00:01:31.340
+So, just as a reminder image recognition was the problem of
+
+25
+00:01:31.340 --> 00:01:34.912
+looking at a picture and telling you is this a cattle or not.
+
+26
+00:01:34.912 --> 00:01:39.590
+Whereas object detection is look in the picture and actually you're putting
+
+27
+00:01:39.590 --> 00:01:41.948
+the bounding boxes are telling you where in
+
+28
+00:01:41.948 --> 00:01:44.935
+the picture the objects such as the car as well.
+
+29
+00:01:44.935 --> 00:01:46.760
+And so because of the cost of getting
+
+30
+00:01:46.760 --> 00:01:52.470
+the bounding boxes is just more expensive to label the objects and the bounding boxes.
+
+31
+00:01:52.470 --> 00:01:57.905
+So, we tend to have less data for object detection than for image recognition.
+
+32
+00:01:57.905 --> 00:02:02.083
+And object detection is something we'll discuss next week.
+
+33
+00:02:02.083 --> 00:02:06.605
+So, if you look across a broad spectrum of machine learning problems,
+
+34
+00:02:06.605 --> 00:02:12.095
+you see on average that when you have a lot of data you tend to find people
+
+35
+00:02:12.095 --> 00:02:18.300
+getting away with using simpler algorithms as well as less hand-engineering.
+
+36
+00:02:18.300 --> 00:02:23.480
+So, there's just less needing to carefully design features for the problem,
+
+37
+00:02:23.480 --> 00:02:25.910
+but instead you can have a giant neural network, even
+
+38
+00:02:25.910 --> 00:02:28.507
+a simpler architecture, and have a neural network.
+
+39
+00:02:28.507 --> 00:02:32.415
+Just learn whether we want to learn we have a lot of data.
+
+40
+00:02:32.415 --> 00:02:36.560
+Whereas, in contrast when you don't have that much data then on
+
+41
+00:02:36.560 --> 00:02:41.713
+average you see people engaging in more hand-engineering.
+
+42
+00:02:41.713 --> 00:02:46.660
+And if you want to be ungenerous you can say there are more hacks.
+
+43
+00:02:46.660 --> 00:02:49.880
+But I think when you don't have much data then
+
+44
+00:02:49.880 --> 00:02:54.809
+hand-engineering is actually the best way to get good performance.
+
+45
+00:02:54.809 --> 00:02:59.435
+So, when I look at machine learning applications
+
+46
+00:02:59.435 --> 00:03:04.595
+I think usually we have the learning algorithm has two sources of knowledge.
+
+47
+00:03:04.595 --> 00:03:07.430
+One source of knowledge is the labeled data,
+
+48
+00:03:07.430 --> 00:03:11.525
+really the (x,y) pairs you use for supervised learning.
+
+49
+00:03:11.525 --> 00:03:14.652
+And the second source of knowledge is the hand-engineering.
+
+50
+00:03:14.652 --> 00:03:17.045
+And there are lots of ways to hand-engineer a system.
+
+51
+00:03:17.045 --> 00:03:20.435
+It can be from carefully hand designing the features,
+
+52
+00:03:20.435 --> 00:03:22.281
+to carefully hand designing
+
+53
+00:03:22.281 --> 00:03:26.485
+the network architectures to maybe other components of your system.
+
+54
+00:03:26.485 --> 00:03:28.880
+And so when you don't have much labeled data you
+
+55
+00:03:28.880 --> 00:03:32.270
+just have to call more on hand-engineering.
+
+56
+00:03:32.270 --> 00:03:38.165
+And so I think computer vision is trying to learn a really complex function.
+
+57
+00:03:38.165 --> 00:03:42.815
+And it often feels like we don't have enough data for computer vision.
+
+58
+00:03:42.815 --> 00:03:45.362
+Even though data sets are getting bigger and bigger,
+
+59
+00:03:45.362 --> 00:03:48.845
+often we just don't have as much data as we need.
+
+60
+00:03:48.845 --> 00:03:52.100
+And this is why this data computer vision historically and
+
+61
+00:03:52.100 --> 00:03:57.178
+even today has relied more on hand-engineering.
+
+62
+00:03:57.178 --> 00:04:00.425
+And I think this is also why that either computer vision
+
+63
+00:04:00.425 --> 00:04:05.040
+has developed rather complex network architectures,
+
+64
+00:04:05.040 --> 00:04:08.720
+is because in the absence of more data
+
+65
+00:04:08.720 --> 00:04:13.400
+the way to get good performance is to spend more time architecting,
+
+66
+00:04:13.400 --> 00:04:17.130
+or fooling around with the network architecture.
+
+67
+00:04:17.130 --> 00:04:19.340
+And in case you think I'm being
+
+68
+00:04:19.340 --> 00:04:23.525
+derogatory of hand-engineering that's not at all my intent.
+
+69
+00:04:23.525 --> 00:04:27.830
+When you don't have enough data hand-engineering is a very difficult,
+
+70
+00:04:27.830 --> 00:04:32.135
+very skillful task that requires a lot of insight.
+
+71
+00:04:32.135 --> 00:04:36.875
+And someone that is insightful with hand-engineering will get better performance,
+
+72
+00:04:36.875 --> 00:04:39.590
+and is a great contribution to a project to
+
+73
+00:04:39.590 --> 00:04:43.085
+do that hand-engineering when you don't have enough data.
+
+74
+00:04:43.085 --> 00:04:47.150
+It's just when you have lots of data then I wouldn't spend time hand-engineering,
+
+75
+00:04:47.150 --> 00:04:52.588
+I would spend time building up the learning system instead.
+
+76
+00:04:52.588 --> 00:04:57.610
+But I think historically the fear the computer vision has used very small data sets,
+
+77
+00:04:57.610 --> 00:04:59.965
+and so historically the computer vision literature
+
+78
+00:04:59.965 --> 00:05:02.700
+has relied on a lot of hand-engineering.
+
+79
+00:05:02.700 --> 00:05:06.640
+And even though in the last few years the amount of data
+
+80
+00:05:06.640 --> 00:05:10.540
+with the right computer vision task has increased dramatically,
+
+81
+00:05:10.540 --> 00:05:12.580
+I think that that has resulted in
+
+82
+00:05:12.580 --> 00:05:17.185
+a significant reduction in the amount of hand-engineering that's being done.
+
+83
+00:05:17.185 --> 00:05:21.480
+But there's still a lot of hand-engineering of network architectures and computer vision.
+
+84
+00:05:21.480 --> 00:05:26.890
+Which is why you see very complicated hyper frantic choices in computer vision,
+
+85
+00:05:26.890 --> 00:05:31.294
+are more complex than you do in a lot of other disciplines.
+
+86
+00:05:31.294 --> 00:05:33.550
+And in fact, because you usually have
+
+87
+00:05:33.550 --> 00:05:38.050
+smaller object detection data sets than image recognition data sets,
+
+88
+00:05:38.050 --> 00:05:43.360
+when we talk about object detection that is task like this next week.
+
+89
+00:05:43.360 --> 00:05:48.280
+You see that the algorithms
+
+90
+00:05:48.280 --> 00:05:54.040
+become even more complex and has even more specialized components.
+
+91
+00:05:54.040 --> 00:06:00.100
+Fortunately, one thing that helps a lot when you have little data is transfer learning.
+
+92
+00:06:00.100 --> 00:06:10.395
+And I would say for the example from the previous slide of the tigger,
+
+93
+00:06:10.395 --> 00:06:13.850
+misty, neither detection problem,
+
+94
+00:06:13.850 --> 00:06:18.666
+you have soluble data that transfer learning will help a lot.
+
+95
+00:06:18.666 --> 00:06:21.120
+And so that's another set of techniques that's used
+
+96
+00:06:21.120 --> 00:06:24.255
+a lot for when you have relatively little data.
+
+97
+00:06:24.255 --> 00:06:27.100
+If you look at the computer vision literature,
+
+98
+00:06:27.100 --> 00:06:29.243
+and look at the sort of ideas out there,
+
+99
+00:06:29.243 --> 00:06:32.293
+you also find that people are really enthusiastic.
+
+100
+00:06:32.293 --> 00:06:34.800
+They're really into doing well on
+
+101
+00:06:34.800 --> 00:06:38.730
+standardized benchmark data sets and on winning competitions.
+
+102
+00:06:38.730 --> 00:06:41.925
+And for computer vision researchers if you do
+
+103
+00:06:41.925 --> 00:06:45.395
+well and the benchmark is easier to get the paper published.
+
+104
+00:06:45.395 --> 00:06:49.155
+So, there's just a lot of attention on doing well on these benchmarks.
+
+105
+00:06:49.155 --> 00:06:51.615
+And the positive side of this is that,
+
+106
+00:06:51.615 --> 00:06:56.125
+it helps the whole community figure out what are the most effective algorithms.
+
+107
+00:06:56.125 --> 00:07:02.475
+But you also see in the papers people do things that allow you to do well on a benchmark,
+
+108
+00:07:02.475 --> 00:07:04.310
+but that you wouldn't really use in
+
+109
+00:07:04.310 --> 00:07:08.665
+a production or a system that you deploy in an actual application.
+
+110
+00:07:08.665 --> 00:07:11.379
+So, here are a few tips on doing well on benchmarks.
+
+111
+00:07:11.379 --> 00:07:15.960
+These are things that I don't myself pretty much ever use if I'm
+
+112
+00:07:15.960 --> 00:07:20.940
+putting a system to production that is actually to serve customers.
+
+113
+00:07:20.940 --> 00:07:23.105
+But one is ensembling.
+
+114
+00:07:23.105 --> 00:07:24.870
+And what that means is,
+
+115
+00:07:24.870 --> 00:07:27.410
+after you've figured out what neural network you want,
+
+116
+00:07:27.410 --> 00:07:33.120
+train several neural networks independently and average their outputs.
+
+117
+00:07:33.120 --> 00:07:35.610
+So, initialize say 3, or 5,
+
+118
+00:07:35.610 --> 00:07:40.095
+or 7 neural networks randomly and train up all of these neural networks,
+
+119
+00:07:40.095 --> 00:07:41.890
+and then average their outputs.
+
+120
+00:07:41.890 --> 00:07:44.943
+And by the way it is important to average their outputs y hats.
+
+121
+00:07:44.943 --> 00:07:47.660
+Don't average their weights that won't work.
+
+122
+00:07:47.660 --> 00:07:50.410
+Look and you say seven neural networks that
+
+123
+00:07:50.410 --> 00:07:53.348
+have seven different predictions and average that.
+
+124
+00:07:53.348 --> 00:07:57.725
+And this will cause you to do maybe 1% better, or 2% better.
+
+125
+00:07:57.725 --> 00:08:02.015
+So is a little bit better on some benchmark.
+
+126
+00:08:02.015 --> 00:08:04.569
+And this will cause you to do a little bit better.
+
+127
+00:08:04.569 --> 00:08:11.544
+Maybe sometimes as much as 1 or 2% which really help win a competition.
+
+128
+00:08:11.544 --> 00:08:15.200
+But because ensembling means that to test on each image,
+
+129
+00:08:15.200 --> 00:08:17.810
+you might need to run an image through anywhere
+
+130
+00:08:17.810 --> 00:08:21.965
+from say 3 to 15 different networks quite typical.
+
+131
+00:08:21.965 --> 00:08:25.570
+This slows down your running time by a factor of 3 to 15,
+
+132
+00:08:25.570 --> 00:08:26.885
+or sometimes even more.
+
+133
+00:08:26.885 --> 00:08:29.655
+And so ensembling is one of those tips that people
+
+134
+00:08:29.655 --> 00:08:33.111
+use doing well in benchmarks and for winning competitions.
+
+135
+00:08:33.111 --> 00:08:38.275
+But that I think is almost never use in production to serve actual customers.
+
+136
+00:08:38.275 --> 00:08:41.400
+I guess unless you have huge computational budget and don't
+
+137
+00:08:41.400 --> 00:08:44.996
+mind burning a lot more of it per customer image.
+
+138
+00:08:44.996 --> 00:08:50.195
+Another thing you see in papers that really helps on benchmarks,
+
+139
+00:08:50.195 --> 00:08:52.690
+is multi-crop at test time.
+
+140
+00:08:52.690 --> 00:08:58.055
+So, what I mean by that is you've seen how you can do data augmentation.
+
+141
+00:08:58.055 --> 00:09:04.910
+And multi-crop is a form of applying data augmentation to your test image as well.
+
+142
+00:09:04.910 --> 00:09:07.470
+So, for example let's see a cat image
+
+143
+00:09:07.470 --> 00:09:12.155
+and just copy it four times including two more versions.
+
+144
+00:09:12.155 --> 00:09:14.585
+There's a technique called the 10-crop,
+
+145
+00:09:14.585 --> 00:09:19.460
+which basically says let's say you take this central region that crop,
+
+146
+00:09:19.460 --> 00:09:22.097
+and run it through your crossfire.
+
+147
+00:09:22.097 --> 00:09:24.830
+And then take that crop up the left hand corner run through a crossfire,
+
+148
+00:09:24.830 --> 00:09:27.145
+up right hand corner shown in green,
+
+149
+00:09:27.145 --> 00:09:30.980
+lower left shown in yellow,
+
+150
+00:09:30.980 --> 00:09:33.162
+lower right shown in orange,
+
+151
+00:09:33.162 --> 00:09:34.950
+and run that through the crossfire.
+
+152
+00:09:34.950 --> 00:09:37.060
+And then do the same thing with the mirrored image.
+
+153
+00:09:37.060 --> 00:09:38.743
+Right. So I'll take the central crop,
+
+154
+00:09:38.743 --> 00:09:41.670
+then take the four corners crops.
+
+155
+00:09:41.670 --> 00:09:44.165
+So, that's one central crop here and here,
+
+156
+00:09:44.165 --> 00:09:46.210
+there's four corners crop here and here.
+
+157
+00:09:46.210 --> 00:09:49.540
+And if you add these up that's 10 different crops that you mentioned.
+
+158
+00:09:49.540 --> 00:09:51.600
+So hence the name 10-crop.
+
+159
+00:09:51.600 --> 00:09:54.980
+And so what you do, is you run these 10 images through
+
+160
+00:09:54.980 --> 00:09:59.360
+your crossfire and then average the results.
+
+161
+00:09:59.360 --> 00:10:02.660
+So, if you have the computational budget you could do this.
+
+162
+00:10:02.660 --> 00:10:04.530
+Maybe you don't need as many as 10-crops,
+
+163
+00:10:04.530 --> 00:10:05.900
+you can use a few crops.
+
+164
+00:10:05.900 --> 00:10:10.960
+And this might get you a little bit better performance in a production system.
+
+165
+00:10:10.960 --> 00:10:16.190
+By production I mean a system you're deploying for actual users.
+
+166
+00:10:16.190 --> 00:10:19.760
+But this is another technique that is used much more for doing
+
+167
+00:10:19.760 --> 00:10:24.110
+well on benchmarks than in actual production systems.
+
+168
+00:10:24.110 --> 00:10:27.550
+And one of the big problems of ensembling is
+
+169
+00:10:27.550 --> 00:10:30.575
+that you need to keep all these different networks around.
+
+170
+00:10:30.575 --> 00:10:33.835
+And so that just takes up a lot more computer memory.
+
+171
+00:10:33.835 --> 00:10:37.600
+For multi-crop I guess at least you keep just one network around.
+
+172
+00:10:37.600 --> 00:10:41.155
+So it doesn't suck up as much memory,
+
+173
+00:10:41.155 --> 00:10:46.235
+but it still slows down your run time quite a bit.
+
+174
+00:10:46.235 --> 00:10:52.240
+So, these are tips you see and research papers will refer to these tips as well.
+
+175
+00:10:52.240 --> 00:10:56.940
+But I personally do not tend to use these methods when building
+
+176
+00:10:56.940 --> 00:10:59.535
+production systems even though they are great for doing
+
+177
+00:10:59.535 --> 00:11:03.205
+better on benchmarks and on winning competitions.
+
+178
+00:11:03.205 --> 00:11:08.345
+Because a lot of the computer vision problems are in the small data regime,
+
+179
+00:11:08.345 --> 00:11:12.620
+others have done a lot of hand-engineering of the network architectures.
+
+180
+00:11:12.620 --> 00:11:17.400
+And a neural network that works well on one vision problem often may be surprisingly,
+
+181
+00:11:17.400 --> 00:11:21.010
+but they just often would work on other vision problems as well.
+
+182
+00:11:21.010 --> 00:11:25.295
+So, to build a practical system often you do
+
+183
+00:11:25.295 --> 00:11:29.796
+well starting off with someone else's neural network architecture.
+
+184
+00:11:29.796 --> 00:11:32.810
+And you can use an open source implementation if possible,
+
+185
+00:11:32.810 --> 00:11:35.770
+because the open source implementation might have figured out
+
+186
+00:11:35.770 --> 00:11:39.120
+all the finicky details like the learning rate,
+
+187
+00:11:39.120 --> 00:11:42.478
+case scheduler, and other hyper parameters.
+
+188
+00:11:42.478 --> 00:11:46.350
+And finally someone else may have spent weeks training a model
+
+189
+00:11:46.350 --> 00:11:51.926
+on half a dozen GP use and on over a million images.
+
+190
+00:11:51.926 --> 00:11:56.565
+And so by using someone else's pretrained model and fine tuning on your data set,
+
+191
+00:11:56.565 --> 00:12:00.610
+you can often get going much faster on an application.
+
+192
+00:12:00.610 --> 00:12:05.048
+But of course if you have the compute resources and the inclination,
+
+193
+00:12:05.048 --> 00:12:09.840
+don't let me stop you from training your own networks from scratch.
+
+194
+00:12:09.840 --> 00:12:14.326
+And in fact if you want to invent your own computer vision algorithm,
+
+195
+00:12:14.326 --> 00:12:16.840
+that's what you might have to do.
+
+196
+00:12:16.840 --> 00:12:18.920
+So, that's it for this week,
+
+197
+00:12:18.920 --> 00:12:20.960
+I hope that seeing a number of
+
+198
+00:12:20.960 --> 00:12:24.605
+computer vision architectures helps you get a sense of what works.
+
+199
+00:12:24.605 --> 00:12:28.055
+In this week's programming exercises you actually learn
+
+200
+00:12:28.055 --> 00:12:32.740
+another programming framework and use that to implement resonance.
+
+201
+00:12:32.740 --> 00:12:37.970
+So, I hope you enjoy that programming exercise and I look forward to seeing you next week.

@@ -1,0 +1,633 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.370
+When designing a layer for a ConvNet, you might have to pick,
+
+2
+00:00:03.370 --> 00:00:05.430
+do you want a 1 by 3 filter,
+
+3
+00:00:05.430 --> 00:00:07.385
+or 3 by 3, or 5 by 5,
+
+4
+00:00:07.385 --> 00:00:09.180
+or do you want a pooling layer?
+
+5
+00:00:09.180 --> 00:00:11.920
+What the inception network does is it says,
+
+6
+00:00:11.920 --> 00:00:13.095
+why should you do them all?
+
+7
+00:00:13.095 --> 00:00:16.255
+And this makes the network architecture more complicated,
+
+8
+00:00:16.255 --> 00:00:18.380
+but it also works remarkably well.
+
+9
+00:00:18.380 --> 00:00:19.720
+Let's see how this works.
+
+10
+00:00:19.720 --> 00:00:23.380
+Let's say for the sake of example that you have inputted a
+
+11
+00:00:23.380 --> 00:00:26.990
+28 by 28 by 192 dimensional volume.
+
+12
+00:00:26.990 --> 00:00:32.500
+So what the inception network or what an inception layer says is,
+
+13
+00:00:32.500 --> 00:00:36.600
+instead choosing what filter size you want in a Conv layer,
+
+14
+00:00:36.600 --> 00:00:40.205
+or even do you want a convolutional layer or a pooling layer?
+
+15
+00:00:40.205 --> 00:00:46.795
+Let's do them all. So what if you can use a 1 by 1 convolution,
+
+16
+00:00:46.795 --> 00:00:50.750
+and that will output a 28 by 28 by something.
+
+17
+00:00:50.750 --> 00:00:56.180
+Let's say 28 by 28 by 64 output,
+
+18
+00:00:56.180 --> 00:00:58.405
+and you just have a volume there.
+
+19
+00:00:58.405 --> 00:01:06.510
+But maybe you also want to try a 3 by 3 and that might output a 20 by 20 by 128.
+
+20
+00:01:06.510 --> 00:01:13.975
+And then what you do is just stack up this second volume next to the first volume.
+
+21
+00:01:13.975 --> 00:01:16.415
+And to make the dimensions match up,
+
+22
+00:01:16.415 --> 00:01:19.470
+let's make this a same convolution.
+
+23
+00:01:19.470 --> 00:01:23.500
+So the output dimension is still 28 by 28,
+
+24
+00:01:23.500 --> 00:01:26.965
+same as the input dimension in terms of height and width.
+
+25
+00:01:26.965 --> 00:01:31.300
+But 28 by 28 by in this example 128.
+
+26
+00:01:31.300 --> 00:01:34.510
+And maybe you might say well I want to hedge my bets.
+
+27
+00:01:34.510 --> 00:01:36.710
+Maybe a 5 by 5 filter works better.
+
+28
+00:01:36.710 --> 00:01:44.755
+So let's do that too and have that output a 28 by 28 by 32.
+
+29
+00:01:44.755 --> 00:01:49.435
+And again you use the same convolution to keep the dimensions the same.
+
+30
+00:01:49.435 --> 00:01:52.715
+And maybe you don't want to convolutional layer.
+
+31
+00:01:52.715 --> 00:01:58.560
+Let's apply pooling, and that has some other output and let's stack that up as well.
+
+32
+00:01:58.560 --> 00:02:05.070
+And here pooling outputs 28 by 28 by 32.
+
+33
+00:02:05.070 --> 00:02:09.195
+Now in order to make all the dimensions match,
+
+34
+00:02:09.195 --> 00:02:12.560
+you actually need to use padding for max pooling.
+
+35
+00:02:12.560 --> 00:02:15.950
+So this is an unusual formal pooling because if you want
+
+36
+00:02:15.950 --> 00:02:19.985
+the input to have a higher than 28 by 28 and have the output,
+
+37
+00:02:19.985 --> 00:02:24.395
+you'll match the dimension everything else also by 28 by 28,
+
+38
+00:02:24.395 --> 00:02:31.020
+then you need to use the same padding as well as a stride of one for pooling.
+
+39
+00:02:31.020 --> 00:02:34.230
+So this detail might seem a bit funny to you now,
+
+40
+00:02:34.230 --> 00:02:35.520
+but let's keep going.
+
+41
+00:02:35.520 --> 00:02:39.310
+And we'll make this all work later.
+
+42
+00:02:39.310 --> 00:02:43.170
+But with a inception module like this,
+
+43
+00:02:43.170 --> 00:02:46.080
+you can input some volume and output.
+
+44
+00:02:46.080 --> 00:02:48.640
+In this case I guess if you add up all these numbers,
+
+45
+00:02:48.640 --> 00:02:51.705
+32 plus 32 plus 128 plus 64,
+
+46
+00:02:51.705 --> 00:02:54.915
+that's equal to 256.
+
+47
+00:02:54.915 --> 00:03:01.515
+So you will have one inception module input 28 by 28 by 192,
+
+48
+00:03:01.515 --> 00:03:06.275
+and output 28 by 28 by 256.
+
+49
+00:03:06.275 --> 00:03:11.300
+And this is the heart of the inception network which is due
+
+50
+00:03:11.300 --> 00:03:13.260
+to Christian Szegedy, Wei Liu,
+
+51
+00:03:13.260 --> 00:03:15.130
+Yangqing Jia, Pierre Sermanet,
+
+52
+00:03:15.130 --> 00:03:17.750
+Scott Reed, Dragomir Anguelov, Dumitru Erhan,
+
+53
+00:03:17.750 --> 00:03:20.660
+Vincent Vanhoucke and Andrew Rabinovich.
+
+54
+00:03:20.660 --> 00:03:23.950
+And the basic idea is that instead of
+
+55
+00:03:23.950 --> 00:03:30.000
+you needing to pick one of these filter sizes or pooling you want and committing to that,
+
+56
+00:03:30.000 --> 00:03:33.200
+you can do them all and just concatenate all the outputs,
+
+57
+00:03:33.200 --> 00:03:36.270
+and let the network learn whatever parameters it wants to use,
+
+58
+00:03:36.270 --> 00:03:40.050
+whatever the combinations of these filter sizes it wants.
+
+59
+00:03:40.050 --> 00:03:42.420
+Now it turns out that there is a problem
+
+60
+00:03:42.420 --> 00:03:44.745
+with the inception layer as we've described it here,
+
+61
+00:03:44.745 --> 00:03:46.795
+which is computational cost.
+
+62
+00:03:46.795 --> 00:03:48.060
+On the next slide,
+
+63
+00:03:48.060 --> 00:03:54.485
+let's figure out what's the computational cost of this 5 by 5 filter resulting
+
+64
+00:03:54.485 --> 00:03:56.655
+in this block over here.
+
+65
+00:03:56.655 --> 00:04:02.735
+So just focusing on the 5 by 5 pot on the previous slide,
+
+66
+00:04:02.735 --> 00:04:07.010
+we had as input a 28 by 28 by 192 block,
+
+67
+00:04:07.010 --> 00:04:14.620
+and you implement a 5 by 5 same convolution of 32 filters to output 28 by 28 by 32.
+
+68
+00:04:14.620 --> 00:04:18.750
+On the previous slide I had drawn this as a thin purple slide.
+
+69
+00:04:18.750 --> 00:04:23.035
+So I'm just going draw this as a more normal looking blue block here.
+
+70
+00:04:23.035 --> 00:04:30.700
+So let's look at the computational costs of outputting this 20 by 20 by 32.
+
+71
+00:04:30.700 --> 00:04:38.065
+So you have 32 filters because the outputs has 32 channels,
+
+72
+00:04:38.065 --> 00:04:44.805
+and each filter is going to be 5 by 5 by 192.
+
+73
+00:04:44.805 --> 00:04:48.410
+And so the output size is 20 by 20 by 32,
+
+74
+00:04:48.410 --> 00:04:53.600
+and so you need to compute 28 by 28 by 32 numbers.
+
+75
+00:04:53.600 --> 00:04:58.685
+And for each of them you need to do these many multiplications, right?
+
+76
+00:04:58.685 --> 00:05:01.185
+5 by 5 by 192.
+
+77
+00:05:01.185 --> 00:05:03.550
+So the total number of multiplies you need
+
+78
+00:05:03.550 --> 00:05:07.010
+is the number of multiplies you need to compute each
+
+79
+00:05:07.010 --> 00:05:12.615
+of the output values times the number of output values you need to compute.
+
+80
+00:05:12.615 --> 00:05:15.330
+And if you multiply all of these numbers,
+
+81
+00:05:15.330 --> 00:05:18.790
+this is equal to 120 million.
+
+82
+00:05:18.790 --> 00:05:24.725
+And so, while you can do 120 million multiplies on the modern computer,
+
+83
+00:05:24.725 --> 00:05:27.385
+this is still a pretty expensive operation.
+
+84
+00:05:27.385 --> 00:05:32.390
+On the next slide you see how using the idea of 1 by 1 convolutions,
+
+85
+00:05:32.390 --> 00:05:34.210
+which you learnt about in the previous video,
+
+86
+00:05:34.210 --> 00:05:38.630
+you'll be able to reduce the computational costs by about a factor of 10.
+
+87
+00:05:38.630 --> 00:05:44.400
+To go from about 120 million multiplies to about one tenth of that.
+
+88
+00:05:44.400 --> 00:05:48.575
+So please remember the number 120 so you can compare it
+
+89
+00:05:48.575 --> 00:05:52.045
+with what you see on the next slide, 120 million.
+
+90
+00:05:52.045 --> 00:05:58.540
+Here is an alternative architecture for inputting 28 by 28 by 192,
+
+91
+00:05:58.540 --> 00:06:03.020
+and outputting 28 by 28 by 32, which is falling.
+
+92
+00:06:03.020 --> 00:06:05.175
+You are going to input the volume,
+
+93
+00:06:05.175 --> 00:06:14.580
+use a 1 by 1 convolution to reduce the volume to 16 channels instead of 192 channels,
+
+94
+00:06:14.580 --> 00:06:17.370
+and then on this much smaller volume,
+
+95
+00:06:17.370 --> 00:06:21.915
+run your 5 by 5 convolution to give you your final output.
+
+96
+00:06:21.915 --> 00:06:24.665
+So notice the input and output dimensions are still the same.
+
+97
+00:06:24.665 --> 00:06:31.280
+You input 28 by 28 by 192 and output 28 by 28 by 32,
+
+98
+00:06:31.280 --> 00:06:33.865
+same as the previous slide.
+
+99
+00:06:33.865 --> 00:06:37.340
+But what we've done is we're taking this huge volume we had on the left,
+
+100
+00:06:37.340 --> 00:06:42.110
+and we shrunk it to this much smaller intermediate volume,
+
+101
+00:06:42.110 --> 00:06:46.740
+which only has 16 instead of 192 channels.
+
+102
+00:06:46.740 --> 00:06:53.000
+Sometimes this is called a bottleneck layer, right?
+
+103
+00:06:53.600 --> 00:06:59.890
+I guess because a bottleneck is usually the smallest part of something, right?
+
+104
+00:06:59.890 --> 00:07:04.820
+So I guess if you have a glass bottle that looks like this,
+
+105
+00:07:04.820 --> 00:07:09.065
+then you know this is I guess where the cork goes.
+
+106
+00:07:09.065 --> 00:07:13.615
+And then the bottleneck is the smallest part of this bottle.
+
+107
+00:07:13.615 --> 00:07:18.035
+So in the same way, the bottleneck layer is the smallest part of this network.
+
+108
+00:07:18.035 --> 00:07:22.625
+We shrink the representation before increasing the size again.
+
+109
+00:07:22.625 --> 00:07:26.945
+Now let's look at the computational costs involved.
+
+110
+00:07:26.945 --> 00:07:30.320
+To apply this 1 by 1 convolution,
+
+111
+00:07:30.320 --> 00:07:32.510
+we have 16 filters.
+
+112
+00:07:32.510 --> 00:07:37.145
+Each of the filters is going to be of dimension 1 by 1 by 192,
+
+113
+00:07:37.145 --> 00:07:40.170
+this 192 matches that 192.
+
+114
+00:07:40.170 --> 00:07:43.300
+And so the cost of computing this 28 by 28
+
+115
+00:07:43.300 --> 00:07:45.870
+by 16 volumes is going to be well,
+
+116
+00:07:45.870 --> 00:07:48.205
+you need these many outputs,
+
+117
+00:07:48.205 --> 00:07:54.900
+and for each of them you need to do 192 multiplications.
+
+118
+00:07:54.900 --> 00:07:58.515
+I could have written 1 times 1 times 192, right?
+
+119
+00:07:58.515 --> 00:08:00.960
+Which is this. And if you multiply this out,
+
+120
+00:08:00.960 --> 00:08:02.650
+this is 2.4 million,
+
+121
+00:08:02.650 --> 00:08:04.370
+it's about 2.4 million.
+
+122
+00:08:04.370 --> 00:08:05.655
+How about the second?
+
+123
+00:08:05.655 --> 00:08:11.325
+So that's the cost of this first convolutional layer.
+
+124
+00:08:11.325 --> 00:08:15.670
+The cost of this second convolutional layer would be that well,
+
+125
+00:08:15.670 --> 00:08:17.290
+you have these many outputs.
+
+126
+00:08:17.290 --> 00:08:19.340
+So 28 by 28 by 32.
+
+127
+00:08:19.340 --> 00:08:28.200
+And then for each of the outputs you have to apply a 5 by 5 by 16 dimensional filter.
+
+128
+00:08:28.200 --> 00:08:31.305
+And so by 5 by 5 by 16.
+
+129
+00:08:31.305 --> 00:08:36.520
+And you multiply that out is equals to 10.0.
+
+130
+00:08:36.520 --> 00:08:41.160
+And so the total number of multiplications you need to do is the sum of those
+
+131
+00:08:41.160 --> 00:08:45.020
+which is 12.4 million multiplications.
+
+132
+00:08:45.020 --> 00:08:47.955
+And you compare this with what we had on the previous slide,
+
+133
+00:08:47.955 --> 00:08:53.095
+you reduce the computational cost from about 120 million multiplies,
+
+134
+00:08:53.095 --> 00:08:55.810
+down to about one tenth of that,
+
+135
+00:08:55.810 --> 00:08:59.335
+to 12.4 million multiplications.
+
+136
+00:08:59.335 --> 00:09:02.345
+And the number of additions you need to do is
+
+137
+00:09:02.345 --> 00:09:06.305
+about very similar to the number of multiplications you need to do.
+
+138
+00:09:06.305 --> 00:09:10.230
+So that's why I'm just counting the number of multiplications.
+
+139
+00:09:10.230 --> 00:09:13.490
+So to summarize, if you are building a layer
+
+140
+00:09:13.490 --> 00:09:16.140
+of a neural network and you don't want to have to decide,
+
+141
+00:09:16.140 --> 00:09:17.820
+do you want a 1 by 1,
+
+142
+00:09:17.820 --> 00:09:20.095
+or 3 by 3, or 5 by 5, or pooling layer,
+
+143
+00:09:20.095 --> 00:09:23.560
+the inception module let's you say let's do them all,
+
+144
+00:09:23.560 --> 00:09:25.645
+and let's concatenate the results.
+
+145
+00:09:25.645 --> 00:09:28.720
+And then we run to the problem of computational cost.
+
+146
+00:09:28.720 --> 00:09:32.460
+And what you saw here was how using a 1 by 1 convolution,
+
+147
+00:09:32.460 --> 00:09:34.585
+you can create this bottleneck layer
+
+148
+00:09:34.585 --> 00:09:38.115
+thereby reducing the computational cost significantly.
+
+149
+00:09:38.115 --> 00:09:39.725
+Now you might be wondering,
+
+150
+00:09:39.725 --> 00:09:43.370
+does shrinking down the representation size so dramatically,
+
+151
+00:09:43.370 --> 00:09:46.730
+does it hurt the performance of your neural network?
+
+152
+00:09:46.730 --> 00:09:52.440
+It turns out that so long as you implement this bottleneck layer so that within reason,
+
+153
+00:09:52.440 --> 00:09:56.530
+you can shrink down the representation size significantly,
+
+154
+00:09:56.530 --> 00:09:59.240
+and it doesn't seem to hurt the performance,
+
+155
+00:09:59.240 --> 00:10:01.700
+but saves you a lot of computation.
+
+156
+00:10:01.700 --> 00:10:07.835
+So these are the key ideas of the inception module.
+
+157
+00:10:07.835 --> 00:10:09.790
+Let's put them together and in
+
+158
+00:10:09.790 --> 00:10:14.100
+the next video show you what the full inception network looks like.
