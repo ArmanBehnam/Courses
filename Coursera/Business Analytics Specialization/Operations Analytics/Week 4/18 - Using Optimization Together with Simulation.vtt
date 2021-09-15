@@ -1,0 +1,1155 @@
+WEBVTT
+
+1
+00:00:00.360 --> 00:00:02.410
+Hi, I'm Noah Gantz and
+
+2
+00:00:02.410 --> 00:00:07.128
+we're starting session 3 of week 4
+of our operations analytics course.
+
+3
+00:00:07.128 --> 00:00:08.730
+In session 1 of this week,
+
+4
+00:00:08.730 --> 00:00:13.700
+we introduced decision trees to analyze
+decisions to be made under uncertainty.
+
+5
+00:00:13.700 --> 00:00:18.610
+Then, in session 2, we used simulation
+to evaluate event nodes within a tree
+
+6
+00:00:18.610 --> 00:00:21.140
+that had a complex set of outcomes.
+
+7
+00:00:21.140 --> 00:00:24.450
+In this session,
+we'll address another complexity.
+
+8
+00:00:24.450 --> 00:00:28.310
+Suppose there are many alternative
+choices available at a decision node.
+
+9
+00:00:28.310 --> 00:00:29.410
+For example,
+
+10
+00:00:29.410 --> 00:00:34.334
+suppose our retailer IDEA must decide how
+many units of the Krusbar tent to order.
+
+11
+00:00:35.585 --> 00:00:39.245
+Then there's a useful alternative to
+drawing out the many branches that can
+
+12
+00:00:39.245 --> 00:00:40.695
+follow from a decision.
+
+13
+00:00:41.745 --> 00:00:45.795
+We can sometimes use simulation together
+with optimization to analyze this many
+
+14
+00:00:45.795 --> 00:00:47.415
+decisions.
+
+15
+00:00:47.415 --> 00:00:50.930
+In this session, we'll build on
+this simulation model we built for
+
+16
+00:00:50.930 --> 00:00:52.600
+IDEA in session 2.
+
+17
+00:00:52.600 --> 00:00:55.480
+And, we'll use the solver that's
+again introduced in week 2,
+
+18
+00:00:55.480 --> 00:01:00.090
+to optimize among the large set
+of choices that IDEA can make.
+
+19
+00:01:00.090 --> 00:01:04.580
+In session 3, we're going to use
+optimization together with simulation
+
+20
+00:01:04.580 --> 00:01:07.240
+to help IDEA choose order quantities.
+
+21
+00:01:09.120 --> 00:01:13.168
+To get started let's remember what the
+demand model is for IDEA's Krusbar tent.
+
+22
+00:01:13.168 --> 00:01:17.400
+There's a 50/50 chance that
+demand will be strong or weak.
+
+23
+00:01:18.440 --> 00:01:25.290
+If demand is weak, it'll be uniformly
+distributed between 2,000 and 8,000 units.
+
+24
+00:01:25.290 --> 00:01:30.672
+If demand is strong, it will be
+uniformly distributed between 6,000 and
+
+25
+00:01:30.672 --> 00:01:32.930
+14,000 units.
+
+26
+00:01:32.930 --> 00:01:35.590
+In either case, we're going to
+call the random variable for
+
+27
+00:01:35.590 --> 00:01:38.870
+demand D, and
+we'll simulate that in Excel.
+
+28
+00:01:40.440 --> 00:01:45.480
+Other elements of IDEA's problem have
+remained the same from the beginning.
+
+29
+00:01:45.480 --> 00:01:48.810
+The price per tent is 150 Euros.
+
+30
+00:01:48.810 --> 00:01:54.100
+The order quantity, fixed charge,
+and unit cost varies by supplier.
+
+31
+00:01:54.100 --> 00:01:57.050
+For supplier S, IDEA orders 5,000 units.
+
+32
+00:01:57.050 --> 00:02:00.310
+It's got a fixed charge of 0.
+
+33
+00:02:00.310 --> 00:02:03.890
+And the unit cost is 120 euros per tent.
+
+34
+00:02:03.890 --> 00:02:07.901
+For supplier P, IDEA orders 10,000 units.
+
+35
+00:02:07.901 --> 00:02:13.190
+It has a fixed charge of 50,000 euros and
+the unit cost is 100 euros per tent.
+
+36
+00:02:15.080 --> 00:02:18.180
+But suppose IDEA could
+choose the order quantity.
+
+37
+00:02:18.180 --> 00:02:23.250
+In the original problem, IDEA had to
+use 100% of the supplier's capacity,
+
+38
+00:02:23.250 --> 00:02:28.880
+all 5,000 units from supplier S and
+all 10,000 units from supplier P.
+
+39
+00:02:28.880 --> 00:02:33.420
+Suppose that supplier P now offers
+IDEA the following contract.
+
+40
+00:02:33.420 --> 00:02:37.827
+The upfront charge would
+increase from €50,000-€100,000.
+
+41
+00:02:37.827 --> 00:02:43.930
+IDEA would need to place the first
+order of at least 4000 units.
+
+42
+00:02:43.930 --> 00:02:49.340
+IDEA would then place a second order which
+could very anywhere from 0 to 6,000 units.
+
+43
+00:02:50.850 --> 00:02:55.070
+IDEA would place that second order
+in response to market conditions.
+
+44
+00:02:55.070 --> 00:02:59.010
+The timing of the second order would be
+shortly after the start of the summer
+
+45
+00:02:59.010 --> 00:03:00.700
+selling season.
+
+46
+00:03:00.700 --> 00:03:01.380
+At that point,
+
+47
+00:03:01.380 --> 00:03:04.380
+IDEA would know with certainty if
+the market were weak of strong.
+
+48
+00:03:04.380 --> 00:03:09.120
+We're gonna call the total
+quantity IDEA orders Q, and
+
+49
+00:03:09.120 --> 00:03:14.681
+that total quantity will vary somewhere
+between 4,000 and 10,000 units.
+
+50
+00:03:14.681 --> 00:03:19.637
+That's the 4,000 unit minimum from the
+first order plus anywhere from 0 to 6,000
+
+51
+00:03:19.637 --> 00:03:21.170
+units for the second order.
+
+52
+00:03:22.940 --> 00:03:24.650
+If IDEA chooses supplier P and
+
+53
+00:03:24.650 --> 00:03:30.020
+the market is weak, we can write out
+all of the equations that we need.
+
+54
+00:03:30.020 --> 00:03:33.890
+IDEA pays a fixed cost
+of 100,000 Euros now.
+
+55
+00:03:33.890 --> 00:03:39.484
+If IDEA decides on a total order quantity
+of Q, that's somewhere between 4,000 and
+
+56
+00:03:39.484 --> 00:03:44.090
+10,000 units, then the order cost
+would be 100 Euros per unit times Q.
+
+57
+00:03:45.450 --> 00:03:50.311
+Demand D is now uniformly distributed
+between 2,000 and 8,000 units.
+
+58
+00:03:51.425 --> 00:03:55.050
+And IDEA earns 150 euros of revenue for
+each unit sold.
+
+59
+00:03:56.360 --> 00:04:00.760
+If D, the demand, is less than Q,
+the order quantity,
+
+60
+00:04:00.760 --> 00:04:05.140
+then the revenue would be 150 euros
+times D, that's the number sold.
+
+61
+00:04:06.340 --> 00:04:08.430
+If D, demand, is greater than Q,
+
+62
+00:04:08.430 --> 00:04:13.600
+the order quantity, then the revenue
+would be 150 euros times Q.
+
+63
+00:04:13.600 --> 00:04:17.130
+Because at that point,
+Q would be the number of units sold.
+
+64
+00:04:17.130 --> 00:04:22.590
+We can put those two equations together,
+and write the total revenue as 150 euros,
+
+65
+00:04:22.590 --> 00:04:27.350
+times the total number sold,
+or the minimum of D and Q.
+
+66
+00:04:27.350 --> 00:04:29.520
+We can now write IDEA's profit function.
+
+67
+00:04:29.520 --> 00:04:34.930
+There's the 100,000 euro up front cost,
+the 100 Euro times
+
+68
+00:04:34.930 --> 00:04:40.650
+Q order cost, and
+the 150 Euro times the sales revenue.
+
+69
+00:04:40.650 --> 00:04:44.650
+Notice that this is almost identical to
+the profit formula from the last session.
+
+70
+00:04:45.670 --> 00:04:50.360
+But last time, the fixed cost was
+50,000 rather than 100,000 Euros.
+
+71
+00:04:50.360 --> 00:04:53.580
+And last time we fixed Q at 10,000 units.
+
+72
+00:04:53.580 --> 00:04:56.610
+Here we're going to let Q
+be a decision variable.
+
+73
+00:04:56.610 --> 00:04:59.430
+Okay, let's look at the Excel spreadsheet.
+
+74
+00:04:59.430 --> 00:05:03.850
+This Excel spreadsheets called
+IDEA Optimazation.xlsx and
+
+75
+00:05:03.850 --> 00:05:06.990
+you can download it
+from the Coursera site.
+
+76
+00:05:08.040 --> 00:05:12.740
+The first sheet is a ten
+sample version of the problem
+
+77
+00:05:12.740 --> 00:05:17.600
+when IDEA of contracts with supplier P,
+and demand is weak.
+
+78
+00:05:18.850 --> 00:05:23.800
+If you look in cell B3,
+you can see the order quantity of 10,000.
+
+79
+00:05:23.800 --> 00:05:27.800
+Because that's going to be a decision
+variable, I've highlighted it in red.
+
+80
+00:05:28.850 --> 00:05:34.980
+Next we have a fixed cost of 100,000,
+rather than the 50,000 we had before.
+
+81
+00:05:34.980 --> 00:05:41.050
+We've got the unit price of 150 Euros, and
+a unit cost for supplier P of 100 Euros.
+
+82
+00:05:42.610 --> 00:05:48.015
+The lower rows in column B, show 10
+samples of demand when the market is weak,
+
+83
+00:05:48.015 --> 00:05:50.745
+and you should see that they're
+familiar from last time.
+
+84
+00:05:50.745 --> 00:05:53.925
+The rest of the spreadsheet
+is calculated just as before.
+
+85
+00:05:53.925 --> 00:05:56.904
+And you can see that when
+IDEA orders from supply P,
+
+86
+00:05:56.904 --> 00:06:00.439
+the order size is 10,000 units and
+the market is weak,
+
+87
+00:06:00.439 --> 00:06:04.622
+the average profits are really
+a loss of nearly 500,000 euros.
+
+88
+00:06:06.142 --> 00:06:08.652
+I've highlighted
+the average profit in blue
+
+89
+00:06:08.652 --> 00:06:11.412
+because that's going to be
+our objective function.
+
+90
+00:06:11.412 --> 00:06:14.572
+Now what we'd like to do is we'd like to
+
+91
+00:06:14.572 --> 00:06:17.712
+optimize by choosing
+a better order quantity.
+
+92
+00:06:17.712 --> 00:06:21.592
+And to do that we're going to
+use the solver optimization tool
+
+93
+00:06:21.592 --> 00:06:24.430
+that Sergei introduced to you in week 2.
+
+94
+00:06:24.430 --> 00:06:28.460
+Remember that to access the Solver
+we go up to the Data tab.
+
+95
+00:06:30.120 --> 00:06:31.460
+And then the Solver menu item.
+
+96
+00:06:33.240 --> 00:06:35.780
+The dialog box is quite small, and
+
+97
+00:06:35.780 --> 00:06:39.920
+as before don't worry if you
+can't see the numbers clearly,
+
+98
+00:06:39.920 --> 00:06:43.520
+just hang on a moment and I'll show
+you a slightly larger version of it.
+
+99
+00:06:43.520 --> 00:06:45.470
+But let's go ahead and fill it in.
+
+100
+00:06:45.470 --> 00:06:49.472
+We wanna set our objective
+to be average profit,
+
+101
+00:06:49.472 --> 00:06:54.380
+and we wanna make sure
+that Solver maximizes it.
+
+102
+00:06:54.380 --> 00:06:57.270
+Our decision variable is Q,
+the order quantity.
+
+103
+00:07:00.900 --> 00:07:02.860
+And we just have two constraints.
+
+104
+00:07:02.860 --> 00:07:06.770
+The first constraint is that we want
+to make sure that the order quantity is
+
+105
+00:07:06.770 --> 00:07:12.490
+greater than or equal to,
+the 4000 unit minimum.
+
+106
+00:07:13.920 --> 00:07:17.240
+The second constraint is that the order
+quantity should be less than or
+
+107
+00:07:17.240 --> 00:07:21.473
+equal to, the 10,000 unit maximum.
+
+108
+00:07:24.768 --> 00:07:26.760
+I know that Sergei has told you,
+
+109
+00:07:26.760 --> 00:07:31.420
+if you can, you'd wanna use the simplex
+method to make it a linear model.
+
+110
+00:07:31.420 --> 00:07:35.910
+Unfortunately this is not a linear model
+and I'll describe in a little more detail
+
+111
+00:07:35.910 --> 00:07:39.210
+later why that is and
+what we can do about it.
+
+112
+00:07:39.210 --> 00:07:40.580
+Before I move on though,
+
+113
+00:07:40.580 --> 00:07:44.720
+I wanna show you just a slightly
+bigger version of the dialogue box.
+
+114
+00:07:44.720 --> 00:07:49.860
+We set the objective to be cell F21,
+that was the average profit.
+
+115
+00:07:49.860 --> 00:07:52.280
+We wanna maximize the average profit.
+
+116
+00:07:52.280 --> 00:07:55.680
+Our decision variable was cell B3,
+that was the order quantity.
+
+117
+00:07:55.680 --> 00:08:00.700
+And we had two constraints, that the order
+quantity, B3, should be less than or
+
+118
+00:08:00.700 --> 00:08:05.500
+equal to 10,000 units and the order
+quantity B3, should be greater than or
+
+119
+00:08:05.500 --> 00:08:06.480
+equal to 4,000 units.
+
+120
+00:08:07.768 --> 00:08:10.700
+Again, we're gonna stick
+with GRG nonlinear,
+
+121
+00:08:10.700 --> 00:08:14.820
+because unfortunately this
+optimization problem is nonlinear.
+
+122
+00:08:14.820 --> 00:08:16.380
+And I'll talk about
+that again in a moment.
+
+123
+00:08:18.120 --> 00:08:20.290
+Here we are, back at the spreadsheet.
+
+124
+00:08:20.290 --> 00:08:23.740
+I'm going to access
+the Solver dialog box now.
+
+125
+00:08:23.740 --> 00:08:25.310
+And I'm actually gonna solve the problem.
+
+126
+00:08:26.500 --> 00:08:28.600
+And here's the optimal solution.
+
+127
+00:08:28.600 --> 00:08:33.810
+The optimal solution for supplier P,
+when the market is weak and
+
+128
+00:08:33.810 --> 00:08:39.050
+we have these ten demand samples,
+is to order the bare minimum, 4,000 units.
+
+129
+00:08:39.050 --> 00:08:46.030
+In this case, IDEA makes
+an average profit of 18,150 euros.
+
+130
+00:08:46.030 --> 00:08:49.120
+Now remember that the average profit for
+
+131
+00:08:49.120 --> 00:08:52.910
+these ten samples might not
+be the average profit for
+
+132
+00:08:52.910 --> 00:08:57.140
+a different set of ten samples, and I
+wanna talk about that as well in a moment.
+
+133
+00:08:57.140 --> 00:09:00.560
+Before I move on, I wanna point out
+that the problem's not linear, but
+
+134
+00:09:00.560 --> 00:09:02.510
+we could still solve it.
+
+135
+00:09:02.510 --> 00:09:07.280
+And you can see in the Solver dialogue
+box on the right, we use GRG Nonlinear.
+
+136
+00:09:08.400 --> 00:09:09.180
+The objective,
+
+137
+00:09:09.180 --> 00:09:13.970
+remember, is to maximize the average
+profits across all the samples.
+
+138
+00:09:13.970 --> 00:09:17.510
+And the profit within each
+sample depends on revenue
+
+139
+00:09:17.510 --> 00:09:19.820
+that includes that min function.
+
+140
+00:09:19.820 --> 00:09:24.160
+And the min function is not
+linear in a not very nice way.
+
+141
+00:09:24.160 --> 00:09:26.910
+But we are lucky that
+Excel's solver can solve it,
+
+142
+00:09:26.910 --> 00:09:29.130
+although it might not always work.
+
+143
+00:09:29.130 --> 00:09:33.090
+And if you're interested, there's an
+optional advanced session where I'll show
+
+144
+00:09:33.090 --> 00:09:37.652
+you how to clean up the formulation, and
+eliminate the problem with non-linearity.
+
+145
+00:09:37.652 --> 00:09:39.900
+I wanna repeat that it's
+an optional session, and
+
+146
+00:09:39.900 --> 00:09:41.139
+we won't be testing you on it.
+
+147
+00:09:43.040 --> 00:09:46.060
+Okay, let's go back to
+the optimal solution.
+
+148
+00:09:46.060 --> 00:09:48.790
+And here's a screenshot
+with the ten samples.
+
+149
+00:09:48.790 --> 00:09:53.190
+Remember, for supplier P in a weak market,
+
+150
+00:09:53.190 --> 00:09:56.490
+the optimal solution here
+is to order 4,000 units.
+
+151
+00:09:56.490 --> 00:10:00.850
+And the average profit is 18,150 Euros.
+
+152
+00:10:00.850 --> 00:10:06.430
+Of course, that optimal solution is only
+optimal for that set of ten samples.
+
+153
+00:10:08.260 --> 00:10:09.530
+All right?
+
+154
+00:10:09.530 --> 00:10:14.050
+If we were to run the same optimization
+on a different set of ten samples,
+
+155
+00:10:14.050 --> 00:10:15.590
+then we might get a different optimal Q.
+
+156
+00:10:16.730 --> 00:10:17.590
+Why?
+
+157
+00:10:17.590 --> 00:10:22.760
+Well, as Sergei showed you in Week 3,
+a set of 10 samples is quite small.
+
+158
+00:10:22.760 --> 00:10:25.070
+We really need more samples for
+more precise,
+
+159
+00:10:25.070 --> 00:10:27.750
+stable estimates from the simulation.
+
+160
+00:10:27.750 --> 00:10:31.080
+The same principle holds true for
+the optimal solution.
+
+161
+00:10:31.080 --> 00:10:37.030
+With 1,000 samples, the optimal Q's would
+not tend to change much across samples.
+
+162
+00:10:37.030 --> 00:10:40.290
+The spreadsheet's optimal solution
+of course even with 1,000
+
+163
+00:10:40.290 --> 00:10:43.410
+samples is just an estimate optimal Q.
+
+164
+00:10:43.410 --> 00:10:46.700
+To find the truly optimal
+Q using simulation,
+
+165
+00:10:46.700 --> 00:10:49.810
+we need to include an infinite
+number of samples.
+
+166
+00:10:49.810 --> 00:10:51.215
+Here's the optimal solution for
+
+167
+00:10:51.215 --> 00:10:55.905
+1,000 samples, when IDEA contract
+with supplier P in a weak market.
+
+168
+00:10:55.905 --> 00:10:58.720
+This screenshot is from Excel.
+
+169
+00:10:58.720 --> 00:11:01.060
+And I've just put it into PowerPoint.
+
+170
+00:11:01.060 --> 00:11:06.725
+You'll see that the optimal order
+quantity is about 4,138 units.
+
+171
+00:11:06.725 --> 00:11:10.309
+That's a little more than the 4,000
+units that we saw when there were only
+
+172
+00:11:10.309 --> 00:11:11.450
+ten samples.
+
+173
+00:11:11.450 --> 00:11:18.700
+And the objective function value,
+the average profit, is 51,646 Euros.
+
+174
+00:11:20.810 --> 00:11:24.930
+We can also run the same simulation for
+supplier P in a strong market.
+
+175
+00:11:24.930 --> 00:11:28.150
+You can see in the upper left that
+the optimal order quantity is
+
+176
+00:11:28.150 --> 00:11:30.480
+about 8,850 units.
+
+177
+00:11:30.480 --> 00:11:36.046
+And the average profit, the objective
+function value in the lower right,
+
+178
+00:11:36.046 --> 00:11:38.533
+is about 268,862 Euros.
+
+179
+00:11:38.533 --> 00:11:41.349
+The only difference between
+this spreadsheet and
+
+180
+00:11:41.349 --> 00:11:45.470
+the other is in column B where we've
+got a new set of demand samples.
+
+181
+00:11:45.470 --> 00:11:47.410
+Remember in a strong market,
+
+182
+00:11:47.410 --> 00:11:52.593
+the uniform distribution stretches
+from 6,000 to 14,000 units.
+
+183
+00:11:52.593 --> 00:11:56.570
+Now that we've simulated a weak market and
+a strong market, and
+
+184
+00:11:56.570 --> 00:12:02.180
+run an optimization for each, we have two
+estimates of the expected profits for
+
+185
+00:12:02.180 --> 00:12:05.850
+IDEA, and we can fill out the rest
+of IDEA's decisions tree.
+
+186
+00:12:05.850 --> 00:12:07.010
+Here's the decision tree,
+
+187
+00:12:07.010 --> 00:12:10.830
+let me remind you,
+on the left is the contracting decision.
+
+188
+00:12:10.830 --> 00:12:16.620
+An IDEA has three choices, it can
+contract with no one, and earn no Euros.
+
+189
+00:12:16.620 --> 00:12:20.880
+It could contract with supplier S,
+and if the market were weak,
+
+190
+00:12:20.880 --> 00:12:25.530
+its estimate of the expected
+profit would be 42,405 Euros.
+
+191
+00:12:25.530 --> 00:12:29.440
+If the market were strong,
+
+192
+00:12:29.440 --> 00:12:33.760
+its estimate of the expected
+profit would be 150,000 Euros.
+
+193
+00:12:33.760 --> 00:12:37.090
+Finally, IDEA could decide
+to contract with supplier P.
+
+194
+00:12:38.290 --> 00:12:42.600
+With the new contract we've run
+the optimization with the simulation, and
+
+195
+00:12:42.600 --> 00:12:47.420
+found estimates for the expected
+profits for a weak and a strong market.
+
+196
+00:12:47.420 --> 00:12:50.180
+For the weak market, it's 51,646 Euros.
+
+197
+00:12:50.180 --> 00:12:56.140
+And for the strong market,
+it's 268,862 Euros.
+
+198
+00:12:57.540 --> 00:13:01.060
+We've got the whole decision tree,
+and we can evaluate
+
+199
+00:13:01.060 --> 00:13:06.240
+the expected value maximizing
+decision just as we normally would.
+
+200
+00:13:06.240 --> 00:13:11.580
+We'll start out with the event nodes and
+calculate the expected values.
+
+201
+00:13:11.580 --> 00:13:15.740
+For supplier S it remains just as we
+had before because nothing's changed.
+
+202
+00:13:15.740 --> 00:13:19.640
+The expected value or
+our estimate of the expected value for
+
+203
+00:13:19.640 --> 00:13:24.457
+supplier S is 96,202 Euros.
+
+204
+00:13:24.457 --> 00:13:29.620
+With the new contract for supplier P
+our estimate of the expected value
+
+205
+00:13:29.620 --> 00:13:32.626
+is 160,254 Euros.
+
+206
+00:13:32.626 --> 00:13:37.550
+We're going to now replace the event
+nodes with those expected values.
+
+207
+00:13:37.550 --> 00:13:40.500
+The last step of evaluating
+the decision tree
+
+208
+00:13:40.500 --> 00:13:44.640
+is to find the decision that
+maximizes the expected value.
+
+209
+00:13:44.640 --> 00:13:49.690
+And here you can see the optimal
+decision is to go with supplier P,
+
+210
+00:13:49.690 --> 00:13:55.190
+with an estimated expected
+value of 160,254 Euros.
+
+211
+00:13:55.190 --> 00:13:57.790
+So we'll eliminate the other two choices.
+
+212
+00:13:59.130 --> 00:14:00.280
+What's happened?
+
+213
+00:14:00.280 --> 00:14:03.090
+The ability of IDEA to
+change order quantities in
+
+214
+00:14:03.090 --> 00:14:07.320
+response to market conditions has
+actually added value for supplier P.
+
+215
+00:14:08.430 --> 00:14:13.403
+IDEA's expected profit from contracting
+with P has increased enormously,
+
+216
+00:14:13.403 --> 00:14:18.221
+from about 6,500 Euros with
+a fixed order quantity of 10,000,
+
+217
+00:14:18.221 --> 00:14:20.690
+to around 160,000 Euros now.
+
+218
+00:14:20.690 --> 00:14:25.200
+So, the new contract with supplier P is
+now favored over IDEA's other options.
+
+219
+00:14:26.220 --> 00:14:27.980
+So, that's it for session 3 of week 4.
+
+220
+00:14:27.980 --> 00:14:32.395
+How did Idea's problem change
+from last session to this one?
+
+221
+00:14:32.395 --> 00:14:36.465
+As before, we simulated the outcomes for
+the weak and strong markets.
+
+222
+00:14:36.465 --> 00:14:40.815
+The demand model had a 50/50 chance
+that the market would be weak or strong.
+
+223
+00:14:40.815 --> 00:14:45.115
+For each case, we then simulated
+uniformly distributed demand.
+
+224
+00:14:45.115 --> 00:14:50.045
+This time, however, the structure of
+the decision problem became more complex.
+
+225
+00:14:50.045 --> 00:14:55.630
+First, IDEA needed to decide on
+a supplier, either S or P, or no one.
+
+226
+00:14:55.630 --> 00:15:00.180
+For supplier P,
+I could then decide on an order quantity.
+
+227
+00:15:00.180 --> 00:15:03.260
+Rather than running a separate
+simulation for each possible Q,
+
+228
+00:15:03.260 --> 00:15:07.320
+and we could have run a separate
+simulation for Q equals 4000,
+
+229
+00:15:07.320 --> 00:15:11.890
+Q equals 4001, Q equals 4002,
+
+230
+00:15:11.890 --> 00:15:15.770
+we used a common set of simulated
+demands for all the possible Q's.
+
+231
+00:15:15.770 --> 00:15:20.290
+And we then optimized to find
+an "approximately optimal" Q.
+
+232
+00:15:20.290 --> 00:15:23.850
+In fact, we essentially solved Senthil's
+newsvendor problem from Week 1.
+
+233
+00:15:23.850 --> 00:15:27.800
+And in next session,
+we'll go back to see how we do it.
+
+234
+00:15:27.800 --> 00:15:28.600
+In this session,
+
+235
+00:15:28.600 --> 00:15:33.540
+we extended our model of decision making
+to include more complex decisions.
+
+236
+00:15:33.540 --> 00:15:36.150
+We simulated a single set of demands and
+
+237
+00:15:36.150 --> 00:15:41.810
+calculated average profit as a function
+of them, and of IDEA's order quantity Q.
+
+238
+00:15:41.810 --> 00:15:43.672
+By optimizing the spreadsheet,
+
+239
+00:15:43.672 --> 00:15:48.200
+we estimated the Q that would
+maximize IDEA's expected profits.
+
+240
+00:15:48.200 --> 00:15:52.400
+So now we've seen how we can use three
+analytics tools together to evaluate
+
+241
+00:15:52.400 --> 00:15:57.260
+potentially complex decisions to be
+made under uncertainty, decision trees,
+
+242
+00:15:57.260 --> 00:16:00.090
+simulation and optimization.
+
+243
+00:16:00.090 --> 00:16:04.166
+Not only that, we also know how to crack
+the news vendor problem that Senhtil
+
+244
+00:16:04.166 --> 00:16:06.223
+introduced in week one of the course.
+
+245
+00:16:06.223 --> 00:16:10.190
+In session 4, we'll go back to
+the news vendor to see how it's done.

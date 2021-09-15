@@ -1,0 +1,847 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:02.170
+Welcome, this is the review session for
+
+2
+00:00:02.170 --> 00:00:04.610
+week three of operations
+in analytics course.
+
+3
+00:00:04.610 --> 00:00:07.208
+As before, this review session
+is completely optional,
+
+4
+00:00:07.208 --> 00:00:09.806
+if you feel that the simulation
+concepts are clear to you,
+
+5
+00:00:09.806 --> 00:00:12.578
+you can skip this review and
+move on to the practice problems.
+
+6
+00:00:12.578 --> 00:00:16.754
+After that if you feel ready,
+tackle week three's homework.
+
+7
+00:00:16.754 --> 00:00:20.784
+However, if before trying the practice
+problems, you would like to have
+
+8
+00:00:20.784 --> 00:00:25.220
+an additional look at how a simulation can
+be set up and run, then keep watching.
+
+9
+00:00:26.510 --> 00:00:30.170
+In this review session, we will go
+over another simulation example.
+
+10
+00:00:31.300 --> 00:00:34.140
+Here's the business context
+we're going to model.
+
+11
+00:00:34.140 --> 00:00:37.499
+We're looking at the ESI,
+a company that produces chemical solvent.
+
+12
+00:00:37.499 --> 00:00:42.452
+The company has a contract that
+requires it to deliver 35 tons
+
+13
+00:00:42.452 --> 00:00:47.510
+of solvent at the price of
+10,000 Euros per ton every day.
+
+14
+00:00:49.900 --> 00:00:54.320
+While the expected value of the solvent
+produced each day is exactly 35 tons,
+
+15
+00:00:54.320 --> 00:00:58.020
+the actual production amount
+is hard to control exactly,
+
+16
+00:00:58.020 --> 00:01:00.460
+due to the nature of
+the production process.
+
+17
+00:01:00.460 --> 00:01:04.900
+And the actual amount of solvent produced
+can be different from the expected value.
+
+18
+00:01:07.450 --> 00:01:11.900
+The analysis of the past production output
+shows that the actual daily production
+
+19
+00:01:11.900 --> 00:01:17.570
+output can be modeled as a normal random
+variable with mean of 35 tons and
+
+20
+00:01:17.570 --> 00:01:19.369
+the standard deviation of 7 tons.
+
+21
+00:01:20.990 --> 00:01:28.550
+The cost to ESI to produce one
+ton of solvent is 9,500 Euros.
+
+22
+00:01:28.550 --> 00:01:33.560
+If the actual production exceeds 35 tons,
+the extra production above
+
+23
+00:01:33.560 --> 00:01:38.460
+35 tons must be salvaged
+at a price of 9,000 Euros.
+
+24
+00:01:40.110 --> 00:01:42.856
+If the production falls short of 35 tons,
+
+25
+00:01:42.856 --> 00:01:47.548
+ESI is penalized at the amount of
+2,000 Euros for each ton below 35.
+
+26
+00:01:47.548 --> 00:01:52.660
+So here are the questions we would
+like to answer in this problem.
+
+27
+00:01:52.660 --> 00:01:57.050
+First, we will calculate the profit ESI
+earns on a day when its production turns
+
+28
+00:01:57.050 --> 00:02:00.062
+out to be 31 tons.
+
+29
+00:02:00.062 --> 00:02:04.920
+Then, we'll repeat this calculation for
+a day when the production is 37 tons.
+
+30
+00:02:07.138 --> 00:02:11.155
+Answering these first two questions
+will prepare us to write down
+
+31
+00:02:11.155 --> 00:02:14.630
+an algebraic formula for
+the daily profit V.
+
+32
+00:02:14.630 --> 00:02:17.050
+As a function of the production output p.
+
+33
+00:02:21.080 --> 00:02:23.830
+Finally, we will set up and
+run a simulation for
+
+34
+00:02:23.830 --> 00:02:28.390
+the daily profit value using 100
+simulation runs and the seed 123
+
+35
+00:02:28.390 --> 00:02:32.069
+to estimate the expected value and
+the standard deviation of daily profits.
+
+36
+00:02:33.420 --> 00:02:36.965
+Okay, let's start by calculating
+ESI's profit on a day when its
+
+37
+00:02:36.965 --> 00:02:38.969
+production happens to be 31 tons.
+
+38
+00:02:38.969 --> 00:02:43.601
+Since the production on that day is below
+35 tons, the company will earn revenue by
+
+39
+00:02:43.601 --> 00:02:47.460
+selling all of its production
+at 10,000 Euros per ton.
+
+40
+00:02:47.460 --> 00:02:51.870
+And will also incur production
+costs of 9,500 Euros per ton.
+
+41
+00:02:51.870 --> 00:02:58.060
+In addition, it will also incur a cost
+of 2,000 Euros per ton below 35 tons.
+
+42
+00:02:58.060 --> 00:03:02.593
+So on the revenue side,
+ESI will earn 310,000 Eeuros.
+
+43
+00:03:02.593 --> 00:03:08.227
+On the cost side,
+it will incur the production
+
+44
+00:03:08.227 --> 00:03:12.132
+cost of 294,500 Euros.
+
+45
+00:03:15.576 --> 00:03:24.162
+It will also incur a penalty
+cost of 8000 Euros on that day,
+
+46
+00:03:24.162 --> 00:03:29.184
+so the profit will be 310000-
+
+47
+00:03:29.184 --> 00:03:35.503
+294500- 8000, 7500 Euros.
+
+48
+00:03:35.503 --> 00:03:41.950
+Now let's do the same calculation for
+a day when ESI's production is 37 tons.
+
+49
+00:03:43.000 --> 00:03:45.580
+Since production on that
+day is above 35 tons
+
+50
+00:03:45.580 --> 00:03:48.100
+the company will earn revenue in two ways.
+
+51
+00:03:48.100 --> 00:03:52.230
+First it will sell 35 tons
+at 10,000 Euros per ton.
+
+52
+00:03:52.230 --> 00:03:56.530
+Second, it will sell the remaining
+2 tons at a discount price
+
+53
+00:03:56.530 --> 00:03:58.580
+of 9,000 euros per ton.
+
+54
+00:03:58.580 --> 00:04:03.850
+It will incur a production
+cost of 9500 Euros per ton.
+
+55
+00:04:03.850 --> 00:04:05.210
+So let's count.
+
+56
+00:04:05.210 --> 00:04:10.442
+The regular revenue on
+that day will be 350,000,
+
+57
+00:04:10.442 --> 00:04:16.110
+the discount revenue on that
+day will be 180,00 Euros,
+
+58
+00:04:16.110 --> 00:04:21.560
+the production cost will
+amount to 351,500 Euros.
+
+59
+00:04:21.560 --> 00:04:26.162
+So the total profit on that day
+
+60
+00:04:26.162 --> 00:04:30.780
+will be 16,500 Euros.
+
+61
+00:04:30.780 --> 00:04:35.382
+Now let's put together both cases,
+with production
+
+62
+00:04:35.382 --> 00:04:40.403
+being below versus at or
+above 35 tons, using algebra.
+
+63
+00:04:40.403 --> 00:04:46.560
+If P<35,
+three components contribute to the profit.
+
+64
+00:04:46.560 --> 00:04:51.223
+Now let's put both cases together,
+with production
+
+65
+00:04:51.223 --> 00:04:56.312
+being below versus at or
+above 35 tons, using algebra.
+
+66
+00:04:56.312 --> 00:04:59.890
+If P<35,
+three components contribute to the profit.
+
+67
+00:05:01.110 --> 00:05:05.574
+First the firm incurs
+a production cost of 9500*P.
+
+68
+00:05:05.574 --> 00:05:10.180
+Then there's a revenue of 10,000*P.
+
+69
+00:05:10.180 --> 00:05:15.467
+Finally there's a penalty
+cost of 2000*35-P.
+
+70
+00:05:15.467 --> 00:05:21.134
+So putting these three
+components together we get,
+
+71
+00:05:21.134 --> 00:05:27.836
+10000*P-9500*P-2000*(35-P) and
+
+72
+00:05:27.836 --> 00:05:33.127
+the final answer is 2500*P-70000.
+
+73
+00:05:33.127 --> 00:05:37.127
+In the second case,
+when the production P is at or
+
+74
+00:05:37.127 --> 00:05:42.260
+above 35,
+we also have three profit components.
+
+75
+00:05:42.260 --> 00:05:45.694
+First we have a production cost of 9500*P.
+
+76
+00:05:45.694 --> 00:05:51.231
+On the revenue side we have
+regular revenue of 35*10000
+
+77
+00:05:51.231 --> 00:05:56.059
+plus the discount revenue of 9000*(P-35).
+
+78
+00:05:56.059 --> 00:06:01.055
+So the first 35 tons ESI
+sells at 10000 Euros per ton.
+
+79
+00:06:01.055 --> 00:06:06.890
+And everything above 35 it sells at
+the discount price of 9000 Euros per ton.
+
+80
+00:06:08.500 --> 00:06:14.824
+So putting these three
+components together we get,
+
+81
+00:06:14.824 --> 00:06:22.310
+100000*35 + 9000*P- 35- 9500*P.
+
+82
+00:06:22.310 --> 00:06:29.903
+And the final answer is -500*P + 35,000.
+
+83
+00:06:29.903 --> 00:06:35.520
+So we can combine both cases
+using IF function in Excel.
+
+84
+00:06:37.250 --> 00:06:42.740
+If P is less than 35,
+then the first formula applies and
+
+85
+00:06:42.740 --> 00:06:46.730
+if P is at or above 35,
+then the second formula applies.
+
+86
+00:06:47.900 --> 00:06:51.650
+The last question in this problem,
+asks us to set up and run a simulation of
+
+87
+00:06:51.650 --> 00:06:57.148
+the daily profit value using 100
+simulation runs and the seed = 123.
+
+88
+00:06:57.148 --> 00:07:01.127
+We have prepared an Excel
+template Europa Solvent_0 that we
+
+89
+00:07:01.127 --> 00:07:04.962
+will use to simulate the distribution
+of the daily profit.
+
+90
+00:07:04.962 --> 00:07:09.050
+Let's open this file and
+set up and run our simulation.
+
+91
+00:07:10.370 --> 00:07:14.430
+Let us set up a simulation of the daily
+production and daily profit values for
+
+92
+00:07:14.430 --> 00:07:18.000
+the ESI company using 100
+simulation runs and the seed 123.
+
+93
+00:07:18.000 --> 00:07:22.750
+We will start with
+the file Europa Solvent_0.
+
+94
+00:07:22.750 --> 00:07:27.120
+This file contains the problem data and
+is ready for the simulation set up.
+
+95
+00:07:27.120 --> 00:07:31.000
+For convenience, we have also copied here
+the formula from the PowerPoint slides
+
+96
+00:07:31.000 --> 00:07:36.335
+that calculates the daily profit value
+V for any daily production value P.
+
+97
+00:07:37.730 --> 00:07:41.191
+Okay, in order to prepare our simulation,
+
+98
+00:07:41.191 --> 00:07:45.790
+let's first add headers to the sales D1,
+E1, and F1.
+
+99
+00:07:45.790 --> 00:07:47.791
+In D1 we enter Simulation Run.
+
+100
+00:07:53.051 --> 00:07:55.895
+This header will indicate that below,
+in the column D,
+
+101
+00:07:55.895 --> 00:07:58.629
+we will count the instances
+of our random variables.
+
+102
+00:08:00.611 --> 00:08:03.904
+In E1, we will enter Daily Production.
+
+103
+00:08:10.895 --> 00:08:14.540
+In tons.
+
+104
+00:08:14.540 --> 00:08:19.270
+So in the column E we will be generating
+random instances of the ESI's
+
+105
+00:08:19.270 --> 00:08:20.670
+daily production values.
+
+106
+00:08:22.530 --> 00:08:29.174
+Finally, in the cell F1 we
+will enter profit in Euros.
+
+107
+00:08:41.749 --> 00:08:42.328
+Okay.
+
+108
+00:08:55.799 --> 00:09:00.628
+This column will contain the daily profit
+calculated using the random instances
+
+109
+00:09:00.628 --> 00:09:02.909
+of the data production from column E.
+
+110
+00:09:04.570 --> 00:09:07.545
+This simulation will have
+100 simulations runs,
+
+111
+00:09:07.545 --> 00:09:12.175
+in other words we will generate 100 random
+instances of daily production and for
+
+112
+00:09:12.175 --> 00:09:16.360
+each which of those we will calculate
+a corresponding daily profit value.
+
+113
+00:09:17.560 --> 00:09:20.710
+First let's number our
+simulation runs in column D.
+
+114
+00:09:22.380 --> 00:09:24.150
+Let's put 1 in the cell D2.
+
+115
+00:09:26.470 --> 00:09:30.061
+And let's keep adding ones until
+we get 100 simulation runs.
+
+116
+00:09:40.321 --> 00:09:44.500
+Okay, let's double check,
+yes we have 100 simulation runs
+
+117
+00:09:47.441 --> 00:09:52.280
+Now it is time to generate 100
+random daily production values.
+
+118
+00:09:52.280 --> 00:09:55.820
+These values will be stored
+in the cells E2 through E101.
+
+119
+00:09:55.820 --> 00:10:02.330
+In order to generate random production
+values we will use the Analysis ToolPak.
+
+120
+00:10:02.330 --> 00:10:07.060
+We go to Data > Data Analysis,
+
+121
+00:10:07.060 --> 00:10:10.000
+select Random Number Generation, click OK.
+
+122
+00:10:11.700 --> 00:10:17.960
+In the Random Number Generation dialog,
+we put 1 in the Number of Variables box.
+
+123
+00:10:19.840 --> 00:10:26.250
+We put a 100 in the Number
+of Random Numbers.
+
+124
+00:10:26.250 --> 00:10:32.900
+So, we instruct Excel to generate 100
+instances of a single random variable.
+
+125
+00:10:35.110 --> 00:10:38.910
+Then in the distribution we select normal.
+
+126
+00:10:40.470 --> 00:10:44.406
+And then for the parameters of
+this normal we must select 35 for
+
+127
+00:10:44.406 --> 00:10:50.060
+the mean and 7 for standard deviation.
+
+128
+00:10:51.350 --> 00:10:55.407
+This will instruct Excel to generate 100
+random instances of daily production
+
+129
+00:10:55.407 --> 00:10:58.415
+values using a normal distribution
+with these parameters.
+
+130
+00:10:58.415 --> 00:11:03.475
+Now let's use 123 for the random seed and
+
+131
+00:11:03.475 --> 00:11:08.536
+finally in the output
+options we will select
+
+132
+00:11:08.536 --> 00:11:13.473
+an output range, and we put cell E2 here.
+
+133
+00:11:16.533 --> 00:11:20.745
+This will instruct Excel to put
+the random instances of the daily
+
+134
+00:11:20.745 --> 00:11:24.414
+production values into
+the cells E2 through E101.
+
+135
+00:11:24.414 --> 00:11:26.060
+Now let's click OK.
+
+136
+00:11:28.820 --> 00:11:34.770
+Excel has now filled the cells, E2 through
+E101 with random instances of the normal
+
+137
+00:11:34.770 --> 00:11:39.630
+random variable with mean 35 and
+standard deviation seven, as we requested.
+
+138
+00:11:41.400 --> 00:11:44.760
+Let's hide some rows to make
+our presentation more compact.
+
+139
+00:11:46.260 --> 00:11:51.690
+Select some rows, for
+example 12 through 100,
+
+140
+00:11:51.690 --> 00:11:55.930
+and hide.
+
+141
+00:11:57.590 --> 00:11:58.090
+Here we go.
+
+142
+00:12:00.834 --> 00:12:04.518
+And let's color the E column values
+
+143
+00:12:08.849 --> 00:12:13.650
+And make them bold to indicate that we're
+dealing with simulation inputs here.
+
+144
+00:12:16.920 --> 00:12:20.290
+Okay, now it is time to turn to
+the output of our simulation.
+
+145
+00:12:20.290 --> 00:12:22.150
+The daily profit values.
+
+146
+00:12:22.150 --> 00:12:25.860
+Let's go into the cell F2 and
+
+147
+00:12:25.860 --> 00:12:29.740
+put in the formula that will calculate
+the daily profit value P for
+
+148
+00:12:29.740 --> 00:12:34.650
+any given value of
+the production in the cell E2.
+
+149
+00:12:34.650 --> 00:12:38.010
+As the formula we copied
+from the slides indicates,
+
+150
+00:12:38.010 --> 00:12:42.118
+we must enter in the cell
+F2 the full in expression.
+
+151
+00:12:42.118 --> 00:12:48.450
+= If the production,
+which is E2, is less than 35,
+
+152
+00:12:48.450 --> 00:12:53.587
+then the value of the profit
+is given by 2,500 times
+
+153
+00:12:53.587 --> 00:12:59.245
+the value of the production minus 70,000.
+
+154
+00:12:59.245 --> 00:13:04.332
+Otherwise, it's equal to minus 500
+
+155
+00:13:04.332 --> 00:13:10.776
+times the value of production plus 35,000.
+
+156
+00:13:13.273 --> 00:13:18.304
+As the result for
+this particular case indicates,
+
+157
+00:13:18.304 --> 00:13:24.279
+Europa will lose more than
+21,000 Euros on a such day.
+
+158
+00:13:26.102 --> 00:13:31.273
+Now we copy and paste the profit formula
+
+159
+00:13:31.273 --> 00:13:38.019
+from the cell F2 to
+the cells F3 through F101.
+
+160
+00:13:42.373 --> 00:13:45.832
+We also color the cells F2 through F101
+
+161
+00:13:50.764 --> 00:13:54.430
+to indicate that we're dealing
+with the output of the simulation.
+
+162
+00:13:55.450 --> 00:13:58.560
+Okay, the final step is to
+calculate the sample mean and
+
+163
+00:13:58.560 --> 00:14:03.770
+the standard deviation of the simulated
+values of the daily profit.
+
+164
+00:14:03.770 --> 00:14:08.359
+Let's put the corresponding headers
+
+165
+00:14:08.359 --> 00:14:12.810
+into the cells E103 and E104.
+
+166
+00:14:12.810 --> 00:14:14.270
+Sample Mean.
+
+167
+00:14:14.270 --> 00:14:22.590
+Simple Standard Deviation.
+
+168
+00:14:22.590 --> 00:14:25.340
+And let's calculate the values themselves.
+
+169
+00:14:25.340 --> 00:14:31.170
+Average of all the profit values
+
+170
+00:14:33.920 --> 00:14:39.660
+and standard deviation,
+STDEV of all the profit values.
+
+171
+00:14:44.620 --> 00:14:50.140
+We can make them blue and bold to
+indicate that those are output values.
+
+172
+00:14:50.140 --> 00:14:51.639
+As the results indicate,
+
+173
+00:14:51.639 --> 00:14:55.670
+the sample mean of the daily profit
+value is around 8,752 Euros.
+
+174
+00:14:55.670 --> 00:15:04.131
+And the simple standard
+deviation is around 9,415 Euros.
+
+175
+00:15:04.131 --> 00:15:06.560
+Okay, to reiterate,
+
+176
+00:15:06.560 --> 00:15:10.330
+here's a snapshot of the complete
+simulation setup with formulas.
+
+177
+00:15:10.330 --> 00:15:13.320
+We saved it in the Excel
+file called Europa Solvent.
+
+178
+00:15:14.850 --> 00:15:17.660
+As the results of the simulation indicate,
+the estimate for
+
+179
+00:15:17.660 --> 00:15:22.810
+the expected daily profit is about
+8,752 Euros, and the estimate for
+
+180
+00:15:22.810 --> 00:15:28.790
+the standard deviation of the daily
+profit is about 9,415 Euros.

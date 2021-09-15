@@ -1,0 +1,1132 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:01.430
+Hi.
+
+2
+00:00:01.430 --> 00:00:02.720
+I'm Noah Ganz, and
+
+3
+00:00:02.720 --> 00:00:07.880
+this is session four of week four
+of our Operations Analytics course.
+
+4
+00:00:07.880 --> 00:00:09.664
+In the previous session,
+
+5
+00:00:09.664 --> 00:00:14.704
+we used solver to find IDEAS optimal
+order quantity, Q, for supplier P.
+
+6
+00:00:14.704 --> 00:00:17.500
+We started with a simulated
+sample of demand.
+
+7
+00:00:17.500 --> 00:00:19.890
+And then optimized the queue.
+
+8
+00:00:19.890 --> 00:00:24.300
+In this session, we'll use the same
+approach to solve the news vendor problem.
+
+9
+00:00:24.300 --> 00:00:28.416
+We'll start with the demand forecast
+Senthil's proposed in week one.
+
+10
+00:00:28.416 --> 00:00:32.770
+And we'll use simulation and optimization
+to select an optimal order quantity
+
+11
+00:00:32.770 --> 00:00:35.590
+that maximizes the estimate
+expected value.
+
+12
+00:00:36.700 --> 00:00:40.463
+We'll also consider the notion of
+riskiness that Sergey introduced in
+
+13
+00:00:40.463 --> 00:00:41.163
+week three.
+
+14
+00:00:41.163 --> 00:00:45.020
+For any order quantity we can calculate
+the standard deviation of ideas profit.
+
+15
+00:00:45.020 --> 00:00:49.330
+And we'll see how to add or solve
+a constraint that places an upper bound
+
+16
+00:00:49.330 --> 00:00:51.060
+on the standard deviation of the profit.
+
+17
+00:00:52.700 --> 00:00:56.150
+Okay this is session four and
+we're gonna wrap up the week.
+
+18
+00:00:56.150 --> 00:00:59.450
+The way we're gonna do it is we're gonna
+go back to the news vendor problem
+
+19
+00:00:59.450 --> 00:01:02.100
+that we introduced at
+the beginning of the course.
+
+20
+00:01:02.100 --> 00:01:05.720
+Let's remember Senthil's
+newsvendor problem from week one.
+
+21
+00:01:05.720 --> 00:01:10.770
+You're selling wodgets,
+the unit cost of a wodget is three talers.
+
+22
+00:01:10.770 --> 00:01:14.590
+The sales price is 12 talers and
+there's no salvage value.
+
+23
+00:01:14.590 --> 00:01:19.190
+You've got a bunch of historical
+demand that you can analyze.
+
+24
+00:01:19.190 --> 00:01:22.750
+And you see that the demand's
+been variable and uncertain.
+
+25
+00:01:22.750 --> 00:01:26.660
+What you'd like to do is use the data
+that you have, the demand and
+
+26
+00:01:26.660 --> 00:01:29.890
+the cost and revenue data,
+to figure out how many wodgets,
+
+27
+00:01:29.890 --> 00:01:33.770
+Q you should order to
+maximize expected profit.
+
+28
+00:01:33.770 --> 00:01:35.730
+We now know how to find
+a good order quantity.
+
+29
+00:01:36.750 --> 00:01:40.350
+We'll use the historical data
+to forecast future demand.
+
+30
+00:01:40.350 --> 00:01:46.210
+Senthil had a normally distributed
+forecast with a mean of 52.81 and
+
+31
+00:01:46.210 --> 00:01:49.330
+a standard deviation of 15.1
+
+32
+00:01:49.330 --> 00:01:52.600
+We'll use the demand forecast
+then to drive a simulation.
+
+33
+00:01:53.710 --> 00:01:58.820
+In the simulation,
+if we order quantity Q and demand is D,
+
+34
+00:01:58.820 --> 00:02:03.760
+then our profit pi is going to be
+12 tailors times the quantity sold.
+
+35
+00:02:03.760 --> 00:02:07.100
+And that's just the minimum of
+demand in the order quantity
+
+36
+00:02:07.100 --> 00:02:10.379
+minus three tailors times
+the quantity ordered.
+
+37
+00:02:12.670 --> 00:02:15.750
+For a given Q,
+we can simulate samples of D.
+
+38
+00:02:15.750 --> 00:02:18.490
+And for each sample,
+we can calculate a profit, pi.
+
+39
+00:02:19.900 --> 00:02:21.240
+Once we've got the profits for
+
+40
+00:02:21.240 --> 00:02:23.860
+each of the samples,
+we can then calculate the average.
+
+41
+00:02:25.480 --> 00:02:30.400
+Finally, we'll use optimization to find
+an average profit maximizing Q for
+
+42
+00:02:30.400 --> 00:02:31.110
+the sample.
+
+43
+00:02:32.330 --> 00:02:36.310
+Our objective will be to maximize
+the average profit that we've calculated.
+
+44
+00:02:36.310 --> 00:02:39.230
+And the decision variable
+will be the order quantity.
+
+45
+00:02:39.230 --> 00:02:43.960
+If we want we can place constraints on
+the minimum and maximum order quantity.
+
+46
+00:02:43.960 --> 00:02:49.160
+The optimal q of course maximizes
+the average profit just for that sample.
+
+47
+00:02:49.160 --> 00:02:53.230
+But if the sample is large, we know it's
+a good estimate for the optimal Q for
+
+48
+00:02:53.230 --> 00:02:55.040
+the demand forecast.
+
+49
+00:02:55.040 --> 00:02:58.570
+Let's take a look at a spreadsheet
+where we'll build the simulation and
+
+50
+00:02:58.570 --> 00:03:00.000
+the optimization.
+
+51
+00:03:00.000 --> 00:03:04.800
+We can implement our simulation and
+optimization in Excel again.
+
+52
+00:03:06.060 --> 00:03:12.050
+I'm going to use a template that's a part
+of a file newsvendoroptimization.xlsx,
+
+53
+00:03:12.050 --> 00:03:14.430
+that you can download from
+the Coursera website.
+
+54
+00:03:15.620 --> 00:03:18.520
+Again, the template has all
+of the labels filled in,
+
+55
+00:03:18.520 --> 00:03:21.610
+and we're going to fill in the numbers and
+the formulas.
+
+56
+00:03:21.610 --> 00:03:26.010
+At the top, we have the sales price,
+and that's 12 tailors.
+
+57
+00:03:26.010 --> 00:03:30.230
+We have the unit cost, and
+that's three tailors and
+
+58
+00:03:30.230 --> 00:03:33.150
+the order quantity is
+what we want to find.
+
+59
+00:03:33.150 --> 00:03:37.010
+For the moment, I am going to put in
+an order quantity, lets say, of 40.
+
+60
+00:03:37.010 --> 00:03:39.750
+Notice that I've highlighted
+
+61
+00:03:39.750 --> 00:03:43.920
+the order quantity with red to
+identify it as the decision variable.
+
+62
+00:03:45.440 --> 00:03:52.500
+In column b, we're going to sample fifty
+samples from the demand distribution which
+
+63
+00:03:52.500 --> 00:03:58.660
+is normally distributed with a mean of
+52.81 and the standard deviation of 15.1.
+
+64
+00:03:58.660 --> 00:04:03.942
+Now, if you look carefully, you can see
+here the numbers go one through eight.
+
+65
+00:04:03.942 --> 00:04:10.258
+And then 49 and 50 and
+that's because I've hidden rows 18 to 57.
+
+66
+00:04:10.258 --> 00:04:13.613
+But don't worry,
+when we use the random number generator
+
+67
+00:04:13.613 --> 00:04:17.460
+to fill in those numbers the hidden
+cells will be filled in as well.
+
+68
+00:04:18.620 --> 00:04:22.400
+So let's go now and
+use the random number generator.
+
+69
+00:04:22.400 --> 00:04:25.490
+Remember from week three
+if we click the data tab.
+
+70
+00:04:26.990 --> 00:04:32.930
+And the data analysis menu item, and then
+the random number generation menu item.
+
+71
+00:04:32.930 --> 00:04:37.030
+We can choose to sample from
+the normal distribution.
+
+72
+00:04:37.030 --> 00:04:39.810
+Again, this dialogue box is very small and
+
+73
+00:04:39.810 --> 00:04:42.350
+in a moment I'll show you
+a larger version of it.
+
+74
+00:04:42.350 --> 00:04:46.260
+We're going to sample one random variable,
+that's demand.
+
+75
+00:04:46.260 --> 00:04:50.100
+We're going to sample this time,
+50 numbers, and
+
+76
+00:04:50.100 --> 00:04:53.560
+we're going to sample from
+a normal distribution.
+
+77
+00:04:53.560 --> 00:04:56.480
+The normal distribution has
+two parameters of mean.
+
+78
+00:04:56.480 --> 00:05:04.210
+In this case the forecast mean is
+52.81 and the standard deviation.
+
+79
+00:05:04.210 --> 00:05:08.044
+And here the forecast
+standard deviation is 15.1.
+
+80
+00:05:09.570 --> 00:05:14.410
+We'll use our familiar random seed,
+one, two, three, four, and
+
+81
+00:05:14.410 --> 00:05:19.340
+we want to tell Excel that
+the output range starts in cell B10.
+
+82
+00:05:21.310 --> 00:05:24.890
+Having set everything up,
+we can click OK and
+
+83
+00:05:24.890 --> 00:05:29.570
+it will generate our 50 normally
+distributed random numbers.
+
+84
+00:05:29.570 --> 00:05:31.457
+Notice again that by definition,
+
+85
+00:05:31.457 --> 00:05:35.306
+a normal distribution will have
+fractional numbers coming out of it.
+
+86
+00:05:35.306 --> 00:05:40.271
+And I'm just going to reduce the number of
+digits after the decimal to clean it up
+
+87
+00:05:40.271 --> 00:05:41.860
+a little bit.
+
+88
+00:05:41.860 --> 00:05:45.910
+Before we move on, I want to show you that
+random number generator dialogue box.
+
+89
+00:05:45.910 --> 00:05:50.480
+Again there's one random
+variable that's the demand.
+
+90
+00:05:50.480 --> 00:05:53.370
+We took 50 samples of demand.
+
+91
+00:05:53.370 --> 00:05:58.694
+The demands were normally
+distributed with a mean of 52.81 and
+
+92
+00:05:58.694 --> 00:06:01.110
+a standard deviation of 15.1.
+
+93
+00:06:01.110 --> 00:06:03.370
+We'll use the Random Seed 1234, and
+
+94
+00:06:03.370 --> 00:06:07.500
+the first cell in the output
+range was cell B10.
+
+95
+00:06:09.010 --> 00:06:11.390
+Okay.
+Let's go back now to the spreadsheet.
+
+96
+00:06:12.830 --> 00:06:16.450
+So we now have all the data
+that we need and we can start
+
+97
+00:06:16.450 --> 00:06:20.560
+constructing Excel formulas to calculate
+the other important statistics.
+
+98
+00:06:20.560 --> 00:06:25.350
+As before,
+the sales revenue equals the sales price,
+
+99
+00:06:25.350 --> 00:06:32.390
+in this case it's 12,
+times the minimum of the order quantity,
+
+100
+00:06:32.390 --> 00:06:36.880
+here it's 40, and
+the demand for that sample.
+
+101
+00:06:40.369 --> 00:06:44.346
+So here you can see the sales
+revenue is 424.5, and
+
+102
+00:06:44.346 --> 00:06:50.080
+that's driven by the demand,
+because 35.4 is less than 40.
+
+103
+00:06:50.080 --> 00:06:55.140
+The unit cost is always going to be 3,
+times,
+
+104
+00:06:56.140 --> 00:07:01.130
+the order quantity, so
+that should be 120 and
+
+105
+00:07:01.130 --> 00:07:06.390
+total profit is simply the sales
+revenue minus the unit cost.
+
+106
+00:07:06.390 --> 00:07:12.307
+So in this first sample we can see
+that the demand sample was 35.4.
+
+107
+00:07:12.307 --> 00:07:17.798
+The sales revenue was about 424,
+the unit cost was 120,
+
+108
+00:07:17.798 --> 00:07:21.330
+and the profit was about 304 talers.
+
+109
+00:07:21.330 --> 00:07:25.219
+One we have the calculations for
+one sample, we can copy them down for
+
+110
+00:07:25.219 --> 00:07:26.640
+the rest of the samples.
+
+111
+00:07:27.760 --> 00:07:31.205
+And here's what they look like.
+
+112
+00:07:31.205 --> 00:07:35.725
+It's interesting to see that for
+the samples that we see,
+
+113
+00:07:35.725 --> 00:07:41.547
+after the first two all of the samples
+are above the order quantity of 40.
+
+114
+00:07:41.547 --> 00:07:47.190
+And in all of those cases,
+the profit for each sample is 360.
+
+115
+00:07:47.190 --> 00:07:52.090
+For example, if we change the order
+quantity, let's say to 60.
+
+116
+00:07:52.090 --> 00:07:56.230
+Then we're gonna see in many cases
+the demand was less than 60 and
+
+117
+00:07:56.230 --> 00:07:57.830
+we see the total profits changing.
+
+118
+00:07:59.350 --> 00:08:03.610
+Again, once we have the profit for each
+of the samples, then we can use the Excel
+
+119
+00:08:03.610 --> 00:08:08.930
+formula average to calculate
+the average profits for the simulation.
+
+120
+00:08:11.430 --> 00:08:14.480
+And notice that I've
+highlighted that cell in blue,
+
+121
+00:08:14.480 --> 00:08:16.520
+because that's going to be
+our objective function.
+
+122
+00:08:17.910 --> 00:08:21.410
+And finally, if we're interested,
+we can also calculate
+
+123
+00:08:21.410 --> 00:08:26.240
+the standard deviation
+using the Excel function.
+
+124
+00:08:28.150 --> 00:08:31.380
+And here, you can see the standard
+deviations, about 159.
+
+125
+00:08:31.380 --> 00:08:34.000
+We'll actually come back
+to that a little bit later.
+
+126
+00:08:34.000 --> 00:08:38.423
+So now we've got the spreadsheet set up
+and we've seen that each time we change
+
+127
+00:08:38.423 --> 00:08:41.316
+the order quantity,
+the average profit changes.
+
+128
+00:08:41.316 --> 00:08:42.971
+Just as we did in last session.
+
+129
+00:08:42.971 --> 00:08:47.202
+We're going to define an optimization
+problem where we're going to maximize
+
+130
+00:08:47.202 --> 00:08:52.470
+average profits by changing the decision
+variable, which is the order quantity.
+
+131
+00:08:52.470 --> 00:09:00.350
+Recall from week two, that we can
+access Excel solver by the data tab.
+
+132
+00:09:00.350 --> 00:09:02.540
+And then the solver dialogue box.
+
+133
+00:09:02.540 --> 00:09:05.150
+Again, the dialogue box is very small.
+
+134
+00:09:05.150 --> 00:09:08.370
+And in a moment I'll show you a larger
+version that's easier to see.
+
+135
+00:09:09.610 --> 00:09:13.424
+We're going to set our objective
+to be the average profit.
+
+136
+00:09:15.607 --> 00:09:18.610
+And we wanna make sure
+that we maximize it.
+
+137
+00:09:18.610 --> 00:09:22.390
+Our decision variable
+is the order quantity.
+
+138
+00:09:25.400 --> 00:09:28.800
+And I'm just going to have one constraint,
+and
+
+139
+00:09:28.800 --> 00:09:35.240
+that is I want to make sure that the order
+quantity is greater than or equal to zero.
+
+140
+00:09:37.540 --> 00:09:41.470
+Okay, notice I could I could
+have just clicked this
+
+141
+00:09:41.470 --> 00:09:43.980
+Make Unconstrained Variables Non-negative.
+
+142
+00:09:43.980 --> 00:09:47.890
+That is the same thing as
+saying the variable C5, or
+
+143
+00:09:47.890 --> 00:09:51.170
+the order quantity,
+has to be greater than or equal to zero.
+
+144
+00:09:51.170 --> 00:09:52.800
+Here I've done it explicitly.
+
+145
+00:09:52.800 --> 00:09:53.880
+It doesn't hurt to have both.
+
+146
+00:09:54.980 --> 00:09:56.390
+As we saw last time,
+
+147
+00:09:56.390 --> 00:10:01.500
+this problem's nonlinear because of the
+min function, which defines the revenue.
+
+148
+00:10:01.500 --> 00:10:03.700
+So I'm going to leave GRG nonlinear.
+
+149
+00:10:03.700 --> 00:10:09.100
+If you're interested in seeing why that
+is and what you can do to streamline
+
+150
+00:10:09.100 --> 00:10:14.600
+the formulation, you're welcome to
+see the optional advanced session.
+
+151
+00:10:14.600 --> 00:10:16.070
+But again, it's only optional.
+
+152
+00:10:16.070 --> 00:10:18.170
+There's no requirement to see it.
+
+153
+00:10:18.170 --> 00:10:21.410
+So let's run the optimization
+problem with the 50 samples.
+
+154
+00:10:21.410 --> 00:10:28.670
+And you can see in this case, the optimal
+solution is to order 59.5 units and,
+
+155
+00:10:28.670 --> 00:10:34.870
+earn an average profit, across the 50
+samples, of around 402 Taylors.
+
+156
+00:10:34.870 --> 00:10:37.550
+We can also include constraints on risk.
+
+157
+00:10:37.550 --> 00:10:40.410
+Recall Sergei's session on risk and
+reward.
+
+158
+00:10:40.410 --> 00:10:44.360
+That is, often decision makers
+must trade off risk and reward.
+
+159
+00:10:44.360 --> 00:10:47.130
+A common measure of the reward
+is the expected value.
+
+160
+00:10:47.130 --> 00:10:48.940
+That's risk neutral.
+
+161
+00:10:48.940 --> 00:10:52.440
+One common measure of risk out of
+many is the standard deviation.
+
+162
+00:10:53.640 --> 00:10:56.770
+Suppose we wanted to limit
+the news vendor's risk.
+
+163
+00:10:56.770 --> 00:11:01.040
+That is, suppose we wanted to limit
+the standard deviation of the profit, so
+
+164
+00:11:01.040 --> 00:11:03.120
+that it's no more than 125 talers.
+
+165
+00:11:04.320 --> 00:11:07.960
+We can update our optimization
+problem to limit that risk.
+
+166
+00:11:07.960 --> 00:11:11.900
+We'll use Excel to calculate
+the standard deviation of the profit.
+
+167
+00:11:11.900 --> 00:11:15.370
+And we'll add a constraint that limits
+that standard deviation for any Q.
+
+168
+00:11:16.460 --> 00:11:20.540
+Note, the standard deviation
+function is not linear, but
+
+169
+00:11:20.540 --> 00:11:24.430
+it is something called quadratic,
+it just has square terms in it.
+
+170
+00:11:24.430 --> 00:11:27.380
+And that's a well behaved
+kind of non linear function.
+
+171
+00:11:27.380 --> 00:11:31.670
+If you want to learn more about non linear
+optimization and quadratic functions.
+
+172
+00:11:31.670 --> 00:11:35.680
+Look at a book on business analytics for
+example the one we show here.
+
+173
+00:11:35.680 --> 00:11:38.062
+Here we are again at our Simulation and
+
+174
+00:11:38.062 --> 00:11:42.766
+Optimization problem that we started
+building up earlier in the session.
+
+175
+00:11:42.766 --> 00:11:47.445
+Remember, originally we
+maximized the average profit
+
+176
+00:11:47.445 --> 00:11:52.224
+which was 402 tailors by
+choosing an order quantity,
+
+177
+00:11:52.224 --> 00:11:57.112
+and in this case the optimal
+order quantity was 59.5.
+
+178
+00:11:57.112 --> 00:12:00.910
+What we'd like to do now is
+add one additional constraint.
+
+179
+00:12:00.910 --> 00:12:04.858
+And that is, we want to make sure that
+the standard deviation of the profits,
+
+180
+00:12:04.858 --> 00:12:07.311
+down here you can see
+below the average profit.
+
+181
+00:12:07.311 --> 00:12:12.950
+It's about 158, we want to make sure that,
+that does not exceed 125.
+
+182
+00:12:12.950 --> 00:12:15.300
+And that's also very easy to do.
+
+183
+00:12:15.300 --> 00:12:19.100
+Let's go again to the solver dialogue box.
+
+184
+00:12:20.860 --> 00:12:23.230
+Here's our original optimization problem.
+
+185
+00:12:23.230 --> 00:12:26.888
+We're just going to add
+one more constraint and
+
+186
+00:12:26.888 --> 00:12:31.279
+the constraint is that whatever
+number is in cell E62,
+
+187
+00:12:31.279 --> 00:12:35.961
+which is the standard deviation
+should be less than 125.
+
+188
+00:12:35.961 --> 00:12:40.911
+So that will limit the standard
+deviation of any solution to
+
+189
+00:12:40.911 --> 00:12:43.592
+be less than or equal to 125.
+
+190
+00:12:43.592 --> 00:12:49.083
+We can then resolve the optimization and
+we see that the optimal
+
+191
+00:12:49.083 --> 00:12:54.270
+order quantity has now
+reduced from 59.5 to 50.3.
+
+192
+00:12:54.270 --> 00:12:59.009
+By reducing the order quantity,
+we've been able to bring
+
+193
+00:12:59.009 --> 00:13:04.049
+the standard deviation down
+from more than 150 to 125.
+
+194
+00:13:04.049 --> 00:13:08.763
+Of course the price that we've paid
+is we've reduced the average profit
+
+195
+00:13:08.763 --> 00:13:11.324
+from more than 400 to about 382.
+
+196
+00:13:11.324 --> 00:13:14.429
+And what we've done is to reduce our risk,
+
+197
+00:13:14.429 --> 00:13:17.710
+we had to pay a price
+of reducing the reward.
+
+198
+00:13:17.710 --> 00:13:20.460
+In this case,
+the reward is the average profit.
+
+199
+00:13:20.460 --> 00:13:23.820
+So that's it for week four, session four.
+
+200
+00:13:23.820 --> 00:13:28.750
+We came back to the newsvendor, that's
+a fundamental problem in operations.
+
+201
+00:13:28.750 --> 00:13:33.820
+Given the price, cost, and demand history,
+we need to choose a good order quantity Q.
+
+202
+00:13:34.860 --> 00:13:38.790
+We used the demand forecast from week one,
+along with the simulation and
+
+203
+00:13:38.790 --> 00:13:42.630
+optimization tools from weeks two and
+three to find a good Q.
+
+204
+00:13:42.630 --> 00:13:45.990
+With these tools,
+finding an effective Q was easy.
+
+205
+00:13:45.990 --> 00:13:48.207
+We simulated a large number of demands.
+
+206
+00:13:48.207 --> 00:13:52.510
+We then optimized to find a Q that
+maximized the average profit for
+
+207
+00:13:52.510 --> 00:13:54.000
+the sample.
+
+208
+00:13:54.000 --> 00:13:57.920
+We used the optimal Q for the sample
+as an estimate for the optimal Q for
+
+209
+00:13:57.920 --> 00:13:59.030
+the overall problem.
+
+210
+00:14:00.220 --> 00:14:04.520
+Adding a constraint on the standard
+deviation of the profit was also easy,
+
+211
+00:14:04.520 --> 00:14:06.820
+there are two caveats to remember.
+
+212
+00:14:06.820 --> 00:14:10.616
+First, the "min (D,Q) in the middle
+of the problem is not linear.
+
+213
+00:14:10.616 --> 00:14:13.517
+And if you're interested to see why and
+what you can do about it,
+
+214
+00:14:13.517 --> 00:14:16.500
+there is an optional advanced
+session that you can take a look at.
+
+215
+00:14:17.670 --> 00:14:22.180
+The other caveat is the standard deviation
+is also not linear, but as I said before,
+
+216
+00:14:22.180 --> 00:14:22.960
+that's not a problem.
+
+217
+00:14:24.530 --> 00:14:26.170
+In this last course session,
+
+218
+00:14:26.170 --> 00:14:29.690
+we return news vendor problem
+that started the course.
+
+219
+00:14:29.690 --> 00:14:33.390
+Our input data where Senthil's
+forecast of the demand distribution,
+
+220
+00:14:33.390 --> 00:14:36.395
+along with the newsvendor's revenues and
+costs.
+
+221
+00:14:36.395 --> 00:14:39.655
+We built a simulation model that
+calculates average profit for
+
+222
+00:14:39.655 --> 00:14:43.485
+a sample of demands in
+any order quantity Q.
+
+223
+00:14:43.485 --> 00:14:47.265
+We then use solver to optimize
+the simulation spreadsheet and
+
+224
+00:14:47.265 --> 00:14:49.815
+find an approximately optimal que.
+
+225
+00:14:49.815 --> 00:14:53.775
+That's the queue that maximizes
+the average profit of the samples.
+
+226
+00:14:53.775 --> 00:14:56.525
+We also define the news
+vendor's risk tolerance
+
+227
+00:14:56.525 --> 00:15:00.000
+as limiting the estimated
+standard deviation of the profit.
+
+228
+00:15:00.000 --> 00:15:02.750
+And we added a constraint
+to our optimization model
+
+229
+00:15:02.750 --> 00:15:06.730
+to ensure that the optimal solution would
+have an estimated standard deviation
+
+230
+00:15:06.730 --> 00:15:07.850
+that's less than the limit.
+
+231
+00:15:08.890 --> 00:15:13.620
+More broadly, in week four we've taken a
+look at decision-making under uncertainty
+
+232
+00:15:13.620 --> 00:15:18.090
+when the outcomes of decisions depend
+on many factors and can be uncertain.
+
+233
+00:15:18.090 --> 00:15:20.610
+We started by introducing decision trees.
+
+234
+00:15:20.610 --> 00:15:23.540
+As a tool to describe and
+analyze these problems.
+
+235
+00:15:23.540 --> 00:15:24.960
+And we used simulation and
+
+236
+00:15:24.960 --> 00:15:29.590
+optimization to extend the range of
+settings that can be tackled using trees.
+
+237
+00:15:29.590 --> 00:15:30.730
+Not bad for a weeks work.

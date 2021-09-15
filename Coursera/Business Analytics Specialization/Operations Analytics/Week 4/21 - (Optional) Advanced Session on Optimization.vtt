@@ -1,0 +1,1893 @@
+WEBVTT
+
+1
+00:00:00.540 --> 00:00:04.160
+Welcome to week four's
+Advanced Session on Optimization.
+
+2
+00:00:04.160 --> 00:00:05.560
+My name is Noah Ganz.
+
+3
+00:00:05.560 --> 00:00:07.310
+I'm your instructor for week four.
+
+4
+00:00:07.310 --> 00:00:08.950
+In this advanced session,
+
+5
+00:00:08.950 --> 00:00:12.610
+we're going to see how to transform
+an optimization problem that
+
+6
+00:00:12.610 --> 00:00:18.280
+has a non-linear min statement embedded
+into it into a linear formulation.
+
+7
+00:00:18.280 --> 00:00:22.260
+Before we get started, I want to remind
+you that this is an optional session and
+
+8
+00:00:22.260 --> 00:00:23.390
+you don't need to look at it.
+
+9
+00:00:23.390 --> 00:00:26.400
+You only need to look at
+it if you're curious.
+
+10
+00:00:26.400 --> 00:00:28.700
+We won't be testing you on this material.
+
+11
+00:00:28.700 --> 00:00:30.350
+So let's get started.
+
+12
+00:00:30.350 --> 00:00:31.760
+Here's what we're going to do.
+
+13
+00:00:31.760 --> 00:00:36.030
+We'll start out by recalling ideas
+optimization problem for session three.
+
+14
+00:00:37.370 --> 00:00:42.220
+We'll then implement the optimization
+problem in Excel using the min formula.
+
+15
+00:00:42.220 --> 00:00:44.680
+That's exactly what we
+did in section three.
+
+16
+00:00:44.680 --> 00:00:48.260
+We'll also look at an algebraic
+version of the formulation,
+
+17
+00:00:48.260 --> 00:00:52.479
+that's the mathematical analog of
+the Excel spreadsheet formulas.
+
+18
+00:00:53.890 --> 00:00:56.400
+We'll also graph the min statement and
+
+19
+00:00:56.400 --> 00:01:01.380
+we'll see why that min
+statement is not linear.
+
+20
+00:01:01.380 --> 00:01:02.800
+Having graphed the min statement,
+
+21
+00:01:02.800 --> 00:01:08.370
+we can use the graph to see how we can
+modify the formulation and make it linear.
+
+22
+00:01:08.370 --> 00:01:11.570
+And having done that,
+we'll update the algebraic formulation
+
+23
+00:01:11.570 --> 00:01:16.350
+to make it linear as well, and
+we'll implement it in Excel.
+
+24
+00:01:16.350 --> 00:01:20.150
+So let's remember IDEA's
+problem from session three.
+
+25
+00:01:20.150 --> 00:01:24.560
+In session three supplier P allowed
+IDEA to choose its order quantity, Q.
+
+26
+00:01:24.560 --> 00:01:30.771
+In particular, IDEA could choose a Q
+anywhere between 4,000 and 10,000 units.
+
+27
+00:01:31.790 --> 00:01:34.140
+IDEA had a more complex demand forecast.
+
+28
+00:01:34.140 --> 00:01:38.508
+For example, if the market were strong,
+demand would be uniformly distributed from
+
+29
+00:01:38.508 --> 00:01:43.220
+6,000 to 14,000 units, and
+in fact we are going to use the strong
+
+30
+00:01:43.220 --> 00:01:46.860
+part of the demand forecast
+in our examples today.
+
+31
+00:01:47.940 --> 00:01:50.610
+IDEA's revenues and costs for
+supplier P were as follows.
+
+32
+00:01:50.610 --> 00:01:54.870
+The sales price of the tent
+was 150 Euros per unit.
+
+33
+00:01:54.870 --> 00:01:57.660
+The unit cost was 100 Euros.
+
+34
+00:01:57.660 --> 00:02:02.140
+And supplier P would charge
+IDEA a fixed contracting fee
+
+35
+00:02:02.140 --> 00:02:06.670
+of 100,000 Euros if IDEA
+were to choose supplier P.
+
+36
+00:02:06.670 --> 00:02:11.314
+If IDEA were to order quantity Q,
+and demand turned out to be D,
+
+37
+00:02:11.314 --> 00:02:17.186
+then it would earn revenue of 150 euros
+price times the number of units sold,
+
+38
+00:02:17.186 --> 00:02:21.831
+minus 100 euros unit cost times
+to number of units ordered,
+
+39
+00:02:21.831 --> 00:02:24.841
+minus 100,000 euro fixed cost.
+
+40
+00:02:24.841 --> 00:02:30.630
+Putting it all together, IDEA's profit pi
+would be 150 times the number of units
+
+41
+00:02:30.630 --> 00:02:36.351
+sold minus- 100, times the number
+of units ordered, minus 100,000.
+
+42
+00:02:36.351 --> 00:02:41.050
+And we can go and take this formulation,
+and implement it in Excel.
+
+43
+00:02:41.050 --> 00:02:43.080
+And that's what we're gonna do next.
+
+44
+00:02:43.080 --> 00:02:44.180
+Now we're in Excel.
+
+45
+00:02:44.180 --> 00:02:48.050
+The name of this file is
+IDEA Linear Optimization.xlsx and
+
+46
+00:02:48.050 --> 00:02:51.640
+you can download it from
+the Coursera website.
+
+47
+00:02:51.640 --> 00:02:57.170
+And this first worksheet is a template
+the way that we've had templates earlier
+
+48
+00:02:57.170 --> 00:02:58.350
+in the week.
+
+49
+00:02:58.350 --> 00:03:00.850
+And we're gonna fill it out right now to
+
+50
+00:03:00.850 --> 00:03:04.560
+formulate an Excel version of
+IDEA's optimization problem.
+
+51
+00:03:06.090 --> 00:03:10.390
+The first cell we'll look at
+is the Order Quantity Q, and
+
+52
+00:03:10.390 --> 00:03:12.922
+right now we have
+a default of 10,000 units.
+
+53
+00:03:12.922 --> 00:03:16.140
+That's what IDEA has been ordering before.
+
+54
+00:03:16.140 --> 00:03:19.400
+This will become the decision variable.
+
+55
+00:03:20.480 --> 00:03:24.440
+Other problem data are the fixed
+cost of 100,000 euros,
+
+56
+00:03:24.440 --> 00:03:29.770
+the unit price of 150 euros,
+and the unit cost of 100 euros.
+
+57
+00:03:29.770 --> 00:03:33.390
+The last set of data that we need to
+fill out are the sample demands and
+
+58
+00:03:33.390 --> 00:03:37.300
+we'll do that with the Excel
+random number generator.
+
+59
+00:03:37.300 --> 00:03:43.480
+Remember, we go to the data tab, and
+then the data analysis menu item.
+
+60
+00:03:43.480 --> 00:03:46.290
+We'll double-click the random
+number generator to
+
+61
+00:03:46.290 --> 00:03:47.870
+bring up the random number generator.
+
+62
+00:03:49.050 --> 00:03:54.447
+And we're going to select
+one random variable and
+
+63
+00:03:54.447 --> 00:03:59.588
+generate ten samples,
+or ten random numbers,
+
+64
+00:03:59.588 --> 00:04:04.101
+and define it as a uniform distribution.
+
+65
+00:04:04.101 --> 00:04:08.928
+And, it will be defined between 6,000 and
+
+66
+00:04:08.928 --> 00:04:14.719
+14,000, with a random seat of one,
+two, three,
+
+67
+00:04:14.719 --> 00:04:20.163
+four, and
+an output range that starts in cell B10.
+
+68
+00:04:20.163 --> 00:04:23.423
+And then we'll click OK.
+
+69
+00:04:23.423 --> 00:04:27.119
+And we've generated a set
+of ten random demands that
+
+70
+00:04:27.119 --> 00:04:31.911
+are distributed uniformly
+between 6,000 and 14,000.
+
+71
+00:04:31.911 --> 00:04:35.530
+That's when the market is strong and
+let me just format this.
+
+72
+00:04:35.530 --> 00:04:38.890
+We've recall that by definition
+the uniform distribution
+
+73
+00:04:41.630 --> 00:04:43.880
+generates fractional numbers.
+
+74
+00:04:43.880 --> 00:04:48.007
+The other thing I want to show you is just
+a bigger screenshot of the random number
+
+75
+00:04:48.007 --> 00:04:49.251
+generator dialog box.
+
+76
+00:04:49.251 --> 00:04:53.781
+So again, we chose one random variable,
+ten random numbers,
+
+77
+00:04:53.781 --> 00:05:00.792
+uniform distribution distributed between
+6,000 and 14,000 with a random seed one,
+
+78
+00:05:00.792 --> 00:05:06.280
+two, three, four, and
+the first the output range was cell B10.
+
+79
+00:05:06.280 --> 00:05:08.340
+And we got these ten numbers here.
+
+80
+00:05:08.340 --> 00:05:12.490
+These are all the data that we need,
+and now for each of the ten samples,
+
+81
+00:05:12.490 --> 00:05:15.320
+we're going to define the profits.
+
+82
+00:05:15.320 --> 00:05:21.400
+The revenues are the unit price of 150,
+
+83
+00:05:21.400 --> 00:05:27.050
+times the minimum of the demand for
+
+84
+00:05:27.050 --> 00:05:30.920
+that sample, and the order quantity.
+
+85
+00:05:33.740 --> 00:05:40.570
+The fixed cost is simply 100,000 euros.
+
+86
+00:05:41.640 --> 00:05:49.621
+The variable cost is the unit cost
+of 100 times the order quantity.
+
+87
+00:05:53.571 --> 00:05:56.873
+And the profit is the revenue,
+
+88
+00:05:56.873 --> 00:06:02.360
+minus the fixed costs,
+minus the variable costs.
+
+89
+00:06:02.360 --> 00:06:03.970
+And you can see for
+
+90
+00:06:03.970 --> 00:06:09.980
+a demand of 6,993 IDEA is actually losing
+money if an order is 10,000 units.
+
+91
+00:06:09.980 --> 00:06:16.300
+It has revenues of about 1,049,000 Euros.
+
+92
+00:06:16.300 --> 00:06:19.630
+But it's got costs of
+about 1.1 million euros.
+
+93
+00:06:19.630 --> 00:06:23.300
+So it's losing about 51,000 euros.
+
+94
+00:06:23.300 --> 00:06:26.860
+Having filled out the definition
+of the profit for
+
+95
+00:06:26.860 --> 00:06:30.851
+this demand sample,
+we could just copy the cells down.
+
+96
+00:06:35.372 --> 00:06:41.230
+And you can see in every single case the
+fixed cost by definition stays the same.
+
+97
+00:06:41.230 --> 00:06:46.630
+The variable cost stays the same because
+we're always ordering 10,000 units.
+
+98
+00:06:46.630 --> 00:06:51.600
+And it's the revenues, and subsequently
+the profits that change with the demands.
+
+99
+00:06:52.810 --> 00:06:58.352
+Having defined the profits for each of the
+ten samples, then we can take the average
+
+100
+00:06:58.352 --> 00:07:05.140
+of them using the Excel average formula
+To calculate the average profit.
+
+101
+00:07:05.140 --> 00:07:10.742
+And you can see for these ten samples,
+if IDEA had ordered 10,000 units,
+
+102
+00:07:10.742 --> 00:07:17.107
+it would have earned average profits for
+the ten samples of about a 162,000 euros.
+
+103
+00:07:17.107 --> 00:07:22.855
+Of course, if IDEA were to change its
+order quantities, so for example,
+
+104
+00:07:22.855 --> 00:07:29.252
+it were to order 9,000 instead of 10,000,
+you can see, for example,
+
+105
+00:07:29.252 --> 00:07:35.491
+that the average profits would have
+been instead about 216,000 euros.
+
+106
+00:07:35.491 --> 00:07:42.340
+So now we've got the spreadsheet set up,
+and we need to use Solver.
+
+107
+00:07:42.340 --> 00:07:46.976
+We're gonna call up Solver and define the
+decision variable, and the objective, and
+
+108
+00:07:46.976 --> 00:07:48.004
+the constraints.
+
+109
+00:07:48.004 --> 00:07:51.684
+So our objective is to
+maximize the average profit.
+
+110
+00:07:54.110 --> 00:07:57.840
+Our decision variable is
+the order quantity and
+
+111
+00:07:57.840 --> 00:08:00.925
+we need to add a couple of constraints.
+
+112
+00:08:00.925 --> 00:08:06.828
+We want to make sure that the order
+quantity is greater than or
+
+113
+00:08:06.828 --> 00:08:09.645
+equal to 4,000 units.
+
+114
+00:08:09.645 --> 00:08:14.414
+And also that the order
+quantity is less than or
+
+115
+00:08:14.414 --> 00:08:17.605
+equal to 10,000 units.
+
+116
+00:08:17.605 --> 00:08:20.831
+The last thing I'll point out
+is that we're going to use
+
+117
+00:08:20.831 --> 00:08:23.710
+non-linear because it's
+a non-linear formulation.
+
+118
+00:08:23.710 --> 00:08:28.245
+If you try to run it with Simplex OP,
+as if it were linear,
+
+119
+00:08:28.245 --> 00:08:30.640
+the solver will cough and complain.
+
+120
+00:08:32.350 --> 00:08:35.062
+Before I solve it,
+I just want to quickly show you,
+
+121
+00:08:35.062 --> 00:08:40.460
+the solver dialogue box
+is slightly larger.
+
+122
+00:08:40.460 --> 00:08:46.523
+So again, the objective was the average
+profit that was in cell F21.
+
+123
+00:08:46.523 --> 00:08:49.463
+We're gonna maximize it
+by choosing values for
+
+124
+00:08:49.463 --> 00:08:51.980
+the order quantity that was in cell B3.
+
+125
+00:08:51.980 --> 00:08:56.244
+And we had a couple of constraints that
+the order quantity had to be less than or
+
+126
+00:08:56.244 --> 00:09:00.509
+equal to 10,000 units, and the order
+quantity had to be greater than or
+
+127
+00:09:00.509 --> 00:09:02.102
+equal to 4,000 units.
+
+128
+00:09:02.102 --> 00:09:05.158
+And we're gonna use GRG Nonlinear.
+
+129
+00:09:05.158 --> 00:09:08.444
+So now let's go back here, and
+take a look at the Solver,
+
+130
+00:09:08.444 --> 00:09:10.638
+we're all set we're gonna solve it.
+
+131
+00:09:13.262 --> 00:09:14.910
+And here we are.
+
+132
+00:09:14.910 --> 00:09:18.460
+We can see in fact, that the optimal
+
+133
+00:09:19.760 --> 00:09:24.590
+decision is to order about 7,884 units and
+
+134
+00:09:24.590 --> 00:09:30.530
+the average profit for
+those 10 demands was almost 240,000 euros.
+
+135
+00:09:32.370 --> 00:09:38.322
+So by decreasing the order quantity,
+IDEA actually had,
+
+136
+00:09:38.322 --> 00:09:42.452
+I suppose, less leftover inventory and
+
+137
+00:09:42.452 --> 00:09:48.282
+had bought less inventory for
+the same kinds of demands,
+
+138
+00:09:48.282 --> 00:09:52.186
+and was able to increase its profits.
+
+139
+00:09:53.886 --> 00:09:58.892
+So that's it for Excel spreadsheet one.
+
+140
+00:10:03.103 --> 00:10:04.772
+Or Excel number one.
+
+141
+00:10:21.607 --> 00:10:26.293
+So having implemented a spread sheet
+formulation of the problem we can develop
+
+142
+00:10:26.293 --> 00:10:31.125
+an algebraic formulation that's the
+mathematical analog of the spreadsheet.
+
+143
+00:10:32.205 --> 00:10:35.485
+Before we start I want to remind
+you that our problem data
+
+144
+00:10:35.485 --> 00:10:38.700
+are going to include ten
+samples of simulated demand.
+
+145
+00:10:38.700 --> 00:10:42.150
+We're gonna call them D1, D2,
+D3, all the way up to D10.
+
+146
+00:10:43.240 --> 00:10:46.480
+We generated those with Excel's
+random number generator and
+
+147
+00:10:46.480 --> 00:10:50.200
+we're gonna call the generic sample, Di.
+
+148
+00:10:50.200 --> 00:10:56.100
+With those data, we can now
+formulate IDEA's decision problem,
+
+149
+00:10:56.100 --> 00:10:59.550
+it's decision variable is Q
+that's the order quantity.
+
+150
+00:10:59.550 --> 00:11:03.320
+And if I do orders Q and
+the command sample is Di for
+
+151
+00:11:03.320 --> 00:11:09.470
+the ith sample, then we can calculate
+IDEA's profit, and we'll call it pi i.
+
+152
+00:11:09.470 --> 00:11:11.960
+That's calculated just
+the way we have before,
+
+153
+00:11:11.960 --> 00:11:16.120
+that's the 150 euro revenue
+times the quantity sold.
+
+154
+00:11:16.120 --> 00:11:22.290
+That's the minimum of the demand Di and
+Q, minus the hundred year unit cost
+
+155
+00:11:22.290 --> 00:11:27.890
+times the order quantity Q minus
+the hundred thousand Euro fixed cost.
+
+156
+00:11:27.890 --> 00:11:32.540
+With each of those ten defined,
+we can then calculate the average profit.
+
+157
+00:11:32.540 --> 00:11:34.560
+We're going to call that pi average.
+
+158
+00:11:34.560 --> 00:11:36.880
+It's the average over all ten samples.
+
+159
+00:11:38.790 --> 00:11:41.010
+Having defined the pi i's and
+
+160
+00:11:41.010 --> 00:11:46.440
+pi average, we can now fully formulate
+the algebraic version of the problem.
+
+161
+00:11:46.440 --> 00:11:47.510
+IDEA's are going to choose and
+
+162
+00:11:47.510 --> 00:11:52.340
+order quantity Q to maximize the pi
+average, subject to some constraints.
+
+163
+00:11:52.340 --> 00:11:57.030
+The first just defines pi average, that's
+the arithmetic average of the pi i's.
+
+164
+00:11:57.030 --> 00:11:58.570
+The second set of constraints, and
+
+165
+00:11:58.570 --> 00:12:02.330
+there are ten of them,
+defines each of the pi is.
+
+166
+00:12:02.330 --> 00:12:05.870
+Finally, there's a pair of
+constraints that limited ideas order
+
+167
+00:12:05.870 --> 00:12:09.253
+quantities between 4,000 and 10,000 units,
+
+168
+00:12:09.253 --> 00:12:12.670
+and that's the complete algebraic
+formulation of the problem.
+
+169
+00:12:12.670 --> 00:12:16.800
+And we can see embedded in the middle
+of it are these definitions of pi
+
+170
+00:12:16.800 --> 00:12:20.090
+i that have the non-linear min functions.
+
+171
+00:12:20.090 --> 00:12:24.280
+And we wanna see next,
+what's the problem with the min functions?
+
+172
+00:12:24.280 --> 00:12:30.130
+So now, let's plot sales as a function
+of demand in the order quantity.
+
+173
+00:12:30.130 --> 00:12:32.370
+Along the horizontal axis,
+we've plotted demand.
+
+174
+00:12:32.370 --> 00:12:37.518
+And remember, demand can be anywhere
+between 6,000 and 14,00 units.
+
+175
+00:12:37.518 --> 00:12:42.537
+And you can see along the horizontal axis,
+it moves from 6,000 to 8,000
+
+176
+00:12:42.537 --> 00:12:47.140
+to 10,000, and we've cut if off
+a little bit before 14,000.
+
+177
+00:12:47.140 --> 00:12:51.228
+In this example, we're saying
+the order quantity Q is 8,000.
+
+178
+00:12:51.228 --> 00:12:55.360
+You can see that Q = 8,000 up
+in the middle of the chart.
+
+179
+00:12:56.360 --> 00:12:59.900
+Along the vertical axis,
+we've plotted sales, and
+
+180
+00:12:59.900 --> 00:13:04.020
+sales is just the minimum of
+the demand and the order quantity.
+
+181
+00:13:04.020 --> 00:13:07.860
+So S i would be the number of units sold,
+
+182
+00:13:07.860 --> 00:13:12.970
+if the order quantity were Q,
+and for demand sample D i.
+
+183
+00:13:12.970 --> 00:13:18.480
+We can see if demand D i is 6,000,
+then sales equals 6,000.
+
+184
+00:13:18.480 --> 00:13:22.420
+If demand D i were 7,000,
+then sales would be 7,000.
+
+185
+00:13:22.420 --> 00:13:23.970
+All the way up to 8,000.
+
+186
+00:13:23.970 --> 00:13:29.880
+But if demand D i were 9,000,
+then sales would still only be 8,000,
+
+187
+00:13:29.880 --> 00:13:34.570
+because they're limited by
+the order quantity, Q equals 8,000.
+
+188
+00:13:34.570 --> 00:13:39.390
+Remember, S i is the min of D i and Q.
+
+189
+00:13:39.390 --> 00:13:44.747
+So right at that corner point, and
+I'll just show you with the cursor or
+
+190
+00:13:44.747 --> 00:13:47.355
+with the pointer, right at that.
+
+191
+00:13:48.523 --> 00:13:52.341
+Order quantity Q of 8,000,
+when demand equals 8,000,
+
+192
+00:13:52.341 --> 00:13:56.568
+the blue line that plots sales as a
+function of demand makes a right turn and
+
+193
+00:13:56.568 --> 00:14:00.240
+it also has a little corner
+point that's not even smooth.
+
+194
+00:14:00.240 --> 00:14:06.110
+The fact that it has a corner,
+is what makes the problem badly behaved.
+
+195
+00:14:06.110 --> 00:14:10.050
+And we'd like to fix both problems,
+the fact that it's not linear, it makes
+
+196
+00:14:10.050 --> 00:14:15.650
+the right turn, and the fact that on top
+of it, it's got that little corner point.
+
+197
+00:14:15.650 --> 00:14:19.560
+And we're gonna do that first of all,
+by extending the algebraic formulation,
+
+198
+00:14:19.560 --> 00:14:24.060
+then I'll show you what it
+looks like on the same plot.
+
+199
+00:14:25.140 --> 00:14:28.346
+And so you get a sense,
+graphically, of what's going on.
+
+200
+00:14:28.346 --> 00:14:33.029
+So we can avoid this bad type of
+non-linearity by extending the algebraic
+
+201
+00:14:33.029 --> 00:14:34.020
+formulation.
+
+202
+00:14:35.190 --> 00:14:36.460
+Here's the original formulation.
+
+203
+00:14:36.460 --> 00:14:40.440
+We're going to maximize the average
+profits by average, subject to
+
+204
+00:14:40.440 --> 00:14:47.530
+a definition of pi average, subject to
+a definition of each of the pi i's, and
+
+205
+00:14:47.530 --> 00:14:53.360
+subject to limits on the order quantities,
+between 4,000 and 10,000 units.
+
+206
+00:14:53.360 --> 00:14:57.750
+It's the definitions of the pi i's that
+are problematic because they have the min
+
+207
+00:14:57.750 --> 00:14:58.549
+functions in them.
+
+208
+00:15:00.020 --> 00:15:03.352
+We'll add 10 decision variables,
+one for each D i, and
+
+209
+00:15:03.352 --> 00:15:05.060
+we're going to call them S i.
+
+210
+00:15:06.620 --> 00:15:11.020
+Each S i is going to be the number of
+units sold when the demand sample is D i.
+
+211
+00:15:12.370 --> 00:15:16.250
+And we can rewrite
+the definitions of the pi is to
+
+212
+00:15:16.250 --> 00:15:19.620
+use the unit sales rather
+than the min function.
+
+213
+00:15:19.620 --> 00:15:24.230
+So now you can see that those pi i's are
+linear functions of the S is and the Q.
+
+214
+00:15:25.920 --> 00:15:30.992
+We'll add two constraints for each S i to
+make sure that each Si is less than or
+
+215
+00:15:30.992 --> 00:15:33.065
+equal to the minimum of D i or Q.
+
+216
+00:15:33.065 --> 00:15:36.217
+We'll have a constraint that S i
+is less than or equal to D i, and
+
+217
+00:15:36.217 --> 00:15:39.360
+we'll have a constraint,
+S i is less than or equal to Q.
+
+218
+00:15:39.360 --> 00:15:43.408
+So we've added 10 decision variables,
+one S i for
+
+219
+00:15:43.408 --> 00:15:48.286
+each D i, and 20 constraints,
+two constraints for each S i.
+
+220
+00:15:48.286 --> 00:15:53.204
+Notice that those constraints
+are going to be forcing each S i
+
+221
+00:15:53.204 --> 00:15:57.167
+to be less than or
+equal to the minimum of D i and Q.
+
+222
+00:15:57.167 --> 00:16:01.678
+But it would be feasible to have an Si
+that's strictly less than the minimum
+
+223
+00:16:01.678 --> 00:16:02.403
+of Di and Q.
+
+224
+00:16:02.403 --> 00:16:06.314
+So for example, it could be
+the case that demands were ten,
+
+225
+00:16:06.314 --> 00:16:09.770
+the order quantity were 20 and
+sales were five.
+
+226
+00:16:09.770 --> 00:16:11.415
+That would be feasible.
+
+227
+00:16:11.415 --> 00:16:15.305
+Nevertheless, when we maximize pi average,
+
+228
+00:16:15.305 --> 00:16:18.515
+we're going to be maximizing
+each of the pi i's.
+
+229
+00:16:18.515 --> 00:16:23.135
+And when we maximize the pi i it's
+going to force the S i to be as large
+
+230
+00:16:23.135 --> 00:16:26.305
+as possible until it hits
+one of those constraints.
+
+231
+00:16:26.305 --> 00:16:29.035
+So, in the optimal solution,
+
+232
+00:16:29.035 --> 00:16:34.100
+the S i is going to behave like it
+actually equals the minimum of D i and Q.
+
+233
+00:16:34.100 --> 00:16:37.520
+Rather than it just being less then or
+equal to Di and Q.
+
+234
+00:16:37.520 --> 00:16:39.830
+We can see how this works
+graphically as well.
+
+235
+00:16:41.200 --> 00:16:45.630
+This chart has the same exact
+axes as we used before.
+
+236
+00:16:45.630 --> 00:16:51.890
+The horizontal axis plots demand from
+6,000 all the way up to about 12,000.
+
+237
+00:16:51.890 --> 00:16:55.130
+The vertical axis is plotting sales.
+
+238
+00:16:55.130 --> 00:17:01.590
+And sales, we'd like it to be s i is
+equal to the minimum of d i and q.
+
+239
+00:17:01.590 --> 00:17:05.000
+The constraints are only going to
+insure that s i is less than or
+
+240
+00:17:05.000 --> 00:17:07.120
+equal to the minimum of d i or q.
+
+241
+00:17:07.120 --> 00:17:09.290
+So let's plot the two constraints.
+
+242
+00:17:09.290 --> 00:17:12.394
+The first constraint is s i
+is less than or equal to d i.
+
+243
+00:17:12.394 --> 00:17:17.617
+And the boundary of that
+constraint Is a line of slope one,
+
+244
+00:17:17.617 --> 00:17:22.414
+you can see when DI 6,000
+in the lower left then,
+
+245
+00:17:22.414 --> 00:17:29.575
+SI less than equal to DI is going to limit
+SI to be below the line of at 6,000.
+
+246
+00:17:29.575 --> 00:17:31.429
+Same thing at 8,000.
+
+247
+00:17:31.429 --> 00:17:33.390
+If di were 8000.
+
+248
+00:17:33.390 --> 00:17:38.100
+Then si is less than or equal to di,
+is going to limit si to be 8,000.
+
+249
+00:17:38.100 --> 00:17:42.610
+If di were to be above 8,000, si.
+
+250
+00:17:42.610 --> 00:17:44.110
+So, for example, 9,000.
+
+251
+00:17:44.110 --> 00:17:49.940
+Si less than or equal to di, would force
+si to be less than or equal to 9000.
+
+252
+00:17:49.940 --> 00:17:54.130
+For each Si, there is a second constraint,
+Si is left center equal to Q.
+
+253
+00:17:54.130 --> 00:17:56.840
+And I'm plotting it here for Q = 8,000.
+
+254
+00:17:56.840 --> 00:18:01.350
+Again, in this case, no matter what Di is,
+
+255
+00:18:01.350 --> 00:18:05.480
+Si left center equal to Q is going to
+limit Si to be less center equal to 8,000.
+
+256
+00:18:05.480 --> 00:18:09.260
+Now we can see how as di changes,
+
+257
+00:18:09.260 --> 00:18:14.030
+as the demand for the ith sample differs,
+
+258
+00:18:14.030 --> 00:18:18.230
+a different constraint is going to end up
+being binding in the optimal solution.
+
+259
+00:18:18.230 --> 00:18:25.490
+So for example, if di were 7,000, if that
+sample were 7,000, Si would live there.
+
+260
+00:18:25.490 --> 00:18:31.720
+And in maximizing Si, Si less than or
+equal to Di would be binding.
+
+261
+00:18:31.720 --> 00:18:36.802
+So Si will be push up to 7,000 and
+then stop in the optimal solution.
+
+262
+00:18:36.802 --> 00:18:41.385
+If on the other hand,
+di were 9,000, if demand for
+
+263
+00:18:41.385 --> 00:18:46.066
+that sample were 9,000,
+si will leave over here and
+
+264
+00:18:46.066 --> 00:18:49.589
+in maximizing si in the optimal solution.
+
+265
+00:18:49.589 --> 00:18:52.410
+The binding constraint would
+be si less than or equal to q.
+
+266
+00:18:53.420 --> 00:18:58.520
+So, as long as Si is less than or
+equal to both constraints.
+
+267
+00:18:58.520 --> 00:19:03.450
+As it's maximized in the optimal solution,
+it's going to be living
+
+268
+00:19:03.450 --> 00:19:08.460
+exactly on those dash lines, and it's
+going to behave exactly, as if it were.
+
+269
+00:19:09.600 --> 00:19:11.050
+Obeying that min function,
+
+270
+00:19:11.050 --> 00:19:14.280
+even though we've eliminated the min
+function from the formulation.
+
+271
+00:19:14.280 --> 00:19:18.260
+So that's how we're eliminating the min
+function, which is nonlinear and
+
+272
+00:19:18.260 --> 00:19:20.090
+it's got the little corner point.
+
+273
+00:19:20.090 --> 00:19:25.020
+And we've changed the optimization problem
+into a linear optimization problem.
+
+274
+00:19:25.020 --> 00:19:28.230
+So now we're ready to take a look
+at the full linear formulation.
+
+275
+00:19:28.230 --> 00:19:29.670
+Here's the original formulation.
+
+276
+00:19:29.670 --> 00:19:32.200
+We're maximizing the average profits.
+
+277
+00:19:32.200 --> 00:19:35.670
+Subject to the average
+profits being determined
+
+278
+00:19:35.670 --> 00:19:38.750
+as the arithmetic average
+of each of the pi i.
+
+279
+00:19:38.750 --> 00:19:42.266
+Subject to the definition of each of
+the pi i is that uses that nonlinear
+
+280
+00:19:42.266 --> 00:19:43.630
+min function.
+
+281
+00:19:43.630 --> 00:19:47.170
+And subject to limits on
+the order quantities.
+
+282
+00:19:47.170 --> 00:19:49.670
+The linear formulation works like this.
+
+283
+00:19:49.670 --> 00:19:52.570
+Again, we're gonna maximize
+the average profits.
+
+284
+00:19:52.570 --> 00:19:56.884
+Subject to the definition of the average
+profits is the earth medic mean.
+
+285
+00:19:56.884 --> 00:20:01.643
+Here though we're going to define
+each of the pi eyes in terms of the s
+
+286
+00:20:01.643 --> 00:20:06.485
+eyes you can see each pi eye definition
+is also a linear constraint and
+
+287
+00:20:06.485 --> 00:20:09.850
+we're going to add twenty
+extra constraints.
+
+288
+00:20:09.850 --> 00:20:14.170
+We're going to add a constraint
+that each si has to be less than or
+
+289
+00:20:14.170 --> 00:20:15.850
+equal to each Di.
+
+290
+00:20:15.850 --> 00:20:18.970
+Each Si is less than or
+equal to the order quantity Q.
+
+291
+00:20:18.970 --> 00:20:25.060
+And finally the same limits on ideas order
+quantity between 4,000 and 10,000 units.
+
+292
+00:20:25.060 --> 00:20:27.350
+Okay, we're back to the Excel spreadsheet.
+
+293
+00:20:27.350 --> 00:20:32.460
+Again the file name is
+Idealinearoptimization.xlsx,
+
+294
+00:20:32.460 --> 00:20:35.389
+and you can find it on the course or
+website.
+
+295
+00:20:36.830 --> 00:20:42.990
+We have a template like the first one,
+although with a little bit of extra space
+
+296
+00:20:42.990 --> 00:20:49.660
+to allow us the extra decision
+variables for the linear formulation.
+
+297
+00:20:49.660 --> 00:20:54.730
+I want to remind you that the default
+order quantity was 10,000 units.
+
+298
+00:20:56.160 --> 00:21:01.688
+From supplier p the fix
+costs is 100,000 euros,
+
+299
+00:21:01.688 --> 00:21:07.570
+the price is 150 euros per unit and
+the unit costs is 100 euros per unit.
+
+300
+00:21:07.570 --> 00:21:13.216
+In this portion of column b we have
+the ten demand samples from before.
+
+301
+00:21:13.216 --> 00:21:14.920
+We don't need to generate new ones.
+
+302
+00:21:14.920 --> 00:21:21.300
+We're going to use an average of the ten
+profits from these ten demands as before,
+
+303
+00:21:21.300 --> 00:21:25.070
+but here we've inserted a new
+column C that is unit sales.
+
+304
+00:21:25.070 --> 00:21:26.590
+These are our Si's.
+
+305
+00:21:26.590 --> 00:21:31.052
+And for now just now gonna throw
+in zeroes for the unit sales.
+
+306
+00:21:34.071 --> 00:21:35.110
+Okay.
+
+307
+00:21:35.110 --> 00:21:39.260
+And now we can calculate
+everything else as we did before,
+
+308
+00:21:39.260 --> 00:21:41.120
+except that we're not going
+to use the min function.
+
+309
+00:21:42.270 --> 00:21:47.410
+So for revenues, we want to say
+that revenues equal the unit
+
+310
+00:21:47.410 --> 00:21:52.306
+price of $150 times the sales.
+
+311
+00:21:52.306 --> 00:21:53.594
+For that sample.
+
+312
+00:21:55.684 --> 00:22:01.590
+All right,
+the fixed costs are 100,000 as before.
+
+313
+00:22:01.590 --> 00:22:07.780
+The variable costs are 100
+Euros per unit times
+
+314
+00:22:07.780 --> 00:22:13.430
+the number of units ordered, as before.
+
+315
+00:22:13.430 --> 00:22:18.651
+And the profits or simply the revenues
+
+316
+00:22:18.651 --> 00:22:25.024
+minus the fixed cost
+minus the variable cost.
+
+317
+00:22:25.024 --> 00:22:28.217
+Here, because the sales are zero,
+
+318
+00:22:28.217 --> 00:22:32.697
+you can see the profit
+is -1.1 million Euros.
+
+319
+00:22:32.697 --> 00:22:36.643
+Because we're just paying the fixed and
+variable cost but we're not earning
+
+320
+00:22:36.643 --> 00:22:40.970
+revenue when we optimize the sales numbers
+will be pushed to be as large as possible.
+
+321
+00:22:42.330 --> 00:22:44.169
+So now we're just going to copy.
+
+322
+00:22:44.169 --> 00:22:45.214
+This is pi one.
+
+323
+00:22:45.214 --> 00:22:47.820
+Were gonna copy the formula for pi one.
+
+324
+00:22:47.820 --> 00:22:53.439
+All the way through pi two to pi ten.
+
+325
+00:22:53.439 --> 00:22:57.997
+And once we have the pie eyes we
+can calculate the average profit.
+
+326
+00:22:57.997 --> 00:23:01.660
+And you can see it's blue because it's
+going to be the objective function.
+
+327
+00:23:01.660 --> 00:23:04.760
+So now we can go to solver's dialogue box.
+
+328
+00:23:05.860 --> 00:23:10.770
+And we'll choose the data tab and
+then the solver menu item.
+
+329
+00:23:12.150 --> 00:23:17.080
+And we will set the objective
+function to be the average profit.
+
+330
+00:23:17.080 --> 00:23:18.290
+We're gonna maximize it.
+
+331
+00:23:18.290 --> 00:23:19.670
+You can see that.
+
+332
+00:23:19.670 --> 00:23:22.180
+Here, we now have two sets
+of decision variables.
+
+333
+00:23:22.180 --> 00:23:24.080
+We have the Q as before.
+
+334
+00:23:24.080 --> 00:23:25.276
+That's the order quantity.
+
+335
+00:23:25.276 --> 00:23:26.730
+And then I'm gonna type a comma
+
+336
+00:23:28.080 --> 00:23:32.835
+that will let me select another
+set of decision variables.
+
+337
+00:23:32.835 --> 00:23:36.060
+And after the comma I'm going
+to select the entire range of
+
+338
+00:23:36.060 --> 00:23:40.560
+each of the unit sales, for
+each of the ten different demand samples.
+
+339
+00:23:40.560 --> 00:23:42.920
+So, that would be S1 through S10.
+
+340
+00:23:45.560 --> 00:23:50.492
+And having selected the decision
+variables, now we can add constraints.
+
+341
+00:23:50.492 --> 00:23:55.248
+We know for example,
+that we want to make sure
+
+342
+00:23:55.248 --> 00:24:00.011
+that the unit sales are less than or
+equal to.
+
+343
+00:24:00.011 --> 00:24:04.800
+For demands and we can just do
+that by selecting entire ranges.
+
+344
+00:24:04.800 --> 00:24:09.750
+We also want to make sure that
+the unit sales are all less than or
+
+345
+00:24:09.750 --> 00:24:13.450
+equal to the order quantity Q.
+
+346
+00:24:15.800 --> 00:24:19.220
+And as before we some constraints
+on the order quantity.
+
+347
+00:24:19.220 --> 00:24:22.950
+We want to make sure that the order
+quantity is greater than or
+
+348
+00:24:22.950 --> 00:24:25.573
+equal to 4,000.
+
+349
+00:24:25.573 --> 00:24:31.480
+And that the order
+quantity is less than or
+
+350
+00:24:31.480 --> 00:24:35.780
+equal to 10,000.
+
+351
+00:24:35.780 --> 00:24:37.950
+Okay?
+
+352
+00:24:37.950 --> 00:24:42.830
+And we want now to select Simplex LP
+because we're solving this
+
+353
+00:24:42.830 --> 00:24:44.520
+as a linear optimization problem.
+
+354
+00:24:44.520 --> 00:24:47.846
+Let me show you a larger version
+of the solver dialog box so
+
+355
+00:24:47.846 --> 00:24:50.769
+you can see a little more
+clearly what I've done.
+
+356
+00:24:55.470 --> 00:25:00.802
+So again, you can see that objective
+in G21 now was the average profit,
+
+357
+00:25:00.802 --> 00:25:04.414
+we're going to maximize
+it by choosing values for
+
+358
+00:25:04.414 --> 00:25:08.640
+the decision variables,
+D3 was the order quantity, Q.
+
+359
+00:25:10.270 --> 00:25:15.610
+And C10 through C19 were the sales for
+each of the demand samples.
+
+360
+00:25:17.110 --> 00:25:19.630
+The first two constraints
+just show the upper and
+
+361
+00:25:19.630 --> 00:25:22.580
+lower limits on the order quantity, Q.
+
+362
+00:25:22.580 --> 00:25:25.670
+It has to be between 4,000 and 10,000.
+
+363
+00:25:25.670 --> 00:25:30.870
+The third set of constraints here
+you can see it's saying that
+
+364
+00:25:30.870 --> 00:25:36.420
+the SIs, the sales numbers have to
+be less than or equal to the DIs.
+
+365
+00:25:36.420 --> 00:25:38.160
+So it's the quantities in column B.
+
+366
+00:25:38.160 --> 00:25:41.461
+And the last constraint is that the SIs,
+
+367
+00:25:41.461 --> 00:25:45.310
+the sales quantities have to be less than
+or equal to Q, that's the quantity in B3.
+
+368
+00:25:46.990 --> 00:25:52.080
+Finally here at the bottom we've
+selected Simplex LP rather than
+
+369
+00:25:52.080 --> 00:25:56.880
+GRG non-linear we are solving the problem
+as a linear optimization problem.
+
+370
+00:25:56.880 --> 00:25:59.257
+So now we can go back, now that
+you've seen that, we'll go back and
+
+371
+00:25:59.257 --> 00:25:59.987
+actually solve it.
+
+372
+00:26:03.410 --> 00:26:05.330
+And we get an optimal solution.
+
+373
+00:26:06.490 --> 00:26:12.685
+And as before you can see that the optimal
+order quantity in cell B3 is about 7,884,
+
+374
+00:26:12.685 --> 00:26:17.570
+that's about exactly about
+what we had before, 7,884.09.
+
+375
+00:26:17.570 --> 00:26:19.670
+And we have exactly the same profits.
+
+376
+00:26:21.140 --> 00:26:27.040
+The difference in the spreadsheets
+is really just that this formulation
+
+377
+00:26:27.040 --> 00:26:31.100
+Is linear, while the previous
+formulation was non-linear, and
+
+378
+00:26:31.100 --> 00:26:35.310
+we just got lucky that we're able to
+solve it with those min functions.
+
+379
+00:26:35.310 --> 00:26:37.640
+Here, there's no luck involved on.
+
+380
+00:26:37.640 --> 00:26:40.210
+This is a very stable formulation and
+
+381
+00:26:40.210 --> 00:26:45.120
+you see now that we can change
+a non-linear formulation that has min
+
+382
+00:26:45.120 --> 00:26:51.500
+functions into a linear one by adding
+decision variables and extra constraints.
+
+383
+00:26:51.500 --> 00:26:53.970
+So that's it for the spreadsheet and
+let's go back to the PowerPoint.
+
+384
+00:26:55.230 --> 00:26:59.090
+That's all for Advanced Session
+on Optimization in week 4.
+
+385
+00:26:59.090 --> 00:27:02.560
+We saw that the min
+function that was embedded
+
+386
+00:27:02.560 --> 00:27:05.960
+in IDEA's optimization
+problem was not linear.
+
+387
+00:27:05.960 --> 00:27:10.030
+It had a kink where demand
+equalled order quantity.
+
+388
+00:27:10.030 --> 00:27:14.400
+So we added extra decision variables
+in constraints to work around it.
+
+389
+00:27:14.400 --> 00:27:18.660
+For each demand DI,
+we added a decision variable SI,
+
+390
+00:27:18.660 --> 00:27:21.970
+that were the unit sales for that sample.
+
+391
+00:27:21.970 --> 00:27:26.460
+For each SI, we added a constraint that
+it would be less than or equal to DI.
+
+392
+00:27:26.460 --> 00:27:29.870
+So sales would never be more
+than demand for that sample.
+
+393
+00:27:29.870 --> 00:27:34.150
+And for each Si we also added the
+constraint that Si would be less than or
+
+394
+00:27:34.150 --> 00:27:38.610
+equal to Q, so sales would never be more
+than the order quantity for that sample.
+
+395
+00:27:40.140 --> 00:27:46.750
+When solver maximizes average profit,
+each Si would be maximized.
+
+396
+00:27:46.750 --> 00:27:51.363
+And even though it would be feasible
+to have the unit sales be strictly
+
+397
+00:27:51.363 --> 00:27:56.295
+below the demand or order quantity,
+in the optimal solution each SI would
+
+398
+00:27:56.295 --> 00:28:01.145
+be pushed up and it would behave as if
+it equalled the minimum of demand and
+
+399
+00:28:01.145 --> 00:28:04.989
+the order quantity just as
+in the original formulation.
+
+400
+00:28:04.989 --> 00:28:09.475
+So we've developed a linear
+formulation that behaves as if SI
+
+401
+00:28:09.475 --> 00:28:11.380
+equals the min of DI and Q.
+
+402
+00:28:12.810 --> 00:28:17.590
+And that's just a little example of the
+art of formulating optimization problems.
+
+403
+00:28:17.590 --> 00:28:19.220
+That's it, and I'll see you soon.
+
+404
+00:28:19.220 --> 00:28:19.720
+Thanks.

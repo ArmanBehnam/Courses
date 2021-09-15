@@ -1,0 +1,1345 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:02.460
+Hi, I'm Sergei Savin.
+
+2
+00:00:02.460 --> 00:00:05.830
+Welcome back to the second week
+of Operations Analytics course.
+
+3
+00:00:05.830 --> 00:00:08.600
+We're about to start
+session three of this week.
+
+4
+00:00:08.600 --> 00:00:10.960
+In session two,
+we have learned how to set up and
+
+5
+00:00:10.960 --> 00:00:13.420
+solve optimization problems using Solver.
+
+6
+00:00:13.420 --> 00:00:17.110
+As an example,
+we have used a resource location problem.
+
+7
+00:00:17.110 --> 00:00:21.090
+In this session, we will look at another
+frequently encountered business setting
+
+8
+00:00:21.090 --> 00:00:25.090
+where the optimization tool kit can
+be used to make the best decisions.
+
+9
+00:00:25.090 --> 00:00:29.260
+It is a network setting, a setting
+where demand and supply are spread
+
+10
+00:00:29.260 --> 00:00:33.690
+across a network of locations, and the
+goal is to make sure that the demand and
+
+11
+00:00:33.690 --> 00:00:37.060
+supply match at the lowest possible cost.
+
+12
+00:00:37.060 --> 00:00:38.140
+Let's have a look.
+
+13
+00:00:38.140 --> 00:00:40.890
+In section two,
+we used Zooter example to set up and
+
+14
+00:00:40.890 --> 00:00:43.520
+solve a resource allocation problem.
+
+15
+00:00:43.520 --> 00:00:47.090
+In this session, we will look at
+a different kind of optimization,
+
+16
+00:00:47.090 --> 00:00:51.190
+a problem where optimization
+involves a network of locations.
+
+17
+00:00:51.190 --> 00:00:53.360
+Here's the business context
+we're going to analyze.
+
+18
+00:00:54.400 --> 00:00:59.170
+Keystone Dry Goods Logistics is a company
+that moves goods for its customers.
+
+19
+00:01:00.440 --> 00:01:04.910
+This particular customer needs
+Keystone to transport powdered drink.
+
+20
+00:01:07.180 --> 00:01:12.700
+The network of locations that client
+owns include three warehouses and
+
+21
+00:01:12.700 --> 00:01:14.456
+three distribution centers.
+
+22
+00:01:14.456 --> 00:01:19.314
+Here are the warehouses,
+here are the distribution centers, so
+
+23
+00:01:19.314 --> 00:01:22.520
+this is the complete network.
+
+24
+00:01:22.520 --> 00:01:23.380
+From each warehouse,
+
+25
+00:01:23.380 --> 00:01:27.609
+Keystone must transport out
+a certain amount of powdered drink.
+
+26
+00:01:29.390 --> 00:01:35.801
+For example, out of the Chicago
+warehouse it must move exactly 20 tons.
+
+27
+00:01:38.029 --> 00:01:42.292
+So here's an illustration of
+what must be shipped out.
+
+28
+00:01:42.292 --> 00:01:47.778
+15 tons out of Los Angeles,
+20 tons out of Chicago,
+
+29
+00:01:47.778 --> 00:01:51.180
+and 30 tons out of New York City.
+
+30
+00:01:52.350 --> 00:01:55.480
+Each distribution center has
+a minimum requirement for
+
+31
+00:01:55.480 --> 00:01:57.140
+the amount it must receive.
+
+32
+00:01:58.640 --> 00:02:03.989
+For example, at least 10 tons must be
+shipped to the Denver distribution center.
+
+33
+00:02:06.070 --> 00:02:10.030
+So here's the picture illustrating
+these two types of requirements.
+
+34
+00:02:10.030 --> 00:02:14.190
+Requirements for exact amounts that
+must be shipped out of warehouses, and
+
+35
+00:02:14.190 --> 00:02:15.380
+the minimum requirements for
+
+36
+00:02:15.380 --> 00:02:18.710
+the amounts to be shipped into
+the distribution centers.
+
+37
+00:02:19.930 --> 00:02:21.750
+Now shipping is costly.
+
+38
+00:02:21.750 --> 00:02:25.470
+Here are the costs that Keystone
+will incur when shipping one ton
+
+39
+00:02:25.470 --> 00:02:30.210
+of powdered drink from each warehouse
+to each distribution center.
+
+40
+00:02:30.210 --> 00:02:36.004
+For example, if it tries to ship 10
+tons from New York City to Austin,
+
+41
+00:02:36.004 --> 00:02:40.736
+it will incur a shipping cost of $132 for
+each ton, and
+
+42
+00:02:40.736 --> 00:02:44.138
+the total cost will be 132 times 10.
+
+43
+00:02:44.138 --> 00:02:47.446
+$1,320.
+
+44
+00:02:47.446 --> 00:02:51.480
+So here's the problem
+Keystone is trying to solve.
+
+45
+00:02:51.480 --> 00:02:55.720
+It is trying to find out the cheapest
+way to transport the goods
+
+46
+00:02:55.720 --> 00:02:59.530
+while making sure that certain
+amounts are moved from warehouses, and
+
+47
+00:02:59.530 --> 00:03:02.640
+some minimum amounts are delivered
+to each distribution center.
+
+48
+00:03:04.070 --> 00:03:07.900
+So let's cast this problem
+formulation into three pieces.
+
+49
+00:03:07.900 --> 00:03:10.630
+What kind of decisions must Keystone make?
+
+50
+00:03:11.940 --> 00:03:16.170
+The amounts to ship from each
+warehouse to each distribution center.
+
+51
+00:03:17.540 --> 00:03:19.420
+What objective does Keystone have?
+
+52
+00:03:20.600 --> 00:03:22.799
+It wants to minimize the shipping cost.
+
+53
+00:03:25.130 --> 00:03:27.000
+What kind of constraints does it face?
+
+54
+00:03:28.080 --> 00:03:31.490
+There are supply constraints
+at the warehouses and
+
+55
+00:03:31.490 --> 00:03:34.400
+the demand constraints at
+the distribution centers.
+
+56
+00:03:36.540 --> 00:03:42.390
+We can specify decision variables,
+objective function, and constraints.
+
+57
+00:03:42.390 --> 00:03:44.200
+Let's start with decision variables.
+
+58
+00:03:44.200 --> 00:03:49.730
+The company needs to determine how much to
+ship from each warehouse like Los Angeles,
+
+59
+00:03:49.730 --> 00:03:54.815
+Chicago and
+New York to each distribution center,
+
+60
+00:03:54.815 --> 00:04:00.770
+Denver, Washington D.C. and Austin.
+
+61
+00:04:00.770 --> 00:04:06.000
+So let's assign one variable, X LD to
+stand for the amount sent from Los Angeles
+
+62
+00:04:06.000 --> 00:04:12.650
+to Denver, and another one to describe the
+amount shipped from Los Angeles to Austin.
+
+63
+00:04:12.650 --> 00:04:14.260
+And the third one,
+
+64
+00:04:14.260 --> 00:04:16.940
+to denote the amount shipped from
+Los Angeles to Washington, DC.
+
+65
+00:04:17.940 --> 00:04:22.436
+Let's add three more
+variables to designate
+
+66
+00:04:22.436 --> 00:04:27.285
+shipments from Chicago to Denver,
+Austin, and
+
+67
+00:04:27.285 --> 00:04:31.899
+Washington, D.C. And let's do the same for
+
+68
+00:04:31.899 --> 00:04:39.136
+shipments from New York City to Denver,
+Austin and Washington, D.C.
+
+69
+00:04:39.136 --> 00:04:44.329
+So we have 3 plus 3 plus 3,
+9 decision variables.
+
+70
+00:04:45.400 --> 00:04:46.440
+So what about the objective?
+
+71
+00:04:47.520 --> 00:04:50.880
+Keystone tries to select
+the decision variable values
+
+72
+00:04:50.880 --> 00:04:53.970
+to make the total shipping
+cost as small as possible.
+
+73
+00:04:55.010 --> 00:04:59.560
+So if I try to ship XLD tons
+from Los Angeles to Denver,
+
+74
+00:04:59.560 --> 00:05:02.170
+what are the cost implications
+of such a decision?
+
+75
+00:05:03.840 --> 00:05:09.270
+Okay, I ship from
+Los Angeles to Denver and
+
+76
+00:05:09.270 --> 00:05:13.289
+it'll cost me $105.00 per ton.
+
+77
+00:05:13.289 --> 00:05:17.620
+So shipping XLD tons from
+Los Angeles to Denver creates a cost
+
+78
+00:05:17.620 --> 00:05:22.140
+contribution of 105 times XLD.
+
+79
+00:05:22.140 --> 00:05:26.680
+And shipping XLA tons from
+Los Angeles to Austin
+
+80
+00:05:26.680 --> 00:05:31.120
+creates a cost contribution
+of 135 times XLA.
+
+81
+00:05:31.120 --> 00:05:37.930
+In the same way, shipping XLW tons
+from Los Angeles to Washington, D.C.,
+
+82
+00:05:37.930 --> 00:05:43.710
+creates a cost contribution
+of 153 Times XLA.
+
+83
+00:05:43.710 --> 00:05:48.170
+So the objective function has three
+contributions from shipments originating
+
+84
+00:05:48.170 --> 00:05:53.940
+in Los Angeles, three more from
+shipments that originate in Chicago,
+
+85
+00:05:53.940 --> 00:05:57.430
+and three more from shipments
+that come from New York.
+
+86
+00:05:58.450 --> 00:06:02.720
+Now the objective function must be
+minimized in the presence of supply
+
+87
+00:06:02.720 --> 00:06:08.790
+constraints at the warehouses, and demand
+constraints at the distribution centers.
+
+88
+00:06:09.800 --> 00:06:13.380
+Okay, here's a reminder of what
+the supply constraints are.
+
+89
+00:06:13.380 --> 00:06:18.229
+Keystone must ship exact
+amounts from each warehouse.
+
+90
+00:06:19.340 --> 00:06:25.140
+For example, all shipments from the Los
+Angeles warehouse either to Denver or
+
+91
+00:06:25.140 --> 00:06:30.880
+Washington D.C., or Austin,
+must stood up to 15 tons.
+
+92
+00:06:32.160 --> 00:06:36.510
+So the supply constraint for
+the Los Angeles warehouse looks like this.
+
+93
+00:06:36.510 --> 00:06:39.599
+In the same way, all shipments from
+Chicago must add up to 20 tons.
+
+94
+00:06:39.599 --> 00:06:46.116
+Finally, all shipments from
+New York must add up to 30
+
+95
+00:06:46.116 --> 00:06:51.010
+tons.
+
+96
+00:06:51.010 --> 00:06:53.970
+So to summarize,
+we have supply constraints for
+
+97
+00:06:53.970 --> 00:06:58.830
+Los Angeles, Chicago, and New York.
+
+98
+00:06:58.830 --> 00:07:00.740
+What about the demand constraints?
+
+99
+00:07:00.740 --> 00:07:05.920
+Here's a reminder of what the requirements
+for each distribution center are.
+
+100
+00:07:05.920 --> 00:07:08.770
+Let's start with Denver
+distributions center.
+
+101
+00:07:08.770 --> 00:07:15.950
+Denver must receive at least ten tons, so
+here's how this constraint will look like.
+
+102
+00:07:17.860 --> 00:07:23.960
+And the Austin center must
+receive at least 13 tons.
+
+103
+00:07:23.960 --> 00:07:31.400
+Finally, the Washington, DC distribution
+center must receive at least 20 tons.
+
+104
+00:07:31.400 --> 00:07:34.240
+Here's the summary of demand constraints.
+
+105
+00:07:34.240 --> 00:07:39.291
+We have one for Denve,
+one for Austin, and one for
+
+106
+00:07:39.291 --> 00:07:44.298
+Washington D.C. To put it all together,
+we have an algebraic
+
+107
+00:07:44.298 --> 00:07:49.622
+model with nine variables, and
+we have expressed the objective function,
+
+108
+00:07:49.622 --> 00:07:53.879
+the total shipping cost,
+in terms of these nine variables.
+
+109
+00:07:53.879 --> 00:07:57.717
+We have also put together expressions for
+the supply constraints.
+
+110
+00:07:57.717 --> 00:08:00.056
+And the demand constraints.
+
+111
+00:08:00.056 --> 00:08:04.620
+We must also ensure that shipping
+quantities are non-negative.
+
+112
+00:08:04.620 --> 00:08:08.190
+Now, we do not have to restrict
+the shipping quantities to integer values,
+
+113
+00:08:08.190 --> 00:08:10.140
+since it is possible to
+ship fractional amounts.
+
+114
+00:08:10.140 --> 00:08:11.430
+For example, 12.5 tons.
+
+115
+00:08:11.430 --> 00:08:16.460
+Now that we have formulated
+an algebraic model for
+
+116
+00:08:16.460 --> 00:08:21.060
+the Keystone problem, We can go to Excel,
+set up a spreadsheet formulation of this
+
+117
+00:08:21.060 --> 00:08:25.220
+model, and find the optimal
+shipping plan using solver.
+
+118
+00:08:25.220 --> 00:08:26.370
+Let's do it now.
+
+119
+00:08:26.370 --> 00:08:29.330
+We have prepared for
+you a template called keystone_0.
+
+120
+00:08:29.330 --> 00:08:34.760
+Go ahead use it and follow the steps
+we go through in setting up the model.
+
+121
+00:08:34.760 --> 00:08:36.645
+Okay, here is our Excel template.
+
+122
+00:08:36.645 --> 00:08:37.950
+Keystone_0.
+
+123
+00:08:37.950 --> 00:08:43.170
+As you can see, the spreadsheet contains
+the data for the keystone example but
+
+124
+00:08:43.170 --> 00:08:46.286
+none of the formulas that we will
+need to find the best solution.
+
+125
+00:08:46.286 --> 00:08:51.040
+As in the example,
+we must convert our algebraic optimization
+
+126
+00:08:51.040 --> 00:08:55.360
+model into a spreadsheet formulation and
+in order to accomplish this task
+
+127
+00:08:55.360 --> 00:08:59.290
+we will define on the spreadsheet three
+components of an optimization model.
+
+128
+00:08:59.290 --> 00:09:03.750
+Decision variables and
+objective function and constraints.
+
+129
+00:09:03.750 --> 00:09:05.640
+Let's start with the decision variables.
+
+130
+00:09:05.640 --> 00:09:08.810
+In this problem the decision variables
+are the amounts of powder drink
+
+131
+00:09:08.810 --> 00:09:12.420
+to ship between each warehouse and
+each distribution center.
+
+132
+00:09:12.420 --> 00:09:15.160
+There are three warehouses and
+three distribution centers so
+
+133
+00:09:15.160 --> 00:09:17.370
+we have nine decision variables.
+
+134
+00:09:17.370 --> 00:09:19.850
+In our template we have
+nine cells B12 to D14
+
+135
+00:09:20.930 --> 00:09:24.950
+that have the header shipping
+quantities let's use those cells for
+
+136
+00:09:24.950 --> 00:09:28.805
+the values of our decision variables
+just like we did in the zooter example.
+
+137
+00:09:28.805 --> 00:09:32.250
+Let's put in some trial values
+in those cells say lets put
+
+138
+00:09:32.250 --> 00:09:34.824
+ten in each of those nine cells.
+
+139
+00:09:34.824 --> 00:09:41.205
+Okay, shipping
+
+140
+00:09:41.205 --> 00:09:47.589
+ten times from
+
+141
+00:09:47.589 --> 00:09:54.160
+each warehouse to each distribution center
+certainly is not a feasible solution.
+
+142
+00:09:54.160 --> 00:09:59.770
+For example, the L.A. warehouse Would
+need to ship out the total of 30 tons and
+
+143
+00:09:59.770 --> 00:10:02.250
+it only has 15 but that's okay for now.
+
+144
+00:10:02.250 --> 00:10:04.720
+Those numbers we have put into
+each of the decision variables so
+
+145
+00:10:04.720 --> 00:10:08.830
+they're just trial values and the solver
+will be able to change those values later.
+
+146
+00:10:09.940 --> 00:10:12.490
+Okay we have defined
+the decision variable cells.
+
+147
+00:10:12.490 --> 00:10:16.100
+Let's color them in blue and
+make the font bold.
+
+148
+00:10:16.100 --> 00:10:19.763
+Just like we did for the decision
+variable cells in the example.
+
+149
+00:10:24.531 --> 00:10:28.220
+Next the objective function cell,
+in this example the objective is the total
+
+150
+00:10:28.220 --> 00:10:32.020
+shipping cost and
+we would like to minimize this objective.
+
+151
+00:10:32.020 --> 00:10:36.380
+As the template suggests let us use the
+cell F3 as the objective functions out.
+
+152
+00:10:37.420 --> 00:10:41.440
+So, how do we calculate the total shipping
+resulting from the shipping plan and
+
+153
+00:10:41.440 --> 00:10:43.380
+the decision variable self.
+
+154
+00:10:43.380 --> 00:10:47.990
+We should multiply each of nine shipping
+quantities by the corresponding shipping
+
+155
+00:10:47.990 --> 00:10:55.190
+costs from the cells b6 d8 and
+then add those nine products.
+
+156
+00:10:55.190 --> 00:11:00.160
+This all sounds like a sum product
+of our decision variables and
+
+157
+00:11:00.160 --> 00:11:01.890
+the corresponding cost values.
+
+158
+00:11:03.290 --> 00:11:07.020
+Let's see how we can use the sum
+product formula in this case.
+
+159
+00:11:07.020 --> 00:11:15.553
+In cell F3 we type in SUMPRODUCT of our
+decision variable cells B 12 d 14 and
+
+160
+00:11:15.553 --> 00:11:20.486
+the corresponding cost values, B 6, D 8.
+
+161
+00:11:22.992 --> 00:11:28.789
+The result is,
+according to Excel, $11,570.
+
+162
+00:11:28.789 --> 00:11:32.140
+So, we have the objective function cell.
+
+163
+00:11:32.140 --> 00:11:34.939
+Let's change the form to bold and
+red as we did for
+
+164
+00:11:34.939 --> 00:11:37.473
+the objective function in the Zooder case.
+
+165
+00:11:43.249 --> 00:11:45.640
+Now we move to the constraints.
+
+166
+00:11:45.640 --> 00:11:48.600
+In the Keystone problem,
+there are six main constraints.
+
+167
+00:11:48.600 --> 00:11:51.320
+Three supply constraints,
+one for each warehouse, and
+
+168
+00:11:51.320 --> 00:11:55.600
+three minimum demand constraints,
+one for each distribution center.
+
+169
+00:11:55.600 --> 00:11:57.480
+Let's start with the supply constraint.
+
+170
+00:11:57.480 --> 00:12:00.640
+The first supply constraint states
+that the total amount shipped from
+
+171
+00:12:00.640 --> 00:12:03.180
+the LA warehouse must be
+exactly equal to 15 tons.
+
+172
+00:12:04.290 --> 00:12:09.000
+Let's go to the cell E12 and calculate
+the total amount shipped from the LA
+
+173
+00:12:09.000 --> 00:12:12.590
+warehouse under our trial shipping plan.
+
+174
+00:12:12.590 --> 00:12:15.840
+We need to sum the shipping
+amounts from the LA warehouse
+
+175
+00:12:15.840 --> 00:12:18.310
+to each distribution center.
+
+176
+00:12:18.310 --> 00:12:22.470
+So, we'll put in sum B12, ship to Denver,
+
+177
+00:12:25.090 --> 00:12:29.370
+C12 Austin and D12 Washington.
+
+178
+00:12:32.170 --> 00:12:34.420
+The result is 30 tons.
+
+179
+00:12:35.730 --> 00:12:39.410
+Now we can do the same calculation for
+the remaining two warehouses.
+
+180
+00:12:39.410 --> 00:12:45.669
+We just copy and paste the formula in
+the cell E12 to the cells E13 and E14.
+
+181
+00:12:52.430 --> 00:12:57.406
+As you can see under the trial shipping
+plan we're considering the amount shipped
+
+182
+00:12:57.406 --> 00:13:01.443
+from each warehouse is 30 tons
+that is certainly not feasible but
+
+183
+00:13:01.443 --> 00:13:03.410
+let's worry about this later.
+
+184
+00:13:05.510 --> 00:13:07.870
+Next we deal with the minimum
+demand constraints.
+
+185
+00:13:07.870 --> 00:13:12.840
+For each distribution center there is
+a minimum amount that it must receive.
+
+186
+00:13:12.840 --> 00:13:15.440
+Let us start with the Denver
+distribution center and
+
+187
+00:13:15.440 --> 00:13:18.360
+let us calculate in the cell B 15.
+
+188
+00:13:18.360 --> 00:13:21.020
+The the total amount this
+distribution will receive
+
+189
+00:13:21.020 --> 00:13:22.350
+under the current shipping plan.
+
+190
+00:13:23.460 --> 00:13:28.730
+We are summing the shipping quantities
+
+191
+00:13:28.730 --> 00:13:33.999
+that go to Denver from each warehouse,
+
+192
+00:13:33.999 --> 00:13:38.638
+SUM of B12, B13, and B14.
+
+193
+00:13:42.639 --> 00:13:46.861
+And the answer is 30 tons.
+
+194
+00:13:46.861 --> 00:13:50.627
+We can do the same calculation for
+the remaining two distribution centers.
+
+195
+00:13:50.627 --> 00:13:53.688
+All we have to do is to copy and
+
+196
+00:13:53.688 --> 00:13:59.692
+paste the formula in B15
+to the cells C15 and D15.
+
+197
+00:14:05.291 --> 00:14:12.179
+This is, for example,
+what we have now in D15.
+
+198
+00:14:12.179 --> 00:14:16.879
+It sums the shipping quantities
+that go to Washington from LA,
+
+199
+00:14:16.879 --> 00:14:19.104
+Chicago, and New York City.
+
+200
+00:14:21.751 --> 00:14:25.059
+We have specified the decision variables,
+the objective function, and
+
+201
+00:14:25.059 --> 00:14:27.970
+the constraints and
+we are ready to call the solver.
+
+202
+00:14:27.970 --> 00:14:30.180
+We go to data, we click on solver.
+
+203
+00:14:32.055 --> 00:14:34.840
+Let's first show the solver
+where the objective function is.
+
+204
+00:14:34.840 --> 00:14:36.731
+It is in the cell F 3.
+
+205
+00:14:39.464 --> 00:14:42.120
+And this time,
+we would like to minimize that function.
+
+206
+00:14:43.610 --> 00:14:46.860
+In other words, we would like to make
+the shipping cost as small as possible.
+
+207
+00:14:48.080 --> 00:14:51.660
+Next, we specify where our
+decision variable are.
+
+208
+00:14:51.660 --> 00:14:57.240
+They're located in the cells,
+B12 though D14.
+
+209
+00:14:59.740 --> 00:15:01.490
+Finally the constraints.
+
+210
+00:15:01.490 --> 00:15:04.840
+The supply constraint state that
+whatever amounts which was to ship,
+
+211
+00:15:04.840 --> 00:15:07.250
+the total shipping amount
+from each warehouse,
+
+212
+00:15:07.250 --> 00:15:10.750
+must be exactly equal to
+the amount we have specified.
+
+213
+00:15:10.750 --> 00:15:15.732
+So, we click add and
+tell the solver that the number is
+
+214
+00:15:15.732 --> 00:15:20.161
+in the cells E 12 through
+E 14 must be exactly
+
+215
+00:15:20.161 --> 00:15:24.723
+equal to the numbers in the cells G12,
+G14.
+
+216
+00:15:28.295 --> 00:15:33.423
+The minimum demand
+constraints state that each
+
+217
+00:15:33.423 --> 00:15:39.960
+distribution center can not get
+less than what is required,
+
+218
+00:15:39.960 --> 00:15:45.086
+thus we click Add again and
+state that numbers in
+
+219
+00:15:45.086 --> 00:15:49.956
+the cell B15, D15 must be greater than or
+
+220
+00:15:49.956 --> 00:15:56.132
+equal to the value specified
+in the cells B17, D17.
+
+221
+00:15:59.513 --> 00:16:04.210
+We do not need to specify that
+the shipped amounts are integer.
+
+222
+00:16:04.210 --> 00:16:08.200
+We can ship 9.4 tons between
+a particular warehouse and
+
+223
+00:16:08.200 --> 00:16:10.696
+a particular distribution
+center if we choose to,
+
+224
+00:16:10.696 --> 00:16:16.040
+which have the non-negativity of
+the decision variable selection.
+
+225
+00:16:17.430 --> 00:16:20.920
+We leave the solver method as it is.
+
+226
+00:16:20.920 --> 00:16:23.910
+The GRG now linear, and we click Solve.
+
+227
+00:16:28.480 --> 00:16:29.690
+Here's our optimal solution.
+
+228
+00:16:31.720 --> 00:16:34.674
+Here's the picture of
+the optimized spreadsheet.
+
+229
+00:16:34.674 --> 00:16:42.427
+As we can see, the lowest cost that
+can be achieved here is $7485.
+
+230
+00:16:42.427 --> 00:16:46.871
+Solver is a useful tool for learning
+the optimization techniques using problems
+
+231
+00:16:46.871 --> 00:16:50.540
+with small numbers of variables and
+constraints.
+
+232
+00:16:50.540 --> 00:16:54.979
+However, real size problems represent
+a serious challenge for Solver.
+
+233
+00:16:56.000 --> 00:16:59.930
+Fortunately, there's a number of
+commercially available optimization tools
+
+234
+00:16:59.930 --> 00:17:02.430
+that can tackle large problems.
+
+235
+00:17:02.430 --> 00:17:05.220
+The good news is that,
+whether you're using Solver or
+
+236
+00:17:05.220 --> 00:17:08.450
+a commercial optimization tool,
+you will still have to work with
+
+237
+00:17:08.450 --> 00:17:12.050
+decision variables,
+objective function, and constraints.
+
+238
+00:17:13.550 --> 00:17:17.609
+Here's a link to a recently compiled
+list of commercial optimization tools.
+
+239
+00:17:18.815 --> 00:17:21.970
+A journal called Interfaces
+publishes articles on
+
+240
+00:17:21.970 --> 00:17:24.630
+actual business applications
+of analytics techniques.
+
+241
+00:17:25.940 --> 00:17:30.880
+Interfaces' articles is a great source of
+practical knowledge on how to identify
+
+242
+00:17:30.880 --> 00:17:35.020
+analytic opportunities, how to build
+the models, and how to implement them.
+
+243
+00:17:36.260 --> 00:17:38.050
+Here we've picked two examples.
+
+244
+00:17:38.050 --> 00:17:41.960
+The first article is about optimization
+of profits from refinery operations at
+
+245
+00:17:41.960 --> 00:17:46.600
+Chevron, one of the world's largest
+integrated energy companies.
+
+246
+00:17:46.600 --> 00:17:49.080
+The second is about
+applying analytics tools,
+
+247
+00:17:49.080 --> 00:17:53.660
+including optimization, at one of the
+world's leading fashion retailers, Zara.
+
+248
+00:17:55.750 --> 00:17:56.560
+Please keep in mind that,
+
+249
+00:17:56.560 --> 00:18:01.410
+in practice, analytics projects may
+often involve multiple analytics tools.
+
+250
+00:18:01.410 --> 00:18:05.120
+In particular, optimization will need
+to be combined with descriptive and
+
+251
+00:18:05.120 --> 00:18:07.240
+predictive analytics tools,
+like forecasting.
+
+252
+00:18:08.360 --> 00:18:12.140
+Often the best course of action must
+be charted in settings with significant
+
+253
+00:18:12.140 --> 00:18:13.530
+uncertainty.
+
+254
+00:18:13.530 --> 00:18:15.670
+We will look at such
+settings in Week Three.
+
+255
+00:18:17.190 --> 00:18:20.500
+We're at the end of Week Two of
+operations and analytics course.
+
+256
+00:18:20.500 --> 00:18:23.870
+This week we have focused on
+an optimization toolkit that allows us to
+
+257
+00:18:23.870 --> 00:18:28.860
+find the best course of action in business
+settings with lower levels of uncertainty.
+
+258
+00:18:28.860 --> 00:18:32.410
+We have used an algebraic formulation
+to create a concise way of expressing
+
+259
+00:18:32.410 --> 00:18:36.280
+any optimization problem by
+specifying its decision variables,
+
+260
+00:18:36.280 --> 00:18:38.231
+objective function, and constraints.
+
+261
+00:18:38.231 --> 00:18:42.435
+We have looked at how algebraic models
+should be converted to a spreadsheet
+
+262
+00:18:42.435 --> 00:18:47.785
+format, and how Solver can be used as
+a tool for identifying the best decisions.
+
+263
+00:18:47.785 --> 00:18:51.655
+We have covered two examples of how
+an optimization toolkit can be applied to
+
+264
+00:18:51.655 --> 00:18:57.257
+different business contexts, resource
+allocation and network optimization.
+
+265
+00:18:57.257 --> 00:19:00.807
+In order to help you master the
+optimization concepts and get ready for
+
+266
+00:19:00.807 --> 00:19:05.227
+Week Two's homework, we have prepared
+a video review session where we cover
+
+267
+00:19:05.227 --> 00:19:09.287
+optimization examples similar to
+the ones covered in our sessions.
+
+268
+00:19:09.287 --> 00:19:11.097
+This video review session
+is completely optional,
+
+269
+00:19:11.097 --> 00:19:14.227
+and if you feel comfortable with
+the optimization examples you have seen so
+
+270
+00:19:14.227 --> 00:19:17.360
+far, you can move on to
+the practice problems.
+
+271
+00:19:17.360 --> 00:19:20.340
+We provide you with two practice
+problems with solutions.
+
+272
+00:19:20.340 --> 00:19:23.300
+One particular reason you may want
+to look at the practice problems
+
+273
+00:19:23.300 --> 00:19:27.070
+is that the types of questions we're
+asking you to answer are very similar
+
+274
+00:19:27.070 --> 00:19:29.509
+to the questions you will see
+on Week Two of schoolwork.
+
+275
+00:19:30.520 --> 00:19:32.990
+We hope you will find these
+additional materials useful
+
+276
+00:19:32.990 --> 00:19:34.720
+when you work on the homework questions.
+
+277
+00:19:35.920 --> 00:19:37.350
+So, what's next?
+
+278
+00:19:37.350 --> 00:19:39.570
+Remember the news fender
+problem of Week One?
+
+279
+00:19:39.570 --> 00:19:43.350
+It was also about making the best
+decision, but in a business setting where
+
+280
+00:19:43.350 --> 00:19:48.120
+the impact of any course of action
+cannot be identified with certainty.
+
+281
+00:19:48.120 --> 00:19:51.280
+In order to understand how to make
+the best decisions in such settings,
+
+282
+00:19:51.280 --> 00:19:56.400
+we must first understand how to evaluate
+and compare decisions under uncertainty.
+
+283
+00:19:56.400 --> 00:19:58.870
+This will be the subject of
+Week Three of our course.
+
+284
+00:19:58.870 --> 00:19:59.750
+See you all next week.

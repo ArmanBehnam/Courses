@@ -1,0 +1,1520 @@
+WEBVTT
+
+1
+00:00:00.390 --> 00:00:04.780
+In session one, we compared decision
+making processes in business settings with
+
+2
+00:00:04.780 --> 00:00:06.930
+and without significant uncertainty.
+
+3
+00:00:06.930 --> 00:00:09.930
+We have used the wireless data
+plan problem as an example
+
+4
+00:00:09.930 --> 00:00:12.820
+illustrating a high
+uncertainty business setting.
+
+5
+00:00:12.820 --> 00:00:16.200
+We have learned about reward and
+risk measures, and in this session,
+
+6
+00:00:16.200 --> 00:00:19.040
+we will look at how we can
+estimate the values of reward and
+
+7
+00:00:19.040 --> 00:00:23.420
+risk for any course of action we
+choose using a simulation toolkit.
+
+8
+00:00:23.420 --> 00:00:23.950
+Let's begin.
+
+9
+00:00:24.970 --> 00:00:28.140
+Okay, in section two, we're going
+to build an algebraic model for
+
+10
+00:00:28.140 --> 00:00:32.340
+evaluating a wireless data plan,
+and then use the simulation toolkit
+
+11
+00:00:32.340 --> 00:00:36.380
+to obtain estimates of the reward and the
+risk measures associated with this plan.
+
+12
+00:00:38.730 --> 00:00:41.930
+Here's a reminder of the business
+context we're looking at.
+
+13
+00:00:41.930 --> 00:00:46.602
+The current wireless data plan that
+our consultant has charges $10 per
+
+14
+00:00:46.602 --> 00:00:47.815
+gigabyte of data.
+
+15
+00:00:47.815 --> 00:00:54.006
+The new data plan charges a fixed fee for
+all data usage up to 20 gigabytes,
+
+16
+00:00:54.006 --> 00:00:59.260
+and then it also charges $15
+per gigabyte of data above 20.
+
+17
+00:00:59.260 --> 00:01:05.650
+For example, if the data usage in
+a particular month is 22 gigabytes,
+
+18
+00:01:05.650 --> 00:01:13.140
+she'll have to pay $160 for the first
+20 gigabytes and $30 for the next two.
+
+19
+00:01:13.140 --> 00:01:17.084
+So her total payment in
+such month will be $190.
+
+20
+00:01:18.330 --> 00:01:20.920
+If, on the other hand,
+her data usage in a particular month
+
+21
+00:01:20.920 --> 00:01:25.787
+does not exceed 20 gigabytes,
+her monthly payment will be just $160.
+
+22
+00:01:25.787 --> 00:01:31.170
+Based on historical data usage values,
+our consultant estimates
+
+23
+00:01:31.170 --> 00:01:35.115
+that her family's monthly data usage is
+normally distributed with mean 23 and
+
+24
+00:01:35.115 --> 00:01:38.520
+a standard deviation of 5 gigabytes.
+
+25
+00:01:39.940 --> 00:01:47.371
+So she also knows the distribution of her
+monthly payments under the current plan,
+
+26
+00:01:47.371 --> 00:01:53.020
+normal with mean $230 and
+a standard deviation of $50.
+
+27
+00:01:53.020 --> 00:01:56.790
+What about the distribution of
+monthly payments under the new plan?
+
+28
+00:01:56.790 --> 00:01:59.220
+If we want to estimate the reward and
+the risk measures for
+
+29
+00:01:59.220 --> 00:02:02.560
+this new plan, in other words,
+the expected monthly payment and
+
+30
+00:02:02.560 --> 00:02:05.270
+the standard deviation of
+monthly payments, what are they?
+
+31
+00:02:06.850 --> 00:02:11.887
+Let us use the verbal description of
+the new plan to connect the random input,
+
+32
+00:02:11.887 --> 00:02:14.134
+data usage U to the random output,
+
+33
+00:02:14.134 --> 00:02:19.196
+whose probability distribution we're
+interested in, monthly payment P.
+
+34
+00:02:19.196 --> 00:02:24.854
+If U is below or at 20,
+then the monthly payment P is 160.
+
+35
+00:02:24.854 --> 00:02:29.209
+If U is above 20, then the monthly
+
+36
+00:02:29.209 --> 00:02:34.300
+payment is 160 + 15 x (U- 20).
+
+37
+00:02:34.300 --> 00:02:40.830
+In other words, extra payment of $15 for
+every gigabyte above 20.
+
+38
+00:02:40.830 --> 00:02:47.640
+Now we can combine both cases
+using one EXCEL formula, IF.
+
+39
+00:02:49.280 --> 00:02:54.430
+The IF formula has the following form,
+
+40
+00:02:54.430 --> 00:03:00.710
+IF(Condition, Choice1, Choice2).
+
+41
+00:03:00.710 --> 00:03:04.699
+This function evaluates condition and
+IF happens to be true,
+
+42
+00:03:04.699 --> 00:03:07.420
+then U becomes equal to Choice1.
+
+43
+00:03:07.420 --> 00:03:12.740
+And if the condition happens to be false,
+then IF becomes equal to Choice2.
+
+44
+00:03:12.740 --> 00:03:17.840
+So in this case, if U is greater than 20,
+
+45
+00:03:17.840 --> 00:03:24.659
+then IF selects Choice1,
+which is 15 x (U- 20).
+
+46
+00:03:24.659 --> 00:03:29.881
+Otherwise, it selects Choice2,
+no extra payment.
+
+47
+00:03:32.935 --> 00:03:37.430
+We have a formula that expresses
+the monthly payment P as a function of
+
+48
+00:03:37.430 --> 00:03:39.710
+monthly data usage U.
+
+49
+00:03:39.710 --> 00:03:41.670
+So let's return to our main question.
+
+50
+00:03:41.670 --> 00:03:46.010
+If U is distributed as a normal random
+variable with mean 23 gigabytes and
+
+51
+00:03:46.010 --> 00:03:50.740
+standard deviation of 5 gigabytes,
+what is the probability distribution of P?
+
+52
+00:03:51.910 --> 00:03:57.050
+What reward value does our consultant
+get if she subscribes to the new plan?
+
+53
+00:03:57.050 --> 00:03:58.800
+What risk will she be facing?
+
+54
+00:04:00.470 --> 00:04:04.950
+As far as the reward is concerned, the
+expected payment value, can we just plug
+
+55
+00:04:04.950 --> 00:04:09.690
+in the expected value of U 23 into our
+formula, and get the expected value of P?
+
+56
+00:04:10.690 --> 00:04:12.060
+It's very tempting to try and
+
+57
+00:04:12.060 --> 00:04:16.040
+get the estimate of the expected value
+of a random key performance indicator
+
+58
+00:04:16.040 --> 00:04:20.450
+by replacing all the random factors
+it depends on by the expected values.
+
+59
+00:04:20.450 --> 00:04:26.477
+For example, if we plug in 23 gigabytes
+into that formula, we get a value of $205.
+
+60
+00:04:26.477 --> 00:04:29.350
+Is this the expected value
+of our monthly payment P?
+
+61
+00:04:30.850 --> 00:04:35.290
+Unfortunately, while there are cases when
+you can get the correct estimate for
+
+62
+00:04:35.290 --> 00:04:38.980
+the expected value of a key
+performance indicator in this way,
+
+63
+00:04:38.980 --> 00:04:41.660
+in many other cases,
+this is the wrong way to go.
+
+64
+00:04:41.660 --> 00:04:45.660
+If you have a contract where payment,
+P, is a linear function of U,
+
+65
+00:04:45.660 --> 00:04:49.750
+in other words,
+P is equal to U times constant plus or
+
+66
+00:04:49.750 --> 00:04:53.330
+minus another constant,
+then this approach will work.
+
+67
+00:04:53.330 --> 00:04:59.220
+For example, in the old data plan,
+our consultant pays $10 for each gigabyte.
+
+68
+00:04:59.220 --> 00:05:04.270
+So under that plan, the monthly payment
+P is equal to 10 times the data usage U.
+
+69
+00:05:04.270 --> 00:05:09.290
+10 times U is a linear function of U, and
+the expected value of P in this case is
+
+70
+00:05:09.290 --> 00:05:14.384
+just 10 times the expected value of U,
+or 10 times 23, which is 230.
+
+71
+00:05:15.620 --> 00:05:19.542
+But here's a simple example showing
+us how it all can go wrong.
+
+72
+00:05:19.542 --> 00:05:24.125
+Let's say our data usage
+U can only take 2 values,
+
+73
+00:05:24.125 --> 00:05:30.316
+each with 50% probability,
+18 gigabytes and 28 gigabytes.
+
+74
+00:05:30.316 --> 00:05:34.319
+The expected value of U under this
+probability distribution is still 23
+
+75
+00:05:34.319 --> 00:05:37.840
+gigabytes, and the standard
+deviation is still 5 gigabytes.
+
+76
+00:05:37.840 --> 00:05:39.840
+Let's see what kind of
+distribution we will get for
+
+77
+00:05:39.840 --> 00:05:41.540
+the monthly payment amount, P.
+
+78
+00:05:42.770 --> 00:05:47.680
+If U is 18, then P is equal to 160.
+
+79
+00:05:47.680 --> 00:05:54.181
+If U is 28, then P is 280.
+
+80
+00:05:54.181 --> 00:05:59.349
+The expected value of P, is 0.5
+
+81
+00:05:59.349 --> 00:06:05.421
+x 160 + 0.5 x 280, $220.
+
+82
+00:06:05.421 --> 00:06:10.310
+Now this is very different from
+$205 we obtained earlier by
+
+83
+00:06:10.310 --> 00:06:15.820
+replacing the random variable,
+U, by its expectation.
+
+84
+00:06:15.820 --> 00:06:17.800
+Please keep this observation in mind.
+
+85
+00:06:17.800 --> 00:06:21.680
+In general, we cannot simply replace
+random variables in our formulas and
+
+86
+00:06:21.680 --> 00:06:25.750
+hope to get the right estimates
+of the key performance measures.
+
+87
+00:06:25.750 --> 00:06:28.110
+So we're back to asking the same question.
+
+88
+00:06:28.110 --> 00:06:31.960
+What are the reward and
+risk measures that describe our new plan?
+
+89
+00:06:31.960 --> 00:06:33.740
+How do we estimate them?
+
+90
+00:06:33.740 --> 00:06:36.250
+The answer is use simulation.
+
+91
+00:06:37.600 --> 00:06:40.780
+Simulation is a tool for converting
+probability distributions of random
+
+92
+00:06:40.780 --> 00:06:45.220
+factors we cannot perfectly control,
+like data usage, into probability
+
+93
+00:06:45.220 --> 00:06:49.580
+distributions for outcomes we're
+interested in, like monthly payment.
+
+94
+00:06:49.580 --> 00:06:54.710
+In simulation, we'll call random factors
+like data usage random inputs, and
+
+95
+00:06:54.710 --> 00:06:58.590
+outcomes with distribution would
+like to obtain random outputs.
+
+96
+00:06:59.820 --> 00:07:01.700
+Here's how simulation works.
+
+97
+00:07:01.700 --> 00:07:03.430
+In each simulation step,
+
+98
+00:07:03.430 --> 00:07:08.880
+we generate a random instance of
+the input quantity like data usage U.
+
+99
+00:07:08.880 --> 00:07:12.890
+In other words, we know the distribution
+of this random input, in our case,
+
+100
+00:07:12.890 --> 00:07:17.400
+it is normal with mean 23 and
+standard deviation of 5 gigabytes.
+
+101
+00:07:17.400 --> 00:07:22.399
+And we will instruct Excel or
+any other simulation tool we use
+
+102
+00:07:22.399 --> 00:07:25.935
+to pull one value from that distribution.
+
+103
+00:07:25.935 --> 00:07:30.907
+Then, we use the formula that connects
+our random input U, in our case, and
+
+104
+00:07:30.907 --> 00:07:33.160
+the random output P, in our case,
+
+105
+00:07:33.160 --> 00:07:38.059
+to calculate the value of the output
+random variable corresponding to that
+
+106
+00:07:38.059 --> 00:07:41.895
+instance of the random input
+variable we just generated.
+
+107
+00:07:41.895 --> 00:07:47.591
+In other words, we ask a simulation tool
+to generate an instance of a random data
+
+108
+00:07:47.591 --> 00:07:53.471
+usage value U, and then calculate the
+corresponding monthly payment value, P.
+
+109
+00:07:53.471 --> 00:07:55.969
+We can repeat the simulation step,
+
+110
+00:07:55.969 --> 00:08:00.141
+which we will call a simulation
+run As many times as we like.
+
+111
+00:08:00.141 --> 00:08:05.650
+Since at every simulation run, we convert
+a random input value, such as data usage U
+
+112
+00:08:05.650 --> 00:08:11.162
+into the corresponding output value, such
+as payment P, the simulation basically
+
+113
+00:08:11.162 --> 00:08:16.880
+converts the set of random input numbers
+into a set of random output numbers.
+
+114
+00:08:16.880 --> 00:08:19.560
+We will use the term input sample and
+
+115
+00:08:19.560 --> 00:08:24.110
+output sample to describe the sets of
+numbers generated during the simulation.
+
+116
+00:08:25.590 --> 00:08:28.100
+Once we generate a sample
+of output values, for
+
+117
+00:08:28.100 --> 00:08:30.740
+example, is sample of payment values.
+
+118
+00:08:30.740 --> 00:08:34.318
+Or can use the sample to estimate
+the expected value of the output,
+
+119
+00:08:34.318 --> 00:08:37.960
+standard deviation etc.
+
+120
+00:08:37.960 --> 00:08:40.950
+In other words, we can estimate reward and
+
+121
+00:08:40.950 --> 00:08:45.940
+risk measures that we will use later
+to choose the best course of action.
+
+122
+00:08:48.460 --> 00:08:52.510
+We will use Excel for running simulations
+and for analysing their results.
+
+123
+00:08:54.510 --> 00:08:59.347
+Specifically, we will use an Excel
+add-in called Analysis Tool Pak to run
+
+124
+00:08:59.347 --> 00:09:01.080
+simulations.
+
+125
+00:09:01.080 --> 00:09:05.090
+This add-in is a part of standard
+Excel installation on Windows.
+
+126
+00:09:06.250 --> 00:09:07.660
+If you're using Mac,
+
+127
+00:09:07.660 --> 00:09:12.877
+here's a link to a free software that has
+similar capabilities as Analysis Tool Pak.
+
+128
+00:09:14.520 --> 00:09:16.070
+If you're using Google Sheets,
+
+129
+00:09:16.070 --> 00:09:21.060
+an add-on called XLMiner Will
+have similar functionality.
+
+130
+00:09:22.360 --> 00:09:23.140
+Okay.
+
+131
+00:09:23.140 --> 00:09:24.700
+We're ready to use Excel to set up and
+
+132
+00:09:24.700 --> 00:09:29.870
+run a simulation for the monthly payment
+values under the new wireless data plan.
+
+133
+00:09:29.870 --> 00:09:32.864
+We have created an Excel template,
+dataplan_0,
+
+134
+00:09:32.864 --> 00:09:35.800
+you can use to follow our setup.
+
+135
+00:09:35.800 --> 00:09:40.190
+In this first example, we'll set up and
+run a simulation with just
+
+136
+00:09:40.190 --> 00:09:45.670
+ten simulation runs to help us
+understand how simulation works.
+
+137
+00:09:45.670 --> 00:09:47.635
+Okay let's go to dataplan_0.
+
+138
+00:09:49.370 --> 00:09:52.430
+We start with a template dataplan_0
+
+139
+00:09:52.430 --> 00:09:56.100
+that contains all the data we
+need to set up a simulation.
+
+140
+00:09:56.100 --> 00:10:00.270
+In our analysis,
+we'll use Excel 2013 on Windows.
+
+141
+00:10:00.270 --> 00:10:03.930
+We'll be setting up our simulation
+using Analysis Tool Pack,
+
+142
+00:10:03.930 --> 00:10:06.180
+which is a standard add-in in Excel.
+
+143
+00:10:06.180 --> 00:10:10.970
+It is usually located under data
+tab in the portion called analysis,
+
+144
+00:10:10.970 --> 00:10:12.340
+right next to the solver button.
+
+145
+00:10:13.380 --> 00:10:19.024
+If you do not see data analysis there,
+you should go to file, options,
+
+146
+00:10:19.024 --> 00:10:21.980
+add-ins.
+
+147
+00:10:21.980 --> 00:10:25.122
+And here what says,
+manage Excel add-ins, you click go, and
+
+148
+00:10:25.122 --> 00:10:28.040
+you wanna make sure that
+the Analysis Tool Pak is checked.
+
+149
+00:10:30.580 --> 00:10:34.020
+While setting up our simulation, keep in
+mind that the ultimate purpose of running
+
+150
+00:10:34.020 --> 00:10:36.190
+a simulation is to obtain estimates for
+
+151
+00:10:36.190 --> 00:10:40.210
+the measures of reward and
+risk associated with a new data plan.
+
+152
+00:10:41.580 --> 00:10:42.590
+As we discussed earlier,
+
+153
+00:10:42.590 --> 00:10:46.480
+we will use the expected monthly payment
+under the new plan as a measure of reward,
+
+154
+00:10:46.480 --> 00:10:49.730
+and the standard deviation of monthly
+payment as a measure of risk.
+
+155
+00:10:50.980 --> 00:10:57.032
+Okay, in order to prepare our simulation
+let's first add headers to cells C1,
+
+156
+00:10:57.032 --> 00:10:58.196
+D1, and E1.
+
+157
+00:10:58.196 --> 00:11:01.353
+In C1, let's enter simulation run.
+
+158
+00:11:11.916 --> 00:11:14.348
+This header will indicate
+that in column C,
+
+159
+00:11:14.348 --> 00:11:17.315
+we will count the instances
+of our random variables.
+
+160
+00:11:17.315 --> 00:11:26.021
+In D1, let's put data usage,
+
+161
+00:11:26.021 --> 00:11:30.550
+U in gigabytes.
+
+162
+00:11:30.550 --> 00:11:35.010
+In column D, we will be generating random
+instances of the monthly data usage.
+
+163
+00:11:36.580 --> 00:11:39.332
+Finally, in E1,
+
+164
+00:11:39.332 --> 00:11:44.498
+let's put payment, P in dollars.
+
+165
+00:11:50.454 --> 00:11:54.548
+Column E will contain the monthly
+payment amounts calculated
+
+166
+00:11:54.548 --> 00:11:59.047
+using the random instances of
+the monthly data usage from column D.
+
+167
+00:11:59.047 --> 00:12:03.635
+In this example, we will generate
+ten random instances of monthly data
+
+168
+00:12:03.635 --> 00:12:08.230
+usages U and calculate ten corresponding
+values of monthly payment P.
+
+169
+00:12:09.240 --> 00:12:12.580
+Every time we generate a random
+instance of data usage,
+
+170
+00:12:12.580 --> 00:12:15.780
+we will count it as a simulation run.
+
+171
+00:12:15.780 --> 00:12:21.457
+So let's number the simulation
+runs will conduct 1 through 10,
+
+172
+00:12:21.457 --> 00:12:28.442
+and place the simulation run identifiers
+in column C, in cells C2 through C11.
+
+173
+00:12:39.981 --> 00:12:44.099
+Okay, the actual random instances
+of monthly data usage for
+
+174
+00:12:44.099 --> 00:12:49.130
+each simulation run will be store
+in the cells D2 through D11.
+
+175
+00:12:49.130 --> 00:12:53.020
+In particular, the cell D2 will contain
+the first random instance of monthly data
+
+176
+00:12:53.020 --> 00:12:58.350
+usage, the cell D3 the second random
+instance of monthly data usage, and so on.
+
+177
+00:13:00.130 --> 00:13:02.480
+But how do we generate
+those random instances?
+
+178
+00:13:02.480 --> 00:13:06.550
+Well, Analysis Tool Pad provides us with
+the tool to generate random numbers.
+
+179
+00:13:06.550 --> 00:13:09.170
+And that's the tool we're going to use.
+
+180
+00:13:09.170 --> 00:13:13.110
+Let's go to data, click on data analysis,
+
+181
+00:13:13.110 --> 00:13:16.340
+select random number generation,
+and click okay.
+
+182
+00:13:19.320 --> 00:13:21.450
+In the random number generation dialogue,
+
+183
+00:13:21.450 --> 00:13:26.430
+let's put in one,
+into the number variables box.
+
+184
+00:13:26.430 --> 00:13:30.728
+This tells Excel that we're going to
+generate the instances of a single,
+
+185
+00:13:30.728 --> 00:13:33.584
+random variable monthly
+data usage in our case.
+
+186
+00:13:33.584 --> 00:13:35.567
+Next, we'll put ten.
+
+187
+00:13:38.839 --> 00:13:41.860
+Into number of random numbers box.
+
+188
+00:13:41.860 --> 00:13:47.729
+This will instruct Excel to generate ten
+random instances of monthly data usage.
+
+189
+00:13:49.450 --> 00:13:54.440
+Next, in the distribution pull down menu,
+we choose
+
+190
+00:13:54.440 --> 00:13:59.090
+normal and specify 23 and five
+
+191
+00:14:04.740 --> 00:14:08.180
+as mean and standard deviation
+of the normal random variable.
+
+192
+00:14:08.180 --> 00:14:13.220
+Now, we have instructed Excel to
+generate ten random instances of monthly
+
+193
+00:14:13.220 --> 00:14:17.880
+data usage using a normal distribution
+with the parameters we specified.
+
+194
+00:14:19.030 --> 00:14:24.220
+As you can see from this drop down menu,
+Excel can generate random variables
+
+195
+00:14:24.220 --> 00:14:28.130
+using a number of different probability
+distributions, in addition to the normal.
+
+196
+00:14:30.780 --> 00:14:35.720
+Now, let's put some combination
+of numbers say, one,
+
+197
+00:14:35.720 --> 00:14:39.280
+two, three into the random seed box.
+
+198
+00:14:39.280 --> 00:14:43.270
+Random seed instructs itself to generate
+random numbers from the distribution with
+
+199
+00:14:43.270 --> 00:14:45.350
+specified in a particular way.
+
+200
+00:14:46.350 --> 00:14:49.780
+We do not need to worry to much about
+the seed value in order to run and
+
+201
+00:14:49.780 --> 00:14:51.120
+interpret the simulation.
+
+202
+00:14:51.120 --> 00:14:54.530
+Just keep in mind that if you
+are running Excel 2013 and Windows, and
+
+203
+00:14:54.530 --> 00:14:57.970
+you set up your model in
+the same way as I do, and
+
+204
+00:14:57.970 --> 00:15:02.410
+use the same number of simulation runs and
+the same seed, you will generate exactly
+
+205
+00:15:02.410 --> 00:15:05.650
+the same sequence of monthly
+usage values that I do.
+
+206
+00:15:06.830 --> 00:15:09.550
+So, if you want to compare your
+simulation results to mine,
+
+207
+00:15:09.550 --> 00:15:13.730
+you should be setting up your simulation
+model in the same way as I do.
+
+208
+00:15:13.730 --> 00:15:18.150
+Use the same number of simulation runs,
+like ten that I use in this case, and
+
+209
+00:15:18.150 --> 00:15:21.610
+the same seed, like 1, 2,
+3 that I use in this case.
+
+210
+00:15:21.610 --> 00:15:25.440
+In practice, it does not matter much
+what seed you select as long as you run
+
+211
+00:15:25.440 --> 00:15:27.540
+a fairly long simulation.
+
+212
+00:15:27.540 --> 00:15:32.410
+In otherwords, as long as the value in
+the number of random numbers box is high.
+
+213
+00:15:32.410 --> 00:15:35.350
+We'll talk more about short
+versus long simulations and
+
+214
+00:15:35.350 --> 00:15:38.070
+about different seed
+values later this week.
+
+215
+00:15:38.070 --> 00:15:39.050
+Okay.
+
+216
+00:15:39.050 --> 00:15:42.951
+One last thing, in the output options,
+
+217
+00:15:42.951 --> 00:15:48.132
+let's select output range
+starting in the cell D2.
+
+218
+00:15:50.490 --> 00:15:54.696
+This way Excel will put the first random
+monthly usage number it generates into
+
+219
+00:15:54.696 --> 00:15:55.467
+the cell D2.
+
+220
+00:15:55.467 --> 00:16:00.847
+The second random monthly usage
+number into the cell D3 and so on.
+
+221
+00:16:00.847 --> 00:16:05.370
+Now, when you click OK,
+Excel will generate 10 random
+
+222
+00:16:05.370 --> 00:16:09.516
+monthly data usage numbers
+in cells D2 from D11,
+
+223
+00:16:09.516 --> 00:16:15.110
+using the distribution and
+the parameters we specified.
+
+224
+00:16:15.110 --> 00:16:19.190
+The numbers in the cells D2
+through D11 are all instances of
+
+225
+00:16:19.190 --> 00:16:24.420
+a normal random variable with mean 23 and
+standard deviation 5.
+
+226
+00:16:24.420 --> 00:16:29.300
+In other words Excel generated, or
+using another word, simulated for us,
+
+227
+00:16:29.300 --> 00:16:34.550
+ten instances of what the future might
+hold in terms of monthly data usage.
+
+228
+00:16:35.640 --> 00:16:38.250
+Let's make sure that the values
+in the cells D2 through
+
+229
+00:16:38.250 --> 00:16:41.790
+D11 are visually distinguishable
+from the other values.
+
+230
+00:16:41.790 --> 00:16:46.130
+Let's change the font in
+the cells into green and bold.
+
+231
+00:16:46.130 --> 00:16:48.362
+We'll use this same visual designation for
+
+232
+00:16:48.362 --> 00:16:50.779
+the random inputs into
+our simulation models.
+
+233
+00:16:58.199 --> 00:17:00.800
+Now, what about the simulation outputs?
+
+234
+00:17:00.800 --> 00:17:04.370
+The quantity we're interested in
+is the monthly payment amount, P.
+
+235
+00:17:05.590 --> 00:17:10.180
+Let's go into the cells E2 through E11 and
+put in formulas that will
+
+236
+00:17:10.180 --> 00:17:15.240
+calculate the monthly payment value P,
+for any monthly Data Usage, U.
+
+237
+00:17:15.240 --> 00:17:17.140
+Let's start with the cell E2.
+
+238
+00:17:17.140 --> 00:17:21.850
+The way the new data plan works is by
+
+239
+00:17:21.850 --> 00:17:27.330
+charging $160 up front, and then by
+adding $15 for each gigabyte above 20.
+
+240
+00:17:27.330 --> 00:17:32.020
+Let's put this formula into
+the cell E2 using the value in
+
+241
+00:17:32.020 --> 00:17:35.940
+the cell D2 as the first possible
+instance of the monthly data usage.
+
+242
+00:17:35.940 --> 00:17:38.980
+We have already discussed
+an algebraic formula that calculates
+
+243
+00:17:38.980 --> 00:17:42.910
+the monthly payment for
+any value of monthly data usage.
+
+244
+00:17:42.910 --> 00:17:49.582
+The algebraic formula we
+put in the cell E2 is $160,
+
+245
+00:17:49.582 --> 00:17:54.725
+that's B5, plus if the data usage, D2,
+
+246
+00:17:54.725 --> 00:18:01.536
+exceeds 20, B4,
+then we're charged extra $15 for
+
+247
+00:18:01.536 --> 00:18:05.719
+each gigabyte of usage above 20.
+
+248
+00:18:05.719 --> 00:18:09.559
+Otherwise, there are no extra charges.
+
+249
+00:18:09.559 --> 00:18:12.783
+The result in this instance is $160
+
+250
+00:18:12.783 --> 00:18:17.579
+since the monthly usage in
+this instance fell below 20.
+
+251
+00:18:17.579 --> 00:18:21.585
+If we want to calculate the values
+of monthly payment corresponding
+
+252
+00:18:21.585 --> 00:18:25.731
+to the remaining nine random instances
+of data usage We need to copy and
+
+253
+00:18:25.731 --> 00:18:29.199
+paste the formula in E2 into
+the cells E3 through E11.
+
+254
+00:18:29.199 --> 00:18:33.828
+But before we do this we must
+use absolute cell references for
+
+255
+00:18:33.828 --> 00:18:38.479
+the cells B4, B5, and B6 for
+the formula in the cell E2.
+
+256
+00:18:38.479 --> 00:18:41.810
+Those are the parameters
+of our data plan and
+
+257
+00:18:41.810 --> 00:18:46.499
+they do not change when we copy and
+paste the payment formula.
+
+258
+00:18:46.499 --> 00:18:51.419
+So we go to the cell E2, And
+
+259
+00:18:51.419 --> 00:18:57.659
+use the shortcut F4 to put the dollar
+signs around B4, B5, and B6.
+
+260
+00:18:57.659 --> 00:19:01.967
+Let's start with B5, And
+
+261
+00:19:01.967 --> 00:19:05.975
+then move to B4, and
+
+262
+00:19:05.975 --> 00:19:11.328
+then B6 and then B4 again.
+
+263
+00:19:15.748 --> 00:19:18.689
+Okay.
+
+264
+00:19:18.689 --> 00:19:20.933
+After that, we can copy and
+
+265
+00:19:20.933 --> 00:19:25.920
+paste the payment formula into
+the cells E3 through E11.
+
+266
+00:19:31.130 --> 00:19:34.040
+So we now have 10 random
+monthly payment values that
+
+267
+00:19:34.040 --> 00:19:38.560
+correspond to 10 random monthly
+data usage that Excel generated.
+
+268
+00:19:39.910 --> 00:19:40.450
+In other words,
+
+269
+00:19:40.450 --> 00:19:46.480
+Excel generated a random sample of the
+future data usage values and we have used
+
+270
+00:19:46.480 --> 00:19:52.030
+the payment formula to convert the sample
+into a sample of future payment values.
+
+271
+00:19:52.030 --> 00:19:57.070
+This random sample of payment values
+is the output of our simulation.
+
+272
+00:19:57.070 --> 00:20:02.126
+We will use blue color and bold font to
+make sure that those values look different
+
+273
+00:20:02.126 --> 00:20:06.814
+from the random input values, and
+from other values on the spreadsheet.
+
+274
+00:20:15.474 --> 00:20:20.084
+To facilitate the future analysis
+of the results of our simulation,
+
+275
+00:20:20.084 --> 00:20:24.933
+let us calculate the average and
+the standard deviation of the simulated
+
+276
+00:20:24.933 --> 00:20:30.594
+samples of the monthly data usage, and
+the corresponding monthly payment values.
+
+277
+00:20:30.594 --> 00:20:35.480
+The average of a sample of random
+numbers is also called sample mean.
+
+278
+00:20:35.480 --> 00:20:38.620
+And the standard deviation of
+a sample of random numbers
+
+279
+00:20:38.620 --> 00:20:41.960
+is also called a sample
+standard deviation.
+
+280
+00:20:41.960 --> 00:20:48.930
+Let's put out these headers
+into the cells C13 and C14.
+
+281
+00:20:48.930 --> 00:20:52.975
+Sample mean, and
+
+282
+00:20:52.975 --> 00:20:59.722
+sample standard deviation.
+
+283
+00:21:01.860 --> 00:21:04.900
+Let's look first at the sample
+of monthly data usage,
+
+284
+00:21:04.900 --> 00:21:10.330
+where we'll calculate the average of
+these ten numbers in the cell D13.
+
+285
+00:21:10.330 --> 00:21:15.039
+So we put in the formula,
+
+286
+00:21:15.039 --> 00:21:20.879
+average of D2 through D11.
+
+287
+00:21:25.339 --> 00:21:29.809
+As we can see,
+the sample mean in this case is about 25.
+
+288
+00:21:29.809 --> 00:21:32.848
+25 gigabytes.
+
+289
+00:21:32.848 --> 00:21:34.455
+And in the cell D14,
+
+290
+00:21:34.455 --> 00:21:40.290
+we will calculate the value of
+the standard deviation of the same sample.
+
+291
+00:21:40.290 --> 00:21:45.460
+The formula we put in the cell D14 is,
+
+292
+00:21:45.460 --> 00:21:51.269
+STDEV of the same cells, (D2:D11).
+
+293
+00:21:51.269 --> 00:21:54.583
+There's several formulas for calculating
+the standard deviation in Excel, and
+
+294
+00:21:54.583 --> 00:21:57.140
+those formulas are applicable
+in different settings.
+
+295
+00:21:57.140 --> 00:22:01.630
+The STDEV formula is used for
+a sample of random numbers.
+
+296
+00:22:01.630 --> 00:22:09.200
+The sample standard deviation for this
+particular sample is around 7.8 gigabytes.
+
+297
+00:22:09.200 --> 00:22:13.320
+Let's use the font for the cells D13 and
+
+298
+00:22:13.320 --> 00:22:17.680
+D14, as we did for the cells D2 and D11.
+
+299
+00:22:17.680 --> 00:22:22.080
+So it's a green font and bold.
+
+300
+00:22:24.000 --> 00:22:27.000
+Now we're ready to compute
+the estimates of the reward and
+
+301
+00:22:27.000 --> 00:22:30.040
+risk measures associated
+with the new data plan.
+
+302
+00:22:30.040 --> 00:22:33.610
+As we discussed earlier, we will use
+the estimate of the expected value of
+
+303
+00:22:33.610 --> 00:22:38.500
+the monthly payments as a reward measure,
+and the estimate of the standard deviation
+
+304
+00:22:38.500 --> 00:22:41.440
+of the monthly payments
+as the measure of risk.
+
+305
+00:22:41.440 --> 00:22:47.219
+In order to calculate the sample mean and
+sample standard deviation for
+
+306
+00:22:47.219 --> 00:22:52.704
+our sample of payment values,
+all we have to do now is to just copy and
+
+307
+00:22:52.704 --> 00:22:59.276
+paste the formulas from the cells D13 and
+D14 into the cells E13 and E14.
+
+308
+00:22:59.276 --> 00:23:06.260
+We'll use the same font scheme for
+E13 and E14 as we did for
+
+309
+00:23:06.260 --> 00:23:11.245
+E2 through E11, so it's blue and bold.
+
+310
+00:23:11.245 --> 00:23:17.196
+So, The estimate for
+
+311
+00:23:17.196 --> 00:23:22.913
+the measure of reward associated with
+the new data plan is about $253 and
+
+312
+00:23:22.913 --> 00:23:26.949
+the estimate for
+the measure of risk is about $92.
+
+313
+00:23:29.130 --> 00:23:33.690
+For completeness, here's the picture of
+the Excel file data plan 10 we created
+
+314
+00:23:33.690 --> 00:23:38.070
+with all the formulas that helped us
+to set up and run the simulation.
+
+315
+00:23:38.070 --> 00:23:42.180
+In the next session, we'll have a more
+detail look at the simulation results.
+
+316
+00:23:43.990 --> 00:23:47.490
+In this session, we have learned to use
+simulation to estimate the reward and
+
+317
+00:23:47.490 --> 00:23:51.030
+risk measure associated with any
+potential decision we can make.
+
+318
+00:23:51.030 --> 00:23:54.950
+Next time, we'll look at the
+interpretation of the simulation results.
+
+319
+00:23:54.950 --> 00:23:58.800
+In particular, we will compare the results
+of short and long simulations,
+
+320
+00:23:58.800 --> 00:24:01.360
+to see how precise our
+simulation estimates are.
+
+321
+00:24:01.360 --> 00:24:05.710
+We will also look at histograms as
+a convenient way of presenting the results
+
+322
+00:24:05.710 --> 00:24:06.910
+of the simulation.
+
+323
+00:24:06.910 --> 00:24:07.670
+See you next time.

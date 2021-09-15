@@ -1,0 +1,1899 @@
+WEBVTT
+
+1
+00:00:00.510 --> 00:00:05.290
+Hi, I'm Noah Gans, I'm a Professor
+in the Department of Operations,
+
+2
+00:00:05.290 --> 00:00:08.740
+Information and
+Decisions at the Wharton School.
+
+3
+00:00:08.740 --> 00:00:13.520
+I'll be your guide for week four of our,
+Operations Analytics course.
+
+4
+00:00:13.520 --> 00:00:18.080
+Before we get started though, I wanted to
+remind you of where we are in the course.
+
+5
+00:00:18.080 --> 00:00:18.905
+In week one,
+
+6
+00:00:18.905 --> 00:00:22.870
+Sentil introduced you to the news
+vendor problem, which is a fundamental
+
+7
+00:00:22.870 --> 00:00:27.175
+operations problem of matching your
+supply with uncertain future demand.
+
+8
+00:00:27.175 --> 00:00:30.680
+Sentil also offered you
+a look at the first steps
+
+9
+00:00:30.680 --> 00:00:32.570
+of the business analytic cycle.
+
+10
+00:00:32.570 --> 00:00:36.710
+The problem of characterizing
+data with descriptive analytics.
+
+11
+00:00:36.710 --> 00:00:40.230
+Then in weeks two and three,
+Sergei introduced predictive and
+
+12
+00:00:40.230 --> 00:00:44.510
+prescriptive tools, that are helpful
+when deciding the best course of action
+
+13
+00:00:44.510 --> 00:00:46.778
+when faced with uncertainty.
+
+14
+00:00:46.778 --> 00:00:50.930
+In week two, you saw how you can use
+optimization methods to find the best
+
+15
+00:00:50.930 --> 00:00:53.998
+course of action, when there's little
+uncertainty regarding the data.
+
+16
+00:00:53.998 --> 00:00:59.620
+In week three, you then saw how
+you can use simulation to evaluate
+
+17
+00:00:59.620 --> 00:01:04.730
+any single course of action, when you're
+faced with more significant uncertainty.
+
+18
+00:01:04.730 --> 00:01:07.680
+And along the way,
+Sergei introduced you to production and
+
+19
+00:01:07.680 --> 00:01:11.630
+distribution problems,
+often faced in operations.
+
+20
+00:01:11.630 --> 00:01:15.610
+Because of their complexity,
+Sergei introduced optimization and
+
+21
+00:01:15.610 --> 00:01:18.140
+simulation one at a time.
+
+22
+00:01:18.140 --> 00:01:22.540
+Sometimes though you need to optimize in
+settings with significant uncertainty.
+
+23
+00:01:22.540 --> 00:01:25.310
+This is often called decision
+making under uncertainty.
+
+24
+00:01:25.310 --> 00:01:28.400
+And that's where we pick up in week four.
+
+25
+00:01:28.400 --> 00:01:32.960
+In session one, we'll begin by introducing
+a new tool that provides a useful way to
+
+26
+00:01:32.960 --> 00:01:36.920
+think about and
+evaluate decisions made under uncertainty.
+
+27
+00:01:36.920 --> 00:01:38.940
+They're called decision trees.
+
+28
+00:01:38.940 --> 00:01:43.780
+Then in sessions two and three, we'll
+look at how simulation, optimization, and
+
+29
+00:01:43.780 --> 00:01:45.710
+decision trees can be used together,
+
+30
+00:01:45.710 --> 00:01:49.880
+to solve more complex problems of
+decision making under uncertainty.
+
+31
+00:01:49.880 --> 00:01:53.710
+To keep the sessions focused on how
+the tools can complement each other,
+
+32
+00:01:53.710 --> 00:01:56.820
+we'll use the same example
+in sessions one to three.
+
+33
+00:01:56.820 --> 00:02:01.010
+That of a Scandinavian furniture
+retailer that we call IDEA.
+
+34
+00:02:01.010 --> 00:02:02.810
+Finally, in session four.
+
+35
+00:02:02.810 --> 00:02:06.790
+We'll go back to the news vendor problem,
+Sentil introduced in week one.
+
+36
+00:02:06.790 --> 00:02:08.970
+And we'll see that we can
+use the simulation and
+
+37
+00:02:08.970 --> 00:02:12.380
+optimization framework we've
+developed to tackle the problem.
+
+38
+00:02:12.380 --> 00:02:13.670
+That's our agenda for the week.
+
+39
+00:02:15.100 --> 00:02:20.040
+In session one, we'll introduce decision
+trees, and we'll introduce them through
+
+40
+00:02:20.040 --> 00:02:23.900
+the example of IDEA,
+a Scandinavian furniture retailer.
+
+41
+00:02:24.960 --> 00:02:28.860
+IDEA plans to introduce a gazebo
+tent that it calls, Krusbar.
+
+42
+00:02:29.870 --> 00:02:32.880
+The tent's to be sold next
+summer in Scandinavia, for
+
+43
+00:02:32.880 --> 00:02:35.680
+a price that's about 150 euros.
+
+44
+00:02:35.680 --> 00:02:39.080
+It will be manufactured in advance,
+next spring and summer.
+
+45
+00:02:40.400 --> 00:02:44.380
+At that 150 euro price, there's
+uncertainty regarding the demand for
+
+46
+00:02:44.380 --> 00:02:45.126
+Krusbar though.
+
+47
+00:02:45.126 --> 00:02:49.160
+There's a 50 50 chance that
+sales will be weak or strong.
+
+48
+00:02:50.220 --> 00:02:53.810
+If sales are strong,
+IDEA will be able to sell 10,000 units.
+
+49
+00:02:55.560 --> 00:02:59.030
+If sales are weak, IDEA will only
+be able to sell 5,000 units.
+
+50
+00:03:01.880 --> 00:03:04.930
+This demand distribution is quite simple.
+
+51
+00:03:04.930 --> 00:03:09.510
+It only has two points,
+5,000 units of demand or 10,000 units.
+
+52
+00:03:09.510 --> 00:03:12.890
+But that simplicity let's
+us focus on the analysis.
+
+53
+00:03:12.890 --> 00:03:15.920
+We'll consider more complex demand
+distributions later this week.
+
+54
+00:03:17.070 --> 00:03:21.720
+IDEAs considering two potential
+suppliers to manufacture the Krusbar.
+
+55
+00:03:21.720 --> 00:03:24.410
+One's in Sweden, and
+the other is in Poland.
+
+56
+00:03:24.410 --> 00:03:30.200
+We'll call the Swedish supplier, supplier
+S and the Polish supplier, supplier P.
+
+57
+00:03:30.200 --> 00:03:34.880
+Each of the suppliers requires that
+IDEA uses all of its capacity.
+
+58
+00:03:34.880 --> 00:03:38.230
+And IDEA will contract with at
+most one of the two suppliers.
+
+59
+00:03:38.230 --> 00:03:43.690
+That is, IDEA may decide to use
+supplier S, or to use supplier P,
+
+60
+00:03:43.690 --> 00:03:49.030
+or IDEA may decide not to use a supplier
+at all and not sell the Krusbar tent.
+
+61
+00:03:49.030 --> 00:03:51.360
+Here are the statistics for
+the two suppliers.
+
+62
+00:03:52.500 --> 00:03:54.150
+They have different capacities.
+
+63
+00:03:54.150 --> 00:03:58.900
+You can see that supplier S has
+5,000 units of capacity, and
+
+64
+00:03:58.900 --> 00:04:03.136
+if IDEA contracts with it,
+it will order 5,000 units of the tent.
+
+65
+00:04:03.136 --> 00:04:06.762
+Supplier P has 10,000 units of capacit,
+and
+
+66
+00:04:06.762 --> 00:04:12.085
+if IDEAs contracts with it,
+it will order 10,000 units of the tent.
+
+67
+00:04:12.085 --> 00:04:16.845
+The two suppliers also have
+different up-front charges to IDEA.
+
+68
+00:04:16.845 --> 00:04:21.170
+If IDEA contracts with supplier
+S there is no up-front charge.
+
+69
+00:04:21.170 --> 00:04:26.810
+Where as, if IDEA contracts with Supplier
+P, there's a 50,000 euro upfront charge.
+
+70
+00:04:27.830 --> 00:04:29.880
+Unit costs are also different.
+
+71
+00:04:29.880 --> 00:04:36.190
+You can see that Supplier S has a unit
+cost to IDEA of 120 euros per tent.
+
+72
+00:04:36.190 --> 00:04:40.790
+Whereas Supplier P, has a unit
+cost of a hundred euros per tent.
+
+73
+00:04:40.790 --> 00:04:45.670
+So, we can compare Supplier S
+has no upfront charge, but
+
+74
+00:04:45.670 --> 00:04:50.870
+it has a higher unit cost,
+whereas Supplier P has an upfront charge,
+
+75
+00:04:50.870 --> 00:04:52.479
+but it has a lower unit cost.
+
+76
+00:04:53.940 --> 00:04:57.500
+We can use a decision tree
+to represent IDEA's choices.
+
+77
+00:04:57.500 --> 00:05:01.090
+Before I get in to it,
+I wanna just review quickly for
+
+78
+00:05:01.090 --> 00:05:04.210
+you, what the elements
+are of a decision tree.
+
+79
+00:05:04.210 --> 00:05:08.070
+The structures of a decision trees
+made up of three building blocks.
+
+80
+00:05:08.070 --> 00:05:12.030
+They're decision nodes,
+which we'll represent with squares.
+
+81
+00:05:12.030 --> 00:05:15.851
+Decision nodes are points at which a
+decision maker has to decide on an action.
+
+82
+00:05:15.851 --> 00:05:21.122
+For IDEA, those actions are which
+supplier to select, if any.
+
+83
+00:05:21.122 --> 00:05:24.988
+Event nodes are represented with circles.
+
+84
+00:05:24.988 --> 00:05:30.096
+Event nodes are points of uncertainty
+at which the outcome is random.
+
+85
+00:05:30.096 --> 00:05:34.210
+For IDEA, that's whether
+the market will be weak or strong.
+
+86
+00:05:35.270 --> 00:05:39.760
+Finally, outcomes
+are represented as triangles.
+
+87
+00:05:39.760 --> 00:05:44.340
+Outcomes are payouts that occur, that are
+due to specific sequences of decisions and
+
+88
+00:05:44.340 --> 00:05:45.380
+events.
+
+89
+00:05:45.380 --> 00:05:48.200
+For IDEA, the outcomes are its profits.
+
+90
+00:05:48.200 --> 00:05:53.130
+They depend on which supplier
+IDEA chooses, S, P, or none.
+
+91
+00:05:53.130 --> 00:05:57.428
+And it depends on whether
+the market is weak or strong.
+
+92
+00:05:57.428 --> 00:06:00.300
+Now that we've defined the decision nodes,
+the event nodes, and
+
+93
+00:06:00.300 --> 00:06:02.550
+the outcomes we'll build the tree.
+
+94
+00:06:02.550 --> 00:06:07.340
+The first thing that we need to do to
+build the tree, is include a decision.
+
+95
+00:06:07.340 --> 00:06:09.570
+With whom will IDEA contract?
+
+96
+00:06:09.570 --> 00:06:13.600
+If IDEA contracts with no one,
+it earns no revenue and pays no costs.
+
+97
+00:06:13.600 --> 00:06:16.750
+And you can see we have put
+a cash flow of zero euros.
+
+98
+00:06:16.750 --> 00:06:19.050
+And that's the end of
+that part of the tree.
+
+99
+00:06:19.050 --> 00:06:23.880
+The outcome for IDEA in that case,
+would be to earn zero euros.
+
+100
+00:06:23.880 --> 00:06:28.040
+A second possible decision would
+be to contract with Supplier S.
+
+101
+00:06:28.040 --> 00:06:33.050
+If IDEA contracts with Supplier S,
+it pays no upfront fixed fee,
+
+102
+00:06:33.050 --> 00:06:34.610
+so we've written zero euros there.
+
+103
+00:06:35.980 --> 00:06:40.880
+If IDEA contracts with Supplier P however,
+it will pay an upfront fixed
+
+104
+00:06:40.880 --> 00:06:45.300
+fee of 50,000 euros, and you can see
+we've written it on that choice as well.
+
+105
+00:06:45.300 --> 00:06:48.110
+Those are the three choices that IDEA has.
+
+106
+00:06:48.110 --> 00:06:50.290
+Now that we have defined
+the decision node,
+
+107
+00:06:50.290 --> 00:06:54.040
+the next thing that happens is an event,
+whether the market is weak or strong.
+
+108
+00:06:55.550 --> 00:06:57.900
+If the market is strong and
+
+109
+00:06:57.900 --> 00:07:02.690
+IDEA contracts with Supplier S,
+that happens with a probability of 0.5.
+
+110
+00:07:02.690 --> 00:07:06.550
+In that case,
+we can calculate the gross profit.
+
+111
+00:07:06.550 --> 00:07:11.420
+Remember that Supplier S
+has 5000 units of capacity.
+
+112
+00:07:11.420 --> 00:07:14.880
+And a strong market has
+10,000 units of demand.
+
+113
+00:07:14.880 --> 00:07:17.280
+So IDEA would be capacity limited.
+
+114
+00:07:17.280 --> 00:07:22.370
+It would sell everything that it had
+ordered, and it would earn 5,000
+
+115
+00:07:22.370 --> 00:07:28.060
+units times 150 euros per unit,
+but pay unit costs of 120 euros
+
+116
+00:07:28.060 --> 00:07:32.610
+on all 5,000 units for
+a gross profit of 150,000 euros.
+
+117
+00:07:33.620 --> 00:07:37.670
+That gives us an outcome
+of 150 thousand euros.
+
+118
+00:07:37.670 --> 00:07:41.790
+And we calculated it by
+adding the zero upfront cost,
+
+119
+00:07:41.790 --> 00:07:44.310
+with 150 thousand euros of gross profit.
+
+120
+00:07:45.660 --> 00:07:50.772
+If on the other hand, the market is weak,
+that happens with a probability of 0.05.
+
+121
+00:07:50.772 --> 00:07:54.580
+And in that case, again,
+we can calculate the gross profit.
+
+122
+00:07:54.580 --> 00:07:59.386
+Remember, if the market's weak,
+demand is only 5,000 units.
+
+123
+00:07:59.386 --> 00:08:04.690
+At the same time, supplier S only
+supplies 5,000 units to IDEA.
+
+124
+00:08:04.690 --> 00:08:09.300
+So again, IDEA earns 150 euros per tent,
+
+125
+00:08:09.300 --> 00:08:14.140
+times 5,000 tents revenue, and
+it pays 120 euros per tent
+
+126
+00:08:14.140 --> 00:08:18.680
+times 5,000 tents, unit cost to supplier
+S for a gross profit of 150,000.
+
+127
+00:08:18.680 --> 00:08:24.520
+And again, now we can calculate
+the profits for IDEA's outcome,
+
+128
+00:08:24.520 --> 00:08:29.765
+if it orders from supplier S and
+the market is weak, it's going to earn
+
+129
+00:08:29.765 --> 00:08:34.830
+150,000 euros, that's no money upfront and
+150,000 euros in gross profit.
+
+130
+00:08:35.950 --> 00:08:41.710
+Finally, if IDEA contracts with supplier
+P, there are again, two outcomes.
+
+131
+00:08:41.710 --> 00:08:45.660
+One is if the market is strong,
+that happens with probability .05.
+
+132
+00:08:45.660 --> 00:08:50.722
+And here the gross profit is
+calculated knowing that demand
+
+133
+00:08:50.722 --> 00:08:56.600
+is 10,000 units and IDEA has ordered
+10,000 units from supplier P.
+
+134
+00:08:56.600 --> 00:09:01.780
+So the gross profit is 10,000
+units times the 150 euro revenue,
+
+135
+00:09:01.780 --> 00:09:09.600
+minus 10,000 units times the 100 euro unit
+cost, for a gross profit of 500,000 euros.
+
+136
+00:09:09.600 --> 00:09:14.910
+Now that we've got the gross profit, we
+can calculate the total profits for idea.
+
+137
+00:09:14.910 --> 00:09:17.650
+If it orders from supplier P and
+the market is strong,
+
+138
+00:09:17.650 --> 00:09:22.390
+by adding the -50,000 up
+front fixed cost with
+
+139
+00:09:22.390 --> 00:09:28.030
+the 500,000 euro gross profit to
+get a net profit of 450,000 euros.
+
+140
+00:09:29.150 --> 00:09:33.110
+If IDEA orders from supplier P and
+the market is weak, that happens
+
+141
+00:09:33.110 --> 00:09:37.930
+with a probability of .5, and we can
+calculate these gross profits as well.
+
+142
+00:09:37.930 --> 00:09:42.080
+Remember, when IDEA
+orders from supplier P,
+
+143
+00:09:42.080 --> 00:09:46.300
+it orders 10,000 units, but when the
+market is weak, it only sells 5,000 units.
+
+144
+00:09:46.300 --> 00:09:52.480
+So the gross profit is 5,000 units sold,
+times 150 Euros per unit,
+
+145
+00:09:52.480 --> 00:09:57.830
+minus 10,000 units ordered,
+times 100 Euros per unit cost,
+
+146
+00:09:57.830 --> 00:10:01.360
+for a gross profit of
+negative 250,000 Euros.
+
+147
+00:10:02.510 --> 00:10:07.760
+We can finally calculate this
+last outcome as -300,000 Euros.
+
+148
+00:10:07.760 --> 00:10:12.649
+That's the 50,000 Euro up front cost,
+fixed cost,
+
+149
+00:10:12.649 --> 00:10:17.670
+plus the 250,000 euro
+negative gross profit.
+
+150
+00:10:17.670 --> 00:10:20.310
+So that's the entire decision tree.
+
+151
+00:10:20.310 --> 00:10:21.660
+Before I move on,
+
+152
+00:10:21.660 --> 00:10:26.390
+I wanna point out two important facts
+about the construction of decision trees.
+
+153
+00:10:26.390 --> 00:10:32.210
+The first is that, to calculate
+the profit for IDEA or the outcome,
+
+154
+00:10:32.210 --> 00:10:37.010
+we always move from the root of the tree
+all the way along the branches leading to
+
+155
+00:10:37.010 --> 00:10:42.790
+an outcome, and add up all of the cash
+flows associated with those branches.
+
+156
+00:10:42.790 --> 00:10:47.029
+You can see for
+this bottom branch it's -50,000 euros,
+
+157
+00:10:47.029 --> 00:10:53.190
+minus 250,000 euros,
+gives idea -300,000 euros gross profit.
+
+158
+00:10:53.190 --> 00:10:58.420
+The second point that I would like to
+make is that when we look at event nodes,
+
+159
+00:10:58.420 --> 00:11:02.810
+we always want to make sure that the sums
+of the probabilities add up to one.
+
+160
+00:11:02.810 --> 00:11:05.800
+As always,
+probabilities are always greater than or
+
+161
+00:11:05.800 --> 00:11:08.520
+equal to zero, and
+they ought to add up to one.
+
+162
+00:11:08.520 --> 00:11:14.050
+Just looking at the finished tree provides
+us with some interesting information.
+
+163
+00:11:14.050 --> 00:11:17.620
+If IDEA contracts with no one,
+it earns no revenue or
+
+164
+00:11:17.620 --> 00:11:22.100
+pays no costs, and
+it has a net profit of zero for certain.
+
+165
+00:11:23.170 --> 00:11:28.630
+If IDEA orders from supplier S,
+with a probability of 0.5,
+
+166
+00:11:28.630 --> 00:11:33.700
+it earns a net profit of 150,000
+euros when the market is strong.
+
+167
+00:11:33.700 --> 00:11:35.210
+And with a probability of 0.5,
+
+168
+00:11:35.210 --> 00:11:40.150
+it earns a net profit again of
+150,000 euros when the market is weak.
+
+169
+00:11:40.150 --> 00:11:42.130
+So, even though there are two outcomes and
+
+170
+00:11:42.130 --> 00:11:45.740
+they're random,
+both yield the same net profit.
+
+171
+00:11:45.740 --> 00:11:50.620
+Finally, if IDEA orders from supplier P,
+if the market's strong,
+
+172
+00:11:50.620 --> 00:11:56.050
+IDEA earns a net profit of 450,000 euros,
+with probably 0.5, and
+
+173
+00:11:56.050 --> 00:12:01.600
+with probability 0.5 the market's weak,
+and IDEA would lose 300,00 euros.
+
+174
+00:12:01.600 --> 00:12:06.170
+So you can see that ordering
+from supplier P has a chance of
+
+175
+00:12:06.170 --> 00:12:10.880
+making the most money, but it also
+has the chance of the largest loss.
+
+176
+00:12:10.880 --> 00:12:17.200
+If we compare the outcomes with supplier
+S or with ordering from no one,
+
+177
+00:12:17.200 --> 00:12:21.340
+we can see that both provide sure profits.
+
+178
+00:12:21.340 --> 00:12:24.760
+Ordering from no one provides
+a sure profit of zero,
+
+179
+00:12:24.760 --> 00:12:30.073
+while ordering from supplier S
+provides a sure profit of 150,000.
+
+180
+00:12:30.073 --> 00:12:35.071
+In that sense, looking at the tree
+gives us a sense of the risk
+
+181
+00:12:35.071 --> 00:12:38.604
+as [INAUDIBLE] had
+defined it in week three.
+
+182
+00:12:38.604 --> 00:12:41.390
+But that's just looking
+at a small decision tree.
+
+183
+00:12:41.390 --> 00:12:45.430
+It turns out that there
+are systematic ways of evaluating
+
+184
+00:12:45.430 --> 00:12:49.120
+the risks of decisions and
+the rewards from decisions.
+
+185
+00:12:49.120 --> 00:12:51.580
+And that's what we're gonna turn to next.
+
+186
+00:12:51.580 --> 00:12:55.050
+There are three common approaches for
+evaluating these options, and
+
+187
+00:12:55.050 --> 00:12:58.600
+they bound the risk posture
+of the decision maker.
+
+188
+00:12:58.600 --> 00:13:01.200
+First, there's the Maxi-min strategy.
+
+189
+00:13:01.200 --> 00:13:02.220
+What's that?
+
+190
+00:13:02.220 --> 00:13:07.120
+That chooses the action always that
+maximizes the minimum outcome.
+
+191
+00:13:07.120 --> 00:13:11.820
+By maximizing the minimum outcome,
+the decision maker is minimizing his or
+
+192
+00:13:11.820 --> 00:13:12.500
+her losses.
+
+193
+00:13:12.500 --> 00:13:14.830
+So that's a risk adverse strategy.
+
+194
+00:13:14.830 --> 00:13:16.400
+It avoids bad outcomes.
+
+195
+00:13:16.400 --> 00:13:19.335
+But notice it doesn't say
+anything about good outcomes.
+
+196
+00:13:19.335 --> 00:13:22.035
+It ignores the possibility
+of good outcomes.
+
+197
+00:13:22.035 --> 00:13:26.745
+At the other end of the spectrum,
+there are maxi-max strategies.
+
+198
+00:13:26.745 --> 00:13:30.015
+Those are actions that
+maximize the maximum outcome.
+
+199
+00:13:31.255 --> 00:13:35.435
+They seek good outcomes, but then again
+they completely ignore bad outcomes.
+
+200
+00:13:35.435 --> 00:13:38.549
+So those are risk seeking or
+gain seeking strategies.
+
+201
+00:13:40.080 --> 00:13:45.490
+In the middle are strategies that maximum
+the expected values of the outcomes.
+
+202
+00:13:45.490 --> 00:13:49.450
+They give equal weight to good and
+bad outcomes by calculating the expected
+
+203
+00:13:49.450 --> 00:13:52.860
+value, and we'll come back to
+that calculation in a moment.
+
+204
+00:13:52.860 --> 00:13:57.820
+There are risk neutral strategies that
+lie somewhere in between the natural
+
+205
+00:13:57.820 --> 00:14:02.690
+extremes of a maxi-min strategy and
+maxi-max strategy.
+
+206
+00:14:02.690 --> 00:14:06.860
+We can use IDEA's decision tree to
+determine each of those strategies, and
+
+207
+00:14:06.860 --> 00:14:08.020
+that's what we're gonna do next.
+
+208
+00:14:09.340 --> 00:14:12.970
+So first,
+we'll start with maxi-min strategies.
+
+209
+00:14:12.970 --> 00:14:17.420
+And I wanna review for you how we're
+going to determine the strategy.
+
+210
+00:14:17.420 --> 00:14:22.930
+First, remember that maxi-min decisions
+maximize the value of the minimum outcome.
+
+211
+00:14:22.930 --> 00:14:27.010
+We'll start at the tree's outcomes and
+work backwards towards it's root.
+
+212
+00:14:28.020 --> 00:14:32.750
+At each event node, we'll look for
+the outcome with the minimum value, and
+
+213
+00:14:32.750 --> 00:14:35.210
+we'll replace that event node
+with that minimum value.
+
+214
+00:14:36.470 --> 00:14:38.140
+At each decision node,
+
+215
+00:14:38.140 --> 00:14:42.800
+we'll choose the action that
+maximizes the associated values.
+
+216
+00:14:42.800 --> 00:14:46.620
+So we'll be maximizing
+those minimum values.
+
+217
+00:14:46.620 --> 00:14:49.200
+And we can illustrate that
+using IDEA's decision tree.
+
+218
+00:14:50.210 --> 00:14:54.840
+Here's the decision tree and remember
+we're gonna start at the trees outcomes
+
+219
+00:14:54.840 --> 00:14:56.600
+and work backwards towards its root.
+
+220
+00:14:58.050 --> 00:15:00.920
+If we look at the outcomes and
+start working backwards,
+
+221
+00:15:00.920 --> 00:15:04.470
+we can see the first set of
+things we hit are event notes.
+
+222
+00:15:04.470 --> 00:15:09.870
+Remember, at each event node we wanna
+find the outcome with the minimum value.
+
+223
+00:15:09.870 --> 00:15:12.130
+We wanna see how bad things can get.
+
+224
+00:15:12.130 --> 00:15:15.940
+If we look down at the bottom,
+we can see when the market is weak or
+
+225
+00:15:15.940 --> 00:15:18.630
+strong for supplier P.
+
+226
+00:15:18.630 --> 00:15:24.390
+The worst outcome is when the market is
+weak and the idea loses 300,000 euros.
+
+227
+00:15:24.390 --> 00:15:28.310
+So we'll replace that event
+node with the 300,000.
+
+228
+00:15:28.310 --> 00:15:32.400
+Moving up now to supplier S,
+if the market is weak or
+
+229
+00:15:32.400 --> 00:15:36.870
+the market is strong,
+IDEA always earns 150,000 euros.
+
+230
+00:15:36.870 --> 00:15:42.020
+So, in this case, the minimum and
+the maximum value are both 150,000.
+
+231
+00:15:42.020 --> 00:15:45.470
+Finally, there's nothing to do
+if IDEA contracts with no one.
+
+232
+00:15:45.470 --> 00:15:48.000
+Because we already know
+that IDEA makes no money.
+
+233
+00:15:49.140 --> 00:15:54.427
+The last step of determining the maxi-min
+set of decisions is to go and
+
+234
+00:15:54.427 --> 00:15:56.584
+look at the decision nodes.
+
+235
+00:15:56.584 --> 00:15:58.899
+Here there's one last decision node, and
+
+236
+00:15:58.899 --> 00:16:02.319
+we wanna find the action that
+maximizes the associated value.
+
+237
+00:16:02.319 --> 00:16:04.548
+That decision's who to contract with.
+
+238
+00:16:04.548 --> 00:16:10.470
+And we can see the value maximizing
+decision is to contract with supplier s.
+
+239
+00:16:10.470 --> 00:16:13.370
+So what we'll do is
+we'll cut away those two
+
+240
+00:16:13.370 --> 00:16:18.050
+little red lines that are supposed
+to be cuts on branches of the tree,
+
+241
+00:16:18.050 --> 00:16:23.900
+to indicate that we've chosen contracting
+with supplier s as the maxi min strategy.
+
+242
+00:16:24.960 --> 00:16:29.900
+The next strategy that we'll demonstrate
+is the maxi-max set of decisions.
+
+243
+00:16:29.900 --> 00:16:35.850
+Remember, maxi-max set of decisions
+maximize the value of the maximum outcome.
+
+244
+00:16:35.850 --> 00:16:39.820
+So we want to see how good we can
+make the best possible outcome.
+
+245
+00:16:39.820 --> 00:16:43.200
+To roll back a maxi-max decision tree,
+
+246
+00:16:43.200 --> 00:16:47.970
+we again start with the tree's outcomes
+and work backwards towards its root.
+
+247
+00:16:47.970 --> 00:16:52.290
+At each event node, we now find
+the outcome with the maximum value and
+
+248
+00:16:52.290 --> 00:16:55.170
+we replace the event node
+with that maximum value.
+
+249
+00:16:55.170 --> 00:16:57.500
+Then at each decision node as before,
+
+250
+00:16:57.500 --> 00:17:00.770
+we choose the action that
+maximizes the associated value.
+
+251
+00:17:02.190 --> 00:17:05.810
+So let's take a look and
+see what happens with IDEAS decision tree.
+
+252
+00:17:05.810 --> 00:17:10.980
+Again, we start at the tree's outcomes and
+we work backwards towards its root.
+
+253
+00:17:10.980 --> 00:17:13.400
+Starting at the outcomes and
+moving to the left,
+
+254
+00:17:13.400 --> 00:17:16.390
+we see that the first set
+of nodes are event nodes.
+
+255
+00:17:16.390 --> 00:17:17.710
+We'll start at the bottom.
+
+256
+00:17:17.710 --> 00:17:22.280
+We'll evaluate the decision
+to contract with supplier P.
+
+257
+00:17:22.280 --> 00:17:25.130
+Remember, at this event node,
+we going to look for
+
+258
+00:17:25.130 --> 00:17:27.190
+the outcome with the maximum value.
+
+259
+00:17:28.530 --> 00:17:34.600
+And for IDEA, that maximum value is
+450,000 euros when the market is strong.
+
+260
+00:17:34.600 --> 00:17:36.480
+So we'll replace that event node.
+
+261
+00:17:36.480 --> 00:17:38.440
+And now we'll move to supplier S.
+
+262
+00:17:38.440 --> 00:17:43.220
+Again, in either case,
+the outcome is 150,000 euros.
+
+263
+00:17:43.220 --> 00:17:50.510
+So, by contracting with supplier S,
+the maximum value is 150,000 euros.
+
+264
+00:17:50.510 --> 00:17:55.870
+And finally, we'll move to the decision
+node, which is whom to contract with,
+
+265
+00:17:55.870 --> 00:17:59.740
+and we'll choose the action that
+maximizes the associated value.
+
+266
+00:17:59.740 --> 00:18:04.920
+In this case, you can see
+the maximum value is 450,000 euros,
+
+267
+00:18:04.920 --> 00:18:07.080
+for contracting with supplier P.
+
+268
+00:18:07.080 --> 00:18:11.260
+And so, we'll eliminate the other two
+choices contracting with no one or
+
+269
+00:18:11.260 --> 00:18:13.160
+contracting with supplier S.
+
+270
+00:18:13.160 --> 00:18:17.500
+That is, the maxi-max strategy
+is to contract the supplier P.
+
+271
+00:18:18.830 --> 00:18:24.240
+Finally, we're going to determine what
+the expected value maximizing strategy is.
+
+272
+00:18:24.240 --> 00:18:27.900
+We'll start at the tree's outcomes and
+work backwards towards its root.
+
+273
+00:18:27.900 --> 00:18:32.080
+At each event node, we'll now calculate
+the expected value of the outcomes, and
+
+274
+00:18:32.080 --> 00:18:35.090
+we'll replace the event node
+with that expected value.
+
+275
+00:18:35.090 --> 00:18:37.190
+How do we calculate the expected value?
+
+276
+00:18:37.190 --> 00:18:39.110
+We take each of the outcomes and
+
+277
+00:18:39.110 --> 00:18:43.080
+we weight it by the estimate of
+the probability that it will occur.
+
+278
+00:18:43.080 --> 00:18:46.750
+At each decision node we'll then
+choose the action that maximizes
+
+279
+00:18:46.750 --> 00:18:48.280
+the associated value.
+
+280
+00:18:48.280 --> 00:18:50.880
+So let's take a look at how it works for
+idea.
+
+281
+00:18:50.880 --> 00:18:54.600
+Again we'll start at the tree outcomes and
+work backwards towards it's root.
+
+282
+00:18:55.930 --> 00:18:58.410
+The first set of nodes we
+see are event nodes, and
+
+283
+00:18:58.410 --> 00:19:02.670
+first we'll evaluate the event
+node associated with supplier P.
+
+284
+00:19:02.670 --> 00:19:05.040
+And we'll calculate the expected value.
+
+285
+00:19:05.040 --> 00:19:07.980
+The outcomes are four
+hundred fifty thousand, and
+
+286
+00:19:07.980 --> 00:19:09.620
+negative three hundred thousand.
+
+287
+00:19:09.620 --> 00:19:12.670
+And we need to weight them by
+the probabilities that they occur.
+
+288
+00:19:12.670 --> 00:19:13.890
+Point five each.
+
+289
+00:19:13.890 --> 00:19:21.700
+The calculation is that we take
+.05*(450,000)+ .05*(-300,000) to
+
+290
+00:19:21.700 --> 00:19:27.540
+get an expected value of 75,000 for
+contracting with supplier p.
+
+291
+00:19:27.540 --> 00:19:30.560
+Well take that expected value and
+substitute it for
+
+292
+00:19:30.560 --> 00:19:33.830
+the event node and move up to supplier s.
+
+293
+00:19:33.830 --> 00:19:38.870
+The same calculation for
+supplier s has 150,000 for both outcomes.
+
+294
+00:19:38.870 --> 00:19:41.440
+And it's not hard to see
+that when we weight both
+
+295
+00:19:41.440 --> 00:19:45.670
+outcomes by 0.5 the expected
+value is also 150,000.
+
+296
+00:19:45.670 --> 00:19:50.970
+We'll take that expected value and
+replace the event node by it.
+
+297
+00:19:50.970 --> 00:19:57.480
+And finally we can decide who Idea should
+contract with to maximize expected value.
+
+298
+00:19:57.480 --> 00:20:01.620
+Here you can see the expected
+value that highest is 150,000.
+
+299
+00:20:01.620 --> 00:20:03.880
+That's contracting with supplier S.
+
+300
+00:20:03.880 --> 00:20:06.580
+And so
+we'll eliminate the two other options.
+
+301
+00:20:06.580 --> 00:20:12.270
+The expected value maximizing strategy for
+idea is to contract with supplier S.
+
+302
+00:20:13.540 --> 00:20:15.460
+So those are the three strategies.
+
+303
+00:20:15.460 --> 00:20:21.000
+Maximin, maximax, and
+expected value maximizing strategies.
+
+304
+00:20:21.000 --> 00:20:24.200
+The maxi-min strategy was
+to chose supplier S, and
+
+305
+00:20:24.200 --> 00:20:26.950
+it had a maxi-min value of 150,000 Euros.
+
+306
+00:20:26.950 --> 00:20:32.010
+That is, that was the strategy that would
+ensure that the worst that could happen
+
+307
+00:20:32.010 --> 00:20:35.140
+would be IDEA would earn 150,000 Euros.
+
+308
+00:20:35.140 --> 00:20:38.240
+The maxi-max strategy
+was to chose supplier P,
+
+309
+00:20:38.240 --> 00:20:42.846
+and it had a maxi-max
+value of 450,000 Euros.
+
+310
+00:20:42.846 --> 00:20:46.630
+The maxi-max strategy ensures
+
+311
+00:20:46.630 --> 00:20:51.076
+that idea has the chance of
+earning up to 450,000 euros.
+
+312
+00:20:51.076 --> 00:20:55.300
+Finally the risk-neutral strategy
+was to choose supplier S.
+
+313
+00:20:55.300 --> 00:20:59.068
+And again,
+it had an expected value of 150,000 euros.
+
+314
+00:20:59.068 --> 00:21:02.600
+So you can see the maxi-min strategy and
+
+315
+00:21:02.600 --> 00:21:06.120
+the risk-neutral strategy
+have the same value.
+
+316
+00:21:06.120 --> 00:21:10.850
+That is the expected value
+maximizing strategy is also
+
+317
+00:21:10.850 --> 00:21:15.520
+a very safe strategy because it's
+also maximizing the minimum payout.
+
+318
+00:21:15.520 --> 00:21:19.640
+We've completed the building and
+the analysis of the decision tree, and
+
+319
+00:21:19.640 --> 00:21:24.530
+it's a good point to review the mechanics
+of what we do to analyse decision trees.
+
+320
+00:21:24.530 --> 00:21:27.300
+First we construct a decision tree.
+
+321
+00:21:27.300 --> 00:21:29.160
+A decision tree has three parts.
+
+322
+00:21:29.160 --> 00:21:33.850
+It has decision nodes, those are points
+at which you make choices among options.
+
+323
+00:21:33.850 --> 00:21:38.540
+It has event nodes, those are moments in
+time when there's a random occurrence.
+
+324
+00:21:38.540 --> 00:21:40.070
+And finally, there are outcomes.
+
+325
+00:21:40.070 --> 00:21:44.290
+They capture all the costs and rewards
+leading up to each leaf of the tree.
+
+326
+00:21:44.290 --> 00:21:47.520
+Having built the decision tree,
+we just take a look at it.
+
+327
+00:21:47.520 --> 00:21:50.480
+And looking at the range of outcomes and
+the probabilities,
+
+328
+00:21:50.480 --> 00:21:52.260
+itself can be instructive.
+
+329
+00:21:52.260 --> 00:21:55.130
+But for a very big tree,
+it's useful to have
+
+330
+00:21:55.130 --> 00:22:01.080
+a more systematic way of taking
+a look at the range of possibilities.
+
+331
+00:22:01.080 --> 00:22:05.330
+And to do that we use three classic
+decision making strategies,
+
+332
+00:22:05.330 --> 00:22:10.870
+to look at risk seeking, risk avoiding and
+risk neutral strategies.
+
+333
+00:22:10.870 --> 00:22:14.050
+For all three of them, we started
+at the end with the outcomes, and
+
+334
+00:22:14.050 --> 00:22:15.970
+worked backwards to the root.
+
+335
+00:22:15.970 --> 00:22:19.990
+At event notes,
+we then calculated either the minimum,
+
+336
+00:22:19.990 --> 00:22:24.911
+the maximum value or the expected value,
+and that differed with the max/min,
+
+337
+00:22:24.911 --> 00:22:28.680
+max/max, or
+expected value maximizing strategy.
+
+338
+00:22:28.680 --> 00:22:29.210
+And finally,
+
+339
+00:22:29.210 --> 00:22:33.140
+at decision nodes, we cut away the
+decision that did not maximize the value.
+
+340
+00:22:34.250 --> 00:22:39.320
+This procedure identifies a range of
+risk-sensitive strategies from highly risk
+
+341
+00:22:39.320 --> 00:22:45.380
+avoiding max/min strategies,
+to risk-seeking maxi max strategies,
+
+342
+00:22:45.380 --> 00:22:50.360
+to expected value maximizing strategies
+that are somewhere in between.
+
+343
+00:22:50.360 --> 00:22:54.430
+When using decision trees, it's also
+worth keeping the following in mind.
+
+344
+00:22:54.430 --> 00:22:58.210
+The tree that we constructed in
+this session was quite small.
+
+345
+00:22:58.210 --> 00:23:01.060
+Specifically so
+that it all could fit on one screen.
+
+346
+00:23:01.060 --> 00:23:04.050
+But in real life decision trees
+can be very, very large and
+
+347
+00:23:04.050 --> 00:23:07.810
+have many branches and
+layers of decisions and events.
+
+348
+00:23:07.810 --> 00:23:12.460
+Cash flows in decision trees sometimes
+stream in over long periods of time.
+
+349
+00:23:12.460 --> 00:23:17.690
+Like years, In that case you need to worry
+about the discounting of the cash flows.
+
+350
+00:23:17.690 --> 00:23:20.890
+Where do the cash flows and probabilities
+come from in the first place?
+
+351
+00:23:20.890 --> 00:23:22.610
+Sometimes it comes from past data.
+
+352
+00:23:22.610 --> 00:23:27.790
+For example, maybe IDEA had sold tents
+similar to the Krusbar in previous years.
+
+353
+00:23:27.790 --> 00:23:29.970
+Sometimes it comes from "expert judgment".
+
+354
+00:23:29.970 --> 00:23:35.070
+But in either case, these are predictions
+about cash flows and probabilities, and
+
+355
+00:23:35.070 --> 00:23:38.540
+that's a form of "predictive" analytics
+that we've touched on already in week one.
+
+356
+00:23:39.810 --> 00:23:43.080
+You can even do sensitivity
+analysis to address shaky data.
+
+357
+00:23:43.080 --> 00:23:47.090
+For example, we might be interested
+in knowing at which probability
+
+358
+00:23:47.090 --> 00:23:52.300
+we become indifferent between contracting
+with supplier S, and supplier P.
+
+359
+00:23:52.300 --> 00:23:54.750
+Whether than saying what
+the probability is,
+
+360
+00:23:54.750 --> 00:23:57.489
+we find out what
+the break-even probability is.
+
+361
+00:23:58.710 --> 00:24:03.160
+Finally, it's easiest to use a fence
+that have just a few discreet scenarios.
+
+362
+00:24:03.160 --> 00:24:04.120
+That's what we did this time.
+
+363
+00:24:04.120 --> 00:24:08.060
+There are only two scenarios,
+a weak market and a strong market.
+
+364
+00:24:08.060 --> 00:24:10.440
+But again,
+the reality can be more complex.
+
+365
+00:24:10.440 --> 00:24:14.010
+And that's what we're gonna look
+at in session two this week.
+
+366
+00:24:14.010 --> 00:24:18.040
+Finally, it's worth mentioning that
+decision trees are widely used in
+
+367
+00:24:18.040 --> 00:24:19.170
+practice.
+
+368
+00:24:19.170 --> 00:24:23.660
+IDEA is just a small example that we've
+designed to convey the essential ideas.
+
+369
+00:24:23.660 --> 00:24:24.390
+But in practise,
+
+370
+00:24:24.390 --> 00:24:28.920
+decision trees are used to evaluate
+a really wide range of complex problems.
+
+371
+00:24:28.920 --> 00:24:32.630
+And I'm gonna list just a few of them that
+you can find published in Interfaces, but
+
+372
+00:24:32.630 --> 00:24:34.420
+they are many many more out there.
+
+373
+00:24:34.420 --> 00:24:38.230
+One example would be in research and
+development licensing.
+
+374
+00:24:38.230 --> 00:24:42.790
+For example, there's an interfaces article
+on Phytopharm, which was deciding whether
+
+375
+00:24:42.790 --> 00:24:47.080
+to keep developing its products or
+to license them.
+
+376
+00:24:47.080 --> 00:24:51.290
+Eventually Phytopharm was actually
+bought out by another Pxharma company.
+
+377
+00:24:51.290 --> 00:24:53.440
+Another nice example is credit scoring.
+
+378
+00:24:53.440 --> 00:24:58.290
+There's an Interfaces article on Bank One,
+which was subsequently bought by Chase.
+
+379
+00:24:58.290 --> 00:25:00.390
+And when people apply for credit cards and
+
+380
+00:25:00.390 --> 00:25:04.235
+other forms of credit, a common thing
+to do is to use decision trees.
+
+381
+00:25:04.235 --> 00:25:09.585
+Is to figure out, whether to accept
+that person or to not accept the person.
+
+382
+00:25:09.585 --> 00:25:13.515
+Finally, there's a nice article
+on the eradication of Polio,
+
+383
+00:25:13.515 --> 00:25:17.975
+in which the Center for Disease Control in
+the United States is using decision trees
+
+384
+00:25:17.975 --> 00:25:20.455
+to figure out what's the best
+course of action is.
+
+385
+00:25:20.455 --> 00:25:24.095
+There also exists different software
+packages to help analyse and
+
+386
+00:25:24.095 --> 00:25:26.190
+manage large decision trees.
+
+387
+00:25:26.190 --> 00:25:31.030
+They range from single user products,
+such as TreePlan, to massive enterprise
+
+388
+00:25:31.030 --> 00:25:35.290
+wide products such as those made by
+DecisionTools and Logical Decisions.
+
+389
+00:25:36.660 --> 00:25:40.030
+Problems of decision making under
+uncertainty are all around us.
+
+390
+00:25:40.030 --> 00:25:43.420
+We find them whenever we have to
+choose among competing actions, and
+
+391
+00:25:43.420 --> 00:25:45.980
+our choices lead to uncertain outcomes.
+
+392
+00:25:45.980 --> 00:25:50.620
+In this session, we look to the simple
+one stage decision of which supplier to
+
+393
+00:25:50.620 --> 00:25:55.255
+select, along with a simple model of
+uncertainty in the market outcome.
+
+394
+00:25:55.255 --> 00:26:00.055
+But decisions made under uncertainty can
+have more complex decisions, and outcomes,
+
+395
+00:26:00.055 --> 00:26:04.525
+and in the next two sessions we'll extend
+our analysis to cover these cases.
+
+396
+00:26:04.525 --> 00:26:07.505
+That's it for week four and
+session one, see you at session two.
