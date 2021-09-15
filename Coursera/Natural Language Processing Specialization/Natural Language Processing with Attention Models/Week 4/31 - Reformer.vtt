@@ -1,0 +1,235 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.010
+In the last two videos,
+
+2
+00:00:02.010 --> 00:00:04.710
+you learned how to solve the
+complexity and memory issues
+
+3
+00:00:04.710 --> 00:00:07.110
+with transformer
+on long sequences.
+
+4
+00:00:07.110 --> 00:00:09.930
+Now you'll put the solutions
+together and create
+
+5
+00:00:09.930 --> 00:00:11.730
+an efficient transformer
+model called
+
+6
+00:00:11.730 --> 00:00:14.070
+reformer. Let's dive in.
+
+7
+00:00:14.070 --> 00:00:15.960
+Let me introduce you to
+
+8
+00:00:15.960 --> 00:00:18.720
+reformer, the
+reversible transformer.
+
+9
+00:00:18.720 --> 00:00:20.475
+Using this model, you can fit
+
+10
+00:00:20.475 --> 00:00:24.525
+up to 1 million tokens on
+a single 16 gigabyte GPU.
+
+11
+00:00:24.525 --> 00:00:27.060
+That's enough to
+fit an entire book,
+
+12
+00:00:27.060 --> 00:00:29.760
+like all of crime,
+punishments, for example.
+
+13
+00:00:29.760 --> 00:00:32.990
+The reformer is a transformer
+model designed to
+
+14
+00:00:32.990 --> 00:00:37.085
+handle context windows of
+up to 1 million words.
+
+15
+00:00:37.085 --> 00:00:39.170
+It's combines two
+techniques to solve
+
+16
+00:00:39.170 --> 00:00:41.330
+the crucial problems
+of attention,
+
+17
+00:00:41.330 --> 00:00:43.669
+and memory allocation
+that limit transformers,
+
+18
+00:00:43.669 --> 00:00:46.810
+application to long
+contexts windows.
+
+19
+00:00:46.810 --> 00:00:50.420
+Reformer uses locality
+sensitive hashing,
+
+20
+00:00:50.420 --> 00:00:52.985
+which you saw earlier
+in this specialization,
+
+21
+00:00:52.985 --> 00:00:55.265
+to reduce the complexity of
+
+22
+00:00:55.265 --> 00:00:57.560
+attending over long sequences.
+
+23
+00:00:57.560 --> 00:01:00.605
+It also uses reversible
+residual layers
+
+24
+00:01:00.605 --> 00:01:03.740
+to more efficiently use
+the memory available.
+
+25
+00:01:03.740 --> 00:01:06.905
+This blots from the
+reformer paper,
+
+26
+00:01:06.905 --> 00:01:09.470
+highlights how standard
+attention takes
+
+27
+00:01:09.470 --> 00:01:12.255
+longer as sequence
+length increases.
+
+28
+00:01:12.255 --> 00:01:14.980
+However, LSH attention takes
+
+29
+00:01:14.980 --> 00:01:16.810
+roughly the same amount of time,
+
+30
+00:01:16.810 --> 00:01:18.580
+as sequence length increases.
+
+31
+00:01:18.580 --> 00:01:19.990
+The only difference in
+
+32
+00:01:19.990 --> 00:01:22.400
+the colored lines is
+the number of hashes.
+
+33
+00:01:22.400 --> 00:01:24.220
+With more hashes taking slightly
+
+34
+00:01:24.220 --> 00:01:25.900
+longer than fewer hashes,
+
+35
+00:01:25.900 --> 00:01:27.865
+regardless of the
+sequence length.
+
+36
+00:01:27.865 --> 00:01:29.469
+In this week's assignments,
+
+37
+00:01:29.469 --> 00:01:31.915
+you will harness the
+reformer models power
+
+38
+00:01:31.915 --> 00:01:33.970
+over large contexts windows,
+
+39
+00:01:33.970 --> 00:01:37.120
+to build a working Chatbots
+that you interact with.
+
+40
+00:01:37.120 --> 00:01:40.540
+I'll show you how to build
+and train a reformer model,
+
+41
+00:01:40.540 --> 00:01:42.654
+on the MultiWOZ datasets
+
+42
+00:01:42.654 --> 00:01:45.710
+using the Trax framework
+from the Google Brain Team.
+
+43
+00:01:45.710 --> 00:01:50.665
+MultiWOZ is a very large
+datasets of human conversations,
+
+44
+00:01:50.665 --> 00:01:53.485
+covering multiple
+domains and topics.
+
+45
+00:01:53.485 --> 00:01:55.370
+When finished, you'll be
+
+46
+00:01:55.370 --> 00:01:57.365
+able to ask your
+Chatbots questions,
+
+47
+00:01:57.365 --> 00:02:00.625
+about almost anything,
+and it'll answer you.
+
+48
+00:02:00.625 --> 00:02:03.815
+You have no seen how
+a reformer is built.
+
+49
+00:02:03.815 --> 00:02:07.505
+This is a transformer that can
+handle very long contexts.
+
+50
+00:02:07.505 --> 00:02:10.830
+Let's put it to use
+to build a Chatbot.

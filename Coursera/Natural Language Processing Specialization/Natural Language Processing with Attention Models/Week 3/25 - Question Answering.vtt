@@ -1,0 +1,198 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:02.231
+Welcome to the last video of this week.
+
+2
+00:00:02.231 --> 00:00:04.812
+You now see the fruits of
+your labor come together.
+
+3
+00:00:04.812 --> 00:00:08.113
+In this video, I'll walk you through
+how you can build a QA system.
+
+4
+00:00:08.113 --> 00:00:10.696
+Question answering is
+really cool application and
+
+5
+00:00:10.696 --> 00:00:13.518
+you can use it in almost any
+application your building.
+
+6
+00:00:13.518 --> 00:00:15.265
+So let's dive in and
+see how you can do this.
+
+7
+00:00:17.320 --> 00:00:21.138
+So previously you've seen
+the transformer decoder and
+
+8
+00:00:21.138 --> 00:00:26.335
+now you're going to look at the
+transformer encoder so it's very similar.
+
+9
+00:00:26.335 --> 00:00:29.684
+You have the inputs
+embeddings that are going in,
+
+10
+00:00:29.684 --> 00:00:34.469
+then you have positional encoding,
+you have multi-attention head,
+
+11
+00:00:34.469 --> 00:00:38.613
+add a normalization,
+then a feed forward, then other add and
+
+12
+00:00:38.613 --> 00:00:43.680
+normalization and then this goes
+into the decoder architecture.
+
+13
+00:00:43.680 --> 00:00:47.264
+So, right now,
+we will be looking at the feed forward, so
+
+14
+00:00:47.264 --> 00:00:51.013
+you have a layerNorm, a dense,
+followed by an activation.
+
+15
+00:00:51.013 --> 00:00:55.509
+Then we have a dropouts in the middle,
+followed by a dense layer, and
+
+16
+00:00:55.509 --> 00:00:57.070
+then a dropouts final.
+
+17
+00:00:57.070 --> 00:01:03.270
+So this is what you'll be implementing
+in this weeks programming assignments.
+
+18
+00:01:03.270 --> 00:01:05.447
+Then you have the encoder block.
+
+19
+00:01:05.447 --> 00:01:10.578
+So the encoder block has a layer norm,
+has the attention, then the dropouts,
+
+20
+00:01:10.578 --> 00:01:15.037
+and then it has another residual
+connection within a feed forward.
+
+21
+00:01:15.037 --> 00:01:18.910
+So this is the code for
+this image over here.
+
+22
+00:01:18.910 --> 00:01:22.764
+So putting them together, you have
+the feed forward here and then you have
+
+23
+00:01:22.764 --> 00:01:26.757
+the encoder block which has the feed
+forward and two residual connections.
+
+24
+00:01:26.757 --> 00:01:29.750
+So the first one and the second one here.
+
+25
+00:01:29.750 --> 00:01:34.043
+Now, the other thing you will be
+looking at in this weeks programming
+
+26
+00:01:34.043 --> 00:01:35.903
+assignment is the datasets.
+
+27
+00:01:35.903 --> 00:01:38.258
+So, you'll have a question like this,
+
+28
+00:01:38.258 --> 00:01:43.060
+like what percentage of the French
+population today is non-European.
+
+29
+00:01:43.060 --> 00:01:46.725
+You'll have a context and
+then you'll have a target.
+
+30
+00:01:46.725 --> 00:01:51.105
+So the answer is approximately 5%,
+which could be found here.
+
+31
+00:01:51.105 --> 00:01:53.893
+So here is exactly what you'll be doing.
+
+32
+00:01:53.893 --> 00:01:56.871
+You'll be loading in
+a pre-trained model and
+
+33
+00:01:56.871 --> 00:01:59.778
+then you're going to
+process your data set.
+
+34
+00:01:59.778 --> 00:02:03.731
+Such that you'll have question:
+followed by the question.
+
+35
+00:02:03.731 --> 00:02:09.740
+Contacts: followed by the context as
+inputs, and A as targets for answer.
+
+36
+00:02:09.740 --> 00:02:13.199
+Then you will find soon your
+model on the new task and
+
+37
+00:02:13.199 --> 00:02:16.990
+the inputs, and
+then you predict using your own model.
+
+38
+00:02:16.990 --> 00:02:19.985
+And remember this is the T5
+that you'll be working with.
+
+39
+00:02:22.180 --> 00:02:25.975
+You now learn about the multiple training
+strategies used for the T5 model.
+
+40
+00:02:25.975 --> 00:02:28.007
+In this weeks programming assignments,
+
+41
+00:02:28.007 --> 00:02:30.570
+you'll get to explore this
+route in even more detail

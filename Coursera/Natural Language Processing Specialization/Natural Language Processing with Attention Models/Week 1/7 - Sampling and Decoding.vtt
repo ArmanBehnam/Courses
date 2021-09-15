@@ -1,0 +1,1036 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.610
+Hello. You'll now learn
+about two ways that
+
+2
+00:00:02.610 --> 00:00:05.160
+will allow you to construct
+the translated sentence.
+
+3
+00:00:05.160 --> 00:00:07.965
+The first approach is
+known as greedy decoding,
+
+4
+00:00:07.965 --> 00:00:10.980
+and the second approach is
+known as random sampling.
+
+5
+00:00:10.980 --> 00:00:12.795
+You will also see the pros,
+
+6
+00:00:12.795 --> 00:00:14.205
+and cons of each method.
+
+7
+00:00:14.205 --> 00:00:16.560
+For example, when
+choosing the word
+
+8
+00:00:16.560 --> 00:00:18.900
+with the highest
+probability at every time,
+
+9
+00:00:18.900 --> 00:00:22.290
+that does not necessarily
+generate the best sequence.
+
+10
+00:00:22.290 --> 00:00:24.195
+With that said, let's dive in,
+
+11
+00:00:24.195 --> 00:00:25.965
+and explore these two methods.
+
+12
+00:00:25.965 --> 00:00:28.260
+By now, you've reached
+the final part
+
+13
+00:00:28.260 --> 00:00:30.825
+of this week's lectures.
+That's awesome.
+
+14
+00:00:30.825 --> 00:00:34.239
+I'll show you a few methods
+for sampling, and decoding,
+
+15
+00:00:34.239 --> 00:00:36.020
+as well as a discussion of
+
+16
+00:00:36.020 --> 00:00:37.910
+an important hyperparameter in
+
+17
+00:00:37.910 --> 00:00:40.085
+sampling called temperature.
+
+18
+00:00:40.085 --> 00:00:42.680
+First, here's a reminder of where
+
+19
+00:00:42.680 --> 00:00:45.380
+your model is in the
+process when sampling,
+
+20
+00:00:45.380 --> 00:00:47.090
+and decoding comes into play.
+
+21
+00:00:47.090 --> 00:00:49.490
+After all the necessary
+calculations have
+
+22
+00:00:49.490 --> 00:00:52.040
+been performed on the
+encoder hidden states,
+
+23
+00:00:52.040 --> 00:00:54.895
+and your model is ready to
+predict the next token,
+
+24
+00:00:54.895 --> 00:00:56.790
+how will you choose to do it?
+
+25
+00:00:56.790 --> 00:00:59.240
+With the most
+probable token or by
+
+26
+00:00:59.240 --> 00:01:02.030
+taking a sample from
+a distribution.
+
+27
+00:01:02.030 --> 00:01:05.630
+Let's discuss a few of the
+methods available to you.
+
+28
+00:01:05.630 --> 00:01:09.020
+Greedy decoding is the
+simplest way to decode
+
+29
+00:01:09.020 --> 00:01:11.300
+the model's predictions
+as it selects
+
+30
+00:01:11.300 --> 00:01:13.945
+the most probable
+word at every step.
+
+31
+00:01:13.945 --> 00:01:17.850
+However, this approach
+has limitations.
+
+32
+00:01:17.850 --> 00:01:20.240
+When you consider the
+highest probability
+
+33
+00:01:20.240 --> 00:01:21.560
+for each prediction,
+
+34
+00:01:21.560 --> 00:01:24.830
+and concatenate all
+predicted tokens for
+
+35
+00:01:24.830 --> 00:01:28.580
+the output sequence as
+the greedy decoder does,
+
+36
+00:01:28.580 --> 00:01:30.920
+you can end up with
+a situation where
+
+37
+00:01:30.920 --> 00:01:34.025
+the output instead
+of I am hungry,
+
+38
+00:01:34.025 --> 00:01:37.680
+gives you I am, am, am, am.
+
+39
+00:01:37.680 --> 00:01:39.000
+You can see how this could be
+
+40
+00:01:39.000 --> 00:01:42.660
+a problem but not in all cases.
+
+41
+00:01:42.660 --> 00:01:45.240
+For shorter sequences it can be
+
+42
+00:01:45.240 --> 00:01:48.875
+fine but if you have many
+other words to consider,
+
+43
+00:01:48.875 --> 00:01:51.410
+then knowing what's
+coming up next
+
+44
+00:01:51.410 --> 00:01:54.400
+might help you better
+predict the next sequence.
+
+45
+00:01:54.400 --> 00:01:58.305
+Another option is known
+as random sampling.
+
+46
+00:01:58.305 --> 00:02:00.380
+What random sampling does is
+
+47
+00:02:00.380 --> 00:02:02.600
+provide probabilities
+for each word,
+
+48
+00:02:02.600 --> 00:02:05.800
+and sample accordingly
+for the next outputs.
+
+49
+00:02:05.800 --> 00:02:07.940
+One of the problems with this is
+
+50
+00:02:07.940 --> 00:02:10.475
+that it could be a
+little bit too random.
+
+51
+00:02:10.475 --> 00:02:12.800
+A solution for this is to
+
+52
+00:02:12.800 --> 00:02:15.980
+assign more weight to the
+words with higher probability,
+
+53
+00:02:15.980 --> 00:02:17.935
+and less weight to the others.
+
+54
+00:02:17.935 --> 00:02:19.520
+You will see a method for doing
+
+55
+00:02:19.520 --> 00:02:21.625
+this in just a few moments.
+
+56
+00:02:21.625 --> 00:02:25.370
+In sampling, temperature
+is a parameter you can
+
+57
+00:02:25.370 --> 00:02:26.450
+adjust to allow for
+
+58
+00:02:26.450 --> 00:02:28.930
+more or less randomness
+in your predictions.
+
+59
+00:02:28.930 --> 00:02:31.850
+It's measured on a scale of 0-1,
+
+60
+00:02:31.850 --> 00:02:34.820
+indicating low to
+high randomness.
+
+61
+00:02:34.820 --> 00:02:37.915
+You need your model
+to make careful,
+
+62
+00:02:37.915 --> 00:02:39.500
+and safe decisions about
+
+63
+00:02:39.500 --> 00:02:42.125
+what to output so set
+temperature lower,
+
+64
+00:02:42.125 --> 00:02:44.330
+and get the prediction
+equivalent of
+
+65
+00:02:44.330 --> 00:02:47.120
+a very confident but
+rather boring person
+
+66
+00:02:47.120 --> 00:02:48.965
+seated next to you at dinner.
+
+67
+00:02:48.965 --> 00:02:51.860
+If you feel like taking
+more of a gamble,
+
+68
+00:02:51.860 --> 00:02:54.215
+set your temperature
+a bit higher.
+
+69
+00:02:54.215 --> 00:02:57.994
+This has the effect of making
+your network more excited,
+
+70
+00:02:57.994 --> 00:03:00.715
+and you may get some
+pretty fun predictions.
+
+71
+00:03:00.715 --> 00:03:02.750
+On the other hand, there will
+
+72
+00:03:02.750 --> 00:03:05.120
+probably be a lot more mistakes.
+
+73
+00:03:05.120 --> 00:03:06.620
+Previously, you've seen
+
+74
+00:03:06.620 --> 00:03:08.750
+the greedy decoding
+algorithm which just
+
+75
+00:03:08.750 --> 00:03:10.700
+selects one best candidate as
+
+76
+00:03:10.700 --> 00:03:13.235
+an input sequence
+for each time stamp.
+
+77
+00:03:13.235 --> 00:03:16.850
+The model has already
+encoded the input sequence,
+
+78
+00:03:16.850 --> 00:03:20.210
+and use the previous time
+steps translation to
+
+79
+00:03:20.210 --> 00:03:21.980
+calculate how much attention to
+
+80
+00:03:21.980 --> 00:03:24.265
+give each of the input words.
+
+81
+00:03:24.265 --> 00:03:26.450
+Now it's using the decoder to
+
+82
+00:03:26.450 --> 00:03:28.565
+predict the next translated word.
+
+83
+00:03:28.565 --> 00:03:30.680
+Now choosing just
+one best candidate
+
+84
+00:03:30.680 --> 00:03:31.820
+might be suitable for
+
+85
+00:03:31.820 --> 00:03:33.740
+the current time step but
+
+86
+00:03:33.740 --> 00:03:35.690
+when we construct
+the full sentence,
+
+87
+00:03:35.690 --> 00:03:38.275
+it's maybe a sub-optimal choice.
+
+88
+00:03:38.275 --> 00:03:39.860
+Beam search decoding is
+
+89
+00:03:39.860 --> 00:03:43.400
+a more exploratory
+alternative for decoding that
+
+90
+00:03:43.400 --> 00:03:45.395
+uses a type of restricted
+
+91
+00:03:45.395 --> 00:03:48.400
+breadth-first search to
+build a search stream.
+
+92
+00:03:48.400 --> 00:03:52.120
+Instead of offering
+a single best output
+
+93
+00:03:52.120 --> 00:03:53.874
+like in greedy decoding,
+
+94
+00:03:53.874 --> 00:03:56.200
+beam search selects
+multiple options
+
+95
+00:03:56.200 --> 00:03:58.415
+based on conditional probability.
+
+96
+00:03:58.415 --> 00:04:00.820
+The search restriction
+I mentioned a
+
+97
+00:04:00.820 --> 00:04:03.760
+moment ago is the beam
+width parameter B,
+
+98
+00:04:03.760 --> 00:04:06.205
+which limits the number
+of branching paths
+
+99
+00:04:06.205 --> 00:04:09.410
+based on a number that you
+choose, such as three.
+
+100
+00:04:09.410 --> 00:04:11.880
+Then at each time step,
+
+101
+00:04:11.880 --> 00:04:13.590
+the beam search selects B number
+
+102
+00:04:13.590 --> 00:04:15.310
+of best alternatives with
+
+103
+00:04:15.310 --> 00:04:16.690
+the highest probability as
+
+104
+00:04:16.690 --> 00:04:19.450
+the most likely choice
+for the time step.
+
+105
+00:04:19.450 --> 00:04:22.210
+Once you have these
+B possibilities,
+
+106
+00:04:22.210 --> 00:04:25.105
+you can choose the one with
+the highest probability.
+
+107
+00:04:25.105 --> 00:04:27.309
+This is a beam search decoding,
+
+108
+00:04:27.309 --> 00:04:31.265
+which doesn't look only at
+the next output but instead
+
+109
+00:04:31.265 --> 00:04:33.335
+applies a beam width parameter
+
+110
+00:04:33.335 --> 00:04:35.975
+to select several
+possible options.
+
+111
+00:04:35.975 --> 00:04:38.600
+Let's take a look at
+an example sequence
+
+112
+00:04:38.600 --> 00:04:40.900
+where the beam width
+parameter is set to three.
+
+113
+00:04:40.900 --> 00:04:42.560
+The beam width parameter is
+
+114
+00:04:42.560 --> 00:04:44.875
+a defining feature
+of beam search,
+
+115
+00:04:44.875 --> 00:04:47.440
+and it controls
+the number of beam
+
+116
+00:04:47.440 --> 00:04:50.270
+searching through the
+sequence of probabilities.
+
+117
+00:04:50.270 --> 00:04:53.370
+Setting this parameter
+works in an intuitive way.
+
+118
+00:04:53.370 --> 00:04:55.250
+A larger beam width will give you
+
+119
+00:04:55.250 --> 00:04:58.690
+better model performance
+but slower decoding speed.
+
+120
+00:04:58.690 --> 00:05:01.290
+Provided with the first token I,
+
+121
+00:05:01.290 --> 00:05:03.765
+and the beam width
+parameter of three,
+
+122
+00:05:03.765 --> 00:05:06.965
+beam search assigns
+conditional probabilities to
+
+123
+00:05:06.965 --> 00:05:08.720
+each of several options
+
+124
+00:05:08.720 --> 00:05:10.910
+for the next word
+in the sequence.
+
+125
+00:05:10.910 --> 00:05:13.085
+The highest
+probability is the one
+
+126
+00:05:13.085 --> 00:05:15.560
+that will be chosen
+for each time step,
+
+127
+00:05:15.560 --> 00:05:17.735
+and the other options
+will be pruned.
+
+128
+00:05:17.735 --> 00:05:19.640
+It's determined that "am" is
+
+129
+00:05:19.640 --> 00:05:21.710
+the most likely next token in
+
+130
+00:05:21.710 --> 00:05:25.250
+the sequence with a
+probability of 40 percent.
+
+131
+00:05:25.250 --> 00:05:27.510
+For the third, and
+final time step,
+
+132
+00:05:27.510 --> 00:05:30.830
+beam search identifies
+hungry as the most
+
+133
+00:05:30.830 --> 00:05:34.760
+likely token with probability
+around 80 percent.
+
+134
+00:05:34.760 --> 00:05:36.710
+Does this sentence
+construction make
+
+135
+00:05:36.710 --> 00:05:39.080
+more sense than any
+of the other options?
+
+136
+00:05:39.080 --> 00:05:41.900
+This is a very simple
+example but you can
+
+137
+00:05:41.900 --> 00:05:44.420
+see for yourself how
+beam search makes
+
+138
+00:05:44.420 --> 00:05:46.250
+a more powerful alternative to
+
+139
+00:05:46.250 --> 00:05:47.750
+greedy decoding for
+
+140
+00:05:47.750 --> 00:05:50.510
+machine translation
+of longer sequences.
+
+141
+00:05:50.510 --> 00:05:54.830
+However, beam search decoding
+runs into issues where
+
+142
+00:05:54.830 --> 00:05:56.780
+the model learns a
+distribution that
+
+143
+00:05:56.780 --> 00:05:59.285
+isn't useful or
+accurate in reality.
+
+144
+00:05:59.285 --> 00:06:02.975
+It can also use single
+tokens in a problematic way,
+
+145
+00:06:02.975 --> 00:06:05.315
+especially for unclean corpora.
+
+146
+00:06:05.315 --> 00:06:07.220
+Imagine having training day,
+
+147
+00:06:07.220 --> 00:06:09.140
+that is not clean for example,
+
+148
+00:06:09.140 --> 00:06:10.490
+from a speech corpus.
+
+149
+00:06:10.490 --> 00:06:12.845
+If you have the filler word "Uhm"
+
+150
+00:06:12.845 --> 00:06:15.710
+which appears as a
+translation in every sentence
+
+151
+00:06:15.710 --> 00:06:18.020
+with one percent probability that
+
+152
+00:06:18.020 --> 00:06:21.370
+single element can throw off
+your entire translation.
+
+153
+00:06:21.370 --> 00:06:23.240
+Imagine now that you have
+
+154
+00:06:23.240 --> 00:06:28.055
+11 good translations
+of varying Staten,
+
+155
+00:06:28.055 --> 00:06:31.145
+which is German for
+the United States.
+
+156
+00:06:31.145 --> 00:06:33.290
+These could be USA, US,
+
+157
+00:06:33.290 --> 00:06:35.480
+US of A etc,
+
+158
+00:06:35.480 --> 00:06:37.680
+compared to your German inputs.
+
+159
+00:06:37.680 --> 00:06:40.205
+In total you have 11 squared,
+
+160
+00:06:40.205 --> 00:06:42.500
+at least good translations,
+
+161
+00:06:42.500 --> 00:06:45.530
+each with the same probability
+because they're all equal.
+
+162
+00:06:45.530 --> 00:06:48.430
+The most probable one is
+the filler word, Uhm,
+
+163
+00:06:48.430 --> 00:06:51.920
+and said because one over
+11 squared is less than
+
+164
+00:06:51.920 --> 00:06:54.710
+0.01 percent so that's
+
+165
+00:06:54.710 --> 00:06:56.945
+ends up being the most
+probable outcome.
+
+166
+00:06:56.945 --> 00:06:58.865
+Not great, is it?
+
+167
+00:06:58.865 --> 00:07:02.065
+Well, thankfully, there are
+alternatives to consider.
+
+168
+00:07:02.065 --> 00:07:04.955
+Earlier you encountered
+random sampling
+
+169
+00:07:04.955 --> 00:07:07.295
+as a way to choose
+a probable token,
+
+170
+00:07:07.295 --> 00:07:10.495
+and the issues with that
+very simple implementation.
+
+171
+00:07:10.495 --> 00:07:12.770
+But if you go a little
+further with that,
+
+172
+00:07:12.770 --> 00:07:15.245
+say, by generating 30 samples,
+
+173
+00:07:15.245 --> 00:07:17.330
+and comparing them
+all against one
+
+174
+00:07:17.330 --> 00:07:19.655
+another to see which
+one performs the best,
+
+175
+00:07:19.655 --> 00:07:23.000
+you'll see quite a bit of
+improvement in your decoding.
+
+176
+00:07:23.000 --> 00:07:25.905
+This is called Minimum
+Bayes Risk decoding or
+
+177
+00:07:25.905 --> 00:07:27.585
+MBR for short.
+
+178
+00:07:27.585 --> 00:07:30.885
+Implementing MBR is
+pretty straightforward.
+
+179
+00:07:30.885 --> 00:07:34.299
+Begin by generating
+several random samples
+
+180
+00:07:34.299 --> 00:07:38.105
+then compare each sample
+against all its mates,
+
+181
+00:07:38.105 --> 00:07:41.165
+and assign similarity
+score for each comparison.
+
+182
+00:07:41.165 --> 00:07:43.010
+ROUGE is a good one that you
+
+183
+00:07:43.010 --> 00:07:45.340
+may recall from a bit earlier.
+
+184
+00:07:45.340 --> 00:07:48.410
+Finally, choose the sample
+with the highest similarity,
+
+185
+00:07:48.410 --> 00:07:51.385
+which is sometimes referred
+to as the golden one.
+
+186
+00:07:51.385 --> 00:07:53.435
+Here are the steps
+for implementing
+
+187
+00:07:53.435 --> 00:07:56.165
+MBR on a small set
+of four samples.
+
+188
+00:07:56.165 --> 00:07:58.580
+First, calculate the similarity
+
+189
+00:07:58.580 --> 00:08:00.545
+between the first, second sample.
+
+190
+00:08:00.545 --> 00:08:02.910
+Then for the first,
+and the third sample,
+
+191
+00:08:02.910 --> 00:08:05.820
+then calculate again for
+the first fourth sample.
+
+192
+00:08:05.820 --> 00:08:09.140
+Then take the average of those
+three similarity scores.
+
+193
+00:08:09.140 --> 00:08:11.435
+Note, it's more common to use
+
+194
+00:08:11.435 --> 00:08:14.060
+a weighted average
+when you compute MBR.
+
+195
+00:08:14.060 --> 00:08:15.980
+Then you'll repeat
+this process for
+
+196
+00:08:15.980 --> 00:08:18.155
+the other three
+samples in your set.
+
+197
+00:08:18.155 --> 00:08:20.615
+At last, the top performer
+
+198
+00:08:20.615 --> 00:08:22.640
+out of all of them
+will be chosen,
+
+199
+00:08:22.640 --> 00:08:24.545
+and that's it for MBR.
+
+200
+00:08:24.545 --> 00:08:26.300
+You'll be implementing
+this one in
+
+201
+00:08:26.300 --> 00:08:28.840
+the assignment along
+with a greedy decoder.
+
+202
+00:08:28.840 --> 00:08:31.325
+Let's recap everything
+I just showed you.
+
+203
+00:08:31.325 --> 00:08:33.770
+By now you're aware
+that's beam search uses
+
+204
+00:08:33.770 --> 00:08:36.275
+a combination of
+conditional probabilities,
+
+205
+00:08:36.275 --> 00:08:38.690
+and a beam width
+parameter to offer
+
+206
+00:08:38.690 --> 00:08:41.620
+more options for inputs
+at each time step.
+
+207
+00:08:41.620 --> 00:08:44.594
+An alternative to
+beam search, the MBR,
+
+208
+00:08:44.594 --> 00:08:46.310
+take several samples, and
+
+209
+00:08:46.310 --> 00:08:48.245
+compares them against themselves,
+
+210
+00:08:48.245 --> 00:08:50.320
+then chooses the best performer.
+
+211
+00:08:50.320 --> 00:08:51.740
+This can give you a
+
+212
+00:08:51.740 --> 00:08:54.290
+more contextually
+accurate translation.
+
+213
+00:08:54.290 --> 00:08:56.630
+Excellent work taking in all of
+
+214
+00:08:56.630 --> 00:08:58.340
+this new information about
+
+215
+00:08:58.340 --> 00:09:00.680
+neural machine translation,
+and attention.
+
+216
+00:09:00.680 --> 00:09:03.650
+Now, go forth to your
+coding assignment,
+
+217
+00:09:03.650 --> 00:09:05.590
+and remember to have fun.
+
+218
+00:09:05.590 --> 00:09:07.955
+Congratulations on
+finishing this week.
+
+219
+00:09:07.955 --> 00:09:09.260
+You now know how to implement
+
+220
+00:09:09.260 --> 00:09:11.330
+a neural machine
+translation system,
+
+221
+00:09:11.330 --> 00:09:13.370
+and you also know
+how to evaluate it.
+
+222
+00:09:13.370 --> 00:09:15.260
+Next week, Lucas will
+talk about one of
+
+223
+00:09:15.260 --> 00:09:17.944
+the states of the art models
+known as a transformer,
+
+224
+00:09:17.944 --> 00:09:22.770
+which also makes use of an
+encoder decoder architecture.

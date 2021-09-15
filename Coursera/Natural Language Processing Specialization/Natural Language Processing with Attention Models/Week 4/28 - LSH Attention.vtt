@@ -1,0 +1,357 @@
+WEBVTT
+
+1
+00:00:00.340 --> 00:00:01.830
+Welcome back.
+
+2
+00:00:01.830 --> 00:00:05.656
+The first part that contributes to
+the complexity of transformer on long
+
+3
+00:00:05.656 --> 00:00:08.520
+sequences is the dot product attention.
+
+4
+00:00:08.520 --> 00:00:12.145
+To improve it, I will show you how
+to use locality sensitive hashing,
+
+5
+00:00:12.145 --> 00:00:13.804
+which you've learned before.
+
+6
+00:00:13.804 --> 00:00:19.508
+Let me show you, in this picture you
+can see what attention is doing.
+
+7
+00:00:19.508 --> 00:00:22.187
+Take the word it attention is focused on
+
+8
+00:00:22.187 --> 00:00:27.069
+certain words to determine if it refers
+to the streets or to the animal.
+
+9
+00:00:27.069 --> 00:00:31.560
+For example, in the sentence
+the animal didn't cross the street
+
+10
+00:00:31.560 --> 00:00:35.710
+because it was too tired,
+it refers to the animal.
+
+11
+00:00:35.710 --> 00:00:40.499
+Or in the second example, the animal
+didn't cross the street because it was too
+
+12
+00:00:40.499 --> 00:00:43.440
+wide, the only difference
+being the last word.
+
+13
+00:00:44.590 --> 00:00:48.559
+It again refers to either the streets or
+the animal, but
+
+14
+00:00:48.559 --> 00:00:51.270
+in this case it refers to the streets.
+
+15
+00:00:51.270 --> 00:00:56.543
+In both attentions you can see that it
+is either the animal or the streets.
+
+16
+00:00:56.543 --> 00:01:01.523
+You only need to look at the nouns
+because it can only refer to the nouns,
+
+17
+00:01:01.523 --> 00:01:03.017
+not all of the words.
+
+18
+00:01:03.017 --> 00:01:07.020
+A pronoun is a word that substitutes for
+a noun.
+
+19
+00:01:07.020 --> 00:01:13.080
+Its for animal or its for streets for
+example, as I just showed you.
+
+20
+00:01:13.080 --> 00:01:19.027
+So when working with pronouns, you know
+you only need to look at the other nouns,
+
+21
+00:01:19.027 --> 00:01:24.200
+and you can ignore the other
+words like it and was and tired.
+
+22
+00:01:24.200 --> 00:01:29.064
+This is an example of why you only want
+to work with the nearest neighbors to
+
+23
+00:01:29.064 --> 00:01:31.103
+speed up the attention parts.
+
+24
+00:01:31.103 --> 00:01:34.140
+I'll explain how to do this next.
+
+25
+00:01:34.140 --> 00:01:37.206
+You already covered nearest
+neighbors in course 1,
+
+26
+00:01:37.206 --> 00:01:39.820
+week 4 of the NLP specialization.
+
+27
+00:01:39.820 --> 00:01:43.903
+If KNN or locality sensitive
+hashing sounds unfamiliar to you,
+
+28
+00:01:43.903 --> 00:01:46.859
+please take a moment to
+review these lessons.
+
+29
+00:01:46.859 --> 00:01:51.552
+Please feel free to skip ahead if
+you're familiar with both KNN and LSH.
+
+30
+00:01:51.552 --> 00:01:56.150
+You already know from earlier courses
+that you can use locality sensitive
+
+31
+00:01:56.150 --> 00:02:00.911
+hashing to reduce the computational
+costs of finding K nearest neighbors.
+
+32
+00:02:00.911 --> 00:02:04.550
+Let me show you how to do the same for
+attention.
+
+33
+00:02:04.550 --> 00:02:09.628
+Using locality sensitive hashing,
+you can hash both the query q and (q, k).
+
+34
+00:02:09.628 --> 00:02:13.712
+This helps you group similar query and
+key vectors together,
+
+35
+00:02:13.712 --> 00:02:16.076
+just like the nouns with pronouns.
+
+36
+00:02:16.076 --> 00:02:17.853
+Examples you saw before,
+
+37
+00:02:17.853 --> 00:02:23.990
+then you only run attention on keys that
+are in the same hash buckets as the query.
+
+38
+00:02:23.990 --> 00:02:29.263
+When choosing the hash you want to make
+the buckets roughly the same size.
+
+39
+00:02:29.263 --> 00:02:33.696
+You know that hash of x is the sign
+of x times R where R is random
+
+40
+00:02:33.696 --> 00:02:38.069
+with size of d for
+dimension times the number of hash bins.
+
+41
+00:02:38.069 --> 00:02:42.612
+And design tells you which side
+of the plane the hash will be on.
+
+42
+00:02:42.612 --> 00:02:48.142
+The process is then repeated depending
+on the number of hashes that you have.
+
+43
+00:02:48.142 --> 00:02:51.970
+You also already know how
+standard attention works.
+
+44
+00:02:51.970 --> 00:02:57.009
+Well, let me show you how to speed
+this up using LSH attention.
+
+45
+00:02:57.009 --> 00:03:01.432
+First you hash Q and K,
+then perform standard attention, but
+
+46
+00:03:01.432 --> 00:03:03.567
+within the same-hash bins.
+
+47
+00:03:03.567 --> 00:03:08.129
+This reduces the search space for
+each K to the same LSH bucket as Q.
+
+48
+00:03:08.129 --> 00:03:10.989
+You can repeat this process multiple times
+
+49
+00:03:10.989 --> 00:03:15.129
+to increase the probability of
+finding Q and K in the same bin.
+
+50
+00:03:15.129 --> 00:03:20.690
+And this can be done efficiently to
+take advantage of parallel computing.
+
+51
+00:03:20.690 --> 00:03:25.160
+Now I'll show you how to integrate
+LSH into attention layers.
+
+52
+00:03:25.160 --> 00:03:31.012
+To start, you modify the model so that it
+outputs a single vector at each position,
+
+53
+00:03:31.012 --> 00:03:34.380
+which serves both as a query and a key.
+
+54
+00:03:34.380 --> 00:03:39.610
+This is called QK attention and performs
+just as well as regular attention.
+
+55
+00:03:39.610 --> 00:03:43.289
+Next you might beach vector
+to a bucket with LSH.
+
+56
+00:03:43.289 --> 00:03:46.609
+Then you sort the vectors by LSH bucket,
+and
+
+57
+00:03:46.609 --> 00:03:50.690
+finally you do attention
+only in each bucket.
+
+58
+00:03:50.690 --> 00:03:53.105
+You could do this one bucket at a time,
+but
+
+59
+00:03:53.105 --> 00:03:56.990
+that doesn't take advantage
+of hardware parallelism.
+
+60
+00:03:56.990 --> 00:04:00.980
+Instead, I'll show you how
+to do a batch computation.
+
+61
+00:04:00.980 --> 00:04:02.036
+The first step for
+
+62
+00:04:02.036 --> 00:04:05.912
+batching is to split the sorted
+sequence into fixed size chunks.
+
+63
+00:04:05.912 --> 00:04:08.941
+This allows for some parallel computation,
+
+64
+00:04:08.941 --> 00:04:12.053
+then you let each chunk
+attend within itself.
+
+65
+00:04:12.053 --> 00:04:17.069
+And the adjacent chunks discovers the case
+with a hash bucket that is split over
+
+66
+00:04:17.069 --> 00:04:23.250
+more than one chunk, like you see for the
+blue, yellow, and magenta buckets here.
+
+67
+00:04:23.250 --> 00:04:25.790
+And that's the core of LSH attention.
+
+68
+00:04:25.790 --> 00:04:33.140
+One final point to consider is that LSH is
+a probabilistic, not deterministic model.
+
+69
+00:04:33.140 --> 00:04:37.400
+This is because of the inherent
+randomness within the LSH algorithm.
+
+70
+00:04:37.400 --> 00:04:42.168
+Meaning that the hash can change along
+with the buckets a vector finds itself
+
+71
+00:04:42.168 --> 00:04:43.440
+map tune.
+
+72
+00:04:43.440 --> 00:04:47.351
+Now you understand how to speed up
+attention in transformer using locality
+
+73
+00:04:47.351 --> 00:04:48.469
+sensitive hashing.
+
+74
+00:04:48.469 --> 00:04:51.883
+There's one more problem left to
+running on long sequences, and
+
+75
+00:04:51.883 --> 00:04:54.510
+I'll show you how to solve
+that in the next video.

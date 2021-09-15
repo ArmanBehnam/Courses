@@ -1,0 +1,328 @@
+WEBVTT
+
+1
+00:00:00.140 --> 00:00:02.000
+Good to see you again.
+
+2
+00:00:02.000 --> 00:00:05.700
+In this video, I'll show you
+how to make attention work for
+
+3
+00:00:05.700 --> 00:00:10.436
+predicting one symbol after another,
+which we call the causal attention.
+
+4
+00:00:10.436 --> 00:00:11.354
+Let's dive in.
+
+5
+00:00:11.354 --> 00:00:15.024
+First, you'll see what are three
+main ways of attention.
+
+6
+00:00:15.024 --> 00:00:18.754
+After, I'll show you a brief
+overview of causal attention.
+
+7
+00:00:18.754 --> 00:00:19.591
+And finally,
+
+8
+00:00:19.591 --> 00:00:24.348
+you'll discover some mathematical
+foundations behind the causal attention.
+
+9
+00:00:24.348 --> 00:00:29.309
+So to make it more systematic, causal
+attention is the second kind of attention
+
+10
+00:00:29.309 --> 00:00:34.730
+that you're learning about, and in total
+there are three commonly used kinds.
+
+11
+00:00:34.730 --> 00:00:38.090
+One is the encoder decoder attention.
+
+12
+00:00:38.090 --> 00:00:43.847
+So when one sentence, for example German,
+attends to another one such as English.
+
+13
+00:00:43.847 --> 00:00:49.530
+You've already used this kind of
+attention in the translation model.
+
+14
+00:00:49.530 --> 00:00:51.903
+The next is causal attention,
+
+15
+00:00:51.903 --> 00:00:56.750
+where in the same sentence,
+words attend to words in the past.
+
+16
+00:00:58.110 --> 00:01:03.710
+And this kind of attention can be used for
+generating text, for example summaries.
+
+17
+00:01:03.710 --> 00:01:07.281
+The final one is
+bi-directional self-attention,
+
+18
+00:01:07.281 --> 00:01:12.750
+where words in the same sentence look
+both at previous and future words.
+
+19
+00:01:12.750 --> 00:01:17.387
+This is used in models like BERTs and
+T5, that have a masking glass.
+
+20
+00:01:17.387 --> 00:01:22.976
+You already saw the case when queries come
+from one sentence and keys from the other.
+
+21
+00:01:22.976 --> 00:01:27.052
+In causal attention, queries and
+keys come from the same sentence.
+
+22
+00:01:27.052 --> 00:01:31.140
+That is why it is often
+referred to as self-attention.
+
+23
+00:01:31.140 --> 00:01:35.681
+It is used in language models where
+you are trying to generate sentences.
+
+24
+00:01:35.681 --> 00:01:41.090
+For example, take the sentence,
+I'm happy to be learning my new skills.
+
+25
+00:01:41.090 --> 00:01:45.339
+After generating the word my, the model
+may want to look at the vector for
+
+26
+00:01:45.339 --> 00:01:47.920
+I to retrieve more information.
+
+27
+00:01:47.920 --> 00:01:53.230
+In general, causal attention allows words
+to attend to other words that are related
+
+28
+00:01:53.230 --> 00:01:58.314
+in various ways, but crucially, they
+cannot attend to words in the future since
+
+29
+00:01:58.314 --> 00:02:03.209
+these were not generated yet, they can
+attend to any word in the past though.
+
+30
+00:02:03.209 --> 00:02:06.457
+To understand the math
+behind causal attention,
+
+31
+00:02:06.457 --> 00:02:09.397
+let's recall the dot-product attention,
+
+32
+00:02:09.397 --> 00:02:14.910
+which requires the calculation of capital
+Q over here, times capital K transpose.
+
+33
+00:02:16.130 --> 00:02:20.587
+And then this gives you your
+weights course, so Q K transpose.
+
+34
+00:02:20.587 --> 00:02:25.425
+These weights are added to a constant
+matrix which is called mask, and
+
+35
+00:02:25.425 --> 00:02:27.402
+it's a triangular matrix.
+
+36
+00:02:27.402 --> 00:02:32.517
+It has 0s on the diagonal and
+below it, and minus infinity,
+
+37
+00:02:32.517 --> 00:02:37.852
+or in practice just a huge negative
+number in all other places.
+
+38
+00:02:37.852 --> 00:02:41.268
+So you get the new weights
+as Q times K transpose + M.
+
+39
+00:02:44.660 --> 00:02:49.068
+So how does the math of attention
+change for the causal version?
+
+40
+00:02:49.068 --> 00:02:53.614
+As you saw previously, you just
+need to add what is called a mask.
+
+41
+00:02:53.614 --> 00:02:55.504
+Let me elaborate further.
+
+42
+00:02:55.504 --> 00:03:01.420
+Remember that queries, keys and
+values are eigenvectors of dimension D.
+
+43
+00:03:01.420 --> 00:03:05.410
+And suppose now that they
+all have the same length L.
+
+44
+00:03:05.410 --> 00:03:09.756
+You could compute attention
+weights in the same way as before,
+
+45
+00:03:09.756 --> 00:03:13.890
+as softmax of capital Q
+times capital K transpose.
+
+46
+00:03:13.890 --> 00:03:18.320
+But that way, you are allowing the model
+to attend to words in the future.
+
+47
+00:03:18.320 --> 00:03:22.949
+To solve this issue,
+you add a mask by a sum of size L by L.
+
+48
+00:03:22.949 --> 00:03:27.166
+So you compute softmax of
+Q times K transpose + M.
+
+49
+00:03:27.166 --> 00:03:32.733
+When you add M to Q times K transpose,
+all values on the diagonal and
+
+50
+00:03:32.733 --> 00:03:40.090
+below which correspond to queries
+attending words in the past are untouched.
+
+51
+00:03:40.090 --> 00:03:43.620
+All other values become minus infinity.
+
+52
+00:03:43.620 --> 00:03:48.086
+After a softmax, all minus
+infinities will become equal to 0,
+
+53
+00:03:48.086 --> 00:03:51.724
+as exponents of negative
+infinity is equal to 0, so
+
+54
+00:03:51.724 --> 00:03:55.840
+it prevents words from
+attending to the future.
+
+55
+00:03:55.840 --> 00:04:00.374
+The final formula for
+causal attention is therefore very similar
+
+56
+00:04:00.374 --> 00:04:04.908
+to the attention formula you've
+learned in the previous video.
+
+57
+00:04:04.908 --> 00:04:07.265
+I was adding an additional M term so
+
+58
+00:04:07.265 --> 00:04:12.064
+that the attention becomes softmax
+of Q times K transpose + M times V,
+
+59
+00:04:12.064 --> 00:04:17.700
+is still very fast to compute, and
+as you'll see it does the trick.
+
+60
+00:04:17.700 --> 00:04:21.460
+So in this video, I showed you
+the three main ways of attention.
+
+61
+00:04:21.460 --> 00:04:25.021
+Encoder decoder attention,
+causal self-attention, and
+
+62
+00:04:25.021 --> 00:04:26.842
+bi-directional attention.
+
+63
+00:04:26.842 --> 00:04:32.048
+In the causal attention, queries and
+keys are contained in the same sentence,
+
+64
+00:04:32.048 --> 00:04:36.720
+and therefore queries are only
+allowed to search among the passwords.
+
+65
+00:04:37.800 --> 00:04:42.789
+Now you understand how to mask positions
+in the attention matrix to make it causal.
+
+66
+00:04:42.789 --> 00:04:46.351
+This is almost everything you
+need to build a transformer.
+
+67
+00:04:46.351 --> 00:04:50.720
+Almost, there is one more thing,
+the multi-head attention.
+
+68
+00:04:50.720 --> 00:04:52.570
+I'll tell you about it in the next video.

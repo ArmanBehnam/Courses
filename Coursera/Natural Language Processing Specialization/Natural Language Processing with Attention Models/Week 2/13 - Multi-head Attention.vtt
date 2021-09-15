@@ -1,0 +1,618 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.060
+You have learned all the
+basics of attention by now.
+
+2
+00:00:03.060 --> 00:00:06.330
+In fact, you could already
+build a transformer from it.
+
+3
+00:00:06.330 --> 00:00:08.610
+But if you wanted to
+work really well,
+
+4
+00:00:08.610 --> 00:00:11.025
+run fast and get
+very good results,
+
+5
+00:00:11.025 --> 00:00:14.190
+you'll need one more thing,
+the multi-head attention.
+
+6
+00:00:14.190 --> 00:00:16.260
+Let me show you what it is.
+
+7
+00:00:16.260 --> 00:00:18.750
+First, I will share with you
+
+8
+00:00:18.750 --> 00:00:21.125
+some intuition on
+multi-head attention.
+
+9
+00:00:21.125 --> 00:00:23.550
+Afterwards, I will present you to
+
+10
+00:00:23.550 --> 00:00:25.625
+the scale dot-product and
+
+11
+00:00:25.625 --> 00:00:28.295
+concatenation, and
+multi-head attention.
+
+12
+00:00:28.295 --> 00:00:32.970
+Then I'll show you the math
+behind multi-head attention.
+
+13
+00:00:32.970 --> 00:00:35.145
+In a Multi-head attention,
+
+14
+00:00:35.145 --> 00:00:37.100
+each head uses individually
+
+15
+00:00:37.100 --> 00:00:40.100
+linear transformations
+to represent words.
+
+16
+00:00:40.100 --> 00:00:42.080
+A single head works like this.
+
+17
+00:00:42.080 --> 00:00:47.230
+For instance, here you
+have the word, I am happy.
+
+18
+00:00:47.230 --> 00:00:49.250
+Then you first need to calculate
+
+19
+00:00:49.250 --> 00:00:51.710
+the embedding and
+you get a vector.
+
+20
+00:00:51.710 --> 00:00:55.490
+This can be linearly
+transformed to get the queries,
+
+21
+00:00:55.490 --> 00:00:58.805
+matrix, the keys over here,
+
+22
+00:00:58.805 --> 00:01:00.590
+and then the values.
+
+23
+00:01:00.590 --> 00:01:03.965
+Also when you use a
+multi-head attention,
+
+24
+00:01:03.965 --> 00:01:06.680
+a head can learn
+different relationships
+
+25
+00:01:06.680 --> 00:01:08.710
+between words from another head.
+
+26
+00:01:08.710 --> 00:01:12.255
+So over here you have
+N different heads,
+
+27
+00:01:12.255 --> 00:01:13.670
+over here you can see that's how
+
+28
+00:01:13.670 --> 00:01:16.190
+the heads are being concatenated,
+
+29
+00:01:16.190 --> 00:01:20.095
+and each one of these
+will result in one head.
+
+30
+00:01:20.095 --> 00:01:22.835
+Let me show you how
+multi-headed attention
+
+31
+00:01:22.835 --> 00:01:25.565
+achieves multiple
+lookups in parallel.
+
+32
+00:01:25.565 --> 00:01:30.535
+The input to multi-head
+attention again is a triple Q,
+
+33
+00:01:30.535 --> 00:01:33.840
+K, V. So query, key and value.
+
+34
+00:01:33.840 --> 00:01:37.204
+To achieve the multiple lookups,
+
+35
+00:01:37.204 --> 00:01:39.305
+you first use a fully-connected,
+
+36
+00:01:39.305 --> 00:01:43.535
+dense linear layer on each
+query, key, and value.
+
+37
+00:01:43.535 --> 00:01:45.380
+This layer will create
+
+38
+00:01:45.380 --> 00:01:48.640
+the representations for
+parallel attention heads.
+
+39
+00:01:48.640 --> 00:01:52.175
+Here, you split these
+vectors into number of heads
+
+40
+00:01:52.175 --> 00:01:55.790
+and perform attention on them
+as each head was different.
+
+41
+00:01:55.790 --> 00:01:57.440
+Then the result of
+
+42
+00:01:57.440 --> 00:02:00.080
+the attention will be
+concatenated back together,
+
+43
+00:02:00.080 --> 00:02:03.020
+and put through a final
+fully connected layer.
+
+44
+00:02:03.020 --> 00:02:05.840
+The scale dot-product
+is the one used in
+
+45
+00:02:05.840 --> 00:02:07.775
+the dot-product attention model
+
+46
+00:02:07.775 --> 00:02:10.190
+except by the scale factor,
+
+47
+00:02:10.190 --> 00:02:12.650
+one over square root of DK.
+
+48
+00:02:12.650 --> 00:02:16.459
+DK is the key inquiry dimension.
+
+49
+00:02:16.459 --> 00:02:19.130
+It's normalization
+prevents the gradients
+
+50
+00:02:19.130 --> 00:02:20.660
+from the function to be
+
+51
+00:02:20.660 --> 00:02:25.145
+extremely small when large
+values of D sub K are used.
+
+52
+00:02:25.145 --> 00:02:26.990
+Now, let me show you how
+
+53
+00:02:26.990 --> 00:02:28.970
+this intuition looks in practice.
+
+54
+00:02:28.970 --> 00:02:31.090
+The inputs Q, K,
+
+55
+00:02:31.090 --> 00:02:33.215
+V are all of shape,
+
+56
+00:02:33.215 --> 00:02:36.370
+batch size, length by D model.
+
+57
+00:02:36.370 --> 00:02:40.725
+Usually D model is 512 or 1024.
+
+58
+00:02:40.725 --> 00:02:43.980
+Sometimes less or more
+but of this order.
+
+59
+00:02:43.980 --> 00:02:47.580
+The linear layers acts
+on the final dimension,
+
+60
+00:02:47.580 --> 00:02:50.550
+and change it to
+N head by D head.
+
+61
+00:02:50.550 --> 00:02:54.170
+N heads is the number of
+parallel attention heads,
+
+62
+00:02:54.170 --> 00:02:57.770
+often four, eight
+or even 16 or more.
+
+63
+00:02:57.770 --> 00:03:00.050
+While D head is
+
+64
+00:03:00.050 --> 00:03:03.095
+the dimensionality of the
+vector for each head,
+
+65
+00:03:03.095 --> 00:03:06.125
+very often 64 or 128.
+
+66
+00:03:06.125 --> 00:03:09.890
+So the linear layer creates
+a set of N head vectors,
+
+67
+00:03:09.890 --> 00:03:11.795
+each of size D head.
+
+68
+00:03:11.795 --> 00:03:15.570
+To apply attention on
+all heads in parallel,
+
+69
+00:03:15.570 --> 00:03:18.530
+you transpose the N
+heads parts just after
+
+70
+00:03:18.530 --> 00:03:20.660
+the batch dimension so it
+
+71
+00:03:20.660 --> 00:03:23.210
+can be treated in the
+same way as batch.
+
+72
+00:03:23.210 --> 00:03:26.740
+Separate heads just don't
+interact with each other.
+
+73
+00:03:26.740 --> 00:03:29.300
+After this
+transposition, you apply
+
+74
+00:03:29.300 --> 00:03:31.040
+the dot-product
+attention you already
+
+75
+00:03:31.040 --> 00:03:33.110
+know in the same way as before.
+
+76
+00:03:33.110 --> 00:03:37.070
+Then the result is
+reshaped and concatenated,
+
+77
+00:03:37.070 --> 00:03:39.590
+and transposed back to get
+
+78
+00:03:39.590 --> 00:03:44.330
+a matrix in size of N
+heads times D head.
+
+79
+00:03:44.330 --> 00:03:47.540
+At the end, the final
+dense layer mixes
+
+80
+00:03:47.540 --> 00:03:50.725
+different heads into a
+joint representation.
+
+81
+00:03:50.725 --> 00:03:53.945
+To understand the math
+behind multi-head attention,
+
+82
+00:03:53.945 --> 00:03:56.435
+let's see this
+step-by-step explanation.
+
+83
+00:03:56.435 --> 00:03:58.880
+As any conventional
+attention model,
+
+84
+00:03:58.880 --> 00:04:00.080
+you first need to create
+
+85
+00:04:00.080 --> 00:04:02.360
+the embedding of the input words.
+
+86
+00:04:02.360 --> 00:04:05.630
+Next, you calculate the queries,
+
+87
+00:04:05.630 --> 00:04:07.190
+keys and value matrices,
+
+88
+00:04:07.190 --> 00:04:09.335
+capital Q, capital K,
+
+89
+00:04:09.335 --> 00:04:12.065
+and capital V. This
+is done by packing
+
+90
+00:04:12.065 --> 00:04:15.380
+all the embeddings into
+a matrix for every head,
+
+91
+00:04:15.380 --> 00:04:17.290
+from one to H heads.
+
+92
+00:04:17.290 --> 00:04:19.560
+Then you train weight
+matrices one per
+
+93
+00:04:19.560 --> 00:04:21.920
+head to obtain new
+weighted queries,
+
+94
+00:04:21.920 --> 00:04:26.795
+keys and values as
+capital W superscripts Q,
+
+95
+00:04:26.795 --> 00:04:32.420
+capital W superscript K
+and capital W superscript
+
+96
+00:04:32.420 --> 00:04:34.850
+V. Note that the subscripts
+
+97
+00:04:34.850 --> 00:04:38.585
+I tells you that this
+corresponds to the ith head.
+
+98
+00:04:38.585 --> 00:04:40.280
+With these weighted queries,
+
+99
+00:04:40.280 --> 00:04:42.395
+keys and value matrices,
+
+100
+00:04:42.395 --> 00:04:44.240
+you calculate the results matrix
+
+101
+00:04:44.240 --> 00:04:48.470
+capital Z subscript I
+from I equals one to H,
+
+102
+00:04:48.470 --> 00:04:50.480
+where H is the number of heads.
+
+103
+00:04:50.480 --> 00:04:53.060
+Finally, by multiplying
+by the outputs weight,
+
+104
+00:04:53.060 --> 00:04:57.140
+matrix capital W, superscript 0,
+
+105
+00:04:57.140 --> 00:04:59.465
+you obtain the output layer Z.
+
+106
+00:04:59.465 --> 00:05:03.035
+Now I'll show you how the
+multi-head attention works.
+
+107
+00:05:03.035 --> 00:05:05.570
+A multi-headed model
+jointly attends to
+
+108
+00:05:05.570 --> 00:05:08.330
+information from different
+representations at
+
+109
+00:05:08.330 --> 00:05:11.645
+different positions over
+the projected versions
+
+110
+00:05:11.645 --> 00:05:15.275
+of queries, keys, and values.
+
+111
+00:05:15.275 --> 00:05:18.080
+You have to apply the attention
+function in parallel,
+
+112
+00:05:18.080 --> 00:05:20.425
+reaching different output values.
+
+113
+00:05:20.425 --> 00:05:24.395
+These output values are then
+concatenated and weighted.
+
+114
+00:05:24.395 --> 00:05:26.705
+Then the multi-head attention
+
+115
+00:05:26.705 --> 00:05:28.820
+can be summarized
+in this formula.
+
+116
+00:05:28.820 --> 00:05:31.040
+The multi-head of Q,
+
+117
+00:05:31.040 --> 00:05:35.950
+K and V equals to
+the concatenation of
+
+118
+00:05:35.950 --> 00:05:39.765
+H subscript one all
+the way to H subscript
+
+119
+00:05:39.765 --> 00:05:43.770
+H times W superscript 0.
+
+120
+00:05:43.770 --> 00:05:45.800
+So in this video, you learned
+
+121
+00:05:45.800 --> 00:05:48.440
+the benefits of
+projecting queries, keys,
+
+122
+00:05:48.440 --> 00:05:50.000
+and values more than once,
+
+123
+00:05:50.000 --> 00:05:51.260
+since a head can learn
+
+124
+00:05:51.260 --> 00:05:54.680
+different relationships between
+words from another head.
+
+125
+00:05:54.680 --> 00:05:57.410
+The alternative of
+scaled dot-product
+
+126
+00:05:57.410 --> 00:06:00.410
+is of great importance
+for multi-head attention,
+
+127
+00:06:00.410 --> 00:06:03.425
+especially when matrices
+are very large.
+
+128
+00:06:03.425 --> 00:06:06.620
+The main beauty of
+multi-headed attention is
+
+129
+00:06:06.620 --> 00:06:10.310
+it's ability to achieve
+multiple lookups in parallel.
+
+130
+00:06:10.310 --> 00:06:12.185
+In the last three videos,
+
+131
+00:06:12.185 --> 00:06:13.580
+you learned about attention.
+
+132
+00:06:13.580 --> 00:06:15.965
+You know the basic
+dot-product attention,
+
+133
+00:06:15.965 --> 00:06:18.200
+the causal one and
+the multi-head one.
+
+134
+00:06:18.200 --> 00:06:21.350
+You're now ready to build
+your own transformer decoder.
+
+135
+00:06:21.350 --> 00:06:24.210
+That's what we'll do
+in the next video.

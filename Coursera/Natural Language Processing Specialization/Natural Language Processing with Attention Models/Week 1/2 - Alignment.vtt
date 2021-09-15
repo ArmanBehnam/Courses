@@ -1,0 +1,352 @@
+WEBVTT
+
+1
+00:00:00.590 --> 00:00:03.142
+Hi again,
+you'll now learn about alignment.
+
+2
+00:00:03.142 --> 00:00:07.430
+Before end to end neural machine
+translation alignments was very critical
+
+3
+00:00:07.430 --> 00:00:10.503
+when translating one language
+to another language.
+
+4
+00:00:10.503 --> 00:00:14.622
+Alignment is still widely used today for
+word sense disambiguation or
+
+5
+00:00:14.622 --> 00:00:16.018
+word sense discovery.
+
+6
+00:00:16.018 --> 00:00:18.890
+So with that said, let's dive in.
+
+7
+00:00:18.890 --> 00:00:22.375
+If your model needs to be able
+to focus in the right place, so
+
+8
+00:00:22.375 --> 00:00:25.119
+it's can choose the right
+output to predict.
+
+9
+00:00:25.119 --> 00:00:29.392
+Then it makes a lot of sense that you
+would want the words of the inputs to
+
+10
+00:00:29.392 --> 00:00:31.580
+align what the words of the output.
+
+11
+00:00:31.580 --> 00:00:35.894
+The concept of word alignment is not
+a new one, actually, it used to be
+
+12
+00:00:35.894 --> 00:00:40.980
+critically important to classic
+methods of statistical translation.
+
+13
+00:00:40.980 --> 00:00:44.496
+It's still widely used today for
+translating languages, and
+
+14
+00:00:44.496 --> 00:00:47.800
+word sense discovery, and disambiguation.
+
+15
+00:00:47.800 --> 00:00:52.621
+For word sense disambiguation, let's
+say you have the word bank over here,
+
+16
+00:00:52.621 --> 00:00:56.711
+which could mean either a financial
+institution or a riverbank.
+
+17
+00:00:56.711 --> 00:01:01.133
+What you can do with this is translate
+the word into another language.
+
+18
+00:01:01.133 --> 00:01:05.267
+And based on the interpretation of
+this word in the other language,
+
+19
+00:01:05.267 --> 00:01:09.850
+you'll be able to tell which definition
+is meant, and that's cool, no.
+
+20
+00:01:09.850 --> 00:01:14.742
+For this week's assignments on neural
+machine translation with attention,
+
+21
+00:01:14.742 --> 00:01:19.855
+you'll achieve word alignments by using
+a system that retrieves information for
+
+22
+00:01:19.855 --> 00:01:22.760
+each piece of inputs and scores it.
+
+23
+00:01:22.760 --> 00:01:26.247
+Let's take a look at how
+words align any sentence,
+
+24
+00:01:26.247 --> 00:01:31.775
+where each word is not exactly the same
+when translating from English to German.
+
+25
+00:01:31.775 --> 00:01:36.073
+So the example given here is from
+a famous speech John F Kennedy
+
+26
+00:01:36.073 --> 00:01:40.714
+gave in Berlin during the Cold War,
+which caused some confusion.
+
+27
+00:01:40.714 --> 00:01:45.249
+Because the term Berliner can denote
+either a citizen of Berlin or
+
+28
+00:01:45.249 --> 00:01:46.327
+a Jelly donut.
+
+29
+00:01:46.327 --> 00:01:48.945
+For all my word nerds out there, look for
+
+30
+00:01:48.945 --> 00:01:54.416
+an optional reading about this historic
+misunderstanding In the course material.
+
+31
+00:01:54.416 --> 00:01:55.410
+But I digress,
+
+32
+00:01:55.410 --> 00:02:00.317
+notice how the English translation has
+more words than the German version.
+
+33
+00:02:00.317 --> 00:02:05.062
+When performing word alignment,
+your model needs to be able to identify
+
+34
+00:02:05.062 --> 00:02:09.731
+relationships among the words in
+order to make accurate predictions in
+
+35
+00:02:09.731 --> 00:02:13.572
+case the words are out of order or
+not exact translations.
+
+36
+00:02:13.572 --> 00:02:16.330
+In a model that has a vector for
+each input,
+
+37
+00:02:16.330 --> 00:02:20.635
+there needs to be a way to focus
+more attention in the right places.
+
+38
+00:02:20.635 --> 00:02:25.200
+Many languages don't translate
+exactly into another language.
+
+39
+00:02:25.200 --> 00:02:29.551
+To be able to align the words correctly,
+you need to add a layer to help
+
+40
+00:02:29.551 --> 00:02:34.504
+the decoder understand which inputs
+are more important for each prediction.
+
+41
+00:02:34.504 --> 00:02:39.029
+Enter the attention layer which performs
+a series of calculations that's
+
+42
+00:02:39.029 --> 00:02:42.132
+assigned some inputs,
+more weights than others.
+
+43
+00:02:42.132 --> 00:02:47.012
+You can see here that the hidden state
+shown in dark orange has a heavier line,
+
+44
+00:02:47.012 --> 00:02:51.158
+which indicates that it's been
+given a higher attention score.
+
+45
+00:02:51.158 --> 00:02:55.511
+This means that the next word in
+the decoder's output will be strongly
+
+46
+00:02:55.511 --> 00:02:58.950
+influenced by this encoders hidden states.
+
+47
+00:02:58.950 --> 00:03:03.318
+Now that you know what word alignment is,
+the goal of attention and
+
+48
+00:03:03.318 --> 00:03:07.149
+alignment is computed by giving
+each word vector a score.
+
+49
+00:03:07.149 --> 00:03:13.310
+Let's speak inside the attention layer
+of the NMT model to see what it's doing.
+
+50
+00:03:13.310 --> 00:03:16.549
+There are lots of arrows,
+but just bear with me,
+
+51
+00:03:16.549 --> 00:03:19.635
+the concept is relatively straightforward.
+
+52
+00:03:19.635 --> 00:03:23.351
+First, get all of the available
+hidden states ready for
+
+53
+00:03:23.351 --> 00:03:28.016
+the encoder and do the same for
+the first hidden states of the decoder.
+
+54
+00:03:28.016 --> 00:03:32.519
+In the simplified example,
+there are two encoder hidden states and
+
+55
+00:03:32.519 --> 00:03:34.423
+one decoder hidden states.
+
+56
+00:03:34.423 --> 00:03:39.167
+Next, score each of the encoder hidden
+states by getting its dot product
+
+57
+00:03:39.167 --> 00:03:43.310
+between each encoder state and
+decoder hidden states.
+
+58
+00:03:43.310 --> 00:03:48.203
+If one of the scores is higher than the
+others, it means that this hidden state
+
+59
+00:03:48.203 --> 00:03:51.741
+will have more influence than
+the others on the output.
+
+60
+00:03:51.741 --> 00:03:56.516
+Then you will run scores through softmax,
+so each score is transformed to
+
+61
+00:03:56.516 --> 00:04:01.302
+a number between 0 and 1, this gives
+you your attention distribution.
+
+62
+00:04:01.302 --> 00:04:05.844
+Take each encoder hidden state, and
+multiply it by its softmax score,
+
+63
+00:04:05.844 --> 00:04:10.704
+which is a number between 0 and 1,
+this results in the alignments vector.
+
+64
+00:04:10.704 --> 00:04:15.395
+Almost there, now just add up everything
+in the alignments vector to arrive at
+
+65
+00:04:15.395 --> 00:04:18.220
+what's called the context vector.
+
+66
+00:04:18.220 --> 00:04:21.011
+This guy is what you
+feed into the decoder, so
+
+67
+00:04:21.011 --> 00:04:25.784
+you can see what's happening here can
+be distilled down to a few mathematical
+
+68
+00:04:25.784 --> 00:04:29.691
+operations that are scoring
+words based on their importance.
+
+69
+00:04:29.691 --> 00:04:31.449
+This is the magic of attention.
+
+70
+00:04:31.449 --> 00:04:35.424
+Next, you'll get deeper into
+understanding the attention mechanism and
+
+71
+00:04:35.424 --> 00:04:37.644
+what's contained in the hidden states.
+
+72
+00:04:37.644 --> 00:04:40.220
+So you have now learned about alignments,
+and
+
+73
+00:04:40.220 --> 00:04:43.270
+you've seen how attention
+makes use of this concept.

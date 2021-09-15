@@ -1,0 +1,141 @@
+WEBVTT
+
+1
+00:00:00.830 --> 00:00:05.302
+If you want to run a transformer
+over the entire text of a book,
+
+2
+00:00:05.302 --> 00:00:09.690
+you might have around 1
+million tokens to process.
+
+3
+00:00:09.690 --> 00:00:15.051
+And that requires paying attention,
+unattended to memory management.
+
+4
+00:00:15.051 --> 00:00:16.937
+I'll show you what I mean.
+
+5
+00:00:16.937 --> 00:00:21.386
+For example, if you want to run
+a transformer over this book,
+
+6
+00:00:21.386 --> 00:00:25.334
+you might have inputs of 1
+million tokens to process.
+
+7
+00:00:25.334 --> 00:00:30.603
+And each of these tokens will have
+an associated feature vector of some size,
+
+8
+00:00:30.603 --> 00:00:32.234
+for example, 512.
+
+9
+00:00:32.234 --> 00:00:37.191
+This means that just the input for
+the model is already 2GB in size.
+
+10
+00:00:37.191 --> 00:00:41.934
+On a 16 gigabyte GPU, this is
+one-eight of your total memory budget,
+
+11
+00:00:41.934 --> 00:00:45.740
+and you haven't even
+touched the layers yet.
+
+12
+00:00:45.740 --> 00:00:49.820
+Speaking of layers,
+a transformer has two types of layers,
+
+13
+00:00:49.820 --> 00:00:53.280
+attention layers an feedforward layers.
+
+14
+00:00:53.280 --> 00:00:57.190
+A model might have 12
+of each type of layer.
+
+15
+00:00:57.190 --> 00:01:00.283
+This is the case for
+example, with bed space.
+
+16
+00:01:00.283 --> 00:01:05.036
+The size of the inputs and outputs for
+each layer will also be 2GB.
+
+17
+00:01:05.036 --> 00:01:07.824
+To do backpropagation through this model,
+
+18
+00:01:07.824 --> 00:01:12.734
+the forward path will need to store
+some intermediate quantities in memory.
+
+19
+00:01:12.734 --> 00:01:17.944
+Suppose all you save is the activations
+from the boundaries between each layer and
+
+20
+00:01:17.944 --> 00:01:21.580
+nothing from within
+the individual layers themselves.
+
+21
+00:01:22.760 --> 00:01:27.822
+Already you can see an issue,
+saving these activations would
+
+22
+00:01:27.822 --> 00:01:33.670
+use around 50 GB of memory,
+which wont fit on a single device.
+
+23
+00:01:33.670 --> 00:01:38.252
+Keep in mind that the latest transformers
+are much deeper than the 12 layer
+
+24
+00:01:38.252 --> 00:01:39.764
+design I'm using here.
+
+25
+00:01:39.764 --> 00:01:44.148
+This is the first fundamental efficiency
+challenge, transformers phase.
+
+26
+00:01:44.148 --> 00:01:47.980
+Memory usage also grows linearly
+with the number of layers, so
+
+27
+00:01:47.980 --> 00:01:51.930
+there's no way to scale to
+the million token regime.
+
+28
+00:01:51.930 --> 00:01:56.477
+Fortunately, there is a solution where
+you don't need to save anything for
+
+29
+00:01:56.477 --> 00:01:59.470
+the backward path, and
+I'll show you that next.

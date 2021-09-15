@@ -1,0 +1,825 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.860
+This week I'll be talking about
+
+2
+00:00:01.860 --> 00:00:04.065
+transfer learning with
+the full transformer.
+
+3
+00:00:04.065 --> 00:00:05.910
+I'll also talk a little
+bit about BERTs,
+
+4
+00:00:05.910 --> 00:00:07.215
+which is the Bidirectional
+
+5
+00:00:07.215 --> 00:00:09.645
+Encoder Representation
+for Transformers.
+
+6
+00:00:09.645 --> 00:00:11.640
+Then I'll talk about
+a special model
+
+7
+00:00:11.640 --> 00:00:13.170
+known as the T5 model,
+
+8
+00:00:13.170 --> 00:00:14.565
+which you will learn about.
+
+9
+00:00:14.565 --> 00:00:17.535
+Now all of these concepts make
+use of transfer learning.
+
+10
+00:00:17.535 --> 00:00:19.110
+What is transfer learning?.
+
+11
+00:00:19.110 --> 00:00:22.095
+Let's take a look.
+When training a model,
+
+12
+00:00:22.095 --> 00:00:24.435
+what are the common
+desirable goals?
+
+13
+00:00:24.435 --> 00:00:27.645
+The first thing is you want
+to reduce training time.
+
+14
+00:00:27.645 --> 00:00:29.970
+Especially with
+these larger models,
+
+15
+00:00:29.970 --> 00:00:32.430
+the training time gets larger,
+and larger and it's good,
+
+16
+00:00:32.430 --> 00:00:35.340
+take up two months
+to get a good model,
+
+17
+00:00:35.340 --> 00:00:37.680
+especially with this GPT-3 and
+
+18
+00:00:37.680 --> 00:00:41.259
+these latest states of
+the arts algorithms.
+
+19
+00:00:41.259 --> 00:00:43.160
+You also want to improve
+
+20
+00:00:43.160 --> 00:00:45.815
+predictions and gets
+better results.
+
+21
+00:00:45.815 --> 00:00:50.090
+Finally, you want to be able
+to use smaller datasets.
+
+22
+00:00:50.090 --> 00:00:53.015
+We can improve on
+these three goals with
+
+23
+00:00:53.015 --> 00:00:56.475
+a method of training
+called transfer learning.
+
+24
+00:00:56.475 --> 00:00:58.880
+Let's look at the transfer
+learning options.
+
+25
+00:00:58.880 --> 00:01:01.505
+The first thing is what's
+you're already familiar with.
+
+26
+00:01:01.505 --> 00:01:03.005
+You have some training data,
+
+27
+00:01:03.005 --> 00:01:05.930
+you feed this into your model
+and you got a prediction.
+
+28
+00:01:05.930 --> 00:01:07.370
+Now, in transfer learning,
+
+29
+00:01:07.370 --> 00:01:08.645
+there are two methods.
+
+30
+00:01:08.645 --> 00:01:10.985
+There is the feature
+based method,
+
+31
+00:01:10.985 --> 00:01:13.130
+which is word vectors,and
+
+32
+00:01:13.130 --> 00:01:15.200
+then there's the
+fine tuning method,
+
+33
+00:01:15.200 --> 00:01:17.690
+which allows you to take a model,
+
+34
+00:01:17.690 --> 00:01:20.375
+and use those existing weights,
+
+35
+00:01:20.375 --> 00:01:23.515
+and fine tune them on a new task.
+
+36
+00:01:23.515 --> 00:01:26.675
+In pre-train data,
+there are two things.
+
+37
+00:01:26.675 --> 00:01:30.635
+There is a labeled
+and unlabeled data.
+
+38
+00:01:30.635 --> 00:01:35.160
+For labeled, you usually
+have inputs and labels.
+
+39
+00:01:35.160 --> 00:01:38.660
+For unlabeled, you have
+no targets and no labels,
+
+40
+00:01:38.660 --> 00:01:42.490
+and then you'll generate
+them from the texts.
+
+41
+00:01:42.490 --> 00:01:44.375
+Finally, the third step,
+
+42
+00:01:44.375 --> 00:01:47.795
+or the third option
+is pre-training task,
+
+43
+00:01:47.795 --> 00:01:49.970
+this is like language modeling or
+
+44
+00:01:49.970 --> 00:01:52.490
+masked words or next
+sentence predictions.
+
+45
+00:01:52.490 --> 00:01:55.700
+For example, you just mask
+a word and you try to
+
+46
+00:01:55.700 --> 00:01:59.135
+predict what that word
+is,or given two sentences,
+
+47
+00:01:59.135 --> 00:02:01.190
+you predict yes if
+they follow one
+
+48
+00:02:01.190 --> 00:02:03.605
+another, and no otherwise.
+
+49
+00:02:03.605 --> 00:02:05.225
+We're going to look at
+
+50
+00:02:05.225 --> 00:02:09.355
+each method or each
+option in more detail.
+
+51
+00:02:09.355 --> 00:02:11.910
+In the continuous
+bag-of-words model,
+
+52
+00:02:11.910 --> 00:02:14.315
+remember that's ideally
+you wanted to predict
+
+53
+00:02:14.315 --> 00:02:15.410
+the middle word or
+
+54
+00:02:15.410 --> 00:02:18.260
+the central word based off
+the context around it.
+
+55
+00:02:18.260 --> 00:02:20.615
+In this case, I am blank
+
+56
+00:02:20.615 --> 00:02:23.920
+because I am learning and
+you predict the word happy.
+
+57
+00:02:23.920 --> 00:02:26.150
+Now, the models weights became
+
+58
+00:02:26.150 --> 00:02:29.310
+word embeddings and also
+called word vectors.
+
+59
+00:02:29.310 --> 00:02:32.085
+Where else have you
+used word embeddings,
+
+60
+00:02:32.085 --> 00:02:35.150
+and in other downstream tasks
+like machine translation,
+
+61
+00:02:35.150 --> 00:02:36.470
+we use this word embeddings.
+
+62
+00:02:36.470 --> 00:02:38.600
+Over here, you have
+the features and
+
+63
+00:02:38.600 --> 00:02:40.900
+then you feed them
+into your model,
+
+64
+00:02:40.900 --> 00:02:44.030
+and you can translate English
+to German, for example.
+
+65
+00:02:44.030 --> 00:02:47.645
+Word embeddings are the
+high level features and
+
+66
+00:02:47.645 --> 00:02:51.260
+it can be used to provide more
+meaning to the raw inputs.
+
+67
+00:02:51.260 --> 00:02:53.320
+This method is called the
+
+68
+00:02:53.320 --> 00:02:55.630
+Feature-based approach
+to transfer Learning.
+
+69
+00:02:55.630 --> 00:02:57.970
+Now to get into some more detail,
+
+70
+00:02:57.970 --> 00:03:00.175
+there are two ways to
+do transfer learning.
+
+71
+00:03:00.175 --> 00:03:03.640
+The first way is using
+feature-based learning,
+
+72
+00:03:03.640 --> 00:03:06.695
+which allows you to get
+the high level features.
+
+73
+00:03:06.695 --> 00:03:09.895
+For example, over here you
+have some pre-training.
+
+74
+00:03:09.895 --> 00:03:11.575
+You feed it into a model,
+
+75
+00:03:11.575 --> 00:03:12.880
+you get the predictions,
+
+76
+00:03:12.880 --> 00:03:15.520
+and then you use these
+weights as your word vectors.
+
+77
+00:03:15.520 --> 00:03:18.055
+Then so these become
+your features.
+
+78
+00:03:18.055 --> 00:03:22.035
+You feed them into a new model
+and you get predictions.
+
+79
+00:03:22.035 --> 00:03:23.660
+Now, on the other hand,
+
+80
+00:03:23.660 --> 00:03:24.875
+for the fine tuning,
+
+81
+00:03:24.875 --> 00:03:26.360
+you have some more embedding,
+
+82
+00:03:26.360 --> 00:03:27.755
+you feed this into a model,
+
+83
+00:03:27.755 --> 00:03:29.230
+you got a prediction.
+
+84
+00:03:29.230 --> 00:03:30.605
+Then you use these weights,
+
+85
+00:03:30.605 --> 00:03:32.210
+these very same weights to
+
+86
+00:03:32.210 --> 00:03:35.090
+fine tune the same model
+on a downstream tasks.
+
+87
+00:03:35.090 --> 00:03:36.770
+Given the initial weights
+
+88
+00:03:36.770 --> 00:03:38.450
+that you trained in
+the first model,
+
+89
+00:03:38.450 --> 00:03:40.325
+you start with them as
+
+90
+00:03:40.325 --> 00:03:42.560
+the initialized weights
+for the second model.
+
+91
+00:03:42.560 --> 00:03:45.530
+In fine tuning, you
+can also add a layer.
+
+92
+00:03:45.530 --> 00:03:47.120
+For example, over here,
+
+93
+00:03:47.120 --> 00:03:50.165
+let's say that you're
+predicting movie reviews,
+
+94
+00:03:50.165 --> 00:03:52.675
+whether one star, two
+stars or three stars.
+
+95
+00:03:52.675 --> 00:03:54.650
+Then you take these weights
+
+96
+00:03:54.650 --> 00:03:56.990
+and you try to predict
+course reviews.
+
+97
+00:03:56.990 --> 00:03:58.790
+But over here, the
+only issue is that
+
+98
+00:03:58.790 --> 00:04:01.555
+the course reviews
+have five predictions.
+
+99
+00:04:01.555 --> 00:04:03.795
+One star all the
+way to five-stars.
+
+100
+00:04:03.795 --> 00:04:06.420
+To fix this problem is
+pretty straight forward.
+
+101
+00:04:06.420 --> 00:04:07.970
+You can just fix all of
+
+102
+00:04:07.970 --> 00:04:10.310
+these blocks over here,
+keep them the same.
+
+103
+00:04:10.310 --> 00:04:12.760
+Then you create a
+new output layer,
+
+104
+00:04:12.760 --> 00:04:14.625
+that's will match this dimension.
+
+105
+00:04:14.625 --> 00:04:17.120
+You only find tune on
+this output layer,
+
+106
+00:04:17.120 --> 00:04:19.765
+while keeping
+everything else frozen.
+
+107
+00:04:19.765 --> 00:04:22.940
+One other thing to keep
+in mind when you're
+
+108
+00:04:22.940 --> 00:04:26.105
+building these models is
+that given some data,
+
+109
+00:04:26.105 --> 00:04:27.710
+you feed it into a model,
+
+110
+00:04:27.710 --> 00:04:29.990
+and then you can get
+a normal performance
+
+111
+00:04:29.990 --> 00:04:31.520
+or an okay performance.
+
+112
+00:04:31.520 --> 00:04:33.065
+But if you have larger data,
+
+113
+00:04:33.065 --> 00:04:34.730
+and you build a larger model,
+
+114
+00:04:34.730 --> 00:04:37.130
+then you get a
+better performance.
+
+115
+00:04:37.130 --> 00:04:39.095
+The main take away is that,
+
+116
+00:04:39.095 --> 00:04:40.820
+the larger the data set you have,
+
+117
+00:04:40.820 --> 00:04:42.950
+the bigger models you can build,
+
+118
+00:04:42.950 --> 00:04:45.920
+then the better your
+results will likely be.
+
+119
+00:04:45.920 --> 00:04:49.400
+Now let's look at labeled
+versus unlabeled data.
+
+120
+00:04:49.400 --> 00:04:51.575
+As expected over here,
+
+121
+00:04:51.575 --> 00:04:53.480
+you can see that the drawings,
+
+122
+00:04:53.480 --> 00:04:55.295
+this represents the amount of
+
+123
+00:04:55.295 --> 00:04:58.445
+available text data in
+each category there is,
+
+124
+00:04:58.445 --> 00:05:00.350
+and as you can see
+that there is way
+
+125
+00:05:00.350 --> 00:05:03.095
+more unlabeled data
+than label data.
+
+126
+00:05:03.095 --> 00:05:04.670
+For a more concrete example,
+
+127
+00:05:04.670 --> 00:05:06.695
+we'll see how we can
+use unlabeled data.
+
+128
+00:05:06.695 --> 00:05:08.240
+In pre-training, we can have
+
+129
+00:05:08.240 --> 00:05:10.490
+no labels at all, for example,
+
+130
+00:05:10.490 --> 00:05:13.039
+we can just mask random words,
+
+131
+00:05:13.039 --> 00:05:14.855
+and try to predict
+what those words are,
+
+132
+00:05:14.855 --> 00:05:16.670
+without having any labels.
+
+133
+00:05:16.670 --> 00:05:18.830
+Then in downstream tasks,
+
+134
+00:05:18.830 --> 00:05:21.230
+we can use the model weights
+
+135
+00:05:21.230 --> 00:05:24.440
+and try to predict
+using labeled data on,
+
+136
+00:05:24.440 --> 00:05:25.550
+for example, over here,
+
+137
+00:05:25.550 --> 00:05:26.680
+what is pay day ,
+
+138
+00:05:26.680 --> 00:05:28.600
+you feed it into your
+model,and you're
+
+139
+00:05:28.600 --> 00:05:31.895
+model will respond March 14th.
+
+140
+00:05:31.895 --> 00:05:36.195
+The question is, which tasks
+work with unlabeled data?
+
+141
+00:05:36.195 --> 00:05:38.030
+Self supervised tasks work
+
+142
+00:05:38.030 --> 00:05:39.815
+with unlabeled data, for example,
+
+143
+00:05:39.815 --> 00:05:41.750
+given unlabeled data, you
+
+144
+00:05:41.750 --> 00:05:44.045
+can create inputs
+or the features.
+
+145
+00:05:44.045 --> 00:05:46.315
+Then you can create
+targets or labels.
+
+146
+00:05:46.315 --> 00:05:47.720
+For example, just masking
+
+147
+00:05:47.720 --> 00:05:49.880
+key word and trying to
+predict the masked word,
+
+148
+00:05:49.880 --> 00:05:52.630
+is an example of this approach.
+
+149
+00:05:52.630 --> 00:05:55.080
+Self supervised tasks look
+
+150
+00:05:55.080 --> 00:05:57.410
+like this, given unlabeled data,
+
+151
+00:05:57.410 --> 00:05:59.690
+learning from
+deeplearning.ai is like
+
+152
+00:05:59.690 --> 00:06:02.425
+watching the sunset
+with my best friend.
+
+153
+00:06:02.425 --> 00:06:04.490
+You create an input where
+
+154
+00:06:04.490 --> 00:06:06.890
+you just mask the
+last word, friend.
+
+155
+00:06:06.890 --> 00:06:09.335
+Then you have a model which
+
+156
+00:06:09.335 --> 00:06:12.000
+takes into input,
+gets a prediction.
+
+157
+00:06:12.000 --> 00:06:14.415
+Then as you can see,
+the targets is friend,
+
+158
+00:06:14.415 --> 00:06:18.380
+you use the prediction and
+the target to get a loss.
+
+159
+00:06:18.380 --> 00:06:20.285
+Then you update the model
+
+160
+00:06:20.285 --> 00:06:23.095
+based off of your prediction
+and the loss that you got.
+
+161
+00:06:23.095 --> 00:06:25.390
+This is simple language modeling,
+
+162
+00:06:25.390 --> 00:06:27.550
+and you should be familiar
+with this by now.
+
+163
+00:06:27.550 --> 00:06:30.320
+Fine tuning a model for
+each downstream task,
+
+164
+00:06:30.320 --> 00:06:33.590
+first, you have some model
+where you pre-training,
+
+165
+00:06:33.590 --> 00:06:36.620
+and then you use that very
+same model, say for example,
+
+166
+00:06:36.620 --> 00:06:38.345
+to translate English to German,
+
+167
+00:06:38.345 --> 00:06:40.070
+or to do summarization,
+
+168
+00:06:40.070 --> 00:06:41.630
+or to do question answering.
+
+169
+00:06:41.630 --> 00:06:43.610
+You use the initial weights and
+
+170
+00:06:43.610 --> 00:06:46.435
+you just fine tune
+on a different task.
+
+171
+00:06:46.435 --> 00:06:49.985
+In summary, you have seen
+how given some data,
+
+172
+00:06:49.985 --> 00:06:52.460
+you feed this into your
+model, you get a prediction.
+
+173
+00:06:52.460 --> 00:06:53.765
+But now, with transfer learning,
+
+174
+00:06:53.765 --> 00:06:55.940
+you can use feature-based
+approach like
+
+175
+00:06:55.940 --> 00:06:58.585
+word vectors or the
+fine tuning approach.
+
+176
+00:06:58.585 --> 00:07:02.330
+This leads you to using some
+type of pre-trained data,
+
+177
+00:07:02.330 --> 00:07:05.015
+for labeled and
+unlabeled datasets,
+
+178
+00:07:05.015 --> 00:07:08.045
+or using pre-training task
+
+179
+00:07:08.045 --> 00:07:11.840
+like mask toward modeling or
+next sentence prediction.
+
+180
+00:07:11.840 --> 00:07:15.420
+You have now seen some
+advantages of transfer learning.

@@ -1,0 +1,476 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.730
+Hi, again. I'll now
+teach you about
+
+2
+00:00:02.730 --> 00:00:05.810
+bidirectional encoder
+representations for transformers,
+
+3
+00:00:05.810 --> 00:00:07.400
+or in short, just BERT.
+
+4
+00:00:07.400 --> 00:00:10.020
+BERT is a model that's makes
+use of the transformer,
+
+5
+00:00:10.020 --> 00:00:12.600
+but it looks at the input
+from two directions.
+
+6
+00:00:12.600 --> 00:00:15.105
+Let's dive in and
+see how this works.
+
+7
+00:00:15.105 --> 00:00:17.265
+Today, you're going
+to learn about
+
+8
+00:00:17.265 --> 00:00:19.230
+the BERT architecture, and then,
+
+9
+00:00:19.230 --> 00:00:22.020
+you're going to understand
+how BERT pre-training works
+
+10
+00:00:22.020 --> 00:00:25.605
+and see what the inputs
+are and the outputs are.
+
+11
+00:00:25.605 --> 00:00:28.410
+What is BERT? BERT is
+
+12
+00:00:28.410 --> 00:00:31.170
+the bidirectional encoder
+representation from
+
+13
+00:00:31.170 --> 00:00:33.320
+transformers and it makes
+
+14
+00:00:33.320 --> 00:00:36.530
+use of transfer learning
+and pre-training.
+
+15
+00:00:36.530 --> 00:00:39.170
+How does this work?
+Usually starts
+
+16
+00:00:39.170 --> 00:00:42.225
+with some inputs
+embedding so E_1, E_2,
+
+17
+00:00:42.225 --> 00:00:44.675
+all the way to some
+random number,
+
+18
+00:00:44.675 --> 00:00:46.760
+E_N, and then, you go through
+
+19
+00:00:46.760 --> 00:00:49.280
+some transformer blocks,
+as you can see here.
+
+20
+00:00:49.280 --> 00:00:52.445
+Each blue circle is
+a transformer block,
+
+21
+00:00:52.445 --> 00:00:55.820
+goes up furthermore, furthermore,
+
+22
+00:00:55.820 --> 00:01:00.610
+and then, you get
+your T_1, T_2, T_N.
+
+23
+00:01:00.610 --> 00:01:02.580
+Basically, there are two steps in
+
+24
+00:01:02.580 --> 00:01:06.525
+BERT's framework,
+pre-training and fine-tuning.
+
+25
+00:01:06.525 --> 00:01:09.605
+During pre-training,
+the model is trained on
+
+26
+00:01:09.605 --> 00:01:12.895
+unlabeled data over
+different pre-training tasks
+
+27
+00:01:12.895 --> 00:01:14.680
+as you've already seen before,
+
+28
+00:01:14.680 --> 00:01:16.155
+and for fine-tuning,
+
+29
+00:01:16.155 --> 00:01:18.430
+the BERT model is
+first initialized with
+
+30
+00:01:18.430 --> 00:01:21.480
+the pre-trained parameters
+and all of the parameters are
+
+31
+00:01:21.480 --> 00:01:25.255
+fine-tuned using labeled data
+from the downstream tasks.
+
+32
+00:01:25.255 --> 00:01:27.670
+For example, in the
+figure over here,
+
+33
+00:01:27.670 --> 00:01:29.875
+you get the corresponding
+embeddings.
+
+34
+00:01:29.875 --> 00:01:32.155
+You went through a few
+transformer blocks,
+
+35
+00:01:32.155 --> 00:01:33.785
+and then, you make
+the prediction.
+
+36
+00:01:33.785 --> 00:01:37.090
+We'll discuss some
+notation over here.
+
+37
+00:01:37.090 --> 00:01:39.520
+First of all, BERT is
+
+38
+00:01:39.520 --> 00:01:42.160
+a multi-layer
+bidirectional transformer.
+
+39
+00:01:42.160 --> 00:01:45.710
+It makes use of
+positional embeddings,
+
+40
+00:01:45.710 --> 00:01:48.600
+and the famous model is
+
+41
+00:01:48.600 --> 00:01:52.855
+BERT base which has 12 layers
+or 12 transformer blocks,
+
+42
+00:01:52.855 --> 00:01:57.125
+12 attention heads, and
+110 million parameters,
+
+43
+00:01:57.125 --> 00:01:59.660
+and this new models
+that are coming out
+
+44
+00:01:59.660 --> 00:02:02.255
+now like GPT-3 and so forth.
+
+45
+00:02:02.255 --> 00:02:05.000
+They have way, way more
+parameters and way,
+
+46
+00:02:05.000 --> 00:02:08.310
+way more blocks and layers.
+
+47
+00:02:08.360 --> 00:02:12.090
+Let's talk about pre-training.
+
+48
+00:02:12.090 --> 00:02:15.525
+Before feeding the word
+sequences to the BERT model,
+
+49
+00:02:15.525 --> 00:02:18.705
+we mask 15 percent of the words,
+
+50
+00:02:18.705 --> 00:02:22.115
+and then, the training
+data generator
+
+51
+00:02:22.115 --> 00:02:23.780
+chooses 15 percent of
+
+52
+00:02:23.780 --> 00:02:26.345
+these positions at
+random for prediction.
+
+53
+00:02:26.345 --> 00:02:29.790
+Then, if the ice token is chosen,
+
+54
+00:02:29.790 --> 00:02:32.565
+we replace the ice
+token with one,
+
+55
+00:02:32.565 --> 00:02:36.900
+the mask token 80 percent
+of the time, and then, two,
+
+56
+00:02:36.900 --> 00:02:39.690
+a random token 10 percent
+of the time, and then,
+
+57
+00:02:39.690 --> 00:02:43.320
+three, the unchanging ice
+token 10 percent of the time.
+
+58
+00:02:43.320 --> 00:02:45.540
+In this case, then TI,
+
+59
+00:02:45.540 --> 00:02:47.615
+which you've seen in
+the previous slide,
+
+60
+00:02:47.615 --> 00:02:49.520
+will be used to
+predict the original
+
+61
+00:02:49.520 --> 00:02:51.545
+token with cross-entropy loss.
+
+62
+00:02:51.545 --> 00:02:55.585
+In this case, this is known
+as the masked language model.
+
+63
+00:02:55.585 --> 00:02:57.630
+Over here, we have "After school
+
+64
+00:02:57.630 --> 00:02:59.890
+Lukasz does his blank
+in the library."
+
+65
+00:02:59.890 --> 00:03:02.060
+Maybe work, maybe homework.
+
+66
+00:03:02.060 --> 00:03:03.925
+One of these words that
+
+67
+00:03:03.925 --> 00:03:07.025
+your BERT's model is
+going to try to predict.
+
+68
+00:03:07.025 --> 00:03:08.780
+To do so, usually, what you do,
+
+69
+00:03:08.780 --> 00:03:11.120
+you just add the
+dense layer after
+
+70
+00:03:11.120 --> 00:03:12.620
+the TI token and use it to
+
+71
+00:03:12.620 --> 00:03:15.070
+classify after the
+encoder outputs.
+
+72
+00:03:15.070 --> 00:03:17.010
+You just multiply
+the output's vectors
+
+73
+00:03:17.010 --> 00:03:19.120
+by the embedding
+matrix, and then,
+
+74
+00:03:19.120 --> 00:03:20.240
+to transform them into
+
+75
+00:03:20.240 --> 00:03:24.865
+vocabulary dimension and you
+add a softmax at the end.
+
+76
+00:03:24.865 --> 00:03:27.450
+This is another sentence,
+
+77
+00:03:27.450 --> 00:03:31.575
+After school Lukasz does his
+homework in the library.
+
+78
+00:03:31.575 --> 00:03:35.510
+And then, After school blank
+his homework in the blank.
+
+79
+00:03:35.510 --> 00:03:37.265
+You have to predict
+what Lukasz does,
+
+80
+00:03:37.265 --> 00:03:39.610
+and then, library also.
+
+81
+00:03:39.610 --> 00:03:41.220
+In summary, you choose
+
+82
+00:03:41.220 --> 00:03:43.460
+15 percent of the
+tokens at random.
+
+83
+00:03:43.460 --> 00:03:45.785
+You mask then 80
+percent of the time,
+
+84
+00:03:45.785 --> 00:03:48.860
+replace them with a random
+token 10 percent of the time,
+
+85
+00:03:48.860 --> 00:03:51.620
+or keep as is 10 percent
+of the time, and then,
+
+86
+00:03:51.620 --> 00:03:53.000
+know that there could be multiple
+
+87
+00:03:53.000 --> 00:03:54.620
+masked spans in a sentence.
+
+88
+00:03:54.620 --> 00:03:58.060
+You could match several
+words in the same sentence,
+
+89
+00:03:58.060 --> 00:03:59.565
+and in BERT,
+
+90
+00:03:59.565 --> 00:04:03.140
+next sentence prediction is
+also used when pre-training.
+
+91
+00:04:03.140 --> 00:04:05.690
+Given two sentences,
+if it's true,
+
+92
+00:04:05.690 --> 00:04:08.595
+it means the two sentences
+follow one another.
+
+93
+00:04:08.595 --> 00:04:10.500
+Otherwise, they are different.
+
+94
+00:04:10.500 --> 00:04:14.040
+They don't lie in the same
+sequence in the text.
+
+95
+00:04:14.040 --> 00:04:16.790
+You have now developed an
+intuition for this model.
+
+96
+00:04:16.790 --> 00:04:18.440
+You've seen that's
+BERT makes use of
+
+97
+00:04:18.440 --> 00:04:21.440
+next sentence prediction and
+masked language modeling.
+
+98
+00:04:21.440 --> 00:04:22.790
+This allows the model to have
+
+99
+00:04:22.790 --> 00:04:24.695
+a general sense of the language.
+
+100
+00:04:24.695 --> 00:04:26.780
+In the next video, I'm
+going to formalize this
+
+101
+00:04:26.780 --> 00:04:28.980
+and show you the loss
+function for BERT.
+
+102
+00:04:28.980 --> 00:04:31.420
+Please go onto the next video.

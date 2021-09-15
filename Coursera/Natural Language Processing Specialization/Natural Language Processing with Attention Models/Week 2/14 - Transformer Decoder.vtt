@@ -1,0 +1,372 @@
+WEBVTT
+
+1
+00:00:00.260 --> 00:00:05.110
+Welcome back, in this video, you'll build
+your own transformer decoder model,
+
+2
+00:00:05.110 --> 00:00:08.000
+which is also known as the GPT-2.
+
+3
+00:00:08.000 --> 00:00:13.180
+Once you know attention, it's a fairly
+simple model as you'll see, let's dive in.
+
+4
+00:00:13.180 --> 00:00:18.137
+>> In this video, you'll see the basic
+structure of a transformer decoder.
+
+5
+00:00:18.137 --> 00:00:21.546
+I'll show you the definition
+of a transformer and
+
+6
+00:00:21.546 --> 00:00:25.534
+how to implement the decoder and
+the feed forward blocks.
+
+7
+00:00:25.534 --> 00:00:29.928
+So on the left, you can see a picture
+of the transformer decoder.
+
+8
+00:00:29.928 --> 00:00:35.260
+As input, it gets a tokenized sentence,
+a vector of integers as usual.
+
+9
+00:00:35.260 --> 00:00:38.743
+The sentence gets embedded
+with word embeddings,
+
+10
+00:00:38.743 --> 00:00:41.011
+which you know quite well by now.
+
+11
+00:00:41.011 --> 00:00:46.230
+Then you add to these embeddings
+the information about positions.
+
+12
+00:00:46.230 --> 00:00:50.967
+This information is nothing else than
+learned vectors representing 1, 2,
+
+13
+00:00:50.967 --> 00:00:55.214
+3 and so on, up to some maximum
+length that we'll put into the model.
+
+14
+00:00:55.214 --> 00:01:00.434
+So the embedding of the first word will
+get added with the vector presenting one.
+
+15
+00:01:00.434 --> 00:01:06.130
+The embedding of the second word with
+the vector representing two, and so on.
+
+16
+00:01:06.130 --> 00:01:11.450
+Now, this constitutes the inputs for
+the first multi headed attention layer.
+
+17
+00:01:11.450 --> 00:01:13.472
+After the attention layer,
+
+18
+00:01:13.472 --> 00:01:19.770
+you have a feed-forward layer which
+operates on each position independently.
+
+19
+00:01:19.770 --> 00:01:24.214
+After each attention and
+feed-forward layer, you put a residual or
+
+20
+00:01:24.214 --> 00:01:25.448
+skip connection.
+
+21
+00:01:25.448 --> 00:01:28.934
+So just add the inputs of
+that layer to its output and
+
+22
+00:01:28.934 --> 00:01:31.449
+then perform layer normalization.
+
+23
+00:01:31.449 --> 00:01:35.586
+The attention and
+feed-forward layers are repeated N times.
+
+24
+00:01:35.586 --> 00:01:38.838
+The original model starts with N equals 6,
+but
+
+25
+00:01:38.838 --> 00:01:42.020
+now transformers go up to 100 or
+even more.
+
+26
+00:01:43.220 --> 00:01:47.779
+And then you have a final dense layer for
+outputs and a softmax layer, and
+
+27
+00:01:47.779 --> 00:01:49.190
+that's it.
+
+28
+00:01:49.190 --> 00:01:51.862
+Now don't worry if you
+didn't catch it all at once,
+
+29
+00:01:51.862 --> 00:01:55.960
+we'll go through the structure again and
+with code to explain all the details.
+
+30
+00:01:57.430 --> 00:02:01.008
+Here on the right, you'll see
+the core of the transformer model.
+
+31
+00:02:01.008 --> 00:02:03.830
+It has three layers at the beginning.
+
+32
+00:02:03.830 --> 00:02:07.089
+Then the shift writes just
+introduces the start token,
+
+33
+00:02:07.089 --> 00:02:10.690
+which your model will use
+to predict the next word.
+
+34
+00:02:10.690 --> 00:02:14.970
+You have the embedding,
+which trains a word to vector embedding.
+
+35
+00:02:14.970 --> 00:02:19.815
+And positional encoding, which trains
+the vectors for one, two and so
+
+36
+00:02:19.815 --> 00:02:21.522
+on as explained before.
+
+37
+00:02:21.522 --> 00:02:26.068
+If the input to the model was
+a tensor of shape batch by length,
+
+38
+00:02:26.068 --> 00:02:30.790
+then after the embedding layer it
+will be tensor of shape batch by
+
+39
+00:02:30.790 --> 00:02:35.436
+length by D model where D model
+is the size of these embeddings.
+
+40
+00:02:35.436 --> 00:02:40.650
+And they usually go to 512, 1024 and
+nowadays up to 10K or more.
+
+41
+00:02:40.650 --> 00:02:44.140
+After these early layers,
+you'll get N decoder blocks.
+
+42
+00:02:45.240 --> 00:02:50.517
+And then a fully connected layer that's
+output sensors of shape batch by length,
+
+43
+00:02:50.517 --> 00:02:52.390
+by vocab size.
+
+44
+00:02:52.390 --> 00:02:54.830
+And they log softmax for
+cross entropy loss.
+
+45
+00:02:56.110 --> 00:02:58.820
+Now let's see how
+the decoder block is built.
+
+46
+00:02:58.820 --> 00:03:03.132
+It starts with these sets of vectors
+as an input sequence which are added to
+
+47
+00:03:03.132 --> 00:03:05.984
+the corresponding
+positional coding vectors,
+
+48
+00:03:05.984 --> 00:03:09.323
+producing the so-called
+positional input embedding.
+
+49
+00:03:09.323 --> 00:03:15.000
+After embedding, the input sequence passes
+through a multi headed attention model.
+
+50
+00:03:15.000 --> 00:03:19.698
+And while this model processes each word,
+each position in the input sequence,
+
+51
+00:03:19.698 --> 00:03:24.328
+the attention itself searches other
+positions in the sequence to help identify
+
+52
+00:03:24.328 --> 00:03:26.000
+relationships.
+
+53
+00:03:26.000 --> 00:03:28.797
+Each of the words in
+the sequence is weighted.
+
+54
+00:03:28.797 --> 00:03:33.702
+Then in each layer of attention,
+there is a residual connection around it,
+
+55
+00:03:33.702 --> 00:03:37.996
+followed by a layer normalization
+step to speed up the training and
+
+56
+00:03:37.996 --> 00:03:41.465
+significantly reduce
+the overall processing time.
+
+57
+00:03:41.465 --> 00:03:45.040
+Then each word is passed
+through a feed-forward layer.
+
+58
+00:03:45.040 --> 00:03:49.150
+That is,
+embeddings are fed into a neural network.
+
+59
+00:03:49.150 --> 00:03:53.337
+And then you have a drop out at
+the end as a form of regularization.
+
+60
+00:03:53.337 --> 00:03:57.679
+Next, a layer normalization
+step is repeated N times.
+
+61
+00:03:57.679 --> 00:04:01.850
+Finally, the encoder
+layer output is obtained.
+
+62
+00:04:01.850 --> 00:04:06.767
+After the attention mechanism and
+the normalization step, some nonlinear
+
+63
+00:04:06.767 --> 00:04:11.841
+transformations are introduced by
+including fully connected feed-forward
+
+64
+00:04:11.841 --> 00:04:16.861
+layers with simple but nonlinear ReLu
+activation functions for each input.
+
+65
+00:04:16.861 --> 00:04:20.700
+And you have shared parameters for
+efficiency.
+
+66
+00:04:20.700 --> 00:04:23.684
+The feed forward neural
+network output vectors will
+
+67
+00:04:23.684 --> 00:04:28.340
+essentially replace the hidden
+states of the original RNN encoder.
+
+68
+00:04:28.340 --> 00:04:30.994
+So let us recap what you
+have seen in this video.
+
+69
+00:04:30.994 --> 00:04:35.470
+You saw the building blocks used to
+implement a transformer decoder.
+
+70
+00:04:35.470 --> 00:04:38.045
+And you saw that it has three layers.
+
+71
+00:04:38.045 --> 00:04:42.045
+It also has a module to calculate
+a log softmax which makes
+
+72
+00:04:42.045 --> 00:04:44.790
+use of the cross entropy loss.
+
+73
+00:04:44.790 --> 00:04:48.480
+And you also saw the decoder and
+the feed forward blocks.
+
+74
+00:04:49.500 --> 00:04:52.208
+>> You have now build your
+own first transformer.
+
+75
+00:04:52.208 --> 00:04:55.751
+Congratulations, wouldn't it
+be good to see it in action?
+
+76
+00:04:55.751 --> 00:04:58.182
+Next, you'll use it to summarize articles.
+
+77
+00:04:58.182 --> 00:04:59.860
+Let's go to the next video.

@@ -1,0 +1,299 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.650
+If you try to run
+
+2
+00:00:01.650 --> 00:00:04.050
+a large transformer
+on the long sequence,
+
+3
+00:00:04.050 --> 00:00:06.000
+you just run out of memory.
+
+4
+00:00:06.000 --> 00:00:08.640
+In this video, you'll
+understand why,
+
+5
+00:00:08.640 --> 00:00:10.620
+and identify the two main parts
+
+6
+00:00:10.620 --> 00:00:13.560
+responsible for
+that. Let's dive in.
+
+7
+00:00:13.560 --> 00:00:16.020
+Transformers can get big,
+
+8
+00:00:16.020 --> 00:00:20.085
+and that introduces a lot
+of engineering challenges.
+
+9
+00:00:20.085 --> 00:00:22.350
+So let me show you what I mean.
+
+10
+00:00:22.350 --> 00:00:25.425
+Attention on a
+sequence of length L,
+
+11
+00:00:25.425 --> 00:00:27.795
+takes L squared time and memory.
+
+12
+00:00:27.795 --> 00:00:29.745
+For example, if you're doing
+
+13
+00:00:29.745 --> 00:00:32.940
+attention on two
+sentences of length L,
+
+14
+00:00:32.940 --> 00:00:34.770
+you need to compare each word in
+
+15
+00:00:34.770 --> 00:00:38.040
+the first sentence to each
+word in the second sentence,
+
+16
+00:00:38.040 --> 00:00:41.670
+which is L times L
+comparisons or L squared.
+
+17
+00:00:41.670 --> 00:00:45.840
+If you have N layers
+of attention,
+
+18
+00:00:45.840 --> 00:00:49.270
+then it takes N times
+as much memory.
+
+19
+00:00:49.270 --> 00:00:53.950
+GPT-3, for example,
+already has 96 layers,
+
+20
+00:00:53.950 --> 00:00:55.700
+and new models will have more,
+
+21
+00:00:55.700 --> 00:00:57.500
+even modern GPUs can
+
+22
+00:00:57.500 --> 00:01:00.095
+struggle with this kind
+of dimensionality.
+
+23
+00:01:00.095 --> 00:01:04.470
+For example, if L equals 100,
+
+24
+00:01:04.470 --> 00:01:07.230
+then L squared equals 10,000.
+
+25
+00:01:07.230 --> 00:01:09.210
+If L equals 10,000,
+
+26
+00:01:09.210 --> 00:01:11.850
+then L squared equals
+a 100,000,000,
+
+27
+00:01:11.850 --> 00:01:14.780
+which at 10,000,000
+operations per
+
+28
+00:01:14.780 --> 00:01:17.780
+second is already taking
+10 seconds to compute.
+
+29
+00:01:17.780 --> 00:01:20.465
+Recall attention is softmax
+
+30
+00:01:20.465 --> 00:01:24.485
+of Q times K transpose times V,
+
+31
+00:01:24.485 --> 00:01:26.720
+where Q is the query,
+
+32
+00:01:26.720 --> 00:01:29.845
+K the key, and V, the value.
+
+33
+00:01:29.845 --> 00:01:34.160
+Q, K and V are all of
+dimension L by d_model,
+
+34
+00:01:34.160 --> 00:01:36.919
+where L is the length
+of the sequence,
+
+35
+00:01:36.919 --> 00:01:39.485
+and d_model is the
+depth of attention.
+
+36
+00:01:39.485 --> 00:01:44.645
+So Q times K transpose will
+be L by L or L squared.
+
+37
+00:01:44.645 --> 00:01:48.680
+However, when you are
+handling long sequences,
+
+38
+00:01:48.680 --> 00:01:51.890
+you usually don't need to
+consider all L positions.
+
+39
+00:01:51.890 --> 00:01:54.980
+You can just focus on an
+area of interest instead.
+
+40
+00:01:54.980 --> 00:01:57.290
+For example, when translating
+
+41
+00:01:57.290 --> 00:01:59.615
+a long text from
+English to German,
+
+42
+00:01:59.615 --> 00:02:02.510
+you don't need to consider
+every word at once.
+
+43
+00:02:02.510 --> 00:02:06.200
+You can instead focus on a
+single word being translated,
+
+44
+00:02:06.200 --> 00:02:09.845
+and those immediately around
+it, by using attention.
+
+45
+00:02:09.845 --> 00:02:12.545
+The more layers a model has,
+
+46
+00:02:12.545 --> 00:02:14.360
+the more memory it needs.
+
+47
+00:02:14.360 --> 00:02:16.460
+This is because you need to store
+
+48
+00:02:16.460 --> 00:02:20.374
+the forward pass
+activations for backprop.
+
+49
+00:02:20.374 --> 00:02:23.375
+You can overcome this
+memory requirements
+
+50
+00:02:23.375 --> 00:02:26.555
+by recomputing activations,
+
+51
+00:02:26.555 --> 00:02:28.130
+but it needs to be done
+
+52
+00:02:28.130 --> 00:02:31.085
+efficiently to minimize
+taking too much extra time.
+
+53
+00:02:31.085 --> 00:02:35.345
+GPT-3 for example, which
+already has 96 layers,
+
+54
+00:02:35.345 --> 00:02:38.480
+would take a very long time
+to recompute activations,
+
+55
+00:02:38.480 --> 00:02:41.320
+and these models will
+continue to get bigger.
+
+56
+00:02:41.320 --> 00:02:43.580
+So what you need is
+
+57
+00:02:43.580 --> 00:02:45.860
+a way to speed up
+this re-computation,
+
+58
+00:02:45.860 --> 00:02:47.720
+so that it's efficient to use
+
+59
+00:02:47.720 --> 00:02:51.485
+less memory and I'll show
+you how to do that next.
+
+60
+00:02:51.485 --> 00:02:54.200
+Now you understand
+the two main parts
+
+61
+00:02:54.200 --> 00:02:56.705
+that contribute to
+transform our complexity.
+
+62
+00:02:56.705 --> 00:02:58.115
+In the next video,
+
+63
+00:02:58.115 --> 00:03:00.410
+I'll show you how to improve
+them so you can make
+
+64
+00:03:00.410 --> 00:03:03.065
+transformer run on
+really long sequences.
+
+65
+00:03:03.065 --> 00:03:05.550
+Let's go to the next video.

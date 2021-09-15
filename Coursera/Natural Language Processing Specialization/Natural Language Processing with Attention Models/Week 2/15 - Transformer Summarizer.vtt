@@ -1,0 +1,326 @@
+WEBVTT
+
+1
+00:00:00.270 --> 00:00:03.810
+In this video,
+I'll show you how to make a summarizer.
+
+2
+00:00:03.810 --> 00:00:07.712
+You will use the transformer built in
+the last video and put it to work.
+
+3
+00:00:07.712 --> 00:00:09.310
+Let's dive in.
+
+4
+00:00:09.310 --> 00:00:13.249
+>> First, I'll show you a brief
+overview of the transformer model code.
+
+5
+00:00:13.249 --> 00:00:17.014
+Then you'll see some technical
+details about the data processing for
+
+6
+00:00:17.014 --> 00:00:17.982
+summarization.
+
+7
+00:00:17.982 --> 00:00:22.600
+At the end of this video you'll see how
+to make inferences with a language model.
+
+8
+00:00:22.600 --> 00:00:27.840
+First, take a look at the problem you
+will solve in this week's assignments.
+
+9
+00:00:27.840 --> 00:00:30.592
+As input, you get whole news articles.
+
+10
+00:00:30.592 --> 00:00:35.880
+As output, your model is expected to
+produce the summary of the articles.
+
+11
+00:00:35.880 --> 00:00:41.730
+That is few sentences that's
+mentioned the most important ideas.
+
+12
+00:00:41.730 --> 00:00:46.428
+To do this you will use the transformer
+model that I showed you in previous
+
+13
+00:00:46.428 --> 00:00:47.690
+videos.
+
+14
+00:00:47.690 --> 00:00:50.710
+But the one thing may
+immediately stand out to you.
+
+15
+00:00:50.710 --> 00:00:55.660
+Transformer only takes text as inputs and
+predict the next word.
+
+16
+00:00:55.660 --> 00:01:00.163
+For summarization, it turns out you
+just need to concatenate the inputs,
+
+17
+00:01:00.163 --> 00:01:03.677
+in this case, the article,
+and put the summary after it.
+
+18
+00:01:03.677 --> 00:01:05.770
+Let me show you how.
+
+19
+00:01:05.770 --> 00:01:09.573
+Here is an example of how to
+create inputs features for
+
+20
+00:01:09.573 --> 00:01:13.799
+training the transformer from
+an article and its summary.
+
+21
+00:01:13.799 --> 00:01:18.529
+The input for the model is a long
+text that starts with a news article,
+
+22
+00:01:18.529 --> 00:01:23.680
+then comes the EOS tag, the summary,
+and then another EOS tag.
+
+23
+00:01:23.680 --> 00:01:29.320
+As usual, the input is tokenized
+as a sequence of integers.
+
+24
+00:01:29.320 --> 00:01:33.740
+Here 0 denotes padding, and 1 EOS.
+
+25
+00:01:33.740 --> 00:01:37.290
+And all other numbers for
+the tokens for different words.
+
+26
+00:01:37.290 --> 00:01:42.073
+When you're on the transformer on this
+input, it will predict the next word by
+
+27
+00:01:42.073 --> 00:01:46.492
+looking at all the previous ones, but
+you do not want to have a huge loss in
+
+28
+00:01:46.492 --> 00:01:51.380
+the model just because it's not
+able to predict the correct ones.
+
+29
+00:01:51.380 --> 00:01:54.580
+And that's why you have
+to use a weighted loss.
+
+30
+00:01:54.580 --> 00:01:58.595
+Instead of averaging the loss for
+every word in the whole sequence,
+
+31
+00:01:58.595 --> 00:02:02.468
+you weight the loss for
+the words within the article with 0s, and
+
+32
+00:02:02.468 --> 00:02:04.732
+the ones within the summary with 1s.
+
+33
+00:02:04.732 --> 00:02:07.860
+So the model only focuses on the summary.
+
+34
+00:02:07.860 --> 00:02:13.156
+However, when there is little data for
+the summaries, it's actually helps
+
+35
+00:02:13.156 --> 00:02:19.240
+to weight the article loss with nonzero
+numbers say 0.2 or 0.5 or even 1.
+
+36
+00:02:19.240 --> 00:02:23.892
+That way the model is able to learn word
+relationships that are common in the news.
+
+37
+00:02:23.892 --> 00:02:27.062
+You'll not have to do it for
+this week's assignment, but
+
+38
+00:02:27.062 --> 00:02:30.570
+it's good that you have this in mind for
+your own applications.
+
+39
+00:02:31.920 --> 00:02:35.338
+Another way to look at what I discussed
+in the previous slide is by looking
+
+40
+00:02:35.338 --> 00:02:36.410
+at the cost function.
+
+41
+00:02:37.570 --> 00:02:41.351
+Which sounds the losses over the words J,
+within the summary for
+
+42
+00:02:41.351 --> 00:02:43.112
+every example I in the batch.
+
+43
+00:02:43.112 --> 00:02:47.541
+So the cost function is a cross entropy
+function that ignores the words from
+
+44
+00:02:47.541 --> 00:02:50.280
+the article to be summarized.
+
+45
+00:02:50.280 --> 00:02:53.636
+Now that you know how to construct
+the inputs and the model,
+
+46
+00:02:53.636 --> 00:02:56.189
+you can train your transformer summarizer.
+
+47
+00:02:56.189 --> 00:02:59.578
+Recall again, the transformers
+predict the next word, and
+
+48
+00:02:59.578 --> 00:03:02.290
+your inputs is in news article.
+
+49
+00:03:02.290 --> 00:03:06.914
+At test or inference time, you will
+input the article with the EOS token to
+
+50
+00:03:06.914 --> 00:03:11.404
+the model and ask for the next word,
+it is the first word of the summary.
+
+51
+00:03:11.404 --> 00:03:14.862
+Then you will ask for
+the next word, and the next, and so
+
+52
+00:03:14.862 --> 00:03:16.787
+on until you get the EOS token.
+
+53
+00:03:16.787 --> 00:03:19.190
+When you run your transformer model,
+
+54
+00:03:19.190 --> 00:03:23.480
+it generates a probability
+distribution over all possible words.
+
+55
+00:03:23.480 --> 00:03:26.112
+You will sample from this distribution.
+
+56
+00:03:26.112 --> 00:03:31.090
+So each time you run this process
+you'll get a different summary.
+
+57
+00:03:31.090 --> 00:03:35.900
+I think you will have fun experimenting
+with this in the coding exercise.
+
+58
+00:03:35.900 --> 00:03:40.862
+So in this video you saw how to implement
+a transformer decoder for summarization.
+
+59
+00:03:40.862 --> 00:03:44.064
+As a key points,
+the model aims to optimize a weighted
+
+60
+00:03:44.064 --> 00:03:47.277
+cross entropy function that
+focuses on the summary.
+
+61
+00:03:47.277 --> 00:03:50.577
+The summarization task is
+basically text generation,
+
+62
+00:03:50.577 --> 00:03:52.550
+with the whole article as input.
+
+63
+00:03:53.720 --> 00:03:57.156
+>> This week you have learned how
+to build your own transformer, and
+
+64
+00:03:57.156 --> 00:03:59.291
+you have used it to create a summarizer.
+
+65
+00:03:59.291 --> 00:04:00.889
+I hope you enjoy the journey.
+
+66
+00:04:00.889 --> 00:04:05.340
+Transformer is a really powerful
+model that's not hard to understand.
+
+67
+00:04:05.340 --> 00:04:08.552
+Next week you honest will show you
+how to get even better results.
+
+68
+00:04:08.552 --> 00:04:12.760
+You will use a more powerful version
+of transformer with pre-training.
+
+69
+00:04:12.760 --> 00:04:13.570
+Don't miss it.

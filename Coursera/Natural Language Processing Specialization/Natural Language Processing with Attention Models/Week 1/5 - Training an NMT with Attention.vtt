@@ -1,0 +1,689 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.310
+Hello. You will not learn how to
+
+2
+00:00:02.310 --> 00:00:04.710
+train your neural machine
+translation system.
+
+3
+00:00:04.710 --> 00:00:06.420
+You'll learn about
+treating concepts
+
+4
+00:00:06.420 --> 00:00:07.620
+like teacher forcing,
+
+5
+00:00:07.620 --> 00:00:10.020
+and you'll see which type
+of cost function is being
+
+6
+00:00:10.020 --> 00:00:13.080
+used when training.
+Let's dive in.
+
+7
+00:00:13.080 --> 00:00:15.330
+In this section,
+you will see how to
+
+8
+00:00:15.330 --> 00:00:17.535
+train your NMT model
+with attention,
+
+9
+00:00:17.535 --> 00:00:19.370
+along with being introduced to
+
+10
+00:00:19.370 --> 00:00:21.790
+key concepts called
+teacher forcing.
+
+11
+00:00:21.790 --> 00:00:24.420
+By this point, you're
+aware of how attention
+
+12
+00:00:24.420 --> 00:00:26.870
+works in a seek to seek model by
+
+13
+00:00:26.870 --> 00:00:28.595
+saving the information from
+
+14
+00:00:28.595 --> 00:00:32.000
+each time step in its own
+hidden states and using
+
+15
+00:00:32.000 --> 00:00:34.370
+the decoder's previous
+prediction to give it's
+
+16
+00:00:34.370 --> 00:00:35.885
+more or less weights to
+
+17
+00:00:35.885 --> 00:00:37.910
+each of the encoder
+hidden states.
+
+18
+00:00:37.910 --> 00:00:40.580
+You've seen how specially
+weighted values are
+
+19
+00:00:40.580 --> 00:00:43.850
+tailored to each subsequent
+German prediction.
+
+20
+00:00:43.850 --> 00:00:45.620
+But how do you really know that
+
+21
+00:00:45.620 --> 00:00:47.435
+these predictions aren't wacky?
+
+22
+00:00:47.435 --> 00:00:49.745
+This is where teacher
+forcing comes in.
+
+23
+00:00:49.745 --> 00:00:51.980
+Teacher forcing allows your model
+
+24
+00:00:51.980 --> 00:00:53.630
+to use the ground truth or
+
+25
+00:00:53.630 --> 00:00:54.920
+the actual outputs from
+
+26
+00:00:54.920 --> 00:00:58.585
+your decoder to compare its
+predictions during training.
+
+27
+00:00:58.585 --> 00:01:00.650
+This yields faster training with
+
+28
+00:01:00.650 --> 00:01:03.170
+the added benefits
+of higher accuracy.
+
+29
+00:01:03.170 --> 00:01:05.060
+Let's take a closer look at why
+
+30
+00:01:05.060 --> 00:01:08.315
+teacher forcing is necessary
+in a seek to seek model.
+
+31
+00:01:08.315 --> 00:01:11.450
+In this example, notice
+how the model correctly
+
+32
+00:01:11.450 --> 00:01:15.140
+predicted the token at the
+start of the sequence.
+
+33
+00:01:15.140 --> 00:01:19.250
+But the second prediction
+doesn't quite match.
+
+34
+00:01:19.250 --> 00:01:22.400
+The third one is
+even further off.
+
+35
+00:01:22.400 --> 00:01:25.010
+The fourth predicted
+token is quite
+
+36
+00:01:25.010 --> 00:01:27.790
+far from making logical
+sense in German.
+
+37
+00:01:27.790 --> 00:01:30.050
+The important takeaway here,
+
+38
+00:01:30.050 --> 00:01:32.660
+is that in a sequence
+model like this one,
+
+39
+00:01:32.660 --> 00:01:34.190
+each wrong prediction makes
+
+40
+00:01:34.190 --> 00:01:37.670
+the following predictions even
+less likely to be correct.
+
+41
+00:01:37.670 --> 00:01:39.680
+You need to have a way to check
+
+42
+00:01:39.680 --> 00:01:42.280
+the prediction made at each step.
+
+43
+00:01:42.280 --> 00:01:44.955
+This is how the process
+works during prediction.
+
+44
+00:01:44.955 --> 00:01:47.510
+The T1 rectangles shown
+
+45
+00:01:47.510 --> 00:01:49.490
+here is processed
+through attention,
+
+46
+00:01:49.490 --> 00:01:52.580
+in order to predict the
+green rectangle team,
+
+47
+00:01:52.580 --> 00:01:56.260
+and so on and so forth for
+the following predictions.
+
+48
+00:01:56.260 --> 00:01:58.190
+An important takeaway of
+
+49
+00:01:58.190 --> 00:02:00.770
+this concept is that
+during training,
+
+50
+00:02:00.770 --> 00:02:03.350
+the predicted outputs
+are not being used
+
+51
+00:02:03.350 --> 00:02:06.475
+for predicting the next
+predicted green rectangle.
+
+52
+00:02:06.475 --> 00:02:10.775
+Instead, the actual
+outputs, or ground-truth,
+
+53
+00:02:10.775 --> 00:02:13.610
+is the input to the decoder for
+
+54
+00:02:13.610 --> 00:02:17.090
+each time step until the end
+of the sequence is reached.
+
+55
+00:02:17.090 --> 00:02:18.830
+Without teacher forcing,
+
+56
+00:02:18.830 --> 00:02:21.290
+models can be slow to
+reach convergence.
+
+57
+00:02:21.290 --> 00:02:23.425
+If they managed to
+reach it at all.
+
+58
+00:02:23.425 --> 00:02:25.430
+Teacher forcing is not without
+
+59
+00:02:25.430 --> 00:02:28.760
+its issues and is still an
+area of active research.
+
+60
+00:02:28.760 --> 00:02:30.740
+I've included some
+optional reading in
+
+61
+00:02:30.740 --> 00:02:34.260
+the course materials if
+you'd like to know more.
+
+62
+00:02:35.290 --> 00:02:38.170
+You keep going.
+
+63
+00:02:38.170 --> 00:02:40.290
+At last, you've arrived.
+
+64
+00:02:40.290 --> 00:02:42.645
+The base level, the Big Kahuna.
+
+65
+00:02:42.645 --> 00:02:45.370
+Let's put together everything
+you've seen so far.
+
+66
+00:02:45.370 --> 00:02:46.790
+You'll be using this in
+
+67
+00:02:46.790 --> 00:02:48.320
+this week's assignments
+when you train
+
+68
+00:02:48.320 --> 00:02:49.640
+your very own neural machine
+
+69
+00:02:49.640 --> 00:02:51.970
+translation model with attention.
+
+70
+00:02:51.970 --> 00:02:54.180
+Gear up, this one is a wild
+
+71
+00:02:54.180 --> 00:02:58.080
+ride.The initial select
+makes two copies.
+
+72
+00:02:58.080 --> 00:03:00.260
+Each of the input
+tokens represented by
+
+73
+00:03:00.260 --> 00:03:03.695
+zero and the target tokens
+represented by one.
+
+74
+00:03:03.695 --> 00:03:06.440
+Remember that here the
+input is English tokens,
+
+75
+00:03:06.440 --> 00:03:08.830
+and the target is German tokens.
+
+76
+00:03:08.830 --> 00:03:12.140
+One copy of the input
+tokens are fed into
+
+77
+00:03:12.140 --> 00:03:13.970
+the inputs encoder to be
+
+78
+00:03:13.970 --> 00:03:16.690
+transformed into the
+key and value vectors.
+
+79
+00:03:16.690 --> 00:03:18.140
+While a copy of
+
+80
+00:03:18.140 --> 00:03:22.025
+the target tokens goes into
+the pre-attention decoder.
+
+81
+00:03:22.025 --> 00:03:23.510
+Important note here,
+
+82
+00:03:23.510 --> 00:03:25.160
+the pre-attention decoder is
+
+83
+00:03:25.160 --> 00:03:27.560
+not the decoder you
+were shown earlier,
+
+84
+00:03:27.560 --> 00:03:30.055
+which produces the
+decoded outputs.
+
+85
+00:03:30.055 --> 00:03:33.080
+The pre-attention decoder is
+transforming the prediction
+
+86
+00:03:33.080 --> 00:03:35.750
+targets into a
+different vector space
+
+87
+00:03:35.750 --> 00:03:37.325
+called the query vector.
+
+88
+00:03:37.325 --> 00:03:38.600
+That's going to calculate
+
+89
+00:03:38.600 --> 00:03:42.115
+the relative weights to
+give each input weight.
+
+90
+00:03:42.115 --> 00:03:44.270
+The pre-attention decoder takes
+
+91
+00:03:44.270 --> 00:03:47.825
+the target tokens and shifts
+them one place to the right.
+
+92
+00:03:47.825 --> 00:03:50.440
+This is where the teacher
+forcing takes place.
+
+93
+00:03:50.440 --> 00:03:53.735
+Every token will be shifted
+one place to the right,
+
+94
+00:03:53.735 --> 00:03:55.805
+and in start of a sentence token,
+
+95
+00:03:55.805 --> 00:03:58.600
+will be a sign to the
+beginning of each sequence.
+
+96
+00:03:58.600 --> 00:04:01.790
+Next, the inputs and targets are
+
+97
+00:04:01.790 --> 00:04:03.290
+converted to embeddings or
+
+98
+00:04:03.290 --> 00:04:06.010
+initial representations
+of the words.
+
+99
+00:04:06.010 --> 00:04:10.085
+Now that you have your query
+key and value vectors,
+
+100
+00:04:10.085 --> 00:04:12.485
+you can prepare them for
+the attention layer.
+
+101
+00:04:12.485 --> 00:04:14.255
+You will also apply
+
+102
+00:04:14.255 --> 00:04:17.275
+a padding mask to help
+determine the padding tokens.
+
+103
+00:04:17.275 --> 00:04:18.890
+The mask is used after
+
+104
+00:04:18.890 --> 00:04:22.025
+the computation of
+the Q, K transpose.
+
+105
+00:04:22.025 --> 00:04:24.470
+This before computing
+the softmax,
+
+106
+00:04:24.470 --> 00:04:26.990
+the where operator in
+
+107
+00:04:26.990 --> 00:04:29.450
+your programming
+assignment will convert
+
+108
+00:04:29.450 --> 00:04:32.675
+the zero-padding tokens
+to negative one billion,
+
+109
+00:04:32.675 --> 00:04:34.159
+which will become approximately
+
+110
+00:04:34.159 --> 00:04:36.250
+zero when computing the softmax.
+
+111
+00:04:36.250 --> 00:04:38.105
+That's how padding works.
+
+112
+00:04:38.105 --> 00:04:40.735
+Now, everything is ready
+for the attention,
+
+113
+00:04:40.735 --> 00:04:43.069
+inside where all the calculations
+
+114
+00:04:43.069 --> 00:04:44.675
+that assign weights happen.
+
+115
+00:04:44.675 --> 00:04:48.620
+The residual block adds
+the queries generated in
+
+116
+00:04:48.620 --> 00:04:50.570
+the pre-attention decoder to
+
+117
+00:04:50.570 --> 00:04:52.790
+the results of the
+attention layer.
+
+118
+00:04:52.790 --> 00:04:55.010
+The attention layer then outputs
+
+119
+00:04:55.010 --> 00:04:56.840
+its activations along with
+
+120
+00:04:56.840 --> 00:04:59.375
+the mask that was
+created earlier.
+
+121
+00:04:59.375 --> 00:05:01.510
+It's time to drop the mask before
+
+122
+00:05:01.510 --> 00:05:03.565
+running everything
+through the decoder,
+
+123
+00:05:03.565 --> 00:05:06.080
+which is what the
+second Select is doing.
+
+124
+00:05:06.080 --> 00:05:07.750
+It takes the activations from
+
+125
+00:05:07.750 --> 00:05:09.970
+the attention layer or the zero,
+
+126
+00:05:09.970 --> 00:05:13.240
+and the second copy of the
+target tokens, or the two.
+
+127
+00:05:13.240 --> 00:05:16.240
+Would you remember from
+way back at the beginning.
+
+128
+00:05:16.240 --> 00:05:18.820
+These are the true targets
+which the decoder needs to
+
+129
+00:05:18.820 --> 00:05:22.080
+compare against the
+predictions. Almost done.
+
+130
+00:05:22.080 --> 00:05:24.640
+Then run everything
+through a dense layer or
+
+131
+00:05:24.640 --> 00:05:27.890
+a simple linear layer with
+your targets vocab size.
+
+132
+00:05:27.890 --> 00:05:30.030
+This gives your output
+the right size.
+
+133
+00:05:30.030 --> 00:05:31.270
+Finally, you will take
+
+134
+00:05:31.270 --> 00:05:34.000
+the outputs and run it
+through LogSoftmax,
+
+135
+00:05:34.000 --> 00:05:35.500
+which is what transforms
+
+136
+00:05:35.500 --> 00:05:36.910
+the attention weights to
+
+137
+00:05:36.910 --> 00:05:39.100
+a distribution
+between zero and one.
+
+138
+00:05:39.100 --> 00:05:42.545
+Those last four steps
+comprise your decoder.
+
+139
+00:05:42.545 --> 00:05:46.850
+The true target tokens are
+still hanging out here,
+
+140
+00:05:46.850 --> 00:05:48.530
+and we'll pass down along with
+
+141
+00:05:48.530 --> 00:05:50.330
+the log probabilities to
+
+142
+00:05:50.330 --> 00:05:52.315
+be matched against
+the predictions.
+
+143
+00:05:52.315 --> 00:05:55.550
+There you have it, the model
+that you will be building,
+
+144
+00:05:55.550 --> 00:05:57.575
+and the intuition
+behind the steps.
+
+145
+00:05:57.575 --> 00:06:00.440
+Take a break and just
+let all that sink in.
+
+146
+00:06:00.440 --> 00:06:02.030
+Now, you know what's actually
+
+147
+00:06:02.030 --> 00:06:04.265
+happening at each
+part of the model.
+
+148
+00:06:04.265 --> 00:06:07.010
+That's nice. In this video you've
+
+149
+00:06:07.010 --> 00:06:08.090
+seen how you can train your
+
+150
+00:06:08.090 --> 00:06:10.710
+neural machine
+translation system.

@@ -1,0 +1,356 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.360
+Hi again. You'll now
+learn about how words
+
+2
+00:00:03.360 --> 00:00:04.570
+are being represented in
+
+3
+00:00:04.570 --> 00:00:06.600
+the neural machine
+translation setting.
+
+4
+00:00:06.600 --> 00:00:09.090
+You will also see what
+the data set looks like,
+
+5
+00:00:09.090 --> 00:00:11.115
+and when implementing
+the systems,
+
+6
+00:00:11.115 --> 00:00:12.420
+I'll show you that
+you need to keep
+
+7
+00:00:12.420 --> 00:00:13.710
+track of a few things.
+
+8
+00:00:13.710 --> 00:00:17.400
+For example, which words
+correspond to what's vectors.
+
+9
+00:00:17.400 --> 00:00:19.890
+With that said, let's dive in.
+
+10
+00:00:19.890 --> 00:00:23.295
+Before taking a deeper
+dive into the model,
+
+11
+00:00:23.295 --> 00:00:26.070
+I'll show you the setup
+for machine translation.
+
+12
+00:00:26.070 --> 00:00:28.785
+This is an example of
+the type of input data
+
+13
+00:00:28.785 --> 00:00:31.710
+that you will have for
+your assignment this week.
+
+14
+00:00:31.710 --> 00:00:33.960
+Over here, you have the sequence,
+
+15
+00:00:33.960 --> 00:00:36.510
+I'm hungry, and on the right,
+
+16
+00:00:36.510 --> 00:00:38.740
+the corresponding
+German equivalent.
+
+17
+00:00:38.740 --> 00:00:40.475
+Further down you have,
+
+18
+00:00:40.475 --> 00:00:42.175
+I watch the soccer game,
+
+19
+00:00:42.175 --> 00:00:44.995
+master, the corresponding
+German equivalent.
+
+20
+00:00:44.995 --> 00:00:48.020
+You're going to have a
+great many of these inputs.
+
+21
+00:00:48.020 --> 00:00:50.975
+One thing to note here is
+that the data set used is not
+
+22
+00:00:50.975 --> 00:00:55.480
+entirely clean as there are
+occasional inputs in Spanish.
+
+23
+00:00:55.480 --> 00:00:57.739
+This shouldn't affect
+your assignments,
+
+24
+00:00:57.739 --> 00:01:01.315
+but forewarned is forearmed.
+
+25
+00:01:01.315 --> 00:01:03.380
+You should know that the state of
+
+26
+00:01:03.380 --> 00:01:05.930
+the arts models use
+pretrained vectors.
+
+27
+00:01:05.930 --> 00:01:08.810
+But otherwise the first
+thing you'll do is to
+
+28
+00:01:08.810 --> 00:01:11.935
+use a one-hot vector to
+represent the words.
+
+29
+00:01:11.935 --> 00:01:14.870
+That's simply taking the
+corresponding vector for
+
+30
+00:01:14.870 --> 00:01:15.950
+the embedding for that's
+
+31
+00:01:15.950 --> 00:01:18.070
+worth or the cell
+board embedding,
+
+32
+00:01:18.070 --> 00:01:20.130
+and using that as an input.
+
+33
+00:01:20.130 --> 00:01:23.030
+Usually you'll keep
+track of your mappings
+
+34
+00:01:23.030 --> 00:01:26.285
+with a word to index and
+index toward dictionary.
+
+35
+00:01:26.285 --> 00:01:28.520
+Given any input, you transform it
+
+36
+00:01:28.520 --> 00:01:31.010
+into indices and then vice versa,
+
+37
+00:01:31.010 --> 00:01:32.735
+when you make the predictions.
+
+38
+00:01:32.735 --> 00:01:34.715
+You will also normally use
+
+39
+00:01:34.715 --> 00:01:37.085
+a starts of sequence
+token like this,
+
+40
+00:01:37.085 --> 00:01:40.405
+at then end of sequence
+token that looks like this.
+
+41
+00:01:40.405 --> 00:01:42.610
+SOS, and EOS.
+
+42
+00:01:42.610 --> 00:01:45.530
+Here's an example from
+your upcoming assignments.
+
+43
+00:01:45.530 --> 00:01:47.480
+This is English sentence and then
+
+44
+00:01:47.480 --> 00:01:49.895
+the tokenized version of
+the English sentence,
+
+45
+00:01:49.895 --> 00:01:55.010
+you can see that it has an
+index of 4546 for the word
+
+46
+00:01:55.010 --> 00:01:57.890
+both after the
+initial tokenization
+
+47
+00:01:57.890 --> 00:02:01.055
+just add the EOS token
+shown here as one,
+
+48
+00:02:01.055 --> 00:02:02.945
+and pad with zeros.
+
+49
+00:02:02.945 --> 00:02:06.365
+You can see the one at
+the end of the sequence.
+
+50
+00:02:06.365 --> 00:02:10.205
+Then a series of zeros
+that's if you were to count,
+
+51
+00:02:10.205 --> 00:02:12.125
+would be equal to the number of
+
+52
+00:02:12.125 --> 00:02:14.345
+unpaired tokens in the sequence.
+
+53
+00:02:14.345 --> 00:02:16.610
+In other words, until the size of
+
+54
+00:02:16.610 --> 00:02:19.340
+the longest sentence
+aloud is reached.
+
+55
+00:02:19.340 --> 00:02:21.485
+These tokens will later
+be used to produce
+
+56
+00:02:21.485 --> 00:02:24.275
+a matrix for the
+embedding vectors.
+
+57
+00:02:24.275 --> 00:02:27.710
+Now let's go to the German
+translation of that sequence.
+
+58
+00:02:27.710 --> 00:02:29.780
+Along with the tokenized version
+
+59
+00:02:29.780 --> 00:02:31.565
+of the German translation.
+
+60
+00:02:31.565 --> 00:02:35.770
+Notice that one is the
+end of token here two.
+
+61
+00:02:35.770 --> 00:02:39.050
+It's also followed with
+a series of zeros.
+
+62
+00:02:39.050 --> 00:02:41.075
+This are also equal to the number
+
+63
+00:02:41.075 --> 00:02:43.850
+of unpaired tokens
+in the sequence.
+
+64
+00:02:43.850 --> 00:02:46.265
+This is the general setup process
+
+65
+00:02:46.265 --> 00:02:48.230
+you would use in the real world,
+
+66
+00:02:48.230 --> 00:02:50.480
+but I'll give you a
+pre-built package
+
+67
+00:02:50.480 --> 00:02:52.790
+that will take care
+of this process.
+
+68
+00:02:52.790 --> 00:02:54.440
+All you have to do is load
+
+69
+00:02:54.440 --> 00:02:56.645
+this package and give
+it the sequences,
+
+70
+00:02:56.645 --> 00:02:59.525
+and it'll give you a
+corresponding tokenized version
+
+71
+00:02:59.525 --> 00:03:01.220
+of each sentence.
+
+72
+00:03:01.220 --> 00:03:04.100
+Given now that you know
+how to represent words,
+
+73
+00:03:04.100 --> 00:03:05.720
+how to initialize your model,
+
+74
+00:03:05.720 --> 00:03:07.820
+and how to structure
+your data set.
+
+75
+00:03:07.820 --> 00:03:10.170
+You can go ahead and start
+training your model,
+
+76
+00:03:10.170 --> 00:03:11.435
+and in the next video,
+
+77
+00:03:11.435 --> 00:03:14.040
+I'll show you how
+you can do this.
