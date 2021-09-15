@@ -1,0 +1,749 @@
+WEBVTT
+
+1
+00:00:00.560 --> 00:00:04.440
+Deep learning algorithms have
+a huge hunger for training data.
+
+2
+00:00:04.440 --> 00:00:06.970
+They just often work best
+when you can find enough
+
+3
+00:00:06.970 --> 00:00:10.294
+label training data to put
+into the training set.
+
+4
+00:00:10.294 --> 00:00:14.154
+This has resulted in many teams sometimes
+taking whatever data you can find and
+
+5
+00:00:14.154 --> 00:00:18.120
+just shoving it into the training set
+just to get it more training data.
+
+6
+00:00:18.120 --> 00:00:21.720
+Even if some of this data, or
+even maybe a lot of this data,
+
+7
+00:00:21.720 --> 00:00:25.870
+doesn't come from the same distribution
+as your dev and test data.
+
+8
+00:00:25.870 --> 00:00:30.330
+So in a deep learning era, more and
+more teams are now training on data
+
+9
+00:00:30.330 --> 00:00:34.325
+that comes from a different distribution
+than your dev and test sets.
+
+10
+00:00:34.325 --> 00:00:37.385
+And there's some subtleties and
+some best practices for
+
+11
+00:00:37.385 --> 00:00:41.825
+dealing with when you're training and
+test distributions differ from each other.
+
+12
+00:00:41.825 --> 00:00:43.315
+Let's take a look.
+
+13
+00:00:43.315 --> 00:00:48.630
+Let's say that you're building
+a mobile app where users will upload
+
+14
+00:00:48.630 --> 00:00:51.970
+pictures taken from their cell phones, and
+you want to recognize whether the pictures
+
+15
+00:00:51.970 --> 00:00:56.470
+that your users upload from
+the mobile app is a cat or not.
+
+16
+00:00:56.470 --> 00:00:59.580
+So you can now get two sources of data.
+
+17
+00:00:59.580 --> 00:01:03.940
+One which is the distribution of data you
+really care about, this data from a mobile
+
+18
+00:01:03.940 --> 00:01:07.940
+app like that on the right, which
+tends to be less professionally shot,
+
+19
+00:01:07.940 --> 00:01:12.800
+less well framed, maybe even blurrier
+because it's shot by amateur users.
+
+20
+00:01:12.800 --> 00:01:16.760
+The other source of data you can get is
+you can crawl the web and just download
+
+21
+00:01:16.760 --> 00:01:21.635
+a lot of, for the sake of this example,
+let's say you can download a lot of very
+
+22
+00:01:21.635 --> 00:01:27.250
+professionally framed, high resolution,
+professionally taken images of cats.
+
+23
+00:01:27.250 --> 00:01:29.950
+And let's say you don't have a lot
+of users yet for your mobile app.
+
+24
+00:01:29.950 --> 00:01:35.632
+So maybe you've gotten 10,000 pictures
+uploaded from the mobile app.
+
+25
+00:01:35.632 --> 00:01:40.320
+But by crawling the web you can download
+huge numbers of cat pictures, and
+
+26
+00:01:40.320 --> 00:01:45.322
+maybe you have 200,000 pictures of
+cats downloaded off the Internet.
+
+27
+00:01:48.079 --> 00:01:53.296
+So what you really care about
+is that your final system does
+
+28
+00:01:53.296 --> 00:01:58.311
+well on the mobile app
+distribution of images, right?
+
+29
+00:01:58.311 --> 00:02:01.594
+Because in the end, your users will
+be uploading pictures like those on
+
+30
+00:02:01.594 --> 00:02:04.230
+the right and you need your
+classifier to do well on that.
+
+31
+00:02:04.230 --> 00:02:08.500
+But you now have a bit of a dilemma
+because you have a relatively small
+
+32
+00:02:08.500 --> 00:02:12.970
+dataset, just 10,000 examples
+drawn from that distribution.
+
+33
+00:02:12.970 --> 00:02:16.754
+And you have a much bigger dataset that's
+drawn from a different distribution.
+
+34
+00:02:16.754 --> 00:02:19.986
+There's a different appearance of
+image than the one you actually want.
+
+35
+00:02:19.986 --> 00:02:24.505
+So you don't want to use just those
+10,000 images because it ends up
+
+36
+00:02:24.505 --> 00:02:27.330
+giving you a relatively
+small training set.
+
+37
+00:02:28.466 --> 00:02:31.724
+And using those 200,000
+images seems helpful, but
+
+38
+00:02:31.724 --> 00:02:37.550
+the dilemma is this 200,000 images isn't
+from exactly the distribution you want.
+
+39
+00:02:37.550 --> 00:02:38.496
+So what can you do?
+
+40
+00:02:38.496 --> 00:02:43.340
+Well, here's one option.
+
+41
+00:02:43.340 --> 00:02:47.669
+One thing you can do is put both
+of these data sets together so
+
+42
+00:02:47.669 --> 00:02:50.910
+you now have 210,000 images.
+
+43
+00:02:50.910 --> 00:02:56.835
+And you can then take
+the 210,000 images and
+
+44
+00:02:56.835 --> 00:03:03.470
+randomly shuffle them into a train,
+dev, and test set.
+
+45
+00:03:03.470 --> 00:03:07.020
+And let's say for the sake of argument
+that you've decided that your dev and
+
+46
+00:03:07.020 --> 00:03:11.380
+test sets will be 2,500 examples each.
+
+47
+00:03:11.380 --> 00:03:16.360
+So your training set
+will be 205,000 examples.
+
+48
+00:03:17.450 --> 00:03:23.520
+Now so set up your data this way has
+some advantages but also disadvantages.
+
+49
+00:03:23.520 --> 00:03:26.910
+The advantage is that now you're training,
+dev and test sets will all come
+
+50
+00:03:26.910 --> 00:03:30.400
+from the same distribution, so
+that makes it easier to manage.
+
+51
+00:03:30.400 --> 00:03:33.470
+But the disadvantage, and
+this is a huge disadvantage,
+
+52
+00:03:33.470 --> 00:03:38.010
+is that if you look at your dev set,
+of these 2,500 examples,
+
+53
+00:03:38.010 --> 00:03:43.570
+a lot of it will come from the web page
+distribution of images, rather than
+
+54
+00:03:43.570 --> 00:03:46.660
+what you actually care about, which is
+the mobile app distribution of images.
+
+55
+00:03:48.520 --> 00:03:53.150
+So it turns out that of your
+total amount of data, 200,000, so
+
+56
+00:03:53.150 --> 00:03:57.309
+I'll just abbreviate that 200k,
+out of 210,000,
+
+57
+00:03:57.309 --> 00:04:01.169
+we'll write that as 210k,
+that comes from web pages.
+
+58
+00:04:01.169 --> 00:04:06.951
+So all of these 2,500
+examples on expectation,
+
+59
+00:04:06.951 --> 00:04:13.430
+I think 2,381 of them
+will come from web pages.
+
+60
+00:04:13.430 --> 00:04:17.580
+This is on expectation, the exact
+number will vary around depending on
+
+61
+00:04:17.580 --> 00:04:20.290
+how the random shuttle operation went.
+
+62
+00:04:20.290 --> 00:04:25.250
+But on average, only 119 will
+come from mobile app uploads.
+
+63
+00:04:27.600 --> 00:04:32.630
+So remember that setting up your dev
+set is telling your team where to aim
+
+64
+00:04:32.630 --> 00:04:33.800
+the target.
+
+65
+00:04:33.800 --> 00:04:35.150
+And the way you're aiming your target,
+
+66
+00:04:35.150 --> 00:04:38.080
+you're saying spend most
+of the time optimizing for
+
+67
+00:04:38.080 --> 00:04:41.550
+the web page distribution of images,
+which is really not what you want.
+
+68
+00:04:42.780 --> 00:04:45.430
+So I would recommend against option one,
+
+69
+00:04:45.430 --> 00:04:50.010
+because this is setting up the dev
+set to tell your team to optimize for
+
+70
+00:04:50.010 --> 00:04:53.160
+a different distribution of data
+than what you actually care about.
+
+71
+00:04:54.210 --> 00:04:56.018
+So instead of doing this,
+
+72
+00:04:56.018 --> 00:05:01.704
+I would recommend that you instead take
+another option, which is the following.
+
+73
+00:05:01.704 --> 00:05:08.487
+The training set,
+let's say it's still 205,000 images,
+
+74
+00:05:08.487 --> 00:05:15.985
+I would have the training set have
+all 200,000 images from the web.
+
+75
+00:05:15.985 --> 00:05:21.970
+And then you can, if you want,
+add in 5,000 images from the mobile app.
+
+76
+00:05:21.970 --> 00:05:24.344
+And then for your dev and test sets,
+
+77
+00:05:24.344 --> 00:05:27.599
+I guess my data sets size
+aren't drawn to scale.
+
+78
+00:05:27.599 --> 00:05:34.993
+Your dev and
+test sets would be all mobile app images.
+
+79
+00:05:38.870 --> 00:05:44.405
+So the training set will include
+200,000 images from the web and
+
+80
+00:05:44.405 --> 00:05:46.560
+5,000 from the mobile app.
+
+81
+00:05:46.560 --> 00:05:51.990
+The dev set will be 2,500
+images from the mobile app, and
+
+82
+00:05:51.990 --> 00:05:58.680
+the test set will be 2,500
+images also from the mobile app.
+
+83
+00:05:58.680 --> 00:06:03.480
+The advantage of this way of splitting
+up your data into train, dev, and test,
+
+84
+00:06:03.480 --> 00:06:07.410
+is that you're now aiming
+the target where you want it to be.
+
+85
+00:06:07.410 --> 00:06:12.930
+You're telling your team, my dev set has
+data uploaded from the mobile app and
+
+86
+00:06:12.930 --> 00:06:15.570
+that's the distribution of
+images you really care about, so
+
+87
+00:06:15.570 --> 00:06:19.110
+let's try to build a machine learning
+system that does really well on
+
+88
+00:06:19.110 --> 00:06:21.750
+the mobile app distribution of images.
+
+89
+00:06:21.750 --> 00:06:25.190
+The disadvantage, of course,
+is that now your training
+
+90
+00:06:25.190 --> 00:06:30.870
+distribution is different from your
+dev and test set distributions.
+
+91
+00:06:30.870 --> 00:06:34.724
+But it turns out that this split
+of your data into train, dev and
+
+92
+00:06:34.724 --> 00:06:38.227
+test will get you better
+performance over the long term.
+
+93
+00:06:38.227 --> 00:06:42.475
+And we'll discuss later some specific
+techniques for dealing with your
+
+94
+00:06:42.475 --> 00:06:47.160
+training sets coming from different
+distribution than your dev and test sets.
+
+95
+00:06:47.160 --> 00:06:49.110
+Let's look at another example.
+
+96
+00:06:49.110 --> 00:06:53.553
+Let's say you're building
+a brand new product,
+
+97
+00:06:53.553 --> 00:06:58.610
+a speech activated rearview mirror for
+a car.
+
+98
+00:06:58.610 --> 00:07:01.368
+So this is a real product in China.
+
+99
+00:07:01.368 --> 00:07:05.668
+It's making its way into other countries
+but you can build a rearview mirror to
+
+100
+00:07:05.668 --> 00:07:10.034
+replace this little thing there, so that
+you can now talk to the rearview mirror
+
+101
+00:07:10.034 --> 00:07:13.488
+and basically say, dear rearview mirror,
+please help me find
+
+102
+00:07:13.488 --> 00:07:17.760
+navigational directions to the nearest
+gas station and it'll deal with it.
+
+103
+00:07:19.620 --> 00:07:22.750
+So this is actually a real product, and
+let's say you're trying to build this for
+
+104
+00:07:22.750 --> 00:07:23.530
+your own country.
+
+105
+00:07:27.160 --> 00:07:31.720
+So how can you get data to train
+up a speech recognition system for
+
+106
+00:07:31.720 --> 00:07:32.489
+this product?
+
+107
+00:07:32.489 --> 00:07:36.137
+Well, maybe you've worked on speech
+recognition for a long time so
+
+108
+00:07:36.137 --> 00:07:39.785
+you have a lot of data from other
+speech recognition applications,
+
+109
+00:07:39.785 --> 00:07:43.185
+just not from a speech
+activated rearview mirror.
+
+110
+00:07:43.185 --> 00:07:47.164
+Here's how you could split up your
+training and your dev and test sets.
+
+111
+00:07:47.164 --> 00:07:50.780
+So for your training, you can take
+all the speech data you have that
+
+112
+00:07:50.780 --> 00:07:54.180
+you've accumulated from working
+on other speech problems, such as
+
+113
+00:07:54.180 --> 00:07:59.060
+data you purchased over the years from
+various speech recognition data vendors.
+
+114
+00:07:59.060 --> 00:08:03.410
+And today you can actually buy
+data from vendors of x, y pairs,
+
+115
+00:08:03.410 --> 00:08:06.130
+where x is an audio clip and
+y is a transcript.
+
+116
+00:08:06.130 --> 00:08:10.832
+Or maybe you've worked on smart speakers,
+smart voice activated speakers, so
+
+117
+00:08:10.832 --> 00:08:12.990
+you have some data from that.
+
+118
+00:08:12.990 --> 00:08:17.040
+Maybe you've worked on voice
+activated keyboards and so on.
+
+119
+00:08:17.040 --> 00:08:21.515
+And for the sake of argument,
+maybe you have 500,000
+
+120
+00:08:21.515 --> 00:08:25.330
+utterences from all of these sources.
+
+121
+00:08:25.330 --> 00:08:30.078
+And for your dev and test set, maybe
+you have a much smaller data set that
+
+122
+00:08:30.078 --> 00:08:33.892
+actually came from a speech
+activated rearview mirror.
+
+123
+00:08:34.950 --> 00:08:38.316
+Because users are asking for
+navigational queries or
+
+124
+00:08:38.316 --> 00:08:41.590
+trying to find directions
+to various places.
+
+125
+00:08:41.590 --> 00:08:46.560
+This data set will maybe have a lot
+more street addresses, right?
+
+126
+00:08:46.560 --> 00:08:49.250
+Please help me navigate to
+this street address, or
+
+127
+00:08:49.250 --> 00:08:51.980
+please help me navigate
+to this gas station.
+
+128
+00:08:51.980 --> 00:08:56.040
+So this distribution of data will be
+very different than these on the left.
+
+129
+00:08:58.140 --> 00:09:01.780
+But this is really the data you care
+about, because this is what you need your
+
+130
+00:09:01.780 --> 00:09:08.082
+product to do well on, so this is what
+you set your dev and test set to be.
+
+131
+00:09:08.082 --> 00:09:12.868
+So what you do in this example
+is set your training set to be
+
+132
+00:09:12.868 --> 00:09:16.960
+the 500,000 utterances on the left, and
+
+133
+00:09:16.960 --> 00:09:21.847
+then your dev and
+test sets which I'll abbreviate D and T,
+
+134
+00:09:21.847 --> 00:09:26.380
+these could be maybe
+10,000 utterances each.
+
+135
+00:09:26.380 --> 00:09:31.064
+That's drawn from actual the speech
+activated rearview mirror.
+
+136
+00:09:31.064 --> 00:09:35.600
+Or alternatively, if you think you don't
+need to put all 20,000 examples from
+
+137
+00:09:35.600 --> 00:09:38.498
+your speech activated rearview
+mirror into the dev and
+
+138
+00:09:38.498 --> 00:09:42.470
+test sets, maybe you can take half of
+that and put that in the training set.
+
+139
+00:09:43.730 --> 00:09:49.085
+So then the training set
+could be 510,000 utterances,
+
+140
+00:09:49.085 --> 00:09:55.662
+including all 500 from there and
+10,000 from the rearview mirror.
+
+141
+00:09:58.046 --> 00:10:04.500
+And then the dev and test sets could
+maybe be 5,000 utterances each.
+
+142
+00:10:04.500 --> 00:10:09.934
+So of the 20,000 utterances,
+maybe 10k goes into the training set and
+
+143
+00:10:09.934 --> 00:10:14.490
+5k into the dev set and
+5,000 into the test set.
+
+144
+00:10:14.490 --> 00:10:18.870
+So this would be another reasonable
+way of splitting your data into train,
+
+145
+00:10:18.870 --> 00:10:20.360
+dev, and test.
+
+146
+00:10:20.360 --> 00:10:26.258
+And this gives you a much bigger training
+set, over 500,000 utterances, than if you
+
+147
+00:10:26.258 --> 00:10:31.297
+were to only use speech activated rearview
+mirror data for your training set.
+
+148
+00:10:31.297 --> 00:10:35.880
+So in this video, you've seen a couple
+examples of when allowing your training
+
+149
+00:10:35.880 --> 00:10:38.790
+set data to come from a different
+distribution than your dev and
+
+150
+00:10:38.790 --> 00:10:41.980
+test set allows you to have
+much more training data.
+
+151
+00:10:41.980 --> 00:10:45.990
+And in these examples, it will cause your
+learning algorithm to perform better.
+
+152
+00:10:45.990 --> 00:10:50.100
+Now one question you might ask is, should
+you always use all the data you have?
+
+153
+00:10:50.100 --> 00:10:52.850
+The answer is subtle,
+it is not always yes.
+
+154
+00:10:52.850 --> 00:10:54.910
+Let's look at a counter-example
+in the next video.

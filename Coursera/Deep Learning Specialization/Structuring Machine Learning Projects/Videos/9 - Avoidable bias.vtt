@@ -1,0 +1,421 @@
+WEBVTT
+
+1
+00:00:02.400 --> 00:00:07.760
+We talked about how you want your learning algorithm to do well on the training set but
+
+2
+00:00:07.760 --> 00:00:10.085
+sometimes you don't actually want to do too
+
+3
+00:00:10.085 --> 00:00:12.765
+well and knowing what human level performance is,
+
+4
+00:00:12.765 --> 00:00:15.070
+can tell you exactly how well
+
+5
+00:00:15.070 --> 00:00:18.250
+but not too well you want your algorithm to do on the training set.
+
+6
+00:00:18.250 --> 00:00:19.392
+Let me show you what I mean.
+
+7
+00:00:19.392 --> 00:00:24.320
+We have used Cat classification a lot and given a picture,
+
+8
+00:00:24.320 --> 00:00:32.195
+let's say humans have near-perfect accuracy so the human level error is one percent.
+
+9
+00:00:32.195 --> 00:00:34.475
+In that case, if your learning algorithm achieves
+
+10
+00:00:34.475 --> 00:00:38.915
+8 percent training error and 10 percent dev error,
+
+11
+00:00:38.915 --> 00:00:44.500
+then maybe you wanted to do better on the training set.
+
+12
+00:00:44.500 --> 00:00:49.510
+So the fact that there's a huge gap between how well your algorithm does on
+
+13
+00:00:49.510 --> 00:00:52.010
+your training set versus how humans do
+
+14
+00:00:52.010 --> 00:00:55.625
+shows that your algorithm isn't even fitting the training set well.
+
+15
+00:00:55.625 --> 00:00:59.210
+So in terms of tools to reduce bias or variance,
+
+16
+00:00:59.210 --> 00:01:03.835
+in this case I would say focus on reducing bias.
+
+17
+00:01:03.835 --> 00:01:09.410
+So you want to do things like train a bigger neural network or run training set longer,
+
+18
+00:01:09.410 --> 00:01:12.003
+just try to do better on the training set.
+
+19
+00:01:12.003 --> 00:01:15.050
+But now let's look at the same training error and dev
+
+20
+00:01:15.050 --> 00:01:19.340
+error and imagine that human level performance was not 1%.
+
+21
+00:01:19.340 --> 00:01:22.120
+So this copy is over but you know in
+
+22
+00:01:22.120 --> 00:01:25.170
+a different application or maybe on a different data set,
+
+23
+00:01:25.170 --> 00:01:30.180
+let's say that human level error is actually 7.5%.
+
+24
+00:01:30.180 --> 00:01:33.890
+Maybe the images in your data set are so blurry that even humans
+
+25
+00:01:33.890 --> 00:01:37.917
+can't tell whether there's a cat in this picture.
+
+26
+00:01:37.917 --> 00:01:41.090
+This example is maybe slightly contrived because humans
+
+27
+00:01:41.090 --> 00:01:44.525
+are actually very good at looking at pictures and telling if there's a cat in it or not.
+
+28
+00:01:44.525 --> 00:01:46.490
+But for the sake of this example,
+
+29
+00:01:46.490 --> 00:01:48.270
+let's say your data sets images are
+
+30
+00:01:48.270 --> 00:01:54.680
+so blurry or so low resolution that even humans get 7.5% error.
+
+31
+00:01:54.680 --> 00:01:56.720
+In this case, even though
+
+32
+00:01:56.720 --> 00:02:00.305
+your training error and dev error are the same as the other example,
+
+33
+00:02:00.305 --> 00:02:04.016
+you see that maybe you're actually doing just fine on the training set.
+
+34
+00:02:04.016 --> 00:02:07.980
+It's doing only a little bit worse than human level performance.
+
+35
+00:02:07.980 --> 00:02:10.010
+And in this second example,
+
+36
+00:02:10.010 --> 00:02:14.295
+you would maybe want to focus on reducing this component,
+
+37
+00:02:14.295 --> 00:02:19.390
+reducing the variance in your learning algorithm.
+
+38
+00:02:19.390 --> 00:02:21.650
+So you might try regularization to try to bring
+
+39
+00:02:21.650 --> 00:02:25.600
+your dev error closer to your training error for example.
+
+40
+00:02:25.600 --> 00:02:29.790
+So in the earlier courses discussion on bias and variance,
+
+41
+00:02:29.790 --> 00:02:36.900
+we were mainly assuming that there were tasks where Bayes error is nearly zero.
+
+42
+00:02:36.900 --> 00:02:39.280
+So to explain what just happened here,
+
+43
+00:02:39.280 --> 00:02:42.150
+for our Cat classification example,
+
+44
+00:02:42.150 --> 00:02:47.510
+think of human level error as
+
+45
+00:02:47.510 --> 00:02:56.030
+a proxy or as a estimate for Bayes error or for Bayes optimal error.
+
+46
+00:02:56.030 --> 00:02:58.660
+And for computer vision tasks,
+
+47
+00:02:58.660 --> 00:03:02.450
+this is a pretty reasonable proxy because humans are actually very good at
+
+48
+00:03:02.450 --> 00:03:08.750
+computer vision and so whatever a human can do is maybe not too far from Bayes error.
+
+49
+00:03:08.750 --> 00:03:11.930
+By definition, human level error is worse than
+
+50
+00:03:11.930 --> 00:03:14.840
+Bayes error because nothing could be better than
+
+51
+00:03:14.840 --> 00:03:19.665
+Bayes error but human level error might not be too far from Bayes error.
+
+52
+00:03:19.665 --> 00:03:25.145
+So the surprising thing we saw here is that depending on what human level error is
+
+53
+00:03:25.145 --> 00:03:31.214
+or really this is really approximately Bayes error or so we assume it to be,
+
+54
+00:03:31.214 --> 00:03:35.273
+but depending on what we think is achievable,
+
+55
+00:03:35.273 --> 00:03:40.970
+with the same training error and dev error in these two cases,
+
+56
+00:03:40.970 --> 00:03:47.510
+we decided to focus on bias reduction tactics or on variance reduction tactics.
+
+57
+00:03:47.510 --> 00:03:51.710
+And what happened is in the example on the left,
+
+58
+00:03:51.710 --> 00:03:55.850
+8% training error is really high when you think you could get it down
+
+59
+00:03:55.850 --> 00:04:01.310
+to 1% and so bias reduction tactics could help you do that.
+
+60
+00:04:01.310 --> 00:04:02.885
+Whereas in the example on the right,
+
+61
+00:04:02.885 --> 00:04:07.140
+if you think that Bayes error is 7.5%
+
+62
+00:04:07.140 --> 00:04:12.265
+and here we're using human level error as an estimate or as a proxy for Bayes error,
+
+63
+00:04:12.265 --> 00:04:13.622
+but you think that Bayes error is
+
+64
+00:04:13.622 --> 00:04:15.860
+close to seven point five percent then you know there's not
+
+65
+00:04:15.860 --> 00:04:20.195
+that much headroom for reducing your training error further down.
+
+66
+00:04:20.195 --> 00:04:24.710
+You don't really want it to be that much better than 7.5% because you could achieve
+
+67
+00:04:24.710 --> 00:04:29.780
+that only by maybe starting to offer further training so,
+
+68
+00:04:29.780 --> 00:04:32.910
+and instead, there's much more room for improvement
+
+69
+00:04:32.910 --> 00:04:36.380
+in terms of taking this 2% gap and trying to
+
+70
+00:04:36.380 --> 00:04:38.660
+reduce that by using
+
+71
+00:04:38.660 --> 00:04:43.370
+variance reduction techniques such as regularization or maybe getting more training data.
+
+72
+00:04:43.370 --> 00:04:47.463
+So to give these things a couple of names,
+
+73
+00:04:47.463 --> 00:04:50.490
+this is not widely used terminology but I
+
+74
+00:04:50.490 --> 00:04:54.075
+found this useful terminology and a useful way of thinking about it,
+
+75
+00:04:54.075 --> 00:04:58.380
+which is I'm going to call the difference between Bayes error or
+
+76
+00:04:58.380 --> 00:05:05.670
+approximation of Bayes error and the training error to be the avoidable bias.
+
+77
+00:05:05.670 --> 00:05:11.830
+So what you want is maybe keep improving your training performance
+
+78
+00:05:11.830 --> 00:05:14.020
+until you get down to Bayes error but you don't
+
+79
+00:05:14.020 --> 00:05:16.565
+actually want to do better than Bayes error.
+
+80
+00:05:16.565 --> 00:05:20.740
+You can't actually do better than Bayes error unless you're overfitting.
+
+81
+00:05:20.740 --> 00:05:24.879
+And this, the difference between your training area and the dev error,
+
+82
+00:05:24.879 --> 00:05:29.775
+there's a measure still of the variance problem of your algorithm.
+
+83
+00:05:29.775 --> 00:05:35.350
+And the term avoidable bias acknowledges that there's some bias or
+
+84
+00:05:35.350 --> 00:05:38.140
+some minimum level of error that you just
+
+85
+00:05:38.140 --> 00:05:42.975
+cannot get below which is that if Bayes error is 7.5%,
+
+86
+00:05:42.975 --> 00:05:46.885
+you don't actually want to get below that level of error.
+
+87
+00:05:46.885 --> 00:05:50.650
+So rather than saying that if you're training error is 8%,
+
+88
+00:05:50.650 --> 00:05:53.427
+then the 8% is a measure of bias in this example,
+
+89
+00:05:53.427 --> 00:06:01.520
+you're saying that the avoidable bias is maybe 0.5% or 0.5% is a measure of
+
+90
+00:06:01.520 --> 00:06:06.220
+the avoidable bias whereas 2% is a measure of the variance and
+
+91
+00:06:06.220 --> 00:06:11.378
+so there's much more room in reducing this 2% than in reducing this 0.5%.
+
+92
+00:06:11.378 --> 00:06:14.384
+Whereas in contrast in the example on the left,
+
+93
+00:06:14.384 --> 00:06:20.055
+this 7% is a measure of the avoidable bias,
+
+94
+00:06:20.055 --> 00:06:24.275
+whereas 2% is a measure of how much variance you have.
+
+95
+00:06:24.275 --> 00:06:25.960
+And so in this example on the left,
+
+96
+00:06:25.960 --> 00:06:31.789
+there's much more potential in focusing on reducing that avoidable bias.
+
+97
+00:06:31.789 --> 00:06:33.310
+So in this example,
+
+98
+00:06:33.310 --> 00:06:35.845
+understanding human level error,
+
+99
+00:06:35.845 --> 00:06:38.220
+understanding your estimate of Bayes error really
+
+100
+00:06:38.220 --> 00:06:42.420
+causes you in different scenarios to focus on different tactics,
+
+101
+00:06:42.420 --> 00:06:45.970
+whether bias avoidance tactics or variance avoidance tactics.
+
+102
+00:06:45.970 --> 00:06:48.820
+There's quite a lot more nuance in how you factor in
+
+103
+00:06:48.820 --> 00:06:53.800
+human level performance into how you make decisions in choosing what to focus on.
+
+104
+00:06:53.800 --> 00:06:55.970
+Thus in the next video, go deeper into
+
+105
+00:06:55.970 --> 00:06:59.460
+understanding of what human level performance really mean.

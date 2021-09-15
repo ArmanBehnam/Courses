@@ -1,0 +1,765 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.250
+One of the most powerful ideas in deep learning is that sometimes you can take knowledge
+
+2
+00:00:05.250 --> 00:00:10.560
+the neural network has learned from one task and apply that knowledge to a separate task.
+
+3
+00:00:10.560 --> 00:00:12.815
+So for example, maybe you could have the neural network
+
+4
+00:00:12.815 --> 00:00:15.720
+learn to recognize objects like cats and then use
+
+5
+00:00:15.720 --> 00:00:18.085
+that knowledge or use part of that knowledge to
+
+6
+00:00:18.085 --> 00:00:21.300
+help you do a better job reading x-ray scans.
+
+7
+00:00:21.300 --> 00:00:24.920
+This is called transfer learning. Let's take a look.
+
+8
+00:00:24.920 --> 00:00:30.180
+Let's say you've trained your neural network on image recognition.
+
+9
+00:00:30.180 --> 00:00:34.395
+So you first take a neural network and train it on X Y pairs,
+
+10
+00:00:34.395 --> 00:00:37.700
+where X is an image and Y is some object.
+
+11
+00:00:37.700 --> 00:00:41.340
+An image is a cat or a dog or a bird or something else.
+
+12
+00:00:41.340 --> 00:00:43.960
+If you want to take this neural network and adapt,
+
+13
+00:00:43.960 --> 00:00:45.465
+or we say transfer,
+
+14
+00:00:45.465 --> 00:00:47.670
+what is learned to a different task,
+
+15
+00:00:47.670 --> 00:00:51.750
+such as radiology diagnosis,
+
+16
+00:00:51.750 --> 00:00:54.780
+meaning really reading X-ray scans,
+
+17
+00:00:54.780 --> 00:00:59.160
+what you can do is take this last output layer of the neural network and
+
+18
+00:00:59.160 --> 00:01:03.885
+just delete that and delete also the weights feeding into that last output layer
+
+19
+00:01:03.885 --> 00:01:08.880
+and create a new set of randomly initialized weights just for the last layer
+
+20
+00:01:08.880 --> 00:01:15.000
+and have that now output radiology diagnosis.
+
+21
+00:01:15.000 --> 00:01:17.160
+So to be concrete, during the first phase of
+
+22
+00:01:17.160 --> 00:01:19.795
+training when you're training on an image recognition task,
+
+23
+00:01:19.795 --> 00:01:23.710
+you train all of the usual parameters for the neural network, all the weights,
+
+24
+00:01:23.710 --> 00:01:27.150
+all the layers and you have something that
+
+25
+00:01:27.150 --> 00:01:32.680
+now learns to make image recognition predictions.
+
+26
+00:01:32.680 --> 00:01:35.370
+Having trained that neural network,
+
+27
+00:01:35.370 --> 00:01:41.540
+what you now do to implement transfer learning is swap in a new data set X Y,
+
+28
+00:01:41.540 --> 00:01:47.120
+where now these are radiology images.
+
+29
+00:01:47.120 --> 00:01:50.580
+And Y are the diagnoses you want to
+
+30
+00:01:50.580 --> 00:01:58.340
+predict and what you do is initialize the last layers' weights.
+
+31
+00:01:58.340 --> 00:02:00.250
+Let's call that W.L.
+
+32
+00:02:00.250 --> 00:02:02.360
+and P.L. randomly.
+
+33
+00:02:02.360 --> 00:02:07.175
+And now, retrain the neural network on this new data set,
+
+34
+00:02:07.175 --> 00:02:09.320
+on the new radiology data set.
+
+35
+00:02:09.320 --> 00:02:14.260
+You have a couple options of how you retrain neural network with radiology data.
+
+36
+00:02:14.260 --> 00:02:16.905
+You might, if you have a small radiology dataset,
+
+37
+00:02:16.905 --> 00:02:20.647
+you might want to just retrain the weights of the last layer, just W.L.
+
+38
+00:02:20.647 --> 00:02:22.620
+P.L., and keep the rest of the parameters fixed.
+
+39
+00:02:22.620 --> 00:02:23.975
+If you have enough data,
+
+40
+00:02:23.975 --> 00:02:27.400
+you could also retrain all the layers of the rest of the neural network.
+
+41
+00:02:27.400 --> 00:02:32.535
+And the rule of thumb is maybe if you have a small data set,
+
+42
+00:02:32.535 --> 00:02:35.560
+then just retrain the one last layer at the output layer.
+
+43
+00:02:35.560 --> 00:02:37.070
+Or maybe that last one or two layers.
+
+44
+00:02:37.070 --> 00:02:38.755
+But if you have a lot of data,
+
+45
+00:02:38.755 --> 00:02:42.490
+then maybe you can retrain all the parameters in the network.
+
+46
+00:02:42.490 --> 00:02:45.775
+And if you retrain all the parameters in the neural network,
+
+47
+00:02:45.775 --> 00:02:49.270
+then this initial phase of training on
+
+48
+00:02:49.270 --> 00:02:53.938
+image recognition is sometimes called pre-training,
+
+49
+00:02:53.938 --> 00:02:57.355
+because you're using image recognitions data
+
+50
+00:02:57.355 --> 00:03:01.745
+to pre-initialize or really pre-train the weights of the neural network.
+
+51
+00:03:01.745 --> 00:03:04.545
+And then if you are updating all the weights afterwards,
+
+52
+00:03:04.545 --> 00:03:09.885
+then training on the radiology data sometimes that's called fine tuning.
+
+53
+00:03:09.885 --> 00:03:15.185
+So you hear the words pre-training and fine tuning in a deep learning context,
+
+54
+00:03:15.185 --> 00:03:17.530
+this is what they mean when they refer to
+
+55
+00:03:17.530 --> 00:03:21.050
+pre-training and fine tuning weights in a transfer learning source.
+
+56
+00:03:21.050 --> 00:03:22.585
+And what you've done in this example,
+
+57
+00:03:22.585 --> 00:03:25.435
+is you've taken knowledge learned from
+
+58
+00:03:25.435 --> 00:03:31.285
+image recognition and applied it or transferred it to radiology diagnosis.
+
+59
+00:03:31.285 --> 00:03:33.490
+And the reason this can be helpful is that
+
+60
+00:03:33.490 --> 00:03:36.570
+a lot of the low level features such as detecting edges,
+
+61
+00:03:36.570 --> 00:03:39.400
+detecting curves, detecting positive objects.
+
+62
+00:03:39.400 --> 00:03:43.045
+Learning from that, from a very large image recognition data set,
+
+63
+00:03:43.045 --> 00:03:47.736
+might help your learning algorithm do better in radiology diagnosis.
+
+64
+00:03:47.736 --> 00:03:51.730
+It's just learned a lot about the structure and the nature of how images
+
+65
+00:03:51.730 --> 00:03:56.465
+look like and some of that knowledge will be useful.
+
+66
+00:03:56.465 --> 00:03:58.545
+So having learned to recognize images,
+
+67
+00:03:58.545 --> 00:04:00.910
+it might have learned enough about you know,
+
+68
+00:04:00.910 --> 00:04:03.135
+just what parts of different images look like,
+
+69
+00:04:03.135 --> 00:04:05.880
+that that knowledge about lines,
+
+70
+00:04:05.880 --> 00:04:07.725
+dots, curves, and so on,
+
+71
+00:04:07.725 --> 00:04:09.555
+maybe small parts of objects,
+
+72
+00:04:09.555 --> 00:04:10.950
+that knowledge could help
+
+73
+00:04:10.950 --> 00:04:15.910
+your radiology diagnosis network learn a bit faster or learn with less data.
+
+74
+00:04:15.910 --> 00:04:17.545
+Here's another example.
+
+75
+00:04:17.545 --> 00:04:20.730
+Let's say that you've trained a speech recognition system so
+
+76
+00:04:20.730 --> 00:04:24.398
+now X is input of audio or audio snippets,
+
+77
+00:04:24.398 --> 00:04:27.545
+and Y is some ink transcript.
+
+78
+00:04:27.545 --> 00:04:34.200
+So you've trained in speech recognition system to output your transcripts.
+
+79
+00:04:34.200 --> 00:04:39.435
+And let's say that you now want to build a "wake words" or
+
+80
+00:04:39.435 --> 00:04:45.345
+a "trigger words" detection system.
+
+81
+00:04:45.345 --> 00:04:49.580
+So, recall that a wake word or the trigger word are the words we say
+
+82
+00:04:49.580 --> 00:04:54.100
+in order to wake up speech control devices in our houses such as saying
+
+83
+00:04:54.100 --> 00:04:58.610
+"Alexa" to wake up an Amazon Echo or "OK Google" to wake up a Google device or
+
+84
+00:04:58.610 --> 00:05:03.590
+"hey Siri" to wake up an Apple device or saying "Ni hao baidu" to wake up a baidu device.
+
+85
+00:05:03.590 --> 00:05:05.120
+So in order to do this,
+
+86
+00:05:05.120 --> 00:05:09.080
+you might take out the last layer of
+
+87
+00:05:09.080 --> 00:05:13.435
+the neural network again and create a new output node.
+
+88
+00:05:13.435 --> 00:05:18.995
+But sometimes another thing you could do is actually create not just a single new output,
+
+89
+00:05:18.995 --> 00:05:23.120
+but actually create several new layers to your neural network to try
+
+90
+00:05:23.120 --> 00:05:28.215
+to put the labels Y for your wake word detection problem.
+
+91
+00:05:28.215 --> 00:05:30.425
+Then again, depending on how much data you have,
+
+92
+00:05:30.425 --> 00:05:34.400
+you might just retrain the new layers of the network or maybe
+
+93
+00:05:34.400 --> 00:05:38.925
+you could retrain even more layers of this neural network.
+
+94
+00:05:38.925 --> 00:05:42.150
+So, when does transfer learning make sense?
+
+95
+00:05:42.150 --> 00:05:46.845
+Transfer learning makes sense when you have a lot of data for the problem you're
+
+96
+00:05:46.845 --> 00:05:49.110
+transferring from and usually
+
+97
+00:05:49.110 --> 00:05:52.430
+relatively less data for the problem you're transferring to.
+
+98
+00:05:52.430 --> 00:05:58.030
+So for example, let's say you have a million examples for image recognition task.
+
+99
+00:05:58.030 --> 00:06:00.605
+So that's a lot of data to learn a lot of
+
+100
+00:06:00.605 --> 00:06:03.095
+low level features or to learn a lot of
+
+101
+00:06:03.095 --> 00:06:06.385
+useful features in the earlier layers in neural network.
+
+102
+00:06:06.385 --> 00:06:08.240
+But for the radiology task,
+
+103
+00:06:08.240 --> 00:06:12.005
+maybe you have only a hundred examples.
+
+104
+00:06:12.005 --> 00:06:15.650
+So you have very low data for the radiology diagnosis problem,
+
+105
+00:06:15.650 --> 00:06:17.530
+maybe only 100 x-ray scans.
+
+106
+00:06:17.530 --> 00:06:23.070
+So a lot of knowledge you learn from English recognition can be transferred and can
+
+107
+00:06:23.070 --> 00:06:24.560
+really help you get going with
+
+108
+00:06:24.560 --> 00:06:29.360
+radiology recognition even if you don't have all the data for radiology.
+
+109
+00:06:29.360 --> 00:06:31.800
+For speech recognition, maybe you've trained
+
+110
+00:06:31.800 --> 00:06:35.110
+the speech recognition system on 10000 hours of data.
+
+111
+00:06:35.110 --> 00:06:37.700
+So, you've learned a lot about what human voices
+
+112
+00:06:37.700 --> 00:06:41.270
+sounds like from that 10000 hours of data, which really is a lot.
+
+113
+00:06:41.270 --> 00:06:43.220
+But for your trigger word detection,
+
+114
+00:06:43.220 --> 00:06:45.735
+maybe you have only one hour of data.
+
+115
+00:06:45.735 --> 00:06:48.800
+So, that's not a lot of data to fit a lot of parameters.
+
+116
+00:06:48.800 --> 00:06:53.215
+So in this case, a lot of what you learn about what human voices sound like,
+
+117
+00:06:53.215 --> 00:06:56.450
+what are components of human speech and so on,
+
+118
+00:06:56.450 --> 00:07:00.300
+that can be really helpful for building a good wake word detector,
+
+119
+00:07:00.300 --> 00:07:03.220
+even though you have a relatively small dataset or
+
+120
+00:07:03.220 --> 00:07:08.005
+at least a much smaller dataset for the wake word detection task.
+
+121
+00:07:08.005 --> 00:07:09.440
+So in both of these cases,
+
+122
+00:07:09.440 --> 00:07:11.500
+you're transferring from a problem with a lot of
+
+123
+00:07:11.500 --> 00:07:15.610
+data to a problem with relatively little data.
+
+124
+00:07:15.610 --> 00:07:19.480
+One case where transfer learning would not make sense,
+
+125
+00:07:19.480 --> 00:07:22.330
+is if the opposite was true.
+
+126
+00:07:22.330 --> 00:07:27.560
+So, if you had a hundred images for image recognition and you had
+
+127
+00:07:27.560 --> 00:07:34.120
+100 images for radiology diagnosis or even a thousand images for radiology diagnosis,
+
+128
+00:07:34.120 --> 00:07:38.395
+one would think about it is that to do well on radiology diagnosis,
+
+129
+00:07:38.395 --> 00:07:41.830
+assuming what you really want to do well on this radiology diagnosis,
+
+130
+00:07:41.830 --> 00:07:47.670
+having radiology images is much more valuable than having cat and dog and so on images.
+
+131
+00:07:47.670 --> 00:07:52.060
+So each example here is much more valuable than each example there,
+
+132
+00:07:52.060 --> 00:07:55.935
+at least for the purpose of building a good radiology system.
+
+133
+00:07:55.935 --> 00:07:58.810
+So, if you already have more data for radiology,
+
+134
+00:07:58.810 --> 00:08:01.955
+it's not that likely that having 100 images of
+
+135
+00:08:01.955 --> 00:08:06.310
+your random objects of cats and dogs and cars and so on will be that helpful,
+
+136
+00:08:06.310 --> 00:08:12.130
+because the value of one example of image from your image recognition task of cats and
+
+137
+00:08:12.130 --> 00:08:15.430
+dogs is just less valuable than one example of
+
+138
+00:08:15.430 --> 00:08:19.870
+an x-ray image for the task of building a good radiology system.
+
+139
+00:08:19.870 --> 00:08:22.925
+So, this would be one example where transfer learning, well,
+
+140
+00:08:22.925 --> 00:08:27.515
+it might not hurt but I wouldn't expect it to give you any meaningful gain either.
+
+141
+00:08:27.515 --> 00:08:31.030
+And similarly, if you'd built a speech recognition system on 10 hours of
+
+142
+00:08:31.030 --> 00:08:34.660
+data and you actually have 10 hours or maybe even more,
+
+143
+00:08:34.660 --> 00:08:38.330
+say 50 hours of data for wake word detection,
+
+144
+00:08:38.330 --> 00:08:40.505
+you know it won't, it may or may not hurt,
+
+145
+00:08:40.505 --> 00:08:44.010
+maybe it won't hurt to include that 10 hours of data to your transfer learning,
+
+146
+00:08:44.010 --> 00:08:47.350
+but you just wouldn't expect to get a meaningful gain.
+
+147
+00:08:47.350 --> 00:08:51.220
+So to summarize, when does transfer learning make sense?
+
+148
+00:08:51.220 --> 00:08:53.200
+If you're trying to learn from
+
+149
+00:08:53.200 --> 00:09:00.830
+some Task A and transfer some of the knowledge to some Task B,
+
+150
+00:09:00.830 --> 00:09:07.825
+then transfer learning makes sense when Task A and B have the same input X.
+
+151
+00:09:07.825 --> 00:09:10.285
+In the first example,
+
+152
+00:09:10.285 --> 00:09:12.455
+A and B both have images as input.
+
+153
+00:09:12.455 --> 00:09:13.585
+In the second example,
+
+154
+00:09:13.585 --> 00:09:17.260
+both have audio clips as input.
+
+155
+00:09:17.260 --> 00:09:22.460
+It has to make sense when you have a lot more data for Task A than for Task B.
+
+156
+00:09:22.460 --> 00:09:27.345
+All this is under the assumption that what you really want to do well on is Task B.
+
+157
+00:09:27.345 --> 00:09:32.023
+And because data for Task B is more valuable for Task B,
+
+158
+00:09:32.023 --> 00:09:36.765
+usually you just need a lot more data for Task A because you know,
+
+159
+00:09:36.765 --> 00:09:43.605
+each example from Task A is just less valuable for Task B than each example for Task B.
+
+160
+00:09:43.605 --> 00:09:47.740
+And then finally, transfer learning will tend to make more sense if you suspect
+
+161
+00:09:47.740 --> 00:09:52.300
+that low level features from Task A could be helpful for learning Task B.
+
+162
+00:09:52.300 --> 00:09:54.395
+And in both of the earlier examples,
+
+163
+00:09:54.395 --> 00:09:57.010
+maybe learning image recognition teaches you enough about
+
+164
+00:09:57.010 --> 00:09:59.800
+images to have a radiology diagnosis and maybe
+
+165
+00:09:59.800 --> 00:10:02.200
+learning speech recognition teaches you about
+
+166
+00:10:02.200 --> 00:10:06.000
+human speech to help you with trigger word or wake word detection.
+
+167
+00:10:06.000 --> 00:10:08.350
+So to summarize, transfer learning has been most
+
+168
+00:10:08.350 --> 00:10:11.560
+useful if you're trying to do well on some Task B,
+
+169
+00:10:11.560 --> 00:10:14.480
+usually a problem where you have relatively little data.
+
+170
+00:10:14.480 --> 00:10:16.910
+So for example, in radiology,
+
+171
+00:10:16.910 --> 00:10:18.310
+you know it's difficult to get that
+
+172
+00:10:18.310 --> 00:10:21.990
+many x-ray scans to build a good radiology diagnosis system.
+
+173
+00:10:21.990 --> 00:10:25.270
+So in that case, you might find a related but different task,
+
+174
+00:10:25.270 --> 00:10:26.645
+such as image recognition,
+
+175
+00:10:26.645 --> 00:10:30.850
+where you can get maybe a million images and learn a lot of load-over features from that,
+
+176
+00:10:30.850 --> 00:10:34.180
+so that you can then try to do well on Task B on
+
+177
+00:10:34.180 --> 00:10:38.166
+your radiology task despite not having that much data for it.
+
+178
+00:10:38.166 --> 00:10:40.305
+When transfer learning makes sense?
+
+179
+00:10:40.305 --> 00:10:43.690
+It does help the performance of your learning task significantly.
+
+180
+00:10:43.690 --> 00:10:47.865
+But I've also seen sometimes seen transfer learning applied in settings where
+
+181
+00:10:47.865 --> 00:10:52.360
+Task A actually has less data than Task B and in those cases,
+
+182
+00:10:52.360 --> 00:10:55.285
+you kind of don't expect to see much of a gain.
+
+183
+00:10:55.285 --> 00:10:57.900
+So, that's it for transfer learning where you
+
+184
+00:10:57.900 --> 00:11:00.895
+learn from one task and try to transfer to a different task.
+
+185
+00:11:00.895 --> 00:11:02.585
+There's another version of learning from
+
+186
+00:11:02.585 --> 00:11:05.080
+multiple tasks which is called multitask learning,
+
+187
+00:11:05.080 --> 00:11:07.510
+which is when you try to learn from multiple tasks at
+
+188
+00:11:07.510 --> 00:11:10.845
+the same time rather than learning from one and then sequentially,
+
+189
+00:11:10.845 --> 00:11:14.170
+or after that, trying to transfer to a different task.
+
+190
+00:11:14.170 --> 00:11:15.450
+So in the next video,
+
+191
+00:11:15.450 --> 00:11:17.340
+let's discuss multitasking learning.

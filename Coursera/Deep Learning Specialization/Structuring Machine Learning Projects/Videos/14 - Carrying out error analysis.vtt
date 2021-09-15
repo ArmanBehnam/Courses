@@ -1,0 +1,814 @@
+WEBVTT
+
+1
+00:00:00.350 --> 00:00:02.080
+Hello, and welcome back.
+
+2
+00:00:02.080 --> 00:00:06.550
+If you're trying to get a learning
+algorithm to do a task that humans can do.
+
+3
+00:00:06.550 --> 00:00:10.490
+And if your learning algorithm is not yet
+at the performance of a human.
+
+4
+00:00:10.490 --> 00:00:13.790
+Then manually examining mistakes
+that your algorithm is making,
+
+5
+00:00:13.790 --> 00:00:16.240
+can give you insights
+into what to do next.
+
+6
+00:00:16.240 --> 00:00:19.040
+This process is called error analysis.
+
+7
+00:00:19.040 --> 00:00:20.890
+Let's start with an example.
+
+8
+00:00:20.890 --> 00:00:24.520
+Let's say you're working on your cat
+classifier, and you've achieved 90%
+
+9
+00:00:24.520 --> 00:00:29.390
+accuracy, or equivalently 10% error,
+on your dev set.
+
+10
+00:00:29.390 --> 00:00:32.820
+And let's say this is much
+worse than you're hoping to do.
+
+11
+00:00:32.820 --> 00:00:36.740
+Maybe one of your teammates looks at some
+of the examples that the algorithm is
+
+12
+00:00:36.740 --> 00:00:42.340
+misclassifying, and notices that it
+is miscategorizing some dogs as cats.
+
+13
+00:00:42.340 --> 00:00:46.080
+And if you look at these two dogs,
+maybe they look a little bit like a cat,
+
+14
+00:00:46.080 --> 00:00:47.628
+at least at first glance.
+
+15
+00:00:47.628 --> 00:00:51.160
+So maybe your teammate comes
+to you with a proposal for
+
+16
+00:00:51.160 --> 00:00:56.110
+how to make the algorithm do better,
+specifically on dogs, right?
+
+17
+00:00:56.110 --> 00:01:01.080
+You can imagine building a focus effort,
+maybe to collect more dog pictures, or
+
+18
+00:01:01.080 --> 00:01:04.680
+maybe to design features specific to dogs,
+or something.
+
+19
+00:01:04.680 --> 00:01:07.833
+In order to make your cat
+classifier do better on dogs, so
+
+20
+00:01:07.833 --> 00:01:11.070
+it stops misrecognizing
+these dogs as cats.
+
+21
+00:01:11.070 --> 00:01:13.980
+So the question is,
+should you go ahead and
+
+22
+00:01:13.980 --> 00:01:18.080
+start a project focus on the dog problem?
+
+23
+00:01:19.325 --> 00:01:23.740
+There could be several months of works you
+could do in order to make your algorithm
+
+24
+00:01:23.740 --> 00:01:25.890
+make few mistakes on dog pictures.
+
+25
+00:01:27.280 --> 00:01:29.550
+So is that worth your effort?
+
+26
+00:01:29.550 --> 00:01:32.475
+Well, rather than spending
+a few months doing this,
+
+27
+00:01:32.475 --> 00:01:36.175
+only to risk finding out at the end
+that it wasn't that helpful.
+
+28
+00:01:36.175 --> 00:01:40.605
+Here's an error analysis procedure that
+can let you very quickly tell whether or
+
+29
+00:01:40.605 --> 00:01:43.055
+not this could be worth your effort.
+
+30
+00:01:43.055 --> 00:01:45.180
+Here's what I recommend you do.
+
+31
+00:01:45.180 --> 00:01:51.860
+First, get about, say 100 mislabeled dev
+set examples, then examine them manually.
+
+32
+00:01:51.860 --> 00:01:56.380
+Just count them up one at a time,
+to see how many of these mislabeled
+
+33
+00:01:56.380 --> 00:01:59.338
+examples in your dev set
+are actually pictures of dogs.
+
+34
+00:01:59.338 --> 00:02:02.160
+Now, suppose that it turns out
+
+35
+00:02:02.160 --> 00:02:07.700
+that 5% of your 100 mislabeled dev
+set examples are pictures of dogs.
+
+36
+00:02:07.700 --> 00:02:12.740
+So, that is,
+if 5 out of 100 of these mislabeled
+
+37
+00:02:12.740 --> 00:02:18.231
+dev set examples are dogs, what this
+means is that of the 100 examples.
+
+38
+00:02:18.231 --> 00:02:23.217
+Of a typical set of 100 examples
+you're getting wrong, even if you
+
+39
+00:02:23.217 --> 00:02:28.807
+completely solve the dog problem,
+you only get 5 out of 100 more correct.
+
+40
+00:02:28.807 --> 00:02:33.802
+Or in other words, if only 5% of your
+errors are dog pictures, then the best you
+
+41
+00:02:33.802 --> 00:02:38.076
+could easily hope to do, if you spend
+a lot of time on the dog problem.
+
+42
+00:02:38.076 --> 00:02:43.256
+Is that your error might
+go down from 10% error,
+
+43
+00:02:43.256 --> 00:02:46.635
+down to 9.5% error, right?
+
+44
+00:02:46.635 --> 00:02:53.455
+So this a 5% relative decrease in error,
+from 10% down to 9.5%.
+
+45
+00:02:53.455 --> 00:02:58.220
+And so you might reasonably decide that
+this is not the best use of your time.
+
+46
+00:02:58.220 --> 00:03:02.743
+Or maybe it is, but
+at least this gives you a ceiling, right?
+
+47
+00:03:02.743 --> 00:03:08.566
+Upper bound on how much you could improve
+performance by working on the dog problem,
+
+48
+00:03:08.566 --> 00:03:09.150
+right?
+
+49
+00:03:10.800 --> 00:03:15.870
+In machine learning, sometimes we
+call this the ceiling on performance.
+
+50
+00:03:15.870 --> 00:03:17.818
+Which just means, what's in the best case?
+
+51
+00:03:17.818 --> 00:03:20.720
+How well could working on
+the dog problem help you?
+
+52
+00:03:22.690 --> 00:03:25.310
+But now, suppose something else happens.
+
+53
+00:03:25.310 --> 00:03:28.590
+Suppose that we look at your 100
+mislabeled dev set examples,
+
+54
+00:03:28.590 --> 00:03:32.340
+you find that 50 of them
+are actually dog images.
+
+55
+00:03:32.340 --> 00:03:35.620
+So 50% of them are dog pictures.
+
+56
+00:03:35.620 --> 00:03:39.760
+Now you could be much more optimistic
+about spending time on the dog problem.
+
+57
+00:03:39.760 --> 00:03:42.807
+In this case,
+if you actually solve the dog problem,
+
+58
+00:03:42.807 --> 00:03:47.158
+your error would go down from this 10%,
+down to potentially 5% error.
+
+59
+00:03:47.158 --> 00:03:52.260
+And you might decide that halving your
+error could be worth a lot of effort.
+
+60
+00:03:52.260 --> 00:03:56.150
+Focus on reducing the problem
+of mislabeled dogs.
+
+61
+00:03:56.150 --> 00:04:00.446
+I know that in machine learning,
+sometimes we speak disparagingly of hand
+
+62
+00:04:00.446 --> 00:04:03.660
+engineering things, or
+using too much value insight.
+
+63
+00:04:03.660 --> 00:04:09.280
+But if you're building applied systems,
+then this simple counting procedure,
+
+64
+00:04:09.280 --> 00:04:12.120
+error analysis,
+can save you a lot of time.
+
+65
+00:04:12.120 --> 00:04:14.740
+In terms of deciding what's
+the most important, or
+
+66
+00:04:14.740 --> 00:04:17.309
+what's the most promising
+direction to focus on.
+
+67
+00:04:19.739 --> 00:04:24.263
+In fact, if you're looking at
+100 mislabeled dev set examples,
+
+68
+00:04:24.263 --> 00:04:27.620
+maybe this is a 5 to 10 minute effort.
+
+69
+00:04:27.620 --> 00:04:29.930
+To manually go through 100 examples, and
+
+70
+00:04:29.930 --> 00:04:32.860
+manually count up how
+many of them are dogs.
+
+71
+00:04:32.860 --> 00:04:36.212
+And depending on the outcome,
+whether there's more like 5%, or
+
+72
+00:04:36.212 --> 00:04:37.570
+50%, or something else.
+
+73
+00:04:37.570 --> 00:04:39.580
+This, in just 5 to 10 minutes,
+
+74
+00:04:39.580 --> 00:04:44.310
+gives you an estimate of how
+worthwhile this direction is.
+
+75
+00:04:44.310 --> 00:04:46.430
+And could help you make a much
+better decision, whether or
+
+76
+00:04:46.430 --> 00:04:51.470
+not to spend the next few months
+focused on trying to find solutions to
+
+77
+00:04:51.470 --> 00:04:54.180
+solve the problem of mislabeled dogs.
+
+78
+00:04:54.180 --> 00:04:58.120
+In this slide, we'll describe using
+error analysis to evaluate whether or
+
+79
+00:04:58.120 --> 00:05:02.380
+not a single idea, dogs in this case,
+is worth working on.
+
+80
+00:05:02.380 --> 00:05:08.260
+Sometimes you can also evaluate multiple
+ideas in parallel doing error analysis.
+
+81
+00:05:08.260 --> 00:05:12.920
+For example, let's say you have several
+ideas in improving your cat detector.
+
+82
+00:05:12.920 --> 00:05:16.460
+Maybe you can improve performance on dogs?
+
+83
+00:05:16.460 --> 00:05:19.785
+Or maybe you notice that sometimes,
+what are called great cats,
+
+84
+00:05:19.785 --> 00:05:22.332
+such as lions, panthers,
+cheetahs, and so on.
+
+85
+00:05:22.332 --> 00:05:25.758
+That they are being recognized
+as small cats, or house cats.
+
+86
+00:05:25.758 --> 00:05:28.031
+So you could maybe find
+a way to work on that.
+
+87
+00:05:28.031 --> 00:05:32.632
+Or maybe you find that some of your images
+are blurry, and it would be nice if you
+
+88
+00:05:32.632 --> 00:05:36.489
+could design something that just
+works better on blurry images.
+
+89
+00:05:37.560 --> 00:05:39.280
+And maybe you have some
+ideas on how to do that.
+
+90
+00:05:41.480 --> 00:05:45.430
+So if carrying out error analysis
+to evaluate these three ideas,
+
+91
+00:05:45.430 --> 00:05:48.430
+what I would do is create
+a table like this.
+
+92
+00:05:50.760 --> 00:05:53.940
+And I usually do this in a spreadsheet,
+but
+
+93
+00:05:53.940 --> 00:05:56.520
+using an ordinary text
+file will also be okay.
+
+94
+00:05:57.610 --> 00:05:58.605
+And on the left side,
+
+95
+00:05:58.605 --> 00:06:02.430
+this goes through the set of images
+you plan to look at manually.
+
+96
+00:06:02.430 --> 00:06:06.010
+So this maybe goes from 1 to 100,
+if you look at 100 pictures.
+
+97
+00:06:06.010 --> 00:06:09.910
+And the columns of this table,
+of the spreadsheet,
+
+98
+00:06:09.910 --> 00:06:12.570
+will correspond to the ideas
+you're evaluating.
+
+99
+00:06:12.570 --> 00:06:18.490
+So the dog problem, the problem
+of great cats, and blurry images.
+
+100
+00:06:18.490 --> 00:06:23.870
+And I usually also leave space in
+the spreadsheet to write comments.
+
+101
+00:06:23.870 --> 00:06:25.724
+So remember, during error analysis,
+
+102
+00:06:25.724 --> 00:06:29.610
+you're just looking at dev set examples
+that your algorithm has misrecognized.
+
+103
+00:06:30.670 --> 00:06:34.640
+So if you find that the first
+misrecognized image is a picture of a dog,
+
+104
+00:06:34.640 --> 00:06:36.550
+then I'd put a check mark there.
+
+105
+00:06:36.550 --> 00:06:39.540
+And to help myself remember these images,
+
+106
+00:06:39.540 --> 00:06:41.830
+sometimes I'll make
+a note in the comments.
+
+107
+00:06:41.830 --> 00:06:44.380
+So maybe that was a pit bull picture.
+
+108
+00:06:44.380 --> 00:06:48.110
+If the second picture was blurry,
+then make a note there.
+
+109
+00:06:48.110 --> 00:06:53.317
+If the third one was a lion, on a rainy
+day, in the zoo that was misrecognized.
+
+110
+00:06:53.317 --> 00:06:56.030
+Then that's a great cat,
+and the blurry data.
+
+111
+00:06:56.030 --> 00:07:00.920
+Make a note in the comment section,
+rainy day at zoo, and
+
+112
+00:07:00.920 --> 00:07:03.620
+it was the rain that made it blurry,
+and so on.
+
+113
+00:07:05.670 --> 00:07:08.616
+Then finally,
+having gone through some set of images,
+
+114
+00:07:08.616 --> 00:07:11.508
+I would count up what
+percentage of these algorithms.
+
+115
+00:07:11.508 --> 00:07:16.951
+Or what percentage of each of these error
+categories were attributed to the dog,
+
+116
+00:07:16.951 --> 00:07:19.360
+or great cat, blurry categories.
+
+117
+00:07:19.360 --> 00:07:26.484
+So maybe 8% of these images you
+examine turn out be dogs, and
+
+118
+00:07:26.484 --> 00:07:32.390
+maybe 43% great cats, and 61% were blurry.
+
+119
+00:07:32.390 --> 00:07:34.720
+So this just means going down each column,
+and
+
+120
+00:07:34.720 --> 00:07:39.290
+counting up what percentage of images
+have a check mark in that column.
+
+121
+00:07:39.290 --> 00:07:41.567
+As you're part way through this process,
+
+122
+00:07:41.567 --> 00:07:44.420
+sometimes you notice other
+categories of mistakes.
+
+123
+00:07:44.420 --> 00:07:50.240
+So, for example, you might find that
+Instagram style filter, those fancy
+
+124
+00:07:50.240 --> 00:07:55.420
+image filters,
+are also messing up your classifier.
+
+125
+00:07:55.420 --> 00:07:55.940
+In that case,
+
+126
+00:07:55.940 --> 00:08:00.240
+it's actually okay, part way through the
+process, to add another column like that.
+
+127
+00:08:00.240 --> 00:08:03.125
+For the multi-colored filters,
+the Instagram filters, and
+
+128
+00:08:03.125 --> 00:08:04.650
+the Snapchat filters.
+
+129
+00:08:04.650 --> 00:08:07.900
+And then go through and
+count up those as well, and
+
+130
+00:08:07.900 --> 00:08:11.050
+figure out what percentage comes
+from that new error category.
+
+131
+00:08:12.170 --> 00:08:16.640
+The conclusion of this process gives you
+an estimate of how worthwhile it might
+
+132
+00:08:16.640 --> 00:08:19.880
+be to work on each of these
+different categories of errors.
+
+133
+00:08:19.880 --> 00:08:23.820
+For example, clearly in this example,
+a lot of the mistakes we made on blurry
+
+134
+00:08:23.820 --> 00:08:28.780
+images, and quite a lot on
+were made on great cat images.
+
+135
+00:08:28.780 --> 00:08:35.750
+And so the outcome of this analysis is
+not that you must work on blurry images.
+
+136
+00:08:35.750 --> 00:08:39.360
+This doesn't give you a rigid mathematical
+formula that tells you what to do,
+
+137
+00:08:39.360 --> 00:08:43.140
+but it gives you a sense of
+the best options to pursue.
+
+138
+00:08:43.140 --> 00:08:44.650
+It also tells you, for example,
+
+139
+00:08:44.650 --> 00:08:50.490
+that no matter how much better you do
+on dog images, or on Instagram images.
+
+140
+00:08:50.490 --> 00:08:55.130
+You at most improve performance by
+maybe 8%, or 12%, in these examples.
+
+141
+00:08:55.130 --> 00:08:57.700
+Whereas you can to better
+on great cat images, or
+
+142
+00:08:57.700 --> 00:09:00.246
+blurry images, the potential improvement.
+
+143
+00:09:00.246 --> 00:09:03.730
+Now there's a ceiling in terms of how
+much you could improve performance,
+
+144
+00:09:03.730 --> 00:09:05.390
+is much higher.
+
+145
+00:09:05.390 --> 00:09:09.010
+So depending on how many ideas you have
+for improving performance on great cats,
+
+146
+00:09:09.010 --> 00:09:10.320
+on blurry images.
+
+147
+00:09:10.320 --> 00:09:13.856
+Maybe you could pick one of the two, or
+if you have enough personnel on your team,
+
+148
+00:09:13.856 --> 00:09:15.630
+maybe you can have two different teams.
+
+149
+00:09:15.630 --> 00:09:18.629
+Have one work on improving
+errors on great cats, and
+
+150
+00:09:18.629 --> 00:09:22.120
+a different team work on
+improving errors on blurry images.
+
+151
+00:09:27.184 --> 00:09:31.280
+But this quick counting procedure,
+which you can often do in, at most,
+
+152
+00:09:31.280 --> 00:09:33.130
+small numbers of hours.
+
+153
+00:09:33.130 --> 00:09:36.200
+Can really help you make much
+better prioritization decisions,
+
+154
+00:09:36.200 --> 00:09:39.410
+and understand how promising
+different approaches are to work on.
+
+155
+00:09:40.940 --> 00:09:44.670
+So to summarize, to carry out error
+analysis, you should find a set of
+
+156
+00:09:44.670 --> 00:09:48.731
+mislabeled examples, either in your
+dev set, or in your development set.
+
+157
+00:09:48.731 --> 00:09:53.420
+And look at the mislabeled examples for
+false positives and false negatives.
+
+158
+00:09:53.420 --> 00:09:56.378
+And just count up the number of
+errors that fall into various
+
+159
+00:09:56.378 --> 00:09:57.629
+different categories.
+
+160
+00:09:57.629 --> 00:10:01.916
+During this process, you might be inspired
+to generate new categories of errors,
+
+161
+00:10:01.916 --> 00:10:02.597
+like we saw.
+
+162
+00:10:02.597 --> 00:10:06.016
+If you're looking through the examples and
+you say gee, there are a lot of Instagram
+
+163
+00:10:06.016 --> 00:10:09.071
+filters, or Snapchat filters,
+they're also messing up my classifier.
+
+164
+00:10:09.071 --> 00:10:11.600
+You can create new categories
+during that process.
+
+165
+00:10:11.600 --> 00:10:14.740
+But by counting up the fraction of
+examples that are mislabeled in
+
+166
+00:10:14.740 --> 00:10:17.375
+different ways,
+often this will help you prioritize.
+
+167
+00:10:17.375 --> 00:10:21.140
+Or give you inspiration for
+new directions to go in.
+
+168
+00:10:21.140 --> 00:10:23.074
+Now as you're doing error analysis,
+
+169
+00:10:23.074 --> 00:10:27.600
+sometimes you notice that some of your
+examples in your dev sets are mislabeled.
+
+170
+00:10:27.600 --> 00:10:29.380
+So what do you do about that?
+
+171
+00:10:29.380 --> 00:10:31.020
+Let's discuss that in the next video.

@@ -1,0 +1,669 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.505
+You've seen how set to have a dev set and evaluation metric
+
+2
+00:00:03.505 --> 00:00:07.170
+is like placing a target somewhere for your team to aim at.
+
+3
+00:00:07.170 --> 00:00:09.330
+But sometimes partway through a project you might
+
+4
+00:00:09.330 --> 00:00:12.040
+realize you put your target in the wrong place.
+
+5
+00:00:12.040 --> 00:00:14.365
+In that case you should move your target.
+
+6
+00:00:14.365 --> 00:00:16.156
+Let's take a look at an example.
+
+7
+00:00:16.156 --> 00:00:21.210
+Let's say you build a cat classifier to try to find lots of pictures of cats to show to
+
+8
+00:00:21.210 --> 00:00:26.850
+your cat loving users and the metric that you decided to use is classification error.
+
+9
+00:00:26.850 --> 00:00:29.655
+So algorithms A and B have, respectively,
+
+10
+00:00:29.655 --> 00:00:32.025
+3 percent error and 5 percent error,
+
+11
+00:00:32.025 --> 00:00:34.955
+so it seems like Algorithm A is doing better.
+
+12
+00:00:34.955 --> 00:00:38.290
+But let's say you try out these algorithms, you look at these algorithms and Algorithm A,
+
+13
+00:00:38.290 --> 00:00:43.760
+for some reason, is letting through a lot of the pornographic images.
+
+14
+00:00:43.760 --> 00:00:46.985
+So if you shift Algorithm A the users would
+
+15
+00:00:46.985 --> 00:00:51.185
+see more cat images because you'll see 3 percent error and identify cats,
+
+16
+00:00:51.185 --> 00:00:53.280
+but it also shows the users
+
+17
+00:00:53.280 --> 00:00:57.465
+some pornographic images which is totally unacceptable both for your company,
+
+18
+00:00:57.465 --> 00:00:59.455
+as well as for your users.
+
+19
+00:00:59.455 --> 00:01:03.620
+In contrast, Algorithm B has 5 percent error so this
+
+20
+00:01:03.620 --> 00:01:08.720
+classifies fewer images but it doesn't have pornographic images.
+
+21
+00:01:08.720 --> 00:01:10.845
+So from your company's point of view,
+
+22
+00:01:10.845 --> 00:01:13.530
+as well as from a user acceptance point of view,
+
+23
+00:01:13.530 --> 00:01:15.920
+Algorithm B is actually a much better algorithm
+
+24
+00:01:15.920 --> 00:01:19.305
+because it's not letting through any pornographic images.
+
+25
+00:01:19.305 --> 00:01:22.165
+So, what has happened in this example is that Algorithm A
+
+26
+00:01:22.165 --> 00:01:25.590
+is doing better on evaluation metric.
+
+27
+00:01:25.590 --> 00:01:29.990
+It's getting 3 percent error but it is actually a worse algorithm.
+
+28
+00:01:29.990 --> 00:01:33.150
+In this case, the evaluation metric plus
+
+29
+00:01:33.150 --> 00:01:38.460
+the dev set prefers Algorithm A because they're saying, look,
+
+30
+00:01:38.460 --> 00:01:43.860
+Algorithm A has lower error which is the metric you're using but you and
+
+31
+00:01:43.860 --> 00:01:51.010
+your users prefer Algorithm B because it's not letting through pornographic images.
+
+32
+00:01:51.010 --> 00:01:52.780
+So when this happens,
+
+33
+00:01:52.780 --> 00:01:55.785
+when your evaluation metric is no longer
+
+34
+00:01:55.785 --> 00:01:59.530
+correctly rank ordering preferences between algorithms,
+
+35
+00:01:59.530 --> 00:02:04.020
+in this case is mispredicting that Algorithm A is a better algorithm,
+
+36
+00:02:04.020 --> 00:02:05.970
+then that's a sign that you should change
+
+37
+00:02:05.970 --> 00:02:13.500
+your evaluation metric or perhaps your development set or test set.
+
+38
+00:02:13.500 --> 00:02:16.840
+In this case the misclassification error metric
+
+39
+00:02:16.840 --> 00:02:20.340
+that you're using can be written as follows: this one over m,
+
+40
+00:02:20.340 --> 00:02:23.870
+a number of examples in your development set,
+
+41
+00:02:23.870 --> 00:02:30.091
+of sum from i equals 1 to mdev,
+
+42
+00:02:30.091 --> 00:02:37.190
+number of examples in this development set of indicator of whether or not the prediction
+
+43
+00:02:37.190 --> 00:02:44.995
+of example i in your development set is not equal to the actual label i,
+
+44
+00:02:44.995 --> 00:02:50.390
+where they use this notation to denote their predictive value.
+
+45
+00:02:50.390 --> 00:02:51.990
+Right. So these are zero.
+
+46
+00:02:51.990 --> 00:02:54.795
+And this indicates a function notation,
+
+47
+00:02:54.795 --> 00:03:00.595
+counts up the number of examples on which this thing inside it's true.
+
+48
+00:03:00.595 --> 00:03:06.533
+So this formula just counts up the number of misclassified examples.
+
+49
+00:03:06.533 --> 00:03:09.360
+The problem with this evaluation metric is that they treat
+
+50
+00:03:09.360 --> 00:03:13.957
+pornographic and non-pornographic images equally
+
+51
+00:03:13.957 --> 00:03:18.750
+but you really want your classifier to not mislabel pornographic images,
+
+52
+00:03:18.750 --> 00:03:21.470
+like maybe you recognize a pornographic image in cat image and
+
+53
+00:03:21.470 --> 00:03:24.605
+therefore show it to unsuspecting user,
+
+54
+00:03:24.605 --> 00:03:31.727
+therefore very unhappy with unexpectedly seeing porn.
+
+55
+00:03:31.727 --> 00:03:38.590
+One way to change this evaluation metric would be if you add the weight term here,
+
+56
+00:03:38.590 --> 00:03:48.385
+we call this w(i) where w(i) is going to be equal to 1 if x(i) is
+
+57
+00:03:48.385 --> 00:03:53.950
+non-porn and maybe 10 or
+
+58
+00:03:53.950 --> 00:04:00.925
+maybe even large number like a 100 if x(i) is porn.
+
+59
+00:04:00.925 --> 00:04:05.095
+So this way you're giving a much larger weight
+
+60
+00:04:05.095 --> 00:04:09.220
+to examples that are pornographic so that the error term goes up
+
+61
+00:04:09.220 --> 00:04:12.800
+much more if the algorithm makes a mistake on classifying
+
+62
+00:04:12.800 --> 00:04:16.931
+a pornographic image as a cat image.
+
+63
+00:04:16.931 --> 00:04:19.390
+In this example you giving
+
+64
+00:04:19.390 --> 00:04:25.355
+10 times bigger weights to classify pornographic images correctly.
+
+65
+00:04:25.355 --> 00:04:27.465
+If you want this normalization constant,
+
+66
+00:04:27.465 --> 00:04:30.743
+technically this becomes sum over i of w(i),
+
+67
+00:04:30.743 --> 00:04:35.633
+so then this error would still be between zero and one.
+
+68
+00:04:35.633 --> 00:04:40.630
+The details of this weighting aren't important and actually to implement this weighting,
+
+69
+00:04:40.630 --> 00:04:43.690
+you need to actually go through your dev and test sets,
+
+70
+00:04:43.690 --> 00:04:47.415
+so label the pornographic images
+
+71
+00:04:47.415 --> 00:04:50.960
+in your dev and test sets so you can implement this weighting function.
+
+72
+00:04:50.960 --> 00:04:53.095
+But the high level of take away is,
+
+73
+00:04:53.095 --> 00:04:56.965
+if you find that evaluation metric is not giving
+
+74
+00:04:56.965 --> 00:05:01.405
+the correct rank order preference for what is actually better algorithm,
+
+75
+00:05:01.405 --> 00:05:06.880
+then there's a time to think about defining a new evaluation metric.
+
+76
+00:05:06.880 --> 00:05:12.200
+And this is just one possible way that you could define an evaluation metric.
+
+77
+00:05:12.200 --> 00:05:15.220
+The goal of the evaluation metric is accurately tell you,
+
+78
+00:05:15.220 --> 00:05:20.154
+given two classifiers, which one is better for your application.
+
+79
+00:05:20.154 --> 00:05:21.650
+For the purpose of this video,
+
+80
+00:05:21.650 --> 00:05:25.863
+don't worry too much about the details of how we define a new error metric,
+
+81
+00:05:25.863 --> 00:05:29.255
+the point is that if you're not satisfied with your old error metric
+
+82
+00:05:29.255 --> 00:05:33.050
+then don't keep coasting with an error metric you're unsatisfied with,
+
+83
+00:05:33.050 --> 00:05:36.260
+instead try to define a new one that you think better captures
+
+84
+00:05:36.260 --> 00:05:39.659
+your preferences in terms of what's actually a better algorithm.
+
+85
+00:05:39.659 --> 00:05:42.890
+One thing you might notice is that so far we've only talked about
+
+86
+00:05:42.890 --> 00:05:46.255
+how to define a metric to evaluate classifiers.
+
+87
+00:05:46.255 --> 00:05:50.450
+That is, we've defined an evaluation metric that helps us
+
+88
+00:05:50.450 --> 00:05:53.780
+better rank order classifiers when
+
+89
+00:05:53.780 --> 00:05:57.887
+they are performing at varying levels in terms of streaming of porn.
+
+90
+00:05:57.887 --> 00:06:01.505
+And this is actually an example of an orthogonalization where
+
+91
+00:06:01.505 --> 00:06:05.480
+I think you should take a machine learning problem and break it into distinct steps.
+
+92
+00:06:05.480 --> 00:06:14.525
+One step is to figure out how to define a metric that captures what you want to do,
+
+93
+00:06:14.525 --> 00:06:21.677
+and I would worry separately about how to actually do well on this metric.
+
+94
+00:06:21.677 --> 00:06:26.480
+So think of the machine learning task as two distinct steps.
+
+95
+00:06:26.480 --> 00:06:28.145
+To use the target analogy,
+
+96
+00:06:28.145 --> 00:06:32.890
+the first step is to place the target.
+
+97
+00:06:32.890 --> 00:06:37.777
+So define where you want to aim and then as a completely separate step,
+
+98
+00:06:37.777 --> 00:06:40.340
+this is one you can tune which is how do you
+
+99
+00:06:40.340 --> 00:06:44.005
+place the target as a completely separate problem.
+
+100
+00:06:44.005 --> 00:06:48.854
+Think of it as a separate step to tune in terms of how to do well at this algorithm,
+
+101
+00:06:48.854 --> 00:06:58.888
+how to aim accurately or how to shoot at the target.
+
+102
+00:06:58.888 --> 00:07:06.200
+Defining the metric is step one and you do something else for step two.
+
+103
+00:07:06.200 --> 00:07:08.140
+In terms of shooting at the target,
+
+104
+00:07:08.140 --> 00:07:11.910
+maybe your learning algorithm is optimizing some cost function that looks like this,
+
+105
+00:07:11.910 --> 00:07:21.907
+where you are minimizing some of losses on your training set.
+
+106
+00:07:21.907 --> 00:07:25.880
+One thing you could do is to also modify
+
+107
+00:07:25.880 --> 00:07:28.160
+this in order to incorporate these weights
+
+108
+00:07:28.160 --> 00:07:31.070
+and maybe end up changing this normalization constant as well.
+
+109
+00:07:31.070 --> 00:07:34.240
+So it just 1 over a sum of w(i).
+
+110
+00:07:34.240 --> 00:07:36.990
+Again, the details of how you define J aren't important,
+
+111
+00:07:36.990 --> 00:07:42.050
+but the point was with the philosophy of orthogonalization think of placing the target as
+
+112
+00:07:42.050 --> 00:07:48.456
+one step and aiming and shooting at a target as a distinct step which you do separately.
+
+113
+00:07:48.456 --> 00:07:49.975
+In other words I encourage you to think of,
+
+114
+00:07:49.975 --> 00:07:55.225
+defining the metric as one step and only after you define a metric,
+
+115
+00:07:55.225 --> 00:07:57.640
+figure out how to do well on that metric which might be
+
+116
+00:07:57.640 --> 00:08:00.745
+changing the cost function J that your neural network is optimizing.
+
+117
+00:08:00.745 --> 00:08:03.675
+Before going on, let's look at just one more example.
+
+118
+00:08:03.675 --> 00:08:08.135
+Let's say that your two cat classifiers A and B have, respectively,
+
+119
+00:08:08.135 --> 00:08:13.300
+3 percent error and 5 percent error as evaluated on your dev set.
+
+120
+00:08:13.300 --> 00:08:17.725
+Or maybe even on your test set which are images downloaded off the internet,
+
+121
+00:08:17.725 --> 00:08:19.615
+so high quality well framed images.
+
+122
+00:08:19.615 --> 00:08:21.760
+But maybe when you deploy your algorithm product,
+
+123
+00:08:21.760 --> 00:08:24.895
+you find that algorithm B actually looks like it's performing better,
+
+124
+00:08:24.895 --> 00:08:27.865
+even though it's doing better on your dev set.
+
+125
+00:08:27.865 --> 00:08:30.820
+And you find that you've been training off
+
+126
+00:08:30.820 --> 00:08:33.640
+very nice high quality images downloaded off
+
+127
+00:08:33.640 --> 00:08:36.985
+the Internet but when you deploy those on the mobile app,
+
+128
+00:08:36.985 --> 00:08:39.620
+users are uploading all sorts of pictures, they're much less framed,
+
+129
+00:08:39.620 --> 00:08:42.835
+you haven't only covered the cat, the cats have funny facial expressions,
+
+130
+00:08:42.835 --> 00:08:44.778
+maybe images are much blurrier,
+
+131
+00:08:44.778 --> 00:08:51.745
+and when you test out your algorithms you find that Algorithm B is actually doing better.
+
+132
+00:08:51.745 --> 00:08:58.755
+So this would be another example of your metric and dev test sets falling down.
+
+133
+00:08:58.755 --> 00:09:01.140
+The problem is that you're evaluating on
+
+134
+00:09:01.140 --> 00:09:04.265
+the dev and test sets a very nice, high resolution,
+
+135
+00:09:04.265 --> 00:09:06.830
+well-framed images but what your users
+
+136
+00:09:06.830 --> 00:09:09.750
+really care about is you have them doing well on images they are uploading,
+
+137
+00:09:09.750 --> 00:09:15.935
+which are maybe less professional shots and blurrier and less well framed.
+
+138
+00:09:15.935 --> 00:09:17.655
+So the guideline is,
+
+139
+00:09:17.655 --> 00:09:20.030
+if doing well on your metric and
+
+140
+00:09:20.030 --> 00:09:23.455
+your current dev sets or dev and test sets' distribution,
+
+141
+00:09:23.455 --> 00:09:27.845
+if that does not correspond to doing well on the application you actually care about,
+
+142
+00:09:27.845 --> 00:09:32.695
+then change your metric and your dev test set.
+
+143
+00:09:32.695 --> 00:09:38.490
+In other words, if we discover that your dev test set has these very high quality images
+
+144
+00:09:38.490 --> 00:09:41.960
+but evaluating on this dev test set
+
+145
+00:09:41.960 --> 00:09:45.915
+is not predictive of how well your app actually performs,
+
+146
+00:09:45.915 --> 00:09:47.300
+because your app needs to deal with lower quality images,
+
+147
+00:09:47.300 --> 00:09:51.335
+then that's a good time to change your dev test
+
+148
+00:09:51.335 --> 00:09:56.875
+set so that your data better reflects the type of data you actually need to do well on.
+
+149
+00:09:56.875 --> 00:10:00.560
+But the overall guideline is if your current metric and data you are
+
+150
+00:10:00.560 --> 00:10:04.905
+evaluating on doesn't correspond to doing well on what you actually care about,
+
+151
+00:10:04.905 --> 00:10:07.820
+then change your metrics and/or your dev/test set to
+
+152
+00:10:07.820 --> 00:10:11.206
+better capture what you need your algorithm to actually do well on.
+
+153
+00:10:11.206 --> 00:10:14.690
+Having an evaluation metric and the dev set allows you to
+
+154
+00:10:14.690 --> 00:10:18.685
+much more quickly make decisions about is Algorithm A or Algorithm B better.
+
+155
+00:10:18.685 --> 00:10:22.485
+It really speeds up how quickly you and your team can iterate.
+
+156
+00:10:22.485 --> 00:10:24.110
+So my recommendation is,
+
+157
+00:10:24.110 --> 00:10:28.220
+even if you can't define the perfect evaluation metric and dev set,
+
+158
+00:10:28.220 --> 00:10:32.780
+just set something up quickly and use that to drive the speed of your team iterating.
+
+159
+00:10:32.780 --> 00:10:36.060
+And if later down the line you find out that it wasn't a good one,
+
+160
+00:10:36.060 --> 00:10:39.675
+you have better idea, change it at that time, it's perfectly okay.
+
+161
+00:10:39.675 --> 00:10:42.230
+But what I recommend against for the most teams is
+
+162
+00:10:42.230 --> 00:10:45.800
+to run for too long without any evaluation metric and
+
+163
+00:10:45.800 --> 00:10:48.500
+dev set up because that can slow down
+
+164
+00:10:48.500 --> 00:10:52.750
+the efficiency of what your team can iterate and improve your algorithm.
+
+165
+00:10:52.750 --> 00:10:58.795
+So that says on when to change your evaluation metric and/or dev and test sets.
+
+166
+00:10:58.795 --> 00:11:02.480
+I hope that these guidelines help you set up your whole team to have
+
+167
+00:11:02.480 --> 00:11:07.370
+a well-defined target that you can iterate efficiently towards improving performance.

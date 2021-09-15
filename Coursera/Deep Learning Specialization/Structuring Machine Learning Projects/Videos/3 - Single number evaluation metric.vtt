@@ -1,0 +1,512 @@
+WEBVTT
+
+1
+00:00:00.252 --> 00:00:03.417
+Whether you're tuning hyperparameters,
+or trying out different ideas for
+
+2
+00:00:03.417 --> 00:00:06.047
+learning algorithms, or
+just trying out different options for
+
+3
+00:00:06.047 --> 00:00:07.764
+building your machine learning system.
+
+4
+00:00:07.764 --> 00:00:12.016
+You'll find that your progress will be
+much faster if you have a single real
+
+5
+00:00:12.016 --> 00:00:16.064
+number evaluation metric that lets
+you quickly tell if the new thing you
+
+6
+00:00:16.064 --> 00:00:20.260
+just tried is working better or
+worse than your last idea.
+
+7
+00:00:20.260 --> 00:00:24.710
+So when teams are starting on a machine
+learning project, I often recommend that
+
+8
+00:00:24.710 --> 00:00:29.570
+you set up a single real number
+evaluation metric for your problem.
+
+9
+00:00:29.570 --> 00:00:30.600
+Let's look at an example.
+
+10
+00:00:32.400 --> 00:00:35.244
+You've heard me say before that
+applied machine learning is a very
+
+11
+00:00:35.244 --> 00:00:36.165
+empirical process.
+
+12
+00:00:36.165 --> 00:00:40.360
+We often have an idea, code it up,
+run the experiment to see how it did, and
+
+13
+00:00:40.360 --> 00:00:44.100
+then use the outcome of
+the experiment to refine your ideas.
+
+14
+00:00:44.100 --> 00:00:48.590
+And then keep going around this loop as
+you keep on improving your algorithm.
+
+15
+00:00:48.590 --> 00:00:54.124
+So let's say for your classifier, you
+had previously built some classifier A.
+
+16
+00:00:54.124 --> 00:00:58.036
+And by changing the hyperparameters and
+the training sets or
+
+17
+00:00:58.036 --> 00:01:02.032
+some other thing,
+you've now trained a new classifier, B.
+
+18
+00:01:02.032 --> 00:01:06.866
+So one reasonable way to evaluate the
+performance of your classifiers is to look
+
+19
+00:01:06.866 --> 00:01:08.680
+at its precision and recall.
+
+20
+00:01:08.680 --> 00:01:12.804
+The exact details of what's precision and
+recall don't matter too much for
+
+21
+00:01:12.804 --> 00:01:13.650
+this example.
+
+22
+00:01:13.650 --> 00:01:16.594
+But briefly,
+the definition of precision is,
+
+23
+00:01:16.594 --> 00:01:20.207
+of the examples that your
+classifier recognizes as cats,
+
+24
+00:01:23.068 --> 00:01:26.741
+What percentage actually are cats?
+
+25
+00:01:32.341 --> 00:01:37.045
+So if classifier A has 95% precision,
+this means that when classifier A says
+
+26
+00:01:37.045 --> 00:01:41.830
+something is a cat,
+there's a 95% chance it really is a cat.
+
+27
+00:01:41.830 --> 00:01:45.878
+And recall is,
+of all the images that really are cats,
+
+28
+00:01:45.878 --> 00:01:50.731
+what percentage were correctly
+recognized by your classifier?
+
+29
+00:01:50.731 --> 00:01:57.110
+So what percentage of actual cats,
+Are correctly recognized?
+
+30
+00:02:04.331 --> 00:02:08.986
+So if classifier A is 90% recall, this
+means that of all of the images in, say,
+
+31
+00:02:08.986 --> 00:02:11.010
+your dev sets that really are cats,
+
+32
+00:02:11.010 --> 00:02:13.987
+classifier A accurately
+pulled out 90% of them.
+
+33
+00:02:13.987 --> 00:02:19.049
+So don't worry too much about
+the definitions of precision and recall.
+
+34
+00:02:19.049 --> 00:02:23.933
+It turns out that there's often
+a tradeoff between precision and
+
+35
+00:02:23.933 --> 00:02:26.845
+recall, and you care about both.
+
+36
+00:02:26.845 --> 00:02:29.455
+You want that, when the classifier
+says something is a cat,
+
+37
+00:02:29.455 --> 00:02:31.765
+there's a high chance it really is a cat.
+
+38
+00:02:31.765 --> 00:02:33.475
+But of all the images that are cats,
+
+39
+00:02:33.475 --> 00:02:37.905
+you also want it to pull a large
+fraction of them as cats.
+
+40
+00:02:37.905 --> 00:02:40.865
+So it might be reasonable
+to try to evaluate
+
+41
+00:02:40.865 --> 00:02:44.685
+the classifiers in terms of
+its precision and its recall.
+
+42
+00:02:44.685 --> 00:02:49.728
+The problem with using precision recall
+as your evaluation metric is that if
+
+43
+00:02:49.728 --> 00:02:54.926
+classifier A does better on recall,
+which it does here, the classifier B does
+
+44
+00:02:54.926 --> 00:02:59.840
+better on precision, then you're not
+sure which classifier is better.
+
+45
+00:03:03.481 --> 00:03:06.976
+And if you're trying out a lot of
+different ideas, a lot of different
+
+46
+00:03:06.976 --> 00:03:11.076
+hyperparameters, you want to rather
+quickly try out not just two classifiers,
+
+47
+00:03:11.076 --> 00:03:14.932
+but maybe a dozen classifiers and
+quickly pick out the, quote, best ones,
+
+48
+00:03:14.932 --> 00:03:17.010
+so you can keep on iterating from there.
+
+49
+00:03:19.850 --> 00:03:23.570
+And with two evaluation metrics,
+it is difficult to know
+
+50
+00:03:23.570 --> 00:03:27.380
+how to quickly pick one of the two or
+quickly pick one of the ten.
+
+51
+00:03:29.170 --> 00:03:33.220
+So what I recommend is rather than
+using two numbers, precision and
+
+52
+00:03:33.220 --> 00:03:35.870
+recall, to pick a classifier,
+
+53
+00:03:35.870 --> 00:03:40.440
+you just have to find a new evaluation
+metric that combines precision and recall.
+
+54
+00:03:41.740 --> 00:03:45.205
+In the machine learning literature,
+the standard way to combine precision and
+
+55
+00:03:45.205 --> 00:03:47.028
+recall is something called an F1 score.
+
+56
+00:03:47.028 --> 00:03:52.777
+And the details of F1 score aren't
+too important, but informally,
+
+57
+00:03:52.777 --> 00:03:58.541
+you can think of this as the average
+of precision, P, and recall, R.
+
+58
+00:03:58.541 --> 00:04:04.574
+Formally, the F1 score is
+defined by this formula,
+
+59
+00:04:04.574 --> 00:04:07.670
+it's 2/ 1/P + 1/R.
+
+60
+00:04:07.670 --> 00:04:12.240
+And in mathematics,
+this function is called the harmonic
+
+61
+00:04:12.240 --> 00:04:16.860
+mean of precision P and recall R.
+
+62
+00:04:16.860 --> 00:04:17.850
+But less formally,
+
+63
+00:04:17.850 --> 00:04:21.721
+you can think of this as some way
+that averages precision and recall.
+
+64
+00:04:22.840 --> 00:04:25.190
+Only instead of taking
+the arithmetic mean,
+
+65
+00:04:25.190 --> 00:04:28.800
+you take the harmonic mean,
+which is defined by this formula.
+
+66
+00:04:28.800 --> 00:04:33.410
+And it has some advantages in terms
+of trading off precision and recall.
+
+67
+00:04:33.410 --> 00:04:34.953
+But in this example,
+
+68
+00:04:34.953 --> 00:04:39.853
+you can then see right away that
+classifier A has a better F1 score.
+
+69
+00:04:39.853 --> 00:04:43.825
+And assuming F1 score is a reasonable
+way to combine precision and recall,
+
+70
+00:04:43.825 --> 00:04:47.000
+you can then quickly select
+classifier A over classifier B.
+
+71
+00:04:48.100 --> 00:04:48.880
+So what I found for
+
+72
+00:04:48.880 --> 00:04:52.401
+a lot of machine learning teams is
+that having a well-defined dev set,
+
+73
+00:04:52.401 --> 00:04:57.598
+which is how you're measuring precision
+and recall, plus a single number
+
+74
+00:04:57.598 --> 00:05:03.430
+evaluation metric,
+sometimes I'll call it single row number.
+
+75
+00:05:04.580 --> 00:05:09.147
+Evaluation metric allows you to
+quickly tell if classifier A or
+
+76
+00:05:09.147 --> 00:05:13.971
+classifier B is better, and
+therefore having a dev set plus single
+
+77
+00:05:13.971 --> 00:05:18.301
+number evaluation metric
+distance to speed up iterating.
+
+78
+00:05:21.551 --> 00:05:26.980
+It speeds up this iterative process of
+improving your machine learning algorithm.
+
+79
+00:05:26.980 --> 00:05:28.010
+Let's look at another example.
+
+80
+00:05:29.130 --> 00:05:35.390
+Let's say you're building a cat app for
+cat lovers in four major geographies,
+
+81
+00:05:35.390 --> 00:05:40.490
+the US, China, India, and
+other, the rest of the world.
+
+82
+00:05:40.490 --> 00:05:43.940
+And let's say that your two
+classifiers achieve different errors
+
+83
+00:05:45.370 --> 00:05:48.400
+in data from these four
+different geographies.
+
+84
+00:05:48.400 --> 00:05:54.280
+So algorithm A achieves 3% error on
+pictures submitted by US users and so on.
+
+85
+00:05:56.100 --> 00:05:59.140
+So it might be reasonable
+to keep track of how well
+
+86
+00:05:59.140 --> 00:06:03.260
+your classifiers do in these different
+markets or these different geographies.
+
+87
+00:06:03.260 --> 00:06:06.770
+But by tracking four numbers, it's very
+difficult to look at these numbers and
+
+88
+00:06:06.770 --> 00:06:10.890
+quickly decide if algorithm A or
+algorithm B is superior.
+
+89
+00:06:10.890 --> 00:06:13.370
+And if you're testing a lot
+of different classifiers,
+
+90
+00:06:13.370 --> 00:06:17.590
+then it's just difficult to look at all
+these numbers and quickly pick one.
+
+91
+00:06:17.590 --> 00:06:22.390
+So what I recommend in this example is,
+in addition to tracking your
+
+92
+00:06:22.390 --> 00:06:26.450
+performance in the four different
+geographies, to also compute the average.
+
+93
+00:06:26.450 --> 00:06:30.874
+And assuming that average performance
+is a reasonable single real number
+
+94
+00:06:30.874 --> 00:06:33.799
+evaluation metric,
+by computing the average,
+
+95
+00:06:33.799 --> 00:06:38.530
+you can quickly tell that it looks like
+algorithm C has a lowest average error.
+
+96
+00:06:38.530 --> 00:06:40.555
+And you might then go ahead with that one.
+
+97
+00:06:40.555 --> 00:06:44.490
+You have to pick an algorithm
+to keep on iterating from.
+
+98
+00:06:44.490 --> 00:06:47.573
+So your work load machine learning
+is often, you have an idea,
+
+99
+00:06:47.573 --> 00:06:51.970
+you implement it try it out, and
+you want to know whether your idea helped.
+
+100
+00:06:51.970 --> 00:06:56.760
+So what was seen in this video is that
+having a single number evaluation metric
+
+101
+00:06:56.760 --> 00:06:58.980
+can really improve your efficiency or
+
+102
+00:06:58.980 --> 00:07:02.340
+the efficiency of your team
+in making those decisions.
+
+103
+00:07:02.340 --> 00:07:03.240
+Now we're not yet
+
+104
+00:07:03.240 --> 00:07:07.510
+done with the discussion on how to
+effectively set up evaluation metrics.
+
+105
+00:07:07.510 --> 00:07:08.430
+In the next video,
+
+106
+00:07:08.430 --> 00:07:13.880
+I'm going to share with you how to set up
+optimizing, as well as satisfying matrix.
+
+107
+00:07:13.880 --> 00:07:15.480
+So let's take a look at the next video.

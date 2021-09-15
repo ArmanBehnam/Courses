@@ -1,0 +1,893 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.880
+One of the most exciting recent developments in deep learning,
+
+2
+00:00:02.880 --> 00:00:05.765
+has been the rise of end-to-end deep learning.
+
+3
+00:00:05.765 --> 00:00:07.570
+So what is the end-to-end learning?
+
+4
+00:00:07.570 --> 00:00:10.510
+Briefly, there have been some data processing systems,
+
+5
+00:00:10.510 --> 00:00:13.880
+or learning systems that require multiple stages of processing.
+
+6
+00:00:13.880 --> 00:00:15.330
+And what end-to-end deep learning does,
+
+7
+00:00:15.330 --> 00:00:17.625
+is it can take all those multiple stages,
+
+8
+00:00:17.625 --> 00:00:20.968
+and replace it usually with just a single neural network.
+
+9
+00:00:20.968 --> 00:00:24.170
+Let's look at some examples.
+
+10
+00:00:24.170 --> 00:00:26.460
+Take speech recognition as an example,
+
+11
+00:00:26.460 --> 00:00:30.975
+where your goal is to take an input X such an audio clip,
+
+12
+00:00:30.975 --> 00:00:33.015
+and map it to an output Y,
+
+13
+00:00:33.015 --> 00:00:37.230
+which is a transcript of the audio clip.
+
+14
+00:00:37.230 --> 00:00:41.550
+So traditionally, speech recognition required many stages of processing.
+
+15
+00:00:41.550 --> 00:00:44.085
+First, you will extract some features,
+
+16
+00:00:44.085 --> 00:00:46.045
+some hand-designed features of the audio.
+
+17
+00:00:46.045 --> 00:00:48.885
+So if you've heard of MFCC,
+
+18
+00:00:48.885 --> 00:00:53.570
+that's an algorithm for extracting a certain set of hand designed features for audio.
+
+19
+00:00:53.570 --> 00:00:55.845
+And then having extracted some low level features,
+
+20
+00:00:55.845 --> 00:00:58.260
+you might apply a machine learning algorithm,
+
+21
+00:00:58.260 --> 00:01:01.530
+to find the phonemes in the audio clip.
+
+22
+00:01:01.530 --> 00:01:04.390
+So phonemes are the basic units of sound.
+
+23
+00:01:04.390 --> 00:01:07.810
+So for example, the word cat is made out of three sounds.
+
+24
+00:01:07.810 --> 00:01:10.690
+The Cu- Ah- and Tu- so they extract those.
+
+25
+00:01:10.690 --> 00:01:13.630
+And then you string together phonemes to form individual words.
+
+26
+00:01:13.630 --> 00:01:19.356
+And then you string those together to form the transcripts of the audio clip.
+
+27
+00:01:19.356 --> 00:01:23.365
+So, in contrast to this pipeline with a lot of stages,
+
+28
+00:01:23.365 --> 00:01:24.940
+what end-to-end deep learning does,
+
+29
+00:01:24.940 --> 00:01:28.735
+is you can train a huge neural network to just input the audio clip,
+
+30
+00:01:28.735 --> 00:01:32.670
+and have it directly output the transcript.
+
+31
+00:01:32.670 --> 00:01:35.800
+One interesting sociological effect in AI is
+
+32
+00:01:35.800 --> 00:01:39.085
+that as end-to-end deep learning started to work better,
+
+33
+00:01:39.085 --> 00:01:41.545
+there were some researchers that had for example spent
+
+34
+00:01:41.545 --> 00:01:44.830
+many years of their career designing individual steps of the pipeline.
+
+35
+00:01:44.830 --> 00:01:50.249
+So there were some researchers in different disciplines not just in speech recognition.
+
+36
+00:01:50.249 --> 00:01:52.360
+Maybe in computer vision, and other areas as well,
+
+37
+00:01:52.360 --> 00:01:53.945
+that had spent a lot of time you know,
+
+38
+00:01:53.945 --> 00:01:57.332
+written multiple papers, maybe even built a large part of their career,
+
+39
+00:01:57.332 --> 00:02:00.270
+engineering featuresor engineering other pieces of the pipeline.
+
+40
+00:02:00.270 --> 00:02:02.990
+And when end-to-end deep learning just took
+
+41
+00:02:02.990 --> 00:02:06.475
+the last training set and learned the function mapping from x and y directly,
+
+42
+00:02:06.475 --> 00:02:09.720
+really bypassing a lot of these intermediate steps,
+
+43
+00:02:09.720 --> 00:02:13.300
+it was challenging for some disciplines to come around to
+
+44
+00:02:13.300 --> 00:02:17.255
+accepting this alternative way of building AI systems.
+
+45
+00:02:17.255 --> 00:02:20.110
+Because it really obsoleted in some cases,
+
+46
+00:02:20.110 --> 00:02:23.665
+many years of research in some of the intermediate components.
+
+47
+00:02:23.665 --> 00:02:27.070
+It turns out that one of the challenges of end-to-end deep learning is
+
+48
+00:02:27.070 --> 00:02:30.670
+that you might need a lot of data before it works well.
+
+49
+00:02:30.670 --> 00:02:33.030
+So for example, if you're training on 3,000
+
+50
+00:02:33.030 --> 00:02:35.935
+hours of data to build a speech recognition system,
+
+51
+00:02:35.935 --> 00:02:37.600
+then the traditional pipeline,
+
+52
+00:02:37.600 --> 00:02:40.675
+the full traditional pipeline works really well.
+
+53
+00:02:40.675 --> 00:02:42.745
+It's only when you have a very large data set,
+
+54
+00:02:42.745 --> 00:02:45.290
+you know one to say 10,000 hours of data,
+
+55
+00:02:45.290 --> 00:02:49.000
+anything going up to maybe 100,000 hours of data that
+
+56
+00:02:49.000 --> 00:02:53.350
+the end-to end-approach then suddenly starts to work really well.
+
+57
+00:02:53.350 --> 00:02:55.000
+So when you have a smaller data set,
+
+58
+00:02:55.000 --> 00:02:58.990
+the more traditional pipeline approach actually works just as well.
+
+59
+00:02:58.990 --> 00:03:00.700
+Often works even better.
+
+60
+00:03:00.700 --> 00:03:06.855
+And you need a large data set before the end-to-end approach really shines.
+
+61
+00:03:06.855 --> 00:03:08.850
+And if you have a medium amount of data,
+
+62
+00:03:08.850 --> 00:03:12.365
+then there are also intermediate approaches where maybe you input audio
+
+63
+00:03:12.365 --> 00:03:16.420
+and bypass the features and just learn to output the phonemes of the neural network,
+
+64
+00:03:16.420 --> 00:03:17.765
+and then at some other stages as well.
+
+65
+00:03:17.765 --> 00:03:19.420
+So this will be a step toward end-to-end learning,
+
+66
+00:03:19.420 --> 00:03:29.065
+but not all the way there.
+
+67
+00:03:29.065 --> 00:03:34.855
+Test. So this is a picture of a face recognition turnstile built by a researcher,
+
+68
+00:03:34.855 --> 00:03:36.600
+Yuanqing Lin at Baidu,
+
+69
+00:03:36.600 --> 00:03:41.050
+where this is a camera and it looks at the person approaching the gate,
+
+70
+00:03:41.050 --> 00:03:43.135
+and if it recognizes the person then,
+
+71
+00:03:43.135 --> 00:03:46.645
+you know the turnstile automatically lets them through.
+
+72
+00:03:46.645 --> 00:03:51.170
+So rather than needing to swipe an RFID badge to enter this facility,
+
+73
+00:03:51.170 --> 00:03:53.410
+in increasingly many offices in
+
+74
+00:03:53.410 --> 00:03:56.270
+China and hopefully more and more in other countries as well,
+
+75
+00:03:56.270 --> 00:03:59.485
+you can just approach the turnstile and if it recognizes your face it
+
+76
+00:03:59.485 --> 00:04:04.155
+just lets you through without needing you to carry an RFID badge.
+
+77
+00:04:04.155 --> 00:04:07.385
+So, how do you build a system like this?
+
+78
+00:04:07.385 --> 00:04:12.590
+Well, one thing you could do is just look at the image that the camera is capturing.
+
+79
+00:04:12.590 --> 00:04:14.645
+Right? So, I guess this is my bad drawing,
+
+80
+00:04:14.645 --> 00:04:16.190
+but maybe this is a camera image.
+
+81
+00:04:16.190 --> 00:04:19.390
+And you know, you have someone approaching the turnstile.
+
+82
+00:04:19.390 --> 00:04:23.810
+So this might be the image X that you that your camera is capturing.
+
+83
+00:04:23.810 --> 00:04:26.950
+And one thing you could do is try to learn a function mapping
+
+84
+00:04:26.950 --> 00:04:31.470
+directly from the image X to the identity of the person Y.
+
+85
+00:04:31.470 --> 00:04:34.580
+It turns out this is not the best approach.
+
+86
+00:04:34.580 --> 00:04:36.395
+And one of the problems is that you know,
+
+87
+00:04:36.395 --> 00:04:39.835
+the person approaching the turnstile can approach from lots of different directions.
+
+88
+00:04:39.835 --> 00:04:41.945
+So they could be green positions,
+
+89
+00:04:41.945 --> 00:04:43.195
+they could be in blue position.
+
+90
+00:04:43.195 --> 00:04:45.245
+You know, sometimes they're closer to the camera,
+
+91
+00:04:45.245 --> 00:04:47.020
+so they appear bigger in the image.
+
+92
+00:04:47.020 --> 00:04:49.225
+And sometimes they're already closer to the camera,
+
+93
+00:04:49.225 --> 00:04:51.600
+so that face appears much bigger.
+
+94
+00:04:51.600 --> 00:04:54.205
+So what it has actually done to build these turnstiles,
+
+95
+00:04:54.205 --> 00:04:56.350
+is not to just take the raw image and
+
+96
+00:04:56.350 --> 00:04:59.315
+feed it to a neural net to try to figure out a person's identity.
+
+97
+00:04:59.315 --> 00:05:02.005
+Instead, the best approach to date,
+
+98
+00:05:02.005 --> 00:05:05.140
+seems to be a multi-step approach, where first,
+
+99
+00:05:05.140 --> 00:05:09.210
+you run one piece of software to detect the person's face.
+
+100
+00:05:09.210 --> 00:05:12.820
+So this first detector to figure out where's the person's face.
+
+101
+00:05:12.820 --> 00:05:14.785
+Having detected the person's face,
+
+102
+00:05:14.785 --> 00:05:16.930
+you then zoom in to that part of
+
+103
+00:05:16.930 --> 00:05:24.540
+the image and crop
+
+104
+00:05:24.540 --> 00:05:29.340
+that image so that the person's face is centered.
+
+105
+00:05:29.340 --> 00:05:34.757
+Then, it is this picture that I guess I drew here in red,
+
+106
+00:05:34.757 --> 00:05:36.080
+this is then fed to the neural network,
+
+107
+00:05:36.080 --> 00:05:38.010
+to then try to learn,
+
+108
+00:05:38.010 --> 00:05:40.485
+or estimate the person's identity.
+
+109
+00:05:40.485 --> 00:05:42.150
+And what researchers have found,
+
+110
+00:05:42.150 --> 00:05:45.615
+is that instead of trying to learn everything on one step,
+
+111
+00:05:45.615 --> 00:05:48.780
+by breaking this problem down into two simpler steps,
+
+112
+00:05:48.780 --> 00:05:51.490
+first is figure out where is the face.
+
+113
+00:05:51.490 --> 00:05:54.890
+And second, is look at the face and figure out who this actually is.
+
+114
+00:05:54.890 --> 00:05:58.010
+This second approach allows the learning algorithm or really two learning algorithms
+
+115
+00:05:58.010 --> 00:06:03.560
+to solve two much simpler tasks and results in overall better performance.
+
+116
+00:06:03.560 --> 00:06:05.930
+By the way, if you want to know how
+
+117
+00:06:05.930 --> 00:06:08.975
+the second step actually works I've simplified the discussion.
+
+118
+00:06:08.975 --> 00:06:11.865
+By the way, if you want to know how step two here actually works,
+
+119
+00:06:11.865 --> 00:06:13.605
+I've actually simplified the description a bit.
+
+120
+00:06:13.605 --> 00:06:15.470
+The way the second step is actually trained,
+
+121
+00:06:15.470 --> 00:06:16.730
+as you train in your network,
+
+122
+00:06:16.730 --> 00:06:18.920
+that takes as input two images,
+
+123
+00:06:18.920 --> 00:06:22.230
+and what then your network does is it takes
+
+124
+00:06:22.230 --> 00:06:29.553
+this input two images and it tells you if these two are the same person or not.
+
+125
+00:06:29.553 --> 00:06:34.700
+So if you then have say 10,000 employees IDs on file,
+
+126
+00:06:34.700 --> 00:06:36.430
+you can then take this image in red,
+
+127
+00:06:36.430 --> 00:06:38.545
+and quickly compare it against maybe all
+
+128
+00:06:38.545 --> 00:06:41.795
+10,000 employee IDs on file to try to figure out if
+
+129
+00:06:41.795 --> 00:06:44.810
+this picture in red is indeed one of your 10000 employees that you
+
+130
+00:06:44.810 --> 00:06:48.640
+should allow into this facility or that should allow into your office building.
+
+131
+00:06:48.640 --> 00:06:51.770
+This is a turnstile that is giving employees access to a
+
+132
+00:06:51.770 --> 00:06:55.970
+workplace.So why is it that the two step approach works better?
+
+133
+00:06:55.970 --> 00:06:58.605
+There are actually two reasons for that.
+
+134
+00:06:58.605 --> 00:07:02.020
+One is that each of the two problems you're solving is actually much simpler.
+
+135
+00:07:02.020 --> 00:07:10.360
+But second, is that you have a lot of data for each of the two sub-tasks.
+
+136
+00:07:10.360 --> 00:07:16.950
+In particular, there is a lot of data you can obtain for phase detection,
+
+137
+00:07:16.950 --> 00:07:18.720
+for task one over here,
+
+138
+00:07:18.720 --> 00:07:20.820
+where the task is to look at an image and figure
+
+139
+00:07:20.820 --> 00:07:23.415
+out where is the person's face and the image.
+
+140
+00:07:23.415 --> 00:07:25.695
+So there is a lot of data.
+
+141
+00:07:25.695 --> 00:07:27.610
+There is a lot of label data X,
+
+142
+00:07:27.610 --> 00:07:31.420
+comma Y where X is a picture and y shows the position of the person's face.
+
+143
+00:07:31.420 --> 00:07:35.100
+So you could build a neural network to do task one quite well.
+
+144
+00:07:35.100 --> 00:07:37.440
+And then separately, there's a lot of data for task two as well.
+
+145
+00:07:37.440 --> 00:07:41.710
+Today, leading companies have let's say,
+
+146
+00:07:41.710 --> 00:07:44.525
+hundreds of millions of pictures of people's faces.
+
+147
+00:07:44.525 --> 00:07:46.845
+So given a closely cropped image,
+
+148
+00:07:46.845 --> 00:07:49.275
+like this red image or this one down here,
+
+149
+00:07:49.275 --> 00:07:51.555
+today leading face recognition teams have
+
+150
+00:07:51.555 --> 00:07:53.880
+at least hundreds of millions of images that they could
+
+151
+00:07:53.880 --> 00:07:55.980
+use to look at two images and try to
+
+152
+00:07:55.980 --> 00:07:58.765
+figure out the identity or to figure out if it's the same person or not.
+
+153
+00:07:58.765 --> 00:08:02.310
+So there's also a lot of data for task two.
+
+154
+00:08:02.310 --> 00:08:07.155
+But in contrast, if you were to try to learn everything at the same time,
+
+155
+00:08:07.155 --> 00:08:10.680
+there is much less data of the form X comma Y.
+
+156
+00:08:10.680 --> 00:08:13.175
+Where X is image like this taken from the turnstile,
+
+157
+00:08:13.175 --> 00:08:16.390
+and Y is the identity of the person.
+
+158
+00:08:16.390 --> 00:08:21.610
+So because you don't have enough data to solve this end-to-end learning problem,
+
+159
+00:08:21.610 --> 00:08:27.410
+but you do have enough data to solve sub-problems one and two, in practice,
+
+160
+00:08:27.410 --> 00:08:29.740
+breaking this down to two sub-problems results in
+
+161
+00:08:29.740 --> 00:08:34.260
+better performance than a pure end-to-end deep learning approach.
+
+162
+00:08:34.260 --> 00:08:37.575
+Although if you had enough data for the end-to-end approach,
+
+163
+00:08:37.575 --> 00:08:40.470
+maybe the end-to-end approach would work better,
+
+164
+00:08:40.470 --> 00:08:44.240
+but that's not actually what works best in practice today.
+
+165
+00:08:44.240 --> 00:08:46.886
+Let's look at a few more examples.
+
+166
+00:08:46.886 --> 00:08:49.000
+Take machine translation.
+
+167
+00:08:49.000 --> 00:08:54.390
+Traditionally, machine translation systems also had a long complicated pipeline,
+
+168
+00:08:54.390 --> 00:08:56.230
+where you first take say English,
+
+169
+00:08:56.230 --> 00:08:58.955
+text and then do text analysis.
+
+170
+00:08:58.955 --> 00:09:01.990
+Basically, extract a bunch of features off the text, and so on.
+
+171
+00:09:01.990 --> 00:09:04.630
+And after many many steps you'd end up with say,
+
+172
+00:09:04.630 --> 00:09:07.900
+a translation of the English text into French.
+
+173
+00:09:07.900 --> 00:09:10.030
+Because, for machine translation,
+
+174
+00:09:10.030 --> 00:09:13.990
+you do have a lot of pairs of English comma French sentences.
+
+175
+00:09:13.990 --> 00:09:17.640
+End-to-end deep learning works quite well for machine translation.
+
+176
+00:09:17.640 --> 00:09:20.140
+And that's because today,
+
+177
+00:09:20.140 --> 00:09:24.350
+it is possible to gather large data sets of X-Y pairs where that's
+
+178
+00:09:24.350 --> 00:09:28.780
+the English sentence and that's the corresponding French translation.
+
+179
+00:09:28.780 --> 00:09:29.955
+So in this example,
+
+180
+00:09:29.955 --> 00:09:32.320
+end-to-end deep learning works well.
+
+181
+00:09:32.320 --> 00:09:35.200
+One last example, let's say that you
+
+182
+00:09:35.200 --> 00:09:38.220
+want to look at an X-ray picture of a hand of a child,
+
+183
+00:09:38.220 --> 00:09:40.215
+and estimate the age of a child.
+
+184
+00:09:40.215 --> 00:09:41.830
+You know, when I first heard about this problem,
+
+185
+00:09:41.830 --> 00:09:45.460
+I thought this is a very cool crime scene investigation task
+
+186
+00:09:45.460 --> 00:09:48.610
+where you find maybe tragically the skeleton of a child,
+
+187
+00:09:48.610 --> 00:09:50.980
+and you want to figure out how the child was.
+
+188
+00:09:50.980 --> 00:09:54.445
+It turns out that typical application of this problem,
+
+189
+00:09:54.445 --> 00:09:57.010
+estimating age of a child from an X-ray is
+
+190
+00:09:57.010 --> 00:09:59.995
+less dramatic than this crime scene investigation I was picturing.
+
+191
+00:09:59.995 --> 00:10:02.890
+It turns out that pediatricians use
+
+192
+00:10:02.890 --> 00:10:06.925
+this to estimate whether or not a child is growing or developing normally.
+
+193
+00:10:06.925 --> 00:10:09.460
+But a non end-to-end approach to this,
+
+194
+00:10:09.460 --> 00:10:14.045
+would be you locate an image and then you segment out or recognize the bones.
+
+195
+00:10:14.045 --> 00:10:16.730
+So, just try to figure out where is that bone segment?
+
+196
+00:10:16.730 --> 00:10:17.849
+Where is that bone segment?
+
+197
+00:10:17.849 --> 00:10:20.290
+Where is that bone segment? And so on. And then.
+
+198
+00:10:20.290 --> 00:10:22.285
+Knowing the lengths of the different bones,
+
+199
+00:10:22.285 --> 00:10:26.380
+you can sort of go to a look up table showing the average bone lengths in
+
+200
+00:10:26.380 --> 00:10:30.615
+a child's hand and then use that to estimate the child's age.
+
+201
+00:10:30.615 --> 00:10:32.800
+And so this approach actually works pretty well.
+
+202
+00:10:32.800 --> 00:10:37.960
+In contrast, if you were to go straight from the image to the child's age,
+
+203
+00:10:37.960 --> 00:10:43.030
+then you would need a lot of data to do that directly and as far as I know,
+
+204
+00:10:43.030 --> 00:10:45.850
+this approach does not work as well today just
+
+205
+00:10:45.850 --> 00:10:50.515
+because there isn't enough data to train this task in an end-to-end fashion.
+
+206
+00:10:50.515 --> 00:10:56.326
+Whereas in contrast, you can imagine that by breaking down this problem into two steps.
+
+207
+00:10:56.326 --> 00:10:58.780
+Step one is a relatively simple problem.
+
+208
+00:10:58.780 --> 00:11:00.345
+Maybe you don't need that much data.
+
+209
+00:11:00.345 --> 00:11:03.455
+Maybe you don't need that many X-ray images to segment out the bones.
+
+210
+00:11:03.455 --> 00:11:08.225
+And task two, by collecting statistics of a number of children's hands,
+
+211
+00:11:08.225 --> 00:11:11.280
+you can also get decent estimates of that without too much data.
+
+212
+00:11:11.280 --> 00:11:14.125
+So this multi-step approach seems promising.
+
+213
+00:11:14.125 --> 00:11:16.420
+Maybe more promising than the end-to-end approach,
+
+214
+00:11:16.420 --> 00:11:20.635
+at least until you can get more data for the end-to-end learning approach.
+
+215
+00:11:20.635 --> 00:11:22.840
+So an end-to-end deep learning works.
+
+216
+00:11:22.840 --> 00:11:26.650
+It can work really well and it can really simplify the system and not
+
+217
+00:11:26.650 --> 00:11:30.875
+require you to build so many hand-designed individual components.
+
+218
+00:11:30.875 --> 00:11:32.773
+But it's also not panacea,
+
+219
+00:11:32.773 --> 00:11:34.315
+it doesn't always work.
+
+220
+00:11:34.315 --> 00:11:35.650
+In the next video,
+
+221
+00:11:35.650 --> 00:11:39.530
+I want to share with you a more systematic description of when you should,
+
+222
+00:11:39.530 --> 00:11:42.820
+and maybe when you shouldn't use end-to-end deep learning and how
+
+223
+00:11:42.820 --> 00:11:47.000
+to piece together these complex machine learning systems.

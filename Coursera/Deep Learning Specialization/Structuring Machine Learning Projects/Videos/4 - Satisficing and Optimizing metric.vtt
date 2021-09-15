@@ -1,0 +1,381 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.910
+It's not always easy to combine all the things you care
+
+2
+00:00:02.910 --> 00:00:06.265
+about into a single row number evaluation metric.
+
+3
+00:00:06.265 --> 00:00:09.150
+In those cases I've found it sometimes useful to set up
+
+4
+00:00:09.150 --> 00:00:12.390
+satisficing as well as optimizing matrix.
+
+5
+00:00:12.390 --> 00:00:13.950
+Let me show you what I mean.
+
+6
+00:00:13.950 --> 00:00:16.410
+Let's say that you've decided you care about
+
+7
+00:00:16.410 --> 00:00:20.694
+the classification accuracy of your cat's classifier,
+
+8
+00:00:20.694 --> 00:00:25.470
+this could have been F1 score or some other measure of accuracy,
+
+9
+00:00:25.470 --> 00:00:29.610
+but let's say that in addition to accuracy you also care about the running time.
+
+10
+00:00:29.610 --> 00:00:35.050
+So how long it takes to classify an image and classifier A takes 80 milliseconds,
+
+11
+00:00:35.050 --> 00:00:36.690
+B takes 95 milliseconds,
+
+12
+00:00:36.690 --> 00:00:39.325
+and C takes 1,500 milliseconds,
+
+13
+00:00:39.325 --> 00:00:42.150
+that's 1.5 seconds to classify an image.
+
+14
+00:00:42.150 --> 00:00:45.000
+So one thing you could do is combine accuracy
+
+15
+00:00:45.000 --> 00:00:48.075
+and running time into an overall evaluation metric.
+
+16
+00:00:48.075 --> 00:00:57.898
+And so the costs such as maybe the overall cost is accuracy minus 0.5 times running time.
+
+17
+00:00:57.898 --> 00:01:01.460
+But maybe it seems a bit artificial to combine
+
+18
+00:01:01.460 --> 00:01:05.265
+accuracy and running time using a formula like this,
+
+19
+00:01:05.265 --> 00:01:08.805
+like a linear weighted sum of these two things.
+
+20
+00:01:08.805 --> 00:01:11.090
+So here's something else you could do instead which is
+
+21
+00:01:11.090 --> 00:01:13.841
+that you might want to choose a classifier
+
+22
+00:01:13.841 --> 00:01:26.470
+that maximizes accuracy but subject to that the running time,
+
+23
+00:01:26.470 --> 00:01:28.584
+that is the time it takes to classify an image,
+
+24
+00:01:28.584 --> 00:01:36.325
+that that has to be less than or equal to 100 milliseconds.
+
+25
+00:01:36.325 --> 00:01:40.170
+So in this case we would say that accuracy is an
+
+26
+00:01:40.170 --> 00:01:44.460
+optimizing metric because you want to maximize accuracy.
+
+27
+00:01:44.460 --> 00:01:48.195
+You want to do as well as possible on accuracy but
+
+28
+00:01:48.195 --> 00:01:53.845
+that running time is what we call a satisficing metric.
+
+29
+00:01:53.845 --> 00:01:55.580
+Meaning that it just has to be good enough,
+
+30
+00:01:55.580 --> 00:02:00.285
+it just needs to be less than 100 milliseconds and beyond that you don't really care,
+
+31
+00:02:00.285 --> 00:02:04.280
+or at least you don't care that much.
+
+32
+00:02:04.280 --> 00:02:07.340
+So this will be a pretty reasonable way to trade off or to put
+
+33
+00:02:07.340 --> 00:02:11.705
+together accuracy as well as running time.
+
+34
+00:02:11.705 --> 00:02:16.015
+And it may be the case that so long as the running time is less that 100 milliseconds,
+
+35
+00:02:16.015 --> 00:02:18.465
+your users won't care that much whether it's
+
+36
+00:02:18.465 --> 00:02:21.855
+100 milliseconds or 50 milliseconds or even faster.
+
+37
+00:02:21.855 --> 00:02:26.380
+And by defining optimizing as well as satisficing matrix,
+
+38
+00:02:26.380 --> 00:02:30.475
+this gives you a clear way to pick the, quote, best classifier,
+
+39
+00:02:30.475 --> 00:02:34.450
+which in this case would be classifier B because of all the ones with
+
+40
+00:02:34.450 --> 00:02:39.865
+a running time better than 100 milliseconds it has the best accuracy.
+
+41
+00:02:39.865 --> 00:02:45.220
+So more generally, if you have N matrix that you care
+
+42
+00:02:45.220 --> 00:02:50.830
+about it's sometimes reasonable to pick one of them to be optimizing.
+
+43
+00:02:50.830 --> 00:02:54.005
+So you want to do as well as is possible on that one.
+
+44
+00:02:54.005 --> 00:02:57.515
+And then N minus 1 to be satisficing,
+
+45
+00:02:57.515 --> 00:02:59.380
+meaning that so long as they reach
+
+46
+00:02:59.380 --> 00:03:02.730
+some threshold such as running times faster than 100 milliseconds,
+
+47
+00:03:02.730 --> 00:03:04.405
+but so long as they reach some threshold,
+
+48
+00:03:04.405 --> 00:03:06.520
+you don't care how much better it is in that threshold,
+
+49
+00:03:06.520 --> 00:03:09.455
+but they have to reach that threshold.
+
+50
+00:03:09.455 --> 00:03:11.350
+Here's another example.
+
+51
+00:03:11.350 --> 00:03:15.280
+Let's say you're building a system to detect wake words,
+
+52
+00:03:15.280 --> 00:03:19.030
+also called trigger words.
+
+53
+00:03:19.030 --> 00:03:22.900
+So this refers to the voice control devices like
+
+54
+00:03:22.900 --> 00:03:25.780
+the Amazon Echo where you wake up by saying
+
+55
+00:03:25.780 --> 00:03:29.020
+Alexa or some Google devices which you wake up
+
+56
+00:03:29.020 --> 00:03:35.095
+by saying okay Google or some Apple devices which you wake up by saying Hey Siri
+
+57
+00:03:35.095 --> 00:03:42.300
+or some Baidu devices we should wake up by saying you ni hao Baidu.
+
+58
+00:03:42.300 --> 00:03:46.390
+Oh I guess, you want to read the Chinese, that's ni hao Baidu.
+
+59
+00:03:46.390 --> 00:03:51.560
+Right, so these are the wake words you use to
+
+60
+00:03:51.560 --> 00:03:54.350
+tell one of these voice control devices
+
+61
+00:03:54.350 --> 00:03:56.990
+to wake up and listen to something you want to say.
+
+62
+00:03:56.990 --> 00:04:02.090
+And for these other Chinese characters for ni hao Baidu.
+
+63
+00:04:02.090 --> 00:04:07.935
+So you might care about the accuracy of your trigger word detection system.
+
+64
+00:04:07.935 --> 00:04:10.325
+So when someone says one of these trigger words,
+
+65
+00:04:10.325 --> 00:04:13.525
+how likely are you to actually wake up your device,
+
+66
+00:04:13.525 --> 00:04:16.970
+and you might also care about the number of false positives.
+
+67
+00:04:16.970 --> 00:04:19.891
+So when no one actually said this trigger word,
+
+68
+00:04:19.891 --> 00:04:23.294
+how often does it randomly wake up?
+
+69
+00:04:23.294 --> 00:04:27.770
+So in this case maybe one reasonable way of
+
+70
+00:04:27.770 --> 00:04:33.275
+combining these two evaluation matrix might be to maximize accuracy,
+
+71
+00:04:33.275 --> 00:04:35.165
+so when someone says one of the trigger words,
+
+72
+00:04:35.165 --> 00:04:37.565
+maximize the chance that your device wakes up.
+
+73
+00:04:37.565 --> 00:04:39.215
+And subject to that,
+
+74
+00:04:39.215 --> 00:04:48.815
+you have at most one false positive every 24 hours
+
+75
+00:04:48.815 --> 00:04:51.070
+of operation, right?
+
+76
+00:04:51.070 --> 00:04:53.760
+So that your device randomly wakes up only once
+
+77
+00:04:53.760 --> 00:04:57.270
+per day on average when no one is actually talking to it.
+
+78
+00:04:57.270 --> 00:05:00.900
+So in this case accuracy is the
+
+79
+00:05:00.900 --> 00:05:05.505
+optimizing metric and a number of false positives every 24 hours
+
+80
+00:05:05.505 --> 00:05:09.870
+is the satisficing metric where you'd be satisfied so long as there
+
+81
+00:05:09.870 --> 00:05:14.490
+is at most one false positive every 24 hours.
+
+82
+00:05:14.490 --> 00:05:17.100
+To summarize, if there are multiple things you care
+
+83
+00:05:17.100 --> 00:05:19.920
+about by say there's one as the optimizing metric
+
+84
+00:05:19.920 --> 00:05:22.530
+that you want to do as well as possible on and one or
+
+85
+00:05:22.530 --> 00:05:25.475
+more as satisficing metrics were you'll be satisfice.
+
+86
+00:05:25.475 --> 00:05:29.430
+Almost it does better than some threshold you can now have
+
+87
+00:05:29.430 --> 00:05:32.310
+an almost automatic way of quickly
+
+88
+00:05:32.310 --> 00:05:35.864
+looking at multiple core size and picking the, quote, best one.
+
+89
+00:05:35.864 --> 00:05:39.000
+Now these evaluation matrix must be
+
+90
+00:05:39.000 --> 00:05:44.095
+evaluated or calculated on a training set or a development set or maybe on the test set.
+
+91
+00:05:44.095 --> 00:05:46.935
+So one of the things you also need to do is set up training,
+
+92
+00:05:46.935 --> 00:05:50.100
+dev or development, as well as test sets.
+
+93
+00:05:50.100 --> 00:05:52.800
+In the next video, I want to share with you some guidelines for
+
+94
+00:05:52.800 --> 00:05:55.800
+how to set up training, dev, and test sets.
+
+95
+00:05:55.800 --> 00:05:57.470
+So let's go on to the next.

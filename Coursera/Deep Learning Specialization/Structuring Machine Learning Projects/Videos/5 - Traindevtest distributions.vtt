@@ -1,0 +1,517 @@
+WEBVTT
+
+1
+00:00:00.050 --> 00:00:03.050
+The way you set up your training dev,
+
+2
+00:00:03.050 --> 00:00:04.195
+or development sets and test sets,
+
+3
+00:00:04.195 --> 00:00:06.810
+can have a huge impact on how rapidly you or
+
+4
+00:00:06.810 --> 00:00:09.985
+your team can make progress on building machine learning application.
+
+5
+00:00:09.985 --> 00:00:12.895
+The same teams, even teams in very large companies,
+
+6
+00:00:12.895 --> 00:00:15.540
+set up these data sets in ways that really slows down,
+
+7
+00:00:15.540 --> 00:00:18.125
+rather than speeds up, the progress of the team.
+
+8
+00:00:18.125 --> 00:00:20.130
+Let's take a look at how you can set up
+
+9
+00:00:20.130 --> 00:00:23.433
+these data sets to maximize your team's efficiency.
+
+10
+00:00:23.433 --> 00:00:28.325
+In this video, I want to focus on how you set up your dev and test sets.
+
+11
+00:00:28.325 --> 00:00:33.020
+So, that dev set is also called the development set,
+
+12
+00:00:33.020 --> 00:00:36.940
+or sometimes called the hold out cross validation set.
+
+13
+00:00:36.940 --> 00:00:42.265
+And, workflow in machine learning is that you try a lot of ideas,
+
+14
+00:00:42.265 --> 00:00:44.200
+train up different models on the training set,
+
+15
+00:00:44.200 --> 00:00:47.950
+and then use the dev set to evaluate the different ideas and pick one.
+
+16
+00:00:47.950 --> 00:00:51.280
+And, keep innovating to improve dev set performance until, finally,
+
+17
+00:00:51.280 --> 00:00:56.240
+you have one clause that you're happy with that you then evaluate on your test set.
+
+18
+00:00:56.240 --> 00:00:59.800
+Now, let's say, by way of example,
+
+19
+00:00:59.800 --> 00:01:01.995
+that you're building a cat crossfire,
+
+20
+00:01:01.995 --> 00:01:05.500
+and you are operating in these regions: in the U.S,
+
+21
+00:01:05.500 --> 00:01:07.720
+U.K, other European countries, South America,
+
+22
+00:01:07.720 --> 00:01:10.490
+India, China, other Asian countries, and Australia.
+
+23
+00:01:10.490 --> 00:01:14.529
+So, how do you set up your dev set and your test set?
+
+24
+00:01:14.529 --> 00:01:19.285
+Well, one way you could do so is to pick four of these regions.
+
+25
+00:01:19.285 --> 00:01:22.555
+I'm going to use these four but it could be four randomly chosen regions.
+
+26
+00:01:22.555 --> 00:01:25.705
+And say, that data from these four regions will go into the dev set.
+
+27
+00:01:25.705 --> 00:01:28.580
+And, the other four regions, I'm going to use these four,
+
+28
+00:01:28.580 --> 00:01:30.530
+could be randomly chosen four as well,
+
+29
+00:01:30.530 --> 00:01:33.350
+that those will go into the test set.
+
+30
+00:01:33.350 --> 00:01:36.940
+It turns out, this is a very bad idea because in this example,
+
+31
+00:01:36.940 --> 00:01:40.780
+your dev and test sets come from different distributions.
+
+32
+00:01:40.780 --> 00:01:44.345
+I would, instead, recommend that you find a way to make your dev and
+
+33
+00:01:44.345 --> 00:01:49.555
+test sets come from the same distribution. So, here's what I mean.
+
+34
+00:01:49.555 --> 00:01:51.590
+One picture to keep in mind is that, I think,
+
+35
+00:01:51.590 --> 00:01:54.530
+setting up your dev set, plus,
+
+36
+00:01:54.530 --> 00:01:57.662
+your single role number evaluation metric,
+
+37
+00:01:57.662 --> 00:01:59.840
+that's like placing a target and telling
+
+38
+00:01:59.840 --> 00:02:03.395
+your team where you think is the bull's eye you want to aim at.
+
+39
+00:02:03.395 --> 00:02:07.165
+Because, what happen once you've established that dev set and the metric is that,
+
+40
+00:02:07.165 --> 00:02:09.925
+the team can innovate very quickly, try different ideas,
+
+41
+00:02:09.925 --> 00:02:13.100
+run experiments and very quickly use the dev set and
+
+42
+00:02:13.100 --> 00:02:16.997
+the metric to evaluate crossfires and try to pick the best one.
+
+43
+00:02:16.997 --> 00:02:21.720
+So, machine learning teams are often very good at shooting different arrows into
+
+44
+00:02:21.720 --> 00:02:26.732
+targets and innovating to get closer and closer to hitting the bullseye.
+
+45
+00:02:26.732 --> 00:02:30.173
+So, doing well on your metric on your dev sets.
+
+46
+00:02:30.173 --> 00:02:32.040
+And, the problem with how we've set up
+
+47
+00:02:32.040 --> 00:02:34.680
+the dev and test sets in the example on the left is that,
+
+48
+00:02:34.680 --> 00:02:39.450
+your team might spend months innovating to do well on the dev set only to realize that,
+
+49
+00:02:39.450 --> 00:02:41.570
+when you finally go to test them on the test set,
+
+50
+00:02:41.570 --> 00:02:45.900
+that data from these four countries or these four regions at the bottom,
+
+51
+00:02:45.900 --> 00:02:49.520
+might be very different than the regions in your dev set.
+
+52
+00:02:49.520 --> 00:02:51.765
+So, you might have a nasty surprise and realize that,
+
+53
+00:02:51.765 --> 00:02:54.690
+all the months of work you spent optimizing to the dev set,
+
+54
+00:02:54.690 --> 00:02:58.800
+is not giving you good performance on the test set.
+
+55
+00:02:58.800 --> 00:03:03.180
+So, having dev and test sets from different distributions is like setting a target,
+
+56
+00:03:03.180 --> 00:03:06.525
+having your team spend months trying to aim closer and closer to bull's eye,
+
+57
+00:03:06.525 --> 00:03:08.865
+only to realize after months of work that,
+
+58
+00:03:08.865 --> 00:03:10.550
+you'll say, "Oh wait, to test it,
+
+59
+00:03:10.550 --> 00:03:12.005
+I'm going to move target over here."
+
+60
+00:03:12.005 --> 00:03:14.160
+And, the team might say, "Well,
+
+61
+00:03:14.160 --> 00:03:18.320
+why did you make us spend months optimizing for a different bull's eye when suddenly,
+
+62
+00:03:18.320 --> 00:03:21.950
+you can move the bull's eye to a different location somewhere else?"
+
+63
+00:03:21.950 --> 00:03:23.010
+So, to avoid this,
+
+64
+00:03:23.010 --> 00:03:24.510
+what I recommend instead is that,
+
+65
+00:03:24.510 --> 00:03:29.985
+you take all this randomly shuffled data into the dev and test set.
+
+66
+00:03:29.985 --> 00:03:33.917
+So that, both the dev and test sets have data from all eight regions
+
+67
+00:03:33.917 --> 00:03:38.205
+and that the dev and test sets really come from the same distribution,
+
+68
+00:03:38.205 --> 00:03:41.490
+which is the distribution of all of your data mixed together.
+
+69
+00:03:41.490 --> 00:03:43.766
+Here's another example. This is a,
+
+70
+00:03:43.766 --> 00:03:46.200
+actually, true story but with some details changed.
+
+71
+00:03:46.200 --> 00:03:48.210
+So, I know a machine learning team that actually spent
+
+72
+00:03:48.210 --> 00:03:50.610
+several months optimizing on a dev set
+
+73
+00:03:50.610 --> 00:03:55.400
+which was comprised of loan approvals for medium income zip codes.
+
+74
+00:03:55.400 --> 00:03:57.465
+So, the specific machine learning problem was,
+
+75
+00:03:57.465 --> 00:04:00.805
+"Given an input X about a loan application,
+
+76
+00:04:00.805 --> 00:04:02.820
+can you predict why and which is,
+
+77
+00:04:02.820 --> 00:04:04.907
+whether or not, they'll repay the loan?"
+
+78
+00:04:04.907 --> 00:04:07.760
+So, this helps you decide whether or not to approve a loan.
+
+79
+00:04:07.760 --> 00:04:11.370
+And so, the dev set came from loan applications.
+
+80
+00:04:11.370 --> 00:04:13.565
+They came from medium income zip codes.
+
+81
+00:04:13.565 --> 00:04:16.870
+Zip codes is what we call postal codes in the United States.
+
+82
+00:04:16.870 --> 00:04:18.990
+But, after working on this for a few months, the team then,
+
+83
+00:04:18.990 --> 00:04:21.555
+suddenly decided to test this on
+
+84
+00:04:21.555 --> 00:04:24.650
+data from low income zip codes or low income postal codes.
+
+85
+00:04:24.650 --> 00:04:27.595
+And, of course, the distributional data for
+
+86
+00:04:27.595 --> 00:04:30.900
+medium income and low income zip codes is very different.
+
+87
+00:04:30.900 --> 00:04:34.810
+And, the crossfire, that they spend so much time optimizing in the former case,
+
+88
+00:04:34.810 --> 00:04:39.165
+just didn't work well at all on the latter case.
+
+89
+00:04:39.165 --> 00:04:42.750
+And so, this particular team actually wasted about three months of
+
+90
+00:04:42.750 --> 00:04:47.053
+time and had to go back and really re-do a lot of work.
+
+91
+00:04:47.053 --> 00:04:48.540
+And, what happened here was,
+
+92
+00:04:48.540 --> 00:04:52.035
+the team spent three months aiming for one target,
+
+93
+00:04:52.035 --> 00:04:54.060
+and then, after three months,
+
+94
+00:04:54.060 --> 00:04:55.490
+the manager asked, "Oh,
+
+95
+00:04:55.490 --> 00:04:57.750
+how are you doing on hitting this other target?"
+
+96
+00:04:57.750 --> 00:04:59.340
+This is a totally different location.
+
+97
+00:04:59.340 --> 00:05:02.306
+And, it just was a very frustrating experience for the team.
+
+98
+00:05:02.306 --> 00:05:05.530
+So, what I recommand for setting up a dev set and test set is,
+
+99
+00:05:05.530 --> 00:05:08.520
+choose a dev set and test set to reflect data you expect to get in
+
+100
+00:05:08.520 --> 00:05:11.535
+future and consider important to do well on.
+
+101
+00:05:11.535 --> 00:05:14.850
+And, in particular, the dev set and the test set here,
+
+102
+00:05:14.850 --> 00:05:20.338
+should come from the same distribution.
+
+103
+00:05:20.338 --> 00:05:23.660
+So, whatever type of data you expect to get in the future,
+
+104
+00:05:23.660 --> 00:05:25.415
+and once you do well on,
+
+105
+00:05:25.415 --> 00:05:27.745
+try to get data that looks like that.
+
+106
+00:05:27.745 --> 00:05:29.050
+And, whatever that data is,
+
+107
+00:05:29.050 --> 00:05:32.245
+put it into both your dev set and your test set.
+
+108
+00:05:32.245 --> 00:05:33.920
+Because that way, you're putting
+
+109
+00:05:33.920 --> 00:05:36.440
+the target where you actually want to hit and you're having
+
+110
+00:05:36.440 --> 00:05:40.705
+the team innovate very efficiently to hitting that same target,
+
+111
+00:05:40.705 --> 00:05:41.826
+hopefully, the same targets well.
+
+112
+00:05:41.826 --> 00:05:45.965
+Since we haven't talked yet about how to set up a training set,
+
+113
+00:05:45.965 --> 00:05:48.790
+we'll talk about the training set in a later video.
+
+114
+00:05:48.790 --> 00:05:51.335
+But, the important take away from this video is that,
+
+115
+00:05:51.335 --> 00:05:53.690
+setting up the dev set,
+
+116
+00:05:53.690 --> 00:05:56.300
+as well as the validation metric,
+
+117
+00:05:56.300 --> 00:05:59.780
+is really defining what target you want to aim at.
+
+118
+00:05:59.780 --> 00:06:04.145
+And hopefully, by setting the dev set and the test set to the same distribution,
+
+119
+00:06:04.145 --> 00:06:08.659
+you're really aiming at whatever target you hope your machine learning team will hit.
+
+120
+00:06:08.659 --> 00:06:10.870
+The way you choose your training set
+
+121
+00:06:10.870 --> 00:06:14.510
+will affect how well you can actually hit that target.
+
+122
+00:06:14.510 --> 00:06:18.400
+But, we can talk about that separately in a later video.
+
+123
+00:06:18.400 --> 00:06:20.830
+So, I know some machine learning teams that could literally have saved
+
+124
+00:06:20.830 --> 00:06:23.825
+themselves months of work could they follow the guidelines in this video.
+
+125
+00:06:23.825 --> 00:06:26.235
+So, I hope these guidelines will help you, too.
+
+126
+00:06:26.235 --> 00:06:29.666
+Next, it turns out, that the size of your dev and test sets,
+
+127
+00:06:29.666 --> 00:06:31.015
+how to choose the size of them,
+
+128
+00:06:31.015 --> 00:06:33.391
+is also changing the area of deep learning.
+
+129
+00:06:33.391 --> 00:06:35.290
+Let's talk about that in the next video.
