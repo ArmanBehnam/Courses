@@ -1,0 +1,309 @@
+WEBVTT
+
+1
+00:00:06.300 --> 00:00:09.800
+We've discussed the exploration
+exploitation trade-off
+
+2
+00:00:09.800 --> 00:00:13.800
+the key point that the agent must
+occasionally take suboptimal exploratory
+
+3
+00:00:13.800 --> 00:00:17.300
+actions potentially receiving less reward,
+but
+
+4
+00:00:17.300 --> 00:00:21.600
+maybe we do not need to make this
+trade off at all in this video.
+
+5
+00:00:21.600 --> 00:00:25.500
+We'll discuss a new way of learning value
+functions called off policy learning
+
+6
+00:00:26.800 --> 00:00:30.000
+by the end of this video you will
+be able to understand how off
+
+7
+00:00:30.000 --> 00:00:33.000
+policy learning can help deal
+with the expiration problem.
+
+8
+00:00:34.200 --> 00:00:37.400
+You will also be able to produce
+examples of Target policies and
+
+9
+00:00:37.400 --> 00:00:39.200
+examples of behavior policies.
+
+10
+00:00:40.900 --> 00:00:45.000
+Epsilon's are policies help with
+the continual exploration Problem
+
+11
+00:00:45.000 --> 00:00:49.600
+by having some small probability
+of exploring on each time step.
+
+12
+00:00:50.700 --> 00:00:55.200
+The disadvantage of Epsilon soft
+policies is that they are suboptimal for
+
+13
+00:00:55.200 --> 00:01:01.300
+both acting and learning Epsilon soft
+policies are neither optimal policies for
+
+14
+00:01:01.300 --> 00:01:04.099
+obtaining reward nor are the optimal for
+
+15
+00:01:04.099 --> 00:01:09.800
+exploring to find the best actions so
+far throughout this course,
+
+16
+00:01:09.800 --> 00:01:13.700
+we have implicitly been discussing
+on policy learning though.
+
+17
+00:01:13.700 --> 00:01:16.400
+We have not yet
+made a big deal of that name.
+
+18
+00:01:17.800 --> 00:01:20.700
+It on policy learning the agent
+learns about the policy
+
+19
+00:01:20.700 --> 00:01:23.100
+used to generate the data.
+
+20
+00:01:23.100 --> 00:01:27.000
+What does it mean to learn about
+a policy and policy evaluation?
+
+21
+00:01:27.000 --> 00:01:30.500
+We simply mean learning
+the value function in control.
+
+22
+00:01:30.500 --> 00:01:35.300
+We mean learning the optimal policy
+it off policy learning the agent
+
+23
+00:01:35.300 --> 00:01:40.400
+learns about a policy from data generated
+by following a different policy.
+
+24
+00:01:40.400 --> 00:01:44.500
+That is the policy that we
+are learning is off the policy.
+
+25
+00:01:44.500 --> 00:01:47.400
+They we are using for Action selection.
+
+26
+00:01:47.400 --> 00:01:52.000
+For example, you could learn the optimal
+policy while following a totally random
+
+27
+00:01:52.000 --> 00:01:57.600
+policy we call the policy that the agent
+is learning the target policy because it
+
+28
+00:01:57.600 --> 00:02:03.500
+is the target of the agents learning the
+target policy is usually denoted by pie.
+
+29
+00:02:05.100 --> 00:02:09.699
+The value function that the agent is
+learning is based on the target policy
+
+30
+00:02:09.699 --> 00:02:13.300
+one example of a Target
+policy is the optimal policy
+
+31
+00:02:13.300 --> 00:02:17.900
+we call the policy that the agent is using
+to select actions the behavior policy
+
+32
+00:02:17.900 --> 00:02:20.100
+because it defines our agents Behavior.
+
+33
+00:02:21.100 --> 00:02:23.800
+The behavior policy is
+usually denoted by B.
+
+34
+00:02:24.900 --> 00:02:28.700
+The behavior policy is in charge of
+selecting actions for the agent.
+
+35
+00:02:29.900 --> 00:02:33.800
+The behavior policies shown here
+is the uniform random policy.
+
+36
+00:02:35.500 --> 00:02:39.200
+So why are we to coupling
+the behavior from the target policy?
+
+37
+00:02:39.200 --> 00:02:43.600
+Because it provides another strategy for
+continual exploration.
+
+38
+00:02:43.600 --> 00:02:47.600
+If our agent behaves according to
+the Target policy it might only experience
+
+39
+00:02:47.600 --> 00:02:50.000
+a small number of states.
+
+40
+00:02:50.000 --> 00:02:53.800
+If our aging can behave according to
+a policy that favors exploration.
+
+41
+00:02:53.800 --> 00:02:56.700
+It can experience a much
+larger number of states.
+
+42
+00:02:57.800 --> 00:03:01.400
+There are actually a few other useful
+applications of off policy learning such
+
+43
+00:03:01.400 --> 00:03:04.600
+as learning from demonstration and
+parallel learning but
+
+44
+00:03:04.600 --> 00:03:07.400
+facilitating exploration is
+one of the main motivators.
+
+45
+00:03:08.900 --> 00:03:12.900
+One key rule of off policy learning is
+that the behavior policy must cover
+
+46
+00:03:12.900 --> 00:03:14.900
+the target policy?
+
+47
+00:03:14.900 --> 00:03:19.400
+In other words, if the target policy says
+the probability of selecting an action
+
+48
+00:03:19.400 --> 00:03:24.500
+a given State s is greater than zero
+
+49
+00:03:24.500 --> 00:03:30.300
+then the behavior policy must say
+the probability of selecting that action
+
+50
+00:03:30.300 --> 00:03:35.300
+in that state is greater than 0 there
+
+51
+00:03:35.300 --> 00:03:40.300
+is a key mathematical reason for this that
+we will discuss in an upcoming video.
+
+52
+00:03:40.300 --> 00:03:43.600
+But there's also an intuitive
+reason that we show here
+
+53
+00:03:43.600 --> 00:03:48.300
+consider this state with the behavior
+policy always goes up but the target
+
+54
+00:03:48.300 --> 00:03:52.700
+policy goes to the right the agent cannot
+learn the correct action value for
+
+55
+00:03:52.700 --> 00:03:56.400
+that state because a never observed
+samples of what would happen.
+
+56
+00:03:56.400 --> 00:04:01.200
+If it goes right maybe gets a reward
+of plus 1 million it would never know.
+
+57
+00:04:02.700 --> 00:04:07.000
+It's worth noting that off policy learning
+is a strict generalization of on policy
+
+58
+00:04:07.000 --> 00:04:11.300
+learning on policies the specific
+case where the target policy is
+
+59
+00:04:11.300 --> 00:04:13.900
+equal to the behavior policy.
+
+60
+00:04:13.900 --> 00:04:15.100
+That's it for this video.
+
+61
+00:04:16.200 --> 00:04:20.800
+The key points to take away from today are
+that off policy learning is another way
+
+62
+00:04:20.800 --> 00:04:23.600
+to obtain continual exploration.
+
+63
+00:04:23.600 --> 00:04:27.300
+The policy that we are learning
+is called the target policy and
+
+64
+00:04:27.300 --> 00:04:30.900
+the policy that we are choosing
+actions from is the behavior policy.

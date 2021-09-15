@@ -1,0 +1,367 @@
+WEBVTT
+
+1
+00:00:05.600 --> 00:00:08.430
+Well done, you've made
+
+2
+00:00:08.430 --> 00:00:10.485
+it through the first
+week of lectures.
+
+3
+00:00:10.485 --> 00:00:12.390
+This week was all
+about estimating
+
+4
+00:00:12.390 --> 00:00:14.325
+value functions and finding
+
+5
+00:00:14.325 --> 00:00:15.810
+optimal policies using
+
+6
+00:00:15.810 --> 00:00:18.435
+only experience from
+the environment.
+
+7
+00:00:18.435 --> 00:00:21.975
+We saw on-policy and
+off-policy Monte Carlo,
+
+8
+00:00:21.975 --> 00:00:25.265
+and revisited the exploration
+problem from bandits.
+
+9
+00:00:25.265 --> 00:00:28.505
+Let's review
+the materials so far.
+
+10
+00:00:28.505 --> 00:00:32.540
+Monte Carlo algorithms
+are sample-based methods.
+
+11
+00:00:32.540 --> 00:00:34.265
+They can be used
+when the model is
+
+12
+00:00:34.265 --> 00:00:36.925
+unavailable or hard
+to write down.
+
+13
+00:00:36.925 --> 00:00:39.050
+Monte Carlo algorithms estimate
+
+14
+00:00:39.050 --> 00:00:41.090
+value functions by averaging
+
+15
+00:00:41.090 --> 00:00:43.805
+over multiple observed returns.
+
+16
+00:00:43.805 --> 00:00:45.950
+They wait for the full return
+
+17
+00:00:45.950 --> 00:00:48.250
+before updating their values.
+
+18
+00:00:48.250 --> 00:00:53.135
+Therefore, we use Monte Carlo
+only for episodic MDPs.
+
+19
+00:00:53.135 --> 00:00:56.210
+We discussed how
+Monte Carlo can be used
+
+20
+00:00:56.210 --> 00:00:59.765
+inside generalized
+policy iteration.
+
+21
+00:00:59.765 --> 00:01:04.039
+This led to our first
+sample-based control algorithm,
+
+22
+00:01:04.039 --> 00:01:07.460
+Monte Carlo with
+exploring starts.
+
+23
+00:01:07.460 --> 00:01:10.970
+Monte Carlo algorithms
+don't do sweeps over
+
+24
+00:01:10.970 --> 00:01:13.750
+the state action space
+like dynamic programming,
+
+25
+00:01:13.750 --> 00:01:16.730
+so they need an
+exploration mechanism to
+
+26
+00:01:16.730 --> 00:01:20.390
+ensure that they learn about
+every state action pair.
+
+27
+00:01:20.390 --> 00:01:23.405
+We first considered
+exploring starts.
+
+28
+00:01:23.405 --> 00:01:25.250
+Exploring starts requires that
+
+29
+00:01:25.250 --> 00:01:26.630
+the first state and action are
+
+30
+00:01:26.630 --> 00:01:30.305
+chosen randomly at
+the beginning of every episode.
+
+31
+00:01:30.305 --> 00:01:32.735
+It is not always feasible
+
+32
+00:01:32.735 --> 00:01:35.540
+or safe to use exploring starts.
+
+33
+00:01:35.540 --> 00:01:37.220
+Just imagine trying to do
+
+34
+00:01:37.220 --> 00:01:39.710
+exploring starts with
+an autonomous car.
+
+35
+00:01:39.710 --> 00:01:42.140
+This realization motivated us to
+
+36
+00:01:42.140 --> 00:01:45.800
+investigate additional
+exploration methods.
+
+37
+00:01:45.800 --> 00:01:48.380
+We cover two other strategies
+
+38
+00:01:48.380 --> 00:01:50.135
+for the exploration problem.
+
+39
+00:01:50.135 --> 00:01:51.775
+Learning on policy with
+
+40
+00:01:51.775 --> 00:01:55.650
+Epsilon-soft policies
+and learning off-policy.
+
+41
+00:01:55.650 --> 00:01:57.585
+For the first strategy,
+
+42
+00:01:57.585 --> 00:02:01.070
+the agent follows and learns
+about a stochastic policy.
+
+43
+00:02:01.070 --> 00:02:03.725
+It usually takes
+the greedy action.
+
+44
+00:02:03.725 --> 00:02:07.310
+A small fraction of the time
+it takes a random action.
+
+45
+00:02:07.310 --> 00:02:09.260
+This way the value estimates for
+
+46
+00:02:09.260 --> 00:02:10.670
+all state action pairs are
+
+47
+00:02:10.670 --> 00:02:13.865
+guaranteed to continue
+to improve over time.
+
+48
+00:02:13.865 --> 00:02:16.760
+This on policy strategy
+forced us to learn
+
+49
+00:02:16.760 --> 00:02:20.480
+a near optimal policy instead
+of an optimal policy.
+
+50
+00:02:20.480 --> 00:02:22.190
+But what if we want to learn
+
+51
+00:02:22.190 --> 00:02:25.565
+an optimal policy but still
+maintain exploration?
+
+52
+00:02:25.565 --> 00:02:28.465
+The answer lies with
+off-policy learning.
+
+53
+00:02:28.465 --> 00:02:30.470
+We introduce some new definitions
+
+54
+00:02:30.470 --> 00:02:31.655
+for off-policy learning,
+
+55
+00:02:31.655 --> 00:02:33.515
+so let's review them.
+
+56
+00:02:33.515 --> 00:02:36.170
+A behavior policy
+is the policy that
+
+57
+00:02:36.170 --> 00:02:38.795
+the agent uses to select actions.
+
+58
+00:02:38.795 --> 00:02:41.330
+A target policy is
+the policy that
+
+59
+00:02:41.330 --> 00:02:44.420
+the agent learns about
+in its value function.
+
+60
+00:02:44.420 --> 00:02:48.380
+By sending an appropriate
+exploratory behavior policy,
+
+61
+00:02:48.380 --> 00:02:49.505
+the agent can learn about
+
+62
+00:02:49.505 --> 00:02:52.445
+any deterministic target policy.
+
+63
+00:02:52.445 --> 00:02:55.190
+One way to learn about
+one policy while
+
+64
+00:02:55.190 --> 00:02:58.430
+falling another is to
+use importance sampling.
+
+65
+00:02:58.430 --> 00:03:00.875
+Importance sampling
+allows the agent
+
+66
+00:03:00.875 --> 00:03:03.080
+to estimate the expected return
+
+67
+00:03:03.080 --> 00:03:05.120
+under the target policy from
+
+68
+00:03:05.120 --> 00:03:07.980
+experience sampled under
+the behavior policy.
+
+69
+00:03:07.980 --> 00:03:10.500
+The ratio re-weights the samples.
+
+70
+00:03:10.500 --> 00:03:12.110
+It increases the importance of
+
+71
+00:03:12.110 --> 00:03:14.000
+returns that were more
+likely to be seen
+
+72
+00:03:14.000 --> 00:03:17.870
+under Pi and it decreases
+those that were unlikely.
+
+73
+00:03:17.870 --> 00:03:20.210
+The sample average
+effectively contains
+
+74
+00:03:20.210 --> 00:03:22.430
+the right proportion
+of each return so
+
+75
+00:03:22.430 --> 00:03:24.440
+that in in expectation it is as
+
+76
+00:03:24.440 --> 00:03:27.930
+if the returns had
+been sampled under Pi.
+
+77
+00:03:28.000 --> 00:03:30.530
+That's all for this module.
+
+78
+00:03:30.530 --> 00:03:31.970
+Next we'll talk about one of
+
+79
+00:03:31.970 --> 00:03:35.060
+the most fundamental concepts
+in reinforcement learning,
+
+80
+00:03:35.060 --> 00:03:38.490
+Temporal Difference
+Learning. See you then.

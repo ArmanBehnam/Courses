@@ -1,0 +1,204 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:07.848
+[MUSIC]
+
+2
+00:00:07.848 --> 00:00:10.900
+We've introduced the expected
+Sarsa control algorithm.
+
+3
+00:00:10.900 --> 00:00:14.311
+Now, it's time to see it in action.
+
+4
+00:00:14.311 --> 00:00:19.585
+By the end of this video, you will be
+able to describe expected Sarsas's
+
+5
+00:00:19.585 --> 00:00:25.300
+behavior in an example MDP and empirically
+compare expected Sarsa and Sarsa.
+
+6
+00:00:26.400 --> 00:00:29.100
+We will use the cliff walk
+environment again, so
+
+7
+00:00:29.100 --> 00:00:33.200
+we can talk about Sarsa, q-learning and
+expected Sarsa all at once.
+
+8
+00:00:34.400 --> 00:00:35.700
+Let's recap.
+
+9
+00:00:35.700 --> 00:00:39.100
+This environment is an undiscounted
+episodic grid world
+
+10
+00:00:39.100 --> 00:00:41.800
+with a cliff on the bottom edge.
+
+11
+00:00:41.800 --> 00:00:47.900
+Moving into the cliff moves the agent back
+to the start with a reward of minus 100.
+
+12
+00:00:47.900 --> 00:00:50.800
+Otherwise, the reward is
+minus one on each time step.
+
+13
+00:00:51.812 --> 00:00:54.900
+Sarsa performed better than
+Q learning on this domain
+
+14
+00:00:54.900 --> 00:00:58.200
+because Sarsa's policy accounted for
+its own exploration.
+
+15
+00:00:59.300 --> 00:01:05.496
+Today, we'll compare expected Sarsa
+to Sarsa with an epsilon of 0.1.
+
+16
+00:01:05.496 --> 00:01:09.685
+This plot was created by testing each
+agent with different values of the step
+
+17
+00:01:09.685 --> 00:01:11.000
+size parameter alpha.
+
+18
+00:01:12.300 --> 00:01:17.400
+We did a hundred episodes and averaged
+everything over 50,000 independent runs.
+
+19
+00:01:18.700 --> 00:01:22.400
+The y axis shows the average
+return per episode and
+
+20
+00:01:22.400 --> 00:01:25.325
+the x axis shows the step size values.
+
+21
+00:01:25.325 --> 00:01:32.600
+Sarsa's performance increases with larger
+step size values, but only up to a point.
+
+22
+00:01:32.600 --> 00:01:35.708
+The best alpha value for
+Sarsa here was 0.9.
+
+23
+00:01:35.708 --> 00:01:41.600
+Expected Sarsa outperformed Sarsa for
+almost all values of alpha.
+
+24
+00:01:42.800 --> 00:01:47.900
+Expected Sarsa's able to use larger
+alpha values more effectively.
+
+25
+00:01:47.900 --> 00:01:54.636
+This is because it explicitly averages
+over the randomness due to its own policy.
+
+26
+00:01:54.636 --> 00:01:56.816
+This environment is deterministic, so
+
+27
+00:01:56.816 --> 00:01:59.900
+there are no other sources of
+randomness to account for.
+
+28
+00:02:01.100 --> 00:02:05.700
+This means expected Sarsa's updates
+are deterministic for a given state and
+
+29
+00:02:05.700 --> 00:02:06.225
+action.
+
+30
+00:02:06.225 --> 00:02:09.400
+Sarsa's updates on the other hand
+
+31
+00:02:09.400 --> 00:02:12.400
+can vary significantly
+depending on the next action.
+
+32
+00:02:13.800 --> 00:02:20.004
+Now let's look at the average return
+per episode after 100,000 episodes.
+
+33
+00:02:20.004 --> 00:02:24.300
+At this point, each algorithm has
+learned everything it's going to learn.
+
+34
+00:02:24.300 --> 00:02:28.784
+Expected Sarsa's long-term
+behavior is unaffected by alpha.
+
+35
+00:02:28.784 --> 00:02:31.125
+Its updates are deterministic
+in this example.
+
+36
+00:02:31.125 --> 00:02:34.400
+Therefore the step size only determines
+
+37
+00:02:34.400 --> 00:02:37.625
+how quickly the estimates
+approach their target values.
+
+38
+00:02:37.625 --> 00:02:42.100
+Sarsa behaves quite differently here,
+
+39
+00:02:42.100 --> 00:02:46.300
+it even fails to converge for
+larger values of alpha.
+
+40
+00:02:46.300 --> 00:02:52.600
+As alpha decreases, Sarsa's long run
+performance approaches expected Sarsa's.
+
+41
+00:02:52.600 --> 00:02:57.200
+In this video, we've seen that expected
+Sarsa was able to quickly learn
+
+42
+00:02:57.200 --> 00:03:00.125
+a good policy in the cliff world and
+
+43
+00:03:00.125 --> 00:03:04.500
+that expected Sarsa is more robust
+than Sarsa to large step sizes.

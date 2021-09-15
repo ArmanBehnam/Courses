@@ -1,0 +1,263 @@
+WEBVTT
+
+1
+00:00:04.430 --> 00:00:08.490
+Now that we can estimate action
+values using Monte Carlo,
+
+2
+00:00:08.490 --> 00:00:09.900
+the next step is to build
+
+3
+00:00:09.900 --> 00:00:12.270
+a generalized policy
+iteration algorithm.
+
+4
+00:00:12.270 --> 00:00:15.000
+Let's see how we
+can do that today.
+
+5
+00:00:15.000 --> 00:00:16.755
+By the end of this video,
+
+6
+00:00:16.755 --> 00:00:18.780
+you will understand how to use
+
+7
+00:00:18.780 --> 00:00:22.710
+Monte Carlo methods to
+implement a GPI algorithm.
+
+8
+00:00:22.710 --> 00:00:26.265
+GPI includes a policy evaluation
+
+9
+00:00:26.265 --> 00:00:28.170
+and a policy improvement step.
+
+10
+00:00:28.170 --> 00:00:31.290
+GPI algorithms produce
+sequences of policies
+
+11
+00:00:31.290 --> 00:00:34.995
+that are at least as good as
+the policies before them.
+
+12
+00:00:34.995 --> 00:00:37.455
+For the policy improvement step,
+
+13
+00:00:37.455 --> 00:00:39.660
+we can make the policy
+greedy with respect to
+
+14
+00:00:39.660 --> 00:00:42.765
+the agent's current
+action value estimates.
+
+15
+00:00:42.765 --> 00:00:45.140
+For the policy evaluation step,
+
+16
+00:00:45.140 --> 00:00:46.810
+we will use a Monte Carlo method
+
+17
+00:00:46.810 --> 00:00:49.370
+to estimate the action values.
+
+18
+00:00:49.370 --> 00:00:52.699
+Remember that in
+the GPI framework,
+
+19
+00:00:52.699 --> 00:00:55.720
+the value estimates need
+only improve a little,
+
+20
+00:00:55.720 --> 00:00:58.735
+not all the way to
+the correct action values.
+
+21
+00:00:58.735 --> 00:01:00.400
+All that is required for
+
+22
+00:01:00.400 --> 00:01:03.950
+convergence is that the
+estimates continue to improve.
+
+23
+00:01:03.950 --> 00:01:05.860
+Monte Carlo control methods
+
+24
+00:01:05.860 --> 00:01:07.960
+combined policy improvement and
+
+25
+00:01:07.960 --> 00:01:11.645
+policy evaluation on
+an episode-by-episode basis.
+
+26
+00:01:11.645 --> 00:01:14.860
+Now, let's put these two
+together in one algorithm.
+
+27
+00:01:14.860 --> 00:01:17.245
+Let's start with
+our Monte Carlo method
+
+28
+00:01:17.245 --> 00:01:19.180
+for learning action values.
+
+29
+00:01:19.180 --> 00:01:21.520
+You use exploring starts so that
+
+30
+00:01:21.520 --> 00:01:23.080
+each episode begins with
+
+31
+00:01:23.080 --> 00:01:25.520
+a randomly selected
+state and action.
+
+32
+00:01:25.520 --> 00:01:27.260
+Then, the agent generates
+
+33
+00:01:27.260 --> 00:01:29.660
+an episode by
+following his policy,
+
+34
+00:01:29.660 --> 00:01:31.190
+keeping track of the states,
+
+35
+00:01:31.190 --> 00:01:34.100
+actions, and rewards
+along the way.
+
+36
+00:01:34.100 --> 00:01:36.485
+Once the episode is complete,
+
+37
+00:01:36.485 --> 00:01:38.030
+it computes each return
+
+38
+00:01:38.030 --> 00:01:39.970
+starting from the end
+of the episode.
+
+39
+00:01:39.970 --> 00:01:43.805
+Then, it adds the return
+to the appropriate list.
+
+40
+00:01:43.805 --> 00:01:47.090
+The list of returns are
+then averaged to update
+
+41
+00:01:47.090 --> 00:01:50.795
+the action value estimates
+for each state-action pair.
+
+42
+00:01:50.795 --> 00:01:53.935
+This completes the
+policy evaluation step.
+
+43
+00:01:53.935 --> 00:01:56.030
+After policy evaluation, it's
+
+44
+00:01:56.030 --> 00:01:57.680
+time to do policy improvement.
+
+45
+00:01:57.680 --> 00:01:59.810
+We simply update
+the policy to take
+
+46
+00:01:59.810 --> 00:02:01.640
+the greedy action with respect to
+
+47
+00:02:01.640 --> 00:02:03.785
+our updated action values.
+
+48
+00:02:03.785 --> 00:02:08.050
+We do this in every state
+observed during the episode.
+
+49
+00:02:08.050 --> 00:02:10.640
+Isn't this so much
+easier than the way we
+
+50
+00:02:10.640 --> 00:02:13.170
+did the step in
+dynamic programming?
+
+51
+00:02:13.170 --> 00:02:15.560
+That's it. This is
+
+52
+00:02:15.560 --> 00:02:17.660
+the generalized policy
+iteration algorithm,
+
+53
+00:02:17.660 --> 00:02:19.970
+Monte Carlo with
+exploring starts.
+
+54
+00:02:19.970 --> 00:02:22.250
+In this video, we described how
+
+55
+00:02:22.250 --> 00:02:24.050
+to use Monte Carlo methods within
+
+56
+00:02:24.050 --> 00:02:26.990
+the GPI framework and discussed
+
+57
+00:02:26.990 --> 00:02:28.700
+an example GPI algorithm called
+
+58
+00:02:28.700 --> 00:02:31.620
+Monte Carlo with
+exploring starts.

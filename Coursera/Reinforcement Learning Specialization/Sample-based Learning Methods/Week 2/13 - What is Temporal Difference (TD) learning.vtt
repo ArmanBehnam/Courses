@@ -1,0 +1,507 @@
+WEBVTT
+
+1
+00:00:05.420 --> 00:00:07.560
+Today, we will discuss one of
+
+2
+00:00:07.560 --> 00:00:10.695
+the most fundamental ideas
+in reinforcement learning.
+
+3
+00:00:10.695 --> 00:00:12.555
+To quote from the textbook,
+
+4
+00:00:12.555 --> 00:00:15.120
+if one had to identify one idea
+
+5
+00:00:15.120 --> 00:00:17.880
+as central and novel
+to reinforce learning,
+
+6
+00:00:17.880 --> 00:00:20.070
+it would be temporal
+difference learning.
+
+7
+00:00:20.070 --> 00:00:22.125
+By the end of this video,
+
+8
+00:00:22.125 --> 00:00:26.085
+you'll be able to define
+temporal difference learning,
+
+9
+00:00:26.085 --> 00:00:29.190
+define the temporal
+difference error,
+
+10
+00:00:29.190 --> 00:00:32.730
+and understand the
+TD zero algorithm.
+
+11
+00:00:32.730 --> 00:00:34.830
+In the prediction problem,
+
+12
+00:00:34.830 --> 00:00:37.320
+our goal is to learn
+a value function that estimates
+
+13
+00:00:37.320 --> 00:00:38.490
+the returns starting from
+
+14
+00:00:38.490 --> 00:00:41.505
+a given state. But you
+already knew that.
+
+15
+00:00:41.505 --> 00:00:43.605
+Before we get started,
+
+16
+00:00:43.605 --> 00:00:45.830
+let's discuss
+a small modification to
+
+17
+00:00:45.830 --> 00:00:48.875
+our Monte Carlo policy
+evaluation method.
+
+18
+00:00:48.875 --> 00:00:51.080
+We can use this formula to
+
+19
+00:00:51.080 --> 00:00:54.325
+incrementally update
+our estimated value.
+
+20
+00:00:54.325 --> 00:00:56.120
+Notice that this uses
+
+21
+00:00:56.120 --> 00:00:59.960
+a constant step size like
+our bandit learning algorithms.
+
+22
+00:00:59.960 --> 00:01:01.850
+That means this
+algorithm can form
+
+23
+00:01:01.850 --> 00:01:06.395
+a Monte Carlo estimate without
+saving lists of returns.
+
+24
+00:01:06.395 --> 00:01:08.660
+To compute the return,
+
+25
+00:01:08.660 --> 00:01:11.825
+we have to take samples
+of full trajectories.
+
+26
+00:01:11.825 --> 00:01:14.615
+This means we don't learn
+during the episode,
+
+27
+00:01:14.615 --> 00:01:16.175
+but we want to be able to learn
+
+28
+00:01:16.175 --> 00:01:19.160
+incrementally before
+the end of the episode.
+
+29
+00:01:19.160 --> 00:01:21.005
+We must come up with a new
+
+30
+00:01:21.005 --> 00:01:23.255
+update target to
+achieve this goal.
+
+31
+00:01:23.255 --> 00:01:26.705
+Recall the definition of
+the discounted return.
+
+32
+00:01:26.705 --> 00:01:28.940
+We saw a while back
+that this can be
+
+33
+00:01:28.940 --> 00:01:31.430
+written recursively like so.
+
+34
+00:01:31.430 --> 00:01:33.380
+The value of a state at time
+
+35
+00:01:33.380 --> 00:01:36.020
+t is the expected return at time
+
+36
+00:01:36.020 --> 00:01:38.975
+t. We can replace the return
+
+37
+00:01:38.975 --> 00:01:42.635
+inside this expectation with
+our recursive definition.
+
+38
+00:01:42.635 --> 00:01:45.035
+We can further split
+up this equation
+
+39
+00:01:45.035 --> 00:01:47.525
+because the linearity
+of expectation.
+
+40
+00:01:47.525 --> 00:01:49.430
+We then get the expectation of
+
+41
+00:01:49.430 --> 00:01:51.320
+the return on the next step,
+
+42
+00:01:51.320 --> 00:01:53.795
+which is just the value
+of the next state.
+
+43
+00:01:53.795 --> 00:01:56.180
+Now we have written
+the value function
+
+44
+00:01:56.180 --> 00:01:58.145
+recursively as well.
+
+45
+00:01:58.145 --> 00:02:02.180
+Let's go back to our incremental
+Monte Carlo update rule.
+
+46
+00:02:02.180 --> 00:02:03.650
+We want to update toward
+
+47
+00:02:03.650 --> 00:02:06.530
+the return but we don't
+want to wait for it.
+
+48
+00:02:06.530 --> 00:02:09.980
+We can replace the return
+at time t with
+
+49
+00:02:09.980 --> 00:02:11.570
+the reward plus the estimate
+
+50
+00:02:11.570 --> 00:02:13.265
+of the return in the next state.
+
+51
+00:02:13.265 --> 00:02:15.950
+We can think of the value
+of the next state as a
+
+52
+00:02:15.950 --> 00:02:18.655
+stand-in for the return until
+the end of the episode.
+
+53
+00:02:18.655 --> 00:02:21.275
+So we don't have to wait
+until the end of the episode,
+
+54
+00:02:21.275 --> 00:02:23.945
+but we still have to
+wait to the next step.
+
+55
+00:02:23.945 --> 00:02:27.005
+We call this the t target.
+
+56
+00:02:27.005 --> 00:02:29.960
+The terms inside the brackets
+resemble an error,
+
+57
+00:02:29.960 --> 00:02:31.925
+which we call the TD error.
+
+58
+00:02:31.925 --> 00:02:35.000
+We will often see the TD
+error denoted by delta
+
+59
+00:02:35.000 --> 00:02:36.770
+t. The target of
+
+60
+00:02:36.770 --> 00:02:39.365
+our update might seem a
+little strange at first.
+
+61
+00:02:39.365 --> 00:02:41.810
+TD updates the value of one state
+
+62
+00:02:41.810 --> 00:02:45.275
+towards its own estimate of
+the value in the next state.
+
+63
+00:02:45.275 --> 00:02:47.840
+As the estimated value
+for the next state
+
+64
+00:02:47.840 --> 00:02:50.725
+improves, so does our target.
+
+65
+00:02:50.725 --> 00:02:53.120
+In fact, we've done
+something like
+
+66
+00:02:53.120 --> 00:02:55.475
+this before in
+dynamic programming.
+
+67
+00:02:55.475 --> 00:02:57.980
+In DP, we update it toward
+
+68
+00:02:57.980 --> 00:03:00.745
+the value of all
+possible next states.
+
+69
+00:03:00.745 --> 00:03:03.410
+The primary difference is in DP,
+
+70
+00:03:03.410 --> 00:03:06.950
+we use an expectation over
+all possible next states.
+
+71
+00:03:06.950 --> 00:03:08.210
+We needed a model of
+
+72
+00:03:08.210 --> 00:03:10.339
+the environment to
+compute this expectation,
+
+73
+00:03:10.339 --> 00:03:13.265
+in TD we only need
+the next state.
+
+74
+00:03:13.265 --> 00:03:15.110
+We can get that directly
+
+75
+00:03:15.110 --> 00:03:17.105
+from the environment
+without a model.
+
+76
+00:03:17.105 --> 00:03:19.160
+Let's talk about how
+we get that next state
+
+77
+00:03:19.160 --> 00:03:21.080
+directly from the environment.
+
+78
+00:03:21.080 --> 00:03:23.390
+Think of time t plus one as
+
+79
+00:03:23.390 --> 00:03:24.980
+the current time step and time
+
+80
+00:03:24.980 --> 00:03:27.410
+t as the previous time step.
+
+81
+00:03:27.410 --> 00:03:29.600
+So we simply store the state from
+
+82
+00:03:29.600 --> 00:03:33.620
+the previous time step in
+order to make our TD updates.
+
+83
+00:03:33.620 --> 00:03:37.085
+We see a stream of
+experience: state,
+
+84
+00:03:37.085 --> 00:03:40.280
+action, reward, next
+state and so on.
+
+85
+00:03:40.280 --> 00:03:43.460
+From the state of time t,
+we can take an action,
+
+86
+00:03:43.460 --> 00:03:46.640
+and observe the next state
+at time t plus one.
+
+87
+00:03:46.640 --> 00:03:50.570
+Only then can we update
+the value of the previous state.
+
+88
+00:03:50.570 --> 00:03:55.000
+We can now fully describe
+the tabular TD zero algorithms.
+
+89
+00:03:55.000 --> 00:03:58.580
+TD takes the policy
+to evaluate as input,
+
+90
+00:03:58.580 --> 00:04:01.340
+it also requires
+a step size parameter
+
+91
+00:04:01.340 --> 00:04:04.380
+and an initial estimate
+of the value function.
+
+92
+00:04:04.720 --> 00:04:08.815
+Every episode begins in
+some initial state S,
+
+93
+00:04:08.815 --> 00:04:11.390
+and from there the agent
+takes actions according to
+
+94
+00:04:11.390 --> 00:04:15.060
+its policy until it reaches
+the terminal state.
+
+95
+00:04:15.370 --> 00:04:18.155
+On each step of the episode,
+
+96
+00:04:18.155 --> 00:04:21.230
+we update the values with
+the TD learning rule.
+
+97
+00:04:21.230 --> 00:04:23.060
+We only need to keep track of
+
+98
+00:04:23.060 --> 00:04:25.710
+the previous state
+to make the update.
+
+99
+00:04:25.720 --> 00:04:28.310
+This is TD zero.
+
+100
+00:04:28.310 --> 00:04:31.775
+Many algorithms and reinforce
+learning are based on TD.
+
+101
+00:04:31.775 --> 00:04:33.560
+If you don't follow exactly how
+
+102
+00:04:33.560 --> 00:04:35.470
+this algorithm
+works, don't worry.
+
+103
+00:04:35.470 --> 00:04:36.930
+In the next few episodes,
+
+104
+00:04:36.930 --> 00:04:39.080
+we'll walk through
+several examples of TD in
+
+105
+00:04:39.080 --> 00:04:42.245
+action. That's all for today.
+
+106
+00:04:42.245 --> 00:04:45.020
+In this video, we introduced
+
+107
+00:04:45.020 --> 00:04:46.610
+temporal difference
+learning which
+
+108
+00:04:46.610 --> 00:04:49.470
+uses bootstrapped
+estimates of the return.
+
+109
+00:04:49.470 --> 00:04:52.580
+We learned about the TD Error,
+
+110
+00:04:52.580 --> 00:04:56.280
+and we discussed the
+TD zero algorithm.

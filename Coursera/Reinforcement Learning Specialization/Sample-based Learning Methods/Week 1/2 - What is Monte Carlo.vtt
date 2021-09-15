@@ -1,0 +1,683 @@
+WEBVTT
+
+1
+00:00:04.970 --> 00:00:09.225
+The term Monte Carlo is
+often used more broadly for
+
+2
+00:00:09.225 --> 00:00:10.740
+any estimation method that
+
+3
+00:00:10.740 --> 00:00:13.440
+relies on repeated
+random sampling.
+
+4
+00:00:13.440 --> 00:00:16.140
+In RL Monte Carlo methods allow
+
+5
+00:00:16.140 --> 00:00:18.870
+us to estimate values
+directly from experience,
+
+6
+00:00:18.870 --> 00:00:22.595
+from sequences of states,
+actions and rewards.
+
+7
+00:00:22.595 --> 00:00:24.650
+Learning from
+experience is striking
+
+8
+00:00:24.650 --> 00:00:26.750
+because the agent can
+accurately estimate
+
+9
+00:00:26.750 --> 00:00:28.610
+a value function without
+
+10
+00:00:28.610 --> 00:00:31.860
+prior knowledge of
+the environments dynamics.
+
+11
+00:00:32.050 --> 00:00:35.510
+By the end of this video
+you will be able to
+
+12
+00:00:35.510 --> 00:00:38.180
+understand how Monte Carlo
+methods can be
+
+13
+00:00:38.180 --> 00:00:41.600
+used to estimate value functions
+from sampled interaction
+
+14
+00:00:41.600 --> 00:00:43.850
+and identify problems that can be
+
+15
+00:00:43.850 --> 00:00:46.775
+solved using Monte Carlo methods.
+
+16
+00:00:46.775 --> 00:00:48.890
+Earlier we talked about how
+
+17
+00:00:48.890 --> 00:00:50.090
+reinforcement learning is
+
+18
+00:00:50.090 --> 00:00:52.265
+connected to dynamic programming.
+
+19
+00:00:52.265 --> 00:00:55.220
+To use a pure dynamic
+programming approach,
+
+20
+00:00:55.220 --> 00:00:56.630
+the agent needs to know
+
+21
+00:00:56.630 --> 00:00:59.300
+the environment's
+transition probabilities.
+
+22
+00:00:59.300 --> 00:01:01.460
+In some problems we simply
+
+23
+00:01:01.460 --> 00:01:04.075
+don't know these probabilities.
+
+24
+00:01:04.075 --> 00:01:08.075
+Imagine a meteorologist is
+trying to predict the weather.
+
+25
+00:01:08.075 --> 00:01:09.860
+How the weather
+changes depends on
+
+26
+00:01:09.860 --> 00:01:12.230
+a variety of
+environmental factors.
+
+27
+00:01:12.230 --> 00:01:14.360
+We simply don't know
+the exact probability
+
+28
+00:01:14.360 --> 00:01:16.550
+of weather patterns
+in the future.
+
+29
+00:01:16.550 --> 00:01:19.520
+Calculating the transition
+probabilities used in
+
+30
+00:01:19.520 --> 00:01:21.245
+dynamic programming is difficult
+
+31
+00:01:21.245 --> 00:01:23.090
+even for reasonable tasks.
+
+32
+00:01:23.090 --> 00:01:26.330
+Think about predicting
+the outcome of 12 rolls of dice,
+
+33
+00:01:26.330 --> 00:01:27.950
+the sheer number
+and complexity of
+
+34
+00:01:27.950 --> 00:01:29.825
+DP calculations makes them
+
+35
+00:01:29.825 --> 00:01:31.880
+tedious and error-prone both in
+
+36
+00:01:31.880 --> 00:01:34.790
+terms of coding and
+numerical precision.
+
+37
+00:01:34.790 --> 00:01:37.625
+Here's where Monte Carlo
+methods can help.
+
+38
+00:01:37.625 --> 00:01:41.615
+Let's try to find the average
+sum of 12 dice rolls.
+
+39
+00:01:41.615 --> 00:01:44.330
+Monte Carlo methods don't
+exhaustively sweep through
+
+40
+00:01:44.330 --> 00:01:47.345
+all possible outcomes
+like the ones shown here.
+
+41
+00:01:47.345 --> 00:01:50.030
+In fact, you don't need to
+know the probability of
+
+42
+00:01:50.030 --> 00:01:53.090
+any outcomes to be able to
+use Monte Carlo methods.
+
+43
+00:01:53.090 --> 00:01:56.690
+Instead, Monte Carlo
+methods estimate
+
+44
+00:01:56.690 --> 00:01:58.190
+values by averaging over
+
+45
+00:01:58.190 --> 00:02:01.445
+a large number of random samples.
+
+46
+00:02:01.445 --> 00:02:05.435
+Let's roll 12 dice a few
+times and see the result.
+
+47
+00:02:05.435 --> 00:02:09.965
+In this case,
+the average is 41.57,
+
+48
+00:02:09.965 --> 00:02:13.505
+fairly close to
+the true average of 42.
+
+49
+00:02:13.505 --> 00:02:15.950
+In reinforcement learning we
+
+50
+00:02:15.950 --> 00:02:17.660
+want to learn a value function.
+
+51
+00:02:17.660 --> 00:02:20.750
+Value functions represent
+expected returns.
+
+52
+00:02:20.750 --> 00:02:22.490
+So a Monte Carlo method for
+
+53
+00:02:22.490 --> 00:02:24.320
+learning a value function would
+
+54
+00:02:24.320 --> 00:02:28.130
+first observe multiple
+returns from the same state.
+
+55
+00:02:28.130 --> 00:02:31.190
+Then, it average
+those observed returns
+
+56
+00:02:31.190 --> 00:02:34.765
+to estimate the expected return
+from that state.
+
+57
+00:02:34.765 --> 00:02:37.470
+As the number of
+samples increases,
+
+58
+00:02:37.470 --> 00:02:39.260
+the average tends to get closer
+
+59
+00:02:39.260 --> 00:02:41.645
+and closer to
+the expected return.
+
+60
+00:02:41.645 --> 00:02:44.480
+The more returns the agent
+observes from a state,
+
+61
+00:02:44.480 --> 00:02:45.890
+the more likely it is that
+
+62
+00:02:45.890 --> 00:02:49.625
+the sample average is
+close to the state value.
+
+63
+00:02:49.625 --> 00:02:51.890
+These returns can only be
+
+64
+00:02:51.890 --> 00:02:54.095
+observed at the end
+of an episode.
+
+65
+00:02:54.095 --> 00:02:55.280
+So we will focus on
+
+66
+00:02:55.280 --> 00:02:58.730
+Monte Carlo methods
+for episodic tasks.
+
+67
+00:02:58.730 --> 00:03:01.850
+Monte Carlo methods in
+reinforcement learning
+
+68
+00:03:01.850 --> 00:03:03.820
+look a bit like bandit methods.
+
+69
+00:03:03.820 --> 00:03:06.860
+In bandits the value
+of an arm is estimated
+
+70
+00:03:06.860 --> 00:03:10.310
+using the average payoff
+sampled by pulling that arm.
+
+71
+00:03:10.310 --> 00:03:14.735
+Monte Carlo methods consider
+policies instead of arms.
+
+72
+00:03:14.735 --> 00:03:19.040
+The value state S under a given
+policy is estimated using
+
+73
+00:03:19.040 --> 00:03:21.050
+the average return sampled by
+
+74
+00:03:21.050 --> 00:03:24.215
+following that policy
+from S to termination.
+
+75
+00:03:24.215 --> 00:03:26.510
+Now let's look at
+an algorithm for estimating
+
+76
+00:03:26.510 --> 00:03:28.865
+the state value function
+of a policy.
+
+77
+00:03:28.865 --> 00:03:30.920
+The Monte Carlo
+algorithm has to keep
+
+78
+00:03:30.920 --> 00:03:33.305
+track of multiple
+observed returns.
+
+79
+00:03:33.305 --> 00:03:37.355
+Let's introduce a list and
+returns one for each state.
+
+80
+00:03:37.355 --> 00:03:40.550
+Each list holds the returns
+observed from state
+
+81
+00:03:40.550 --> 00:03:45.800
+S. Then we generate an episode
+by following our policy.
+
+82
+00:03:45.800 --> 00:03:47.900
+For each date in the episode,
+
+83
+00:03:47.900 --> 00:03:51.125
+we compute the return and
+start in the list of returns,
+
+84
+00:03:51.125 --> 00:03:53.570
+but how can we do
+that efficiently?
+
+85
+00:03:53.570 --> 00:03:57.500
+Suppose the discount factor
+is 0.05 and imagine
+
+86
+00:03:57.500 --> 00:03:59.060
+an episode ending at time step
+
+87
+00:03:59.060 --> 00:04:01.985
+five where the reward
+sequences is 3,
+
+88
+00:04:01.985 --> 00:04:05.600
+4, 7, 1, and two.
+
+89
+00:04:05.600 --> 00:04:08.980
+Let's find each return
+G_0 to G_5,
+
+90
+00:04:08.980 --> 00:04:12.320
+starting by writing down
+the equation for each return.
+
+91
+00:04:12.320 --> 00:04:15.170
+Notice that each return
+is included in
+
+92
+00:04:15.170 --> 00:04:18.305
+the equation for the previous
+time steps return.
+
+93
+00:04:18.305 --> 00:04:21.710
+That means we can avoid
+duplicating computations by
+
+94
+00:04:21.710 --> 00:04:25.445
+starting at G_5 and
+working our way backwards.
+
+95
+00:04:25.445 --> 00:04:27.365
+Let's do that now.
+
+96
+00:04:27.365 --> 00:04:30.170
+The episode ends
+at t equal to five
+
+97
+00:04:30.170 --> 00:04:33.160
+so G_5 equals zero by definition.
+
+98
+00:04:33.160 --> 00:04:36.530
+G_4 is equal to the reward
+at time five plus
+
+99
+00:04:36.530 --> 00:04:40.095
+Gamma times the return of
+five which adds to two.
+
+100
+00:04:40.095 --> 00:04:42.920
+G_3 is equal to
+the reward at time
+
+101
+00:04:42.920 --> 00:04:46.685
+four plus Gamma times
+the return at time four.
+
+102
+00:04:46.685 --> 00:04:49.730
+The reward at time four
+is one and we just
+
+103
+00:04:49.730 --> 00:04:53.225
+calculated that the return
+at time four is two.
+
+104
+00:04:53.225 --> 00:04:55.790
+Solving the equation
+we can see that
+
+105
+00:04:55.790 --> 00:04:58.550
+the return at time
+three is also two.
+
+106
+00:04:58.550 --> 00:05:01.550
+Continuing on, we can
+find the return at time
+
+107
+00:05:01.550 --> 00:05:05.585
+two is seven plus Gamma times
+two which is eight.
+
+108
+00:05:05.585 --> 00:05:07.550
+Finally, the first two returns,
+
+109
+00:05:07.550 --> 00:05:10.565
+G_1 and G_0 are eight and seven.
+
+110
+00:05:10.565 --> 00:05:13.249
+By working backwards from
+the terminal time-step,
+
+111
+00:05:13.249 --> 00:05:15.290
+we can efficiently
+compute the returns for
+
+112
+00:05:15.290 --> 00:05:18.470
+each state encountered
+during the episode.
+
+113
+00:05:18.470 --> 00:05:21.140
+The first return in
+just the last rewards.
+
+114
+00:05:21.140 --> 00:05:22.880
+So we add the last reward
+to the list of
+
+115
+00:05:22.880 --> 00:05:25.315
+returns for S_t minus one.
+
+116
+00:05:25.315 --> 00:05:28.055
+Then, we set the value
+of S_t minus one
+
+117
+00:05:28.055 --> 00:05:31.265
+to be the average of
+returns S_t minus one.
+
+118
+00:05:31.265 --> 00:05:34.370
+On the previous time
+step t minus two,
+
+119
+00:05:34.370 --> 00:05:37.280
+we calculate the return
+as before then added to
+
+120
+00:05:37.280 --> 00:05:40.925
+the list of returns
+for S_t minus two.
+
+121
+00:05:40.925 --> 00:05:44.990
+Finally we update the value
+of S_t minus two.
+
+122
+00:05:44.990 --> 00:05:48.020
+If we continue this loop
+until the end we'll,
+
+123
+00:05:48.020 --> 00:05:49.385
+have updated the values for
+
+124
+00:05:49.385 --> 00:05:52.505
+all the states visited
+in the current episode.
+
+125
+00:05:52.505 --> 00:05:55.160
+Then we can repeat
+the whole process over
+
+126
+00:05:55.160 --> 00:05:57.080
+many episodes and eventually
+
+127
+00:05:57.080 --> 00:05:59.945
+learn a good estimate
+for the value function.
+
+128
+00:05:59.945 --> 00:06:02.570
+You might be wondering
+if we can avoid keeping
+
+129
+00:06:02.570 --> 00:06:04.700
+all the sampled
+returns in a list.
+
+130
+00:06:04.700 --> 00:06:06.295
+In fact, we can.
+
+131
+00:06:06.295 --> 00:06:07.820
+We can incrementally update
+
+132
+00:06:07.820 --> 00:06:10.850
+the sample average estimated
+using the formula here.
+
+133
+00:06:10.850 --> 00:06:12.680
+Recall what we discussed using
+
+134
+00:06:12.680 --> 00:06:14.240
+such incremental updates when
+
+135
+00:06:14.240 --> 00:06:16.305
+estimating action values
+for bandits.
+
+136
+00:06:16.305 --> 00:06:19.190
+We use the conceptually
+simpler sample average in
+
+137
+00:06:19.190 --> 00:06:22.760
+this module to focus on
+the key ideas from Monte Carlo.
+
+138
+00:06:22.760 --> 00:06:24.410
+After this module, we will
+
+139
+00:06:24.410 --> 00:06:27.240
+switch to using
+the incremental update.
+
+140
+00:06:27.320 --> 00:06:30.350
+In this video, we
+talked about how
+
+141
+00:06:30.350 --> 00:06:33.245
+Monte Carlo methods learn
+directly from interaction.
+
+142
+00:06:33.245 --> 00:06:34.790
+Notably, they don't need
+
+143
+00:06:34.790 --> 00:06:36.890
+a model the
+environments dynamics.
+
+144
+00:06:36.890 --> 00:06:39.620
+We also showed
+a Monte Carlo algorithm for
+
+145
+00:06:39.620 --> 00:06:43.260
+learning state values
+and episodic problems.

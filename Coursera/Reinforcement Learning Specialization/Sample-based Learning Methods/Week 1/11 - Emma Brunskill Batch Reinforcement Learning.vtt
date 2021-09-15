@@ -1,0 +1,1613 @@
+WEBVTT
+
+1
+00:00:05.960 --> 00:00:09.525
+Hi everyone [inaudible]
+I'm an assistant professor
+
+2
+00:00:09.525 --> 00:00:10.620
+at Stanford University in
+
+3
+00:00:10.620 --> 00:00:11.895
+the Computer Science department,
+
+4
+00:00:11.895 --> 00:00:14.430
+where we think about
+reinforcement learning for
+
+5
+00:00:14.430 --> 00:00:16.560
+high-stakes scenarios
+particularly focusing
+
+6
+00:00:16.560 --> 00:00:19.560
+on applications that we
+hope can benefit society.
+
+7
+00:00:19.560 --> 00:00:21.240
+What I'm excited to
+talk to you about
+
+8
+00:00:21.240 --> 00:00:23.520
+today is batch
+reinforcement learning.
+
+9
+00:00:23.520 --> 00:00:25.110
+But before we get started,
+
+10
+00:00:25.110 --> 00:00:27.359
+I want to start with
+a brief motivation
+
+11
+00:00:27.359 --> 00:00:29.850
+of saying that the tale
+of two hamburgers.
+
+12
+00:00:29.850 --> 00:00:31.755
+Back in the 1980s,
+
+13
+00:00:31.755 --> 00:00:34.620
+there's a fast food chain
+called A&W that is popular in
+
+14
+00:00:34.620 --> 00:00:36.140
+the United States
+that was trying to
+
+15
+00:00:36.140 --> 00:00:38.735
+compete with the Quarter
+Pounder of McDonald's,
+
+16
+00:00:38.735 --> 00:00:40.940
+which is one of the most
+popular hamburgers.
+
+17
+00:00:40.940 --> 00:00:43.835
+So they thought they would
+introduce the Third Pounder.
+
+18
+00:00:43.835 --> 00:00:45.140
+The taste tests for great,
+
+19
+00:00:45.140 --> 00:00:46.580
+the beef was good and they
+
+20
+00:00:46.580 --> 00:00:48.695
+launched it and the
+product failed.
+
+21
+00:00:48.695 --> 00:00:51.380
+Unfortunately, even though the
+price of the Third Pounder
+
+22
+00:00:51.380 --> 00:00:53.905
+was roughly similar to the
+price of the Quarter Pounder,
+
+23
+00:00:53.905 --> 00:00:55.220
+people thought that
+they were getting
+
+24
+00:00:55.220 --> 00:00:58.685
+less beef because three
+is less than four.
+
+25
+00:00:58.685 --> 00:01:00.485
+So I think this illustrates
+
+26
+00:01:00.485 --> 00:01:04.175
+why mathematics education
+is extremely important.
+
+27
+00:01:04.175 --> 00:01:05.960
+When I heard about this story
+
+28
+00:01:05.960 --> 00:01:07.310
+and when I started to think about
+
+29
+00:01:07.310 --> 00:01:08.750
+reinforcement learning and
+
+30
+00:01:08.750 --> 00:01:10.745
+its potential
+obligations to society,
+
+31
+00:01:10.745 --> 00:01:13.595
+education seemed like a
+really compelling example.
+
+32
+00:01:13.595 --> 00:01:15.920
+So together with my colleagues
+
+33
+00:01:15.920 --> 00:01:17.600
+are on top of [inaudible]
+a graduates students,
+
+34
+00:01:17.600 --> 00:01:18.980
+we were thinking about how we
+
+35
+00:01:18.980 --> 00:01:20.600
+could better teach
+more fractions,
+
+36
+00:01:20.600 --> 00:01:22.150
+hopefully in a way
+that was engaging,
+
+37
+00:01:22.150 --> 00:01:23.750
+effective, and efficient.
+
+38
+00:01:23.750 --> 00:01:25.760
+The game that you're seeing right
+
+39
+00:01:25.760 --> 00:01:27.049
+now is called Refraction
+
+40
+00:01:27.049 --> 00:01:28.505
+and it's being played by
+
+41
+00:01:28.505 --> 00:01:30.275
+hundreds of thousands
+of students.
+
+42
+00:01:30.275 --> 00:01:32.300
+But one of the big
+challenges we had was
+
+43
+00:01:32.300 --> 00:01:34.130
+to think about what
+is the sequence of
+
+44
+00:01:34.130 --> 00:01:36.200
+activities student
+should do to keep them
+
+45
+00:01:36.200 --> 00:01:38.990
+engaged and motivated and
+make sure they were Learning.
+
+46
+00:01:38.990 --> 00:01:40.730
+So for example, we can think of
+
+47
+00:01:40.730 --> 00:01:42.240
+this as a decision policy,
+
+48
+00:01:42.240 --> 00:01:43.970
+where based on the sequence of
+
+49
+00:01:43.970 --> 00:01:46.460
+interactions with the game
+that student has so far,
+
+50
+00:01:46.460 --> 00:01:48.740
+what is the next
+activity to give them
+
+51
+00:01:48.740 --> 00:01:51.290
+in order to maximize
+somehow come we care about.
+
+52
+00:01:51.290 --> 00:01:53.600
+This reward function
+could be something like
+
+53
+00:01:53.600 --> 00:01:57.515
+persistence or the amount
+that they've learned.
+
+54
+00:01:57.515 --> 00:01:59.480
+In particular, in our case,
+
+55
+00:01:59.480 --> 00:02:01.520
+these are optional
+learning environments.
+
+56
+00:02:01.520 --> 00:02:03.050
+So we are really
+interested in trying
+
+57
+00:02:03.050 --> 00:02:05.320
+to maximize student persistence.
+
+58
+00:02:05.320 --> 00:02:07.400
+We started thinking
+about this about
+
+59
+00:02:07.400 --> 00:02:08.900
+five years ago and it made
+
+60
+00:02:08.900 --> 00:02:10.400
+me really interested
+in the problem I'm
+
+61
+00:02:10.400 --> 00:02:12.245
+going to tell you
+about briefly today.
+
+62
+00:02:12.245 --> 00:02:14.360
+But I want to highlight
+here that I'm
+
+63
+00:02:14.360 --> 00:02:16.370
+certainly not the first
+one to have thought about
+
+64
+00:02:16.370 --> 00:02:17.975
+doing reinforcement learning for
+
+65
+00:02:17.975 --> 00:02:20.645
+applications that could
+hopefully benefit society.
+
+66
+00:02:20.645 --> 00:02:23.510
+Really since the very start
+of reinforcement learning,
+
+67
+00:02:23.510 --> 00:02:26.620
+which we can trace back to
+things like multi-arm bandits,
+
+68
+00:02:26.620 --> 00:02:29.600
+as you've heard about
+recently from the 1940s.
+
+69
+00:02:29.600 --> 00:02:32.000
+There's been a parallel
+legacy of thinking about
+
+70
+00:02:32.000 --> 00:02:34.640
+reinforcement learning to
+try to benefit humans,
+
+71
+00:02:34.640 --> 00:02:36.800
+starting with things like
+teaching machines and
+
+72
+00:02:36.800 --> 00:02:39.580
+then moving on to things like
+adaptive clinical trials.
+
+73
+00:02:39.580 --> 00:02:41.600
+Now, I think this is both really
+
+74
+00:02:41.600 --> 00:02:43.730
+exciting in terms of its
+societal impact but it
+
+75
+00:02:43.730 --> 00:02:44.990
+also introduces a lot of
+
+76
+00:02:44.990 --> 00:02:47.870
+foundational questions or
+reinforcement learning.
+
+77
+00:02:47.870 --> 00:02:49.940
+In particular, if we
+think about some of
+
+78
+00:02:49.940 --> 00:02:51.650
+the extraordinary successes in
+
+79
+00:02:51.650 --> 00:02:53.000
+reinforcement learning right now,
+
+80
+00:02:53.000 --> 00:02:54.680
+they have tended to
+be in areas like
+
+81
+00:02:54.680 --> 00:02:57.660
+robotics or game-playing
+and in those scenarios,
+
+82
+00:02:57.660 --> 00:03:00.005
+we typically have
+access to a simulator,
+
+83
+00:03:00.005 --> 00:03:02.180
+where we can try
+things out and even if
+
+84
+00:03:02.180 --> 00:03:04.610
+our agent fails to
+learn for a long time,
+
+85
+00:03:04.610 --> 00:03:07.345
+as long as it learns
+eventually, we're happy.
+
+86
+00:03:07.345 --> 00:03:09.380
+In contrast, if we think about
+
+87
+00:03:09.380 --> 00:03:11.660
+domains that involve
+interacting with people,
+
+88
+00:03:11.660 --> 00:03:13.340
+we unfortunately
+do not get to have
+
+89
+00:03:13.340 --> 00:03:16.145
+great simulators of how
+people learn or behave,
+
+90
+00:03:16.145 --> 00:03:18.560
+which means that we have
+to rely on real data.
+
+91
+00:03:18.560 --> 00:03:20.320
+But this is challenging because
+
+92
+00:03:20.320 --> 00:03:22.275
+that real data
+involves interacting
+
+93
+00:03:22.275 --> 00:03:24.230
+real humans which
+means that we need to
+
+94
+00:03:24.230 --> 00:03:27.150
+be careful about the
+data we collect.
+
+95
+00:03:27.710 --> 00:03:30.440
+So one of the key
+questions that I think
+
+96
+00:03:30.440 --> 00:03:32.840
+about and together with
+my students and my lab,
+
+97
+00:03:32.840 --> 00:03:33.860
+is how do we develop
+
+98
+00:03:33.860 --> 00:03:35.690
+reinforcement learning
+techniques to
+
+99
+00:03:35.690 --> 00:03:37.460
+try to minimize
+the amount of data
+
+100
+00:03:37.460 --> 00:03:39.050
+an agent would need to learn
+
+101
+00:03:39.050 --> 00:03:40.700
+and what are the
+fundamental limits of
+
+102
+00:03:40.700 --> 00:03:42.350
+how much information any agent
+
+103
+00:03:42.350 --> 00:03:44.380
+would need to learn to
+make good decisions.
+
+104
+00:03:44.380 --> 00:03:46.540
+I think that if we could
+answer these questions,
+
+105
+00:03:46.540 --> 00:03:48.860
+not only will we make
+foundational improvements
+
+106
+00:03:48.860 --> 00:03:50.100
+to reinforcement learning,
+
+107
+00:03:50.100 --> 00:03:52.910
+but also we'll be able
+to help more people.
+
+108
+00:03:52.910 --> 00:03:55.820
+So I first just want
+to talk briefly
+
+109
+00:03:55.820 --> 00:03:58.460
+about a quick refresher
+on MDP background.
+
+110
+00:03:58.460 --> 00:03:59.510
+I think you're familiar with
+
+111
+00:03:59.510 --> 00:04:01.160
+the notions of states
+and actions and
+
+112
+00:04:01.160 --> 00:04:05.095
+next states as well as
+dynamics models and rewards.
+
+113
+00:04:05.095 --> 00:04:07.430
+What I want to think about today,
+
+114
+00:04:07.430 --> 00:04:09.920
+is the counterfactual case.
+
+115
+00:04:09.920 --> 00:04:11.870
+The idea that we're
+going to be getting
+
+116
+00:04:11.870 --> 00:04:14.585
+data from the past perhaps
+
+117
+00:04:14.585 --> 00:04:18.080
+executed from a particular
+behavior policy and we want to
+
+118
+00:04:18.080 --> 00:04:19.910
+use that data in order to try
+
+119
+00:04:19.910 --> 00:04:21.970
+to make better decisions
+going forward.
+
+120
+00:04:21.970 --> 00:04:24.965
+Now, this is a challenging
+problem for a lot of reasons.
+
+121
+00:04:24.965 --> 00:04:26.510
+In particular involves us
+
+122
+00:04:26.510 --> 00:04:28.580
+thinking about what if reasoning?
+
+123
+00:04:28.580 --> 00:04:30.320
+Essentially you can
+imagine that we
+
+124
+00:04:30.320 --> 00:04:32.180
+have an agent who's
+made sequences of
+
+125
+00:04:32.180 --> 00:04:34.180
+decisions in the past and got
+
+126
+00:04:34.180 --> 00:04:36.820
+some outcomes and maybe it's
+done this not just once,
+
+127
+00:04:36.820 --> 00:04:38.230
+but a number of times.
+
+128
+00:04:38.230 --> 00:04:41.110
+Now, one of the challenges
+is you can never know what
+
+129
+00:04:41.110 --> 00:04:42.430
+your life would have
+been like if you
+
+130
+00:04:42.430 --> 00:04:44.195
+weren't watching this
+video right now.
+
+131
+00:04:44.195 --> 00:04:45.970
+That's the counterfactual
+and you can never
+
+132
+00:04:45.970 --> 00:04:48.460
+experience it and so
+that's a key challenge
+
+133
+00:04:48.460 --> 00:04:50.680
+when we try to think about
+using old data to try
+
+134
+00:04:50.680 --> 00:04:53.335
+to make better different
+decisions in their paycheck.
+
+135
+00:04:53.335 --> 00:04:56.860
+In particular, just like you
+saw and multi-arm bandits,
+
+136
+00:04:56.860 --> 00:04:58.255
+we have sensory data.
+
+137
+00:04:58.255 --> 00:04:59.440
+We can't see what
+
+138
+00:04:59.440 --> 00:05:01.900
+an alternative action
+would have resulted in,
+
+139
+00:05:01.900 --> 00:05:04.075
+what the rewards are that
+we would have obtained.
+
+140
+00:05:04.075 --> 00:05:05.560
+So this is a challenge that even
+
+141
+00:05:05.560 --> 00:05:07.120
+comes up and multi-armed bandits.
+
+142
+00:05:07.120 --> 00:05:08.470
+But when we think about using
+
+143
+00:05:08.470 --> 00:05:10.440
+old data digitally in
+reinforcement learning,
+
+144
+00:05:10.440 --> 00:05:12.355
+we actually have an
+additional challenge
+
+145
+00:05:12.355 --> 00:05:15.065
+which is the issue
+of generalization.
+
+146
+00:05:15.065 --> 00:05:16.850
+So if you think about
+an agent making
+
+147
+00:05:16.850 --> 00:05:19.519
+not just one decision but
+a sequence of decisions,
+
+148
+00:05:19.519 --> 00:05:23.210
+then the combinatorial
+possibility policies
+
+149
+00:05:23.210 --> 00:05:24.935
+increases with the horizon.
+
+150
+00:05:24.935 --> 00:05:27.020
+So if we want to be
+able to generalize from
+
+151
+00:05:27.020 --> 00:05:28.880
+our past data to think about
+
+152
+00:05:28.880 --> 00:05:30.590
+what might happen
+under sequences of
+
+153
+00:05:30.590 --> 00:05:32.560
+actions we've never
+experienced before,
+
+154
+00:05:32.560 --> 00:05:35.345
+we're going to need some
+way to do generalization.
+
+155
+00:05:35.345 --> 00:05:37.490
+Now there are a number
+of us that are really
+
+156
+00:05:37.490 --> 00:05:39.320
+excited about these
+problems of how to use
+
+157
+00:05:39.320 --> 00:05:40.880
+old data to make better decisions
+
+158
+00:05:40.880 --> 00:05:42.380
+in the future and it's very
+
+159
+00:05:42.380 --> 00:05:44.045
+closely related to things like
+
+160
+00:05:44.045 --> 00:05:46.735
+causal reasoning and
+counterfactual reasoning.
+
+161
+00:05:46.735 --> 00:05:50.150
+These communities
+have a long history
+
+162
+00:05:50.150 --> 00:05:51.920
+in other areas like
+in statistics,
+
+163
+00:05:51.920 --> 00:05:55.175
+epidemiology, and other
+aspects of Computer Science.
+
+164
+00:05:55.175 --> 00:05:56.870
+But really over the
+last few years,
+
+165
+00:05:56.870 --> 00:05:58.490
+there's has been a turn
+of excitement over
+
+166
+00:05:58.490 --> 00:06:00.200
+trying to combine
+these ideas with
+
+167
+00:06:00.200 --> 00:06:01.730
+machine learning methods and
+
+168
+00:06:01.730 --> 00:06:05.050
+reinforcement learning in
+order to have more impact.
+
+169
+00:06:05.050 --> 00:06:07.190
+So what I think that many
+
+170
+00:06:07.190 --> 00:06:08.750
+of us would really
+love to be able to do
+
+171
+00:06:08.750 --> 00:06:10.010
+is do what's often called
+
+172
+00:06:10.010 --> 00:06:12.380
+counterfactual or batch
+reinforcement learning.
+
+173
+00:06:12.380 --> 00:06:13.790
+Where you take all data,
+
+174
+00:06:13.790 --> 00:06:16.430
+we learn a new policy from it,
+
+175
+00:06:16.430 --> 00:06:18.260
+in a way that we
+know what that value
+
+176
+00:06:18.260 --> 00:06:20.395
+will be when we deploy
+it in the picture.
+
+177
+00:06:20.395 --> 00:06:23.720
+This is going to involve
+both doing policy evaluation
+
+178
+00:06:23.720 --> 00:06:26.510
+or ability to be able
+to evaluate how good
+
+179
+00:06:26.510 --> 00:06:28.220
+an alternative policy would be
+
+180
+00:06:28.220 --> 00:06:30.530
+as well as policy
+optimization where we
+
+181
+00:06:30.530 --> 00:06:32.345
+take a max or an arg max
+
+182
+00:06:32.345 --> 00:06:35.540
+over that set of possible
+policies we considered.
+
+183
+00:06:35.540 --> 00:06:37.670
+I want to first talk briefly
+
+184
+00:06:37.670 --> 00:06:39.540
+about policy evaluation question.
+
+185
+00:06:39.540 --> 00:06:40.790
+I want to highlight that there's
+
+186
+00:06:40.790 --> 00:06:42.200
+a huge literature on doing
+
+187
+00:06:42.200 --> 00:06:44.555
+this often called treatment
+effect estimation
+
+188
+00:06:44.555 --> 00:06:46.145
+from other communities.
+
+189
+00:06:46.145 --> 00:06:48.260
+People in econometrics
+have thought about
+
+190
+00:06:48.260 --> 00:06:50.135
+this extensively with things like
+
+191
+00:06:50.135 --> 00:06:51.740
+how can you evaluate
+whether or not
+
+192
+00:06:51.740 --> 00:06:54.275
+a treatment is better
+than a control decision.
+
+193
+00:06:54.275 --> 00:06:57.330
+But again, when we think
+about sequences of decisions,
+
+194
+00:06:57.330 --> 00:06:59.015
+we run into a challenge.
+
+195
+00:06:59.015 --> 00:07:01.055
+This is a recent very nice paper
+
+196
+00:07:01.055 --> 00:07:02.120
+from some of my colleagues
+
+197
+00:07:02.120 --> 00:07:06.080
+[inaudible] and what it
+
+198
+00:07:06.080 --> 00:07:06.950
+illustrates is some of
+
+199
+00:07:06.950 --> 00:07:08.410
+the challenges that
+come up when you
+
+200
+00:07:08.410 --> 00:07:11.420
+start to use old data to
+try to make new decisions.
+
+201
+00:07:11.420 --> 00:07:13.400
+In particular, imagine if you
+
+202
+00:07:13.400 --> 00:07:15.440
+have a set of patients
+who've been treated in
+
+203
+00:07:15.440 --> 00:07:17.510
+a particular way and
+now you want to think
+
+204
+00:07:17.510 --> 00:07:20.435
+about a particular sequence
+of ways to treat them.
+
+205
+00:07:20.435 --> 00:07:22.210
+So as we make decisions,
+
+206
+00:07:22.210 --> 00:07:24.470
+as we do things like
+choose whether or not to
+
+207
+00:07:24.470 --> 00:07:25.640
+ventilate a patient or
+
+208
+00:07:25.640 --> 00:07:27.680
+choose whether or
+not to use sedation,
+
+209
+00:07:27.680 --> 00:07:29.900
+the number of previous
+patients who had
+
+210
+00:07:29.900 --> 00:07:31.040
+a particular sequence of
+
+211
+00:07:31.040 --> 00:07:32.960
+interventions or
+particular sequence
+
+212
+00:07:32.960 --> 00:07:35.375
+of actions is going
+to be quite small
+
+213
+00:07:35.375 --> 00:07:36.950
+and so even if we start off with
+
+214
+00:07:36.950 --> 00:07:38.350
+quite a large amount of data,
+
+215
+00:07:38.350 --> 00:07:41.510
+say a 100,000 patients which
+is a reasonable number,
+
+216
+00:07:41.510 --> 00:07:42.725
+we might only end up with
+
+217
+00:07:42.725 --> 00:07:44.510
+say a few 100 patients who
+
+218
+00:07:44.510 --> 00:07:46.640
+actually have received treatments
+
+219
+00:07:46.640 --> 00:07:48.230
+that match the
+policy that we model
+
+220
+00:07:48.230 --> 00:07:50.600
+evaluate and essentially we can
+
+221
+00:07:50.600 --> 00:07:51.770
+think of this as challenge of
+
+222
+00:07:51.770 --> 00:07:55.144
+co-variant shift that when
+we have different policies,
+
+223
+00:07:55.144 --> 00:07:56.720
+those are generally
+going to be taking
+
+224
+00:07:56.720 --> 00:07:58.490
+different actions and
+
+225
+00:07:58.490 --> 00:07:59.960
+those different actions
+going to lead to
+
+226
+00:07:59.960 --> 00:08:02.140
+different state distributions and
+
+227
+00:08:02.140 --> 00:08:04.460
+we really want to think
+about what would happen in
+
+228
+00:08:04.460 --> 00:08:06.200
+terms of the resulting
+rewards under
+
+229
+00:08:06.200 --> 00:08:08.885
+those differing state
+and action distributions
+
+230
+00:08:08.885 --> 00:08:10.595
+that we expect to encounter.
+
+231
+00:08:10.595 --> 00:08:12.770
+To try to tackle this problem of
+
+232
+00:08:12.770 --> 00:08:15.065
+this distribution mismatches
+important cycling,
+
+233
+00:08:15.065 --> 00:08:16.535
+which you recently heard about.
+
+234
+00:08:16.535 --> 00:08:17.930
+So just as a refresher,
+
+235
+00:08:17.930 --> 00:08:19.460
+an important sampling
+we can think
+
+236
+00:08:19.460 --> 00:08:21.575
+about the value of a policy as
+
+237
+00:08:21.575 --> 00:08:24.140
+being the probability of
+
+238
+00:08:24.140 --> 00:08:26.110
+observing a particular
+trajectory.
+
+239
+00:08:26.110 --> 00:08:28.640
+Right now I'm thinking about
+the finite horizon case.
+
+240
+00:08:28.640 --> 00:08:30.320
+So we can think of
+the probability of
+
+241
+00:08:30.320 --> 00:08:33.395
+generating particular
+trajectories stays and actions,
+
+242
+00:08:33.395 --> 00:08:36.260
+the reward of that particular
+trajectory and then
+
+243
+00:08:36.260 --> 00:08:39.175
+averaging that over all the
+trajectories in latency.
+
+244
+00:08:39.175 --> 00:08:41.570
+What important sampling
+allows us to do,
+
+245
+00:08:41.570 --> 00:08:42.844
+as you saw previously,
+
+246
+00:08:42.844 --> 00:08:44.330
+is that we can use data that was
+
+247
+00:08:44.330 --> 00:08:46.310
+generated from a
+different policy and
+
+248
+00:08:46.310 --> 00:08:50.740
+re-weigh it so that we can
+get a correct expectation.
+
+249
+00:08:50.740 --> 00:08:52.775
+One of the beautiful
+aspects of this
+
+250
+00:08:52.775 --> 00:08:54.650
+is that we don't
+actually have to know
+
+251
+00:08:54.650 --> 00:08:55.730
+the dynamics model of
+
+252
+00:08:55.730 --> 00:08:57.770
+the world because
+the dynamic model of
+
+253
+00:08:57.770 --> 00:08:58.910
+the world is the same in
+
+254
+00:08:58.910 --> 00:09:01.790
+the numerator and the
+denominator so it cancels.
+
+255
+00:09:01.790 --> 00:09:04.895
+There's been a lot of
+exciting work in this area.
+
+256
+00:09:04.895 --> 00:09:06.140
+Since this was first part of
+
+257
+00:09:06.140 --> 00:09:07.400
+a reinforcement learning and it's
+
+258
+00:09:07.400 --> 00:09:10.100
+a key tool for policy
+evaluation because we
+
+259
+00:09:10.100 --> 00:09:11.705
+couldn't use it to take
+
+260
+00:09:11.705 --> 00:09:13.700
+existing old data and use it to
+
+261
+00:09:13.700 --> 00:09:16.335
+evaluate under
+certain assumptions,
+
+262
+00:09:16.335 --> 00:09:19.310
+what would be the value
+of an alternative policy.
+
+263
+00:09:19.310 --> 00:09:21.280
+Now I just want to highlight that
+
+264
+00:09:21.280 --> 00:09:22.510
+there are some challenges with
+
+265
+00:09:22.510 --> 00:09:25.480
+using importance sampling
+to do policy evaluation.
+
+266
+00:09:25.480 --> 00:09:27.730
+Important sampling provides us
+
+267
+00:09:27.730 --> 00:09:29.320
+with an unbiased estimator,
+
+268
+00:09:29.320 --> 00:09:31.570
+but it typically can
+be very high variance.
+
+269
+00:09:31.570 --> 00:09:33.759
+In fact in the previous work,
+
+270
+00:09:33.759 --> 00:09:35.440
+we illustrated that the variance
+
+271
+00:09:35.440 --> 00:09:37.300
+can scale sometimes
+exponentially with
+
+272
+00:09:37.300 --> 00:09:39.370
+the horizon and so
+that means if we don't
+
+273
+00:09:39.370 --> 00:09:41.620
+have a lot of data or
+the horizon is long,
+
+274
+00:09:41.620 --> 00:09:43.570
+that these estimators
+may be very poor
+
+275
+00:09:43.570 --> 00:09:44.950
+approximators of how good
+
+276
+00:09:44.950 --> 00:09:47.410
+our new policy might
+do in the feature.
+
+277
+00:09:47.410 --> 00:09:49.420
+An alternative is to use things
+
+278
+00:09:49.420 --> 00:09:51.220
+like parametric
+models which you've
+
+279
+00:09:51.220 --> 00:09:52.480
+heard about a little bit in
+
+280
+00:09:52.480 --> 00:09:55.000
+terms of the MDP
+planning sections.
+
+281
+00:09:55.000 --> 00:09:57.460
+So these models can
+have bias because
+
+282
+00:09:57.460 --> 00:10:00.350
+sometimes the function
+approximators we're using or
+
+283
+00:10:00.350 --> 00:10:03.380
+the models specification
+we've chosen is not correct.
+
+284
+00:10:03.380 --> 00:10:06.500
+It doesn't match really how
+the role generates data.
+
+285
+00:10:06.500 --> 00:10:08.540
+But they can have
+very low variance
+
+286
+00:10:08.540 --> 00:10:10.220
+in return for some bias.
+
+287
+00:10:10.220 --> 00:10:13.010
+So one of the exciting
+innovations we've seen over
+
+288
+00:10:13.010 --> 00:10:14.510
+the last few years is
+
+289
+00:10:14.510 --> 00:10:16.550
+the idea of doubly
+robust estimators,
+
+290
+00:10:16.550 --> 00:10:18.680
+an idea that comes from
+statistics but has been
+
+291
+00:10:18.680 --> 00:10:21.110
+ported over to reinforcement
+learning abundance
+
+292
+00:10:21.110 --> 00:10:23.420
+for the last 10 years
+and the idea is
+
+293
+00:10:23.420 --> 00:10:26.105
+that can combine between the
+best of these two worlds.
+
+294
+00:10:26.105 --> 00:10:28.985
+Combining model-based
+estimators with
+
+295
+00:10:28.985 --> 00:10:30.470
+important sampling in order to
+
+296
+00:10:30.470 --> 00:10:33.535
+get lower variance
+and lower bias.
+
+297
+00:10:33.535 --> 00:10:36.150
+So this is a way for us to try.
+
+298
+00:10:36.150 --> 00:10:37.810
+All these illustrations are
+
+299
+00:10:37.810 --> 00:10:40.340
+the types of ways we could
+do policy evaluation
+
+300
+00:10:40.340 --> 00:10:42.770
+and the thing that we really like
+
+301
+00:10:42.770 --> 00:10:45.395
+to do is to do policy
+optimization on top.
+
+302
+00:10:45.395 --> 00:10:47.240
+We have recent work
+that suggests that
+
+303
+00:10:47.240 --> 00:10:48.980
+we can use these
+types of ideas like
+
+304
+00:10:48.980 --> 00:10:51.200
+importance sampling
+in order to actually
+
+305
+00:10:51.200 --> 00:10:53.915
+make better decisions
+going forward.
+
+306
+00:10:53.915 --> 00:10:55.400
+In particular, here I show
+
+307
+00:10:55.400 --> 00:10:57.050
+an illustration from cart-pole.
+
+308
+00:10:57.050 --> 00:10:58.610
+The bottom line is showing us how
+
+309
+00:10:58.610 --> 00:11:00.630
+good the current
+behavior policy is
+
+310
+00:11:00.630 --> 00:11:03.030
+and by using these
+advanced techniques
+
+311
+00:11:03.030 --> 00:11:04.805
+by building on an assembly,
+
+312
+00:11:04.805 --> 00:11:07.130
+you can actually do
+policy optimization and
+
+313
+00:11:07.130 --> 00:11:09.740
+learn far better policies
+that we were using to
+
+314
+00:11:09.740 --> 00:11:11.420
+actually collect the data
+
+315
+00:11:11.420 --> 00:11:12.920
+and I think this is
+very exciting in terms
+
+316
+00:11:12.920 --> 00:11:14.360
+of the potential increases we can
+
+317
+00:11:14.360 --> 00:11:16.685
+do by using these
+types of techniques.
+
+318
+00:11:16.685 --> 00:11:18.515
+Now this is just one step.
+
+319
+00:11:18.515 --> 00:11:20.105
+I think that there's
+a huge amount of
+
+320
+00:11:20.105 --> 00:11:22.220
+growth and open
+questions about how
+
+321
+00:11:22.220 --> 00:11:24.140
+did we really solve this
+problem particularly if
+
+322
+00:11:24.140 --> 00:11:26.365
+we want formal guarantees
+on performance.
+
+323
+00:11:26.365 --> 00:11:28.930
+In my lab, we've been doing
+a lot of work on the issues
+
+324
+00:11:28.930 --> 00:11:31.450
+of policy evaluation,
+policy optimization,
+
+325
+00:11:31.450 --> 00:11:34.120
+and trying to start
+deriving formal balance so
+
+326
+00:11:34.120 --> 00:11:36.870
+that we can be confident when
+we deploy these policies,
+
+327
+00:11:36.870 --> 00:11:38.620
+and there's also a lot
+of really exciting work
+
+328
+00:11:38.620 --> 00:11:40.975
+being done by my colleagues
+in these types of areas.
+
+329
+00:11:40.975 --> 00:11:43.390
+So I think we have a long
+way to go but before I
+
+330
+00:11:43.390 --> 00:11:46.120
+close I want to give us
+a reason for optimism,
+
+331
+00:11:46.120 --> 00:11:48.325
+which is if we go back
+to the example that I
+
+332
+00:11:48.325 --> 00:11:50.555
+said at the beginning of
+looking at refraction,
+
+333
+00:11:50.555 --> 00:11:52.330
+our goal there was to
+figure out if we could
+
+334
+00:11:52.330 --> 00:11:54.430
+use old data from about 11,000
+
+335
+00:11:54.430 --> 00:11:56.620
+students to figure out if
+there's a better way to
+
+336
+00:11:56.620 --> 00:11:59.245
+teach people and keep
+them more engaged.
+
+337
+00:11:59.245 --> 00:12:01.480
+We used a method derived by
+
+338
+00:12:01.480 --> 00:12:03.580
+important sampling
+to get a policy that
+
+339
+00:12:03.580 --> 00:12:05.410
+we thought would do
+about 30 percent
+
+340
+00:12:05.410 --> 00:12:08.065
+better in terms of
+increasing persistence.
+
+341
+00:12:08.065 --> 00:12:11.835
+We ran that study with
+another 2,000 students and
+
+342
+00:12:11.835 --> 00:12:13.430
+we've found that
+indeed it increased by
+
+343
+00:12:13.430 --> 00:12:15.835
+about 30 to 32 percent.
+
+344
+00:12:15.835 --> 00:12:18.360
+I think this is really
+exciting, this illustration,
+
+345
+00:12:18.360 --> 00:12:19.520
+that sometimes we can predict
+
+346
+00:12:19.520 --> 00:12:21.230
+the future accurately
+with these types
+
+347
+00:12:21.230 --> 00:12:25.140
+of methods and we really can
+make a difference. Thanks.

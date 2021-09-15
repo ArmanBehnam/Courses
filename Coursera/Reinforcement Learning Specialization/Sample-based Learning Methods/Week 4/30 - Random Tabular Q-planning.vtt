@@ -1,0 +1,347 @@
+WEBVTT
+
+1
+00:00:04.760 --> 00:00:07.635
+Now that we know what models are,
+
+2
+00:00:07.635 --> 00:00:09.240
+we can discuss how we might use
+
+3
+00:00:09.240 --> 00:00:10.995
+them in reinforcement learning.
+
+4
+00:00:10.995 --> 00:00:13.980
+That is, how one can
+leverage a model to better
+
+5
+00:00:13.980 --> 00:00:16.260
+inform decision-making
+without having
+
+6
+00:00:16.260 --> 00:00:17.955
+to interact with the world,
+
+7
+00:00:17.955 --> 00:00:21.645
+we call this process planning
+with model experience.
+
+8
+00:00:21.645 --> 00:00:23.790
+In this video, we will talk
+
+9
+00:00:23.790 --> 00:00:26.190
+about one particular
+view of planning.
+
+10
+00:00:26.190 --> 00:00:28.030
+By the end of this video,
+
+11
+00:00:28.030 --> 00:00:30.930
+you'll be able to explain how
+planning is used to improve
+
+12
+00:00:30.930 --> 00:00:35.835
+policies and describe
+one step tabular queue Planning.
+
+13
+00:00:35.835 --> 00:00:38.880
+Planning is a process
+which takes a model as
+
+14
+00:00:38.880 --> 00:00:42.075
+input and produces
+unimproved policy.
+
+15
+00:00:42.075 --> 00:00:44.675
+One possible approach to planning
+
+16
+00:00:44.675 --> 00:00:47.705
+is to first sample
+experience from the model.
+
+17
+00:00:47.705 --> 00:00:50.360
+This is like imagining
+possible scenarios in
+
+18
+00:00:50.360 --> 00:00:51.590
+the world based on
+
+19
+00:00:51.590 --> 00:00:54.500
+your understanding of
+how the world works.
+
+20
+00:00:54.500 --> 00:00:57.410
+This generated experience
+can then be use
+
+21
+00:00:57.410 --> 00:00:58.700
+to perform updates to
+
+22
+00:00:58.700 --> 00:01:00.350
+the value function as if
+
+23
+00:01:00.350 --> 00:01:03.530
+these interactions actually
+occurred in the world.
+
+24
+00:01:03.530 --> 00:01:05.810
+Behaving greedily with respect to
+
+25
+00:01:05.810 --> 00:01:09.740
+these improved values results
+in improved policy.
+
+26
+00:01:09.740 --> 00:01:12.080
+Recall that Q-learning uses
+
+27
+00:01:12.080 --> 00:01:13.640
+experienced from the environment,
+
+28
+00:01:13.640 --> 00:01:16.970
+they performs an update
+to improve a policy.
+
+29
+00:01:16.970 --> 00:01:20.240
+In Q-planning, we use
+experience from the model
+
+30
+00:01:20.240 --> 00:01:24.020
+and perform a similar update
+to improve a policy.
+
+31
+00:01:24.020 --> 00:01:27.545
+Random-sample one-step
+tabular Q-planning
+
+32
+00:01:27.545 --> 00:01:29.045
+illustrates this idea.
+
+33
+00:01:29.045 --> 00:01:30.770
+This approach assumes we have
+
+34
+00:01:30.770 --> 00:01:33.455
+a sample model of
+the transition dynamics.
+
+35
+00:01:33.455 --> 00:01:35.809
+It also assumes that
+we have a strategy
+
+36
+00:01:35.809 --> 00:01:38.345
+for sampling relevant
+state action pairs.
+
+37
+00:01:38.345 --> 00:01:39.890
+One possible option is to
+
+38
+00:01:39.890 --> 00:01:42.200
+sample states and
+actions uniformly.
+
+39
+00:01:42.200 --> 00:01:44.990
+This algorithm first
+chooses a state action pair
+
+40
+00:01:44.990 --> 00:01:48.305
+at random from the set of
+all states and actions.
+
+41
+00:01:48.305 --> 00:01:50.750
+It then queries
+the sample model with
+
+42
+00:01:50.750 --> 00:01:52.460
+this state action pair to produce
+
+43
+00:01:52.460 --> 00:01:55.580
+a sample of the next
+state and reward.
+
+44
+00:01:55.580 --> 00:01:58.115
+It then performs
+a Q-Learning Update
+
+45
+00:01:58.115 --> 00:02:00.070
+on this model transition.
+
+46
+00:02:00.070 --> 00:02:02.210
+Finally, it improves
+the policy by
+
+47
+00:02:02.210 --> 00:02:05.615
+beautifying with respect to
+the updated action values.
+
+48
+00:02:05.615 --> 00:02:08.375
+A key point is that
+this planning method
+
+49
+00:02:08.375 --> 00:02:11.150
+only uses imagined or
+simulated experience.
+
+50
+00:02:11.150 --> 00:02:14.060
+All of these updates can be
+done without behaving in
+
+51
+00:02:14.060 --> 00:02:17.735
+the world or in parallel
+with the interaction loop.
+
+52
+00:02:17.735 --> 00:02:20.000
+Imagine that actions can only be
+
+53
+00:02:20.000 --> 00:02:21.890
+taken as specific time points,
+
+54
+00:02:21.890 --> 00:02:25.340
+but Learning updates can be
+executed relatively fast.
+
+55
+00:02:25.340 --> 00:02:27.980
+This results in
+some waiting time from after
+
+56
+00:02:27.980 --> 00:02:31.160
+the Learning Update and when
+the next action is taken.
+
+57
+00:02:31.160 --> 00:02:34.925
+We can fill in this waiting time
+with Planning Updates.
+
+58
+00:02:34.925 --> 00:02:38.585
+Imagine we have a robot that
+is standing near a cliff.
+
+59
+00:02:38.585 --> 00:02:40.700
+Let's say it's model knows about
+
+60
+00:02:40.700 --> 00:02:43.220
+the outcome of stepping
+off of the cliff,
+
+61
+00:02:43.220 --> 00:02:45.125
+but it is not
+accurately represented
+
+62
+00:02:45.125 --> 00:02:47.800
+in its value function or policy.
+
+63
+00:02:47.800 --> 00:02:51.080
+It can generate simulated
+experience of stepping off of
+
+64
+00:02:51.080 --> 00:02:52.220
+the cliff and perform
+
+65
+00:02:52.220 --> 00:02:54.800
+many planning steps
+on these transitions.
+
+66
+00:02:54.800 --> 00:02:56.540
+It's value functional now better
+
+67
+00:02:56.540 --> 00:02:58.780
+reflect that stepping
+off of the cliff is bad,
+
+68
+00:02:58.780 --> 00:03:02.695
+and it's policy will have
+its step away from the cliff.
+
+69
+00:03:02.695 --> 00:03:06.050
+To summarize, we discussed
+how planning methods
+
+70
+00:03:06.050 --> 00:03:09.185
+use simulated experience
+to improve policies,
+
+71
+00:03:09.185 --> 00:03:12.350
+how random sample once
+I've tabular Q-planning
+
+72
+00:03:12.350 --> 00:03:15.850
+uses a sample model to
+randomly generate experience,
+
+73
+00:03:15.850 --> 00:03:17.540
+and how the value
+function is then
+
+74
+00:03:17.540 --> 00:03:20.580
+improved using
+a Q-Learning update.

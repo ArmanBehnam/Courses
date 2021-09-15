@@ -1,0 +1,540 @@
+WEBVTT
+
+1
+00:00:04.940 --> 00:00:07.185
+In the previous video,
+
+2
+00:00:07.185 --> 00:00:09.825
+we introduced temporal
+difference learning.
+
+3
+00:00:09.825 --> 00:00:12.930
+TD elegantly combines
+key ideas from
+
+4
+00:00:12.930 --> 00:00:16.485
+dynamic programming and
+Monte Carlo methods.
+
+5
+00:00:16.485 --> 00:00:20.490
+Like dynamic programming,
+TD methods bootstrap.
+
+6
+00:00:20.490 --> 00:00:22.515
+Like Monte Carlo methods,
+
+7
+00:00:22.515 --> 00:00:25.320
+TD can learn directly
+from experience.
+
+8
+00:00:25.320 --> 00:00:26.820
+The combination is more
+
+9
+00:00:26.820 --> 00:00:29.580
+powerful than the sum
+of its parts.
+
+10
+00:00:29.580 --> 00:00:31.920
+By the end of this video,
+
+11
+00:00:31.920 --> 00:00:33.720
+you will be able to understand
+
+12
+00:00:33.720 --> 00:00:35.610
+the benefits of
+learning online with
+
+13
+00:00:35.610 --> 00:00:38.595
+TD and identify key advantages
+
+14
+00:00:38.595 --> 00:00:42.780
+of TD methods over dynamic
+programming and Monte Carlo.
+
+15
+00:00:42.780 --> 00:00:46.610
+Let's consider the example
+of driving home from work.
+
+16
+00:00:46.610 --> 00:00:50.980
+Each day, you predict how long
+it will take to get home.
+
+17
+00:00:50.980 --> 00:00:53.310
+You base your
+predictions on the time,
+
+18
+00:00:53.310 --> 00:00:54.420
+the day of the week,
+
+19
+00:00:54.420 --> 00:00:56.745
+the weather, and other factors.
+
+20
+00:00:56.745 --> 00:01:01.055
+Imagine that you have driven
+home many times before.
+
+21
+00:01:01.055 --> 00:01:04.205
+You have a good estimate of
+how long it takes to get home
+
+22
+00:01:04.205 --> 00:01:07.640
+from various situations you
+might encounter on the way.
+
+23
+00:01:07.640 --> 00:01:11.030
+Let's look at these estimates
+for one trip home.
+
+24
+00:01:11.030 --> 00:01:14.480
+One evening, as you
+leave the office,
+
+25
+00:01:14.480 --> 00:01:18.050
+you predict it'll take
+30 minutes to get home.
+
+26
+00:01:18.050 --> 00:01:19.715
+In about five minutes,
+
+27
+00:01:19.715 --> 00:01:23.045
+you exit the parking lot and
+notice that it is raining.
+
+28
+00:01:23.045 --> 00:01:24.995
+Traffic is slower in the rain.
+
+29
+00:01:24.995 --> 00:01:26.810
+So you estimate that it will take
+
+30
+00:01:26.810 --> 00:01:29.060
+35 minutes then on to get home.
+
+31
+00:01:29.060 --> 00:01:30.590
+Fifteen minutes later,
+
+32
+00:01:30.590 --> 00:01:32.420
+you exit the highway
+earlier than you
+
+33
+00:01:32.420 --> 00:01:34.610
+anticipated and estimate that it
+
+34
+00:01:34.610 --> 00:01:37.960
+will now take you
+15 minutes to get home.
+
+35
+00:01:37.960 --> 00:01:40.285
+Thirty minutes in your journey,
+
+36
+00:01:40.285 --> 00:01:43.235
+you get stuck behind
+a slow truck and predict
+
+37
+00:01:43.235 --> 00:01:44.270
+that it will take you an
+
+38
+00:01:44.270 --> 00:01:46.625
+additional 10 minutes
+to get home.
+
+39
+00:01:46.625 --> 00:01:49.100
+Ten minutes later, you
+enter the home street from
+
+40
+00:01:49.100 --> 00:01:52.285
+where it usually takes
+three minutes to arrive home.
+
+41
+00:01:52.285 --> 00:01:55.600
+While in three minutes
+later, you are home.
+
+42
+00:01:55.600 --> 00:01:57.980
+So the numbers in
+the circles represent
+
+43
+00:01:57.980 --> 00:02:00.425
+our predictions of
+remaining driving time,
+
+44
+00:02:00.425 --> 00:02:03.085
+how can we improve
+these predictions?
+
+45
+00:02:03.085 --> 00:02:05.390
+To understand how to
+update our predictions,
+
+46
+00:02:05.390 --> 00:02:07.370
+we need to specify the reward.
+
+47
+00:02:07.370 --> 00:02:09.845
+Let's use the amount
+of time taken.
+
+48
+00:02:09.845 --> 00:02:12.710
+It took you five minutes
+to exit the parking lot.
+
+49
+00:02:12.710 --> 00:02:16.145
+We can label this transition
+with a reward of five.
+
+50
+00:02:16.145 --> 00:02:19.235
+It took you another 15 minutes
+to exit the highway,
+
+51
+00:02:19.235 --> 00:02:21.485
+and so on and so forth.
+
+52
+00:02:21.485 --> 00:02:23.380
+You predicted that
+it would take you
+
+53
+00:02:23.380 --> 00:02:25.240
+30 minutes to get home,
+
+54
+00:02:25.240 --> 00:02:27.910
+but it actually took
+you 43 minutes.
+
+55
+00:02:27.910 --> 00:02:30.880
+Perhaps you can learn
+from this experience.
+
+56
+00:02:30.880 --> 00:02:33.880
+Let's first look at a
+Monte Carlo method.
+
+57
+00:02:33.880 --> 00:02:35.410
+In particular, we will use
+
+58
+00:02:35.410 --> 00:02:37.780
+the constant alpha
+Monte Carlo method
+
+59
+00:02:37.780 --> 00:02:40.055
+with alpha equal to one.
+
+60
+00:02:40.055 --> 00:02:41.925
+In Monte Carlo methods,
+
+61
+00:02:41.925 --> 00:02:44.500
+you update your estimates
+towards the return which
+
+62
+00:02:44.500 --> 00:02:47.680
+is only available at
+the end of the episode.
+
+63
+00:02:47.680 --> 00:02:50.080
+We can only update
+the estimates for each
+
+64
+00:02:50.080 --> 00:02:52.780
+of the states once
+we arrive home.
+
+65
+00:02:52.780 --> 00:02:55.855
+We can start from when
+we leave the office.
+
+66
+00:02:55.855 --> 00:02:57.730
+From the office, it took you
+
+67
+00:02:57.730 --> 00:03:00.190
+a total of 43 minutes
+to get home.
+
+68
+00:03:00.190 --> 00:03:04.880
+Therefore, the return
+at time zero is 43.
+
+69
+00:03:04.880 --> 00:03:06.910
+As alpha is one,
+
+70
+00:03:06.910 --> 00:03:08.360
+we move our estimate completely
+
+71
+00:03:08.360 --> 00:03:10.980
+towards the actual return.
+
+72
+00:03:11.230 --> 00:03:13.985
+From when you exit
+the parking lot,
+
+73
+00:03:13.985 --> 00:03:16.865
+it took you 38 minutes
+to get home,
+
+74
+00:03:16.865 --> 00:03:20.390
+and we update
+our estimate accordingly.
+
+75
+00:03:20.390 --> 00:03:22.400
+We update the estimates for
+
+76
+00:03:22.400 --> 00:03:25.025
+the remaining states
+in the same way.
+
+77
+00:03:25.025 --> 00:03:27.980
+But is it really
+necessary to wait until
+
+78
+00:03:27.980 --> 00:03:31.370
+the final outcome is known
+before learning can begin?
+
+79
+00:03:31.370 --> 00:03:33.590
+Let's rewind
+the clock and look at
+
+80
+00:03:33.590 --> 00:03:36.035
+how we would make
+updates with TD.
+
+81
+00:03:36.035 --> 00:03:38.990
+From the office, it took
+you five minutes to exit
+
+82
+00:03:38.990 --> 00:03:40.640
+the parking lot from where you
+
+83
+00:03:40.640 --> 00:03:42.725
+made a prediction of 35 minutes.
+
+84
+00:03:42.725 --> 00:03:43.970
+From the exit state,
+
+85
+00:03:43.970 --> 00:03:46.680
+you can update
+the estimate for office.
+
+86
+00:03:46.680 --> 00:03:50.015
+Your current estimate from
+the office is 30 minutes.
+
+87
+00:03:50.015 --> 00:03:52.400
+You get a reward of five.
+
+88
+00:03:52.400 --> 00:03:55.520
+The value of
+the next state is 35,
+
+89
+00:03:55.520 --> 00:03:58.640
+so we update our estimate
+to 40 minutes.
+
+90
+00:03:58.640 --> 00:04:01.145
+Let's consider the next state.
+
+91
+00:04:01.145 --> 00:04:04.160
+Your current estimate
+is 35 minutes.
+
+92
+00:04:04.160 --> 00:04:05.720
+It took you 15 minutes from
+
+93
+00:04:05.720 --> 00:04:08.090
+the parking lot to
+exit the highway.
+
+94
+00:04:08.090 --> 00:04:10.700
+The estimated time to
+get home from when you
+
+95
+00:04:10.700 --> 00:04:12.980
+exit the highway is
+also 15 minutes.
+
+96
+00:04:12.980 --> 00:04:15.500
+So we reduce the estimated
+time to go from when
+
+97
+00:04:15.500 --> 00:04:18.500
+we exit the parking lot
+to 30 minutes.
+
+98
+00:04:18.500 --> 00:04:20.210
+This makes sense because we
+
+99
+00:04:20.210 --> 00:04:23.300
+exited the highway
+earlier than expected.
+
+100
+00:04:23.300 --> 00:04:25.670
+We similarly update the estimates
+
+101
+00:04:25.670 --> 00:04:27.965
+for the remaining states.
+
+102
+00:04:27.965 --> 00:04:30.035
+As we make our way home,
+
+103
+00:04:30.035 --> 00:04:31.940
+we can learn online
+without waiting to know
+
+104
+00:04:31.940 --> 00:04:34.955
+the final outcome,
+unlike Monte Carlo.
+
+105
+00:04:34.955 --> 00:04:38.750
+Let's summarize
+the advantages of using TD.
+
+106
+00:04:38.750 --> 00:04:40.720
+Unlike dynamic programming,
+
+107
+00:04:40.720 --> 00:04:43.540
+TD methods do not require
+a model of the environment.
+
+108
+00:04:43.540 --> 00:04:46.085
+They can learn directly
+from experience.
+
+109
+00:04:46.085 --> 00:04:48.200
+Unlike Monte Carlo, TD
+
+110
+00:04:48.200 --> 00:04:50.255
+can update the values
+on every step.
+
+111
+00:04:50.255 --> 00:04:52.100
+Bootstrapping allows us to update
+
+112
+00:04:52.100 --> 00:04:54.965
+the estimates based
+on other estimates.
+
+113
+00:04:54.965 --> 00:04:58.460
+TD asymptotically converges
+to the correct predictions.
+
+114
+00:04:58.460 --> 00:05:00.380
+In addition, TD methods usually
+
+115
+00:05:00.380 --> 00:05:02.705
+converge faster than
+Monte Carlo methods.
+
+116
+00:05:02.705 --> 00:05:06.240
+We will see an example of
+this in the next video.

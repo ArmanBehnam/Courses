@@ -1,0 +1,506 @@
+WEBVTT
+
+1
+00:00:04.610 --> 00:00:07.995
+We discussed how Dyna
+unifies planning,
+
+2
+00:00:07.995 --> 00:00:09.585
+learning, and acting.
+
+3
+00:00:09.585 --> 00:00:12.825
+This unification introduce
+some additional concepts
+
+4
+00:00:12.825 --> 00:00:15.315
+like model learning
+and search control.
+
+5
+00:00:15.315 --> 00:00:17.310
+Today we'll take a closer look at
+
+6
+00:00:17.310 --> 00:00:19.750
+how all these pieces
+fit together.
+
+7
+00:00:19.750 --> 00:00:23.040
+In this video, we will discuss
+a specific instance of
+
+8
+00:00:23.040 --> 00:00:26.265
+the Dyna architecture
+called tabular Dyna-Q.
+
+9
+00:00:26.265 --> 00:00:28.125
+By the end of this video,
+
+10
+00:00:28.125 --> 00:00:33.330
+you should be able to describe
+how Tabular Dinah-Q works.
+
+11
+00:00:33.330 --> 00:00:37.065
+You will also be able to
+identify the direct-RL,
+
+12
+00:00:37.065 --> 00:00:39.120
+planning, model learning,
+
+13
+00:00:39.120 --> 00:00:41.670
+and search control
+parts of Dyna-Q.
+
+14
+00:00:41.670 --> 00:00:44.850
+Let's first discuss how
+Tabular Dyna-Q algorithm
+
+15
+00:00:44.850 --> 00:00:46.365
+learns a model.
+
+16
+00:00:46.365 --> 00:00:50.060
+Tabular Dyna -Q assumes
+deterministic transitions.
+
+17
+00:00:50.060 --> 00:00:52.340
+For example, when this rabbit
+
+18
+00:00:52.340 --> 00:00:55.010
+chooses to move right in state A,
+
+19
+00:00:55.010 --> 00:00:57.065
+there's only one outcome.
+
+20
+00:00:57.065 --> 00:01:00.890
+The rabbit transitions to
+state B with a reward of zero.
+
+21
+00:01:00.890 --> 00:01:04.760
+Likewise, if the rabbit
+moves right in state B,
+
+22
+00:01:04.760 --> 00:01:08.300
+it stays in state B
+with a reward of one.
+
+23
+00:01:08.300 --> 00:01:10.910
+The left action in B always takes
+
+24
+00:01:10.910 --> 00:01:14.255
+the rabbit to state A
+with a reward of zero.
+
+25
+00:01:14.255 --> 00:01:17.480
+After the rabbit has
+experienced these transitions,
+
+26
+00:01:17.480 --> 00:01:21.005
+the model knows what happens
+in these state action pairs.
+
+27
+00:01:21.005 --> 00:01:23.000
+If a transition occurred once,
+
+28
+00:01:23.000 --> 00:01:26.450
+it will always unfold
+that way in the future.
+
+29
+00:01:26.450 --> 00:01:29.890
+The model can be
+certain about this.
+
+30
+00:01:29.890 --> 00:01:33.135
+Let's look at the Dyna-Q
+algorithm in detail.
+
+31
+00:01:33.135 --> 00:01:34.640
+First, we have
+
+32
+00:01:34.640 --> 00:01:37.355
+the usual agent environment
+interaction loop.
+
+33
+00:01:37.355 --> 00:01:38.960
+In the current state,
+
+34
+00:01:38.960 --> 00:01:40.550
+the agent selects an action
+
+35
+00:01:40.550 --> 00:01:43.055
+according to its
+epsilon greedy policy.
+
+36
+00:01:43.055 --> 00:01:46.970
+It then observes the resulting
+reward in next state.
+
+37
+00:01:46.970 --> 00:01:50.015
+It performs a Q-learning update
+with this transition,
+
+38
+00:01:50.015 --> 00:01:52.340
+what we call direct-RL.
+
+39
+00:01:52.340 --> 00:01:54.440
+If we were to stop here,
+
+40
+00:01:54.440 --> 00:01:57.035
+we would get exactly the
+Q-learning algorithm.
+
+41
+00:01:57.035 --> 00:01:58.640
+This is where things start to
+
+42
+00:01:58.640 --> 00:02:00.860
+differ from model-free methods.
+
+43
+00:02:00.860 --> 00:02:02.990
+Dyna-Q will take
+this transition and
+
+44
+00:02:02.990 --> 00:02:05.465
+perform a model
+learning step with it.
+
+45
+00:02:05.465 --> 00:02:08.210
+To do so, the algorithm memorizes
+
+46
+00:02:08.210 --> 00:02:09.530
+the next state and reward
+
+47
+00:02:09.530 --> 00:02:11.600
+for the given state action pair.
+
+48
+00:02:11.600 --> 00:02:13.730
+This works because we assume
+
+49
+00:02:13.730 --> 00:02:16.470
+the environment is deterministic.
+
+50
+00:02:16.830 --> 00:02:21.140
+Dyna-Q then performs
+several steps of planning.
+
+51
+00:02:21.140 --> 00:02:24.604
+Each planning step
+consists of three steps;
+
+52
+00:02:24.604 --> 00:02:29.070
+search control, model query,
+and value update.
+
+53
+00:02:29.070 --> 00:02:31.730
+In this algorithm,
+search controls selects
+
+54
+00:02:31.730 --> 00:02:35.390
+a previously visited state
+action pair at random.
+
+55
+00:02:35.390 --> 00:02:39.320
+It must be a state action pair
+the agent has seen before.
+
+56
+00:02:39.320 --> 00:02:43.050
+Otherwise, the model would
+not know what happens next.
+
+57
+00:02:43.050 --> 00:02:45.040
+Given the state action pair,
+
+58
+00:02:45.040 --> 00:02:48.095
+we create the model for
+the next state and reward.
+
+59
+00:02:48.095 --> 00:02:51.610
+We have now generated
+a model transition.
+
+60
+00:02:51.610 --> 00:02:54.795
+Finally, Dyna-Q performs
+a Q-learning update
+
+61
+00:02:54.795 --> 00:02:57.310
+with the simulated transition.
+
+62
+00:02:57.310 --> 00:03:01.235
+The planning step is
+repeated many times.
+
+63
+00:03:01.235 --> 00:03:04.550
+The most important thing
+to remember is that Dyna-Q
+
+64
+00:03:04.550 --> 00:03:06.575
+performs many planning updates
+
+65
+00:03:06.575 --> 00:03:09.080
+for each environment transition.
+
+66
+00:03:09.080 --> 00:03:11.490
+That's tabular Dyna-Q, a
+
+67
+00:03:11.490 --> 00:03:14.095
+simple instance of
+the Dyna architecture.
+
+68
+00:03:14.095 --> 00:03:16.235
+Let's revisit our robot friend
+
+69
+00:03:16.235 --> 00:03:18.440
+to better understand
+the Dyna-Q algorithm.
+
+70
+00:03:18.440 --> 00:03:22.160
+Remember, this is just
+a cartoon to build intuition.
+
+71
+00:03:22.160 --> 00:03:24.140
+Like before, it starts out
+
+72
+00:03:24.140 --> 00:03:26.150
+knowing nothing about
+the environment.
+
+73
+00:03:26.150 --> 00:03:27.980
+The robot gradually builds
+
+74
+00:03:27.980 --> 00:03:30.990
+a model while interacting
+with the environment.
+
+75
+00:03:31.210 --> 00:03:35.315
+The first episode
+takes a 184 steps.
+
+76
+00:03:35.315 --> 00:03:37.925
+In that time,
+the agent only change
+
+77
+00:03:37.925 --> 00:03:41.060
+the value of the state
+action pair beside the goal.
+
+78
+00:03:41.060 --> 00:03:42.650
+Without planning,
+
+79
+00:03:42.650 --> 00:03:46.160
+the next few episodes would
+probably be just as long.
+
+80
+00:03:46.160 --> 00:03:49.820
+Let's look at the next episode
+and study the impact of
+
+81
+00:03:49.820 --> 00:03:53.450
+doing 100 steps of planning
+on every time step.
+
+82
+00:03:53.450 --> 00:03:56.060
+The last time we talked
+about this robot,
+
+83
+00:03:56.060 --> 00:03:58.235
+it was doing way more
+planning on each step.
+
+84
+00:03:58.235 --> 00:03:59.570
+So this time around,
+
+85
+00:03:59.570 --> 00:04:02.960
+it will take longer for
+Dyna-Q to find a good policy.
+
+86
+00:04:02.960 --> 00:04:04.745
+After just one step,
+
+87
+00:04:04.745 --> 00:04:07.870
+planning updated the values
+of two more states.
+
+88
+00:04:07.870 --> 00:04:10.520
+Now, the agent knows
+the correct actions
+
+89
+00:04:10.520 --> 00:04:12.630
+in the final corridor.
+
+90
+00:04:12.640 --> 00:04:15.820
+Let's run Dyna-Q a bit longer.
+
+91
+00:04:15.820 --> 00:04:18.695
+The impact of planning
+is quite dramatic.
+
+92
+00:04:18.695 --> 00:04:22.060
+Dyna-Q propagates
+the reward information
+
+93
+00:04:22.060 --> 00:04:24.520
+across the entire state space.
+
+94
+00:04:24.520 --> 00:04:26.500
+Eventually, the agent knows
+
+95
+00:04:26.500 --> 00:04:28.030
+an effective policy
+for navigating
+
+96
+00:04:28.030 --> 00:04:30.680
+to the goal from most states.
+
+97
+00:04:42.120 --> 00:04:44.920
+The policy computed
+by planning only
+
+98
+00:04:44.920 --> 00:04:47.530
+requires 18 steps
+to reach the goal.
+
+99
+00:04:47.530 --> 00:04:49.750
+After just two episodes,
+
+100
+00:04:49.750 --> 00:04:51.460
+that's more than ten times
+
+101
+00:04:51.460 --> 00:04:53.290
+shorter than the first episode.
+
+102
+00:04:53.290 --> 00:04:56.870
+Tabular Dyna-Q performed
+many more updates to
+
+103
+00:04:56.870 --> 00:05:01.085
+the value function than it
+would have without planning.
+
+104
+00:05:01.085 --> 00:05:03.410
+Dyna-Q makes better use
+
+105
+00:05:03.410 --> 00:05:06.345
+of its limited interaction
+with the environment.
+
+106
+00:05:06.345 --> 00:05:09.000
+In this video, we learned how
+
+107
+00:05:09.000 --> 00:05:11.340
+Tabular Dyna-Q mixes planning,
+
+108
+00:05:11.340 --> 00:05:14.385
+learning, and acting
+through the value function.
+
+109
+00:05:14.385 --> 00:05:17.155
+We also studied how Dyna-Q
+
+110
+00:05:17.155 --> 00:05:21.110
+updates it's value function
+in a small Gridworld.

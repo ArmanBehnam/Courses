@@ -1,0 +1,326 @@
+WEBVTT
+
+1
+00:00:07.070 --> 00:00:10.725
+Several reason applications
+of Reinforcement Learning,
+
+2
+00:00:10.725 --> 00:00:12.330
+learning to play Atari Games,
+
+3
+00:00:12.330 --> 00:00:13.800
+controlled traffic signals or
+
+4
+00:00:13.800 --> 00:00:16.305
+even automatically
+configuring web systems
+
+5
+00:00:16.305 --> 00:00:18.390
+have been built on
+a single algorithm.
+
+6
+00:00:18.390 --> 00:00:21.270
+This algorithm is
+called Q-learning.
+
+7
+00:00:21.270 --> 00:00:23.265
+By the end of this video,
+
+8
+00:00:23.265 --> 00:00:26.100
+you will be able to describe
+the Q-learning algorithm,
+
+9
+00:00:26.100 --> 00:00:28.590
+and explain the
+relationship between
+
+10
+00:00:28.590 --> 00:00:32.100
+Q-learning and the Bellman
+optimality equations.
+
+11
+00:00:32.100 --> 00:00:35.940
+Q-learning was developed
+in 1989 and is one of
+
+12
+00:00:35.940 --> 00:00:39.405
+the first major online
+Reinforcement Learning algorithms.
+
+13
+00:00:39.405 --> 00:00:41.865
+Let's take a look
+at the pseudocode.
+
+14
+00:00:41.865 --> 00:00:44.250
+We've seen this format before.
+
+15
+00:00:44.250 --> 00:00:46.700
+The agent chooses
+an action in a state,
+
+16
+00:00:46.700 --> 00:00:51.350
+takes the action, and observes
+the next state and reward.
+
+17
+00:00:51.350 --> 00:00:56.060
+Then the agent does an update
+and the cycle repeats.
+
+18
+00:00:56.060 --> 00:00:58.100
+With so many familiar elements,
+
+19
+00:00:58.100 --> 00:00:59.810
+what's new about Q-learning?
+
+20
+00:00:59.810 --> 00:01:01.010
+Well, the new element in
+
+21
+00:01:01.010 --> 00:01:03.730
+Q-learning is the action
+value update.
+
+22
+00:01:03.730 --> 00:01:06.230
+Here, the target is the reward
+
+23
+00:01:06.230 --> 00:01:09.110
+RT plus one plus Gamma times
+
+24
+00:01:09.110 --> 00:01:12.670
+the maximum action value
+in the following state.
+
+25
+00:01:12.670 --> 00:01:14.604
+This differs from Sarsa,
+
+26
+00:01:14.604 --> 00:01:15.980
+which uses the value of
+
+27
+00:01:15.980 --> 00:01:18.920
+the next state action pair
+in its target.
+
+28
+00:01:18.920 --> 00:01:20.930
+Why does Q-learning use
+
+29
+00:01:20.930 --> 00:01:23.890
+Emacs instead of
+the next state action pair?
+
+30
+00:01:23.890 --> 00:01:26.060
+This connection goes way back to
+
+31
+00:01:26.060 --> 00:01:28.115
+the dynamic programming material.
+
+32
+00:01:28.115 --> 00:01:30.900
+If you look at the update
+equation for Sarsa,
+
+33
+00:01:30.900 --> 00:01:32.720
+it's suspiciously similar to
+
+34
+00:01:32.720 --> 00:01:35.330
+the Bellman equation
+for action values.
+
+35
+00:01:35.330 --> 00:01:37.010
+In fact, Sarsa is
+
+36
+00:01:37.010 --> 00:01:38.840
+a sample-based algorithm to solve
+
+37
+00:01:38.840 --> 00:01:41.540
+the Bellman equation
+for action values.
+
+38
+00:01:41.540 --> 00:01:44.705
+Q-learning also solves
+the Bellman equation
+
+39
+00:01:44.705 --> 00:01:46.880
+using samples from
+the environment.
+
+40
+00:01:46.880 --> 00:01:50.030
+But instead of using
+the standard Bellman equation,
+
+41
+00:01:50.030 --> 00:01:52.580
+Q-learning uses the Bellman's
+Optimality Equation
+
+42
+00:01:52.580 --> 00:01:54.350
+for action values.
+
+43
+00:01:54.350 --> 00:01:56.570
+The optimality equations enable
+
+44
+00:01:56.570 --> 00:01:58.835
+Q-learning to
+directly learn Q-star
+
+45
+00:01:58.835 --> 00:02:00.290
+instead of switching between
+
+46
+00:02:00.290 --> 00:02:04.195
+policy improvement and
+policy evaluation steps.
+
+47
+00:02:04.195 --> 00:02:06.650
+Even though Sarsa
+and Q-learning are
+
+48
+00:02:06.650 --> 00:02:08.500
+both based on Bellman equations,
+
+49
+00:02:08.500 --> 00:02:11.830
+they're based on very
+different Bellman equations.
+
+50
+00:02:11.830 --> 00:02:14.450
+Sarsa is sample-based version of
+
+51
+00:02:14.450 --> 00:02:16.190
+policy iteration which uses
+
+52
+00:02:16.190 --> 00:02:18.060
+Bellman equations
+for action values,
+
+53
+00:02:18.060 --> 00:02:21.140
+that each depend
+on a fixed policy.
+
+54
+00:02:21.140 --> 00:02:24.965
+Q-learning is a sample-based
+version of value iteration
+
+55
+00:02:24.965 --> 00:02:26.390
+which iteratively applies
+
+56
+00:02:26.390 --> 00:02:28.730
+the Bellman optimality equation.
+
+57
+00:02:28.730 --> 00:02:30.920
+Applying the Bellman's
+Optimality Equation
+
+58
+00:02:30.920 --> 00:02:32.675
+strictly improves
+the value function,
+
+59
+00:02:32.675 --> 00:02:35.520
+unless it is already optimal.
+
+60
+00:02:35.870 --> 00:02:38.510
+So value iteration continually
+
+61
+00:02:38.510 --> 00:02:40.610
+improves as value
+function estimate,
+
+62
+00:02:40.610 --> 00:02:43.795
+which eventually converges
+to the optimal solution.
+
+63
+00:02:43.795 --> 00:02:45.440
+For the same reason,
+
+64
+00:02:45.440 --> 00:02:46.970
+Q-learning also converges to
+
+65
+00:02:46.970 --> 00:02:49.130
+the optimal value
+function as long as
+
+66
+00:02:49.130 --> 00:02:50.900
+the aging continues
+to explore and
+
+67
+00:02:50.900 --> 00:02:54.260
+samples all areas of
+the state action space.
+
+68
+00:02:54.260 --> 00:02:56.825
+Let's review what
+we learned today.
+
+69
+00:02:56.825 --> 00:03:00.530
+In this video, we introduce
+the Q-learning algorithm and
+
+70
+00:03:00.530 --> 00:03:01.910
+described its connection to
+
+71
+00:03:01.910 --> 00:03:04.980
+the Bellman's
+Optimality equations.

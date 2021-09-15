@@ -1,0 +1,402 @@
+WEBVTT
+
+1
+00:00:04.610 --> 00:00:07.980
+In previous videos,
+we talked about using
+
+2
+00:00:07.980 --> 00:00:11.280
+generalized policy iteration
+to find an optimal policy.
+
+3
+00:00:11.280 --> 00:00:12.870
+We've also talked about using
+
+4
+00:00:12.870 --> 00:00:15.165
+TD to estimate value functions.
+
+5
+00:00:15.165 --> 00:00:17.970
+What would it look like
+if we use TD to do
+
+6
+00:00:17.970 --> 00:00:19.635
+the policy evaluation step
+
+7
+00:00:19.635 --> 00:00:22.230
+in generalized policy iteration?
+
+8
+00:00:22.230 --> 00:00:24.520
+By the end of this video,
+
+9
+00:00:24.520 --> 00:00:26.600
+you'll be able to explain how
+
+10
+00:00:26.600 --> 00:00:29.060
+generalized policy
+iteration can be used
+
+11
+00:00:29.060 --> 00:00:31.990
+with TD to find
+improved policies,
+
+12
+00:00:31.990 --> 00:00:36.220
+as well as describe the
+Sarsa control algorithm.
+
+13
+00:00:36.580 --> 00:00:39.975
+Generalized policy
+iteration or GPI,
+
+14
+00:00:39.975 --> 00:00:41.725
+combines two parts;
+
+15
+00:00:41.725 --> 00:00:44.825
+policy evaluation and
+policy improvement.
+
+16
+00:00:44.825 --> 00:00:46.850
+The first algorithm we saw with
+
+17
+00:00:46.850 --> 00:00:49.490
+this form was policy iteration.
+
+18
+00:00:49.490 --> 00:00:52.580
+Policy iteration runs
+policy evaluation to
+
+19
+00:00:52.580 --> 00:00:55.685
+convergence before
+gratifying the policy.
+
+20
+00:00:55.685 --> 00:00:59.210
+Then, we saw GPI
+with Monte Carlo,
+
+21
+00:00:59.210 --> 00:01:00.890
+which performs a cycle of
+
+22
+00:01:00.890 --> 00:01:04.445
+policy evaluation and
+improvement every episode.
+
+23
+00:01:04.445 --> 00:01:07.415
+To better remember
+GPI with Monte Carlo,
+
+24
+00:01:07.415 --> 00:01:08.600
+imagine a mouse in
+
+25
+00:01:08.600 --> 00:01:11.705
+a four-state corridor
+with cheese at the end.
+
+26
+00:01:11.705 --> 00:01:13.820
+The mouse starts out
+knowing nothing and
+
+27
+00:01:13.820 --> 00:01:16.230
+follows a random policy.
+
+28
+00:01:16.230 --> 00:01:18.950
+Eventually, the mouse
+will stumble into
+
+29
+00:01:18.950 --> 00:01:21.590
+the cheese just by
+moving randomly.
+
+30
+00:01:21.590 --> 00:01:25.190
+At that point, the mouse
+updates its action values.
+
+31
+00:01:25.190 --> 00:01:27.470
+Then it improves
+its policy by greed
+
+32
+00:01:27.470 --> 00:01:29.810
+defined with respect
+to its action values.
+
+33
+00:01:29.810 --> 00:01:31.535
+As the process repeats,
+
+34
+00:01:31.535 --> 00:01:34.720
+it will eventually learn
+the optimal policy.
+
+35
+00:01:34.720 --> 00:01:38.240
+Notice that GPI with
+Monte Carlo does not perform
+
+36
+00:01:38.240 --> 00:01:41.630
+a full policy evaluation step
+before improvement.
+
+37
+00:01:41.630 --> 00:01:46.105
+Rather, it evaluates and
+improves after each episode.
+
+38
+00:01:46.105 --> 00:01:48.830
+Going even further, we
+could improve the policy
+
+39
+00:01:48.830 --> 00:01:52.265
+after just one policy
+evaluation step.
+
+40
+00:01:52.265 --> 00:01:54.935
+We will do this with TD.
+
+41
+00:01:54.935 --> 00:01:57.484
+To use TD within GPI,
+
+42
+00:01:57.484 --> 00:02:00.370
+we need to learn
+an action value function.
+
+43
+00:02:00.370 --> 00:02:02.390
+So we'll need to look at
+
+44
+00:02:02.390 --> 00:02:03.740
+slightly different version of
+
+45
+00:02:03.740 --> 00:02:06.110
+TD than you've seen in the past.
+
+46
+00:02:06.110 --> 00:02:08.900
+Instead of looking at
+transitions from state to
+
+47
+00:02:08.900 --> 00:02:11.860
+state and learn
+the value of each state,
+
+48
+00:02:11.860 --> 00:02:15.110
+let's look at transitions
+from state action pair to
+
+49
+00:02:15.110 --> 00:02:19.175
+state action pair and learn
+the value of each pair.
+
+50
+00:02:19.175 --> 00:02:22.415
+This algorithm is called
+Sarsa prediction.
+
+51
+00:02:22.415 --> 00:02:24.980
+Let's look at it in
+a bit more detail.
+
+52
+00:02:24.980 --> 00:02:27.530
+The sarsa acronym
+describes the data
+
+53
+00:02:27.530 --> 00:02:30.695
+used in the updates, state,
+
+54
+00:02:30.695 --> 00:02:37.725
+action, reward, next state,
+and next action.
+
+55
+00:02:37.725 --> 00:02:39.800
+Sarsa makes predictions about
+
+56
+00:02:39.800 --> 00:02:42.590
+the values of state action pairs.
+
+57
+00:02:42.590 --> 00:02:44.720
+The agent chooses an action,
+
+58
+00:02:44.720 --> 00:02:46.250
+in the initial state to
+
+59
+00:02:46.250 --> 00:02:48.955
+create the first
+state action pair.
+
+60
+00:02:48.955 --> 00:02:51.215
+Next, it takes that action
+
+61
+00:02:51.215 --> 00:02:53.240
+in the current state and observes
+
+62
+00:02:53.240 --> 00:02:57.700
+the reward RT plus 1 and
+next state ST plus one.
+
+63
+00:02:57.700 --> 00:02:59.990
+In Sarsa, the agent needs to know
+
+64
+00:02:59.990 --> 00:03:01.595
+its next state action pair
+
+65
+00:03:01.595 --> 00:03:03.890
+before updating
+its value estimates.
+
+66
+00:03:03.890 --> 00:03:05.720
+That means it has to commit to
+
+67
+00:03:05.720 --> 00:03:08.590
+its next action
+before the update.
+
+68
+00:03:08.590 --> 00:03:10.440
+Since our agent is learning
+
+69
+00:03:10.440 --> 00:03:12.969
+action values for
+a specific policy,
+
+70
+00:03:12.969 --> 00:03:16.565
+it uses that policy to
+sample the next action.
+
+71
+00:03:16.565 --> 00:03:18.725
+Here's the full update equation.
+
+72
+00:03:18.725 --> 00:03:20.600
+It actually looks
+quite similar to
+
+73
+00:03:20.600 --> 00:03:22.750
+the TD update for state values,
+
+74
+00:03:22.750 --> 00:03:28.610
+with state values V of S
+replaced by action values QSA.
+
+75
+00:03:28.610 --> 00:03:32.405
+The algorithm we just described
+is for policy evaluation.
+
+76
+00:03:32.405 --> 00:03:37.180
+It learns action values for
+a specific fixed policy.
+
+77
+00:03:37.180 --> 00:03:40.010
+However, thanks
+the GPI framework,
+
+78
+00:03:40.010 --> 00:03:42.500
+we can turn it into
+a control algorithm.
+
+79
+00:03:42.500 --> 00:03:44.330
+This time, we'll improve
+
+80
+00:03:44.330 --> 00:03:46.790
+the policy every time step rather
+
+81
+00:03:46.790 --> 00:03:50.015
+than after an episode
+or after convergence.
+
+82
+00:03:50.015 --> 00:03:52.275
+This completes
+the description of Sarsa,
+
+83
+00:03:52.275 --> 00:03:56.995
+the GPI algorithm that uses
+TD for policy evaluation.
+
+84
+00:03:56.995 --> 00:04:00.650
+In this video, we talked
+about how we can combine
+
+85
+00:04:00.650 --> 00:04:02.630
+generalized policy iteration with
+
+86
+00:04:02.630 --> 00:04:05.720
+TD learning to find
+improved policies.
+
+87
+00:04:05.720 --> 00:04:10.620
+Sarsa control is an example
+of GPI with TD learning.

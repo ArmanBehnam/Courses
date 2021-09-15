@@ -1,0 +1,252 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.969
+[MUSIC]
+
+2
+00:00:05.969 --> 00:00:10.896
+We just discussed two TD control methods,
+Sarsa and Q-learning.
+
+3
+00:00:10.896 --> 00:00:16.667
+In this lesson, we'll talk about another
+TD control method called expected Sarsa.
+
+4
+00:00:16.667 --> 00:00:21.494
+By the end of this video, you will be able
+to explain the expected Sarsa algorithm.
+
+5
+00:00:21.494 --> 00:00:24.018
+[MUSIC]
+
+6
+00:00:24.018 --> 00:00:26.678
+Recall the Bellman equation for
+action-values.
+
+7
+00:00:26.678 --> 00:00:31.625
+Here you can see the expectation
+over values of possible next
+
+8
+00:00:31.625 --> 00:00:33.374
+state action pairs.
+
+9
+00:00:33.374 --> 00:00:36.125
+Breaking this expectation apart,
+
+10
+00:00:36.125 --> 00:00:41.542
+we see a sum over possible next states
+as well as possible next action.
+
+11
+00:00:41.542 --> 00:00:45.758
+Sarsa estimates this expectation
+by sampling the next date from
+
+12
+00:00:45.758 --> 00:00:49.283
+the environment and
+the next action from its policy.
+
+13
+00:00:49.283 --> 00:00:51.841
+But the agent already knows this policy,
+so
+
+14
+00:00:51.841 --> 00:00:54.478
+why should it have to
+sample its next action?
+
+15
+00:00:54.478 --> 00:00:59.087
+Instead, it should just compute
+the expectation directly.
+
+16
+00:00:59.087 --> 00:01:00.113
+In this case,
+
+17
+00:01:00.113 --> 00:01:05.085
+we can take a weighted sum of the values
+of all possible next actions.
+
+18
+00:01:05.085 --> 00:01:10.919
+The weights are the probability of taking
+each action under the agents policy.
+
+19
+00:01:10.919 --> 00:01:15.640
+Explicitly computing the expectation
+over next actions is the main
+
+20
+00:01:15.640 --> 00:01:18.713
+idea behind the expected Sarsa algorithm.
+
+21
+00:01:18.713 --> 00:01:22.334
+Now let's look at the expected
+Sarsa's learning update.
+
+22
+00:01:22.334 --> 00:01:27.137
+Since expected Sarsa is still
+based on the Bellman equation for
+
+23
+00:01:27.137 --> 00:01:31.953
+action values, it uses the familiar
+form of learning update.
+
+24
+00:01:31.953 --> 00:01:35.477
+The algorithm is nearly
+identical to Sarsa,
+
+25
+00:01:35.477 --> 00:01:40.392
+except the T error uses the expected
+estimate of the next action
+
+26
+00:01:40.392 --> 00:01:44.395
+value instead of a sample
+of the next action value.
+
+27
+00:01:44.395 --> 00:01:48.911
+That means that on every time step,
+the agent has to average the next
+
+28
+00:01:48.911 --> 00:01:53.919
+state's action values according to
+how likely they are under the policy.
+
+29
+00:01:53.919 --> 00:01:58.229
+For example,
+with the following values and policy,
+
+30
+00:01:58.229 --> 00:02:01.868
+expected Sarsa would
+use a value of 1.4 for
+
+31
+00:02:01.868 --> 00:02:05.820
+its estimate of the expected
+next action value.
+
+32
+00:02:05.820 --> 00:02:10.694
+However, there's a huge upside to
+calculating the expectation explicitly.
+
+33
+00:02:10.694 --> 00:02:15.675
+Expected Sarsa has a more stable
+update target than Sarsa.
+
+34
+00:02:15.675 --> 00:02:19.371
+Let's look at an example
+to make this more clear.
+
+35
+00:02:19.371 --> 00:02:23.677
+In this example,
+the media reward is deterministically 1.
+
+36
+00:02:23.677 --> 00:02:26.112
+Both Sarsa and expected Sarsa,
+
+37
+00:02:26.112 --> 00:02:30.179
+start up with a true action values for
+the next state.
+
+38
+00:02:30.179 --> 00:02:35.163
+Even in this idealized case,
+the next action sampling that Sarsa does
+
+39
+00:02:35.163 --> 00:02:39.226
+can cause it to update its
+values in the wrong direction.
+
+40
+00:02:39.226 --> 00:02:43.517
+It relies on the fact that in
+expectation across multiple updates,
+
+41
+00:02:43.517 --> 00:02:45.259
+the direction is correct.
+
+42
+00:02:45.259 --> 00:02:50.138
+By contrast, expected Sarsas update
+targets are exactly correct,
+
+43
+00:02:50.138 --> 00:02:54.946
+and do not change their estimated
+values away from the true values.
+
+44
+00:02:54.946 --> 00:02:59.880
+In general, expected Sarsas update targets
+are much lower variance than Sarsas.
+
+45
+00:02:59.880 --> 00:03:03.839
+The lower variance comes
+with a downside though.
+
+46
+00:03:03.839 --> 00:03:08.016
+Computing the average over
+next actions becomes more
+
+47
+00:03:08.016 --> 00:03:11.740
+expensive as the number
+of actions increases.
+
+48
+00:03:11.740 --> 00:03:16.551
+When there are many actions, computing
+the average might take a long time,
+
+49
+00:03:16.551 --> 00:03:20.696
+especially since the average has
+to be computed every time step.
+
+50
+00:03:20.696 --> 00:03:25.168
+In this video, we show that
+the expected Sarsa algorithm explicitly
+
+51
+00:03:25.168 --> 00:03:28.099
+computes the expectation under its policy,
+
+52
+00:03:28.099 --> 00:03:32.200
+which is more expensive than sampling but
+has lower variance.

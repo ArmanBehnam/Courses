@@ -1,0 +1,220 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.641
+[MUSIC]
+
+2
+00:00:07.641 --> 00:00:10.777
+Now that we've talked about what Sarsa is,
+
+3
+00:00:10.777 --> 00:00:14.262
+let's see what happens
+when we actually run it.
+
+4
+00:00:14.262 --> 00:00:16.103
+By the end of this video,
+
+5
+00:00:16.103 --> 00:00:22.088
+you will understand how the Sarsa control
+algorithm operates in an example MDP.
+
+6
+00:00:22.088 --> 00:00:28.607
+You will also gain experience analyzing
+the performance of a learning algorithm.
+
+7
+00:00:28.607 --> 00:00:30.290
+Let's look at a Windy Gridworld.
+
+8
+00:00:30.290 --> 00:00:32.581
+A gridworld with a twist.
+
+9
+00:00:32.581 --> 00:00:37.438
+The states form a grid with a single
+start state and a terminal state.
+
+10
+00:00:37.438 --> 00:00:41.080
+The agent can move in
+the usual four directions.
+
+11
+00:00:41.080 --> 00:00:44.218
+The agent receives
+a reward of -1 per step.
+
+12
+00:00:44.218 --> 00:00:47.500
+This motivates the Asian to
+escape as fast as possible.
+
+13
+00:00:48.600 --> 00:00:53.695
+Since it's an episodic task,
+the discount factor gamma is 1.
+
+14
+00:00:53.695 --> 00:00:55.624
+Here's where the twist comes in.
+
+15
+00:00:55.624 --> 00:01:00.077
+A wind blows the agent upwards
+when moving out of certain states.
+
+16
+00:01:00.077 --> 00:01:03.824
+The wind strength in each
+state depends on the column.
+
+17
+00:01:03.824 --> 00:01:08.279
+For example, if the agent is in
+a column with wind strength one and
+
+18
+00:01:08.279 --> 00:01:12.500
+takes the action left,
+it will move left and then up one cell.
+
+19
+00:01:13.500 --> 00:01:16.720
+Moving into a boundary does nothing.
+
+20
+00:01:16.720 --> 00:01:19.504
+Let's apply Sarsa to this task.
+
+21
+00:01:19.504 --> 00:01:23.480
+We will use epsilon
+greedy action selection.
+
+22
+00:01:23.480 --> 00:01:27.759
+In this example,
+we'll use an epsilon of 0.1,
+
+23
+00:01:27.759 --> 00:01:31.849
+alpha of 0.5 and
+initialize the values to 0.
+
+24
+00:01:31.849 --> 00:01:38.559
+An epsilon of 0.1 means we take
+a random action 1 in every 10 steps.
+
+25
+00:01:38.559 --> 00:01:44.106
+The initial values are optimistic
+encouraging systematic exploration.
+
+26
+00:01:44.106 --> 00:01:49.009
+This plot shows the total number of
+episodes completed after each time step.
+
+27
+00:01:49.009 --> 00:01:51.600
+The results are averaged
+over a hundred runs.
+
+28
+00:01:52.700 --> 00:01:58.200
+Notice that the first few episodes take
+a couple thousand steps to complete.
+
+29
+00:01:58.200 --> 00:02:00.600
+The curve gradually gets steeper
+
+30
+00:02:00.600 --> 00:02:04.100
+indicating that episodes
+are completed more quickly.
+
+31
+00:02:04.100 --> 00:02:08.199
+Around 7,000 steps,
+the greedy policy stops improving.
+
+32
+00:02:09.900 --> 00:02:13.200
+Notice the episode completion
+rate stops increasing.
+
+33
+00:02:13.200 --> 00:02:17.847
+This means the agents policy hovers
+around the optimal policy and
+
+34
+00:02:17.847 --> 00:02:21.745
+won't be exactly optimal,
+because of exploration.
+
+35
+00:02:21.745 --> 00:02:25.620
+Notice that Monte Carlo methods
+would not be a great fit here.
+
+36
+00:02:25.620 --> 00:02:29.683
+This is because many policies
+do not lead to termination.
+
+37
+00:02:29.683 --> 00:02:33.497
+Monte Carlo methods only learn
+when an episode terminates.
+
+38
+00:02:33.497 --> 00:02:36.168
+So a deterministic policy
+might get trapped and
+
+39
+00:02:36.168 --> 00:02:38.715
+never learn a good policy
+in this gridworld.
+
+40
+00:02:38.715 --> 00:02:42.542
+For example, if the policy took
+the left action in the start state,
+
+41
+00:02:42.542 --> 00:02:44.100
+it would never terminate.
+
+42
+00:02:45.400 --> 00:02:48.474
+Sarsa avoid this trap,
+because it would learn such policies or
+
+43
+00:02:48.474 --> 00:02:50.200
+bad during the episode.
+
+44
+00:02:50.200 --> 00:02:52.700
+So it's switch to another policy and
+not get stuck.
+
+45
+00:02:54.200 --> 00:02:59.375
+In this video, we showed an example of
+the Sarsa control algorithm in an MDP.
+
+46
+00:03:00.800 --> 00:03:05.600
+We also analyze Sarsa's performance to
+better understand its learning process.

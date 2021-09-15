@@ -1,0 +1,508 @@
+WEBVTT
+
+1
+00:00:06.770 --> 00:00:11.475
+In recent videos, we've
+discussed off-policy learning.
+
+2
+00:00:11.475 --> 00:00:13.965
+In this video,
+we'll see how to do
+
+3
+00:00:13.965 --> 00:00:16.770
+off-policy prediction
+with Monte Carlo.
+
+4
+00:00:16.770 --> 00:00:18.675
+By the end of this video,
+
+5
+00:00:18.675 --> 00:00:20.820
+you will be able to
+understand how to use
+
+6
+00:00:20.820 --> 00:00:23.685
+important sampling
+to correct returns,
+
+7
+00:00:23.685 --> 00:00:26.355
+and you will understand
+how to modify
+
+8
+00:00:26.355 --> 00:00:28.290
+the Monte Carlo
+prediction algorithm
+
+9
+00:00:28.290 --> 00:00:30.375
+for off-policy learning.
+
+10
+00:00:30.375 --> 00:00:33.690
+Recall the goal of
+Monte Carlo estimation.
+
+11
+00:00:33.690 --> 00:00:35.160
+We would like to estimate
+
+12
+00:00:35.160 --> 00:00:37.260
+the value of each
+state by computing
+
+13
+00:00:37.260 --> 00:00:41.770
+a sample average over returns
+starting from that state.
+
+14
+00:00:45.500 --> 00:00:48.419
+We run into an issue, however,
+
+15
+00:00:48.419 --> 00:00:51.460
+when we try to estimate
+the value under target policy,
+
+16
+00:00:51.460 --> 00:00:56.420
+Pi, using returns following
+a behavior policy, b.
+
+17
+00:00:56.420 --> 00:00:59.010
+If we simply average the returns,
+
+18
+00:00:59.010 --> 00:01:01.980
+we saw from state s
+under the behavior b,
+
+19
+00:01:01.980 --> 00:01:04.325
+we will not get the right answer.
+
+20
+00:01:04.325 --> 00:01:07.765
+We have to correct
+each return in the average.
+
+21
+00:01:07.765 --> 00:01:11.020
+This is just what
+important sampling is for.
+
+22
+00:01:11.020 --> 00:01:13.900
+All we have to do is
+figure out the value
+
+23
+00:01:13.900 --> 00:01:16.900
+of Rho for each of
+the sampled returns.
+
+24
+00:01:16.900 --> 00:01:20.350
+Rho, here, is the probability
+of the trajectory under
+
+25
+00:01:20.350 --> 00:01:24.875
+Pi divided by the probability
+of the trajectory under b.
+
+26
+00:01:24.875 --> 00:01:26.890
+This Rho corrects
+the distribution
+
+27
+00:01:26.890 --> 00:01:28.645
+over entire trajectories,
+
+28
+00:01:28.645 --> 00:01:32.335
+and so corrects
+the distribution over returns.
+
+29
+00:01:32.335 --> 00:01:35.230
+Using this correction, we
+get back what we want,
+
+30
+00:01:35.230 --> 00:01:38.660
+the expectation of
+the return under Pi.
+
+31
+00:01:38.660 --> 00:01:41.750
+To compute Rho, we need to
+figure out how to compute
+
+32
+00:01:41.750 --> 00:01:45.260
+the probability of
+a trajectory under a policy.
+
+33
+00:01:45.260 --> 00:01:47.150
+Let's consider the probability
+
+34
+00:01:47.150 --> 00:01:50.090
+distribution over trajectories.
+
+35
+00:01:50.090 --> 00:01:53.180
+We read this probability as,
+
+36
+00:01:53.180 --> 00:01:56.885
+given that the agent
+is in some state as t,
+
+37
+00:01:56.885 --> 00:01:59.105
+what is the probability
+that it takes
+
+38
+00:01:59.105 --> 00:02:04.645
+action A_t then ends up
+in state S_t plus 1,
+
+39
+00:02:04.645 --> 00:02:07.380
+then, it takes action A_t plus
+
+40
+00:02:07.380 --> 00:02:09.960
+1 and ends up in S_t plus 2,
+
+41
+00:02:09.960 --> 00:02:15.250
+and so on, until
+termination at time T?
+
+42
+00:02:15.320 --> 00:02:19.585
+All of the actions are sampled
+according to behavior b.
+
+43
+00:02:19.585 --> 00:02:21.805
+Because of the Markov property,
+
+44
+00:02:21.805 --> 00:02:24.039
+we can break this
+probability distribution
+
+45
+00:02:24.039 --> 00:02:25.780
+into smaller chunks.
+
+46
+00:02:25.780 --> 00:02:28.060
+The first chunk is
+the probability that
+
+47
+00:02:28.060 --> 00:02:30.590
+the agents likes action A_t in
+
+48
+00:02:30.590 --> 00:02:33.520
+state S_t times the probability
+
+49
+00:02:33.520 --> 00:02:37.210
+that the environment transitions
+into state S_t plus 1.
+
+50
+00:02:37.210 --> 00:02:40.180
+The second chunk gives
+the probability of
+
+51
+00:02:40.180 --> 00:02:43.550
+the next time step of
+experience, and so on.
+
+52
+00:02:43.550 --> 00:02:45.510
+We can rewrite this list of
+
+53
+00:02:45.510 --> 00:02:49.240
+producted probabilities
+using the product notation.
+
+54
+00:02:49.240 --> 00:02:51.490
+Now, we've defined
+the probability
+
+55
+00:02:51.490 --> 00:02:53.860
+of a trajectory under b.
+
+56
+00:02:53.860 --> 00:02:55.810
+Remember where we are going.
+
+57
+00:02:55.810 --> 00:02:59.720
+We would like to define Rho
+using the probability of
+
+58
+00:02:59.720 --> 00:03:01.730
+the trajectory under Pi and
+
+59
+00:03:01.730 --> 00:03:04.610
+the probability of
+the trajectory under b.
+
+60
+00:03:04.610 --> 00:03:06.590
+Let's plug these probabilities
+
+61
+00:03:06.590 --> 00:03:09.005
+into our definition of Rho.
+
+62
+00:03:09.005 --> 00:03:11.570
+As we saw in a previous video,
+
+63
+00:03:11.570 --> 00:03:13.760
+we can take these
+probabilities and
+
+64
+00:03:13.760 --> 00:03:17.090
+multiply them by
+the importance sampling ratio.
+
+65
+00:03:17.090 --> 00:03:19.610
+The transition dynamics
+of the environment
+
+66
+00:03:19.610 --> 00:03:21.995
+cancel out on each time step.
+
+67
+00:03:21.995 --> 00:03:24.590
+This leaves us with
+only a product over
+
+68
+00:03:24.590 --> 00:03:28.475
+the ratios between policies
+at each time step.
+
+69
+00:03:28.475 --> 00:03:33.385
+Now, let's get back to
+estimating V_Pi off-policy.
+
+70
+00:03:33.385 --> 00:03:36.130
+The agent observes many returns,
+
+71
+00:03:36.130 --> 00:03:38.930
+each according to
+the behavior policy b.
+
+72
+00:03:38.930 --> 00:03:41.480
+We can estimate V_Pi using
+
+73
+00:03:41.480 --> 00:03:45.005
+these returns by correcting
+each return with Rho.
+
+74
+00:03:45.005 --> 00:03:48.280
+Now, let's look at how
+we would implement this.
+
+75
+00:03:48.280 --> 00:03:50.640
+First, recall the on-policy
+
+76
+00:03:50.640 --> 00:03:53.125
+Monte Carlo prediction algorithm.
+
+77
+00:03:53.125 --> 00:03:56.620
+There are two changes that
+will need to be made here.
+
+78
+00:03:56.620 --> 00:03:59.720
+First, the episode will
+not be generated following
+
+79
+00:03:59.720 --> 00:04:03.035
+Pi but will be
+generated following b.
+
+80
+00:04:03.035 --> 00:04:06.140
+Second, the return will
+need to be corrected
+
+81
+00:04:06.140 --> 00:04:09.185
+using the product of the
+important sampling ratios.
+
+82
+00:04:09.185 --> 00:04:10.830
+By making these changes,
+
+83
+00:04:10.830 --> 00:04:12.300
+we end up with the off-policy
+
+84
+00:04:12.300 --> 00:04:14.700
+Monte Carlo prediction algorithm.
+
+85
+00:04:14.700 --> 00:04:16.640
+Notice the episode is now
+
+86
+00:04:16.640 --> 00:04:19.040
+generated following
+the behavior policy.
+
+87
+00:04:19.040 --> 00:04:22.759
+The return is corrected
+by a new term W,
+
+88
+00:04:22.759 --> 00:04:24.890
+which is the
+accumulated product of
+
+89
+00:04:24.890 --> 00:04:26.585
+important sampling ratios on
+
+90
+00:04:26.585 --> 00:04:28.985
+each time step of the episode.
+
+91
+00:04:28.985 --> 00:04:33.755
+We can compute Rho from t
+to T minus 1 incrementally.
+
+92
+00:04:33.755 --> 00:04:35.570
+To see why, let's write out
+
+93
+00:04:35.570 --> 00:04:37.465
+the product at each time step.
+
+94
+00:04:37.465 --> 00:04:39.995
+Recall that the Monte
+Carlo algorithm loops
+
+95
+00:04:39.995 --> 00:04:42.035
+over time steps backwards.
+
+96
+00:04:42.035 --> 00:04:44.120
+So on the first step
+of the algorithm,
+
+97
+00:04:44.120 --> 00:04:47.405
+W is set to Rho on
+the last time step.
+
+98
+00:04:47.405 --> 00:04:49.090
+On the next time step,
+
+99
+00:04:49.090 --> 00:04:54.105
+W is the second last Rho times
+the last Rho, and so on.
+
+100
+00:04:54.105 --> 00:04:57.500
+Each time step adds
+one additional term to
+
+101
+00:04:57.500 --> 00:05:01.355
+the product and reuses
+all previous terms.
+
+102
+00:05:01.355 --> 00:05:04.070
+We can compute this
+recursively without
+
+103
+00:05:04.070 --> 00:05:07.370
+having to store
+all past values of Rho.
+
+104
+00:05:07.370 --> 00:05:09.800
+That's it for this video.
+
+105
+00:05:09.800 --> 00:05:11.390
+In this video, we used
+
+106
+00:05:11.390 --> 00:05:12.980
+the important sampling ratios to
+
+107
+00:05:12.980 --> 00:05:15.230
+correct the returns generated by
+
+108
+00:05:15.230 --> 00:05:18.290
+the behavior policy
+and we modified
+
+109
+00:05:18.290 --> 00:05:20.705
+the on policy Monte Carlo
+prediction algorithm
+
+110
+00:05:20.705 --> 00:05:23.160
+for off-policy learning.

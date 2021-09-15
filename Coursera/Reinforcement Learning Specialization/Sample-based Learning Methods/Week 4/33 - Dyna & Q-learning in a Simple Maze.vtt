@@ -1,0 +1,381 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.625
+[MUSIC]
+
+2
+00:00:06.625 --> 00:00:10.854
+We've discussed the Dyna architecture and
+how it combines planning,
+
+3
+00:00:10.854 --> 00:00:12.250
+learning and acting.
+
+4
+00:00:12.250 --> 00:00:16.400
+We've also studied how Dyna-Q
+operates in a grid world.
+
+5
+00:00:16.400 --> 00:00:17.900
+Let's get down to business and
+
+6
+00:00:17.900 --> 00:00:20.890
+run some experiments to see
+how well Dyna-Q really works.
+
+7
+00:00:21.900 --> 00:00:26.178
+In this video you will use a small grid
+world to compare tabular Dyna-Q and
+
+8
+00:00:26.178 --> 00:00:27.700
+model free Q-learning.
+
+9
+00:00:29.200 --> 00:00:33.991
+By the end of this video you will be able
+to describe how learning from both real
+
+10
+00:00:33.991 --> 00:00:36.805
+and model experience impacts performance.
+
+11
+00:00:36.805 --> 00:00:39.977
+You will also be able to explain
+how a model allows the agent
+
+12
+00:00:39.977 --> 00:00:43.100
+to learn from fewer interactions
+with the environment.
+
+13
+00:00:44.700 --> 00:00:48.400
+Today, we will run some experiments
+on this small maze environment.
+
+14
+00:00:48.400 --> 00:00:51.500
+Like before, the agent has four actions.
+
+15
+00:00:51.500 --> 00:00:55.458
+Transitioning into the goal
+state generates a reward of +1.
+
+16
+00:00:55.458 --> 00:00:58.275
+All other transitions
+generate a reward of 0.
+
+17
+00:01:00.000 --> 00:01:05.200
+This problem is episodic and
+we will use a discount of 0.95.
+
+18
+00:01:05.200 --> 00:01:08.200
+Let's compare Dyna-Q with
+different amounts of planning.
+
+19
+00:01:08.200 --> 00:01:11.452
+We will compare three agents.
+
+20
+00:01:11.452 --> 00:01:17.456
+Each one will use alpha equal to 0.1 and
+epsilon equal to 0.1.
+
+21
+00:01:17.456 --> 00:01:22.207
+We initialize the action value
+estimates to 0 for all three agents.
+
+22
+00:01:22.207 --> 00:01:26.900
+We run the experiment for 50 episodes
+30 times and then average the results.
+
+23
+00:01:26.900 --> 00:01:28.298
+Let's have a look.
+
+24
+00:01:28.298 --> 00:01:31.975
+[SOUND] We can plot the average
+number of steps the agent
+
+25
+00:01:31.975 --> 00:01:36.152
+took to complete each episode
+after more and more episodes.
+
+26
+00:01:36.152 --> 00:01:37.236
+If the agent is doing well,
+
+27
+00:01:37.236 --> 00:01:39.700
+then the number of steps should
+decrease with more episodes.
+
+28
+00:01:41.800 --> 00:01:44.706
+That is, lower on the y-axis is better.
+
+29
+00:01:44.706 --> 00:01:49.900
+If we run Dyna-Q with 0 planning steps
+we get exactly the Q-learning algorithm.
+
+30
+00:01:49.900 --> 00:01:56.236
+As we can see, it slowly gets better but
+plateaus at around 14 steps per episode.
+
+31
+00:01:56.236 --> 00:02:00.381
+If we run Dyna-Q with five planning
+steps it reaches the same performance as
+
+32
+00:02:00.381 --> 00:02:02.425
+Q-learning but much more quickly.
+
+33
+00:02:02.425 --> 00:02:05.300
+Dyna-Q with 50 planning steps
+
+34
+00:02:05.300 --> 00:02:08.625
+only takes about three episodes
+to find a good policy.
+
+35
+00:02:08.625 --> 00:02:12.100
+Dyna-Q is far more sample efficient.
+
+36
+00:02:12.100 --> 00:02:14.082
+Look at the y-axis.
+
+37
+00:02:14.082 --> 00:02:19.040
+After two episodes the policy found
+by Q-learning still requires hundreds
+
+38
+00:02:19.040 --> 00:02:20.907
+of steps to escape the maze.
+
+39
+00:02:20.907 --> 00:02:26.000
+For the same number of environment
+interactions, Dyna-Q can learn a lot more.
+
+40
+00:02:26.000 --> 00:02:29.536
+This shows how planning makes better
+use of environment experience
+
+41
+00:02:29.536 --> 00:02:30.844
+if the model is correct.
+
+42
+00:02:30.844 --> 00:02:37.596
+[SOUND] Let's visualize what's going
+on in a slightly different maze.
+
+43
+00:02:37.596 --> 00:02:41.384
+We use an arrow to show the greedy
+action according to the estimated value
+
+44
+00:02:41.384 --> 00:02:43.100
+in each state.
+
+45
+00:02:43.100 --> 00:02:49.200
+A state without an arrow means that every
+action is equally likely under the policy.
+
+46
+00:02:49.200 --> 00:02:53.751
+After one episode,
+Q-learning updates just one action value,
+
+47
+00:02:53.751 --> 00:02:58.478
+the one corresponding to the up
+action in the state next to the goal.
+
+48
+00:02:58.478 --> 00:03:03.200
+This is the only state where a transition
+with a nonzero reward was experienced.
+
+49
+00:03:04.500 --> 00:03:08.300
+It would take several more episodes
+to bootstrap this state's value
+
+50
+00:03:08.300 --> 00:03:09.900
+back to other nearby states.
+
+51
+00:03:11.200 --> 00:03:15.200
+Let's look more closely at how
+search control impacts planning.
+
+52
+00:03:15.200 --> 00:03:17.875
+Our robot will do things
+slightly differently than Dyna-Q.
+
+53
+00:03:19.500 --> 00:03:23.582
+But that's just to emphasize
+our point more clearly.
+
+54
+00:03:23.582 --> 00:03:28.405
+We will start with 10 planning steps and
+call the planning loop
+
+55
+00:03:28.405 --> 00:03:33.416
+10 times in a row, so
+that's 100 steps of planning in total.
+
+56
+00:03:33.416 --> 00:03:37.700
+As you can see, many of the planning
+updates fail to change the value function.
+
+57
+00:03:37.700 --> 00:03:42.000
+In fact, the agent only updated
+the values of 2 state action pairs
+
+58
+00:03:42.000 --> 00:03:43.500
+after 100 steps of planning.
+
+59
+00:03:44.500 --> 00:03:45.800
+Let's keep going.
+
+60
+00:03:45.800 --> 00:03:49.700
+This time we will try 100
+planning steps per call and
+
+61
+00:03:49.700 --> 00:03:51.100
+let the agent run a bit longer.
+
+62
+00:03:53.308 --> 00:03:55.780
+Even with 100 planning steps,
+
+63
+00:03:55.780 --> 00:04:00.052
+the first few calls update only
+a handful of action values.
+
+64
+00:04:00.052 --> 00:04:04.104
+Why does the agent needs so many planning
+steps to learn the value function and
+
+65
+00:04:04.104 --> 00:04:05.300
+a reasonable policy?
+
+66
+00:04:06.500 --> 00:04:11.231
+The agent needs many planning steps
+because search control samples
+
+67
+00:04:11.231 --> 00:04:13.393
+state action pairs randomly.
+
+68
+00:04:13.393 --> 00:04:18.098
+The planning update will not have
+any effect if the sample state
+
+69
+00:04:18.098 --> 00:04:20.700
+action pair produces a 0 T error.
+
+70
+00:04:20.700 --> 00:04:25.567
+This happened a lot in this environment
+because all the rewards are 0, and
+
+71
+00:04:25.567 --> 00:04:27.351
+so are the initial values.
+
+72
+00:04:27.351 --> 00:04:32.803
+What would happen if we ordered the state
+action pairs in a more efficient way?
+
+73
+00:04:32.803 --> 00:04:36.845
+It turns out the agent could learn a good
+policy only using a sixth of the planning
+
+74
+00:04:36.845 --> 00:04:37.400
+updates.
+
+75
+00:04:38.700 --> 00:04:43.918
+in larger environments random search
+control becomes even more problematic.
+
+76
+00:04:43.918 --> 00:04:46.277
+If you want to learn
+more about this topic,
+
+77
+00:04:46.277 --> 00:04:48.645
+check out section 8.4 of the textbook.
+
+78
+00:04:48.645 --> 00:04:52.400
+[SOUND] In this video
+we tested the tabular
+
+79
+00:04:52.400 --> 00:04:56.384
+Dyna-Q algorithm in a simple grid world.
+
+80
+00:04:56.384 --> 00:05:00.553
+We saw how planning can
+dramatically speed up learning.
+
+81
+00:05:00.553 --> 00:05:04.800
+In our experiment, the more planning
+we did the better the agent performed.
+
+82
+00:05:04.800 --> 00:05:05.600
+Bye for now.

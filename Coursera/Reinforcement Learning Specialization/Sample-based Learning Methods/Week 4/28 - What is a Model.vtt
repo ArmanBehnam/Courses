@@ -1,0 +1,491 @@
+WEBVTT
+
+1
+00:00:04.670 --> 00:00:07.530
+Sometimes, we make decisions
+
+2
+00:00:07.530 --> 00:00:09.630
+without thinking too
+much about them,
+
+3
+00:00:09.630 --> 00:00:11.805
+such as deciding how
+to drive to work.
+
+4
+00:00:11.805 --> 00:00:14.010
+Other times, we sit and imagine
+
+5
+00:00:14.010 --> 00:00:16.140
+many possible scenarios based
+
+6
+00:00:16.140 --> 00:00:18.060
+on our understanding
+of the world.
+
+7
+00:00:18.060 --> 00:00:20.250
+We can use these
+imagined outcomes to
+
+8
+00:00:20.250 --> 00:00:22.995
+decide what to do
+or what not to do.
+
+9
+00:00:22.995 --> 00:00:27.780
+For example, if we carry
+a fragile object with one hand,
+
+10
+00:00:27.780 --> 00:00:30.030
+we can imagine scenarios
+where it falls and
+
+11
+00:00:30.030 --> 00:00:33.435
+breaks and we can make
+choices accordingly.
+
+12
+00:00:33.435 --> 00:00:35.550
+We've seen sample-based
+methods like
+
+13
+00:00:35.550 --> 00:00:38.855
+TD which learn only from
+sampled experience.
+
+14
+00:00:38.855 --> 00:00:42.080
+We've also seen methods
+like dynamic programming or
+
+15
+00:00:42.080 --> 00:00:44.240
+DP which plan by using
+
+16
+00:00:44.240 --> 00:00:47.120
+complete information
+about how things work,
+
+17
+00:00:47.120 --> 00:00:49.685
+without having to make decisions.
+
+18
+00:00:49.685 --> 00:00:52.745
+It would be even better
+if we could obtain
+
+19
+00:00:52.745 --> 00:00:54.620
+an intermediate method that can
+
+20
+00:00:54.620 --> 00:00:57.140
+leverage the best
+of both extremes.
+
+21
+00:00:57.140 --> 00:00:59.810
+This week, we will
+do just that and
+
+22
+00:00:59.810 --> 00:01:03.050
+unify these strategies with
+the Dyner architecture.
+
+23
+00:01:03.050 --> 00:01:06.170
+In this video, we will
+talk about models.
+
+24
+00:01:06.170 --> 00:01:07.940
+By the end of the video,
+
+25
+00:01:07.940 --> 00:01:09.380
+you will be able to describe
+
+26
+00:01:09.380 --> 00:01:11.695
+a model and how it can be used,
+
+27
+00:01:11.695 --> 00:01:15.665
+classify models as distribution
+models or sample models,
+
+28
+00:01:15.665 --> 00:01:17.570
+and identify when to use
+
+29
+00:01:17.570 --> 00:01:20.360
+a distribution model
+or sample model.
+
+30
+00:01:20.360 --> 00:01:24.380
+Models are used to store
+knowledge about the dynamics.
+
+31
+00:01:24.380 --> 00:01:27.740
+When imagining different
+scenarios to a decision-making,
+
+32
+00:01:27.740 --> 00:01:29.210
+this is rooted in our knowledge
+
+33
+00:01:29.210 --> 00:01:31.220
+about how the world works.
+
+34
+00:01:31.220 --> 00:01:33.575
+From a particular
+state in action,
+
+35
+00:01:33.575 --> 00:01:34.640
+the model should produce
+
+36
+00:01:34.640 --> 00:01:37.190
+a possible next state and reward.
+
+37
+00:01:37.190 --> 00:01:39.710
+This allows us to
+see an outcome of
+
+38
+00:01:39.710 --> 00:01:42.800
+an action without having
+to actually take it.
+
+39
+00:01:42.800 --> 00:01:45.170
+A model allows for planning.
+
+40
+00:01:45.170 --> 00:01:47.210
+Planning refers to the process of
+
+41
+00:01:47.210 --> 00:01:49.910
+using a model to
+improve a policy.
+
+42
+00:01:49.910 --> 00:01:52.070
+One way to plan with a model
+
+43
+00:01:52.070 --> 00:01:54.275
+is to use simulated experience
+
+44
+00:01:54.275 --> 00:01:56.420
+and perform value
+function updates
+
+45
+00:01:56.420 --> 00:01:59.210
+as if those experiences happened.
+
+46
+00:01:59.210 --> 00:02:01.625
+By improving the value estimates,
+
+47
+00:02:01.625 --> 00:02:04.565
+we can make more
+informed decisions.
+
+48
+00:02:04.565 --> 00:02:07.970
+Simulating experience improves
+the sample efficiency.
+
+49
+00:02:07.970 --> 00:02:10.264
+The addition of
+simulated experience
+
+50
+00:02:10.264 --> 00:02:11.300
+means the agent needs
+
+51
+00:02:11.300 --> 00:02:12.845
+fewer interactions with the world
+
+52
+00:02:12.845 --> 00:02:15.285
+to come up with the same policy.
+
+53
+00:02:15.285 --> 00:02:17.540
+Now, let's talk about
+the different types of
+
+54
+00:02:17.540 --> 00:02:19.745
+models that may be useful to us.
+
+55
+00:02:19.745 --> 00:02:21.620
+One is a sample model,
+
+56
+00:02:21.620 --> 00:02:23.555
+which produces an actual outcome
+
+57
+00:02:23.555 --> 00:02:26.405
+drawn from some
+underlying probabilities.
+
+58
+00:02:26.405 --> 00:02:29.210
+For example, a sample
+model for flipping
+
+59
+00:02:29.210 --> 00:02:33.110
+a coin can generate a random
+sequence of heads and tails.
+
+60
+00:02:33.110 --> 00:02:35.060
+Another type of model is
+
+61
+00:02:35.060 --> 00:02:37.250
+a distribution model
+which completely
+
+62
+00:02:37.250 --> 00:02:41.360
+specifies the likelihood or
+probability of every outcome.
+
+63
+00:02:41.360 --> 00:02:43.605
+In the coin flipping example,
+
+64
+00:02:43.605 --> 00:02:46.250
+it would say that heads
+could occur 50 percent of
+
+65
+00:02:46.250 --> 00:02:47.570
+the time and that tails could
+
+66
+00:02:47.570 --> 00:02:49.610
+occur 50 percent of the time.
+
+67
+00:02:49.610 --> 00:02:52.160
+It could also produce
+the odds of any sequence
+
+68
+00:02:52.160 --> 00:02:55.445
+of heads and tails
+using this information.
+
+69
+00:02:55.445 --> 00:02:59.330
+Sample models can be
+computationally inexpensive because
+
+70
+00:02:59.330 --> 00:03:00.830
+random outcomes can be produced
+
+71
+00:03:00.830 --> 00:03:02.705
+according to a set of rules.
+
+72
+00:03:02.705 --> 00:03:05.110
+For example, to flip five coins,
+
+73
+00:03:05.110 --> 00:03:07.490
+a sample model can
+randomly pick zero or
+
+74
+00:03:07.490 --> 00:03:10.115
+one independently five times.
+
+75
+00:03:10.115 --> 00:03:14.030
+It only needs to produce
+a single outcome for each flip.
+
+76
+00:03:14.030 --> 00:03:18.380
+As an example of a sample
+model in practice, in 2017,
+
+77
+00:03:18.380 --> 00:03:21.650
+the company CloudFlare use
+random patterns sampled from
+
+78
+00:03:21.650 --> 00:03:23.495
+a wall of lava lamps to encrypt
+
+79
+00:03:23.495 --> 00:03:25.915
+10 percent of
+global Internet traffic.
+
+80
+00:03:25.915 --> 00:03:28.370
+The samples are
+random configurations of
+
+81
+00:03:28.370 --> 00:03:30.560
+the lava lamp wall
+at a given point in
+
+82
+00:03:30.560 --> 00:03:33.410
+time with the procedure
+of rules to generate
+
+83
+00:03:33.410 --> 00:03:37.235
+those samples defined by
+the dynamics of the lava lamps.
+
+84
+00:03:37.235 --> 00:03:40.310
+Distribution models
+contain more information,
+
+85
+00:03:40.310 --> 00:03:42.170
+but can be difficult to specify
+
+86
+00:03:42.170 --> 00:03:44.395
+and can become very large.
+
+87
+00:03:44.395 --> 00:03:48.245
+Let's go back to the example
+for flipping five coins.
+
+88
+00:03:48.245 --> 00:03:50.510
+A distribution model
+would enumerate
+
+89
+00:03:50.510 --> 00:03:53.270
+every possible sequence
+of heads and tails you
+
+90
+00:03:53.270 --> 00:03:55.490
+could get across
+the five coins and
+
+91
+00:03:55.490 --> 00:03:58.165
+assign a probability
+to each sequence.
+
+92
+00:03:58.165 --> 00:04:00.070
+For this simple problem,
+
+93
+00:04:00.070 --> 00:04:01.760
+that would consist of fully
+
+94
+00:04:01.760 --> 00:04:05.000
+describing 32 possible outcomes.
+
+95
+00:04:05.000 --> 00:04:06.500
+Distribution models can be
+
+96
+00:04:06.500 --> 00:04:08.285
+used as sample models by drying
+
+97
+00:04:08.285 --> 00:04:09.380
+outcomes according to
+
+98
+00:04:09.380 --> 00:04:11.870
+explicit probabilities
+of each outcome.
+
+99
+00:04:11.870 --> 00:04:14.510
+But they contain
+more information that might be
+
+100
+00:04:14.510 --> 00:04:17.555
+strictly needed just
+to obtain samples.
+
+101
+00:04:17.555 --> 00:04:20.960
+In this video, we talked
+about how models can be
+
+102
+00:04:20.960 --> 00:04:22.595
+used to improve a policy
+
+103
+00:04:22.595 --> 00:04:24.380
+through a process
+called planning.
+
+104
+00:04:24.380 --> 00:04:26.900
+We discussed two different
+types of models,
+
+105
+00:04:26.900 --> 00:04:29.540
+sample models and
+distribution models.
+
+106
+00:04:29.540 --> 00:04:31.100
+Next time, we'll go into
+
+107
+00:04:31.100 --> 00:04:34.640
+more depth on the differences
+between these models.

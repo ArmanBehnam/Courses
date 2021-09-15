@@ -1,0 +1,432 @@
+WEBVTT
+
+1
+00:00:04.880 --> 00:00:08.535
+Today, we will discuss
+importance sampling.
+
+2
+00:00:08.535 --> 00:00:10.515
+As we will see in later videos,
+
+3
+00:00:10.515 --> 00:00:13.905
+importance sampling allows us
+to do off-policy learning,
+
+4
+00:00:13.905 --> 00:00:16.905
+learning with one policy
+while following another.
+
+5
+00:00:16.905 --> 00:00:19.050
+In this video, we will first
+
+6
+00:00:19.050 --> 00:00:22.110
+describe how importance
+sampling works.
+
+7
+00:00:22.110 --> 00:00:24.105
+By the end of this video,
+
+8
+00:00:24.105 --> 00:00:25.260
+you will be able to use
+
+9
+00:00:25.260 --> 00:00:28.260
+importance sampling to
+estimate the expected value
+
+10
+00:00:28.260 --> 00:00:29.850
+of a target distribution
+
+11
+00:00:29.850 --> 00:00:33.060
+using samples from
+a different distribution.
+
+12
+00:00:33.060 --> 00:00:35.150
+Let's start by clearly stating
+
+13
+00:00:35.150 --> 00:00:38.225
+the problem that
+importance sampling solves.
+
+14
+00:00:38.225 --> 00:00:41.090
+We have some random variable
+x that's being
+
+15
+00:00:41.090 --> 00:00:44.475
+sampled from a probability
+distribution b.
+
+16
+00:00:44.475 --> 00:00:47.630
+We want to estimate
+the expected value of x but
+
+17
+00:00:47.630 --> 00:00:50.740
+with respect to the target
+distribution Pi.
+
+18
+00:00:50.740 --> 00:00:53.330
+Because x is drawn from b,
+
+19
+00:00:53.330 --> 00:00:54.680
+we cannot simply use
+
+20
+00:00:54.680 --> 00:00:58.100
+the sample average to compute
+the expectation under Pi.
+
+21
+00:00:58.100 --> 00:01:00.200
+This sample average will give us
+
+22
+00:01:00.200 --> 00:01:03.480
+the expected value
+under b instead.
+
+23
+00:01:03.980 --> 00:01:07.535
+Let's start with the definition
+of the expected value.
+
+24
+00:01:07.535 --> 00:01:09.770
+We sum over all possible outcomes
+
+25
+00:01:09.770 --> 00:01:13.640
+x multiplied by its
+probability according to Pi.
+
+26
+00:01:13.640 --> 00:01:16.250
+Next, we can multiply by b of x
+
+27
+00:01:16.250 --> 00:01:19.475
+divided by b of x because
+this term is equal to 1.
+
+28
+00:01:19.475 --> 00:01:24.605
+B of x is the probability of
+observed outcome x under b.
+
+29
+00:01:24.605 --> 00:01:26.770
+Shifting around the numerator,
+
+30
+00:01:26.770 --> 00:01:30.695
+we end up with a ratio
+between Pi and b.
+
+31
+00:01:30.695 --> 00:01:33.200
+This ratio is very
+important to us and
+
+32
+00:01:33.200 --> 00:01:36.130
+is called the importance
+sampling ratio.
+
+33
+00:01:36.130 --> 00:01:38.985
+We usually write
+the importance sampling ratio
+
+34
+00:01:38.985 --> 00:01:41.500
+as Rho of x.
+
+35
+00:01:41.500 --> 00:01:45.260
+Now, let's go a step further.
+
+36
+00:01:45.260 --> 00:01:47.090
+If we treat x times
+
+37
+00:01:47.090 --> 00:01:50.420
+the importance sampling ratio
+as a new random variable,
+
+38
+00:01:50.420 --> 00:01:53.080
+times the probability
+of observing x,
+
+39
+00:01:53.080 --> 00:01:58.205
+we can then rewrite this sum
+as an expectation under b.
+
+40
+00:01:58.205 --> 00:02:00.680
+Notice that
+our expectation is now
+
+41
+00:02:00.680 --> 00:02:03.275
+under b instead of
+being under Pi.
+
+42
+00:02:03.275 --> 00:02:05.360
+We know how to use
+importance sampling
+
+43
+00:02:05.360 --> 00:02:06.965
+to correct the expectation,
+
+44
+00:02:06.965 --> 00:02:08.420
+but how do we use it to estimate
+
+45
+00:02:08.420 --> 00:02:10.370
+the expectation from data?
+
+46
+00:02:10.370 --> 00:02:12.500
+It's actually very simple.
+
+47
+00:02:12.500 --> 00:02:14.045
+We just need to compute
+
+48
+00:02:14.045 --> 00:02:16.310
+a weighted sample average with
+
+49
+00:02:16.310 --> 00:02:18.770
+the importance sampling ratio
+as the weightings,
+
+50
+00:02:18.770 --> 00:02:20.480
+as shown on the slide.
+
+51
+00:02:20.480 --> 00:02:23.885
+Note that these samples
+x_i are drawn from b,
+
+52
+00:02:23.885 --> 00:02:26.165
+not Pi. That's it.
+
+53
+00:02:26.165 --> 00:02:29.180
+We can now estimate
+the expected value of x under
+
+54
+00:02:29.180 --> 00:02:32.380
+distribution Pi by using
+the sample average,
+
+55
+00:02:32.380 --> 00:02:34.920
+the samples drawn
+from distribution b.
+
+56
+00:02:34.920 --> 00:02:37.640
+Let's take a look at
+a small example of
+
+57
+00:02:37.640 --> 00:02:40.745
+using importance sampling
+to estimate an expectation.
+
+58
+00:02:40.745 --> 00:02:45.430
+We have two rather different
+distributions: b and Pi.
+
+59
+00:02:45.440 --> 00:02:48.560
+We'll draw samples
+according to b and try
+
+60
+00:02:48.560 --> 00:02:51.230
+to estimate the expected
+value under Pi.
+
+61
+00:02:51.230 --> 00:02:53.270
+On the right, we'll keep track of
+
+62
+00:02:53.270 --> 00:02:56.020
+our current estimate for
+the expected value under Pi.
+
+63
+00:02:56.020 --> 00:02:57.530
+For reference, we show
+
+64
+00:02:57.530 --> 00:03:00.515
+the true expected value in
+the middle of the line.
+
+65
+00:03:00.515 --> 00:03:02.585
+Let's draw a sample from b.
+
+66
+00:03:02.585 --> 00:03:04.235
+We get x equals 1,
+
+67
+00:03:04.235 --> 00:03:07.000
+which happens with
+probability of 0.85.
+
+68
+00:03:07.000 --> 00:03:09.260
+The probability of
+getting x equals 1
+
+69
+00:03:09.260 --> 00:03:11.975
+from Pi would have been 0.3.
+
+70
+00:03:11.975 --> 00:03:14.585
+To compute the sample
+average for Pi,
+
+71
+00:03:14.585 --> 00:03:17.165
+we need our importance
+sampling formula.
+
+72
+00:03:17.165 --> 00:03:19.485
+Plugging in the observed values,
+
+73
+00:03:19.485 --> 00:03:22.290
+we get an estimate of 0.35.
+
+74
+00:03:22.290 --> 00:03:26.190
+Let's do it again. We
+draw a sample from b,
+
+75
+00:03:26.190 --> 00:03:28.125
+this time x equals 3,
+
+76
+00:03:28.125 --> 00:03:30.815
+which happens with
+probability 0.05.
+
+77
+00:03:30.815 --> 00:03:33.210
+The probability we
+would have seen at 3
+
+78
+00:03:33.210 --> 00:03:36.065
+if we sampled from Pi is 0.1.
+
+79
+00:03:36.065 --> 00:03:38.015
+We'll add x to the buffer,
+
+80
+00:03:38.015 --> 00:03:41.480
+then plug in the observed values
+into our formula.
+
+81
+00:03:41.480 --> 00:03:44.780
+We take the previous
+estimate plus
+
+82
+00:03:44.780 --> 00:03:49.820
+the new estimate and divide
+it by 2 to get 3.18.
+
+83
+00:03:49.820 --> 00:03:51.800
+One last sample.
+
+84
+00:03:51.800 --> 00:03:55.345
+We draw another one from b
+and add it to the buffer,
+
+85
+00:03:55.345 --> 00:03:57.440
+we plug in the observed values to
+
+86
+00:03:57.440 --> 00:04:01.430
+the importance sampling
+ratio formula and get 2.2.
+
+87
+00:04:01.430 --> 00:04:03.470
+With samples just from b,
+
+88
+00:04:03.470 --> 00:04:05.240
+we managed to get
+a pretty good estimate
+
+89
+00:04:05.240 --> 00:04:07.825
+of the expectation under Pi.
+
+90
+00:04:07.825 --> 00:04:10.320
+That's it for this video.
+
+91
+00:04:10.320 --> 00:04:11.930
+Today, you learned how to use
+
+92
+00:04:11.930 --> 00:04:14.720
+importance sampling to
+estimate expected values
+
+93
+00:04:14.720 --> 00:04:16.910
+according to one
+distribution when data is
+
+94
+00:04:16.910 --> 00:04:20.220
+sampled from another.
+See you next time.

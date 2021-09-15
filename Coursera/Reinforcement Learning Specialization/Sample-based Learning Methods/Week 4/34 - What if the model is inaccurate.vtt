@@ -1,0 +1,458 @@
+WEBVTT
+
+1
+00:00:04.910 --> 00:00:07.020
+So far in the course,
+
+2
+00:00:07.020 --> 00:00:08.340
+we've talked about how agents
+
+3
+00:00:08.340 --> 00:00:09.840
+can improve their policies or
+
+4
+00:00:09.840 --> 00:00:11.550
+value functions by planning with
+
+5
+00:00:11.550 --> 00:00:13.845
+experience generated
+from a model.
+
+6
+00:00:13.845 --> 00:00:16.050
+But what happens
+if the agent plans
+
+7
+00:00:16.050 --> 00:00:18.465
+with experience from
+an inaccurate model?
+
+8
+00:00:18.465 --> 00:00:21.180
+In this video, you
+will learn how to
+
+9
+00:00:21.180 --> 00:00:24.465
+identify ways in which
+models can be inaccurate,
+
+10
+00:00:24.465 --> 00:00:28.275
+explain the effects of planning
+with an inaccurate model,
+
+11
+00:00:28.275 --> 00:00:30.530
+and describe how Dyna implants
+
+12
+00:00:30.530 --> 00:00:33.410
+successfully with
+an incomplete model.
+
+13
+00:00:33.410 --> 00:00:35.660
+First, let's talk
+about what it means
+
+14
+00:00:35.660 --> 00:00:37.415
+for a model to be inaccurate.
+
+15
+00:00:37.415 --> 00:00:40.430
+Models are inaccurate when
+transitions they store are
+
+16
+00:00:40.430 --> 00:00:41.900
+different from transitions that
+
+17
+00:00:41.900 --> 00:00:43.490
+happen in the environment.
+
+18
+00:00:43.490 --> 00:00:44.930
+At the beginning of learning,
+
+19
+00:00:44.930 --> 00:00:46.430
+the agent hasn't tried most of
+
+20
+00:00:46.430 --> 00:00:48.830
+the actions in almost
+all of the states.
+
+21
+00:00:48.830 --> 00:00:51.710
+The transitions associated
+with trying those actions
+
+22
+00:00:51.710 --> 00:00:54.905
+in those states are simply
+missing from the model.
+
+23
+00:00:54.905 --> 00:00:58.835
+We call models of missing
+transitions incomplete models.
+
+24
+00:00:58.835 --> 00:01:00.410
+The model could also be an
+
+25
+00:01:00.410 --> 00:01:02.450
+accurate if the
+environment changes.
+
+26
+00:01:02.450 --> 00:01:04.415
+Taking an action in a state
+
+27
+00:01:04.415 --> 00:01:06.260
+could result in
+a different next state
+
+28
+00:01:06.260 --> 00:01:07.970
+and reward than what
+
+29
+00:01:07.970 --> 00:01:10.760
+the agent observed
+before the change.
+
+30
+00:01:10.760 --> 00:01:14.000
+We say the model is inaccurate
+because what actually
+
+31
+00:01:14.000 --> 00:01:16.910
+happens is different from
+what the model says.
+
+32
+00:01:16.910 --> 00:01:20.300
+So what happens when we plan
+with inaccurate models?
+
+33
+00:01:20.300 --> 00:01:22.520
+The effect of planning
+with inaccurate models
+
+34
+00:01:22.520 --> 00:01:24.800
+depends on how the model
+is inaccurate.
+
+35
+00:01:24.800 --> 00:01:27.110
+In the beginning,
+the model is incomplete.
+
+36
+00:01:27.110 --> 00:01:30.275
+Since the model can't produce
+a next step or a reward,
+
+37
+00:01:30.275 --> 00:01:31.835
+it can't be used for planning.
+
+38
+00:01:31.835 --> 00:01:34.460
+However, as the agent interacts
+with the environment,
+
+39
+00:01:34.460 --> 00:01:37.315
+the model stores more
+and more transitions.
+
+40
+00:01:37.315 --> 00:01:39.890
+Then, the agent can
+perform updates
+
+41
+00:01:39.890 --> 00:01:42.590
+by simulating transitions
+it's seen before.
+
+42
+00:01:42.590 --> 00:01:44.420
+That means that as long as
+
+43
+00:01:44.420 --> 00:01:46.610
+the agent has seen
+some transitions,
+
+44
+00:01:46.610 --> 00:01:48.455
+it can plan with the model.
+
+45
+00:01:48.455 --> 00:01:50.270
+Now let's think
+about how changes in
+
+46
+00:01:50.270 --> 00:01:52.280
+the environment affect planning.
+
+47
+00:01:52.280 --> 00:01:55.055
+Imagine that the agent
+has already visited
+
+48
+00:01:55.055 --> 00:01:56.765
+every state action pair
+
+49
+00:01:56.765 --> 00:01:59.420
+and stored its experience
+in the model.
+
+50
+00:01:59.420 --> 00:02:02.000
+Then, the environment changes.
+
+51
+00:02:02.000 --> 00:02:04.160
+A transition in
+the model no longer
+
+52
+00:02:04.160 --> 00:02:06.530
+reflects the transition
+in the environment.
+
+53
+00:02:06.530 --> 00:02:08.570
+What will happen when
+the agent tries to
+
+54
+00:02:08.570 --> 00:02:11.090
+plan using its inaccurate model?
+
+55
+00:02:11.090 --> 00:02:13.910
+If the agent tries to perform
+a planning update with
+
+56
+00:02:13.910 --> 00:02:16.430
+one of the incorrect
+transitions in the model,
+
+57
+00:02:16.430 --> 00:02:18.605
+the value function or
+policy that the agent
+
+58
+00:02:18.605 --> 00:02:22.460
+updates might change in
+the wrong direction.
+
+59
+00:02:22.460 --> 00:02:25.235
+Remember that planning
+improves the policy
+
+60
+00:02:25.235 --> 00:02:27.830
+with respect to what
+the model thinks will happen,
+
+61
+00:02:27.830 --> 00:02:30.830
+rather than what will really
+happen in the environment.
+
+62
+00:02:30.830 --> 00:02:34.390
+The model becomes outdated
+when the environment changes.
+
+63
+00:02:34.390 --> 00:02:36.470
+Planning with that model
+will likely make
+
+64
+00:02:36.470 --> 00:02:40.130
+the agent's policy worse with
+respect to the environment.
+
+65
+00:02:40.130 --> 00:02:42.950
+Now that we've gone
+over the two main ways
+
+66
+00:02:42.950 --> 00:02:44.449
+that models can be inaccurate,
+
+67
+00:02:44.449 --> 00:02:46.160
+let's think about how
+agents could plan
+
+68
+00:02:46.160 --> 00:02:48.935
+successfully with
+incomplete models.
+
+69
+00:02:48.935 --> 00:02:51.290
+We've actually gone
+over one such algorithm
+
+70
+00:02:51.290 --> 00:02:53.240
+already, Dyna queue.
+
+71
+00:02:53.240 --> 00:02:54.830
+Let's see how Dyna queue does
+
+72
+00:02:54.830 --> 00:02:56.945
+planning with
+an incomplete model.
+
+73
+00:02:56.945 --> 00:02:59.720
+In the planning step,
+we must determine which
+
+74
+00:02:59.720 --> 00:03:02.320
+state action pairs to
+query the model with.
+
+75
+00:03:02.320 --> 00:03:04.640
+The model only knows
+the next state and
+
+76
+00:03:04.640 --> 00:03:07.940
+reward from state action pairs
+it has already visited.
+
+77
+00:03:07.940 --> 00:03:10.730
+Therefore, Dyna queue can
+only do planning updates from
+
+78
+00:03:10.730 --> 00:03:13.190
+previously visited
+state action pairs.
+
+79
+00:03:13.190 --> 00:03:14.420
+Dyna queue only plans
+
+80
+00:03:14.420 --> 00:03:16.135
+the transitions it
+has already seen.
+
+81
+00:03:16.135 --> 00:03:18.465
+So, in the first few time
+steps of learning,
+
+82
+00:03:18.465 --> 00:03:19.890
+Dyna queue might do
+
+83
+00:03:19.890 --> 00:03:23.140
+quite a few planning updates
+with the same transition.
+
+84
+00:03:23.140 --> 00:03:25.070
+However, as Dyna queue visits
+
+85
+00:03:25.070 --> 00:03:27.199
+more state action pairs
+in the environment,
+
+86
+00:03:27.199 --> 00:03:29.330
+its planning updates
+become more evenly
+
+87
+00:03:29.330 --> 00:03:32.785
+distributed throughout
+the state action space.
+
+88
+00:03:32.785 --> 00:03:35.090
+In this video, we talked about
+
+89
+00:03:35.090 --> 00:03:37.010
+how models can be inaccurate
+
+90
+00:03:37.010 --> 00:03:38.885
+if they are either incomplete
+
+91
+00:03:38.885 --> 00:03:41.510
+or if the environment changes.
+
+92
+00:03:41.510 --> 00:03:44.960
+Planning with an inaccurate
+model improves the policy or
+
+93
+00:03:44.960 --> 00:03:46.310
+value function with respect to
+
+94
+00:03:46.310 --> 00:03:48.740
+the model and not
+the environment.
+
+95
+00:03:48.740 --> 00:03:50.690
+Dyna queue can plan with
+
+96
+00:03:50.690 --> 00:03:52.640
+an incomplete model
+by only sampling
+
+97
+00:03:52.640 --> 00:03:54.530
+state action pairs that
+had been previously
+
+98
+00:03:54.530 --> 00:03:57.730
+visited. See you next time.

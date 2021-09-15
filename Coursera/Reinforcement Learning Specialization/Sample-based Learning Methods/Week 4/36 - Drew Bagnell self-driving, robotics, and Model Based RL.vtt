@@ -1,0 +1,532 @@
+WEBVTT
+
+1
+00:00:04.700 --> 00:00:07.091
+[MUSIC]
+
+2
+00:00:07.091 --> 00:00:08.670
+Hi, I'm Drew bagnell.
+
+3
+00:00:08.670 --> 00:00:11.709
+I'm the chief technology
+officer at Aurora Innovation.
+
+4
+00:00:11.709 --> 00:00:15.350
+I'm going to talk to you a little bit
+today about self-driving, robotics and
+
+5
+00:00:15.350 --> 00:00:17.293
+model-based reinforcement learning.
+
+6
+00:00:17.293 --> 00:00:21.791
+You know, we're really in the beginning of
+a revolution in robotics from manipulation
+
+7
+00:00:21.791 --> 00:00:23.323
+to drones to self-driving.
+
+8
+00:00:23.323 --> 00:00:26.768
+These techniques are in general
+deeply dependent on machine learning.
+
+9
+00:00:26.768 --> 00:00:31.810
+For instance within the use of perception,
+we've had no credible story for
+
+10
+00:00:31.810 --> 00:00:36.798
+how to do perception without machine
+learning for nearly two decades now.
+
+11
+00:00:36.798 --> 00:00:41.183
+What I'm showing in the video you're
+seeing is a autonomous vehicle,
+
+12
+00:00:41.183 --> 00:00:43.157
+an Aurora autonomous vehicle,
+
+13
+00:00:43.157 --> 00:00:48.400
+driving along in a scene of typical
+complexity for an urban environment.
+
+14
+00:00:48.400 --> 00:00:53.110
+In blue you're seeing a machine learning
+based perception system detect and
+
+15
+00:00:53.110 --> 00:00:56.451
+understand the motion of parked and
+moving vehicles.
+
+16
+00:00:56.451 --> 00:01:01.034
+In gold, cyclists sharing the road and
+in red, dense crowds of pedestrians.
+
+17
+00:01:01.034 --> 00:01:04.529
+It's important to these applications to
+achieve extreme accuracy in all weather
+
+18
+00:01:04.529 --> 00:01:05.246
+and occlusion.
+
+19
+00:01:07.979 --> 00:01:11.985
+What's been interesting over the last say
+decade is the increase of importance of
+
+20
+00:01:11.985 --> 00:01:14.900
+using machine learning in
+the decision-making process.
+
+21
+00:01:16.300 --> 00:01:19.089
+Decision making is very
+complex in urban environments.
+
+22
+00:01:19.089 --> 00:01:20.177
+I'm showing here for
+
+23
+00:01:20.177 --> 00:01:24.113
+instance an autonomous vehicle finding
+a gap in a dense flow of pedestrians.
+
+24
+00:01:24.113 --> 00:01:27.102
+What makes this difficult is
+the importance of context and
+
+25
+00:01:27.102 --> 00:01:28.510
+other actors in the scene.
+
+26
+00:01:28.510 --> 00:01:33.013
+And it turns out to be very difficult
+to build and hand-tune rules for
+
+27
+00:01:33.013 --> 00:01:36.199
+problems like the one
+being demonstrated here or
+
+28
+00:01:36.199 --> 00:01:39.243
+even things as simple as a stop sign or
+a merge.
+
+29
+00:01:42.479 --> 00:01:47.325
+You'll note in these examples that I'm
+talking about in robotics that they all
+
+30
+00:01:47.325 --> 00:01:50.500
+rely on continuous states and actions.
+
+31
+00:01:50.500 --> 00:01:55.157
+I'm showing here a spectacular example of
+model-based reinforcement learning applied
+
+32
+00:01:55.157 --> 00:01:57.616
+to acrobatic autonomous
+helicopter control.
+
+33
+00:01:57.616 --> 00:02:01.179
+In this work by Pieter Abbeel and his
+colleagues, they demonstrated they could
+
+34
+00:02:01.179 --> 00:02:04.902
+use model-based reinforcement learning
+techniques on the continuous states and
+
+35
+00:02:04.902 --> 00:02:08.358
+actions, the positions, velocities and
+controls of a model helicopter and
+
+36
+00:02:08.358 --> 00:02:11.100
+make it perform exceptional acrobatics.
+
+37
+00:02:11.100 --> 00:02:15.985
+The key to making such techniques
+practical is the use of continuous state
+
+38
+00:02:15.985 --> 00:02:19.152
+and action models of
+the helicopter dynamics.
+
+39
+00:02:22.867 --> 00:02:24.600
+So models, what do I mean by models?
+
+40
+00:02:25.700 --> 00:02:29.556
+By model, I mean a transition function or
+dynamics,
+
+41
+00:02:29.556 --> 00:02:34.784
+a function that maps the current state and
+action to the next state as well
+
+42
+00:02:34.784 --> 00:02:40.031
+as a function that can evaluate the cost
+at a particular state in action.
+
+43
+00:02:40.031 --> 00:02:44.566
+A dirty secret in the field is that
+practically all robot learning
+
+44
+00:02:44.566 --> 00:02:49.034
+problems that involve decisions
+are in some way model-based.
+
+45
+00:02:49.034 --> 00:02:50.878
+And you might ask why is this true?
+
+46
+00:02:50.878 --> 00:02:53.871
+Well, fundamentally
+interactions between for
+
+47
+00:02:53.871 --> 00:02:57.961
+instance robots in the world
+are expensive and time-consuming.
+
+48
+00:02:57.961 --> 00:03:02.148
+And it's often said that it's say
+better to die in simulation than
+
+49
+00:03:02.148 --> 00:03:03.658
+it is in the real world.
+
+50
+00:03:03.658 --> 00:03:07.595
+The way to formalize this intuition
+is to talk about sample complexity.
+
+51
+00:03:07.595 --> 00:03:12.973
+How many interactions with the world
+are required to achieve high performance.
+
+52
+00:03:12.973 --> 00:03:16.097
+And what we've learned
+both practically and
+
+53
+00:03:16.097 --> 00:03:20.538
+very recently theoretically is
+it can take exponentially fewer
+
+54
+00:03:20.538 --> 00:03:25.074
+interactions to learn with a model
+than it does to learn without.
+
+55
+00:03:28.682 --> 00:03:33.044
+Okay, what I'm going to take you
+through now is how we take advantage of
+
+56
+00:03:33.044 --> 00:03:38.296
+a continuous state and action model using
+quadratic value function approximation.
+
+57
+00:03:38.296 --> 00:03:42.045
+Quadratic value function approximation
+is a powerful technique for
+
+58
+00:03:42.045 --> 00:03:47.036
+model-based reinforcement learning that
+goes back to optimal control in the 1960s.
+
+59
+00:03:47.036 --> 00:03:51.255
+This class of techniques was the one used
+in the spectacular helicopter acrobatics
+
+60
+00:03:51.255 --> 00:03:52.044
+you saw above.
+
+61
+00:03:52.044 --> 00:03:56.419
+And it's widely used in creating
+trajectories from drones to medical robots
+
+62
+00:03:56.419 --> 00:03:59.055
+to manipulators to self-driving vehicles.
+
+63
+00:03:59.055 --> 00:04:03.098
+And this quadratic form approximation
+of a value function again,
+
+64
+00:04:03.098 --> 00:04:07.872
+continuous in state and actions,
+is particularly elegant for a few reasons.
+
+65
+00:04:07.872 --> 00:04:12.992
+One for a simple class of systems,
+notably ones whose dynamics are linear and
+
+66
+00:04:12.992 --> 00:04:18.298
+costs are quadratic, this quandrant
+value function approximation is exact.
+
+67
+00:04:18.298 --> 00:04:20.210
+It's not an approximation.
+
+68
+00:04:20.210 --> 00:04:24.465
+For other problems where the action value
+function is convex or locally convex and
+
+69
+00:04:24.465 --> 00:04:27.918
+the continuous states are actions,
+it turns out to be an excellent
+
+70
+00:04:27.918 --> 00:04:31.400
+local approximation of the true
+action value function.
+
+71
+00:04:31.400 --> 00:04:36.869
+And the key here is that given this
+approximation we can rapidly compute
+
+72
+00:04:36.869 --> 00:04:41.897
+the optimal policy in closed form
+even with continuous actions.
+
+73
+00:04:41.897 --> 00:04:44.398
+Okay, so it's an interesting
+exercise to go through and
+
+74
+00:04:44.398 --> 00:04:46.700
+actually try to compute
+what the optimal policy is.
+
+75
+00:04:48.400 --> 00:04:53.458
+It's worth doing this by hand for
+a single scalar variable X and
+
+76
+00:04:53.458 --> 00:04:57.377
+state and for
+single scalar control or action A.
+
+77
+00:04:57.377 --> 00:05:00.617
+If you're familiar with matrix calculus,
+this is a very quick computation.
+
+78
+00:05:00.617 --> 00:05:05.083
+But if you're not it's worth struggling
+for a while to understand how it works.
+
+79
+00:05:05.083 --> 00:05:08.786
+The nice part is once you
+compute this optimal policy,
+
+80
+00:05:08.786 --> 00:05:12.407
+you can plug it back in to
+the action value function and
+
+81
+00:05:12.407 --> 00:05:18.500
+extract the optimal value function V and
+it'll turn out to be quadratic as well.
+
+82
+00:05:18.500 --> 00:05:21.700
+The general family of techniques
+that take advantage of this
+
+83
+00:05:21.700 --> 00:05:24.000
+are known as differential
+dynamic programming.
+
+84
+00:05:25.200 --> 00:05:30.168
+Once you have gone through the exercise we
+described above you can pull it together
+
+85
+00:05:30.168 --> 00:05:34.488
+with the techniques you've already
+learned in dynamic programming or
+
+86
+00:05:34.488 --> 00:05:39.326
+in using the Bellman equation and compute
+an optimum policy for all time steps.
+
+87
+00:05:39.326 --> 00:05:43.388
+And the idea is we go backwards in time
+in the standard dynamic programming form.
+
+88
+00:05:43.388 --> 00:05:47.125
+We computed every time step
+series particularly Taylor series
+
+89
+00:05:47.125 --> 00:05:52.070
+approximation of the model and the known
+cost function up to first or second order.
+
+90
+00:05:52.070 --> 00:05:57.005
+Then we use the Bellman equation to back
+up a quadratic approximation of the action
+
+91
+00:05:57.005 --> 00:06:01.298
+value function given a quadratic
+approximation of the future value and
+
+92
+00:06:01.298 --> 00:06:05.323
+the quadratic approximations we
+just computed of model and cost.
+
+93
+00:06:05.323 --> 00:06:10.062
+Then we use the exercise we did above
+to compute the optimal policy and thus
+
+94
+00:06:10.062 --> 00:06:15.350
+the optimal value at time step T minus 1
+and this gets iterated backwards in time.
+
+95
+00:06:15.350 --> 00:06:16.986
+Now, it's very common and
+
+96
+00:06:16.986 --> 00:06:21.185
+in fact using the approach we described
+above to then go back and refine
+
+97
+00:06:21.185 --> 00:06:25.970
+the Taylor series approximation by taking
+advantage of the new policy we have.
+
+98
+00:06:25.970 --> 00:06:31.647
+Think about this as giving us a new
+point to linearize the model above.
+
+99
+00:06:31.647 --> 00:06:36.155
+Okay, there's lots of details to both the
+algebra and to getting this to work and
+
+100
+00:06:36.155 --> 00:06:40.070
+fortunately there's lots of great
+resources online that you can take
+
+101
+00:06:40.070 --> 00:06:43.014
+advantage of to learn more
+about these techniques.
+
+102
+00:06:43.014 --> 00:06:47.631
+Here you can find my notes on
+the techniques I applied that we discussed
+
+103
+00:06:47.631 --> 00:06:51.870
+above as well as Katerina Fragkiadaki's
+lectures on the same.
+
+104
+00:06:51.870 --> 00:06:55.637
+I'll also note that Yuval Tassa's paper
+on online trajectory optimization is
+
+105
+00:06:55.637 --> 00:06:57.885
+particularly clear and
+easy to work through for
+
+106
+00:06:57.885 --> 00:07:00.600
+this approach that I just described.
+
+107
+00:07:00.600 --> 00:07:05.300
+Okay, now that we have a technique that
+can take advantage of a continuous state
+
+108
+00:07:05.300 --> 00:07:09.925
+and action model and learn about a policy
+which may be optimal or near optimal,
+
+109
+00:07:09.925 --> 00:07:14.187
+we'll discuss next how to build models so
+we can solve RL problems.
+
+110
+00:07:15.400 --> 00:07:16.400
+Thank you for your attention.

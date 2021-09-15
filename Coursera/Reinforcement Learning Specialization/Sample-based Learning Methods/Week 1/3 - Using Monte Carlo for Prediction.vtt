@@ -1,0 +1,688 @@
+WEBVTT
+
+1
+00:00:05.000 --> 00:00:09.390
+Imagine asking 1,000 people
+about their experience doing
+
+2
+00:00:09.390 --> 00:00:11.250
+something and deciding to do
+
+3
+00:00:11.250 --> 00:00:14.280
+that thing if most of their
+experiences turned out well.
+
+4
+00:00:14.280 --> 00:00:16.755
+That's the essential flavor
+of Monte Carlo.
+
+5
+00:00:16.755 --> 00:00:18.270
+Let's look at an example using
+
+6
+00:00:18.270 --> 00:00:20.740
+Monte Carlo for prediction.
+
+7
+00:00:21.160 --> 00:00:23.345
+By the end of this video,
+
+8
+00:00:23.345 --> 00:00:24.920
+you will be able to use
+
+9
+00:00:24.920 --> 00:00:26.450
+Monte Carlo prediction
+to estimate
+
+10
+00:00:26.450 --> 00:00:28.765
+the value function
+for a given policy.
+
+11
+00:00:28.765 --> 00:00:30.590
+Let's discuss the specifics of
+
+12
+00:00:30.590 --> 00:00:32.570
+the Monte Carlo
+prediction algorithm using
+
+13
+00:00:32.570 --> 00:00:35.330
+an example with
+a card game, blackjack.
+
+14
+00:00:35.330 --> 00:00:39.350
+Blackjack is played with
+a standard deck of 52 cards.
+
+15
+00:00:39.350 --> 00:00:42.260
+The objective is to collect
+cards so that their sum
+
+16
+00:00:42.260 --> 00:00:45.230
+is as large as possible
+without exceeding 21.
+
+17
+00:00:45.230 --> 00:00:47.615
+Face cards are counted as 10,
+
+18
+00:00:47.615 --> 00:00:49.280
+while each ace can count as
+
+19
+00:00:49.280 --> 00:00:52.360
+11 or 1 based on
+the player's preference.
+
+20
+00:00:52.360 --> 00:00:54.330
+The game begins with two cards
+
+21
+00:00:54.330 --> 00:00:56.555
+dealt to both the player
+and the dealer.
+
+22
+00:00:56.555 --> 00:00:58.910
+The player can see one
+of the dealer's cards,
+
+23
+00:00:58.910 --> 00:01:00.755
+but the other is face down.
+
+24
+00:01:00.755 --> 00:01:03.109
+If the player immediately has 21,
+
+25
+00:01:03.109 --> 00:01:04.970
+they win unless the dealer also
+
+26
+00:01:04.970 --> 00:01:07.670
+has 21 in which case they draw.
+
+27
+00:01:07.670 --> 00:01:10.310
+If the player doesn't
+have 21 immediately,
+
+28
+00:01:10.310 --> 00:01:15.530
+they can request more cards
+one at a time or a hit.
+
+29
+00:01:15.530 --> 00:01:18.199
+If the sum of the player's cards
+ever exceeds 21,
+
+30
+00:01:18.199 --> 00:01:20.810
+we say the player
+goes bust and loses.
+
+31
+00:01:20.810 --> 00:01:23.060
+Otherwise when the player
+decides to stop
+
+32
+00:01:23.060 --> 00:01:25.220
+requesting cards or sticks,
+
+33
+00:01:25.220 --> 00:01:27.790
+it becomes the dealer's turn.
+
+34
+00:01:27.790 --> 00:01:29.930
+The dealer only hits if
+
+35
+00:01:29.930 --> 00:01:32.180
+the sum of their cards
+is less than 17,
+
+36
+00:01:32.180 --> 00:01:35.425
+if the dealer goes
+bust the player wins.
+
+37
+00:01:35.425 --> 00:01:37.550
+Otherwise, the winner
+of the game is
+
+38
+00:01:37.550 --> 00:01:40.130
+a player who's sum
+is closer to 21.
+
+39
+00:01:40.130 --> 00:01:42.140
+We can formulate this problem as
+
+40
+00:01:42.140 --> 00:01:44.030
+an undiscounted MDP where
+
+41
+00:01:44.030 --> 00:01:47.255
+each game of blackjack
+corresponds to an episode.
+
+42
+00:01:47.255 --> 00:01:49.100
+Rewards are given at the end of
+
+43
+00:01:49.100 --> 00:01:51.620
+the game with minus
+one for a loss,
+
+44
+00:01:51.620 --> 00:01:52.880
+zero for a draw,
+
+45
+00:01:52.880 --> 00:01:54.560
+and one for a win.
+
+46
+00:01:54.560 --> 00:01:57.635
+The player has
+two actions, hit or stick.
+
+47
+00:01:57.635 --> 00:01:59.120
+The player decides to hit or
+
+48
+00:01:59.120 --> 00:02:01.225
+stick based on three variables,
+
+49
+00:02:01.225 --> 00:02:04.160
+whether they have a usable ace
+which is an ace that can
+
+50
+00:02:04.160 --> 00:02:08.074
+count as 11 without
+their sum exceeding 21,
+
+51
+00:02:08.074 --> 00:02:12.230
+the sum of their cards and
+the card the dealer shows.
+
+52
+00:02:12.230 --> 00:02:14.780
+There are 200 states in total.
+
+53
+00:02:14.780 --> 00:02:16.640
+We assume the cards are dealt
+
+54
+00:02:16.640 --> 00:02:18.455
+from the deck with replacement.
+
+55
+00:02:18.455 --> 00:02:19.730
+This means that there's
+
+56
+00:02:19.730 --> 00:02:21.790
+no point in keeping track
+of the cards that had
+
+57
+00:02:21.790 --> 00:02:23.150
+been dealt and that the
+
+58
+00:02:23.150 --> 00:02:25.645
+state respects
+the Markov property.
+
+59
+00:02:25.645 --> 00:02:28.580
+Let's use Monte Carlo to
+learn the value function for
+
+60
+00:02:28.580 --> 00:02:32.510
+the policy that sticks when
+the player sum is 20 or 21.
+
+61
+00:02:32.510 --> 00:02:34.310
+Suppose in the first state,
+
+62
+00:02:34.310 --> 00:02:36.950
+the agents card shows
+a total of 13 with
+
+63
+00:02:36.950 --> 00:02:40.640
+no usable ace and the dealers
+visible card shows 10.
+
+64
+00:02:40.640 --> 00:02:43.010
+Since the agent's
+policy is fixed,
+
+65
+00:02:43.010 --> 00:02:46.040
+it hits and gets a
+7 moving it to 20.
+
+66
+00:02:46.040 --> 00:02:48.230
+The agent sticks
+because its sum is
+
+67
+00:02:48.230 --> 00:02:51.275
+20 and it's now the dealers turn.
+
+68
+00:02:51.275 --> 00:02:54.590
+The dealer draws a nine
+and goes bust losing
+
+69
+00:02:54.590 --> 00:02:58.115
+the game and resulting in plus
+one reward for the agent.
+
+70
+00:02:58.115 --> 00:03:01.100
+Now, that the first episode
+is over the agent can
+
+71
+00:03:01.100 --> 00:03:04.525
+perform a Monte Carlo update
+and so start learning.
+
+72
+00:03:04.525 --> 00:03:06.380
+The return from each state in
+
+73
+00:03:06.380 --> 00:03:08.480
+a episode is plus one because
+
+74
+00:03:08.480 --> 00:03:10.940
+the only non-zero reward
+is plus one at the end of
+
+75
+00:03:10.940 --> 00:03:14.060
+the episode and
+the discount factor is one.
+
+76
+00:03:14.060 --> 00:03:16.430
+Now, let's look at the
+states starting from
+
+77
+00:03:16.430 --> 00:03:19.510
+the end of the episode
+and working backwards.
+
+78
+00:03:19.510 --> 00:03:21.915
+In the last non-terminal state,
+
+79
+00:03:21.915 --> 00:03:23.780
+the card sum was 20 with
+
+80
+00:03:23.780 --> 00:03:27.230
+no usable ace and the dealer
+had a visible 10.
+
+81
+00:03:27.230 --> 00:03:29.240
+Let's call this state A.
+
+82
+00:03:29.240 --> 00:03:32.890
+We add plus one to the list
+of returns for state A
+
+83
+00:03:32.890 --> 00:03:34.500
+and set the value of state
+
+84
+00:03:34.500 --> 00:03:37.295
+A equal to the average
+of the list.
+
+85
+00:03:37.295 --> 00:03:40.880
+Stepping back to
+the second last state, state B,
+
+86
+00:03:40.880 --> 00:03:42.740
+the agent shows 13 with
+
+87
+00:03:42.740 --> 00:03:46.090
+no usable ace and the dealer
+has a visible 10.
+
+88
+00:03:46.090 --> 00:03:49.520
+Again, we add plus one to
+the list of returns now for
+
+89
+00:03:49.520 --> 00:03:51.500
+state B and set the value of
+
+90
+00:03:51.500 --> 00:03:54.365
+state B equal to
+the average of the list.
+
+91
+00:03:54.365 --> 00:03:57.830
+We've now processed every state
+in the first episode and
+
+92
+00:03:57.830 --> 00:04:01.895
+completed the Monte Carlo
+updates for that first episode.
+
+93
+00:04:01.895 --> 00:04:03.860
+Now, what would
+happen if the agent
+
+94
+00:04:03.860 --> 00:04:06.220
+played many games of blackjack?
+
+95
+00:04:06.220 --> 00:04:08.430
+Let's look at the value
+function the agent
+
+96
+00:04:08.430 --> 00:04:10.995
+learns after 10,000 episodes.
+
+97
+00:04:10.995 --> 00:04:13.520
+We'll plot one value function
+for states with
+
+98
+00:04:13.520 --> 00:04:16.985
+a usable ace and one for
+states without a usable ace.
+
+99
+00:04:16.985 --> 00:04:18.380
+The three axis of
+
+100
+00:04:18.380 --> 00:04:21.510
+the plot are the card
+the dealer's showing,
+
+101
+00:04:21.510 --> 00:04:26.260
+the agents sum, and
+the value of that state.
+
+102
+00:04:26.260 --> 00:04:29.330
+The plot with
+usable aces is much more
+
+103
+00:04:29.330 --> 00:04:32.220
+rough than the plot
+with no usable ace.
+
+104
+00:04:32.220 --> 00:04:34.160
+That's because
+most blackjack games
+
+105
+00:04:34.160 --> 00:04:35.990
+do not have a usable ace so
+
+106
+00:04:35.990 --> 00:04:37.280
+the usable ace values are
+
+107
+00:04:37.280 --> 00:04:40.080
+estimated with far fewer samples.
+
+108
+00:04:40.080 --> 00:04:42.740
+Both plots have a similar shape.
+
+109
+00:04:42.740 --> 00:04:45.410
+Looking at the values
+going across the plot,
+
+110
+00:04:45.410 --> 00:04:47.795
+it looks like the card
+the dealer's showing
+
+111
+00:04:47.795 --> 00:04:50.950
+doesn't impact the value
+function very much.
+
+112
+00:04:50.950 --> 00:04:53.455
+If we look at
+the agent's sum however,
+
+113
+00:04:53.455 --> 00:04:55.250
+the value function
+is much higher in
+
+114
+00:04:55.250 --> 00:04:58.280
+states where the agent
+has a 20 or 21.
+
+115
+00:04:58.280 --> 00:05:00.350
+Why are these values
+so much higher than
+
+116
+00:05:00.350 --> 00:05:02.435
+when the agent has a sum of 19?
+
+117
+00:05:02.435 --> 00:05:03.830
+The answer has to do with
+
+118
+00:05:03.830 --> 00:05:06.155
+the policy the agent
+is following.
+
+119
+00:05:06.155 --> 00:05:09.685
+The policy always hits
+on sums of 19 or lower.
+
+120
+00:05:09.685 --> 00:05:12.865
+So the agent is likely to
+bust when the sum is 19.
+
+121
+00:05:12.865 --> 00:05:14.650
+On the other hand,
+when the sum is
+
+122
+00:05:14.650 --> 00:05:19.435
+20 or 21 then the agent will
+stick and is likely to win.
+
+123
+00:05:19.435 --> 00:05:23.200
+Now, let's look at the value
+estimates after 500,000
+
+124
+00:05:23.200 --> 00:05:25.030
+episodes and the estimates have
+
+125
+00:05:25.030 --> 00:05:27.310
+nearly converged to
+the state values.
+
+126
+00:05:27.310 --> 00:05:30.200
+Notice the plots are
+much smoother now.
+
+127
+00:05:30.200 --> 00:05:32.670
+We see the same
+pattern as before,
+
+128
+00:05:32.670 --> 00:05:37.130
+where the values are low
+unless the sum is 20 or 21.
+
+129
+00:05:37.230 --> 00:05:39.850
+Now, what are some
+of the implications
+
+130
+00:05:39.850 --> 00:05:41.470
+of Monte Carlo learning?
+
+131
+00:05:41.470 --> 00:05:44.785
+First, Monte Carlo learns
+directly from experience.
+
+132
+00:05:44.785 --> 00:05:46.105
+So there's no need to keep
+
+133
+00:05:46.105 --> 00:05:48.415
+a large model of the environment.
+
+134
+00:05:48.415 --> 00:05:50.240
+Monte Carlo methods can estimate
+
+135
+00:05:50.240 --> 00:05:51.740
+the value of an individual state
+
+136
+00:05:51.740 --> 00:05:54.835
+independently of the values
+of any other states.
+
+137
+00:05:54.835 --> 00:05:56.900
+In dynamic programming,
+the value of
+
+138
+00:05:56.900 --> 00:05:59.630
+each state depends on
+the values of other states.
+
+139
+00:05:59.630 --> 00:06:02.060
+So this is a pretty
+big difference.
+
+140
+00:06:02.060 --> 00:06:04.730
+Finally, the computation needed
+
+141
+00:06:04.730 --> 00:06:06.515
+to update the value of each state
+
+142
+00:06:06.515 --> 00:06:08.660
+along the way doesn't depend
+
+143
+00:06:08.660 --> 00:06:11.165
+in any way on
+the size of the MDP.
+
+144
+00:06:11.165 --> 00:06:15.030
+Rather, it depends on
+the length of the episode.
+
+145
+00:06:15.070 --> 00:06:18.140
+In this video, we
+showed how to use
+
+146
+00:06:18.140 --> 00:06:19.430
+Monte Carlo prediction to
+
+147
+00:06:19.430 --> 00:06:21.654
+learn the value
+function of a policy,
+
+148
+00:06:21.654 --> 00:06:23.990
+and talked about how
+Monte Carlo learning doesn't
+
+149
+00:06:23.990 --> 00:06:27.060
+need to sweep over the whole MDP.

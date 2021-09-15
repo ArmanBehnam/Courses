@@ -1,0 +1,600 @@
+WEBVTT
+
+1
+00:00:05.030 --> 00:00:07.920
+We previously talked
+about how agents
+
+2
+00:00:07.920 --> 00:00:10.560
+can plan with models
+that are incomplete.
+
+3
+00:00:10.560 --> 00:00:13.140
+Now, let's discuss how
+agents can plan with
+
+4
+00:00:13.140 --> 00:00:15.059
+models that are inaccurate
+
+5
+00:00:15.059 --> 00:00:17.400
+because of changes
+in the environment.
+
+6
+00:00:17.400 --> 00:00:19.290
+By the end of this video,
+
+7
+00:00:19.290 --> 00:00:20.850
+you'll be able to;
+
+8
+00:00:20.850 --> 00:00:23.220
+explain how model inaccuracies
+
+9
+00:00:23.220 --> 00:00:26.280
+produce another
+exploration-exploitation trade-off,
+
+10
+00:00:26.280 --> 00:00:30.345
+and describe how Dyna-Q
+addresses this trade-off.
+
+11
+00:00:30.345 --> 00:00:32.775
+When the agents
+model is inaccurate,
+
+12
+00:00:32.775 --> 00:00:35.040
+planning will likely
+make the policy or value
+
+13
+00:00:35.040 --> 00:00:38.385
+function worse with respect
+to the environment.
+
+14
+00:00:38.385 --> 00:00:41.690
+That means the agent has
+a vested interest in
+
+15
+00:00:41.690 --> 00:00:45.360
+making sure it's
+model stays accurate.
+
+16
+00:00:45.740 --> 00:00:48.470
+In this example, the robust model
+
+17
+00:00:48.470 --> 00:00:50.120
+initially says that
+the rabbit will
+
+18
+00:00:50.120 --> 00:00:54.530
+go directly to the carrot if
+it chooses the move right.
+
+19
+00:00:54.530 --> 00:00:57.050
+However, after moving right,
+
+20
+00:00:57.050 --> 00:00:59.650
+the rabbit finds itself
+in the middle square.
+
+21
+00:00:59.650 --> 00:01:02.065
+After experiencing
+this transition,
+
+22
+00:01:02.065 --> 00:01:05.060
+the rabbit can update
+its model of the world.
+
+23
+00:01:05.060 --> 00:01:08.480
+The update reflects that
+choosing the move right action,
+
+24
+00:01:08.480 --> 00:01:09.550
+in the leftmost square,
+
+25
+00:01:09.550 --> 00:01:12.650
+will result in moving
+to the middle square.
+
+26
+00:01:12.650 --> 00:01:14.900
+We saw that the rabid corrected
+
+27
+00:01:14.900 --> 00:01:17.180
+its model after experiencing
+
+28
+00:01:17.180 --> 00:01:18.665
+a transition in the environment.
+
+29
+00:01:18.665 --> 00:01:20.550
+In general, an agent
+might want to
+
+30
+00:01:20.550 --> 00:01:24.350
+double-check that all its models
+transitions are correct.
+
+31
+00:01:24.350 --> 00:01:27.320
+However, double-checking
+transitions with
+
+32
+00:01:27.320 --> 00:01:31.100
+low valued actions will
+often lead to low reward.
+
+33
+00:01:31.100 --> 00:01:33.110
+In changing environments,
+
+34
+00:01:33.110 --> 00:01:36.040
+the agent's model might become
+inaccurate at any time.
+
+35
+00:01:36.040 --> 00:01:38.660
+So the agent has
+to make a choice;
+
+36
+00:01:38.660 --> 00:01:42.275
+explorer to make sure
+it's model is accurate,
+
+37
+00:01:42.275 --> 00:01:45.755
+or exploit the model to
+compute the optimal policy,
+
+38
+00:01:45.755 --> 00:01:48.630
+assuming that
+the model is correct.
+
+39
+00:01:49.070 --> 00:01:51.415
+When the environment changes,
+
+40
+00:01:51.415 --> 00:01:53.165
+the model will be incorrect.
+
+41
+00:01:53.165 --> 00:01:54.590
+It will remain incorrect
+
+42
+00:01:54.590 --> 00:01:56.270
+until the agent
+revisits that part
+
+43
+00:01:56.270 --> 00:01:59.645
+of the environment that
+changed and updates the model.
+
+44
+00:01:59.645 --> 00:02:01.940
+This suggests that
+the agent should
+
+45
+00:02:01.940 --> 00:02:04.985
+explore places it has
+not been to in a while.
+
+46
+00:02:04.985 --> 00:02:08.110
+Let's think about
+how that might work.
+
+47
+00:02:08.110 --> 00:02:11.300
+Roughly speaking, the model
+is more likely to be
+
+48
+00:02:11.300 --> 00:02:12.770
+wrong and states the agent has
+
+49
+00:02:12.770 --> 00:02:15.050
+not visited in a long time.
+
+50
+00:02:15.050 --> 00:02:17.270
+For example, let say the rabbit
+
+51
+00:02:17.270 --> 00:02:19.925
+knows the turtle starts
+in the following cell.
+
+52
+00:02:19.925 --> 00:02:22.130
+Since the turtle moves slowly,
+
+53
+00:02:22.130 --> 00:02:25.105
+it can't move very far in
+the first few time-steps.
+
+54
+00:02:25.105 --> 00:02:27.460
+However, after a long time,
+
+55
+00:02:27.460 --> 00:02:29.630
+the turtle might be in
+a totally different cell
+
+56
+00:02:29.630 --> 00:02:30.860
+than it started in,
+
+57
+00:02:30.860 --> 00:02:33.530
+making the rabbits
+model incorrect.
+
+58
+00:02:33.530 --> 00:02:36.935
+To encourage the agent to
+revisit its state periodically,
+
+59
+00:02:36.935 --> 00:02:40.055
+we can add a bonus to
+the reward used in planning.
+
+60
+00:02:40.055 --> 00:02:42.364
+This bonus is simply Kappa,
+
+61
+00:02:42.364 --> 00:02:45.665
+times the square root
+of Tau, where r,
+
+62
+00:02:45.665 --> 00:02:47.540
+is the reward from the model
+
+63
+00:02:47.540 --> 00:02:49.430
+and Tau is the amount of time
+
+64
+00:02:49.430 --> 00:02:51.350
+it's been since the
+state action pair
+
+65
+00:02:51.350 --> 00:02:53.795
+was last visited in
+the environment.
+
+66
+00:02:53.795 --> 00:02:56.510
+Tau is not updated in
+the planning loop,
+
+67
+00:02:56.510 --> 00:02:58.715
+that would not be a real visit.
+
+68
+00:02:58.715 --> 00:03:01.340
+Kappa is a small constant that
+
+69
+00:03:01.340 --> 00:03:02.510
+controls the influence of
+
+70
+00:03:02.510 --> 00:03:04.490
+the bonus on the planning update.
+
+71
+00:03:04.490 --> 00:03:06.260
+If Kappa was zero,
+
+72
+00:03:06.260 --> 00:03:08.585
+we would ignore
+the bonus completely.
+
+73
+00:03:08.585 --> 00:03:11.240
+Adding this exploration
+bonus to the planning
+
+74
+00:03:11.240 --> 00:03:14.840
+updates results in the
+Dyna-Q+ algorithm.
+
+75
+00:03:14.840 --> 00:03:18.620
+By artificially increasing
+the rewards used in planning,
+
+76
+00:03:18.620 --> 00:03:20.330
+we increase the value
+of state action
+
+77
+00:03:20.330 --> 00:03:23.670
+pairs it haven't been
+visited recently.
+
+78
+00:03:23.710 --> 00:03:27.345
+How exactly does this
+encourage exploration?
+
+79
+00:03:27.345 --> 00:03:29.855
+Imagine a state action pair essay
+
+80
+00:03:29.855 --> 00:03:32.030
+that has not been
+visited in a long time.
+
+81
+00:03:32.030 --> 00:03:34.610
+That means the Tau will be large.
+
+82
+00:03:34.610 --> 00:03:38.290
+As Tau grows, the bonus
+becomes bigger and bigger.
+
+83
+00:03:38.290 --> 00:03:41.210
+Eventually, planning will
+change the policy to
+
+84
+00:03:41.210 --> 00:03:44.615
+go directly to S due
+to the large bonus.
+
+85
+00:03:44.615 --> 00:03:47.615
+When the agent finally
+visit state S,
+
+86
+00:03:47.615 --> 00:03:50.060
+it might see a big reward,
+
+87
+00:03:50.060 --> 00:03:51.995
+or it might be disappointed.
+
+88
+00:03:51.995 --> 00:03:54.290
+Either way, the model
+will be updated
+
+89
+00:03:54.290 --> 00:03:56.795
+to reflect the dynamics
+of the environment.
+
+90
+00:03:56.795 --> 00:03:59.630
+Let's look at the shortcut
+maze to understand
+
+91
+00:03:59.630 --> 00:04:02.825
+the difference between
+Dyna-Q and Dyna-Q+.
+
+92
+00:04:02.825 --> 00:04:05.360
+In this example,
+the objective is to get to
+
+93
+00:04:05.360 --> 00:04:08.225
+the goal from the start state
+as fast as possible.
+
+94
+00:04:08.225 --> 00:04:10.115
+The rewards are zero everywhere,
+
+95
+00:04:10.115 --> 00:04:11.869
+except for the
+terminal transition,
+
+96
+00:04:11.869 --> 00:04:14.525
+which emits a reward of plus one.
+
+97
+00:04:14.525 --> 00:04:17.180
+The discount factor is
+less than one because we
+
+98
+00:04:17.180 --> 00:04:20.150
+want to encourage the agent
+to reach the goal quickly.
+
+99
+00:04:20.150 --> 00:04:22.980
+Both Dyna-Q and Dyna-Q+ use
+
+100
+00:04:22.980 --> 00:04:25.245
+epsilon-greedy action selection.
+
+101
+00:04:25.245 --> 00:04:27.380
+For the first half
+of the experiment,
+
+102
+00:04:27.380 --> 00:04:30.850
+Dyna-Q and Dyna-Q+
+behave very similarly.
+
+103
+00:04:30.850 --> 00:04:33.200
+In this case,
+the increased exploration
+
+104
+00:04:33.200 --> 00:04:37.100
+by Dyna-Q+ helps define
+a good policy more quickly.
+
+105
+00:04:37.100 --> 00:04:41.370
+That is why Dyna-Q+ line
+is above the Dyna-Q+ line.
+
+106
+00:04:41.950 --> 00:04:46.130
+Now, we create a shortcut on
+the right side of the wall.
+
+107
+00:04:46.130 --> 00:04:49.985
+Let's see how Dyna-Q and
+Dyna-Q+ adapt to that change.
+
+108
+00:04:49.985 --> 00:04:51.950
+Can they find the shorter path to
+
+109
+00:04:51.950 --> 00:04:54.170
+the goal through
+the right side of the wall?
+
+110
+00:04:54.170 --> 00:04:55.984
+Here are the results,
+
+111
+00:04:55.984 --> 00:04:57.695
+Dyna-Q+ finds a shortcut
+
+112
+00:04:57.695 --> 00:04:59.755
+soon after the
+environment changes,
+
+113
+00:04:59.755 --> 00:05:01.630
+Dyna-Q on the other hand,
+
+114
+00:05:01.630 --> 00:05:04.250
+does not find the shortcut
+in the time allotted.
+
+115
+00:05:04.250 --> 00:05:07.490
+Eventually, Dyna-Q will find
+the shortcut by re-exploring
+
+116
+00:05:07.490 --> 00:05:10.795
+the entire state action space
+using epsilon-greedy.
+
+117
+00:05:10.795 --> 00:05:12.860
+However, doing so would require
+
+118
+00:05:12.860 --> 00:05:15.635
+at least seven exploratory
+actions in a row.
+
+119
+00:05:15.635 --> 00:05:17.930
+So it could take
+a very long time.
+
+120
+00:05:17.930 --> 00:05:19.940
+In this environment, the
+
+121
+00:05:19.940 --> 00:05:21.770
+persistent and
+systematic exploration
+
+122
+00:05:21.770 --> 00:05:24.200
+of Dyna-Q+ was key.
+
+123
+00:05:24.200 --> 00:05:27.410
+In this video, we
+talked about how;
+
+124
+00:05:27.410 --> 00:05:30.140
+model accuracy
+produces a new variant
+
+125
+00:05:30.140 --> 00:05:32.750
+of the exploration-exploitation
+trade-off.
+
+126
+00:05:32.750 --> 00:05:34.460
+The agent has to explore to make
+
+127
+00:05:34.460 --> 00:05:36.535
+sure it's model is accurate.
+
+128
+00:05:36.535 --> 00:05:39.220
+We also talked about how Dyna-Q+
+
+129
+00:05:39.220 --> 00:05:43.020
+uses expiration bonuses to
+explore the environment.

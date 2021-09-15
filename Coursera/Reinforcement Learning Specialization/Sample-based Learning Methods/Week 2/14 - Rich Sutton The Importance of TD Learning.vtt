@@ -1,0 +1,732 @@
+WEBVTT
+
+1
+00:00:06.080 --> 00:00:08.685
+My name is Richard Sutton.
+
+2
+00:00:08.685 --> 00:00:13.710
+I'm a scientist, studied
+reinforcement all my life.
+
+3
+00:00:13.710 --> 00:00:15.090
+I'm at the University of Alberta
+
+4
+00:00:15.090 --> 00:00:17.415
+I'm at DeepMind operator.
+
+5
+00:00:17.415 --> 00:00:23.400
+And my spell my name is
+S-U-T-T-O-N Richard is certain.
+
+6
+00:00:23.400 --> 00:00:26.430
+Okay. Today, I'm here
+
+7
+00:00:26.430 --> 00:00:27.810
+to tell you about the importance
+
+8
+00:00:27.810 --> 00:00:29.145
+of temporal difference learning.
+
+9
+00:00:29.145 --> 00:00:30.510
+Temporal difference learning is
+
+10
+00:00:30.510 --> 00:00:32.070
+a learning method that's
+
+11
+00:00:32.070 --> 00:00:34.140
+specialized for
+prediction Learning.
+
+12
+00:00:34.140 --> 00:00:35.655
+And this makes it like
+
+13
+00:00:35.655 --> 00:00:37.500
+the most important
+thing really for
+
+14
+00:00:37.500 --> 00:00:41.820
+artificial intelligence
+in this century.
+
+15
+00:00:41.820 --> 00:00:45.530
+So we know we focused
+on methods that
+
+16
+00:00:45.530 --> 00:00:50.235
+scale with computation
+in recent years.
+
+17
+00:00:50.235 --> 00:00:52.200
+In the old days we had
+
+18
+00:00:52.200 --> 00:00:54.090
+very similar methods but
+
+19
+00:00:54.090 --> 00:00:56.990
+now computation is
+so much greater.
+
+20
+00:00:56.990 --> 00:01:01.985
+Because of that, these methods
+are much more impactful.
+
+21
+00:01:01.985 --> 00:01:06.230
+So the kind of learning
+that skills the best most
+
+22
+00:01:06.230 --> 00:01:08.510
+thoroughly to a larger extent
+
+23
+00:01:08.510 --> 00:01:11.105
+with computation is
+prediction learning.
+
+24
+00:01:11.105 --> 00:01:11.855
+You think about it.
+
+25
+00:01:11.855 --> 00:01:13.685
+Prediction learning means you've
+
+26
+00:01:13.685 --> 00:01:15.100
+tried to predict what
+will happen next,
+
+27
+00:01:15.100 --> 00:01:16.700
+you make a prediction,
+you wait and you see what
+
+28
+00:01:16.700 --> 00:01:17.990
+happens and then when
+
+29
+00:01:17.990 --> 00:01:19.330
+you find out what
+happens, you learn.
+
+30
+00:01:19.330 --> 00:01:20.590
+And because of this,
+
+31
+00:01:20.590 --> 00:01:21.720
+because you just have to wait,
+
+32
+00:01:21.720 --> 00:01:23.360
+you don't need training sets.
+
+33
+00:01:23.360 --> 00:01:24.590
+You don't need people to do a lot
+
+34
+00:01:24.590 --> 00:01:25.910
+of work and prepare things.
+
+35
+00:01:25.910 --> 00:01:28.250
+You don't even need an objective.
+
+36
+00:01:28.250 --> 00:01:30.230
+Learning to predict is the single
+
+37
+00:01:30.230 --> 00:01:31.895
+most scalable kind of learning.
+
+38
+00:01:31.895 --> 00:01:34.550
+And temporal
+difference learning is
+
+39
+00:01:34.550 --> 00:01:36.335
+a kind of learning
+that specialize
+
+40
+00:01:36.335 --> 00:01:37.805
+for learning to predict.
+
+41
+00:01:37.805 --> 00:01:39.815
+So what might that mean?
+
+42
+00:01:39.815 --> 00:01:41.515
+What's special about
+learning to predict?
+
+43
+00:01:41.515 --> 00:01:44.430
+Well, one is time passes by
+and you make a prediction.
+
+44
+00:01:44.430 --> 00:01:46.660
+You actually make a series
+of predictions every moment.
+
+45
+00:01:46.660 --> 00:01:48.050
+You make prediction
+after prediction
+
+46
+00:01:48.050 --> 00:01:49.280
+after prediction and then,
+
+47
+00:01:49.280 --> 00:01:51.320
+you actually find out about what
+
+48
+00:01:51.320 --> 00:01:53.780
+the correct answers were
+for all those predictions.
+
+49
+00:01:53.780 --> 00:01:55.565
+When you find out what
+actually happens.
+
+50
+00:01:55.565 --> 00:01:57.740
+And so to deal with the temporal,
+
+51
+00:01:57.740 --> 00:02:00.335
+the consequences of
+that temporal structure,
+
+52
+00:02:00.335 --> 00:02:01.550
+you need to have specialized
+
+53
+00:02:01.550 --> 00:02:02.660
+learning rules and that's
+
+54
+00:02:02.660 --> 00:02:04.615
+why we have temporal
+difference learning.
+
+55
+00:02:04.615 --> 00:02:07.040
+Now I'm sure you've already also
+
+56
+00:02:07.040 --> 00:02:10.205
+learned or heard about methods
+for supervised learning.
+
+57
+00:02:10.205 --> 00:02:12.050
+Supervised learning means
+there is some kind of
+
+58
+00:02:12.050 --> 00:02:15.630
+supervisor that tells
+you what the answer is.
+
+59
+00:02:16.400 --> 00:02:19.360
+Maybe that happens in
+school, but in normal life,
+
+60
+00:02:19.360 --> 00:02:21.110
+we don't have supervisors
+
+61
+00:02:21.110 --> 00:02:22.940
+or instructors telling
+us what to do.
+
+62
+00:02:22.940 --> 00:02:24.740
+But in prediction learning,
+we do in prediction.
+
+63
+00:02:24.740 --> 00:02:25.460
+In prediction learning, you make
+
+64
+00:02:25.460 --> 00:02:26.330
+a prediction and then you
+
+65
+00:02:26.330 --> 00:02:28.250
+just wait and you find
+out what happens.
+
+66
+00:02:28.250 --> 00:02:30.155
+This is so special.
+
+67
+00:02:30.155 --> 00:02:33.540
+So you might say
+
+68
+00:02:33.890 --> 00:02:37.530
+prediction learning is
+supervised because you wait,
+
+69
+00:02:37.530 --> 00:02:39.860
+you find out what happens
+and then that instructs you.
+
+70
+00:02:39.860 --> 00:02:41.675
+And you might say
+it's also that it's
+
+71
+00:02:41.675 --> 00:02:43.280
+unsupervised because you didn't
+
+72
+00:02:43.280 --> 00:02:44.420
+have to have a supervisor,
+
+73
+00:02:44.420 --> 00:02:46.520
+you just waited and
+you found out to
+
+74
+00:02:46.520 --> 00:02:49.640
+the natural course of events
+what you should've said.
+
+75
+00:02:49.640 --> 00:02:52.220
+So I like to think sometimes
+that prediction learning
+
+76
+00:02:52.220 --> 00:02:56.220
+is the unsupervised
+supervised learning.
+
+77
+00:02:56.620 --> 00:02:59.975
+Temporal difference
+learning, remember is
+
+78
+00:02:59.975 --> 00:03:02.365
+a method that's specialized
+
+79
+00:03:02.365 --> 00:03:03.410
+for prediction learning for
+
+80
+00:03:03.410 --> 00:03:04.970
+multi-step prediction learning.
+
+81
+00:03:04.970 --> 00:03:08.060
+Now let me say one other thing
+about supervised learning.
+
+82
+00:03:08.060 --> 00:03:10.520
+You may often have heard
+supervised learning
+
+83
+00:03:10.520 --> 00:03:14.330
+described as prediction learning
+and it is in a sense.
+
+84
+00:03:14.330 --> 00:03:16.550
+The most important
+sense it's not.
+
+85
+00:03:16.550 --> 00:03:17.840
+It's when you make
+
+86
+00:03:17.840 --> 00:03:22.850
+a prediction and then you're
+told what the answer is.
+
+87
+00:03:22.850 --> 00:03:23.840
+It's not where you
+actually have to
+
+88
+00:03:23.840 --> 00:03:25.325
+wait and see what happens.
+
+89
+00:03:25.325 --> 00:03:28.550
+Supervised learning is
+often training sets or,
+
+90
+00:03:28.550 --> 00:03:30.650
+you could use
+prediction learning in
+
+91
+00:03:30.650 --> 00:03:31.700
+the special case
+where you're only
+
+92
+00:03:31.700 --> 00:03:32.900
+trying to predict one step,
+
+93
+00:03:32.900 --> 00:03:35.080
+then you can make
+a prediction, wait one step,
+
+94
+00:03:35.080 --> 00:03:37.160
+see the result and you can
+
+95
+00:03:37.160 --> 00:03:40.115
+treat it as a traditional
+supervised learning problem.
+
+96
+00:03:40.115 --> 00:03:43.310
+But most of our predictions
+are not one-step predictions.
+
+97
+00:03:43.310 --> 00:03:47.270
+We just see what happens
+like later in the day,
+
+98
+00:03:47.270 --> 00:03:48.685
+or a second from now,
+
+99
+00:03:48.685 --> 00:03:50.130
+one step. What does one step?
+
+100
+00:03:50.130 --> 00:03:51.890
+One step might be
+considered a tenth of a
+
+101
+00:03:51.890 --> 00:03:53.990
+second and assure we make
+
+102
+00:03:53.990 --> 00:03:56.240
+predictions at a tenth of
+a second but much more
+
+103
+00:03:56.240 --> 00:03:59.225
+important in our lives, our
+longer-term predictions.
+
+104
+00:03:59.225 --> 00:03:59.860
+Well,
+
+105
+00:03:59.860 --> 00:04:01.845
+if prediction learning and
+temporal difference learning
+
+106
+00:04:01.845 --> 00:04:03.570
+so it's an important
+kind of learning,
+
+107
+00:04:03.570 --> 00:04:05.360
+you might expect that it might
+
+108
+00:04:05.360 --> 00:04:08.525
+arise in natural systems
+in animals and people.
+
+109
+00:04:08.525 --> 00:04:11.119
+And it's almost incidental
+
+110
+00:04:11.119 --> 00:04:14.565
+to our development within
+the artificial intelligence,
+
+111
+00:04:14.565 --> 00:04:16.720
+but it is true that
+
+112
+00:04:16.720 --> 00:04:19.550
+temporal difference learning
+has played a major role in
+
+113
+00:04:19.550 --> 00:04:21.950
+the theory of how animals
+
+114
+00:04:21.950 --> 00:04:25.025
+learn and particularly
+in the reward systems.
+
+115
+00:04:25.025 --> 00:04:26.990
+Temporal difference model is now
+
+116
+00:04:26.990 --> 00:04:29.720
+the standard model of
+reward systems in the brain.
+
+117
+00:04:29.720 --> 00:04:31.280
+We can see signals in the brain
+
+118
+00:04:31.280 --> 00:04:32.975
+that correspond
+with the TD error.
+
+119
+00:04:32.975 --> 00:04:36.425
+And these appear
+to drive learning
+
+120
+00:04:36.425 --> 00:04:38.330
+just as would be predicted
+
+121
+00:04:38.330 --> 00:04:40.820
+by temporal difference
+learning models.
+
+122
+00:04:40.820 --> 00:04:43.940
+So you may have heard
+about dopamine,
+
+123
+00:04:43.940 --> 00:04:46.580
+the stand in animals
+and in mammals.
+
+124
+00:04:46.580 --> 00:04:47.840
+The thing that carries
+
+125
+00:04:47.840 --> 00:04:49.130
+the temporal difference error
+
+126
+00:04:49.130 --> 00:04:51.490
+is the dopamine neurotransmitter.
+
+127
+00:04:51.490 --> 00:04:55.430
+In other animals, it's
+a different transmitter like in
+
+128
+00:04:55.430 --> 00:04:57.980
+bees the signal that carries
+
+129
+00:04:57.980 --> 00:05:01.190
+the temporal difference area
+is called octopamine.
+
+130
+00:05:01.190 --> 00:05:03.770
+But it's the same really even in
+
+131
+00:05:03.770 --> 00:05:07.025
+these very different
+systems of animals,
+
+132
+00:05:07.025 --> 00:05:16.460
+insects and mammals and
+primates and even in sea slugs.
+
+133
+00:05:16.460 --> 00:05:19.790
+So I guess I wanted to say
+a little bit more about,
+
+134
+00:05:19.790 --> 00:05:21.380
+I'm a little bit hesitant about
+
+135
+00:05:21.380 --> 00:05:23.830
+talking about
+the relationships between
+
+136
+00:05:23.830 --> 00:05:27.600
+Engineering or AI
+models of learning
+
+137
+00:05:27.600 --> 00:05:32.090
+and psychological models of
+natural learning systems.
+
+138
+00:05:32.090 --> 00:05:35.030
+This can be overdone but I
+
+139
+00:05:35.030 --> 00:05:36.530
+still am proud of the fact
+
+140
+00:05:36.530 --> 00:05:38.675
+that temporal
+difference learning is
+
+141
+00:05:38.675 --> 00:05:40.850
+a serious important topic both in
+
+142
+00:05:40.850 --> 00:05:43.475
+AI and in psychology
+and neuroscience
+
+143
+00:05:43.475 --> 00:05:45.500
+because it is appreciated
+
+144
+00:05:45.500 --> 00:05:47.480
+in each one of
+these separate fields for
+
+145
+00:05:47.480 --> 00:05:50.660
+the very separate and
+different criteria
+
+146
+00:05:50.660 --> 00:05:52.700
+that those fields
+have for success.
+
+147
+00:05:52.700 --> 00:05:55.580
+In AI, we celebrate temporal
+difference learning because
+
+148
+00:05:55.580 --> 00:05:56.900
+it's a powerful kind of
+
+149
+00:05:56.900 --> 00:05:58.535
+learning that's very
+widely applicable.
+
+150
+00:05:58.535 --> 00:05:59.750
+And in neuroscience, they
+
+151
+00:05:59.750 --> 00:06:01.370
+celebrate temporal
+difference learning
+
+152
+00:06:01.370 --> 00:06:05.665
+because it accurately models
+predicts animal behavior.
+
+153
+00:06:05.665 --> 00:06:08.675
+And so all these things are
+really prediction Learning.
+
+154
+00:06:08.675 --> 00:06:12.020
+Prediction learning
+is the key to AI,
+
+155
+00:06:12.020 --> 00:06:13.160
+prediction learning is the most
+
+156
+00:06:13.160 --> 00:06:14.960
+important single kind
+of learning.
+
+157
+00:06:14.960 --> 00:06:17.450
+And temporal
+difference learning is
+
+158
+00:06:17.450 --> 00:06:19.340
+a specialized methods
+that take advantage of
+
+159
+00:06:19.340 --> 00:06:22.410
+the temporal structure
+of learning to predict.
+
+160
+00:06:22.480 --> 00:06:27.910
+Thank you very much.
+There's some material.
