@@ -1,0 +1,798 @@
+WEBVTT
+
+1
+00:00:00.990 --> 00:00:04.140
+So far, the classification examples
+we've talked about have used
+
+2
+00:00:04.140 --> 00:00:08.410
+binary classification,
+where you had two possible labels, 0 or 1.
+
+3
+00:00:08.410 --> 00:00:10.520
+Is it a cat, is it not a cat?
+
+4
+00:00:10.520 --> 00:00:13.050
+What if we have multiple possible classes?
+
+5
+00:00:13.050 --> 00:00:17.140
+There's a generalization of logistic
+regression called Softmax regression.
+
+6
+00:00:17.140 --> 00:00:21.130
+The less you make predictions where
+you're trying to recognize one of C or
+
+7
+00:00:21.130 --> 00:00:26.280
+one of multiple classes,
+rather than just recognize two classes.
+
+8
+00:00:26.280 --> 00:00:26.915
+Let's take a look.
+
+9
+00:00:26.915 --> 00:00:31.264
+Let's say that instead of just recognizing
+cats you want to recognize cats, dogs, and
+
+10
+00:00:31.264 --> 00:00:31.984
+baby chicks.
+
+11
+00:00:31.984 --> 00:00:38.050
+So I'm going to call cats class 1,
+dogs class 2, baby chicks class 3.
+
+12
+00:00:38.050 --> 00:00:40.914
+And if none of the above,
+then there's an other or
+
+13
+00:00:40.914 --> 00:00:44.406
+a none of the above class,
+which I'm going to call class 0.
+
+14
+00:00:44.406 --> 00:00:49.900
+So here's an example of the images and
+the classes they belong to.
+
+15
+00:00:49.900 --> 00:00:52.680
+That's a picture of a baby chick,
+so the class is 3.
+
+16
+00:00:52.680 --> 00:00:57.395
+Cats is class 1, dog is class 2,
+I guess that's a koala, so
+
+17
+00:00:57.395 --> 00:01:02.498
+that's none of the above, so
+that is class 0, class 3 and so on.
+
+18
+00:01:02.498 --> 00:01:07.554
+So the notation we're going to use is,
+I'm going to use capital C to
+
+19
+00:01:07.554 --> 00:01:13.340
+denote the number of classes you're
+trying to categorize your inputs into.
+
+20
+00:01:13.340 --> 00:01:17.628
+And in this case, you have four possible
+classes, including the other or
+
+21
+00:01:17.628 --> 00:01:19.298
+the none of the above class.
+
+22
+00:01:19.298 --> 00:01:23.921
+So when you have four classes,
+the numbers indexing
+
+23
+00:01:23.921 --> 00:01:28.660
+your classes would be 0
+through capital C minus one.
+
+24
+00:01:28.660 --> 00:01:31.550
+So in other words, that would be zero,
+one, two or three.
+
+25
+00:01:31.550 --> 00:01:36.653
+In this case, we're going to build a new
+XY, where the upper layer has four,
+
+26
+00:01:36.653 --> 00:01:40.870
+or in this case the variable
+capital alphabet C upward units.
+
+27
+00:01:43.140 --> 00:01:48.908
+So N, the number of units upper layer
+which is layer L is going to equal to 4 or
+
+28
+00:01:48.908 --> 00:01:51.807
+in general this is going to equal to C.
+
+29
+00:01:51.807 --> 00:01:56.619
+And what we want is for the number
+of units in the upper layer to tell
+
+30
+00:01:56.619 --> 00:02:00.860
+us what is the probability of
+each of these four classes.
+
+31
+00:02:00.860 --> 00:02:04.320
+So the first node here is
+supposed to output, or
+
+32
+00:02:04.320 --> 00:02:08.110
+we want it to output the probability
+that is the other class,
+
+33
+00:02:08.110 --> 00:02:12.840
+given the input x, this will
+output probability there's a cat.
+
+34
+00:02:12.840 --> 00:02:16.980
+Give an x,
+this will output probability as a dog.
+
+35
+00:02:16.980 --> 00:02:20.170
+Give an x,
+that will output the probability.
+
+36
+00:02:20.170 --> 00:02:27.910
+I'm just going to abbreviate baby
+chick to baby C, given the input x.
+
+37
+00:02:29.160 --> 00:02:36.600
+So here, the output labels y hat is going
+to be a four by one dimensional vector,
+
+38
+00:02:36.600 --> 00:02:41.760
+because it now has to output four numbers,
+giving you these four probabilities.
+
+39
+00:02:42.850 --> 00:02:48.070
+And because probabilities should sum to
+one, the four numbers in the output y hat,
+
+40
+00:02:48.070 --> 00:02:48.980
+they should sum to one.
+
+41
+00:02:50.630 --> 00:02:55.390
+The standard model for getting your
+network to do this uses what's called
+
+42
+00:02:55.390 --> 00:03:00.170
+a Softmax layer, and the output layer
+in order to generate these outputs.
+
+43
+00:03:00.170 --> 00:03:02.040
+Then write down the map,
+then you can come back and
+
+44
+00:03:02.040 --> 00:03:04.680
+get some intuition about what
+the Softmax there is doing.
+
+45
+00:03:06.610 --> 00:03:08.940
+So in the final layer
+of the neural network,
+
+46
+00:03:08.940 --> 00:03:13.360
+you are going to compute as usual
+the linear part of the layers.
+
+47
+00:03:13.360 --> 00:03:17.800
+So z, capital L, that's the z variable for
+the final layer.
+
+48
+00:03:17.800 --> 00:03:21.980
+So remember this is layer capital L.
+
+49
+00:03:21.980 --> 00:03:26.619
+So as usual you compute that
+as wL times the activation of
+
+50
+00:03:26.619 --> 00:03:32.170
+the previous layer plus the biases for
+that final layer.
+
+51
+00:03:32.170 --> 00:03:33.180
+Now having computer z,
+
+52
+00:03:33.180 --> 00:03:37.690
+you now need to apply what's called
+the Softmax activation function.
+
+53
+00:03:38.880 --> 00:03:43.340
+So that activation function is a bit
+unusual for the Softmax layer, but
+
+54
+00:03:43.340 --> 00:03:44.150
+this is what it does.
+
+55
+00:03:45.380 --> 00:03:50.081
+First, we're going to computes
+a temporary variable,
+
+56
+00:03:50.081 --> 00:03:54.180
+which we're going to call t,
+which is e to the z L.
+
+57
+00:03:54.180 --> 00:03:56.119
+So this is a part element-wise.
+
+58
+00:03:56.119 --> 00:04:00.824
+So zL here, in our example,
+zL is going to be four by one.
+
+59
+00:04:00.824 --> 00:04:03.470
+This is a four dimensional vector.
+
+60
+00:04:03.470 --> 00:04:08.720
+So t Itself e to the zL,
+that's an element wise exponentiation.
+
+61
+00:04:08.720 --> 00:04:13.100
+T will also be a 4.1 dimensional vector.
+
+62
+00:04:13.100 --> 00:04:14.825
+Then the output aL,
+
+63
+00:04:14.825 --> 00:04:20.415
+is going to be basically the vector
+t will normalized to sum to 1.
+
+64
+00:04:20.415 --> 00:04:28.673
+So aL is going to be e to the zL divided
+by sum from J equal 1 through 4,
+
+65
+00:04:28.673 --> 00:04:33.994
+because we have four
+classes of t substitute i.
+
+66
+00:04:33.994 --> 00:04:40.082
+So in other words we're saying that
+aL is also a four by one vector,
+
+67
+00:04:40.082 --> 00:04:44.780
+and the i element of this
+four dimensional vector.
+
+68
+00:04:44.780 --> 00:04:50.885
+Let's write that, aL substitute i that's
+
+69
+00:04:50.885 --> 00:04:56.660
+going to be equal to ti over sum of ti,
+okay?
+
+70
+00:04:56.660 --> 00:04:58.690
+In case this math isn't clear,
+
+71
+00:04:58.690 --> 00:05:02.320
+we'll do an example in a minute
+that will make this clearer.
+
+72
+00:05:02.320 --> 00:05:03.835
+So in case this math isn't clear,
+
+73
+00:05:03.835 --> 00:05:06.775
+let's go through a specific example
+that will make this clearer.
+
+74
+00:05:06.775 --> 00:05:10.905
+Let's say that your computer zL, and
+
+75
+00:05:10.905 --> 00:05:18.277
+zL is a four dimensional vector,
+let's say is 5, 2, -1, 3.
+
+76
+00:05:18.277 --> 00:05:22.256
+What we're going to do is use this
+element-wise exponentiation to
+
+77
+00:05:22.256 --> 00:05:23.665
+compute this vector t.
+
+78
+00:05:23.665 --> 00:05:29.465
+So t is going to be e to the 5,
+e to the 2, e to the -1, e to the 3.
+
+79
+00:05:29.465 --> 00:05:32.529
+And if you plug that in the calculator,
+these are the values you get.
+
+80
+00:05:32.529 --> 00:05:38.750
+E to the 5 is 1484,
+e squared is about 7.4,
+
+81
+00:05:38.750 --> 00:05:44.697
+e to the -1 is 0.4, and e cubed is 20.1.
+
+82
+00:05:44.697 --> 00:05:49.519
+And so, the way we go from the vector
+t to the vector aL is just
+
+83
+00:05:49.519 --> 00:05:52.910
+to normalize these entries to sum to one.
+
+84
+00:05:52.910 --> 00:05:56.808
+So if you sum up the elements of t,
+
+85
+00:05:56.808 --> 00:06:03.232
+if you just add up those
+4 numbers you get 176.3.
+
+86
+00:06:03.232 --> 00:06:09.565
+So finally,
+aL is just going to be this vector t,
+
+87
+00:06:09.565 --> 00:06:14.515
+as a vector, divided by 176.3.
+
+88
+00:06:14.515 --> 00:06:18.580
+So for example, this first node here,
+
+89
+00:06:18.580 --> 00:06:23.885
+this will output e to
+the 5 divided by 176.3.
+
+90
+00:06:23.885 --> 00:06:27.777
+And that turns out to be 0.842.
+
+91
+00:06:27.777 --> 00:06:32.675
+So saying that, for this image,
+if this is the value of z you get,
+
+92
+00:06:32.675 --> 00:06:36.434
+the chance of it being
+called zero is 84.2%.
+
+93
+00:06:36.434 --> 00:06:42.192
+And then the next nodes
+outputs e squared over 176.3,
+
+94
+00:06:42.192 --> 00:06:48.200
+that turns out to be 0.042,
+so this is 4.2% chance.
+
+95
+00:06:48.200 --> 00:06:53.449
+The next one is e to -1 over that,
+
+96
+00:06:53.449 --> 00:06:56.891
+which is 0.042.
+
+97
+00:06:56.891 --> 00:07:04.235
+And the final one is e cubed over that,
+which is 0.114.
+
+98
+00:07:04.235 --> 00:07:08.312
+So it is 11.4% chance that
+this is class number three,
+
+99
+00:07:08.312 --> 00:07:10.683
+which is the baby C class, right?
+
+100
+00:07:10.683 --> 00:07:15.568
+So there's a chance of it being class
+zero, class one, class two, class three.
+
+101
+00:07:15.568 --> 00:07:21.930
+So the output of the neural network aL,
+this is also y hat.
+
+102
+00:07:21.930 --> 00:07:25.170
+This is a 4 by 1 vector where the elements
+
+103
+00:07:25.170 --> 00:07:29.800
+of this 4 by 1 vector are going
+to be these four numbers.
+
+104
+00:07:29.800 --> 00:07:31.060
+Then we just compute it.
+
+105
+00:07:31.060 --> 00:07:38.077
+So this algorithm takes the vector zL and
+is four probabilities that sum to 1.
+
+106
+00:07:38.077 --> 00:07:43.013
+And if we summarize what we
+just did to math from zL to aL,
+
+107
+00:07:43.013 --> 00:07:47.741
+this whole computation
+confusing exponentiation to
+
+108
+00:07:47.741 --> 00:07:52.469
+get this temporary variable t and
+then normalizing,
+
+109
+00:07:52.469 --> 00:07:57.827
+we can summarize this into
+a Softmax activation function and
+
+110
+00:07:57.827 --> 00:08:03.625
+say aL equals the activation
+function g applied to the vector zL.
+
+111
+00:08:03.625 --> 00:08:08.379
+The unusual thing about this
+particular activation function is that,
+
+112
+00:08:08.379 --> 00:08:12.654
+this activation function g,
+it takes a input a 4 by 1 vector and
+
+113
+00:08:12.654 --> 00:08:15.060
+it outputs a 4 by 1 vector.
+
+114
+00:08:15.060 --> 00:08:19.280
+So previously, our activation functions
+used to take in a single row value input.
+
+115
+00:08:19.280 --> 00:08:20.875
+So for example, the sigmoid and
+
+116
+00:08:20.875 --> 00:08:24.840
+the value activation functions input
+the real number and output a real number.
+
+117
+00:08:24.840 --> 00:08:28.255
+The unusual thing about the Softmax
+activation function is,
+
+118
+00:08:28.255 --> 00:08:32.262
+because it needs to normalized across
+the different possible outputs,
+
+119
+00:08:32.262 --> 00:08:35.365
+and needs to take a vector and
+puts in outputs of vector.
+
+120
+00:08:35.365 --> 00:08:39.219
+So one of the things that a Softmax
+cross layer can represent,
+
+121
+00:08:39.219 --> 00:08:43.383
+I'm going to show you some examples
+where you have inputs x1, x2.
+
+122
+00:08:43.383 --> 00:08:48.435
+And these feed directly to
+a Softmax layer that has three or
+
+123
+00:08:48.435 --> 00:08:53.500
+four, or
+more output nodes that then output y hat.
+
+124
+00:08:53.500 --> 00:08:58.801
+So I'm going to show you a new
+network with no hidden layer,
+
+125
+00:08:58.801 --> 00:09:04.777
+and all it does is compute z1
+equals w1 times the input x plus b.
+
+126
+00:09:04.777 --> 00:09:07.359
+And then the output a1, or
+
+127
+00:09:07.359 --> 00:09:13.210
+y hat is just the Softmax
+activation function applied to z1.
+
+128
+00:09:13.210 --> 00:09:15.615
+So in this neural network
+with no hidden layers,
+
+129
+00:09:15.615 --> 00:09:20.260
+it should give you a sense of the types of
+things a Softmax function can represent.
+
+130
+00:09:20.260 --> 00:09:23.677
+So here's one example with
+just raw inputs x1 and x2.
+
+131
+00:09:23.677 --> 00:09:28.662
+A Softmax layer with C equals
+3 upper classes can represent
+
+132
+00:09:28.662 --> 00:09:31.661
+this type of decision boundaries.
+
+133
+00:09:31.661 --> 00:09:35.289
+Notice this kind of several
+linear decision boundaries,
+
+134
+00:09:35.289 --> 00:09:39.223
+but this allows it to separate
+out the data into three classes.
+
+135
+00:09:39.223 --> 00:09:44.126
+And in this diagram, what we did
+was we actually took the training
+
+136
+00:09:44.126 --> 00:09:47.335
+set that's kind of shown
+in this figure and
+
+137
+00:09:47.335 --> 00:09:52.079
+train the Softmax cross fire with
+the upper labels on the data.
+
+138
+00:09:52.079 --> 00:09:54.750
+And then the color on
+this plot shows fresh
+
+139
+00:09:54.750 --> 00:09:59.330
+holding the upward of the Softmax
+cross fire, and coloring in the input
+
+140
+00:09:59.330 --> 00:10:03.790
+base on which one of the three
+outputs have the highest probability.
+
+141
+00:10:03.790 --> 00:10:07.917
+So we can maybe we kind of see that this
+is like a generalization of logistic
+
+142
+00:10:07.917 --> 00:10:11.182
+regression with sort of linear
+decision boundaries, but
+
+143
+00:10:11.182 --> 00:10:16.065
+with more than two classes [INAUDIBLE]
+class 0, 1, the class could be 0, 1, or 2.
+
+144
+00:10:16.065 --> 00:10:20.238
+Here's another example of the decision
+boundary that a Softmax cross fire
+
+145
+00:10:20.238 --> 00:10:23.625
+represents when three normal
+datasets with three classes.
+
+146
+00:10:23.625 --> 00:10:28.731
+And here's another one, rIght, so
+this is a, but one intuition is
+
+147
+00:10:28.731 --> 00:10:34.211
+that the decision boundary between
+any two classes will be more linear.
+
+148
+00:10:34.211 --> 00:10:38.325
+That's why you see for example that
+decision boundary between the yellow and
+
+149
+00:10:38.325 --> 00:10:42.312
+the various classes, that's the linear
+boundary where the purple and red
+
+150
+00:10:42.312 --> 00:10:46.949
+linear in boundary between the purple and
+yellow and other linear decision boundary.
+
+151
+00:10:46.949 --> 00:10:49.729
+But able to use these
+different linear functions
+
+152
+00:10:49.729 --> 00:10:52.660
+in order to separate
+the space into three classes.
+
+153
+00:10:52.660 --> 00:10:55.460
+Let's look at some examples
+with more classes.
+
+154
+00:10:55.460 --> 00:10:58.199
+So it's an example with C equals 4, so
+
+155
+00:10:58.199 --> 00:11:03.096
+that the green class and Softmax can
+continue to represent these types
+
+156
+00:11:03.096 --> 00:11:07.280
+of linear decision boundaries
+between multiple classes.
+
+157
+00:11:07.280 --> 00:11:11.796
+So here's one more example
+with C equals 5 classes, and
+
+158
+00:11:11.796 --> 00:11:15.190
+here's one last example with C equals 6.
+
+159
+00:11:15.190 --> 00:11:20.184
+So this shows the type of things the
+Softmax crossfire can do when there is no
+
+160
+00:11:20.184 --> 00:11:24.545
+hidden layer of class,
+even much deeper neural network with x and
+
+161
+00:11:24.545 --> 00:11:28.860
+then some hidden units, and
+then more hidden units, and so on.
+
+162
+00:11:28.860 --> 00:11:32.850
+Then you can learn even more complex
+non-linear decision boundaries to separate
+
+163
+00:11:32.850 --> 00:11:34.065
+out multiple different classes.
+
+164
+00:11:35.240 --> 00:11:37.990
+So I hope this gives you a sense
+of what a Softmax layer or
+
+165
+00:11:37.990 --> 00:11:41.820
+the Softmax activation function
+in the neural network can do.
+
+166
+00:11:41.820 --> 00:11:42.650
+In the next video,
+
+167
+00:11:42.650 --> 00:11:46.940
+let's take a look at how you can train a
+neural network that uses a Softmax layer.

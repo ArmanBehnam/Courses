@@ -1,0 +1,421 @@
+WEBVTT
+
+1
+00:00:00.530 --> 00:00:04.590
+In the last video you saw
+how very deep neural networks
+
+2
+00:00:04.590 --> 00:00:08.330
+can have the problems of
+vanishing and exploding gradients.
+
+3
+00:00:08.330 --> 00:00:11.040
+It turns out that a partial solution to this,
+
+4
+00:00:11.040 --> 00:00:13.455
+doesn't solve it entirely but helps a lot,
+
+5
+00:00:13.455 --> 00:00:18.915
+is better or more careful choice of the
+random initialization for your neural network.
+
+6
+00:00:18.915 --> 00:00:23.220
+To understand this, let's start with the
+example of initializing the ways for
+
+7
+00:00:23.220 --> 00:00:27.505
+a single neuron, and then we're go on to
+generalize this to a deep network.
+
+8
+00:00:27.505 --> 00:00:30.040
+Let's go through this with an example with
+
+9
+00:00:30.040 --> 00:00:33.140
+just a single neuron, and then
+we'll talk about the deep net later.
+
+10
+00:00:33.140 --> 00:00:39.060
+So with a single neuron, you might input four
+features, x1 through x4, and then you have some
+
+11
+00:00:39.060 --> 00:00:42.465
+a=g(z) and then it outputs some y.
+
+12
+00:00:42.465 --> 00:00:46.830
+And later on for a deeper net,
+you know these inputs will be right,
+
+13
+00:00:46.830 --> 00:00:51.780
+some layer a(l), but for now
+let's just call this x for now.
+
+14
+00:00:51.780 --> 00:01:03.000
+So z is going to be equal to
+w1x1 + w2x2 +... + I guess WnXn.
+
+15
+00:01:03.000 --> 00:01:08.570
+And let's set b=0 so, you know,
+let's just ignore b for now.
+
+16
+00:01:08.570 --> 00:01:12.390
+So in order to make z
+not blow up and not become
+
+17
+00:01:12.390 --> 00:01:16.960
+too small, you notice that
+the larger n is,
+
+18
+00:01:16.960 --> 00:01:22.070
+the smaller you want Wi to be, right?
+
+19
+00:01:22.070 --> 00:01:25.910
+Because z is the sum of the WiXi. And
+
+20
+00:01:25.910 --> 00:01:30.680
+so if you're adding up a lot of these terms,
+you want each of these terms to be smaller.
+
+21
+00:01:30.680 --> 00:01:41.045
+One reasonable thing to do would be to
+set the variance of Wi to be equal to 1 over n,
+
+22
+00:01:41.045 --> 00:01:45.495
+where n is the number of input features
+that's going into a neuron.
+
+23
+00:01:45.495 --> 00:01:51.441
+So in practice, what you can do is set
+the weight matrix W for a certain layer
+
+24
+00:01:51.441 --> 00:01:58.045
+to be np.random.randn you know,
+
+25
+00:01:58.045 --> 00:02:02.205
+and then whatever the shape of the
+matrix is for this out here,
+
+26
+00:02:02.205 --> 00:02:06.810
+and then times square root of 1
+
+27
+00:02:06.810 --> 00:02:12.890
+over the number of features that
+I fed into each neuron in layer l.
+
+28
+00:02:12.890 --> 00:02:14.605
+So there's going to be n(l-1)
+
+29
+00:02:14.605 --> 00:02:20.700
+because that's the number of units that
+I'm feeding into each of the units
+
+30
+00:02:20.700 --> 00:02:23.340
+in layer l. It turns out that if you're using
+
+31
+00:02:23.340 --> 00:02:28.830
+a ReLu activation function that,
+rather than 1 over n it turns out that,
+
+32
+00:02:28.830 --> 00:02:32.105
+set in the variance of 2 over n
+works a little bit better.
+
+33
+00:02:32.105 --> 00:02:35.580
+So you often see that in initialization,
+especially if you're using
+
+34
+00:02:35.580 --> 00:02:42.425
+a ReLu activation function.
+So if gl(z) is ReLu(z),
+
+35
+00:02:42.425 --> 00:02:45.030
+oh and it depends on how familiar you are
+with random variables.
+
+36
+00:02:45.030 --> 00:02:46.590
+It turns out that something,
+
+37
+00:02:46.590 --> 00:02:50.835
+a Gaussian random variable and then
+multiplying it by a square root of this,
+
+38
+00:02:50.835 --> 00:02:54.330
+that sets the variance to be quoted this way,
+
+39
+00:02:54.330 --> 00:02:59.485
+to be 2 over n. And the reason I went from
+n to this n superscript l-1 was,
+
+40
+00:02:59.485 --> 00:03:02.610
+in this example with logistic regression which is at
+
+41
+00:03:02.610 --> 00:03:05.625
+n input features, but the more general case
+
+42
+00:03:05.625 --> 00:03:12.400
+layer l would have n(l-1) inputs
+each of the units in that layer.
+
+43
+00:03:12.400 --> 00:03:19.305
+So if the input features of activations are
+roughly mean 0 and standard variance
+
+44
+00:03:19.305 --> 00:03:22.760
+and variance 1 then this would cause z to also
+
+45
+00:03:22.760 --> 00:03:26.580
+take on a similar scale. And this doesn't solve,
+
+46
+00:03:26.580 --> 00:03:30.630
+but it definitely helps reduce the vanishing,
+
+47
+00:03:30.630 --> 00:03:33.240
+exploding gradients problem,
+because it's trying to set each of
+
+48
+00:03:33.240 --> 00:03:36.510
+the weight matrices w, you know,
+so that it's not too much
+
+49
+00:03:36.510 --> 00:03:42.900
+bigger than 1 and not too much less than 1
+so it doesn't explode or vanish too quickly.
+
+50
+00:03:42.900 --> 00:03:45.075
+I've just mention some other variants.
+
+51
+00:03:45.075 --> 00:03:47.640
+The version we just described is assuming
+
+52
+00:03:47.640 --> 00:03:51.270
+a ReLu activation function
+and this by a paper by [inaudible].
+
+53
+00:03:51.270 --> 00:03:53.750
+A few other variants,
+
+54
+00:03:53.750 --> 00:03:57.600
+if you are using a TanH activation function
+
+55
+00:03:57.600 --> 00:04:02.060
+then there's a paper that shows that
+instead of using the constant 2,
+
+56
+00:04:02.060 --> 00:04:06.870
+it's better use the constant 1
+and so 1 over this
+
+57
+00:04:06.870 --> 00:04:12.615
+instead of 2. And so you multiply it by
+the square root of this.
+
+58
+00:04:12.615 --> 00:04:16.605
+So this square root term will replace
+
+59
+00:04:16.605 --> 00:04:23.165
+this term and you use this
+if you're using a TanH activation function.
+
+60
+00:04:23.165 --> 00:04:26.790
+This is called Xavier initialization.
+
+61
+00:04:26.790 --> 00:04:30.870
+And another version we're taught by
+Yoshua Bengio and his colleagues,
+
+62
+00:04:30.870 --> 00:04:32.190
+you might see in some papers,
+
+63
+00:04:32.190 --> 00:04:36.140
+but is to use this formula,
+
+64
+00:04:36.140 --> 00:04:40.300
+which you know has some other
+theoretical justification,
+
+65
+00:04:40.300 --> 00:04:43.800
+but I would say if you're using a
+ReLu activation function,
+
+66
+00:04:43.800 --> 00:04:46.605
+which is really the most common
+activation function,
+
+67
+00:04:46.605 --> 00:04:48.555
+I would use this formula.
+
+68
+00:04:48.555 --> 00:04:53.610
+If you're using TanH you could try
+this version instead, and some authors will also
+
+69
+00:04:53.610 --> 00:04:58.665
+use this. But in practice I think all of these
+formulas just give you a starting point.
+
+70
+00:04:58.665 --> 00:05:01.210
+It gives you a default value to use
+for the variance of
+
+71
+00:05:01.210 --> 00:05:04.270
+the initialization of your weight matrices.
+
+72
+00:05:04.270 --> 00:05:06.760
+If you wish the variance here,
+
+73
+00:05:06.760 --> 00:05:09.875
+this variance parameter could be
+another thing that you could
+
+74
+00:05:09.875 --> 00:05:13.530
+tune with your hyperparameters.
+So you could have
+
+75
+00:05:13.530 --> 00:05:16.930
+another parameter that multiplies into
+this formula and tune
+
+76
+00:05:16.930 --> 00:05:21.075
+that multiplier as part of your
+hyperparameter surge.
+
+77
+00:05:21.075 --> 00:05:26.105
+Sometimes tuning the hyperparameter
+has a modest size effect.
+
+78
+00:05:26.105 --> 00:05:29.670
+It's not one of the first hyperparameters
+I would usually try
+
+79
+00:05:29.670 --> 00:05:33.325
+to tune, but I've also seen some
+problems where tuning this
+
+80
+00:05:33.325 --> 00:05:37.680
+helps a reasonable amount. But this is
+usually lower down for me in terms
+
+81
+00:05:37.680 --> 00:05:42.870
+of how important it is relative to the
+other hyperparameters you can tune.
+
+82
+00:05:42.870 --> 00:05:47.520
+So I hope that gives you some intuition
+about the problem of vanishing or exploding
+
+83
+00:05:47.520 --> 00:05:49.935
+gradients as well as choosing a
+
+84
+00:05:49.935 --> 00:05:52.955
+reasonable scaling for
+how you initialize the weights.
+
+85
+00:05:52.955 --> 00:05:55.620
+Hopefully that makes your weights
+not explode too quickly
+
+86
+00:05:55.620 --> 00:05:58.890
+and not decay to zero too quickly,
+so you can
+
+87
+00:05:58.890 --> 00:06:01.650
+train a reasonably deep network without
+
+88
+00:06:01.650 --> 00:06:05.730
+the weights or the gradients
+exploding or vanishing too much.
+
+89
+00:06:05.730 --> 00:06:08.580
+When you train deep networks,
+this is another trick that will help
+
+90
+00:06:08.580 --> 00:06:11.640
+you make your neural networks
+trained much more quickly.

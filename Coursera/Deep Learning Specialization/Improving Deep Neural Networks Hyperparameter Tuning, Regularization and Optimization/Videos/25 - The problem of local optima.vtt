@@ -1,0 +1,397 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.710
+In the early days of deep learning,
+
+2
+00:00:01.710 --> 00:00:04.380
+people used to worry a lot about the optimization algorithm
+
+3
+00:00:04.380 --> 00:00:07.415
+getting stuck in bad local optima.
+
+4
+00:00:07.415 --> 00:00:09.660
+But as this theory of deep learning has advanced,
+
+5
+00:00:09.660 --> 00:00:13.285
+our understanding of local optima is also changing.
+
+6
+00:00:13.285 --> 00:00:16.855
+Let me show you how we now think about local optima
+
+7
+00:00:16.855 --> 00:00:21.279
+and problems in the optimization problem in deep learning.
+
+8
+00:00:21.279 --> 00:00:25.695
+This was a picture people used to have in mind when they worried about local optima.
+
+9
+00:00:25.695 --> 00:00:28.786
+Maybe you are trying to optimize some set of parameters,
+
+10
+00:00:28.786 --> 00:00:30.580
+we call them W1 and W2,
+
+11
+00:00:30.580 --> 00:00:33.913
+and the height in the surface is the cost function.
+
+12
+00:00:33.913 --> 00:00:38.655
+In this picture, it looks like there are a lot of local optima in all those places.
+
+13
+00:00:38.655 --> 00:00:41.010
+And it'd be easy for grading the sense,
+
+14
+00:00:41.010 --> 00:00:43.622
+or one of the other algorithms to get stuck in a local
+
+15
+00:00:43.622 --> 00:00:47.226
+optimum rather than find its way to a global optimum.
+
+16
+00:00:47.226 --> 00:00:51.945
+It turns out that if you are plotting a figure like this in two dimensions,
+
+17
+00:00:51.945 --> 00:00:56.637
+then it's easy to create plots like this with a lot of different local optima.
+
+18
+00:00:56.637 --> 00:01:00.285
+And these very low dimensional plots used to guide their intuition.
+
+19
+00:01:00.285 --> 00:01:02.730
+But this intuition isn't actually correct.
+
+20
+00:01:02.730 --> 00:01:04.878
+It turns out if you create a neural network,
+
+21
+00:01:04.878 --> 00:01:09.965
+most points of zero gradients are not local optima like points like this.
+
+22
+00:01:09.965 --> 00:01:15.330
+Instead most points of zero gradient in a cost function are saddle points.
+
+23
+00:01:15.330 --> 00:01:17.845
+So, that's a point where the zero gradient,
+
+24
+00:01:17.845 --> 00:01:19.826
+again, just is maybe W1,
+
+25
+00:01:19.826 --> 00:01:25.150
+W2, and the height is the value of the cost function J.
+
+26
+00:01:25.150 --> 00:01:28.523
+But informally, a function of very high dimensional space,
+
+27
+00:01:28.523 --> 00:01:30.075
+if the gradient is zero,
+
+28
+00:01:30.075 --> 00:01:32.835
+then in each direction it can either be
+
+29
+00:01:32.835 --> 00:01:36.810
+a convex light function or a concave light function.
+
+30
+00:01:36.810 --> 00:01:38.660
+And if you are in, say,
+
+31
+00:01:38.660 --> 00:01:40.785
+a 20,000 dimensional space,
+
+32
+00:01:40.785 --> 00:01:42.510
+then for it to be a local optima,
+
+33
+00:01:42.510 --> 00:01:45.795
+all 20,000 directions need to look like this.
+
+34
+00:01:45.795 --> 00:01:49.274
+And so the chance of that happening is maybe very small,
+
+35
+00:01:49.274 --> 00:01:51.564
+maybe two to the minus 20,000.
+
+36
+00:01:51.564 --> 00:01:57.945
+Instead you're much more likely to get some directions where the curve bends up like so,
+
+37
+00:01:57.945 --> 00:02:01.140
+as well as some directions where the curve function is bending
+
+38
+00:02:01.140 --> 00:02:04.720
+down rather than have them all bend upwards.
+
+39
+00:02:04.720 --> 00:02:07.430
+So that's why in very high-dimensional spaces you're
+
+40
+00:02:07.430 --> 00:02:10.270
+actually much more likely to run into a saddle point like that shown on the right,
+
+41
+00:02:10.270 --> 00:02:13.575
+then the local optimum.
+
+42
+00:02:13.575 --> 00:02:16.305
+As for why the surface is called a saddle point,
+
+43
+00:02:16.305 --> 00:02:17.545
+if you can picture,
+
+44
+00:02:17.545 --> 00:02:21.060
+maybe this is a sort of saddle you put on a horse, right?
+
+45
+00:02:21.060 --> 00:02:23.165
+Maybe this is a horse.
+
+46
+00:02:23.165 --> 00:02:24.540
+This is a head of a horse,
+
+47
+00:02:24.540 --> 00:02:28.390
+this is the eye of a horse.
+
+48
+00:02:28.390 --> 00:02:33.235
+Well, not a good drawing of a horse but you get the idea.
+
+49
+00:02:33.235 --> 00:02:34.530
+Then you, the rider,
+
+50
+00:02:34.530 --> 00:02:38.462
+will sit here in the saddle.
+
+51
+00:02:38.462 --> 00:02:41.585
+That's why this point here,
+
+52
+00:02:41.585 --> 00:02:43.445
+where the derivative is zero,
+
+53
+00:02:43.445 --> 00:02:47.480
+that point is called a saddle point.
+
+54
+00:02:47.480 --> 00:02:50.370
+There's really the point on this saddle where you would sit, I guess,
+
+55
+00:02:50.370 --> 00:02:53.480
+and that happens to have derivative zero.
+
+56
+00:02:53.480 --> 00:02:56.310
+And so, one of the lessons we learned in history of
+
+57
+00:02:56.310 --> 00:02:59.790
+deep learning is that a lot of our intuitions about low-dimensional spaces,
+
+58
+00:02:59.790 --> 00:03:01.235
+like what you can plot on the left,
+
+59
+00:03:01.235 --> 00:03:03.120
+they really don't transfer to
+
+60
+00:03:03.120 --> 00:03:07.695
+the very high-dimensional spaces that any other algorithms are operating over.
+
+61
+00:03:07.695 --> 00:03:10.860
+Because if you have 20,000 parameters,
+
+62
+00:03:10.860 --> 00:03:14.399
+then J as your function over 20,000 dimensional vector,
+
+63
+00:03:14.399 --> 00:03:17.964
+then you're much more likely to see saddle points than local optimum.
+
+64
+00:03:17.964 --> 00:03:20.265
+If local optima aren't a problem,
+
+65
+00:03:20.265 --> 00:03:22.002
+then what is a problem?
+
+66
+00:03:22.002 --> 00:03:26.155
+It turns out that plateaus can really slow down learning and
+
+67
+00:03:26.155 --> 00:03:31.635
+a plateau is a region where the derivative is close to zero for a long time.
+
+68
+00:03:31.635 --> 00:03:33.915
+So if you're here,
+
+69
+00:03:33.915 --> 00:03:38.230
+then gradient descents will move down the surface,
+
+70
+00:03:38.230 --> 00:03:41.250
+and because the gradient is zero or near zero,
+
+71
+00:03:41.250 --> 00:03:42.829
+the surface is quite flat.
+
+72
+00:03:42.829 --> 00:03:45.300
+You can actually take a very long time, you know,
+
+73
+00:03:45.300 --> 00:03:51.555
+to slowly find your way to maybe this point on the plateau.
+
+74
+00:03:51.555 --> 00:03:53.820
+And then because of a random perturbation of left or right,
+
+75
+00:03:53.820 --> 00:03:57.870
+maybe then finally I'm going to search pen colors for clarity.
+
+76
+00:03:57.870 --> 00:04:00.745
+Your algorithm can then find its way off the plateau.
+
+77
+00:04:00.745 --> 00:04:04.620
+Let it take this very long slope off before it's found its way
+
+78
+00:04:04.620 --> 00:04:09.130
+here and they could get off this plateau.
+
+79
+00:04:09.130 --> 00:04:11.720
+So the takeaways from this video are, first,
+
+80
+00:04:11.720 --> 00:04:13.740
+you're actually pretty unlikely to get stuck in
+
+81
+00:04:13.740 --> 00:04:17.150
+bad local optima so long as you're training a reasonably large neural network,
+
+82
+00:04:17.150 --> 00:04:18.555
+save a lot of parameters,
+
+83
+00:04:18.555 --> 00:04:23.185
+and the cost function J is defined over a relatively high dimensional space.
+
+84
+00:04:23.185 --> 00:04:28.750
+But second, that plateaus are a problem and you can actually make learning pretty slow.
+
+85
+00:04:28.750 --> 00:04:31.826
+And this is where algorithms like momentum or RmsProp or
+
+86
+00:04:31.826 --> 00:04:35.985
+Adam can really help your learning algorithm as well.
+
+87
+00:04:35.985 --> 00:04:40.855
+And these are scenarios where more sophisticated observation algorithms, such as Adam,
+
+88
+00:04:40.855 --> 00:04:43.570
+can actually speed up the rate at which you
+
+89
+00:04:43.570 --> 00:04:46.720
+could move down the plateau and then get off the plateau.
+
+90
+00:04:46.720 --> 00:04:49.270
+So because your network is solving
+
+91
+00:04:49.270 --> 00:04:53.055
+optimizations problems over such high dimensional spaces, to be honest,
+
+92
+00:04:53.055 --> 00:04:57.445
+I don't think anyone has great intuitions about what these spaces really look like,
+
+93
+00:04:57.445 --> 00:04:59.910
+and our understanding of them is still evolving.
+
+94
+00:04:59.910 --> 00:05:02.785
+But I hope this gives you some better intuition about
+
+95
+00:05:02.785 --> 00:05:06.660
+the challenges that the optimization algorithms may face.
+
+96
+00:05:06.660 --> 00:05:11.100
+So that's congratulations on coming to the end of this week's content.
+
+97
+00:05:11.100 --> 00:05:15.275
+Please take a look at this week's quiz as well as the [inaudible] exercise.
+
+98
+00:05:15.275 --> 00:05:18.310
+I hope you enjoy practicing some of these ideas of this week [inaudible]
+
+99
+00:05:18.310 --> 00:05:23.000
+exercise and I look forward to seeing you at the start of next week's videos.

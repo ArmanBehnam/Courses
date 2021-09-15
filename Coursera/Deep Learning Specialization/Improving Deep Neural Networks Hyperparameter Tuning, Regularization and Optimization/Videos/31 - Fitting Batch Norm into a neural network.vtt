@@ -1,0 +1,737 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.115
+>> So you have seen the equations for how to
+
+2
+00:00:02.115 --> 00:00:05.020
+invent Batch Norm for maybe a single hidden layer.
+
+3
+00:00:05.020 --> 00:00:08.610
+Let's see how it fits into the training of a deep network.
+
+4
+00:00:08.610 --> 00:00:10.969
+So, let's say you have a neural network like this,
+
+5
+00:00:10.969 --> 00:00:16.395
+you've seen me say before that you can view each of the unit as computing two things.
+
+6
+00:00:16.395 --> 00:00:22.960
+First, it computes Z and then it applies the activation function to compute A.
+
+7
+00:00:22.960 --> 00:00:31.005
+And so we can think of each of these circles as representing a two step computation.
+
+8
+00:00:31.005 --> 00:00:33.130
+And similarly for the next layer,
+
+9
+00:00:33.130 --> 00:00:41.125
+that is Z2 1, and A2 1, and so on.
+
+10
+00:00:41.125 --> 00:00:45.250
+So, if you were not applying Batch Norm,
+
+11
+00:00:45.250 --> 00:00:50.935
+you would have an input X fit into the first hidden layer,
+
+12
+00:00:50.935 --> 00:00:53.395
+and then first compute Z1,
+
+13
+00:00:53.395 --> 00:00:57.940
+and this is governed by the parameters W1 and B1.
+
+14
+00:00:57.940 --> 00:01:04.630
+And then ordinarily, you would fit Z1 into the activation function to compute A1.
+
+15
+00:01:04.630 --> 00:01:09.165
+But what would do in Batch Norm is take this value Z1,
+
+16
+00:01:09.165 --> 00:01:12.975
+and apply Batch Norm,
+
+17
+00:01:12.975 --> 00:01:16.935
+sometimes abbreviated BN to it,
+
+18
+00:01:16.935 --> 00:01:19.685
+and that's going to be governed by parameters,
+
+19
+00:01:19.685 --> 00:01:23.465
+Beta 1 and Gamma 1,
+
+20
+00:01:23.465 --> 00:01:28.340
+and this will give you this new normalize value Z1.
+
+21
+00:01:28.340 --> 00:01:32.930
+And then you fit that to the activation function to get A1,
+
+22
+00:01:32.930 --> 00:01:38.355
+which is G1 applied to Z tilde 1.
+
+23
+00:01:38.355 --> 00:01:41.770
+Now, you've done the computation for the first layer,
+
+24
+00:01:41.770 --> 00:01:47.520
+where this Batch Norms that really occurs in between the computation from Z and A.
+
+25
+00:01:47.520 --> 00:01:53.785
+Next, you take this value A1 and use it to compute Z2,
+
+26
+00:01:53.785 --> 00:01:58.115
+and so this is now governed by W2, B2.
+
+27
+00:01:58.115 --> 00:02:01.125
+And similar to what you did for the first layer,
+
+28
+00:02:01.125 --> 00:02:06.470
+you would take Z2 and apply it through Batch Norm, and we abbreviate it to BN now.
+
+29
+00:02:06.470 --> 00:02:11.575
+This is governed by Batch Norm parameters specific to the next layer.
+
+30
+00:02:11.575 --> 00:02:14.580
+So Beta 2, Gamma 2,
+
+31
+00:02:14.580 --> 00:02:17.845
+and now this gives you Z tilde 2,
+
+32
+00:02:17.845 --> 00:02:25.220
+and you use that to compute A2 by applying the activation function, and so on.
+
+33
+00:02:25.220 --> 00:02:31.960
+So once again, the Batch Norms that happens between computing Z and computing A.
+
+34
+00:02:31.960 --> 00:02:33.260
+And the intuition is that,
+
+35
+00:02:33.260 --> 00:02:36.115
+instead of using the un-normalized value Z,
+
+36
+00:02:36.115 --> 00:02:40.360
+you can use the normalized value Z tilde, that's the first layer.
+
+37
+00:02:40.360 --> 00:02:41.480
+The second layer as well,
+
+38
+00:02:41.480 --> 00:02:44.310
+instead of using the un-normalized value Z2,
+
+39
+00:02:44.310 --> 00:02:48.990
+you can use the mean and variance normalized values Z tilde 2.
+
+40
+00:02:48.990 --> 00:02:56.320
+So the parameters of your network are going to be W1, B1.
+
+41
+00:02:56.320 --> 00:03:00.355
+It turns out we'll get rid of the parameters but we'll see why in the next slide.
+
+42
+00:03:00.355 --> 00:03:06.740
+But for now, imagine the parameters are the usual W1.
+
+43
+00:03:06.740 --> 00:03:12.260
+B1, WL, BL, and we have added to this new network,
+
+44
+00:03:12.260 --> 00:03:14.420
+additional parameters Beta 1,
+
+45
+00:03:14.420 --> 00:03:18.290
+Gamma 1, Beta 2, Gamma 2,
+
+46
+00:03:18.290 --> 00:03:24.283
+and so on, for each layer in which you are applying Batch Norm.
+
+47
+00:03:24.283 --> 00:03:26.630
+For clarity, note that these Betas here,
+
+48
+00:03:26.630 --> 00:03:30.800
+these have nothing to do with the hyperparameter beta that we had for
+
+49
+00:03:30.800 --> 00:03:36.165
+momentum over the computing the various exponentially weighted averages.
+
+50
+00:03:36.165 --> 00:03:42.620
+The authors of the Adam paper use Beta on their paper to denote that hyperparameter,
+
+51
+00:03:42.620 --> 00:03:47.405
+the authors of the Batch Norm paper had used Beta to denote this parameter,
+
+52
+00:03:47.405 --> 00:03:49.630
+but these are two completely different Betas.
+
+53
+00:03:49.630 --> 00:03:53.300
+I decided to stick with Beta in both cases,
+
+54
+00:03:53.300 --> 00:03:55.114
+in case you read the original papers.
+
+55
+00:03:55.114 --> 00:03:57.230
+But the Beta 1,
+
+56
+00:03:57.230 --> 00:03:58.535
+Beta 2, and so on,
+
+57
+00:03:58.535 --> 00:04:02.650
+that Batch Norm tries to learn is a different Beta than
+
+58
+00:04:02.650 --> 00:04:10.055
+the hyperparameter Beta used in momentum and the Adam and RMSprop algorithms.
+
+59
+00:04:10.055 --> 00:04:14.795
+So now that these are the new parameters of your algorithm,
+
+60
+00:04:14.795 --> 00:04:18.065
+you would then use whether optimization you want,
+
+61
+00:04:18.065 --> 00:04:21.710
+such as creating descent in order to implement it.
+
+62
+00:04:21.710 --> 00:04:26.885
+For example, you might compute D Beta L for a given layer,
+
+63
+00:04:26.885 --> 00:04:28.720
+and then update the parameters Beta,
+
+64
+00:04:28.720 --> 00:04:32.270
+gets updated as Beta minus learning rate times
+
+65
+00:04:32.270 --> 00:04:37.415
+D Beta L. And you can also use
+
+66
+00:04:37.415 --> 00:04:43.405
+Adam or RMSprop or momentum in order to update the parameters Beta and Gamma,
+
+67
+00:04:43.405 --> 00:04:45.575
+not just creating descent.
+
+68
+00:04:45.575 --> 00:04:48.065
+And even though in the previous video,
+
+69
+00:04:48.065 --> 00:04:51.570
+I had explained what the Batch Norm operation does,
+
+70
+00:04:51.570 --> 00:04:55.590
+computes mean and variances and subtracts and divides by them.
+
+71
+00:04:55.590 --> 00:05:00.625
+If they are using a Deep Learning Programming Framework,
+
+72
+00:05:00.625 --> 00:05:06.485
+usually you won't have to implement the Batch Norm step on Batch Norm layer yourself.
+
+73
+00:05:06.485 --> 00:05:07.840
+So the probing frameworks,
+
+74
+00:05:07.840 --> 00:05:09.990
+that can be sub one line of code.
+
+75
+00:05:09.990 --> 00:05:13.140
+So for example, in terms of flow framework,
+
+76
+00:05:13.140 --> 00:05:17.490
+you can implement Batch Normalization with this function.
+
+77
+00:05:17.490 --> 00:05:19.530
+We'll talk more about probing frameworks later,
+
+78
+00:05:19.530 --> 00:05:24.435
+but in practice you might not end up needing to implement all these details yourself,
+
+79
+00:05:24.435 --> 00:05:27.480
+knowing how it works so that you can get
+
+80
+00:05:27.480 --> 00:05:30.930
+a better understanding of what your code is doing.
+
+81
+00:05:30.930 --> 00:05:36.805
+But implementing Batch Norm is often one line of code in the deep learning frameworks.
+
+82
+00:05:36.805 --> 00:05:40.560
+Now, so far, we've talked about Batch Norm as if you were training on
+
+83
+00:05:40.560 --> 00:05:45.390
+your entire training site at the time as if you are using Batch gradient descent.
+
+84
+00:05:45.390 --> 00:05:51.720
+In practice, Batch Norm is usually applied with mini-batches of your training set.
+
+85
+00:05:51.720 --> 00:05:54.360
+So the way you actually apply Batch Norm is you take
+
+86
+00:05:54.360 --> 00:05:59.830
+your first mini-batch and compute Z1.
+
+87
+00:05:59.830 --> 00:06:03.460
+Same as we did on the previous slide using the parameters W1,
+
+88
+00:06:03.460 --> 00:06:11.365
+B1 and then you take just this mini-batch and computer mean and variance of the Z1 on
+
+89
+00:06:11.365 --> 00:06:14.695
+just this mini batch and then Batch Norm would
+
+90
+00:06:14.695 --> 00:06:21.580
+subtract by the mean and divide by the standard deviation and then re-scale by Beta 1,
+
+91
+00:06:21.580 --> 00:06:24.490
+Gamma 1, to give you Z1,
+
+92
+00:06:24.490 --> 00:06:27.375
+and all this is on the first mini-batch,
+
+93
+00:06:27.375 --> 00:06:33.325
+then you apply the activation function to get A1,
+
+94
+00:06:33.325 --> 00:06:38.110
+and then you compute Z2 using W2,
+
+95
+00:06:38.110 --> 00:06:41.190
+B2, and so on.
+
+96
+00:06:41.190 --> 00:06:45.360
+So you do all this in order to perform one step of
+
+97
+00:06:45.360 --> 00:06:50.660
+gradient descent on the first mini-batch and then goes to the second mini-batch X2,
+
+98
+00:06:50.660 --> 00:06:54.190
+and you do something similar where you will now compute Z1 on
+
+99
+00:06:54.190 --> 00:06:59.085
+the second mini-batch and then use Batch Norm to compute Z1 tilde.
+
+100
+00:06:59.085 --> 00:07:02.390
+And so here in this Batch Norm step,
+
+101
+00:07:02.390 --> 00:07:08.890
+You would be normalizing Z tilde using just the data in your second mini-batch,
+
+102
+00:07:08.890 --> 00:07:10.640
+so does Batch Norm step here.
+
+103
+00:07:10.640 --> 00:07:13.580
+Let's look at the examples in your second mini-batch,
+
+104
+00:07:13.580 --> 00:07:18.320
+computing the mean and variances of the Z1's on just that mini-batch and
+
+105
+00:07:18.320 --> 00:07:24.175
+re-scaling by Beta and Gamma to get Z tilde, and so on.
+
+106
+00:07:24.175 --> 00:07:28.840
+And you do this with a third mini-batch, and keep training.
+
+107
+00:07:28.840 --> 00:07:34.415
+Now, there's one detail to the parameterization that I want to clean up,
+
+108
+00:07:34.415 --> 00:07:38.990
+which is previously, I said that the parameters was WL, BL,
+
+109
+00:07:38.990 --> 00:07:43.640
+for each layer as well as Beta L, and
+
+110
+00:07:43.640 --> 00:07:50.900
+Gamma L. Now notice that the way Z was computed is as follows,
+
+111
+00:07:50.900 --> 00:08:00.590
+ZL = WL x A of L - 1 + B of L. But what Batch Norm does,
+
+112
+00:08:00.590 --> 00:08:02.985
+is it is going to look at the mini-batch and normalize
+
+113
+00:08:02.985 --> 00:08:06.515
+ZL to first of mean 0 and standard variance,
+
+114
+00:08:06.515 --> 00:08:09.275
+and then a rescale by Beta and Gamma.
+
+115
+00:08:09.275 --> 00:08:10.745
+But what that means is that,
+
+116
+00:08:10.745 --> 00:08:15.125
+whatever is the value of BL is actually going to just get subtracted out,
+
+117
+00:08:15.125 --> 00:08:17.735
+because during that Batch Normalization step,
+
+118
+00:08:17.735 --> 00:08:22.090
+you are going to compute the means of the ZL's and subtract the mean.
+
+119
+00:08:22.090 --> 00:08:27.675
+And so adding any constant to all of the examples in the mini-batch,
+
+120
+00:08:27.675 --> 00:08:28.865
+it doesn't change anything.
+
+121
+00:08:28.865 --> 00:08:34.170
+Because any constant you add will get cancelled out by the mean subtractions step.
+
+122
+00:08:34.170 --> 00:08:35.960
+So, if you're using Batch Norm,
+
+123
+00:08:35.960 --> 00:08:38.225
+you can actually eliminate that parameter,
+
+124
+00:08:38.225 --> 00:08:42.020
+or if you want, think of it as setting it permanently to 0.
+
+125
+00:08:42.020 --> 00:08:49.235
+So then the parameterization becomes ZL is just WL x AL - 1,
+
+126
+00:08:49.235 --> 00:08:54.375
+And then you compute ZL normalized,
+
+127
+00:08:54.375 --> 00:09:04.610
+and we compute Z tilde = Gamma ZL + Beta,
+
+128
+00:09:04.610 --> 00:09:09.080
+you end up using this parameter Beta L in order to decide
+
+129
+00:09:09.080 --> 00:09:15.095
+whats that mean of Z tilde L. Which is why guess post in this layer.
+
+130
+00:09:15.095 --> 00:09:16.430
+So just to recap,
+
+131
+00:09:16.430 --> 00:09:24.020
+because Batch Norm zeroes out the mean of these ZL values in the layer,
+
+132
+00:09:24.020 --> 00:09:27.445
+there's no point having this parameter BL,
+
+133
+00:09:27.445 --> 00:09:29.400
+and so you must get rid of it,
+
+134
+00:09:29.400 --> 00:09:32.330
+and instead is sort of replaced by Beta L,
+
+135
+00:09:32.330 --> 00:09:39.050
+which is a parameter that controls that ends up affecting the shift or the biased terms.
+
+136
+00:09:39.050 --> 00:09:43.250
+Finally, remember that the dimension of ZL,
+
+137
+00:09:43.250 --> 00:09:45.255
+because if you're doing this on one example,
+
+138
+00:09:45.255 --> 00:09:48.255
+it's going to be NL by 1,
+
+139
+00:09:48.255 --> 00:09:53.270
+and so BL, a dimension, NL by one,
+
+140
+00:09:53.270 --> 00:09:56.365
+if NL was the number of hidden units in layer
+
+141
+00:09:56.365 --> 00:10:00.230
+L. And so the dimension of Beta L and Gamma L
+
+142
+00:10:00.230 --> 00:10:07.575
+is also going to be NL by 1 because that's the number of hidden units you have.
+
+143
+00:10:07.575 --> 00:10:12.555
+You have NL hidden units, and so Beta L and Gamma L are used to scale
+
+144
+00:10:12.555 --> 00:10:14.670
+the mean and variance of each of
+
+145
+00:10:14.670 --> 00:10:19.195
+the hidden units to whatever the network wants to set them to.
+
+146
+00:10:19.195 --> 00:10:21.990
+So, let's pull all together and describe how
+
+147
+00:10:21.990 --> 00:10:25.195
+you can implement gradient descent using Batch Norm.
+
+148
+00:10:25.195 --> 00:10:28.925
+Assuming you're using mini-batch gradient descent,
+
+149
+00:10:28.925 --> 00:10:34.245
+it rates for T = 1 to the number of many batches.
+
+150
+00:10:34.245 --> 00:10:39.265
+You would implement forward prop on
+
+151
+00:10:39.265 --> 00:10:44.635
+mini-batch XT and doing forward prop in each hidden layer,
+
+152
+00:10:44.635 --> 00:10:50.330
+use Batch Norm to replace
+
+153
+00:10:50.330 --> 00:10:57.265
+ZL with Z tilde L. And so then it shows that within that mini-batch,
+
+154
+00:10:57.265 --> 00:11:02.810
+the value Z end up with some normalized mean and variance and the values and
+
+155
+00:11:02.810 --> 00:11:09.200
+the version of the normalized mean that and variance is Z tilde L. And then,
+
+156
+00:11:09.200 --> 00:11:17.025
+you use back prop to compute DW,
+
+157
+00:11:17.025 --> 00:11:20.065
+DB, for all the values of L,
+
+158
+00:11:20.065 --> 00:11:23.530
+D Beta, D Gamma.
+
+159
+00:11:23.530 --> 00:11:26.805
+Although, technically, since you have got to get rid of B,
+
+160
+00:11:26.805 --> 00:11:28.494
+this actually now goes away.
+
+161
+00:11:28.494 --> 00:11:33.595
+And then finally, you update the parameters.
+
+162
+00:11:33.595 --> 00:11:40.085
+So, W gets updated as W minus the learning rate times, as usual,
+
+163
+00:11:40.085 --> 00:11:47.775
+Beta gets updated as Beta minus learning rate times DB,
+
+164
+00:11:47.775 --> 00:11:49.595
+and similarly for Gamma.
+
+165
+00:11:49.595 --> 00:11:52.770
+And if you have computed the gradient as follows,
+
+166
+00:11:52.770 --> 00:11:54.805
+you could use gradient descent.
+
+167
+00:11:54.805 --> 00:11:56.910
+That's what I've written down here,
+
+168
+00:11:56.910 --> 00:12:01.845
+but this also works with gradient descent with momentum,
+
+169
+00:12:01.845 --> 00:12:07.200
+or RMSprop, or Adam.
+
+170
+00:12:07.200 --> 00:12:08.890
+Where instead of taking this gradient descent
+
+171
+00:12:08.890 --> 00:12:11.220
+update,nini-batch you could use the updates given
+
+172
+00:12:11.220 --> 00:12:16.615
+by these other algorithms as we discussed in the previous week's videos.
+
+173
+00:12:16.615 --> 00:12:19.790
+Some of these other optimization algorithms as well can be used to update
+
+174
+00:12:19.790 --> 00:12:25.730
+the parameters Beta and Gamma that Batch Norm added to algorithm.
+
+175
+00:12:25.730 --> 00:12:27.780
+So, I hope that gives you a sense of how you could
+
+176
+00:12:27.780 --> 00:12:30.375
+implement Batch Norm from scratch if you wanted to.
+
+177
+00:12:30.375 --> 00:12:31.530
+If you're using one of
+
+178
+00:12:31.530 --> 00:12:34.455
+the Deep Learning Programming frameworks which we will talk more about later,
+
+179
+00:12:34.455 --> 00:12:37.700
+hopefully you can just call someone else's implementation in
+
+180
+00:12:37.700 --> 00:12:41.720
+the Programming framework which will make using Batch Norm much easier.
+
+181
+00:12:41.720 --> 00:12:45.515
+Now, in case Batch Norm still seems a little bit mysterious if you're
+
+182
+00:12:45.515 --> 00:12:49.375
+still not quite sure why it speeds up training so dramatically,
+
+183
+00:12:49.375 --> 00:12:52.140
+let's go to the next video and talk more about
+
+184
+00:12:52.140 --> 00:12:55.210
+why Batch Norm really works and what it is really doing.

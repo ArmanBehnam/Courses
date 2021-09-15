@@ -1,0 +1,692 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.700
+Hello, and welcome back.
+
+2
+00:00:01.700 --> 00:00:04.625
+In this week, you learn about
+optimization algorithms
+
+3
+00:00:04.625 --> 00:00:08.280
+that will enable you to train your
+neural network much faster.
+
+4
+00:00:08.280 --> 00:00:12.630
+You've heard me say before that applying
+machine learning is a highly empirical process,
+
+5
+00:00:12.630 --> 00:00:14.320
+is a highly iterative process.
+
+6
+00:00:14.320 --> 00:00:18.295
+In which you just had to train a lot of
+models to find one that works really well.
+
+7
+00:00:18.295 --> 00:00:21.210
+So, it really helps to really
+train models quickly.
+
+8
+00:00:21.210 --> 00:00:23.280
+One thing that makes it more
+difficult is that
+
+9
+00:00:23.280 --> 00:00:26.640
+Deep Learning tends to work best
+in the regime of big data.
+
+10
+00:00:26.640 --> 00:00:29.310
+We are able to train neural networks
+on a huge data set
+
+11
+00:00:29.310 --> 00:00:33.025
+and training on a
+large data set is just slow.
+
+12
+00:00:33.025 --> 00:00:36.820
+So, what you find is that
+having fast optimization algorithms,
+
+13
+00:00:36.820 --> 00:00:39.030
+having good optimization algorithms
+can really
+
+14
+00:00:39.030 --> 00:00:41.865
+speed up the efficiency of
+you and your team.
+
+15
+00:00:41.865 --> 00:00:45.939
+So, let's get started by talking about
+mini-batch gradient descent.
+
+16
+00:00:45.939 --> 00:00:48.750
+You've learned previously that
+vectorization allows
+
+17
+00:00:48.750 --> 00:00:51.720
+you to efficiently compute on all m examples,
+
+18
+00:00:51.720 --> 00:00:56.949
+that allows you to process your whole
+training set without an explicit For loop.
+
+19
+00:00:56.949 --> 00:01:00.540
+That's why we would take our
+training examples and stack them
+
+20
+00:01:00.540 --> 00:01:04.480
+into these huge matrix capsule Xs.
+
+21
+00:01:04.480 --> 00:01:12.945
+X1, X2, X3, and then eventually
+it goes up to XM training samples.
+
+22
+00:01:12.945 --> 00:01:15.055
+And similarly for Y this is Y1 and Y2,
+
+23
+00:01:15.055 --> 00:01:22.635
+Y3 and so on up to YM.
+
+24
+00:01:22.635 --> 00:01:30.355
+So, the dimension of X was an X by M
+and this was 1 by M. Vectorization allows
+
+25
+00:01:30.355 --> 00:01:33.810
+you to process all M examples relatively
+
+26
+00:01:33.810 --> 00:01:37.885
+quickly if M is very large
+then it can still be slow.
+
+27
+00:01:37.885 --> 00:01:44.085
+For example what if M was 5 million
+or 50 million or even bigger.
+
+28
+00:01:44.085 --> 00:01:48.010
+With the implementation of gradient descent
+on your whole training set,
+
+29
+00:01:48.010 --> 00:01:49.530
+what you have to do is,
+
+30
+00:01:49.530 --> 00:01:51.675
+you have to process your entire training set
+
+31
+00:01:51.675 --> 00:01:54.610
+before you take one little step
+of gradient descent.
+
+32
+00:01:54.610 --> 00:01:56.960
+And then you have to process your
+entire training sets of
+
+33
+00:01:56.960 --> 00:01:58.680
+five million training samples again before
+
+34
+00:01:58.680 --> 00:02:00.665
+you take another little step of
+gradient descent.
+
+35
+00:02:00.665 --> 00:02:04.950
+So, it turns out that you can get a faster
+algorithm if you let gradient descent
+
+36
+00:02:04.950 --> 00:02:10.260
+start to make some progress even before
+you finish processing your entire,
+
+37
+00:02:10.260 --> 00:02:14.255
+your giant training sets of 5 million examples.
+
+38
+00:02:14.255 --> 00:02:16.620
+In particular, here's what you can do.
+
+39
+00:02:16.620 --> 00:02:19.750
+Let's say that you split up your
+training set into smaller,
+
+40
+00:02:19.750 --> 00:02:27.390
+little baby training sets and these
+baby training sets are called mini-batches.
+
+41
+00:02:27.390 --> 00:02:35.553
+And let's say each of your baby training sets
+have just 1,000 examples each.
+
+42
+00:02:35.553 --> 00:02:42.320
+So, you take X1 through X1,000 and
+you call that your first little baby training set,
+
+43
+00:02:42.320 --> 00:02:43.910
+also call the mini-batch.
+
+44
+00:02:43.910 --> 00:02:47.630
+And then you take home the next 1,000 examples.
+
+45
+00:02:47.630 --> 00:02:56.650
+X1,001 through X2,000 and the next X1,000
+examples and come next one and so on.
+
+46
+00:02:56.650 --> 00:02:59.375
+I'm going to introduce a new notation.
+I'm going to call
+
+47
+00:02:59.375 --> 00:03:03.965
+this X superscript with curly braces,
+
+48
+00:03:03.965 --> 00:03:06.507
+1 and I am going to call this,
+
+49
+00:03:06.507 --> 00:03:11.940
+X superscript with curly braces, 2.
+
+50
+00:03:11.940 --> 00:03:15.160
+Now, if you have 5 million
+training samples total
+
+51
+00:03:15.160 --> 00:03:18.370
+and each of these little mini batches
+has a thousand examples,
+
+52
+00:03:18.370 --> 00:03:24.460
+that means you have 5,000 of these because
+you know, 5,000 times 1,000 equals 5 million.
+
+53
+00:03:24.460 --> 00:03:31.670
+Altogether you would have 5,000 of
+these mini batches.
+
+54
+00:03:31.670 --> 00:03:33.400
+So it ends with X superscript curly braces
+
+55
+00:03:33.400 --> 00:03:37.180
+5,000 and then similarly
+you do the same thing for Y.
+
+56
+00:03:37.180 --> 00:03:41.811
+You would also split up your
+training data for Y accordingly.
+
+57
+00:03:41.811 --> 00:03:50.805
+So, call that Y1 then this is
+Y1,001 through Y2,000.
+
+58
+00:03:50.805 --> 00:04:00.965
+This is called, Y2 and so on
+until you have Y5,000.
+
+59
+00:04:00.965 --> 00:04:08.500
+Now, mini batch number T is
+going to be comprised of XT,
+
+60
+00:04:08.500 --> 00:04:12.770
+and YT. And
+
+61
+00:04:12.770 --> 00:04:18.220
+that is a thousand training samples
+with the corresponding input output pairs.
+
+62
+00:04:18.220 --> 00:04:22.295
+Before moving on, just to make sure
+my notation is clear,
+
+63
+00:04:22.295 --> 00:04:27.465
+we have previously used superscript
+round brackets I to index in the training set so X I,
+
+64
+00:04:27.465 --> 00:04:29.180
+is the I-th training sample.
+
+65
+00:04:29.180 --> 00:04:31.630
+We use superscript, square brackets
+
+66
+00:04:31.630 --> 00:04:34.980
+L to index into the different
+layers of the neural network.
+
+67
+00:04:34.980 --> 00:04:39.078
+So, ZL comes from the Z value,
+
+68
+00:04:39.078 --> 00:04:42.800
+for the L layer of the neural network
+and here we are introducing
+
+69
+00:04:42.800 --> 00:04:48.020
+the curly brackets T to index into
+different mini batches.
+
+70
+00:04:48.020 --> 00:04:53.960
+So, you have XT, YT. And to check your
+understanding of these,
+
+71
+00:04:53.960 --> 00:05:01.460
+what is the dimension of XT and YT?
+
+72
+00:05:01.460 --> 00:05:04.880
+Well, X is an X by M. So,
+
+73
+00:05:04.880 --> 00:05:10.040
+if X1 is a thousand training examples
+or the X values for a thousand examples,
+
+74
+00:05:10.040 --> 00:05:19.260
+then this dimension should be Nx by 1,000
+and X2 should also be Nx by 1,000 and so on.
+
+75
+00:05:19.260 --> 00:05:22.940
+So, all of these should have
+dimension MX by 1,000 and
+
+76
+00:05:22.940 --> 00:05:29.200
+these should have dimension 1 by 1,000.
+
+77
+00:05:29.870 --> 00:05:34.563
+To explain the name of this algorithm,
+
+78
+00:05:34.563 --> 00:05:37.130
+batch gradient descent, refers to
+
+79
+00:05:37.130 --> 00:05:40.250
+the gradient descent algorithm we have
+been talking about previously.
+
+80
+00:05:40.250 --> 00:05:43.340
+Where you process your entire training set
+all at the same time.
+
+81
+00:05:43.340 --> 00:05:46.348
+And the name comes from viewing that as
+
+82
+00:05:46.348 --> 00:05:49.545
+processing your entire batch of
+training samples all at the same time.
+
+83
+00:05:49.545 --> 00:05:53.100
+I know it's not a great name but
+that's just what it's called.
+
+84
+00:05:53.100 --> 00:05:55.526
+Mini-batch gradient descent in contrast,
+
+85
+00:05:55.526 --> 00:05:58.994
+refers to algorithm which we'll
+talk about on the next slide
+
+86
+00:05:58.994 --> 00:06:02.910
+and which you process is
+single mini batch XT,
+
+87
+00:06:02.910 --> 00:06:09.270
+YT at the same time rather than processing
+your entire training set XY the same time.
+
+88
+00:06:09.270 --> 00:06:12.020
+So, let's see how mini-batch
+gradient descent works.
+
+89
+00:06:12.020 --> 00:06:17.765
+To run mini-batch gradient descent
+on your training sets you run for T equals
+
+90
+00:06:17.765 --> 00:06:24.730
+1 to 5,000 because we had 5,000 mini batches
+as high as 1,000 each.
+
+91
+00:06:24.730 --> 00:06:29.600
+What are you going to do inside the
+For loop is basically implement one step of
+
+92
+00:06:29.600 --> 00:06:38.157
+gradient descent using XT comma YT.
+
+93
+00:06:38.157 --> 00:06:48.340
+It is as if you had a training set
+of size 1,000 examples and it
+
+94
+00:06:48.340 --> 00:06:51.130
+was as if you were to implement
+the algorithm you are
+
+95
+00:06:51.130 --> 00:06:54.370
+already familiar with, but just on this
+little training set
+
+96
+00:06:54.370 --> 00:07:00.910
+size of M equals 1,000. Rather than
+having an explicit For loop over all 1,000 examples,
+
+97
+00:07:00.910 --> 00:07:06.595
+you would use vectorization to process
+all 1,000 examples sort of all at the same time.
+
+98
+00:07:06.595 --> 00:07:08.910
+Let us write this out. First,
+
+99
+00:07:08.910 --> 00:07:15.710
+you implement forward prop on the inputs.
+
+100
+00:07:15.710 --> 00:07:24.315
+So just on XT. And you do that by
+implementing Z1 equals W1.
+
+101
+00:07:24.315 --> 00:07:27.655
+Previously, we would just have
+X there, right?
+
+102
+00:07:27.655 --> 00:07:30.040
+But now you are processing
+the entire training set,
+
+103
+00:07:30.040 --> 00:07:32.140
+you are just processing the
+first mini-batch so that it
+
+104
+00:07:32.140 --> 00:07:36.065
+becomes XT when you're processing mini-batch
+
+105
+00:07:36.065 --> 00:07:45.420
+T. Then you will have A1 equals G1 of Z1,
+
+106
+00:07:45.420 --> 00:07:48.394
+a capital Z since this is actually
+
+107
+00:07:48.394 --> 00:07:57.585
+a vectorized implementation
+and so on until you end up with AL,
+
+108
+00:07:57.585 --> 00:08:03.935
+as I guess GL of ZL, and then
+this is your prediction.
+
+109
+00:08:03.935 --> 00:08:09.005
+And you notice that here you should
+use a vectorized implementation.
+
+110
+00:08:09.005 --> 00:08:14.125
+It's just that this vectorized
+implementation processes
+
+111
+00:08:14.125 --> 00:08:18.840
+1,000 examples at a time rather than
+5 million examples.
+
+112
+00:08:18.840 --> 00:08:25.500
+Next you compute the cost function J
+which I'm going to write as
+
+113
+00:08:25.500 --> 00:08:32.895
+one over 1,000 since here 1,000 is the
+size of your little training set.
+
+114
+00:08:32.895 --> 00:08:38.580
+Sum from I equals one through L
+of really the loss of
+
+115
+00:08:38.580 --> 00:08:45.490
+Y^I YI. And this notation, for clarity,
+
+116
+00:08:45.490 --> 00:08:53.300
+refers to examples from the mini batch XT YT.
+
+117
+00:08:53.300 --> 00:08:55.344
+And if you're using regularization,
+
+118
+00:08:55.344 --> 00:08:59.295
+you can also have this regularization term.
+
+119
+00:08:59.295 --> 00:09:03.345
+Move it to the denominator times sum of L,
+
+120
+00:09:03.345 --> 00:09:07.980
+Frobenius norm of the weight matrix squared.
+
+121
+00:09:07.980 --> 00:09:12.625
+Because this is really the
+cost on just one mini-batch,
+
+122
+00:09:12.625 --> 00:09:18.983
+I'm going to index as cost J with a
+superscript T in curly braces.
+
+123
+00:09:18.983 --> 00:09:23.925
+You notice that everything we are doing
+is exactly the same as when
+
+124
+00:09:23.925 --> 00:09:29.040
+we were previously implementing gradient
+descent except that instead of doing it on XY,
+
+125
+00:09:29.040 --> 00:09:31.680
+you're not doing it on XT YT.
+
+126
+00:09:31.680 --> 00:09:36.470
+Next, you implement back prop to
+
+127
+00:09:36.470 --> 00:09:44.285
+compute gradients with respect to JT,
+
+128
+00:09:44.285 --> 00:09:54.120
+you are still using only XT YT
+and then you update the weights W,
+
+129
+00:09:54.120 --> 00:09:59.410
+really WL, gets updated as WL
+
+130
+00:09:59.410 --> 00:10:08.124
+minus alpha D WL and similarly for B.
+
+131
+00:10:08.124 --> 00:10:17.620
+This is one pass through your training set
+using mini-batch gradient descent.
+
+132
+00:10:17.620 --> 00:10:25.420
+The code I have written down here is
+also called doing one epoch of training and
+
+133
+00:10:25.420 --> 00:10:34.022
+epoch is a word that means a single pass
+through the training set.
+
+134
+00:10:34.022 --> 00:10:38.440
+Whereas with batch gradient descent,
+
+135
+00:10:38.440 --> 00:10:44.420
+a single pass through the training set
+allows you to take only one gradient descent step.
+
+136
+00:10:44.420 --> 00:10:48.475
+With mini-batch gradient descent,
+a single pass through the training set,
+
+137
+00:10:48.475 --> 00:10:52.890
+that is one epoch, allows you to
+take 5,000 gradient descent steps.
+
+138
+00:10:52.890 --> 00:10:55.040
+Now of course you want to take
+
+139
+00:10:55.040 --> 00:10:58.430
+multiple passes through the training set
+which you usually want to,
+
+140
+00:10:58.430 --> 00:11:02.730
+you might want another for loop for another
+while loop out there.
+
+141
+00:11:02.730 --> 00:11:05.180
+So you keep taking passes through
+the training set
+
+142
+00:11:05.180 --> 00:11:08.909
+until hopefully you converge
+or at least approximately converged.
+
+143
+00:11:08.909 --> 00:11:10.620
+When you have a large training set,
+
+144
+00:11:10.620 --> 00:11:15.330
+mini-batch gradient descent runs much
+faster than batch gradient descent and
+
+145
+00:11:15.330 --> 00:11:17.540
+that's pretty much what everyone in
+Deep Learning
+
+146
+00:11:17.540 --> 00:11:20.205
+will use when you're training on a
+large data set.
+
+147
+00:11:20.205 --> 00:11:24.230
+In the next video, let's delve deeper
+into mini-batch gradient descent so
+
+148
+00:11:24.230 --> 00:11:28.650
+you can get a better understanding of
+what it is doing and why it works so well.

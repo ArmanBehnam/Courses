@@ -1,0 +1,357 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.685
+Batch norm processes your data one mini batch at a time,
+
+2
+00:00:03.685 --> 00:00:07.760
+but the test time you might need to process the examples one at a time.
+
+3
+00:00:07.760 --> 00:00:10.585
+Let's see how you can adapt your network to do that.
+
+4
+00:00:10.585 --> 00:00:12.233
+Recall that during training,
+
+5
+00:00:12.233 --> 00:00:15.260
+here are the equations you'd use to implement batch norm.
+
+6
+00:00:15.260 --> 00:00:17.025
+Within a single mini batch,
+
+7
+00:00:17.025 --> 00:00:22.610
+you'd sum over that mini batch of the ZI values to compute the mean.
+
+8
+00:00:22.610 --> 00:00:25.910
+So here, you're just summing over the examples in one mini batch.
+
+9
+00:00:25.910 --> 00:00:28.440
+I'm using M to denote the number of examples
+
+10
+00:00:28.440 --> 00:00:31.870
+in the mini batch not in the whole training set.
+
+11
+00:00:31.870 --> 00:00:35.955
+Then, you compute the variance and then you compute Z norm by
+
+12
+00:00:35.955 --> 00:00:41.325
+scaling by the mean and standard deviation with Epsilon added for numerical stability.
+
+13
+00:00:41.325 --> 00:00:47.100
+And then Z total is taking Z norm and rescaling by gamma and beta.
+
+14
+00:00:47.100 --> 00:00:51.995
+So, notice that mu and sigma squared which you
+
+15
+00:00:51.995 --> 00:00:57.620
+need for this scaling calculation are computed on the entire mini batch.
+
+16
+00:00:57.620 --> 00:01:00.495
+But the test time you might not have a mini batch of
+
+17
+00:01:00.495 --> 00:01:05.240
+6428 or 2056 examples to process at the same time.
+
+18
+00:01:05.240 --> 00:01:07.815
+So, you need some different way of coming up with mu and sigma squared.
+
+19
+00:01:07.815 --> 00:01:10.290
+And if you have just one example,
+
+20
+00:01:10.290 --> 00:01:15.060
+taking the mean and variance of that one example, doesn't make sense.
+
+21
+00:01:15.060 --> 00:01:16.860
+So what's actually done?
+
+22
+00:01:16.860 --> 00:01:21.240
+In order to apply your neural network and test time is to
+
+23
+00:01:21.240 --> 00:01:25.735
+come up with some separate estimate of mu and sigma squared.
+
+24
+00:01:25.735 --> 00:01:27.975
+And in typical implementations of batch norm,
+
+25
+00:01:27.975 --> 00:01:32.145
+what you do is estimate this using
+
+26
+00:01:32.145 --> 00:01:37.020
+a exponentially weighted average where the average is
+
+27
+00:01:37.020 --> 00:01:42.678
+across the mini batches.
+
+28
+00:01:42.678 --> 00:01:45.900
+So, to be very concrete here's what I mean.
+
+29
+00:01:45.900 --> 00:01:51.750
+Let's pick some layer L and let's say you're going through mini batches X1,
+
+30
+00:01:51.750 --> 00:01:57.500
+X2 together with the corresponding values of Y and so on.
+
+31
+00:01:57.500 --> 00:02:02.280
+So, when training on X1 for that layer L,
+
+32
+00:02:02.280 --> 00:02:06.383
+you get some mu L. And in fact,
+
+33
+00:02:06.383 --> 00:02:12.485
+I'm going to write this as mu for the first mini batch and that layer.
+
+34
+00:02:12.485 --> 00:02:15.540
+And then when you train on the second mini batch for that layer
+
+35
+00:02:15.540 --> 00:02:19.055
+and that mini batch,you end up with some second value of mu.
+
+36
+00:02:19.055 --> 00:02:23.194
+And then for the fourth mini batch in this hidden layer,
+
+37
+00:02:23.194 --> 00:02:29.090
+you end up with some third value for mu.
+
+38
+00:02:29.090 --> 00:02:31.830
+So just as we saw how to use
+
+39
+00:02:31.830 --> 00:02:37.600
+a exponentially weighted average to compute the mean of Theta one, Theta two,
+
+40
+00:02:37.600 --> 00:02:40.020
+Theta three when you were trying to compute
+
+41
+00:02:40.020 --> 00:02:44.173
+a exponentially weighted average of the current temperature,
+
+42
+00:02:44.173 --> 00:02:47.250
+you would do that to keep track of what's
+
+43
+00:02:47.250 --> 00:02:50.790
+the latest average value of this mean vector you've seen.
+
+44
+00:02:50.790 --> 00:02:54.195
+So that exponentially weighted average becomes
+
+45
+00:02:54.195 --> 00:03:00.120
+your estimate for what the mean of the Zs is for that hidden layer and similarly,
+
+46
+00:03:00.120 --> 00:03:03.930
+you use an exponentially weighted average to keep track of
+
+47
+00:03:03.930 --> 00:03:09.015
+these values of sigma squared that you see on the first mini batch in that layer,
+
+48
+00:03:09.015 --> 00:03:13.510
+sigma square that you see on second mini batch and so on.
+
+49
+00:03:13.510 --> 00:03:18.780
+So you keep a running average of the mu and the sigma squared that you're
+
+50
+00:03:18.780 --> 00:03:24.535
+seeing for each layer as you train the neural network across different mini batches.
+
+51
+00:03:24.535 --> 00:03:26.895
+Then finally at test time,
+
+52
+00:03:26.895 --> 00:03:30.275
+what you do is in place of this equation,
+
+53
+00:03:30.275 --> 00:03:35.855
+you would just compute Z norm using whatever value your Z have,
+
+54
+00:03:35.855 --> 00:03:39.735
+and using your exponentially weighted average of
+
+55
+00:03:39.735 --> 00:03:45.340
+the mu and sigma square whatever was the latest value you have to do the scaling here.
+
+56
+00:03:45.340 --> 00:03:48.780
+And then you would compute Z total
+
+57
+00:03:48.780 --> 00:03:53.670
+on your one test example using that Z norm that we just computed on
+
+58
+00:03:53.670 --> 00:03:57.240
+the left and using the beta and
+
+59
+00:03:57.240 --> 00:04:02.695
+gamma parameters that you have learned during your neural network training process.
+
+60
+00:04:02.695 --> 00:04:07.020
+So the takeaway from this is that during training time mu and
+
+61
+00:04:07.020 --> 00:04:11.620
+sigma squared are computed on an entire mini batch of say 64 engine,
+
+62
+00:04:11.620 --> 00:04:14.580
+28 or some number of examples.
+
+63
+00:04:14.580 --> 00:04:18.345
+But that test time, you might need to process a single example at a time.
+
+64
+00:04:18.345 --> 00:04:21.605
+So, the way to do that is to estimate mu and sigma squared
+
+65
+00:04:21.605 --> 00:04:25.325
+from your training set and there are many ways to do that.
+
+66
+00:04:25.325 --> 00:04:27.450
+You could in theory run your whole training
+
+67
+00:04:27.450 --> 00:04:30.960
+set through your final network to get mu and sigma squared.
+
+68
+00:04:30.960 --> 00:04:33.550
+But in practice, what people usually do is implement and
+
+69
+00:04:33.550 --> 00:04:36.330
+exponentially weighted average where you just keep
+
+70
+00:04:36.330 --> 00:04:38.970
+track of the mu and sigma squared values you're seeing
+
+71
+00:04:38.970 --> 00:04:42.130
+during training and use and exponentially the weighted average,
+
+72
+00:04:42.130 --> 00:04:44.095
+also sometimes called the running average,
+
+73
+00:04:44.095 --> 00:04:46.330
+to just get a rough estimate of mu and sigma
+
+74
+00:04:46.330 --> 00:04:49.800
+squared and then you use those values of mu and sigma squared
+
+75
+00:04:49.800 --> 00:04:55.860
+that test time to do the scale and you need the head and unit values Z.
+
+76
+00:04:55.860 --> 00:04:58.980
+In practice, this process is pretty robust
+
+77
+00:04:58.980 --> 00:05:03.125
+to the exact way you used to estimate mu and sigma squared.
+
+78
+00:05:03.125 --> 00:05:06.440
+So, I wouldn't worry too much about exactly how you do
+
+79
+00:05:06.440 --> 00:05:09.729
+this and if you're using a deep learning framework,
+
+80
+00:05:09.729 --> 00:05:13.080
+they'll usually have some default way to estimate
+
+81
+00:05:13.080 --> 00:05:17.665
+the mu and sigma squared that should work reasonably well as well.
+
+82
+00:05:17.665 --> 00:05:21.965
+But in practice, any reasonable way to estimate the mean and
+
+83
+00:05:21.965 --> 00:05:28.600
+variance of your head and unit values Z should work fine at test.
+
+84
+00:05:28.600 --> 00:05:31.270
+So, that's it for batch norm and using it.
+
+85
+00:05:31.270 --> 00:05:33.520
+I think you'll be able to train much deeper networks
+
+86
+00:05:33.520 --> 00:05:37.205
+and get your learning algorithm to run much more quickly.
+
+87
+00:05:37.205 --> 00:05:38.870
+Before we wrap up for this week,
+
+88
+00:05:38.870 --> 00:05:43.080
+I want to share with you some thoughts on deep learning frameworks as well.
+
+89
+00:05:43.080 --> 00:05:46.000
+Let's start to talk about that in the next video.

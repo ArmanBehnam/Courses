@@ -1,0 +1,665 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:04.180
+In addition to L2 regularization and
+drop out regularization there
+
+2
+00:00:04.180 --> 00:00:08.050
+are few other techniques to reducing
+over fitting in your neural network.
+
+3
+00:00:08.050 --> 00:00:09.200
+Let's take a look.
+
+4
+00:00:09.200 --> 00:00:10.955
+Let's say you fitting a CAD crossfire.
+
+5
+00:00:10.955 --> 00:00:15.590
+If you are over fitting getting more
+training data can help, but getting more
+
+6
+00:00:15.590 --> 00:00:20.970
+training data can be expensive and
+sometimes you just can't get more data.
+
+7
+00:00:20.970 --> 00:00:24.670
+But what you can do is augment your
+training set by taking image like this.
+
+8
+00:00:24.670 --> 00:00:27.440
+And for example,
+flipping it horizontally and
+
+9
+00:00:27.440 --> 00:00:29.570
+adding that also with your training set.
+
+10
+00:00:29.570 --> 00:00:32.950
+So now instead of just this one
+example in your training set,
+
+11
+00:00:32.950 --> 00:00:35.320
+you can add this to your training example.
+
+12
+00:00:35.320 --> 00:00:38.040
+So by flipping the images horizontally,
+
+13
+00:00:38.040 --> 00:00:40.670
+you could double the size
+of your training set.
+
+14
+00:00:40.670 --> 00:00:44.530
+Because you're training set is now a bit
+redundant this isn't as good as if you had
+
+15
+00:00:44.530 --> 00:00:50.200
+collected an additional set of
+brand new independent examples.
+
+16
+00:00:50.200 --> 00:00:55.290
+But you could do this Without needing
+to pay the expense of going out to take
+
+17
+00:00:55.290 --> 00:00:57.100
+more pictures of cats.
+
+18
+00:00:57.100 --> 00:00:59.710
+And then other than flipping horizontally,
+
+19
+00:00:59.710 --> 00:01:02.170
+you can also take random
+crops of the image.
+
+20
+00:01:02.170 --> 00:01:06.220
+So here we're rotated and
+sort of randomly zoom into the image and
+
+21
+00:01:06.220 --> 00:01:07.720
+this still looks like a cat.
+
+22
+00:01:07.720 --> 00:01:11.830
+So by taking random distortions and
+translations of the image you could
+
+23
+00:01:11.830 --> 00:01:16.490
+augment your data set and
+make additional fake training examples.
+
+24
+00:01:16.490 --> 00:01:20.780
+Again, these extra fake training examples
+they don't add as much information as they
+
+25
+00:01:20.780 --> 00:01:25.900
+were to call they get a brand new
+independent example of a cat.
+
+26
+00:01:25.900 --> 00:01:28.982
+But because you can do this,
+almost for free, other than for
+
+27
+00:01:28.982 --> 00:01:30.562
+some confrontational costs.
+
+28
+00:01:30.562 --> 00:01:37.007
+This can be an inexpensive way to
+give your algorithm more data and
+
+29
+00:01:37.007 --> 00:01:42.762
+therefore sort of regularize it and
+reduce over fitting.
+
+30
+00:01:42.762 --> 00:01:47.299
+And by synthesizing examples like this
+what you're really telling your algorithm
+
+31
+00:01:47.299 --> 00:01:51.570
+is that If something is a cat then
+flipping it horizontally is still a cat.
+
+32
+00:01:51.570 --> 00:01:53.100
+Notice I didn't flip it vertically,
+
+33
+00:01:53.100 --> 00:01:55.820
+because maybe we don't want
+upside down cats, right?
+
+34
+00:01:55.820 --> 00:01:58.940
+And then also maybe randomly zooming
+in to part of the image it's probably
+
+35
+00:01:58.940 --> 00:02:00.270
+still a cat.
+
+36
+00:02:00.270 --> 00:02:04.750
+For optical character recognition you can
+also bring your data set by taking digits
+
+37
+00:02:04.750 --> 00:02:08.510
+and imposing random rotations and
+distortions to it.
+
+38
+00:02:08.510 --> 00:02:11.620
+So If you add these things
+to your training set,
+
+39
+00:02:11.620 --> 00:02:13.490
+these are also still digit force.
+
+40
+00:02:14.740 --> 00:02:18.320
+For illustration I applied
+a very strong distortion.
+
+41
+00:02:18.320 --> 00:02:23.215
+So this look very wavy for, in practice
+you don't need to distort the four quite
+
+42
+00:02:23.215 --> 00:02:27.095
+as aggressively, but just a more subtle
+distortion than what I'm showing here,
+
+43
+00:02:27.095 --> 00:02:29.255
+to make this example clearer for
+you, right?
+
+44
+00:02:29.255 --> 00:02:32.945
+But a more subtle distortion
+is usually used in practice,
+
+45
+00:02:32.945 --> 00:02:35.490
+because this looks like
+really warped fours.
+
+46
+00:02:35.490 --> 00:02:40.410
+So data augmentation can be used
+as a regularization technique,
+
+47
+00:02:40.410 --> 00:02:43.020
+in fact similar to regularization.
+
+48
+00:02:43.020 --> 00:02:46.970
+There's one other technique that is
+often used called early stopping.
+
+49
+00:02:46.970 --> 00:02:52.010
+So what you're going to do is as you run
+gradient descent you're going to plot
+
+50
+00:02:52.010 --> 00:02:54.010
+your, either the training error,
+
+51
+00:02:54.010 --> 00:02:57.860
+you'll use 01 classification
+error on the training set.
+
+52
+00:02:57.860 --> 00:03:00.860
+Or just plot the cost
+function J optimizing, and
+
+53
+00:03:00.860 --> 00:03:04.200
+that should decrease monotonically,
+like so, all right?
+
+54
+00:03:04.200 --> 00:03:05.610
+Because as you trade, hopefully,
+
+55
+00:03:05.610 --> 00:03:09.120
+you're trading around your cost
+function J should decrease.
+
+56
+00:03:09.120 --> 00:03:11.870
+So with early stopping,
+what you do is you plot this, and
+
+57
+00:03:11.870 --> 00:03:15.970
+you also plot your dev set error.
+
+58
+00:03:17.020 --> 00:03:20.920
+And again, this could be a classification
+error in a development sense, or something
+
+59
+00:03:20.920 --> 00:03:25.979
+like the cost function, like the logistic
+loss or the log loss of the dev set.
+
+60
+00:03:25.979 --> 00:03:29.770
+Now what you find is that your dev
+set error will usually go down for
+
+61
+00:03:29.770 --> 00:03:32.950
+a while, and
+then it will increase from there.
+
+62
+00:03:32.950 --> 00:03:35.876
+So what early stopping does is,
+you will say well,
+
+63
+00:03:35.876 --> 00:03:40.167
+it looks like your neural network was
+doing best around that iteration, so
+
+64
+00:03:40.167 --> 00:03:43.640
+we just want to stop trading on
+your neural network halfway and
+
+65
+00:03:43.640 --> 00:03:47.310
+take whatever value achieved
+this dev set error.
+
+66
+00:03:47.310 --> 00:03:48.260
+So why does this work?
+
+67
+00:03:48.260 --> 00:03:51.490
+Well when you've haven't
+run many iterations for
+
+68
+00:03:51.490 --> 00:03:55.185
+your neural network yet
+your parameters w will be close to zero.
+
+69
+00:03:55.185 --> 00:03:59.720
+Because with random initialization you
+probably initialize w to small random
+
+70
+00:03:59.720 --> 00:04:04.190
+values so before you train for
+a long time, w is still quite small.
+
+71
+00:04:04.190 --> 00:04:08.060
+And as you iterate, as you train, w will
+get bigger and bigger and bigger until
+
+72
+00:04:08.060 --> 00:04:14.120
+here maybe you have a much larger value of
+the parameters w for your neural network.
+
+73
+00:04:14.120 --> 00:04:18.560
+So what early stopping does is by
+stopping halfway you have only
+
+74
+00:04:18.560 --> 00:04:23.286
+a mid-size rate w.
+
+75
+00:04:23.286 --> 00:04:28.920
+And so similar to L2 regularization by
+picking a neural network with smaller
+
+76
+00:04:28.920 --> 00:04:34.630
+norm for your parameters w, hopefully
+your neural network is over fitting less.
+
+77
+00:04:34.630 --> 00:04:37.270
+And the term early stopping refers
+to the fact that you're just
+
+78
+00:04:37.270 --> 00:04:40.760
+stopping the training of
+your neural network earlier.
+
+79
+00:04:40.760 --> 00:04:43.760
+I sometimes use early stopping
+when training a neural network.
+
+80
+00:04:43.760 --> 00:04:46.650
+But it does have one downside,
+let me explain.
+
+81
+00:04:46.650 --> 00:04:50.870
+I think of the machine learning process
+as comprising several different steps.
+
+82
+00:04:50.870 --> 00:04:55.960
+One, is that you want an algorithm
+to optimize the cost function j and
+
+83
+00:04:55.960 --> 00:04:59.660
+we have various tools to do that,
+such as grade intersect.
+
+84
+00:04:59.660 --> 00:05:04.350
+And then we'll talk later about
+other algorithms, like momentum and
+
+85
+00:05:04.350 --> 00:05:08.070
+RMS prop and Atom and so on.
+
+86
+00:05:08.070 --> 00:05:15.100
+But after optimizing the cost function j,
+you also wanted to not over-fit.
+
+87
+00:05:15.100 --> 00:05:20.018
+And we have some tools to do that
+such as your regularization,
+
+88
+00:05:20.018 --> 00:05:22.300
+getting more data and so on.
+
+89
+00:05:22.300 --> 00:05:26.110
+Now in machine learning, we already have
+so many hyper-parameters it surge over.
+
+90
+00:05:26.110 --> 00:05:31.160
+It's already very complicated to choose
+among the space of possible algorithms.
+
+91
+00:05:31.160 --> 00:05:34.340
+And so I find machine learning
+easier to think about
+
+92
+00:05:34.340 --> 00:05:37.800
+when you have one set of tools for
+optimizing the cost function J,
+
+93
+00:05:37.800 --> 00:05:41.120
+and when you're focusing on
+authorizing the cost function J.
+
+94
+00:05:41.120 --> 00:05:46.770
+All you care about is finding w and b,
+so that J(w,b) is as small as possible.
+
+95
+00:05:46.770 --> 00:05:50.020
+You just don't think about anything
+else other than reducing this.
+
+96
+00:05:50.020 --> 00:05:55.346
+And then it's completely
+separate task to not over fit,
+
+97
+00:05:55.346 --> 00:05:57.560
+in other words, to reduce variance.
+
+98
+00:05:57.560 --> 00:06:01.670
+And when you're doing that, you have
+a separate set of tools for doing it.
+
+99
+00:06:01.670 --> 00:06:06.570
+And this principle is sometimes
+called orthogonalization.
+
+100
+00:06:06.570 --> 00:06:10.220
+And there's this idea, that you want to be
+able to think about one task at a time.
+
+101
+00:06:10.220 --> 00:06:14.640
+I'll say more about orthorganization
+in a later video, so
+
+102
+00:06:14.640 --> 00:06:17.600
+if you don't fully get the concept yet,
+don't worry about it.
+
+103
+00:06:17.600 --> 00:06:21.015
+But, to me the main downside
+of early stopping is that
+
+104
+00:06:21.015 --> 00:06:23.945
+this couples these two tasks.
+
+105
+00:06:23.945 --> 00:06:28.165
+So you no longer can work on
+these two problems independently,
+
+106
+00:06:28.165 --> 00:06:30.625
+because by stopping gradient decent early,
+
+107
+00:06:30.625 --> 00:06:34.330
+you're sort of breaking whatever you're
+doing to optimize cost function J,
+
+108
+00:06:34.330 --> 00:06:37.300
+because now you're not doing a great
+job reducing the cost function J.
+
+109
+00:06:37.300 --> 00:06:39.250
+You've sort of not done that that well.
+
+110
+00:06:39.250 --> 00:06:43.510
+And then you also simultaneously
+trying to not over fit.
+
+111
+00:06:43.510 --> 00:06:46.430
+So instead of using different
+tools to solve the two problems,
+
+112
+00:06:46.430 --> 00:06:48.600
+you're using one that
+kind of mixes the two.
+
+113
+00:06:48.600 --> 00:06:51.250
+And this just makes the set of
+
+114
+00:06:52.370 --> 00:06:56.690
+things you could try are more
+complicated to think about.
+
+115
+00:06:56.690 --> 00:07:01.840
+Rather than using early stopping, one
+alternative is just use L2 regularization
+
+116
+00:07:01.840 --> 00:07:05.030
+then you can just train the neural
+network as long as possible.
+
+117
+00:07:05.030 --> 00:07:09.000
+I find that this makes the search space
+of hyper parameters easier to decompose,
+
+118
+00:07:09.000 --> 00:07:10.720
+and easier to search over.
+
+119
+00:07:10.720 --> 00:07:14.200
+But the downside of this though is that
+you might have to try a lot of values of
+
+120
+00:07:14.200 --> 00:07:16.420
+the regularization parameter lambda.
+
+121
+00:07:16.420 --> 00:07:21.040
+And so this makes searching over many
+values of lambda more computationally
+
+122
+00:07:21.040 --> 00:07:22.060
+expensive.
+
+123
+00:07:22.060 --> 00:07:26.500
+And the advantage of early stopping is
+that running the gradient descent process
+
+124
+00:07:26.500 --> 00:07:30.910
+just once, you get to try out
+values of small w, mid-size w, and
+
+125
+00:07:30.910 --> 00:07:35.960
+large w, without needing to try a lot
+of values of the L2 regularization
+
+126
+00:07:35.960 --> 00:07:40.300
+hyperparameter lambda.
+
+127
+00:07:40.300 --> 00:07:43.910
+If this concept doesn't completely make
+sense to you yet, don't worry about it.
+
+128
+00:07:43.910 --> 00:07:46.608
+We're going to talk about
+orthogonalization in greater
+
+129
+00:07:46.608 --> 00:07:49.784
+detail in a later video,
+I think this will make a bit more sense.
+
+130
+00:07:49.784 --> 00:07:52.860
+Despite it's disadvantages,
+many people do use it.
+
+131
+00:07:52.860 --> 00:07:55.728
+I personally prefer to just
+use L2 regularization and
+
+132
+00:07:55.728 --> 00:07:57.484
+try different values of lambda.
+
+133
+00:07:57.484 --> 00:08:00.530
+That's assuming you can afford
+the computation to do so.
+
+134
+00:08:00.530 --> 00:08:03.350
+But early stopping does let you
+get a similar effect without
+
+135
+00:08:03.350 --> 00:08:06.910
+needing to explicitly try lots
+of different values of lambda.
+
+136
+00:08:06.910 --> 00:08:12.480
+So you've now seen how to use data
+augmentation as well as if you wish early
+
+137
+00:08:12.480 --> 00:08:17.550
+stopping in order to reduce variance or
+prevent over fitting your neural network.
+
+138
+00:08:17.550 --> 00:08:19.830
+Next let's talk about some techniques for
+
+139
+00:08:19.830 --> 00:08:23.320
+setting up your optimization problem
+to make your training go quickly.

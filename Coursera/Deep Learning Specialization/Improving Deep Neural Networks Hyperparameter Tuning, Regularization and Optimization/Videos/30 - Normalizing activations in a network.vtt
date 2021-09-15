@@ -1,0 +1,594 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:01.820
+In the rise of deep learning,
+
+2
+00:00:01.820 --> 00:00:06.460
+one of the most important ideas has been
+an algorithm called batch normalization,
+
+3
+00:00:06.460 --> 00:00:10.860
+created by two researchers,
+Sergey Ioffe and Christian Szegedy.
+
+4
+00:00:10.860 --> 00:00:14.096
+Batch normalization makes your
+hyperparameter search problem much easier,
+
+5
+00:00:14.096 --> 00:00:15.970
+makes your neural network
+much more robust.
+
+6
+00:00:15.970 --> 00:00:20.492
+The choice of hyperparameters is a much
+bigger range of hyperparameters that work
+
+7
+00:00:20.492 --> 00:00:25.029
+well, and will also enable you to much
+more easily train even very deep networks.
+
+8
+00:00:25.029 --> 00:00:27.850
+Let's see how batch normalization works.
+
+9
+00:00:27.850 --> 00:00:32.860
+When training a model, such as logistic
+regression, you might remember that
+
+10
+00:00:32.860 --> 00:00:37.990
+normalizing the input features can speed
+up learnings in compute the means,
+
+11
+00:00:37.990 --> 00:00:40.680
+subtract off the means
+from your training sets.
+
+12
+00:00:40.680 --> 00:00:42.150
+Compute the variances.
+
+13
+00:00:44.320 --> 00:00:46.090
+The sum of xi squared.
+
+14
+00:00:46.090 --> 00:00:48.140
+This is an element-wise squaring.
+
+15
+00:00:49.990 --> 00:00:53.160
+And then normalize your data
+set according to the variances.
+
+16
+00:00:53.160 --> 00:00:57.699
+And we saw in an earlier video how this
+can turn the contours of your learning
+
+17
+00:00:57.699 --> 00:01:02.887
+problem from something that might be very
+elongated to something that is more round,
+
+18
+00:01:02.887 --> 00:01:07.240
+and easier for an algorithm like
+gradient descent to optimize.
+
+19
+00:01:07.240 --> 00:01:12.130
+So this works, in terms of
+normalizing the input feature values
+
+20
+00:01:12.130 --> 00:01:15.530
+to a neural network, alter the regression.
+
+21
+00:01:15.530 --> 00:01:17.810
+Now, how about a deeper model?
+
+22
+00:01:17.810 --> 00:01:22.998
+You have not just input features x, but
+in this layer you have activations a1,
+
+23
+00:01:22.998 --> 00:01:27.210
+in this layer,
+you have activations a2 and so on.
+
+24
+00:01:27.210 --> 00:01:31.220
+So if you want to train the parameters,
+say w3, b3, then
+
+25
+00:01:32.600 --> 00:01:36.900
+wouldn't it be nice if you
+can normalize the mean and
+
+26
+00:01:36.900 --> 00:01:41.330
+variance of a2 to make the training of w3,
+b3 more efficient?
+
+27
+00:01:43.140 --> 00:01:46.960
+In the case of logistic regression,
+we saw how normalizing x1,
+
+28
+00:01:46.960 --> 00:01:51.460
+x2, x3 maybe helps you train w and
+b more efficiently.
+
+29
+00:01:51.460 --> 00:01:56.060
+So here, the question is, for
+any hidden layer, can we normalize,
+
+30
+00:01:57.980 --> 00:02:02.143
+The values of a, let's say a2,
+
+31
+00:02:02.143 --> 00:02:07.796
+in this example but
+really any hidden layer,
+
+32
+00:02:07.796 --> 00:02:12.580
+so as to train w3 b3 faster, right?
+
+33
+00:02:12.580 --> 00:02:15.283
+Since a2 is the input to the next layer,
+
+34
+00:02:15.283 --> 00:02:18.870
+that therefore affects your
+training of w3 and b3.
+
+35
+00:02:20.390 --> 00:02:24.418
+So this is what batch norm does,
+batch normalization, or batch norm for
+
+36
+00:02:24.418 --> 00:02:25.287
+short, does.
+
+37
+00:02:25.287 --> 00:02:31.730
+Although technically, we'll actually
+normalize the values of not a2 but z2.
+
+38
+00:02:31.730 --> 00:02:36.030
+There are some debates in the deep
+learning literature about whether you
+
+39
+00:02:36.030 --> 00:02:40.760
+should normalize the value before
+the activation function, so z2, or whether
+
+40
+00:02:40.760 --> 00:02:45.000
+you should normalize the value after
+applying the activation function, a2.
+
+41
+00:02:45.000 --> 00:02:48.655
+In practice,
+normalizing z2 is done much more often.
+
+42
+00:02:48.655 --> 00:02:51.253
+So that's the version I'll present and
+
+43
+00:02:51.253 --> 00:02:54.550
+what I would recommend you
+use as a default choice.
+
+44
+00:02:54.550 --> 00:02:58.060
+So here is how you will
+implement batch norm.
+
+45
+00:02:58.060 --> 00:03:06.070
+Given some intermediate values,
+In your neural net,
+
+46
+00:03:09.470 --> 00:03:15.270
+Let's say that you have some
+hidden unit values z1 up to zm,
+
+47
+00:03:15.270 --> 00:03:19.365
+and this is really from some hidden layer,
+
+48
+00:03:19.365 --> 00:03:23.686
+so it'd be more accurate
+to write this as z for
+
+49
+00:03:23.686 --> 00:03:28.750
+some hidden layer i for
+i equals 1 through m.
+
+50
+00:03:28.750 --> 00:03:33.110
+But to reduce writing,
+I'm going to omit this [l],
+
+51
+00:03:33.110 --> 00:03:35.350
+just to simplify
+the notation on this line.
+
+52
+00:03:35.350 --> 00:03:41.260
+So given these values, what you do
+is compute the mean as follows.
+
+53
+00:03:41.260 --> 00:03:46.277
+Okay, and all this is specific to some
+layer l, but I'm omitting the [l].
+
+54
+00:03:46.277 --> 00:03:51.153
+And then you compute the variance
+using pretty much the formula you
+
+55
+00:03:51.153 --> 00:03:56.043
+would expect and then you would
+take each the zis and normalize it.
+
+56
+00:03:56.043 --> 00:04:00.908
+So you get zi normalized by
+subtracting off the mean and
+
+57
+00:04:00.908 --> 00:04:04.310
+dividing by the standard deviation.
+
+58
+00:04:04.310 --> 00:04:09.312
+For numerical stability, we usually
+add epsilon to the denominator like
+
+59
+00:04:09.312 --> 00:04:14.460
+that just in case sigma squared turns
+out to be zero in some estimate.
+
+60
+00:04:14.460 --> 00:04:17.405
+And so now we've taken these values z and
+
+61
+00:04:17.405 --> 00:04:23.010
+normalized them to have mean 0 and
+standard unit variance.
+
+62
+00:04:23.010 --> 00:04:25.903
+So every component of z has mean 0 and
+variance 1.
+
+63
+00:04:25.903 --> 00:04:31.352
+But we don't want the hidden units to
+always have mean 0 and variance 1.
+
+64
+00:04:31.352 --> 00:04:38.953
+Maybe it makes sense for hidden units
+to have a different distribution,
+
+65
+00:04:38.953 --> 00:04:42.939
+so what we'll do instead is compute,
+
+66
+00:04:42.939 --> 00:04:48.434
+I'm going to call this z
+tilde = gamma zi norm + beta.
+
+67
+00:04:48.434 --> 00:04:55.210
+And here, gamma and beta are learnable
+parameters of your model.
+
+68
+00:04:58.957 --> 00:05:03.675
+So we're using gradient descent, or some
+other algorithm, like the gradient descent
+
+69
+00:05:03.675 --> 00:05:08.136
+of momentum, or rms proper atom, you would
+update the parameters gamma and beta,
+
+70
+00:05:08.136 --> 00:05:11.410
+just as you would update
+the weights of your neural network.
+
+71
+00:05:11.410 --> 00:05:16.582
+Now, notice that the effect of gamma and
+beta is that it allows
+
+72
+00:05:16.582 --> 00:05:22.140
+you to set the mean of z tilde to
+be whatever you want it to be.
+
+73
+00:05:22.140 --> 00:05:27.720
+In fact,
+if gamma equals square root sigma squared
+
+74
+00:05:28.800 --> 00:05:33.570
+plus epsilon, so if gamma were
+equal to this denominator term.
+
+75
+00:05:33.570 --> 00:05:39.318
+And if beta were equal to mu,
+so this value up here,
+
+76
+00:05:39.318 --> 00:05:43.998
+then the effect of gamma
+z norm plus beta is
+
+77
+00:05:43.998 --> 00:05:49.540
+that it would exactly
+invert this equation.
+
+78
+00:05:49.540 --> 00:05:52.284
+So if this is true,
+
+79
+00:05:52.284 --> 00:05:57.780
+then actually z tilde i is equal to zi.
+
+80
+00:05:57.780 --> 00:06:02.633
+And so by an appropriate setting
+of the parameters gamma and beta,
+
+81
+00:06:02.633 --> 00:06:05.321
+this normalization step, that is,
+
+82
+00:06:05.321 --> 00:06:11.175
+these four equations is just computing
+essentially the identity function.
+
+83
+00:06:11.175 --> 00:06:16.112
+But by choosing other values of gamma and
+beta, this allows you to make the hidden
+
+84
+00:06:16.112 --> 00:06:19.320
+unit values have other means and
+variances as well.
+
+85
+00:06:19.320 --> 00:06:23.538
+And so the way you fit this
+into your neural network is,
+
+86
+00:06:23.538 --> 00:06:28.583
+whereas previously you were using
+these values z1, z2, and so
+
+87
+00:06:28.583 --> 00:06:35.195
+on, you would now use z tilde i,
+Instead of zi for
+
+88
+00:06:35.195 --> 00:06:39.910
+the later computations
+in your neural network.
+
+89
+00:06:39.910 --> 00:06:45.129
+And you want to put back in this [l] to
+explicitly denote which layer it is in,
+
+90
+00:06:45.129 --> 00:06:46.910
+you can put it back there.
+
+91
+00:06:46.910 --> 00:06:51.319
+So the intuition I hope you'll take
+away from this is that we saw how
+
+92
+00:06:51.319 --> 00:06:56.140
+normalizing the input features x can
+help learning in a neural network.
+
+93
+00:06:56.140 --> 00:07:00.029
+And what batch norm does is it applies
+that normalization process not just
+
+94
+00:07:00.029 --> 00:07:01.283
+to the input layer, but
+
+95
+00:07:01.283 --> 00:07:04.810
+to the values even deep in some
+hidden layer in the neural network.
+
+96
+00:07:04.810 --> 00:07:09.085
+So it will apply this type of
+normalization to normalize the mean and
+
+97
+00:07:09.085 --> 00:07:12.390
+variance of some of your
+hidden units' values, z.
+
+98
+00:07:12.390 --> 00:07:16.833
+But one difference between the training
+input and these hidden unit values is you
+
+99
+00:07:16.833 --> 00:07:21.220
+might not want your hidden unit values
+be forced to have mean 0 and variance 1.
+
+100
+00:07:21.220 --> 00:07:24.247
+For example,
+if you have a sigmoid activation function,
+
+101
+00:07:24.247 --> 00:07:27.230
+you don't want your values
+to always be clustered here.
+
+102
+00:07:27.230 --> 00:07:31.582
+You might want them to have a larger
+variance or have a mean that's different
+
+103
+00:07:31.582 --> 00:07:35.322
+than 0, in order to better take
+advantage of the nonlinearity of
+
+104
+00:07:35.322 --> 00:07:41.060
+the sigmoid function rather than have all
+your values be in just this linear regime.
+
+105
+00:07:41.060 --> 00:07:45.067
+So that's why with
+the parameters gamma and beta,
+
+106
+00:07:45.067 --> 00:07:51.230
+you can now make sure that your zi values
+have the range of values that you want.
+
+107
+00:07:51.230 --> 00:07:55.671
+But what it does really is it then
+shows that your hidden units have
+
+108
+00:07:55.671 --> 00:07:59.226
+standardized mean and
+variance, where the mean and
+
+109
+00:07:59.226 --> 00:08:03.429
+variance are controlled by two
+explicit parameters gamma and
+
+110
+00:08:03.429 --> 00:08:07.826
+beta which the learning algorithm
+can set to whatever it wants.
+
+111
+00:08:07.826 --> 00:08:13.004
+So what it really does is it normalizes
+in mean and variance of these hidden
+
+112
+00:08:13.004 --> 00:08:18.660
+unit values, really the zis,
+to have some fixed mean and variance.
+
+113
+00:08:18.660 --> 00:08:22.320
+And that mean and variance could be 0 and
+1, or it could be some other value,
+
+114
+00:08:22.320 --> 00:08:26.680
+and it's controlled by these
+parameters gamma and beta.
+
+115
+00:08:26.680 --> 00:08:30.424
+So I hope that gives you a sense of the
+mechanics of how to implement batch norm,
+
+116
+00:08:30.424 --> 00:08:32.830
+at least for
+a single layer in the neural network.
+
+117
+00:08:32.830 --> 00:08:36.104
+In the next video, I'm going to show
+you how to fit batch norm into a neural
+
+118
+00:08:36.104 --> 00:08:39.052
+network, even a deep neural network,
+and how to make it work for
+
+119
+00:08:39.052 --> 00:08:41.700
+the many different layers
+of a neural network.
+
+120
+00:08:41.700 --> 00:08:45.450
+And after that, we'll get some more
+intuition about why batch norm could
+
+121
+00:08:45.450 --> 00:08:47.120
+help you train your neural network.
+
+122
+00:08:47.120 --> 00:08:51.424
+So in case why it works still seems
+a little bit mysterious, stay with me, and
+
+123
+00:08:51.424 --> 00:08:54.949
+I think in two videos from now
+we'll really make that clearer.

@@ -1,0 +1,1078 @@
+WEBVTT
+
+1
+00:00:00.540 --> 00:00:02.320
+Welcome to the last video for this week.
+
+2
+00:00:02.320 --> 00:00:05.987
+There are many great,
+deep learning programming frameworks.
+
+3
+00:00:05.987 --> 00:00:07.900
+One of them is TensorFlow.
+
+4
+00:00:07.900 --> 00:00:11.430
+I'm excited to help you start
+to learn to use TensorFlow.
+
+5
+00:00:11.430 --> 00:00:14.760
+What I want to do in this video
+is show you the basic structure
+
+6
+00:00:14.760 --> 00:00:18.970
+of a TensorFlow program, and then leave
+you to practice, learn more details, and
+
+7
+00:00:18.970 --> 00:00:22.150
+practice them yourself in
+this week's problem exercise.
+
+8
+00:00:22.150 --> 00:00:24.660
+This week's problem exercise
+will take some time to do so
+
+9
+00:00:24.660 --> 00:00:27.622
+please be sure to leave
+some extra time to do it.
+
+10
+00:00:27.622 --> 00:00:29.270
+As a motivating problem,
+
+11
+00:00:29.270 --> 00:00:34.210
+let's say that you have some cost
+function J that you want to minimize.
+
+12
+00:00:34.210 --> 00:00:39.857
+And for this example,
+I'm going to use this highly simple
+
+13
+00:00:39.857 --> 00:00:45.033
+cost function J(w) = w squared- 10w + 25.
+
+14
+00:00:45.033 --> 00:00:46.870
+So that's the cost function.
+
+15
+00:00:46.870 --> 00:00:53.751
+You might notice that this function
+is actually (w- 5) squared.
+
+16
+00:00:53.751 --> 00:00:58.569
+If you expand out this quadratic,
+you get the expression above, and so
+
+17
+00:00:58.569 --> 00:01:01.552
+the value of w that
+minimizes this is w = 5.
+
+18
+00:01:01.552 --> 00:01:05.770
+But let's say we didn't know that,
+and you just have this function.
+
+19
+00:01:05.770 --> 00:01:10.240
+Let's see how you can implement something
+in TensorFlow to minimize this.
+
+20
+00:01:10.240 --> 00:01:13.960
+Because a very similar structure of
+program can be used to train neural
+
+21
+00:01:13.960 --> 00:01:18.337
+networks where you can have some
+complicated cost function J(w,
+
+22
+00:01:18.337 --> 00:01:22.934
+b) depending on all the parameters
+of your neural network.
+
+23
+00:01:22.934 --> 00:01:26.910
+And the, similarly,
+you'll be able to use TensorFlow so
+
+24
+00:01:26.910 --> 00:01:33.010
+automatically try to find values of w and
+b that minimize this cost function.
+
+25
+00:01:33.010 --> 00:01:36.140
+But let's start with the simpler
+example on the left.
+
+26
+00:01:36.140 --> 00:01:41.690
+So, I'm running Python in my Jupyter
+notebook and to start up TensorFlow,
+
+27
+00:01:41.690 --> 00:01:48.390
+you import numpy as np and it's idiomatic
+to use import tensorflow as tf.
+
+28
+00:01:48.390 --> 00:01:52.979
+Next, let me define the parameter w.
+
+29
+00:01:52.979 --> 00:01:58.556
+So in TensorFlow, you're going to use
+tf.Variable to define a parameter.
+
+30
+00:02:01.932 --> 00:02:06.396
+Dtype=tf.float32.
+
+31
+00:02:08.480 --> 00:02:10.520
+And then let's define the cost function.
+
+32
+00:02:10.520 --> 00:02:15.839
+So remember the cost function
+was w squared- 10w + 25.
+
+33
+00:02:15.839 --> 00:02:19.239
+So let me use tf.add.
+
+34
+00:02:19.239 --> 00:02:26.989
+So I'm going to have w
+squared + tf.multiply.
+
+35
+00:02:26.989 --> 00:02:31.642
+So the second term was -10.w.
+
+36
+00:02:31.642 --> 00:02:35.491
+And then I'm going to add that 25.
+
+37
+00:02:35.491 --> 00:02:40.500
+So let me put another tf.add over there.
+
+38
+00:02:40.500 --> 00:02:43.310
+So that defines the cost J that we had.
+
+39
+00:02:43.310 --> 00:02:48.067
+And then, I'm going to write train =
+
+40
+00:02:48.067 --> 00:02:53.945
+tf.train.GradientDescentOptimizer.
+
+41
+00:02:53.945 --> 00:03:01.409
+Let's use a learning rate of 0.01 and
+the goal is to minimize the cost.
+
+42
+00:03:01.409 --> 00:03:05.850
+And finally, the following few
+lines are quite idiomatic.
+
+43
+00:03:05.850 --> 00:03:13.560
+Init = tf.global_variables_initializer and
+
+44
+00:03:13.560 --> 00:03:18.404
+then session = tf.Sessions.
+
+45
+00:03:18.404 --> 00:03:21.044
+So it starts a TensorFlow session.
+
+46
+00:03:21.044 --> 00:03:25.890
+Session.run init to
+initialize global variables.
+
+47
+00:03:25.890 --> 00:03:33.135
+And then, for TensorFlow's evaluative
+variable, we're going to use sess.run w.
+
+48
+00:03:33.135 --> 00:03:34.320
+We haven't done anything yet.
+
+49
+00:03:34.320 --> 00:03:39.540
+So with this line above, initialize
+w to zero and define a cost function.
+
+50
+00:03:39.540 --> 00:03:42.668
+We define train to be our
+learning algorithm which uses
+
+51
+00:03:42.668 --> 00:03:46.206
+a GradientDescentOptimizer to
+minimize the cost function.
+
+52
+00:03:46.206 --> 00:03:50.549
+But we haven't actually run
+the learning algorithm yet, so
+
+53
+00:03:50.549 --> 00:03:55.778
+session.run, we evaluate w, and
+let me print(session.run(w).
+
+54
+00:03:55.778 --> 00:03:56.852
+So if we run that,
+
+55
+00:03:56.852 --> 00:04:01.029
+it evaluates w to be equal to 0
+because we haven't run anything yet.
+
+56
+00:04:01.029 --> 00:04:06.420
+Now, let's do session.run train.
+
+57
+00:04:06.420 --> 00:04:11.190
+So what this will do is run
+one step of GradientDescent.
+
+58
+00:04:11.190 --> 00:04:15.814
+And then let's evaluate
+the value of w after one
+
+59
+00:04:15.814 --> 00:04:19.870
+step of GradientDescent and print that.
+
+60
+00:04:19.870 --> 00:04:25.690
+So we do that of the one set of
+GradientDescent, w is now 0.1.
+
+61
+00:04:25.690 --> 00:04:33.057
+Let's now run 1000 iterations of
+GradientDescent so .run(train).
+
+62
+00:04:35.543 --> 00:04:41.880
+And lets then print(session.run w).
+
+63
+00:04:41.880 --> 00:04:45.501
+So this would run a 1,000
+iterations of GradientDescent,
+
+64
+00:04:45.501 --> 00:04:47.989
+and at the end w ends up being 4.9999.
+
+65
+00:04:47.989 --> 00:04:51.914
+Remember, we said that we're
+minimizing w- 5 squared so
+
+66
+00:04:51.914 --> 00:04:56.330
+the absolute value of w is 5 and
+it got very close to this.
+
+67
+00:04:56.330 --> 00:05:02.680
+So hope this gives you a sense of the
+broad structure of a TensorFlow program.
+
+68
+00:05:02.680 --> 00:05:08.038
+And as you do the following exercise and
+play with more TensorFlow course yourself,
+
+69
+00:05:08.038 --> 00:05:12.653
+some of these functions that I'm
+using here will become more familiar.
+
+70
+00:05:12.653 --> 00:05:16.836
+Some things to notice about this,
+w is the parameter which I optimize so
+
+71
+00:05:16.836 --> 00:05:19.760
+we're going to declare that as a variable.
+
+72
+00:05:19.760 --> 00:05:24.400
+And notice that all we had to do was
+define a cost function using these add and
+
+73
+00:05:24.400 --> 00:05:26.654
+multiply and so on functions.
+
+74
+00:05:26.654 --> 00:05:31.450
+And TensorFlow knows automatically how to
+take derivatives with respect to the add
+
+75
+00:05:31.450 --> 00:05:34.370
+and multiply as was other functions.
+
+76
+00:05:34.370 --> 00:05:38.640
+Which is why you only had to
+implement basically four prop and
+
+77
+00:05:38.640 --> 00:05:43.560
+it can figure out how to do the back
+problem or the grading computation.
+
+78
+00:05:43.560 --> 00:05:48.070
+Because that's already
+built in to the add and
+
+79
+00:05:48.070 --> 00:05:50.920
+multiply as well as
+the squaring functions.
+
+80
+00:05:50.920 --> 00:05:55.078
+By the way,
+in cases notation seems really ugly,
+
+81
+00:05:55.078 --> 00:05:59.830
+TensorFlow actually has
+overloaded the computation for
+
+82
+00:05:59.830 --> 00:06:03.320
+the usual plus, minus, and so on.
+
+83
+00:06:03.320 --> 00:06:07.480
+So you could also just write this
+nicer format for the cost and
+
+84
+00:06:07.480 --> 00:06:11.600
+comment that out and rerun this and
+get the same result.
+
+85
+00:06:11.600 --> 00:06:15.913
+So once w is declared to be a TensorFlow
+variable, the squaring, multiplication,
+
+86
+00:06:15.913 --> 00:06:18.785
+adding, and
+subtraction operations are overloaded.
+
+87
+00:06:18.785 --> 00:06:22.575
+So you don't need to use this
+uglier syntax that I had above.
+
+88
+00:06:22.575 --> 00:06:27.848
+Now, there's just one more feature of
+TensorFlow that I want to show you,
+
+89
+00:06:27.848 --> 00:06:31.460
+which is this example
+minimize a fix function of w.
+
+90
+00:06:31.460 --> 00:06:34.880
+One of the function you want to minimize
+is the function of your training set.
+
+91
+00:06:34.880 --> 00:06:38.540
+So whether you have some training data,
+x and
+
+92
+00:06:38.540 --> 00:06:43.090
+when you're training a neural network
+the training data x can change.
+
+93
+00:06:43.090 --> 00:06:49.242
+So how do you get training data
+into a TensorFlow program?
+
+94
+00:06:49.242 --> 00:06:50.913
+So I'm going to define t and
+
+95
+00:06:50.913 --> 00:06:54.811
+x which is think of this as train
+a relevant training data or
+
+96
+00:06:54.811 --> 00:07:00.008
+really the training data with both x and
+y, but we only have x in this example.
+
+97
+00:07:00.008 --> 00:07:03.504
+So just going to define
+x with placeholder and
+
+98
+00:07:03.504 --> 00:07:10.260
+it's going to be a type float32 and
+let's make this a [3,1] array.
+
+99
+00:07:10.260 --> 00:07:15.489
+And what I'm going to do is whereas
+the cost here have fixed coefficients in
+
+100
+00:07:15.489 --> 00:07:21.308
+front of the three terms in this quadratic
+was 1 times w squared- 10*w + 25.
+
+101
+00:07:21.308 --> 00:07:26.821
+We could turn these numbers 1- 10 and
+25 into data.
+
+102
+00:07:26.821 --> 00:07:33.436
+So what I'm going to
+do is replace the cost
+
+103
+00:07:33.436 --> 00:07:40.052
+with cost = x[0][0]*w squared
+
+104
+00:07:40.052 --> 00:07:47.600
++ x[1][0]*w + x[2][0].
+
+105
+00:07:47.600 --> 00:07:49.380
+Well, times 1.
+
+106
+00:07:49.380 --> 00:07:54.197
+So now x becomes sort of
+like data that controls
+
+107
+00:07:54.197 --> 00:07:59.148
+the coefficients of this
+quadratic function.
+
+108
+00:07:59.148 --> 00:08:03.805
+And this placeholder function
+tells TensorFlow that
+
+109
+00:08:03.805 --> 00:08:08.470
+x is something that you
+provide the values for later.
+
+110
+00:08:09.850 --> 00:08:16.669
+So let's define another array,
+coefficient = np.array,
+
+111
+00:08:19.030 --> 00:08:23.514
+[1.], [-10.] and yes,
+
+112
+00:08:23.514 --> 00:08:27.554
+the loss value was [25.].
+
+113
+00:08:27.554 --> 00:08:31.120
+So that's going to be the data
+that we're going to plug into x.
+
+114
+00:08:32.300 --> 00:08:38.830
+So finally we need a way to get this array
+coefficients into the variable x and
+
+115
+00:08:38.830 --> 00:08:43.170
+the syntax to do that is just
+doing the training step.
+
+116
+00:08:43.170 --> 00:08:49.224
+That the values for
+will need to be provided for x,
+
+117
+00:08:49.224 --> 00:08:56.302
+I'm going to set here,
+feed_dict = x:coefficients,
+
+118
+00:08:58.005 --> 00:09:04.236
+And I'm going to change this, I'm going to
+copy and paste put that there as well.
+
+119
+00:09:04.236 --> 00:09:06.320
+All right, hopefully,
+I didn't have any syntax errors.
+
+120
+00:09:06.320 --> 00:09:13.330
+Let's try re-running this and we get
+the same results hopefully as before.
+
+121
+00:09:14.710 --> 00:09:19.540
+And now, if you want to change the
+coefficients of this quadratic function,
+
+122
+00:09:19.540 --> 00:09:24.239
+let's say you take this [-10.] and
+change it to 20, [-20].
+
+123
+00:09:24.239 --> 00:09:26.823
+And let's change this to 100.
+
+124
+00:09:26.823 --> 00:09:30.947
+So this is now a function x- 10 squared.
+
+125
+00:09:30.947 --> 00:09:34.068
+And if I re-run this, hopefully,
+
+126
+00:09:34.068 --> 00:09:39.810
+I find that the value that
+minimizes x- 10 squared is w = 10.
+
+127
+00:09:39.810 --> 00:09:41.521
+Let's see, cool, great and
+
+128
+00:09:41.521 --> 00:09:46.610
+we get w very close to 10 after running
+1,000 integrations of GradientDescent.
+
+129
+00:09:46.610 --> 00:09:51.462
+So what you see more of when you do that
+from exercise is that a placeholder in
+
+130
+00:09:51.462 --> 00:09:55.490
+TensorFlow is a variable
+whose value you assign later.
+
+131
+00:09:55.490 --> 00:10:02.297
+And this is a convenient way to get your
+training data into the cost function.
+
+132
+00:10:02.297 --> 00:10:07.011
+And the way you get your data into
+the cost function is with this syntax
+
+133
+00:10:07.011 --> 00:10:10.099
+when you're running
+a training iteration to
+
+134
+00:10:10.099 --> 00:10:15.070
+use the feed_dict to set x to be
+equal to the coefficients here.
+
+135
+00:10:15.070 --> 00:10:18.930
+And if you are doing mini batch
+GradientDescent where on each iteration,
+
+136
+00:10:18.930 --> 00:10:22.914
+you need to plug in a different mini
+batch, then on different iterations you
+
+137
+00:10:22.914 --> 00:10:26.676
+use the feed_dict to feed in different
+subsets of your training sets.
+
+138
+00:10:26.676 --> 00:10:31.940
+Different mini batches into where your
+cost function is expecting to see data.
+
+139
+00:10:31.940 --> 00:10:36.120
+So hopefully this gives you
+a sense of what TensorFlow can do.
+
+140
+00:10:36.120 --> 00:10:37.350
+And the thing that makes this so
+
+141
+00:10:37.350 --> 00:10:42.470
+powerful is all you need to do is specify
+how to compute the cost function.
+
+142
+00:10:42.470 --> 00:10:44.380
+And then, it takes derivatives and
+
+143
+00:10:44.380 --> 00:10:48.760
+it can apply a gradient optimizer or
+an add-on optimizer or
+
+144
+00:10:48.760 --> 00:10:53.200
+some other optimizer with just pretty
+much one or two lines of codes.
+
+145
+00:10:53.200 --> 00:10:55.980
+So here's the code again.
+
+146
+00:10:55.980 --> 00:10:57.840
+I've cleaned this up just a little bit.
+
+147
+00:10:57.840 --> 00:10:59.830
+And in case some of these functions or
+
+148
+00:10:59.830 --> 00:11:04.390
+variables seem a little bit mysterious to
+use, they will become more familiar after
+
+149
+00:11:04.390 --> 00:11:09.830
+you've practiced with it a couple times by
+working through their problem exercise.
+
+150
+00:11:09.830 --> 00:11:11.664
+Just one last thing I want to mention.
+
+151
+00:11:11.664 --> 00:11:16.153
+These three lines of code are quite
+idiomatic in TensorFlow, and
+
+152
+00:11:16.153 --> 00:11:20.960
+what some programmers will do
+is use this alternative format.
+
+153
+00:11:20.960 --> 00:11:22.880
+Which basically does the same thing.
+
+154
+00:11:22.880 --> 00:11:25.460
+Set session to tf.Session()
+to start the session,
+
+155
+00:11:25.460 --> 00:11:28.050
+and then use the session to run init, and
+
+156
+00:11:28.050 --> 00:11:32.650
+then use the session to evaluate,
+say, w and then print the result.
+
+157
+00:11:32.650 --> 00:11:38.000
+But this with construction is used in
+a number of TensorFlow programs as well.
+
+158
+00:11:38.000 --> 00:11:41.511
+It more or less means the same
+thing as the thing on the left.
+
+159
+00:11:41.511 --> 00:11:47.213
+But the with command in Python is
+a little bit better at cleaning up in
+
+160
+00:11:47.213 --> 00:11:52.437
+cases an error in exception
+while executing this inner loop.
+
+161
+00:11:52.437 --> 00:11:55.792
+So you see this is
+the following exercise as well.
+
+162
+00:11:55.792 --> 00:11:58.890
+So what is this code really doing?
+
+163
+00:11:58.890 --> 00:12:02.230
+Let's focus on this equation.
+
+164
+00:12:02.230 --> 00:12:07.885
+The heart of a TensorFlow program is
+something to compute at cost, and then
+
+165
+00:12:07.885 --> 00:12:13.410
+TensorFlow automatically figures out the
+derivatives in how to minimize that costs.
+
+166
+00:12:13.410 --> 00:12:18.710
+So what this equation or
+what this line of code is doing
+
+167
+00:12:18.710 --> 00:12:23.670
+is allowing TensorFlow to
+construct a computation draft.
+
+168
+00:12:23.670 --> 00:12:26.840
+And a computation draft does
+the following, it takes x[0][0],
+
+169
+00:12:26.840 --> 00:12:32.310
+it takes w and
+then it goes w gets squared.
+
+170
+00:12:33.840 --> 00:12:39.382
+And then x[0][0] gets
+multiplied with w squared,
+
+171
+00:12:39.382 --> 00:12:45.160
+so you have x[0][0]*w squared,
+and so on, right?
+
+172
+00:12:45.160 --> 00:12:49.893
+And eventually, you know,
+this gets built up to compute this xw,
+
+173
+00:12:49.893 --> 00:12:54.650
+x[0][0]*w squared + x[1][0]*w + and so on.
+
+174
+00:12:54.650 --> 00:12:58.539
+And so eventually,
+you get the cost function.
+
+175
+00:12:58.539 --> 00:13:03.404
+And so the last term to be
+added would be x [2][0] where
+
+176
+00:13:03.404 --> 00:13:05.751
+it gets added to be the cost.
+
+177
+00:13:05.751 --> 00:13:08.398
+I won't write other format for the cost.
+
+178
+00:13:08.398 --> 00:13:13.206
+And the nice thing about TensorFlow is
+that by implementing basically four
+
+179
+00:13:13.206 --> 00:13:17.937
+prop applications through this
+computation draft, the computed cost,
+
+180
+00:13:17.937 --> 00:13:21.230
+TensorFlow already has that built in.
+
+181
+00:13:21.230 --> 00:13:24.420
+All the necessary backward functions.
+
+182
+00:13:24.420 --> 00:13:29.287
+So remember how training a deep neural
+network has a set of forward functions
+
+183
+00:13:29.287 --> 00:13:31.424
+instead of backward functions.
+
+184
+00:13:31.424 --> 00:13:35.661
+Programming frameworks like Tensor Flow
+have already built-in the necessary
+
+185
+00:13:35.661 --> 00:13:37.240
+backward functions.
+
+186
+00:13:37.240 --> 00:13:41.892
+Which is why by using the built-in
+functions to compute the forward function,
+
+187
+00:13:41.892 --> 00:13:46.129
+it can automatically do the backward
+functions as well to implement back
+
+188
+00:13:46.129 --> 00:13:51.351
+propagation through even very complicated
+functions and compute derivatives for you.
+
+189
+00:13:51.351 --> 00:13:55.180
+So that's why you don't need to
+explicitly implement back prop.
+
+190
+00:13:55.180 --> 00:13:58.240
+This is one of the things that
+makes the programming frameworks
+
+191
+00:13:58.240 --> 00:14:00.140
+help you become really efficient.
+
+192
+00:14:00.140 --> 00:14:03.470
+If you look at the TensorFlow
+documentation,
+
+193
+00:14:03.470 --> 00:14:06.270
+I just want to point out that
+the TensorFlow documentation
+
+194
+00:14:06.270 --> 00:14:11.023
+uses a slightly different notation than
+I did for drawing the computation draft.
+
+195
+00:14:11.023 --> 00:14:14.205
+So it uses x[0][0] w.
+
+196
+00:14:14.205 --> 00:14:17.408
+And then, rather than writing the value,
+like w squared,
+
+197
+00:14:17.408 --> 00:14:21.100
+the TensorFlow documentation tends
+to just write the operation.
+
+198
+00:14:21.100 --> 00:14:23.390
+So this would be a, square operation,
+
+199
+00:14:23.390 --> 00:14:28.520
+and then these two get combined in
+the multiplication operation and so on.
+
+200
+00:14:28.520 --> 00:14:30.990
+And then, a final note,
+I guess that would be
+
+201
+00:14:30.990 --> 00:14:36.420
+an addition operation where you add
+x to 0 to find the final value.
+
+202
+00:14:36.420 --> 00:14:40.080
+So for the purposes of this class,
+I thought that this notation for
+
+203
+00:14:40.080 --> 00:14:43.670
+the computation draft would be easier for
+you to understand.
+
+204
+00:14:43.670 --> 00:14:47.010
+But if you look at
+the TensorFlow documentation,
+
+205
+00:14:47.010 --> 00:14:51.840
+if you look at the computation
+drafts in the documentation,
+
+206
+00:14:51.840 --> 00:14:55.630
+you see this alternative convention
+where the notes are labeled
+
+207
+00:14:55.630 --> 00:14:58.900
+with the operations rather
+than with the value.
+
+208
+00:14:58.900 --> 00:15:01.380
+But both of these representations
+
+209
+00:15:01.380 --> 00:15:04.270
+represent basically
+the same computation draft.
+
+210
+00:15:04.270 --> 00:15:07.730
+And there are a lot of things that you can
+with just one line of code in programming
+
+211
+00:15:07.730 --> 00:15:08.390
+frameworks.
+
+212
+00:15:08.390 --> 00:15:11.585
+For example, if you don't want
+to use GradientDescent, but
+
+213
+00:15:11.585 --> 00:15:16.075
+instead you want to use the add-on
+Optimizer by changing this line of code,
+
+214
+00:15:16.075 --> 00:15:21.685
+you can very quickly swap it,
+swap in a better optimization algorithm.
+
+215
+00:15:21.685 --> 00:15:25.905
+So all the modern deep learning
+programming framework support
+
+216
+00:15:25.905 --> 00:15:27.095
+things like this and
+
+217
+00:15:27.095 --> 00:15:32.360
+makes it really easy for you to code
+up even pretty complex neural networks.
+
+218
+00:15:32.360 --> 00:15:33.730
+So I hope this is helpful for
+
+219
+00:15:33.730 --> 00:15:38.220
+giving you a sense of the typical
+structure of a TensorFlow program.
+
+220
+00:15:38.220 --> 00:15:40.360
+To recap the material from this week,
+
+221
+00:15:40.360 --> 00:15:44.900
+you saw how to systematically organize
+the hyper parameter search process.
+
+222
+00:15:44.900 --> 00:15:46.940
+We also talked about
+batch normalization and
+
+223
+00:15:46.940 --> 00:15:49.890
+how you can use that to speed up
+training of your neural networks.
+
+224
+00:15:49.890 --> 00:15:53.580
+And finally, we talked about programming
+frameworks of deep learning.
+
+225
+00:15:53.580 --> 00:15:55.640
+There are many great
+programming frameworks.
+
+226
+00:15:55.640 --> 00:15:59.710
+And we had this last video
+focusing on TensorFlow.
+
+227
+00:15:59.710 --> 00:16:03.420
+With that, I hope you enjoyed this
+week's programming exercise and
+
+228
+00:16:03.420 --> 00:16:06.870
+that helps you gain even more
+familiarity with these ideas.

@@ -1,0 +1,505 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.710
+Hi, and welcome back.
+
+2
+00:00:01.710 --> 00:00:04.140
+You've seen by now that changing neural nets can
+
+3
+00:00:04.140 --> 00:00:07.415
+involve setting a lot of different hyperparameters.
+
+4
+00:00:07.415 --> 00:00:11.155
+Now, how do you go about finding a good setting for these hyperparameters?
+
+5
+00:00:11.155 --> 00:00:13.710
+In this video, I want to share with you some guidelines,
+
+6
+00:00:13.710 --> 00:00:18.235
+some tips for how to systematically organize your hyperparameter tuning process,
+
+7
+00:00:18.235 --> 00:00:20.640
+which hopefully will make it more efficient for you to
+
+8
+00:00:20.640 --> 00:00:23.760
+converge on a good setting of the hyperparameters.
+
+9
+00:00:23.760 --> 00:00:25.929
+One of the painful things about training deepness
+
+10
+00:00:25.929 --> 00:00:29.250
+is the sheer number of hyperparameters you have to deal with,
+
+11
+00:00:29.250 --> 00:00:35.935
+ranging from the learning rate alpha to the momentum term beta, if using momentum,
+
+12
+00:00:35.935 --> 00:00:41.370
+or the hyperparameters for the Adam Optimization Algorithm which are beta one,
+
+13
+00:00:41.370 --> 00:00:44.185
+beta two, and epsilon.
+
+14
+00:00:44.185 --> 00:00:47.270
+Maybe you have to pick the number of layers,
+
+15
+00:00:47.270 --> 00:00:50.820
+maybe you have to pick the number of hidden units for the different layers,
+
+16
+00:00:50.820 --> 00:00:55.093
+and maybe you want to use learning rate decay,
+
+17
+00:00:55.093 --> 00:00:59.899
+so you don't just use a single learning rate alpha.
+
+18
+00:00:59.899 --> 00:01:01.065
+And then of course,
+
+19
+00:01:01.065 --> 00:01:06.220
+you might need to choose the mini-batch size.
+
+20
+00:01:06.220 --> 00:01:09.990
+So it turns out, some of these hyperparameters are more important than others.
+
+21
+00:01:09.990 --> 00:01:12.235
+The most learning applications I would say,
+
+22
+00:01:12.235 --> 00:01:16.015
+alpha, the learning rate is the most important hyperparameter to tune.
+
+23
+00:01:16.015 --> 00:01:21.595
+Other than alpha, a few other hyperparameters I tend to would maybe tune next,
+
+24
+00:01:21.595 --> 00:01:25.040
+would be maybe the momentum term,
+
+25
+00:01:25.040 --> 00:01:27.795
+say, 0.9 is a good default.
+
+26
+00:01:27.795 --> 00:01:30.700
+I'd also tune the mini-batch size to make
+
+27
+00:01:30.700 --> 00:01:34.465
+sure that the optimization algorithm is running efficiently.
+
+28
+00:01:34.465 --> 00:01:36.985
+Often I also fiddle around with the hidden units.
+
+29
+00:01:36.985 --> 00:01:39.250
+Of the ones I've circled in orange,
+
+30
+00:01:39.250 --> 00:01:43.660
+these are really the three that I would consider second in importance to
+
+31
+00:01:43.660 --> 00:01:46.060
+the learning rate alpha and then third in
+
+32
+00:01:46.060 --> 00:01:49.060
+importance after fiddling around with the others,
+
+33
+00:01:49.060 --> 00:01:51.925
+the number of layers can sometimes make a huge difference,
+
+34
+00:01:51.925 --> 00:01:55.000
+and so can learning rate decay.
+
+35
+00:01:55.000 --> 00:01:58.870
+And then when using the Adam algorithm I actually pretty much never tuned beta one,
+
+36
+00:01:58.870 --> 00:02:00.434
+beta two, and epsilon.
+
+37
+00:02:00.434 --> 00:02:01.930
+Pretty much I always use 0.9,
+
+38
+00:02:01.930 --> 00:02:08.570
+0.999 and tenth minus eight although you can try tuning those as well if you wish.
+
+39
+00:02:08.570 --> 00:02:12.130
+But hopefully it does give you some rough sense of what hyperparameters
+
+40
+00:02:12.130 --> 00:02:16.463
+might be more important than others, alpha,
+
+41
+00:02:16.463 --> 00:02:19.005
+most important, for sure,
+
+42
+00:02:19.005 --> 00:02:22.270
+followed maybe by the ones I've circle in orange,
+
+43
+00:02:22.270 --> 00:02:25.235
+followed maybe by the ones I circled in purple.
+
+44
+00:02:25.235 --> 00:02:27.760
+But this isn't a hard and fast rule and I think
+
+45
+00:02:27.760 --> 00:02:30.490
+other deep learning practitioners may well
+
+46
+00:02:30.490 --> 00:02:33.670
+disagree with me or have different intuitions on these.
+
+47
+00:02:33.670 --> 00:02:37.240
+Now, if you're trying to tune some set of hyperparameters,
+
+48
+00:02:37.240 --> 00:02:40.060
+how do you select a set of values to explore?
+
+49
+00:02:40.060 --> 00:02:42.845
+In earlier generations of machine learning algorithms,
+
+50
+00:02:42.845 --> 00:02:44.660
+if you had two hyperparameters,
+
+51
+00:02:44.660 --> 00:02:47.662
+which I'm calling hyperparameter one and hyperparameter two here,
+
+52
+00:02:47.662 --> 00:02:53.380
+it was common practice to sample the points in a grid like
+
+53
+00:02:53.380 --> 00:02:59.435
+so and systematically explore these values.
+
+54
+00:02:59.435 --> 00:03:00.935
+Here I am placing down a five by five grid.
+
+55
+00:03:00.935 --> 00:03:06.070
+In practice, it could be more or less than the five by five grid but you try out in
+
+56
+00:03:06.070 --> 00:03:12.430
+this example all 25 points and then pick whichever hyperparameter works best.
+
+57
+00:03:12.430 --> 00:03:18.010
+And this practice works okay when the number of hyperparameters was relatively small.
+
+58
+00:03:18.010 --> 00:03:19.840
+In deep learning, what we tend to do,
+
+59
+00:03:19.840 --> 00:03:21.415
+and what I recommend you do instead,
+
+60
+00:03:21.415 --> 00:03:23.975
+is choose the points at random.
+
+61
+00:03:23.975 --> 00:03:27.970
+So go ahead and choose maybe of same number of points, right?
+
+62
+00:03:27.970 --> 00:03:34.590
+25 points and then try out the hyperparameters on this randomly chosen set of points.
+
+63
+00:03:34.590 --> 00:03:38.350
+And the reason you do that is that it's difficult to know in
+
+64
+00:03:38.350 --> 00:03:43.040
+advance which hyperparameters are going to be the most important for your problem.
+
+65
+00:03:43.040 --> 00:03:44.480
+And as you saw in the previous slide,
+
+66
+00:03:44.480 --> 00:03:47.910
+some hyperparameters are actually much more important than others.
+
+67
+00:03:47.910 --> 00:03:49.190
+So to take an example,
+
+68
+00:03:49.190 --> 00:03:53.505
+let's say hyperparameter one turns out to be alpha, the learning rate.
+
+69
+00:03:53.505 --> 00:03:55.175
+And to take an extreme example,
+
+70
+00:03:55.175 --> 00:03:58.180
+let's say that hyperparameter two was that
+
+71
+00:03:58.180 --> 00:04:02.730
+value epsilon that you have in the denominator of the Adam algorithm.
+
+72
+00:04:02.730 --> 00:04:07.455
+So your choice of alpha matters a lot and your choice of epsilon hardly matters.
+
+73
+00:04:07.455 --> 00:04:12.410
+So if you sample in the grid then you've really tried out
+
+74
+00:04:12.410 --> 00:04:16.300
+five values of alpha
+
+75
+00:04:16.300 --> 00:04:18.550
+and you might find that all of the different values
+
+76
+00:04:18.550 --> 00:04:21.190
+of epsilon give you essentially the same answer.
+
+77
+00:04:21.190 --> 00:04:24.400
+So you've now trained 25 models and only
+
+78
+00:04:24.400 --> 00:04:27.925
+got into trial five values for the learning rate alpha,
+
+79
+00:04:27.925 --> 00:04:29.740
+which I think is really important.
+
+80
+00:04:29.740 --> 00:04:33.430
+Whereas in contrast, if you were to sample at random,
+
+81
+00:04:33.430 --> 00:04:37.960
+then you will have tried out 25 distinct values of
+
+82
+00:04:37.960 --> 00:04:40.390
+the learning rate alpha and therefore you be more
+
+83
+00:04:40.390 --> 00:04:43.690
+likely to find a value that works really well.
+
+84
+00:04:43.690 --> 00:04:44.980
+I've explained this example,
+
+85
+00:04:44.980 --> 00:04:47.160
+using just two hyperparameters.
+
+86
+00:04:47.160 --> 00:04:50.270
+In practice, you might be searching over many more hyperparameters than these,
+
+87
+00:04:50.270 --> 00:04:52.000
+so if you have, say,
+
+88
+00:04:52.000 --> 00:04:55.080
+three hyperparameters, I guess instead of searching over a square,
+
+89
+00:04:55.080 --> 00:05:00.820
+you're searching over a cube where this third dimension is hyperparameter three and
+
+90
+00:05:00.820 --> 00:05:03.010
+then by sampling within
+
+91
+00:05:03.010 --> 00:05:05.380
+this three-dimensional cube you get to
+
+92
+00:05:05.380 --> 00:05:08.080
+try out a lot more values of each of your three hyperparameters.
+
+93
+00:05:08.080 --> 00:05:11.440
+And in practice you might be searching
+
+94
+00:05:11.440 --> 00:05:14.980
+over even more hyperparameters than three and sometimes it's just hard to
+
+95
+00:05:14.980 --> 00:05:17.160
+know in advance which ones turn out to be
+
+96
+00:05:17.160 --> 00:05:22.120
+the really important hyperparameters for your application and sampling at random rather
+
+97
+00:05:22.120 --> 00:05:25.390
+than in the grid shows that you are more richly
+
+98
+00:05:25.390 --> 00:05:28.085
+exploring set of possible values
+
+99
+00:05:28.085 --> 00:05:31.045
+for the most important hyperparameters, whatever they turn out to be.
+
+100
+00:05:31.045 --> 00:05:33.130
+When you sample hyperparameters,
+
+101
+00:05:33.130 --> 00:05:37.875
+another common practice is to use a coarse to fine sampling scheme.
+
+102
+00:05:37.875 --> 00:05:42.130
+So let's say in this two-dimensional example that you sample these points,
+
+103
+00:05:42.130 --> 00:05:45.600
+and maybe you found that this point work the best and
+
+104
+00:05:45.600 --> 00:05:49.210
+maybe a few other points around it tended to work really well,
+
+105
+00:05:49.210 --> 00:05:53.530
+then in the course of the final scheme what you might do is zoom in to
+
+106
+00:05:53.530 --> 00:06:00.820
+a smaller region of the hyperparameters and then sample more density within this space.
+
+107
+00:06:00.820 --> 00:06:02.795
+Or maybe again at random,
+
+108
+00:06:02.795 --> 00:06:06.690
+but to then focus more resources on searching within
+
+109
+00:06:06.690 --> 00:06:11.265
+this blue square if you're suspecting that the best setting,
+
+110
+00:06:11.265 --> 00:06:13.600
+the hyperparameters, may be in this region.
+
+111
+00:06:13.600 --> 00:06:18.365
+So after doing a coarse sample of this entire square,
+
+112
+00:06:18.365 --> 00:06:22.375
+that tells you to then focus on a smaller square.
+
+113
+00:06:22.375 --> 00:06:26.105
+You can then sample more densely into smaller square.
+
+114
+00:06:26.105 --> 00:06:29.720
+So this type of a coarse to fine search is also frequently used.
+
+115
+00:06:29.720 --> 00:06:33.565
+And by trying out these different values of the hyperparameters you can then
+
+116
+00:06:33.565 --> 00:06:37.740
+pick whatever value allows you to do best on your training set
+
+117
+00:06:37.740 --> 00:06:41.230
+objective or does best on your development set or
+
+118
+00:06:41.230 --> 00:06:46.660
+whatever you're trying to optimize in your hyperparameter search process.
+
+119
+00:06:46.660 --> 00:06:48.570
+So I hope this gives you a way to more
+
+120
+00:06:48.570 --> 00:06:51.670
+systematically organize your hyperparameter search process.
+
+121
+00:06:51.670 --> 00:06:53.200
+The two key takeaways are,
+
+122
+00:06:53.200 --> 00:06:55.930
+use random sampling and adequate search and
+
+123
+00:06:55.930 --> 00:07:01.585
+optionally consider implementing a coarse to fine search process.
+
+124
+00:07:01.585 --> 00:07:04.750
+But there's even more to hyperparameter search than this.
+
+125
+00:07:04.750 --> 00:07:07.300
+Let's talk more in the next video about how to choose
+
+126
+00:07:07.300 --> 00:07:10.020
+the right scale on which to sample your hyperparameters.

@@ -1,0 +1,583 @@
+WEBVTT
+
+1
+00:00:00.280 --> 00:00:05.140
+In the last video, you saw how sampling at
+random, over the range of hyperparameters,
+
+2
+00:00:05.140 --> 00:00:09.330
+can allow you to search over the space
+of hyperparameters more efficiently.
+
+3
+00:00:09.330 --> 00:00:14.980
+But it turns out that sampling at random
+doesn't mean sampling uniformly at random,
+
+4
+00:00:14.980 --> 00:00:16.990
+over the range of valid values.
+
+5
+00:00:16.990 --> 00:00:20.320
+Instead, it's important to
+pick the appropriate scale
+
+6
+00:00:20.320 --> 00:00:22.340
+on which to explore the hyperparamaters.
+
+7
+00:00:22.340 --> 00:00:25.700
+In this video,
+I want to show you how to do that.
+
+8
+00:00:25.700 --> 00:00:30.230
+Let's say that you're trying to choose
+the number of hidden units, n[l], for
+
+9
+00:00:30.230 --> 00:00:31.250
+a given layer l.
+
+10
+00:00:31.250 --> 00:00:36.310
+And let's say that you think a good range
+of values is somewhere from 50 to 100.
+
+11
+00:00:36.310 --> 00:00:41.110
+In that case, if you look at
+the number line from 50 to 100,
+
+12
+00:00:41.110 --> 00:00:46.090
+maybe picking some number values
+at random within this number line.
+
+13
+00:00:46.090 --> 00:00:50.500
+There's a pretty visible way to search for
+this particular hyperparameter.
+
+14
+00:00:50.500 --> 00:00:54.351
+Or if you're trying to decide on the
+number of layers in your neural network,
+
+15
+00:00:54.351 --> 00:00:56.480
+we're calling that capital L.
+
+16
+00:00:56.480 --> 00:01:02.245
+Maybe you think the total number of layers
+should be somewhere between 2 to 4.
+
+17
+00:01:02.245 --> 00:01:08.030
+Then sampling uniformly at random,
+along 2, 3 and 4, might be reasonable.
+
+18
+00:01:08.030 --> 00:01:11.920
+Or even using a grid search, where you
+explicitly evaluate the values 2, 3 and
+
+19
+00:01:11.920 --> 00:01:15.340
+4 might be reasonable.
+
+20
+00:01:15.340 --> 00:01:19.091
+So these were a couple examples where
+sampling uniformly at random over
+
+21
+00:01:19.091 --> 00:01:23.480
+the range you're contemplating,
+might be a reasonable thing to do.
+
+22
+00:01:23.480 --> 00:01:26.432
+But this is not true for
+all hyperparameters.
+
+23
+00:01:26.432 --> 00:01:28.850
+Let's look at another example.
+
+24
+00:01:28.850 --> 00:01:33.530
+Say your searching for the hyperparameter
+alpha, the learning rate.
+
+25
+00:01:33.530 --> 00:01:38.000
+And let's say that you suspect
+0.0001 might be on the low end,
+
+26
+00:01:38.000 --> 00:01:42.130
+or maybe it could be as high as 1.
+
+27
+00:01:42.130 --> 00:01:48.451
+Now if you draw the number
+line from 0.0001 to 1,
+
+28
+00:01:48.451 --> 00:01:55.456
+and sample values uniformly at
+random over this number line.
+
+29
+00:01:55.456 --> 00:02:02.219
+Well about 90% of the values you
+sample would be between 0.1 and 1.
+
+30
+00:02:02.219 --> 00:02:07.274
+So you're using 90% of the resources
+to search between 0.1 and 1, and
+
+31
+00:02:07.274 --> 00:02:12.120
+only 10% of the resources to
+search between 0.0001 and 0.1.
+
+32
+00:02:12.120 --> 00:02:14.330
+So that doesn't seem right.
+
+33
+00:02:14.330 --> 00:02:19.175
+Instead, it seems more reasonable to
+search for hyperparameters on a log scale.
+
+34
+00:02:19.175 --> 00:02:25.437
+Where instead of using a linear scale,
+you'd have 0.0001 here,
+
+35
+00:02:25.437 --> 00:02:30.377
+and then 0.001, 0.01, 0.1, and then 1.
+
+36
+00:02:30.377 --> 00:02:37.360
+And you instead sample uniformly, at
+random, on this type of logarithmic scale.
+
+37
+00:02:37.360 --> 00:02:44.133
+Now you have more resources dedicated
+to searching between 0.0001 and
+
+38
+00:02:44.133 --> 00:02:50.270
+0.001, and between 0.001 and
+0.01, and so on.
+
+39
+00:02:50.270 --> 00:02:53.950
+So in Python, the way you implement this,
+
+40
+00:02:55.780 --> 00:03:00.877
+is let r = -4 * np.random.rand().
+
+41
+00:03:00.877 --> 00:03:07.260
+And then a randomly chosen value of alpha,
+would be alpha = 10 to the power of r.
+
+42
+00:03:08.350 --> 00:03:15.410
+So after this first line, r will be
+a random number between -4 and 0.
+
+43
+00:03:15.410 --> 00:03:20.505
+And so alpha here will be between
+10 to the -4 and 10 to the 0.
+
+44
+00:03:20.505 --> 00:03:25.710
+So 10 to the -4 is this left thing,
+this 10 to the -4.
+
+45
+00:03:25.710 --> 00:03:28.320
+And 1 is 10 to the 0.
+
+46
+00:03:28.320 --> 00:03:30.140
+In a more general case,
+
+47
+00:03:30.140 --> 00:03:35.750
+if you're trying to sample between 10 to
+the a, to 10 to the b, on the log scale.
+
+48
+00:03:35.750 --> 00:03:40.700
+And in this example, this is 10 to the a.
+
+49
+00:03:40.700 --> 00:03:45.358
+And you can figure out what a is by
+taking the log base 10 of 0.0001,
+
+50
+00:03:45.358 --> 00:03:49.170
+which is going to tell you a is -4.
+
+51
+00:03:49.170 --> 00:03:51.430
+And this value on the right,
+this is 10 to the b.
+
+52
+00:03:51.430 --> 00:03:52.800
+And you can figure out what b is,
+
+53
+00:03:52.800 --> 00:03:56.655
+by taking log base 10 of 1,
+which tells you b is equal to 0.
+
+54
+00:03:58.200 --> 00:04:04.353
+So what you do, is then sample r
+uniformly, at random, between a and b.
+
+55
+00:04:04.353 --> 00:04:06.857
+So in this case,
+r would be between -4 and 0.
+
+56
+00:04:06.857 --> 00:04:08.358
+And you can set alpha,
+
+57
+00:04:08.358 --> 00:04:14.000
+on your randomly sampled hyperparameter
+value, as 10 to the r, okay?
+
+58
+00:04:14.000 --> 00:04:18.210
+So just to recap, to sample on
+the log scale, you take the low value,
+
+59
+00:04:18.210 --> 00:04:20.252
+take logs to figure out what is a.
+
+60
+00:04:20.252 --> 00:04:23.911
+Take the high value,
+take a log to figure out what is b.
+
+61
+00:04:23.911 --> 00:04:28.270
+So now you're trying to sample,
+from 10 to the a to the b, on a log scale.
+
+62
+00:04:28.270 --> 00:04:32.810
+So you set r uniformly,
+at random, between a and b.
+
+63
+00:04:32.810 --> 00:04:35.850
+And then you set the hyperparameter
+to be 10 to the r.
+
+64
+00:04:35.850 --> 00:04:40.070
+So that's how you implement
+sampling on this logarithmic scale.
+
+65
+00:04:40.070 --> 00:04:46.010
+Finally, one other tricky case is
+sampling the hyperparameter beta,
+
+66
+00:04:46.010 --> 00:04:49.630
+used for
+computing exponentially weighted averages.
+
+67
+00:04:49.630 --> 00:04:55.800
+So let's say you suspect that beta should
+be somewhere between 0.9 to 0.999.
+
+68
+00:04:55.800 --> 00:04:59.870
+Maybe this is the range of
+values you want to search over.
+
+69
+00:04:59.870 --> 00:05:03.440
+So remember, that when computing
+exponentially weighted averages,
+
+70
+00:05:03.440 --> 00:05:09.605
+using 0.9 is like averaging
+over the last 10 values.
+
+71
+00:05:09.605 --> 00:05:13.304
+kind of like taking the average
+of 10 days temperature,
+
+72
+00:05:13.304 --> 00:05:18.403
+whereas using 0.999 is like averaging
+over the last 1,000 values.
+
+73
+00:05:18.403 --> 00:05:23.434
+So similar to what we saw on the last
+slide, if you want to search between 0.9
+
+74
+00:05:23.434 --> 00:05:28.558
+and 0.999, it doesn't make sense to
+sample on the linear scale, right?
+
+75
+00:05:28.558 --> 00:05:31.140
+Uniformly, at random,
+between 0.9 and 0.999.
+
+76
+00:05:31.140 --> 00:05:33.970
+So the best way to think about this,
+
+77
+00:05:33.970 --> 00:05:38.650
+is that we want to explore the range
+of values for 1 minus beta,
+
+78
+00:05:38.650 --> 00:05:43.339
+which is going to now
+range from 0.1 to 0.001.
+
+79
+00:05:43.339 --> 00:05:47.060
+And so we'll sample the between beta,
+
+80
+00:05:47.060 --> 00:05:53.057
+taking values from 0.1,
+to maybe 0.1, to 0.001.
+
+81
+00:05:53.057 --> 00:05:57.739
+So using the method we have
+figured out on the previous slide,
+
+82
+00:05:57.739 --> 00:06:01.532
+this is 10 to the -1,
+this is 10 to the -3.
+
+83
+00:06:01.532 --> 00:06:05.163
+Notice on the previous slide,
+we had the small value on the left, and
+
+84
+00:06:05.163 --> 00:06:08.182
+the large value on the right,
+but here we have reversed.
+
+85
+00:06:08.182 --> 00:06:12.290
+We have the large value on the left,
+and the small value on the right.
+
+86
+00:06:12.290 --> 00:06:19.870
+So what you do, is you sample r uniformly,
+at random, from -3 to -1.
+
+87
+00:06:19.870 --> 00:06:25.700
+And you set 1- beta = 10 to the r,
+and so beta = 1- 10 to the r.
+
+88
+00:06:25.700 --> 00:06:29.638
+And this becomes your randomly
+sampled value of your hyperparameter,
+
+89
+00:06:29.638 --> 00:06:31.551
+chosen on the appropriate scale.
+
+90
+00:06:31.551 --> 00:06:35.139
+And hopefully this makes sense,
+in that this way,
+
+91
+00:06:35.139 --> 00:06:39.979
+you spend as much resources
+exploring the range 0.9 to 0.99,
+
+92
+00:06:39.979 --> 00:06:43.409
+as you would exploring 0.99 to 0.999.
+
+93
+00:06:43.409 --> 00:06:47.699
+So if you want to study more formal
+mathematical justification for why we're
+
+94
+00:06:47.699 --> 00:06:52.100
+doing this, right, why is it such a bad
+idea to sample in a linear scale?
+
+95
+00:06:52.100 --> 00:06:57.120
+It is that, when beta is close to 1,
+the sensitivity
+
+96
+00:06:57.120 --> 00:07:02.230
+of the results you get changes,
+even with very small changes to beta.
+
+97
+00:07:02.230 --> 00:07:08.750
+So if beta goes from 0.9 to 0.9005,
+
+98
+00:07:08.750 --> 00:07:15.730
+it's no big deal,
+this is hardly any change in your results.
+
+99
+00:07:15.730 --> 00:07:19.720
+But if beta goes from 0.999 to 0.9995,
+
+100
+00:07:19.720 --> 00:07:26.615
+this will have a huge impact on exactly
+what your algorithm is doing, right?
+
+101
+00:07:26.615 --> 00:07:30.580
+In both of these cases,
+it's averaging over roughly 10 values.
+
+102
+00:07:30.580 --> 00:07:35.359
+But here it's gone from an exponentially
+weighted average over about
+
+103
+00:07:35.359 --> 00:07:40.790
+the last 1,000 examples,
+to now, the last 2,000 examples.
+
+104
+00:07:40.790 --> 00:07:44.460
+And it's because that formula we have,
+1 / 1- beta,
+
+105
+00:07:44.460 --> 00:07:49.140
+this is very sensitive to small changes
+in beta, when beta is close to 1.
+
+106
+00:07:49.140 --> 00:07:52.059
+So what this whole sampling process does,
+
+107
+00:07:52.059 --> 00:07:57.426
+is it causes you to sample more densely
+in the region of when beta is close to 1.
+
+108
+00:07:59.186 --> 00:08:03.480
+Or, alternatively,
+when 1- beta is close to 0.
+
+109
+00:08:03.480 --> 00:08:07.630
+So that you can be more efficient in
+terms of how you distribute the samples,
+
+110
+00:08:07.630 --> 00:08:11.430
+to explore the space of possible
+outcomes more efficiently.
+
+111
+00:08:11.430 --> 00:08:14.250
+So I hope this helps you select
+the right scale on which to
+
+112
+00:08:14.250 --> 00:08:15.901
+sample the hyperparameters.
+
+113
+00:08:15.901 --> 00:08:20.900
+In case you don't end up making the right
+scaling decision on some hyperparameter
+
+114
+00:08:20.900 --> 00:08:23.232
+choice, don't worry to much about it.
+
+115
+00:08:23.232 --> 00:08:26.720
+Even if you sample on the uniform scale,
+where sum of the scale would
+
+116
+00:08:26.720 --> 00:08:30.050
+have been superior,
+you might still get okay results.
+
+117
+00:08:30.050 --> 00:08:33.830
+Especially if you use a coarse to fine
+search, so that in later iterations,
+
+118
+00:08:33.830 --> 00:08:38.190
+you focus in more on the most useful
+range of hyperparameter values to sample.
+
+119
+00:08:38.190 --> 00:08:40.894
+I hope this helps you in
+your hyperparameter search.
+
+120
+00:08:40.894 --> 00:08:44.731
+In the next video, I also want to share
+with you some thoughts of how to organize
+
+121
+00:08:44.731 --> 00:08:46.695
+your hyperparameter search process.
+
+122
+00:08:46.695 --> 00:08:49.570
+That I hope will make your
+workflow a bit more efficient.

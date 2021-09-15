@@ -1,0 +1,706 @@
+WEBVTT
+
+1
+00:00:00.570 --> 00:00:02.937
+In the last video,
+you learned about the soft master,
+
+2
+00:00:02.937 --> 00:00:04.900
+the softmax activation function.
+
+3
+00:00:04.900 --> 00:00:08.760
+In this video, you deepen your
+understanding of softmax classification,
+
+4
+00:00:08.760 --> 00:00:13.230
+and also learn how the training
+model that uses a softmax layer.
+
+5
+00:00:13.230 --> 00:00:18.434
+Recall our earlier example where
+the output layer computes z[L] as follows.
+
+6
+00:00:18.434 --> 00:00:19.915
+So we have four classes,
+
+7
+00:00:19.915 --> 00:00:24.573
+c = 4 then z[L] can be (4,1) dimensional
+vector and we said we compute t
+
+8
+00:00:24.573 --> 00:00:30.160
+which is this temporary variable that
+performs element y's exponentiation.
+
+9
+00:00:30.160 --> 00:00:34.778
+And then finally, if the activation
+function for your output layer,
+
+10
+00:00:34.778 --> 00:00:40.320
+g[L] is the softmax activation function,
+then your outputs will be this.
+
+11
+00:00:40.320 --> 00:00:45.570
+It's basically taking the temporarily
+variable t and normalizing it to sum to 1.
+
+12
+00:00:45.570 --> 00:00:49.328
+So this then becomes a(L).
+
+13
+00:00:49.328 --> 00:00:53.304
+So you notice that in the z vector,
+the biggest element was 5, and
+
+14
+00:00:53.304 --> 00:00:57.650
+the biggest probability ends up
+being this first probability.
+
+15
+00:00:57.650 --> 00:01:02.653
+The name softmax comes from
+contrasting it to what's called a hard
+
+16
+00:01:02.653 --> 00:01:07.848
+max which would have taken the vector
+Z and matched it to this vector.
+
+17
+00:01:07.848 --> 00:01:12.869
+So hard max function will look at
+the elements of Z and just put a 1 in
+
+18
+00:01:12.869 --> 00:01:18.182
+the position of the biggest element
+of Z and then 0s everywhere else.
+
+19
+00:01:18.182 --> 00:01:23.259
+And so this is a very hard max where
+the biggest element gets a output of 1 and
+
+20
+00:01:23.259 --> 00:01:25.850
+everything else gets an output of 0.
+
+21
+00:01:25.850 --> 00:01:27.626
+Whereas in contrast,
+
+22
+00:01:27.626 --> 00:01:33.500
+a softmax is a more gentle mapping
+from Z to these probabilities.
+
+23
+00:01:33.500 --> 00:01:37.980
+So, I'm not sure if this is a great name
+but at least, that was the intuition
+
+24
+00:01:37.980 --> 00:01:42.040
+behind why we call it a softmax,
+all this in contrast to the hard max.
+
+25
+00:01:43.060 --> 00:01:47.930
+And one thing I didn't really show but had
+alluded to is that softmax regression or
+
+26
+00:01:47.930 --> 00:01:52.450
+the softmax identification function
+generalizes the logistic activation
+
+27
+00:01:52.450 --> 00:01:56.330
+function to C classes rather
+than just two classes.
+
+28
+00:01:56.330 --> 00:02:01.586
+And it turns out that if C = 2,
+then softmax with
+
+29
+00:02:01.586 --> 00:02:07.940
+C = 2 essentially reduces
+to logistic regression.
+
+30
+00:02:07.940 --> 00:02:13.680
+And I'm not going to prove this in
+this video but the rough outline for
+
+31
+00:02:13.680 --> 00:02:18.087
+the proof is that if C = 2 and
+if you apply softmax,
+
+32
+00:02:18.087 --> 00:02:23.929
+then the output layer, a[L],
+will output two numbers if C = 2,
+
+33
+00:02:23.929 --> 00:02:28.872
+so maybe it outputs 0.842 and
+0.158, right?
+
+34
+00:02:28.872 --> 00:02:31.056
+And these two numbers
+always have to sum to 1.
+
+35
+00:02:31.056 --> 00:02:34.221
+And because these two numbers always have
+to sum to 1, they're actually redundant.
+
+36
+00:02:34.221 --> 00:02:37.077
+And maybe you don't need to
+bother to compute two of them,
+
+37
+00:02:37.077 --> 00:02:39.193
+maybe you just need to
+compute one of them.
+
+38
+00:02:39.193 --> 00:02:43.999
+And it turns out that the way you end
+up computing that number reduces to
+
+39
+00:02:43.999 --> 00:02:48.895
+the way that logistic regression
+is computing its single output.
+
+40
+00:02:48.895 --> 00:02:53.835
+So that wasn't much of a proof but
+the takeaway from this is that softmax
+
+41
+00:02:53.835 --> 00:02:58.468
+regression is a generalization of logistic
+regression to more than two classes.
+
+42
+00:02:58.468 --> 00:03:02.187
+Now let's look at how you would
+actually train a neural network
+
+43
+00:03:02.187 --> 00:03:04.157
+with a softmax output layer.
+
+44
+00:03:04.157 --> 00:03:04.966
+So in particular,
+
+45
+00:03:04.966 --> 00:03:08.437
+let's define the loss functions you
+use to train your neural network.
+
+46
+00:03:08.437 --> 00:03:09.427
+Let's take an example.
+
+47
+00:03:09.427 --> 00:03:15.018
+Let's see of an example in your
+training set where the target output,
+
+48
+00:03:15.018 --> 00:03:17.881
+the ground true label is 0 1 0 0.
+
+49
+00:03:17.881 --> 00:03:20.661
+So the example from the previous video,
+
+50
+00:03:20.661 --> 00:03:25.500
+this means that this is an image of
+a cat because it falls into Class 1.
+
+51
+00:03:25.500 --> 00:03:31.096
+And now let's say that your neural network
+is currently outputting y hat equals,
+
+52
+00:03:31.096 --> 00:03:35.083
+so y hat would be a vector
+probability is equal to sum to 1.
+
+53
+00:03:35.083 --> 00:03:42.870
+0.1, 0.4, so you can check that sums to 1,
+and this is going to be a[L].
+
+54
+00:03:42.870 --> 00:03:46.320
+So the neural network's not doing very
+well in this example because this is
+
+55
+00:03:46.320 --> 00:03:49.670
+actually a cat and assigned only
+a 20% chance that this is a cat.
+
+56
+00:03:49.670 --> 00:03:51.180
+So didn't do very well in this example.
+
+57
+00:03:52.290 --> 00:03:56.700
+So what's the last function you would
+want to use to train this neural network?
+
+58
+00:03:56.700 --> 00:03:58.762
+In softmax classification,
+
+59
+00:03:58.762 --> 00:04:03.310
+they'll ask me to produce this
+negative sum of j=1 through 4.
+
+60
+00:04:03.310 --> 00:04:07.269
+And it's really sum from 1
+to C in the general case.
+
+61
+00:04:07.269 --> 00:04:14.620
+We're going to just use 4 here,
+of yj log y hat of j.
+
+62
+00:04:14.620 --> 00:04:20.040
+So let's look at our single example
+above to better understand what happens.
+
+63
+00:04:20.040 --> 00:04:24.209
+Notice that in this example,
+
+64
+00:04:24.209 --> 00:04:32.730
+y1 = y3 = y4 = 0 because those are 0s and
+only y2 = 1.
+
+65
+00:04:32.730 --> 00:04:35.447
+So if you look at this summation,
+
+66
+00:04:35.447 --> 00:04:39.726
+all of the terms with 0
+values of yj were equal to 0.
+
+67
+00:04:39.726 --> 00:04:44.412
+And the only term you're left
+with is -y2 log y hat 2,
+
+68
+00:04:44.412 --> 00:04:47.802
+because we use sum over the indices of j,
+
+69
+00:04:47.802 --> 00:04:52.622
+all the terms will end up 0,
+except when j is equal to 2.
+
+70
+00:04:52.622 --> 00:04:58.440
+And because y2 = 1,
+this is just -log y hat 2.
+
+71
+00:04:58.440 --> 00:05:00.190
+So what this means is that,
+
+72
+00:05:00.190 --> 00:05:04.510
+if your learning algorithm
+is trying to make this small
+
+73
+00:05:04.510 --> 00:05:09.040
+because you use gradient descent to try
+to reduce the loss on your training set.
+
+74
+00:05:09.040 --> 00:05:12.550
+Then the only way to make this
+small is to make this small.
+
+75
+00:05:12.550 --> 00:05:17.390
+And the only way to do that is to
+make y hat 2 as big as possible.
+
+76
+00:05:18.430 --> 00:05:20.846
+And these are probabilities, so
+they can never be bigger than 1.
+
+77
+00:05:20.846 --> 00:05:26.286
+But this kind of makes sense because x for
+this example is the picture of a cat,
+
+78
+00:05:26.286 --> 00:05:31.170
+then you want that output probability
+to be as big as possible.
+
+79
+00:05:31.170 --> 00:05:35.590
+So more generally, what this loss function
+does is it looks at whatever is the ground
+
+80
+00:05:35.590 --> 00:05:39.640
+true class in your training set, and
+it tries to make the corresponding
+
+81
+00:05:39.640 --> 00:05:42.640
+probability of that class
+as high as possible.
+
+82
+00:05:42.640 --> 00:05:46.126
+If you're familiar with maximum
+likelihood estimation statistics,
+
+83
+00:05:46.126 --> 00:05:49.153
+this turns out to be a form of
+maximum likelyhood estimation.
+
+84
+00:05:49.153 --> 00:05:51.790
+But if you don't know what that means,
+don't worry about it.
+
+85
+00:05:51.790 --> 00:05:53.770
+The intuition we just
+talked about will suffice.
+
+86
+00:05:54.970 --> 00:05:57.460
+Now this is the loss on
+a single training example.
+
+87
+00:05:57.460 --> 00:06:00.857
+How about the cost J on
+the entire training set.
+
+88
+00:06:00.857 --> 00:06:05.717
+So, the class of setting of the parameters
+and so on, of all the ways and
+
+89
+00:06:05.717 --> 00:06:09.767
+biases, you define that as
+pretty much what you'd guess,
+
+90
+00:06:09.767 --> 00:06:12.926
+sum of your entire training
+sets are the loss,
+
+91
+00:06:12.926 --> 00:06:18.374
+your learning algorithms predictions
+are summed over your training samples.
+
+92
+00:06:18.374 --> 00:06:18.924
+And so,
+
+93
+00:06:18.924 --> 00:06:23.830
+what you do is use gradient descent in
+order to try to minimize this class.
+
+94
+00:06:23.830 --> 00:06:26.370
+Finally, one more implementation detail.
+
+95
+00:06:26.370 --> 00:06:30.949
+Notice that because C is equal to 4,
+y is a 4 by 1 vector, and
+
+96
+00:06:30.949 --> 00:06:33.160
+y hat is also a 4 by 1 vector.
+
+97
+00:06:34.450 --> 00:06:39.565
+So if you're using a vectorized
+limitation, the matrix capital
+
+98
+00:06:39.565 --> 00:06:45.711
+Y is going to be y(1), y(2),
+through y(m), stacked horizontally.
+
+99
+00:06:45.711 --> 00:06:50.903
+And so for example, if this example up
+here is your first training example
+
+100
+00:06:50.903 --> 00:06:56.428
+then the first column of this matrix Y
+will be 0 1 0 0 and then maybe the second
+
+101
+00:06:56.428 --> 00:07:01.730
+example is a dog, maybe the third example
+is a none of the above, and so on.
+
+102
+00:07:01.730 --> 00:07:08.580
+And then this matrix Y will end up
+being a 4 by m dimensional matrix.
+
+103
+00:07:08.580 --> 00:07:13.838
+And similarly, Y hat will be y
+hat 1 stacked up horizontally
+
+104
+00:07:13.838 --> 00:07:18.284
+going through y hat m, so
+this is actually y hat 1.
+
+105
+00:07:19.590 --> 00:07:25.403
+All the output on the first training
+example then y hat will these 0.3,
+
+106
+00:07:25.403 --> 00:07:29.120
+0.2, 0.1, and 0.4, and so on.
+
+107
+00:07:29.120 --> 00:07:33.290
+And y hat itself will also be
+4 by m dimensional matrix.
+
+108
+00:07:33.290 --> 00:07:37.382
+Finally, let's take a look at how you'd
+implement gradient descent when you
+
+109
+00:07:37.382 --> 00:07:38.942
+have a softmax output layer.
+
+110
+00:07:38.942 --> 00:07:46.161
+So this output layer will compute z[L]
+which is C by 1 in our example, 4 by 1 and
+
+111
+00:07:46.161 --> 00:07:52.670
+then you apply the softmax attribution
+function to get a[L], or y hat.
+
+112
+00:07:53.740 --> 00:07:58.310
+And then that in turn allows
+you to compute the loss.
+
+113
+00:07:58.310 --> 00:08:02.168
+So with talks about how to
+implement the forward propagation
+
+114
+00:08:02.168 --> 00:08:07.070
+step of a neural network to get these
+outputs and to compute that loss.
+
+115
+00:08:07.070 --> 00:08:10.650
+How about the back propagation step,
+or gradient descent?
+
+116
+00:08:10.650 --> 00:08:11.990
+Turns out that the key step or
+
+117
+00:08:11.990 --> 00:08:16.240
+the key equation you need to initialize
+back prop is this expression,
+
+118
+00:08:16.240 --> 00:08:20.460
+that the derivative with respect to
+z at the loss layer, this turns out,
+
+119
+00:08:20.460 --> 00:08:26.160
+you can compute this y hat, the 4 by
+1 vector, minus y, the 4 by 1 vector.
+
+120
+00:08:26.160 --> 00:08:30.150
+So you notice that all of these
+are going to be 4 by 1 vectors when
+
+121
+00:08:30.150 --> 00:08:33.220
+you have 4 classes and
+C by 1 in the more general case.
+
+122
+00:08:34.250 --> 00:08:37.180
+And so this going by our usual
+definition of what is dz,
+
+123
+00:08:37.180 --> 00:08:42.660
+this is the partial derivative of
+the class function with respect to z[L].
+
+124
+00:08:42.660 --> 00:08:47.570
+If you are an expert in calculus,
+you can derive this yourself.
+
+125
+00:08:47.570 --> 00:08:50.690
+Or if you're an expert in calculus,
+you can try to derive this yourself, but
+
+126
+00:08:50.690 --> 00:08:52.514
+using this formula will
+also just work fine,
+
+127
+00:08:52.514 --> 00:08:54.548
+if you have a need to
+implement this from scratch.
+
+128
+00:08:54.548 --> 00:08:59.405
+With this, you can then compute dz[L] and
+then sort of start off the back prop
+
+129
+00:08:59.405 --> 00:09:05.310
+process to compute all the derivatives
+you need throughout your neural network.
+
+130
+00:09:05.310 --> 00:09:09.286
+But it turns out that in this week's
+primary exercise, we'll start to use one
+
+131
+00:09:09.286 --> 00:09:13.143
+of the deep learning program frameworks
+and for those primary frameworks,
+
+132
+00:09:13.143 --> 00:09:17.830
+usually it turns out you just need to
+focus on getting the forward prop right.
+
+133
+00:09:17.830 --> 00:09:21.803
+And so long as you specify it as a primary
+framework, the forward prop pass,
+
+134
+00:09:21.803 --> 00:09:24.845
+the primary framework will
+figure out how to do back prop,
+
+135
+00:09:24.845 --> 00:09:26.730
+how to do the backward pass for you.
+
+136
+00:09:27.890 --> 00:09:32.700
+So this expression is worth keeping in
+mind for if you ever need to implement
+
+137
+00:09:32.700 --> 00:09:35.524
+softmax regression, or
+softmax classification from scratch.
+
+138
+00:09:35.524 --> 00:09:39.579
+Although you won't actually need this
+in this week's primary exercise because
+
+139
+00:09:39.579 --> 00:09:42.739
+the primary framework you use
+will take care of this derivative
+
+140
+00:09:42.739 --> 00:09:43.888
+computation for you.
+
+141
+00:09:43.888 --> 00:09:46.783
+So that's it for softmax classification,
+
+142
+00:09:46.783 --> 00:09:51.715
+with it you can now implement learning
+algorithms to characterized inputs
+
+143
+00:09:51.715 --> 00:09:56.920
+into not just one of two classes,
+but one of C different classes.
+
+144
+00:09:56.920 --> 00:10:01.410
+Next, I want to show you some of the deep
+learning programming frameworks which
+
+145
+00:10:01.410 --> 00:10:05.570
+can make you much more efficient in terms
+of implementing deep learning algorithms.
+
+146
+00:10:05.570 --> 00:10:07.550
+Let's go on to the next
+video to discuss that.

@@ -1,0 +1,468 @@
+WEBVTT
+
+1
+00:00:00.930 --> 00:00:04.720
+When you implement back propagation
+you'll find that there's a test called
+
+2
+00:00:04.720 --> 00:00:07.700
+creating checking that can
+really help you make sure
+
+3
+00:00:07.700 --> 00:00:10.710
+that your implementation
+of back prop is correct.
+
+4
+00:00:10.710 --> 00:00:14.376
+Because sometimes you write all these
+equations and you're just not 100% sure if
+
+5
+00:00:14.376 --> 00:00:17.940
+you've got all the details right and
+internal back propagation.
+
+6
+00:00:17.940 --> 00:00:21.020
+So in order to build up to gradient and
+checking,
+
+7
+00:00:21.020 --> 00:00:25.490
+let's first talk about how to numerically
+approximate computations of gradients and
+
+8
+00:00:25.490 --> 00:00:28.400
+in the next video,
+we'll talk about how you can implement
+
+9
+00:00:28.400 --> 00:00:32.028
+gradient checking to make sure
+the implementation of backdrop is correct.
+
+10
+00:00:32.028 --> 00:00:37.310
+So lets take the function f and
+replot it here and remember this is
+
+11
+00:00:37.310 --> 00:00:43.110
+f of theta equals theta cubed, and let's
+again start off to some value of theta.
+
+12
+00:00:43.110 --> 00:00:44.640
+Let's say theta equals 1.
+
+13
+00:00:44.640 --> 00:00:50.180
+Now instead of just nudging theta to
+the right to get theta plus epsilon,
+
+14
+00:00:50.180 --> 00:00:52.460
+we're going to nudge it to the right and
+
+15
+00:00:52.460 --> 00:00:58.110
+nudge it to the left to get theta minus
+epsilon, as was theta plus epsilon.
+
+16
+00:00:58.110 --> 00:01:02.935
+So this is 1, this is 1.01,
+this is 0.99 where, again,
+
+17
+00:01:02.935 --> 00:01:06.144
+epsilon is same as before, it is 0.01.
+
+18
+00:01:06.144 --> 00:01:10.378
+It turns out that rather than
+taking this little triangle and
+
+19
+00:01:10.378 --> 00:01:15.526
+computing the height over the width,
+you can get a much better estimate of
+
+20
+00:01:15.526 --> 00:01:20.922
+the gradient if you take this point,
+f of theta minus epsilon and this point,
+
+21
+00:01:20.922 --> 00:01:26.230
+and you instead compute the height
+over width of this bigger triangle.
+
+22
+00:01:26.230 --> 00:01:31.988
+So for technical reasons which I won't go
+into, the height over width of this bigger
+
+23
+00:01:31.988 --> 00:01:37.601
+green triangle gives you a much better
+approximation to the derivative at theta.
+
+24
+00:01:37.601 --> 00:01:41.338
+And you saw it yourself, taking just
+this lower triangle in the upper right
+
+25
+00:01:41.338 --> 00:01:43.372
+is as if you have two triangles, right?
+
+26
+00:01:43.372 --> 00:01:47.220
+This one on the upper right and
+this one on the lower left.
+
+27
+00:01:47.220 --> 00:01:49.760
+And you're kind of taking
+both of them into account
+
+28
+00:01:49.760 --> 00:01:54.450
+by using this bigger green triangle.
+
+29
+00:01:54.450 --> 00:01:57.720
+So rather than a one sided difference,
+you're taking a two sided difference.
+
+30
+00:01:57.720 --> 00:01:58.954
+So let's work out the math.
+
+31
+00:01:58.954 --> 00:02:03.648
+This point here is F
+of theta plus epsilon.
+
+32
+00:02:03.648 --> 00:02:07.870
+This point here is F of
+theta minus epsilon.
+
+33
+00:02:07.870 --> 00:02:12.390
+So the height of this big green
+triangle is f of theta plus epsilon
+
+34
+00:02:12.390 --> 00:02:15.230
+minus f of theta minus epsilon.
+
+35
+00:02:15.230 --> 00:02:21.250
+And then the width,
+this is 1 epsilon, this is 2 epsilon.
+
+36
+00:02:21.250 --> 00:02:24.390
+So the width of this green
+triangle is 2 epsilon.
+
+37
+00:02:24.390 --> 00:02:28.400
+So the height of the width is
+going to be first the height, so
+
+38
+00:02:28.400 --> 00:02:35.110
+that's F of theta plus epsilon minus F of
+theta minus epsilon divided by the width.
+
+39
+00:02:35.110 --> 00:02:37.920
+So that was 2 epsilon which
+we write that down here.
+
+40
+00:02:38.950 --> 00:02:43.450
+And this should hopefully
+be close to g of theta.
+
+41
+00:02:43.450 --> 00:02:46.350
+So plug in the values,
+remember f of theta is theta cubed.
+
+42
+00:02:46.350 --> 00:02:49.890
+So this is theta plus epsilon is 1.01.
+
+43
+00:02:49.890 --> 00:02:58.250
+So I take a cube of that minus 0.99 theta
+cube of that divided by 2 times 0.01.
+
+44
+00:02:58.250 --> 00:03:03.580
+Feel free to pause the video and
+practice in the calculator.
+
+45
+00:03:03.580 --> 00:03:06.259
+You should get that this is 3.0001.
+
+46
+00:03:06.259 --> 00:03:10.581
+Whereas from the previous slide,
+we saw that g of theta,
+
+47
+00:03:10.581 --> 00:03:14.272
+this was 3 theta squared so
+when theta was 1, so
+
+48
+00:03:14.272 --> 00:03:18.519
+these two values are actually
+very close to each other.
+
+49
+00:03:18.519 --> 00:03:22.250
+The approximation error is now 0.0001.
+
+50
+00:03:22.250 --> 00:03:27.456
+Whereas on the previous slide,
+we've taken the one sided
+
+51
+00:03:27.456 --> 00:03:34.150
+of difference just theta + theta +
+epsilon we had gotten 3.0301 and
+
+52
+00:03:34.150 --> 00:03:40.340
+so the approximation error
+was 0.03 rather than 0.0001.
+
+53
+00:03:40.340 --> 00:03:44.260
+So this two sided difference way of
+
+54
+00:03:44.260 --> 00:03:48.462
+approximating the derivative you find
+that this is extremely close to 3.
+
+55
+00:03:48.462 --> 00:03:53.320
+And so this gives you a much greater
+confidence that g of theta is
+
+56
+00:03:53.320 --> 00:03:56.890
+probably a correct implementation
+of the derivative of F.
+
+57
+00:03:58.220 --> 00:04:01.480
+When you use this method for grading,
+checking and back propagation,
+
+58
+00:04:01.480 --> 00:04:06.230
+this turns out to run twice as slow as
+you were to use a one-sided defense.
+
+59
+00:04:06.230 --> 00:04:10.193
+It turns out that in practice I think it's
+worth it to use this other method because
+
+60
+00:04:10.193 --> 00:04:11.752
+it's just much more accurate.
+
+61
+00:04:11.752 --> 00:04:13.946
+The little bit of optional theory for
+
+62
+00:04:13.946 --> 00:04:18.685
+those of you that are a little bit more
+familiar of Calculus, it turns out that,
+
+63
+00:04:18.685 --> 00:04:22.249
+and it's okay if you don't get
+what I'm about to say here.
+
+64
+00:04:22.249 --> 00:04:26.772
+But it turns out that the formal
+definition of a derivative is for
+
+65
+00:04:26.772 --> 00:04:31.629
+very small values of epsilon is f of
+theta plus epsilon minus f of theta
+
+66
+00:04:31.629 --> 00:04:33.917
+minus epsilon over 2 epsilon.
+
+67
+00:04:33.917 --> 00:04:38.852
+And the formal definition of
+derivative is in the limits of exactly
+
+68
+00:04:38.852 --> 00:04:42.480
+that formula on the right
+as epsilon those as 0.
+
+69
+00:04:42.480 --> 00:04:46.270
+And the definition of unlimited is
+something that you learned if you
+
+70
+00:04:46.270 --> 00:04:48.980
+took a Calculus class but
+I won't go into that here.
+
+71
+00:04:48.980 --> 00:04:52.398
+And it turns out that for
+a non zero value of epsilon,
+
+72
+00:04:52.398 --> 00:04:56.517
+you can show that the error of
+this approximation is on the order
+
+73
+00:04:56.517 --> 00:05:00.889
+of epsilon squared, and
+remember epsilon is a very small number.
+
+74
+00:05:00.889 --> 00:05:08.471
+So if epsilon is 0.01 which it is
+here then epsilon squared is 0.0001.
+
+75
+00:05:08.471 --> 00:05:12.098
+The big O notation means the error is
+actually some constant times this, but
+
+76
+00:05:12.098 --> 00:05:15.240
+this is actually exactly
+our approximation error.
+
+77
+00:05:15.240 --> 00:05:17.478
+So the big O constant happens to be 1.
+
+78
+00:05:17.478 --> 00:05:22.182
+Whereas in contrast if we were to
+use this formula, the other one,
+
+79
+00:05:22.182 --> 00:05:25.129
+then the error is on the order of epsilon.
+
+80
+00:05:25.129 --> 00:05:29.872
+And again, when epsilon is a number
+less than 1, then epsilon is actually
+
+81
+00:05:29.872 --> 00:05:34.618
+much bigger than epsilon squared which
+is why this formula here is actually
+
+82
+00:05:34.618 --> 00:05:38.790
+much less accurate approximation
+than this formula on the left.
+
+83
+00:05:38.790 --> 00:05:43.690
+Which is why when doing gradient checking,
+we rather use this two-sided difference
+
+84
+00:05:43.690 --> 00:05:48.113
+when you compute f of theta plus epsilon
+minus f of theta minus epsilon and then
+
+85
+00:05:48.113 --> 00:05:52.900
+divide by 2 epsilon rather than just one
+sided difference which is less accurate.
+
+86
+00:05:53.980 --> 00:05:57.090
+If you didn't understand my last two
+comments, all of these things are on here.
+
+87
+00:05:57.090 --> 00:05:58.480
+Don't worry about it.
+
+88
+00:05:58.480 --> 00:06:02.460
+That's really more for those of you that
+are a bit more familiar with Calculus, and
+
+89
+00:06:02.460 --> 00:06:04.630
+with numerical approximations.
+
+90
+00:06:04.630 --> 00:06:08.890
+But the takeaway is that this two-sided
+difference formula is much more accurate.
+
+91
+00:06:08.890 --> 00:06:12.445
+And so that's what we're going to use when
+we do gradient checking in the next video.
+
+92
+00:06:13.725 --> 00:06:16.355
+So you've seen how by taking
+a two sided difference,
+
+93
+00:06:16.355 --> 00:06:20.845
+you can numerically verify whether or
+not a function g, g of theta that someone
+
+94
+00:06:20.845 --> 00:06:25.675
+else gives you is a correct implementation
+of the derivative of a function f.
+
+95
+00:06:25.675 --> 00:06:28.265
+Let's now see how we can use
+this to verify whether or
+
+96
+00:06:28.265 --> 00:06:31.435
+not your back propagation
+implementation is correct or
+
+97
+00:06:31.435 --> 00:06:34.855
+if there might be a bug in there
+that you need to go and tease out

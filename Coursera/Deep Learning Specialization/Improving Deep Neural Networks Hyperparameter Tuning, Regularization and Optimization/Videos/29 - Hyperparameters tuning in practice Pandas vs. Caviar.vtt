@@ -1,0 +1,561 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:04.380
+You have now heard a lot about how
+to search for good hyperparameters.
+
+2
+00:00:04.380 --> 00:00:08.090
+Before wrapping up our discussion
+on hyperparameter search,
+
+3
+00:00:08.090 --> 00:00:11.670
+I want to share with you just
+a couple of final tips and tricks for
+
+4
+00:00:11.670 --> 00:00:14.775
+how to organize your
+hyperparameter search process.
+
+5
+00:00:14.775 --> 00:00:19.259
+Deep learning today is applied to
+many different application areas and
+
+6
+00:00:19.259 --> 00:00:24.342
+that intuitions about hyperparameter
+settings from one application area may or
+
+7
+00:00:24.342 --> 00:00:26.670
+may not transfer to a different one.
+
+8
+00:00:26.670 --> 00:00:31.466
+There is a lot of cross-fertilization
+among different applications' domains,
+
+9
+00:00:31.466 --> 00:00:36.055
+so for example, I've seen ideas developed
+in the computer vision community,
+
+10
+00:00:36.055 --> 00:00:40.301
+such as Confonets or ResNets,
+which we'll talk about in a later course,
+
+11
+00:00:40.301 --> 00:00:42.400
+successfully applied to speech.
+
+12
+00:00:42.400 --> 00:00:46.620
+I've seen ideas that were first developed
+in speech successfully applied in NLP,
+
+13
+00:00:46.620 --> 00:00:47.870
+and so on.
+
+14
+00:00:47.870 --> 00:00:52.613
+So one nice development in deep learning
+is that people from different application
+
+15
+00:00:52.613 --> 00:00:57.223
+domains do read increasingly research
+papers from other application domains to
+
+16
+00:00:57.223 --> 00:01:00.180
+look for inspiration for
+cross-fertilization.
+
+17
+00:01:00.180 --> 00:01:01.580
+In terms of your settings for
+
+18
+00:01:01.580 --> 00:01:06.420
+the hyperparameters, though,
+I've seen that intuitions do get stale.
+
+19
+00:01:06.420 --> 00:01:11.360
+So even if you work on just one problem,
+say logistics, you might have found a good
+
+20
+00:01:11.360 --> 00:01:15.700
+setting for the hyperparameters and
+kept on developing your algorithm,
+
+21
+00:01:15.700 --> 00:01:20.465
+or maybe seen your data gradually change
+over the course of several months,
+
+22
+00:01:20.465 --> 00:01:25.070
+or maybe just upgraded
+servers in your data center.
+
+23
+00:01:25.070 --> 00:01:26.380
+And because of those changes,
+
+24
+00:01:26.380 --> 00:01:29.500
+the best setting of your
+hyperparameters can get stale.
+
+25
+00:01:29.500 --> 00:01:32.005
+So I recommend maybe just retesting or
+
+26
+00:01:32.005 --> 00:01:35.860
+reevaluating your hyperparameters
+at least once every several months
+
+27
+00:01:35.860 --> 00:01:39.390
+to make sure that you're still
+happy with the values you have.
+
+28
+00:01:39.390 --> 00:01:42.150
+Finally, in terms of how
+people go about searching for
+
+29
+00:01:42.150 --> 00:01:46.430
+hyperparameters, I see maybe two
+major schools of thought, or
+
+30
+00:01:46.430 --> 00:01:50.370
+maybe two major different ways
+in which people go about it.
+
+31
+00:01:50.370 --> 00:01:52.920
+One way is if you babysit one model.
+
+32
+00:01:52.920 --> 00:01:57.671
+And usually you do this if you have
+maybe a huge data set but not a lot of
+
+33
+00:01:57.671 --> 00:02:01.390
+computational resources, not a lot of CPUs
+and GPUs, so you can basically afford
+
+34
+00:02:01.390 --> 00:02:05.100
+to train only one model or
+a very small number of models at a time.
+
+35
+00:02:05.100 --> 00:02:11.070
+In that case you might gradually babysit
+that model even as it's training.
+
+36
+00:02:11.070 --> 00:02:15.180
+So, for example, on Day 0 you might
+initialize your parameter as random and
+
+37
+00:02:15.180 --> 00:02:16.370
+then start training.
+
+38
+00:02:16.370 --> 00:02:21.626
+And you gradually watch your learning
+curve, maybe the cost function J or
+
+39
+00:02:21.626 --> 00:02:27.333
+your dataset error or something else,
+gradually decrease over the first day.
+
+40
+00:02:27.333 --> 00:02:31.300
+Then at the end of day one, you might say,
+gee, looks it's learning quite well,
+
+41
+00:02:31.300 --> 00:02:35.000
+I'm going to try increasing the learning
+rate a little bit and see how it does.
+
+42
+00:02:35.000 --> 00:02:37.090
+And then maybe it does better.
+
+43
+00:02:37.090 --> 00:02:38.870
+And then that's your Day 2 performance.
+
+44
+00:02:38.870 --> 00:02:42.150
+And after two days you say, okay,
+it's still doing quite well.
+
+45
+00:02:42.150 --> 00:02:46.339
+Maybe I'll fill the momentum term a bit or
+decrease the learning variable a bit now,
+
+46
+00:02:46.339 --> 00:02:47.994
+and then you're now into Day 3.
+
+47
+00:02:47.994 --> 00:02:52.750
+And every day you kind of look at it and
+try nudging up and down your parameters.
+
+48
+00:02:52.750 --> 00:02:55.646
+And maybe on one day you found
+your learning rate was too big.
+
+49
+00:02:55.646 --> 00:02:58.649
+So you might go back to the previous
+day's model, and so on.
+
+50
+00:02:58.649 --> 00:03:03.445
+But you're kind of babysitting the model
+one day at a time even as it's training
+
+51
+00:03:03.445 --> 00:03:08.080
+over a course of many days or over
+the course of several different weeks.
+
+52
+00:03:08.080 --> 00:03:12.010
+So that's one approach, and
+people that babysit one model,
+
+53
+00:03:12.010 --> 00:03:17.390
+that is watching performance and patiently
+nudging the learning rate up or down.
+
+54
+00:03:17.390 --> 00:03:21.010
+But that's usually what happens if
+you don't have enough computational
+
+55
+00:03:21.010 --> 00:03:24.210
+capacity to train a lot of
+models at the same time.
+
+56
+00:03:24.210 --> 00:03:28.480
+The other approach would be if you
+train many models in parallel.
+
+57
+00:03:28.480 --> 00:03:32.010
+So you might have some setting
+of the hyperparameters and
+
+58
+00:03:32.010 --> 00:03:36.050
+just let it run by itself ,either for
+a day or even for multiple days,
+
+59
+00:03:36.050 --> 00:03:38.180
+and then you get some
+learning curve like that; and
+
+60
+00:03:38.180 --> 00:03:42.180
+this could be a plot of the cost function
+J or cost of your training error or
+
+61
+00:03:42.180 --> 00:03:45.670
+cost of your dataset error, but
+some metric in your tracking.
+
+62
+00:03:45.670 --> 00:03:48.636
+And then at the same time you might start
+up a different model with a different
+
+63
+00:03:48.636 --> 00:03:50.490
+setting of the hyperparameters.
+
+64
+00:03:50.490 --> 00:03:54.030
+And so, your second model might
+generate a different learning curve,
+
+65
+00:03:54.030 --> 00:03:55.960
+maybe one that looks like that.
+
+66
+00:03:55.960 --> 00:03:57.510
+I will say that one looks better.
+
+67
+00:03:57.510 --> 00:03:59.980
+And at the same time,
+you might train a third model,
+
+68
+00:03:59.980 --> 00:04:03.914
+which might generate a learning curve that
+looks like that, and another one that,
+
+69
+00:04:03.914 --> 00:04:06.680
+maybe this one diverges so
+it looks like that, and so on.
+
+70
+00:04:06.680 --> 00:04:10.280
+Or you might train many
+different models in parallel,
+
+71
+00:04:10.280 --> 00:04:13.570
+where these orange lines
+are different models, right, and so
+
+72
+00:04:13.570 --> 00:04:16.620
+this way you can try a lot of
+different hyperparameter settings and
+
+73
+00:04:16.620 --> 00:04:21.090
+then just maybe quickly at the end
+pick the one that works best.
+
+74
+00:04:21.090 --> 00:04:25.600
+Looks like in this example it was,
+maybe this curve that look best.
+
+75
+00:04:25.600 --> 00:04:27.340
+So to make an analogy,
+
+76
+00:04:27.340 --> 00:04:30.760
+I'm going to call the approach
+on the left the panda approach.
+
+77
+00:04:30.760 --> 00:04:33.822
+When pandas have children,
+they have very few children,
+
+78
+00:04:33.822 --> 00:04:35.507
+usually one child at a time, and
+
+79
+00:04:35.507 --> 00:04:40.350
+then they really put a lot of effort into
+making sure that the baby panda survives.
+
+80
+00:04:40.350 --> 00:04:41.640
+So that's really babysitting.
+
+81
+00:04:41.640 --> 00:04:44.280
+One model or one baby panda.
+
+82
+00:04:44.280 --> 00:04:48.000
+Whereas the approach on the right
+is more like what fish do.
+
+83
+00:04:48.000 --> 00:04:50.380
+I'm going to call this
+the caviar strategy.
+
+84
+00:04:50.380 --> 00:04:55.540
+There's some fish that lay over 100
+million eggs in one mating season.
+
+85
+00:04:55.540 --> 00:04:58.960
+But the way fish reproduce is
+they lay a lot of eggs and
+
+86
+00:04:58.960 --> 00:05:01.740
+don't pay too much attention
+to any one of them but
+
+87
+00:05:01.740 --> 00:05:05.970
+just see that hopefully one of them, or
+maybe a bunch of them, will do well.
+
+88
+00:05:05.970 --> 00:05:10.340
+So I guess, this is really
+the difference between how mammals
+
+89
+00:05:10.340 --> 00:05:15.030
+reproduce versus how fish and
+a lot of reptiles reproduce.
+
+90
+00:05:15.030 --> 00:05:17.980
+But I'm going to call it the panda
+approach versus the caviar approach,
+
+91
+00:05:17.980 --> 00:05:20.210
+since that's more fun and memorable.
+
+92
+00:05:20.210 --> 00:05:23.550
+So the way to choose between these
+two approaches is really a function
+
+93
+00:05:23.550 --> 00:05:26.500
+of how much computational
+resources you have.
+
+94
+00:05:26.500 --> 00:05:30.460
+If you have enough computers to
+train a lot of models in parallel,
+
+95
+00:05:31.920 --> 00:05:34.670
+then by all means take
+the caviar approach and
+
+96
+00:05:34.670 --> 00:05:37.780
+try a lot of different hyperparameters and
+see what works.
+
+97
+00:05:37.780 --> 00:05:42.520
+But in some application domains, I see
+this in some online advertising settings
+
+98
+00:05:42.520 --> 00:05:45.940
+as well as in some computer vision
+applications, where there's just so
+
+99
+00:05:45.940 --> 00:05:48.670
+much data and
+the models you want to train are so
+
+100
+00:05:48.670 --> 00:05:53.220
+big that it's difficult to train
+a lot of models at the same time.
+
+101
+00:05:53.220 --> 00:05:55.640
+It's really application
+dependent of course, but
+
+102
+00:05:55.640 --> 00:06:00.150
+I've seen those communities use
+the panda approach a little bit more,
+
+103
+00:06:00.150 --> 00:06:03.260
+where you are kind of babying
+a single model along and
+
+104
+00:06:03.260 --> 00:06:08.340
+nudging the parameters up and down and
+trying to make this one model work.
+
+105
+00:06:08.340 --> 00:06:12.165
+Although, of course, even the panda
+approach, having trained one model and
+
+106
+00:06:12.165 --> 00:06:15.580
+then seen it work or not work, maybe
+in the second week or the third week,
+
+107
+00:06:15.580 --> 00:06:19.870
+maybe I should initialize a different
+model and then baby that one along
+
+108
+00:06:19.870 --> 00:06:23.910
+just like even pandas, I guess, can have
+multiple children in their lifetime,
+
+109
+00:06:23.910 --> 00:06:28.800
+even if they have only one, or a very
+small number of children, at any one time.
+
+110
+00:06:28.800 --> 00:06:32.888
+So hopefully this gives you a good sense
+of how to go about the hyperparameter
+
+111
+00:06:32.888 --> 00:06:34.170
+search process.
+
+112
+00:06:34.170 --> 00:06:37.090
+Now, it turns out that there's
+one other technique that can
+
+113
+00:06:37.090 --> 00:06:41.360
+make your neural network much more
+robust to the choice of hyperparameters.
+
+114
+00:06:41.360 --> 00:06:44.180
+It doesn't work for all neural networks,
+but when it does, it can
+
+115
+00:06:44.180 --> 00:06:48.670
+make the hyperparameter search much easier
+and also make training go much faster.
+
+116
+00:06:48.670 --> 00:06:50.780
+Let's talk about this
+technique in the next video.

@@ -1,0 +1,681 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.560
+In addition to L2 regularization,
+
+2
+00:00:02.560 --> 00:00:06.875
+another very powerful regularization techniques is called "dropout."
+
+3
+00:00:06.875 --> 00:00:08.715
+Let's see how that works.
+
+4
+00:00:08.715 --> 00:00:12.600
+Let's say you train a neural network like the one on the left and there's over-fitting.
+
+5
+00:00:12.600 --> 00:00:14.998
+Here's what you do with dropout.
+
+6
+00:00:14.998 --> 00:00:16.765
+Let me make a copy of the neural network.
+
+7
+00:00:16.765 --> 00:00:21.100
+With dropout, what we're going to do is go through each of the layers of
+
+8
+00:00:21.100 --> 00:00:26.350
+the network and set some probability of eliminating a node in neural network.
+
+9
+00:00:26.350 --> 00:00:29.305
+Let's say that for each of these layers,
+
+10
+00:00:29.305 --> 00:00:30.955
+we're going to- for each node,
+
+11
+00:00:30.955 --> 00:00:34.165
+toss a coin and have a 0.5 chance of
+
+12
+00:00:34.165 --> 00:00:38.005
+keeping each node and 0.5 chance of removing each node.
+
+13
+00:00:38.005 --> 00:00:39.820
+So, after the coin tosses,
+
+14
+00:00:39.820 --> 00:00:42.865
+maybe we'll decide to eliminate those nodes,
+
+15
+00:00:42.865 --> 00:00:49.775
+then what you do is actually remove all the outgoing things from that no as well.
+
+16
+00:00:49.775 --> 00:00:51.550
+So you end up with a much smaller,
+
+17
+00:00:51.550 --> 00:00:53.150
+really much diminished network.
+
+18
+00:00:53.150 --> 00:00:56.145
+And then you do back propagation training.
+
+19
+00:00:56.145 --> 00:00:59.705
+There's one example on this much diminished network.
+
+20
+00:00:59.705 --> 00:01:01.130
+And then on different examples,
+
+21
+00:01:01.130 --> 00:01:03.700
+you would toss a set of coins again and keep
+
+22
+00:01:03.700 --> 00:01:07.585
+a different set of nodes and then dropout or eliminate different than nodes.
+
+23
+00:01:07.585 --> 00:01:09.235
+And so for each training example,
+
+24
+00:01:09.235 --> 00:01:14.455
+you would train it using one of these neural based networks.
+
+25
+00:01:14.455 --> 00:01:16.675
+So, maybe it seems like a slightly crazy technique.
+
+26
+00:01:16.675 --> 00:01:20.470
+They just go around coding those are random,
+
+27
+00:01:20.470 --> 00:01:22.505
+but this actually works.
+
+28
+00:01:22.505 --> 00:01:28.480
+But you can imagine that because you're training a much smaller network on each example
+
+29
+00:01:28.480 --> 00:01:34.591
+or maybe just give a sense for why you end up able to regularize the network,
+
+30
+00:01:34.591 --> 00:01:38.590
+because these much smaller networks are being trained.
+
+31
+00:01:38.590 --> 00:01:41.535
+Let's look at how you implement dropout.
+
+32
+00:01:41.535 --> 00:01:43.425
+There are a few ways of implementing dropout.
+
+33
+00:01:43.425 --> 00:01:44.915
+I'm going to show you the most common one,
+
+34
+00:01:44.915 --> 00:01:47.865
+which is technique called inverted dropout.
+
+35
+00:01:47.865 --> 00:01:49.645
+For the sake of completeness,
+
+36
+00:01:49.645 --> 00:01:58.977
+let's say we want to illustrate this with layer l=3.
+
+37
+00:01:58.977 --> 00:02:03.000
+So, in the code I'm going to write- there will be a bunch of 3s here.
+
+38
+00:02:03.000 --> 00:02:08.380
+I'm just illustrating how to represent dropout in a single layer.
+
+39
+00:02:08.380 --> 00:02:12.155
+So, what we are going to do is set a vector d
+
+40
+00:02:12.155 --> 00:02:16.503
+and d^3 is going to be the dropout vector for the layer 3.
+
+41
+00:02:16.503 --> 00:02:21.585
+That's what the 3 is to be np.random.rand(a).
+
+42
+00:02:21.585 --> 00:02:27.708
+And this is going to be the same shape as a3.
+
+43
+00:02:27.708 --> 00:02:31.261
+And when I see if this is less than some number,
+
+44
+00:02:31.261 --> 00:02:34.470
+which I'm going to call keep.prob.
+
+45
+00:02:34.470 --> 00:02:37.350
+And so, keep.prob is a number.
+
+46
+00:02:37.350 --> 00:02:39.105
+It was 0.5 on the previous time,
+
+47
+00:02:39.105 --> 00:02:42.045
+and maybe now I'll use 0.8 in this example,
+
+48
+00:02:42.045 --> 00:02:47.040
+and there will be the probability that a given hidden unit will be kept.
+
+49
+00:02:47.040 --> 00:02:49.129
+So keep.prob = 0.8,
+
+50
+00:02:49.129 --> 00:02:54.665
+then this means that there's a 0.2 chance of eliminating any hidden unit.
+
+51
+00:02:54.665 --> 00:02:58.130
+So, what it does is it generates a random matrix.
+
+52
+00:02:58.130 --> 00:03:00.755
+And this works as well if you have factorized.
+
+53
+00:03:00.755 --> 00:03:03.180
+So d3 will be a matrix.
+
+54
+00:03:03.180 --> 00:03:06.660
+Therefore, each example have a each hidden unit there's a
+
+55
+00:03:06.660 --> 00:03:10.245
+0.8 chance that the corresponding d3 will be one,
+
+56
+00:03:10.245 --> 00:03:12.815
+and a 20% chance there will be zero.
+
+57
+00:03:12.815 --> 00:03:20.900
+So, this random numbers being less than 0.8 it has a 0.8 chance of being one or be true,
+
+58
+00:03:20.900 --> 00:03:24.675
+and 20% or 0.2 chance of being false, of being zero.
+
+59
+00:03:24.675 --> 00:03:27.569
+And then what you are going to do is take your activations from the third layer,
+
+60
+00:03:27.569 --> 00:03:30.945
+let me just call it a3 in this low example.
+
+61
+00:03:30.945 --> 00:03:33.265
+So, a3 has the activations you computate.
+
+62
+00:03:33.265 --> 00:03:37.335
+And you can set a3 to be equal to the old a3,
+
+63
+00:03:37.335 --> 00:03:41.849
+times- There is element wise multiplication.
+
+64
+00:03:41.849 --> 00:03:44.857
+Or you can also write this as a3* = d3.
+
+65
+00:03:44.857 --> 00:03:50.625
+But what this does is for every element of d3 that's equal to zero.
+
+66
+00:03:50.625 --> 00:03:53.735
+And there was a 20% chance of each of the elements being zero,
+
+67
+00:03:53.735 --> 00:03:57.840
+just multiply operation ends up zeroing out,
+
+68
+00:03:57.840 --> 00:04:00.980
+the corresponding element of d3.
+
+69
+00:04:00.980 --> 00:04:02.250
+If you do this in python,
+
+70
+00:04:02.250 --> 00:04:05.880
+technically d3 will be a boolean array where value is true and false,
+
+71
+00:04:05.880 --> 00:04:06.985
+rather than one and zero.
+
+72
+00:04:06.985 --> 00:04:10.057
+But the multiply operation works and will
+
+73
+00:04:10.057 --> 00:04:13.390
+interpret the true and false values as one and zero.
+
+74
+00:04:13.390 --> 00:04:16.260
+If you try this yourself in python, you'll see.
+
+75
+00:04:16.260 --> 00:04:22.570
+Then finally, we're going to take a3 and scale it up by dividing by
+
+76
+00:04:22.570 --> 00:04:30.015
+0.8 or really dividing by our keep.prob parameter.
+
+77
+00:04:30.015 --> 00:04:32.560
+So, let me explain what this final step is doing.
+
+78
+00:04:32.560 --> 00:04:36.040
+Let's say for the sake of argument that you have 50 units
+
+79
+00:04:36.040 --> 00:04:39.930
+or 50 neurons in the third hidden layer.
+
+80
+00:04:39.930 --> 00:04:43.075
+So maybe a3 is 50 by one dimensional or
+
+81
+00:04:43.075 --> 00:04:46.650
+if you- factorization maybe it's 50 by m dimensional.
+
+82
+00:04:46.650 --> 00:04:51.625
+So, if you have a 80% chance of keeping them and 20% chance of eliminating them.
+
+83
+00:04:51.625 --> 00:04:53.050
+This means that on average,
+
+84
+00:04:53.050 --> 00:04:59.025
+you end up with 10 units shut off or 10 units zeroed out.
+
+85
+00:04:59.025 --> 00:05:02.020
+And so now, if you look at the value of z^4,
+
+86
+00:05:02.020 --> 00:05:08.775
+z^4 is going to be equal to w^4 * a^3 + b^4.
+
+87
+00:05:08.775 --> 00:05:10.570
+And so, on expectation,
+
+88
+00:05:10.570 --> 00:05:14.080
+this will be reduced by 20%.
+
+89
+00:05:14.080 --> 00:05:18.480
+By which I mean that 20% of the elements of a3 will be zeroed out.
+
+90
+00:05:18.480 --> 00:05:22.240
+So, in order to not reduce the expected value of z^4,
+
+91
+00:05:22.240 --> 00:05:24.380
+what you do is you need to take this,
+
+92
+00:05:24.380 --> 00:05:28.870
+and divide it by 0.8 because
+
+93
+00:05:28.870 --> 00:05:33.635
+this will correct or just a bump that back up by roughly 20% that you need.
+
+94
+00:05:33.635 --> 00:05:37.455
+So it's not changed the expected value of a3.
+
+95
+00:05:37.455 --> 00:05:43.435
+And, so this line here is what's called the inverted dropout technique.
+
+96
+00:05:43.435 --> 00:05:44.830
+And its effect is that,
+
+97
+00:05:44.830 --> 00:05:47.230
+no matter what you set to keep.prob to,
+
+98
+00:05:47.230 --> 00:05:50.446
+whether it's 0.8 or 0.9 or even one,
+
+99
+00:05:50.446 --> 00:05:52.135
+if it's set to one then there's no dropout,
+
+100
+00:05:52.135 --> 00:05:54.565
+because it's keeping everything or 0.5 or whatever,
+
+101
+00:05:54.565 --> 00:05:57.980
+this inverted dropout technique by dividing by the keep.prob,
+
+102
+00:05:57.980 --> 00:06:02.730
+it ensures that the expected value of a3 remains the same.
+
+103
+00:06:02.730 --> 00:06:05.005
+And it turns out that at test time,
+
+104
+00:06:05.005 --> 00:06:06.820
+when you trying to evaluate a neural network,
+
+105
+00:06:06.820 --> 00:06:08.300
+which we'll talk about on the next slide,
+
+106
+00:06:08.300 --> 00:06:10.065
+this inverted dropout technique,
+
+107
+00:06:10.065 --> 00:06:13.160
+there is there is line to are due to the green box at dropping out.
+
+108
+00:06:13.160 --> 00:06:17.540
+This makes test time easier because you have less of a scaling problem.
+
+109
+00:06:17.540 --> 00:06:20.110
+By far the most common implementation
+
+110
+00:06:20.110 --> 00:06:22.870
+of dropouts today as far as I know is inverted dropouts.
+
+111
+00:06:22.870 --> 00:06:24.490
+I recommend you just implement this.
+
+112
+00:06:24.490 --> 00:06:27.280
+But there were some early iterations of dropout that
+
+113
+00:06:27.280 --> 00:06:30.165
+missed this divide by keep.prob line,
+
+114
+00:06:30.165 --> 00:06:33.660
+and so at test time the average becomes more and more complicated.
+
+115
+00:06:33.660 --> 00:06:37.040
+But again, people tend not to use those other versions.
+
+116
+00:06:37.040 --> 00:06:40.125
+So, what you do is you use the d vector,
+
+117
+00:06:40.125 --> 00:06:43.390
+and you'll notice that for different training examples,
+
+118
+00:06:43.390 --> 00:06:46.090
+you zero out different hidden units.
+
+119
+00:06:46.090 --> 00:06:49.975
+And in fact, if you make multiple passes through the same training set,
+
+120
+00:06:49.975 --> 00:06:52.566
+then on different pauses through the training set,
+
+121
+00:06:52.566 --> 00:06:55.290
+you should randomly zero out different hidden units.
+
+122
+00:06:55.290 --> 00:06:57.270
+So, it's not that for one example,
+
+123
+00:06:57.270 --> 00:07:01.155
+you should keep zeroing out the same hidden units is that,
+
+124
+00:07:01.155 --> 00:07:03.258
+on iteration one of grade and descent,
+
+125
+00:07:03.258 --> 00:07:05.510
+you might zero out some hidden units.
+
+126
+00:07:05.510 --> 00:07:07.375
+And on the second iteration of great descent
+
+127
+00:07:07.375 --> 00:07:09.595
+where you go through the training set the second time,
+
+128
+00:07:09.595 --> 00:07:13.008
+maybe you'll zero out a different pattern of hidden units.
+
+129
+00:07:13.008 --> 00:07:16.023
+And the vector d or d3, for the third layer,
+
+130
+00:07:16.023 --> 00:07:18.395
+is used to decide what to zero out,
+
+131
+00:07:18.395 --> 00:07:21.565
+both in for prob as well as in that prob.
+
+132
+00:07:21.565 --> 00:07:22.980
+We are just showing for prob here.
+
+133
+00:07:22.980 --> 00:07:26.950
+Now, having trained the algorithm at test time, here's what you would do.
+
+134
+00:07:26.950 --> 00:07:30.535
+At test time, you're given some x or which you want to make a prediction.
+
+135
+00:07:30.535 --> 00:07:32.335
+And using our standard notation,
+
+136
+00:07:32.335 --> 00:07:33.764
+I'm going to use a^0,
+
+137
+00:07:33.764 --> 00:07:38.180
+the activations of the zeroes layer to denote just test example x.
+
+138
+00:07:38.180 --> 00:07:40.760
+So what we're going to do is not to use
+
+139
+00:07:40.760 --> 00:07:44.340
+dropout at test time in particular which is in a sense.
+
+140
+00:07:44.340 --> 00:07:48.314
+Z^1= w^1.a^0 + b^1.
+
+141
+00:07:48.314 --> 00:07:56.627
+a^1 = g^1(z^1 Z).
+
+142
+00:07:56.627 --> 00:08:03.745
+Z^2 = w^2.a^1 + b^2.
+
+143
+00:08:03.745 --> 00:08:04.895
+a^2 =...
+
+144
+00:08:04.895 --> 00:08:10.060
+And so on. Until you get to the last layer and that you make a prediction y^.
+
+145
+00:08:10.060 --> 00:08:12.640
+But notice that the test time you're not using
+
+146
+00:08:12.640 --> 00:08:15.690
+dropout explicitly and you're not tossing coins at random,
+
+147
+00:08:15.690 --> 00:08:20.285
+you're not flipping coins to decide which hidden units to eliminate.
+
+148
+00:08:20.285 --> 00:08:22.510
+And that's because when you are making predictions at the test time,
+
+149
+00:08:22.510 --> 00:08:25.615
+you don't really want your output to be random.
+
+150
+00:08:25.615 --> 00:08:27.699
+If you are implementing dropout at test time,
+
+151
+00:08:27.699 --> 00:08:29.890
+that just add noise to your predictions.
+
+152
+00:08:29.890 --> 00:08:34.105
+In theory, one thing you could do is run a prediction process
+
+153
+00:08:34.105 --> 00:08:38.940
+many times with different hidden units randomly dropped out and have it across them.
+
+154
+00:08:38.940 --> 00:08:43.625
+But that's computationally inefficient and will give you roughly the same result;
+
+155
+00:08:43.625 --> 00:08:46.880
+very, very similar results to this different procedure as well.
+
+156
+00:08:46.880 --> 00:08:47.980
+And just to mention,
+
+157
+00:08:47.980 --> 00:08:49.385
+the inverted dropout thing,
+
+158
+00:08:49.385 --> 00:08:53.455
+you remember the step on the previous line when we divided by the cheap.prob.
+
+159
+00:08:53.455 --> 00:08:56.450
+The effect of that was to ensure that even when you don't see
+
+160
+00:08:56.450 --> 00:08:59.664
+men dropout at test time to the scaling,
+
+161
+00:08:59.664 --> 00:09:02.050
+the expected value of these activations don't change.
+
+162
+00:09:02.050 --> 00:09:06.540
+So, you don't need to add in an extra funny scaling parameter at test time.
+
+163
+00:09:06.540 --> 00:09:08.965
+That's different than when you have that training time.
+
+164
+00:09:08.965 --> 00:09:10.240
+So that's dropouts.
+
+165
+00:09:10.240 --> 00:09:13.000
+And when you implement this in week's premier exercise,
+
+166
+00:09:13.000 --> 00:09:16.660
+you gain more firsthand experience with it as well.
+
+167
+00:09:16.660 --> 00:09:18.440
+But why does it really work?
+
+168
+00:09:18.440 --> 00:09:20.410
+What I want to do the next video is give you
+
+169
+00:09:20.410 --> 00:09:23.630
+some better intuition about what dropout really is doing.
+
+170
+00:09:23.630 --> 00:09:25.160
+Let's go on to the next video.

@@ -1,0 +1,441 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.760
+I want to show you a few optimization algorithms.
+
+2
+00:00:02.760 --> 00:00:04.795
+They are faster than gradient descent.
+
+3
+00:00:04.795 --> 00:00:06.807
+In order to understand those algorithms,
+
+4
+00:00:06.807 --> 00:00:11.850
+you need to be able they use something called exponentially weighted averages.
+
+5
+00:00:11.850 --> 00:00:15.840
+Also called exponentially weighted moving averages in statistics.
+
+6
+00:00:15.840 --> 00:00:17.030
+Let's first talk about that,
+
+7
+00:00:17.030 --> 00:00:21.420
+and then we'll use this to build up to more sophisticated optimization algorithms.
+
+8
+00:00:21.420 --> 00:00:23.820
+So, even though I now live in the United States,
+
+9
+00:00:23.820 --> 00:00:25.463
+I was born in London.
+
+10
+00:00:25.463 --> 00:00:31.120
+So, for this example I got the daily temperature from London from last year.
+
+11
+00:00:31.120 --> 00:00:32.511
+So, on January 1,
+
+12
+00:00:32.511 --> 00:00:35.175
+temperature was 40 degrees Fahrenheit.
+
+13
+00:00:35.175 --> 00:00:37.795
+Now, I know most of the world uses a Celsius system,
+
+14
+00:00:37.795 --> 00:00:41.065
+but I guess I live in United States which uses Fahrenheit.
+
+15
+00:00:41.065 --> 00:00:43.550
+So that's four degrees Celsius.
+
+16
+00:00:43.550 --> 00:00:46.150
+And on January 2,
+
+17
+00:00:46.150 --> 00:00:48.630
+it was nine degrees Celsius and so on.
+
+18
+00:00:48.630 --> 00:00:50.250
+And then about halfway through the year,
+
+19
+00:00:50.250 --> 00:00:52.373
+a year has 365 days so, that would be,
+
+20
+00:00:52.373 --> 00:00:56.530
+sometime day number 180 will be sometime in late May, I guess.
+
+21
+00:00:56.530 --> 00:01:00.795
+It was 60 degrees Fahrenheit which is 15 degrees Celsius, and so on.
+
+22
+00:01:00.795 --> 00:01:05.575
+So, it start to get warmer, towards summer and it was colder in January.
+
+23
+00:01:05.575 --> 00:01:08.435
+So, you plot the data you end up with this.
+
+24
+00:01:08.435 --> 00:01:12.290
+Where day one being sometime in January, that you know,
+
+25
+00:01:12.290 --> 00:01:13.775
+being the, beginning of summer,
+
+26
+00:01:13.775 --> 00:01:15.070
+and that's the end of the year,
+
+27
+00:01:15.070 --> 00:01:17.380
+kind of late December.
+
+28
+00:01:17.380 --> 00:01:20.194
+So, this would be January, January 1,
+
+29
+00:01:20.194 --> 00:01:21.885
+is the middle of the year approaching summer,
+
+30
+00:01:21.885 --> 00:01:24.710
+and this would be the data from the end of the year.
+
+31
+00:01:24.710 --> 00:01:29.885
+So, this data looks a little bit noisy and if you want to compute the trends,
+
+32
+00:01:29.885 --> 00:01:35.547
+the local average or a moving average of the temperature,
+
+33
+00:01:35.547 --> 00:01:37.885
+here's what you can do.
+
+34
+00:01:37.885 --> 00:01:41.530
+Let's initialize V zero equals zero.
+
+35
+00:01:41.530 --> 00:01:43.640
+And then, on every day,
+
+36
+00:01:43.640 --> 00:01:49.340
+we're going to average it with a weight of 0.9 times whatever appears as value,
+
+37
+00:01:49.340 --> 00:01:53.600
+plus 0.1 times that day temperature.
+
+38
+00:01:53.600 --> 00:01:57.155
+So, theta one here would be the temperature from the first day.
+
+39
+00:01:57.155 --> 00:02:01.180
+And on the second day, we're again going to take a weighted average.
+
+40
+00:02:01.180 --> 00:02:08.210
+0.9 times the previous value plus 0.1 times today's temperature and so on.
+
+41
+00:02:08.210 --> 00:02:12.930
+Day two plus 0.1 times theta three and so on.
+
+42
+00:02:12.930 --> 00:02:20.470
+And the more general formula is V on a given day is 0.9 times V from the previous day,
+
+43
+00:02:20.470 --> 00:02:25.460
+plus 0.1 times the temperature of that day.
+
+44
+00:02:25.460 --> 00:02:28.035
+So, if you compute this and plot it in red,
+
+45
+00:02:28.035 --> 00:02:29.527
+this is what you get.
+
+46
+00:02:29.527 --> 00:02:32.660
+You get a moving average of what's called an
+
+47
+00:02:32.660 --> 00:02:36.510
+exponentially weighted average of the daily temperature.
+
+48
+00:02:36.510 --> 00:02:39.560
+So, let's look at the equation we had from the previous slide,
+
+49
+00:02:39.560 --> 00:02:42.225
+it was VT equals,
+
+50
+00:02:42.225 --> 00:02:44.210
+previously we had 0.9.
+
+51
+00:02:44.210 --> 00:02:46.790
+We'll now turn that to prime to beta,
+
+52
+00:02:46.790 --> 00:02:51.190
+beta times VT minus one plus and it previously,
+
+53
+00:02:51.190 --> 00:02:56.715
+was 0.1, I'm going to turn that into one minus beta times theta T,
+
+54
+00:02:56.715 --> 00:03:00.175
+so, previously you had beta equals 0.9.
+
+55
+00:03:00.175 --> 00:03:03.230
+It turns out that for reasons we are going to later,
+
+56
+00:03:03.230 --> 00:03:13.860
+when you compute this you can think of VT as approximately averaging over,
+
+57
+00:03:13.860 --> 00:03:21.400
+something like one over one minus beta, day's temperature.
+
+58
+00:03:21.400 --> 00:03:26.895
+So, for example when beta goes 0.9 you could think of
+
+59
+00:03:26.895 --> 00:03:32.430
+this as averaging over the last 10 days temperature.
+
+60
+00:03:32.430 --> 00:03:36.050
+And that was the red line.
+
+61
+00:03:36.050 --> 00:03:37.215
+Now, let's try something else.
+
+62
+00:03:37.215 --> 00:03:39.200
+Let's set beta to be very close to one,
+
+63
+00:03:39.200 --> 00:03:41.660
+let's say it's 0.98.
+
+64
+00:03:41.660 --> 00:03:46.640
+Then, if you look at 1/1 minus 0.98,
+
+65
+00:03:46.640 --> 00:03:48.040
+this is equal to 50.
+
+66
+00:03:48.040 --> 00:03:51.340
+So, this is, you know, think of this as averaging over roughly,
+
+67
+00:03:51.340 --> 00:03:54.085
+the last 50 days temperature.
+
+68
+00:03:54.085 --> 00:03:58.360
+And if you plot that you get this green line.
+
+69
+00:03:58.360 --> 00:04:01.870
+So, notice a couple of things with this very high value of beta.
+
+70
+00:04:01.870 --> 00:04:04.565
+The plot you get is much smoother because you're now
+
+71
+00:04:04.565 --> 00:04:07.635
+averaging over more days of temperature.
+
+72
+00:04:07.635 --> 00:04:08.795
+So, the curve is just, you know,
+
+73
+00:04:08.795 --> 00:04:10.800
+less wavy is now smoother,
+
+74
+00:04:10.800 --> 00:04:14.300
+but on the flip side the curve has now shifted further to
+
+75
+00:04:14.300 --> 00:04:18.840
+the right because you're now averaging over a much larger window of temperatures.
+
+76
+00:04:18.840 --> 00:04:21.030
+And by averaging over a larger window,
+
+77
+00:04:21.030 --> 00:04:24.275
+this formula, this exponentially weighted average formula.
+
+78
+00:04:24.275 --> 00:04:25.850
+It adapts more slowly,
+
+79
+00:04:25.850 --> 00:04:27.920
+when the temperature changes.
+
+80
+00:04:27.920 --> 00:04:29.755
+So, there's just a bit more latency.
+
+81
+00:04:29.755 --> 00:04:33.860
+And the reason for that is when Beta 0.98 then it's
+
+82
+00:04:33.860 --> 00:04:38.240
+giving a lot of weight to the previous value and a much smaller weight just 0.02,
+
+83
+00:04:38.240 --> 00:04:40.700
+to whatever you're seeing right now.
+
+84
+00:04:40.700 --> 00:04:42.080
+So, when the temperature changes,
+
+85
+00:04:42.080 --> 00:04:43.560
+when temperature goes up or down,
+
+86
+00:04:43.560 --> 00:04:45.845
+there's exponentially weighted average.
+
+87
+00:04:45.845 --> 00:04:48.990
+Just adapts more slowly when beta is so large.
+
+88
+00:04:48.990 --> 00:04:51.160
+Now, let's try another value.
+
+89
+00:04:51.160 --> 00:04:53.045
+If you set beta to another extreme,
+
+90
+00:04:53.045 --> 00:04:54.980
+let's say it is 0.5,
+
+91
+00:04:54.980 --> 00:04:58.755
+then this by the formula we have on the right.
+
+92
+00:04:58.755 --> 00:05:03.690
+This is something like averaging over just two days temperature,
+
+93
+00:05:03.690 --> 00:05:06.420
+and you plot that you get this yellow line.
+
+94
+00:05:06.420 --> 00:05:09.290
+And by averaging only over two days temperature,
+
+95
+00:05:09.290 --> 00:05:12.240
+you have a much, as if you're averaging over much shorter window.
+
+96
+00:05:12.240 --> 00:05:13.415
+So, you're much more noisy,
+
+97
+00:05:13.415 --> 00:05:15.515
+much more susceptible to outliers.
+
+98
+00:05:15.515 --> 00:05:19.490
+But this adapts much more quickly to what the temperature changes.
+
+99
+00:05:19.490 --> 00:05:24.390
+So, this formula is highly implemented, exponentially weighted average.
+
+100
+00:05:24.390 --> 00:05:26.090
+Again, it's called an exponentially weighted,
+
+101
+00:05:26.090 --> 00:05:28.760
+moving average in the statistics literature.
+
+102
+00:05:28.760 --> 00:05:32.210
+We're going to call it exponentially weighted average for short and
+
+103
+00:05:32.210 --> 00:05:36.000
+by varying this parameter or later we'll see
+
+104
+00:05:36.000 --> 00:05:39.350
+such a hyper parameter if you're learning algorithm you can get
+
+105
+00:05:39.350 --> 00:05:41.315
+slightly different effects and there will usually be
+
+106
+00:05:41.315 --> 00:05:44.075
+some value in between that works best.
+
+107
+00:05:44.075 --> 00:05:46.893
+That gives you the red curve which you know maybe looks like
+
+108
+00:05:46.893 --> 00:05:50.450
+a beta average of the temperature than either the green or the yellow curve.
+
+109
+00:05:50.450 --> 00:05:54.160
+You now know the basics of how to compute exponentially weighted averages.
+
+110
+00:05:54.160 --> 00:05:58.010
+In the next video, let's get a bit more intuition about what it's doing.

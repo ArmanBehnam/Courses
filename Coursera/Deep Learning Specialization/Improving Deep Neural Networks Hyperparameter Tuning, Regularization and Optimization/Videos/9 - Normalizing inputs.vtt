@@ -1,0 +1,397 @@
+WEBVTT
+
+1
+00:00:00.436 --> 00:00:03.390
+When training a neural network, one of
+the techniques that will speed up your
+
+2
+00:00:03.390 --> 00:00:06.060
+training is if you normalize your inputs.
+
+3
+00:00:06.060 --> 00:00:07.730
+Let's see what that means.
+
+4
+00:00:07.730 --> 00:00:10.240
+Let's see if a training sets
+with two input features.
+
+5
+00:00:10.240 --> 00:00:13.520
+So the input features x
+are two dimensional, and
+
+6
+00:00:13.520 --> 00:00:16.550
+here's a scatter plot
+of your training set.
+
+7
+00:00:16.550 --> 00:00:20.730
+Normalizing your inputs
+corresponds to two steps.
+
+8
+00:00:20.730 --> 00:00:26.270
+The first is to subtract out or
+to zero out the mean.
+
+9
+00:00:26.270 --> 00:00:34.140
+So you set mu = 1 over M sum over I of Xi.
+
+10
+00:00:34.140 --> 00:00:39.786
+So this is a vector, and then X gets set
+as X- mu for every training example,
+
+11
+00:00:39.786 --> 00:00:44.571
+so this means you just move
+the training set until it has 0 mean.
+
+12
+00:00:44.571 --> 00:00:49.530
+And then the second step is
+to normalize the variances.
+
+13
+00:00:49.530 --> 00:00:54.640
+So notice here that the feature X1 has
+a much larger variance than the feature
+
+14
+00:00:54.640 --> 00:00:55.410
+X2 here.
+
+15
+00:00:55.410 --> 00:01:00.030
+So what we do is set sigma = 1 over m
+
+16
+00:01:00.030 --> 00:01:04.580
+sum of Xi**2.
+
+17
+00:01:04.580 --> 00:01:07.220
+I guess this is a element y squaring.
+
+18
+00:01:07.220 --> 00:01:13.040
+And so now sigma squared is a vector with
+the variances of each of the features,
+
+19
+00:01:13.040 --> 00:01:15.435
+and notice we've already
+subtracted out the mean, so
+
+20
+00:01:15.435 --> 00:01:19.600
+Xi squared,
+element y squared is just the variances.
+
+21
+00:01:19.600 --> 00:01:24.580
+And you take each example and
+divide it by this vector sigma squared.
+
+22
+00:01:24.580 --> 00:01:28.490
+And so in pictures, you end up with this.
+
+23
+00:01:28.490 --> 00:01:34.785
+Where now the variance of X1 and
+X2 are both equal to one.
+
+24
+00:01:35.975 --> 00:01:42.627
+And one tip, if you use this to scale your
+training data, then use the same mu and
+
+25
+00:01:42.627 --> 00:01:47.735
+sigma squared to normalize your test set,
+right?
+
+26
+00:01:47.735 --> 00:01:51.015
+In particular, you don't want to
+normalize the training set and
+
+27
+00:01:51.015 --> 00:01:52.865
+the test set differently.
+
+28
+00:01:52.865 --> 00:01:57.520
+Whatever this value is and whatever
+this value is, use them in these two
+
+29
+00:01:57.520 --> 00:02:02.190
+formulas so that you scale your test set
+in exactly the same way, rather than
+
+30
+00:02:02.190 --> 00:02:06.500
+estimating mu and sigma squared separately
+on your training set and test set.
+
+31
+00:02:06.500 --> 00:02:10.167
+Because you want your data,
+both training and test examples,
+
+32
+00:02:10.167 --> 00:02:13.831
+to go through the same transformation
+defined by the same mu and
+
+33
+00:02:13.831 --> 00:02:16.752
+sigma squared calculated
+on your training data.
+
+34
+00:02:16.752 --> 00:02:18.210
+So, why do we do this?
+
+35
+00:02:18.210 --> 00:02:21.290
+Why do we want to normalize
+the input features?
+
+36
+00:02:21.290 --> 00:02:25.790
+Recall that a cost function is
+defined as written on the top right.
+
+37
+00:02:25.790 --> 00:02:31.030
+It turns out that if you use unnormalized
+input features, it's more likely
+
+38
+00:02:31.030 --> 00:02:35.860
+that your cost function will look like
+this, it's a very squished out bowl, very
+
+39
+00:02:35.860 --> 00:02:41.500
+elongated cost function, where the minimum
+you're trying to find is maybe over there.
+
+40
+00:02:41.500 --> 00:02:46.890
+But if your features are on very different
+scales, say the feature X1 ranges
+
+41
+00:02:46.890 --> 00:02:52.280
+from 1 to 1,000, and
+the feature X2 ranges from 0 to 1,
+
+42
+00:02:52.280 --> 00:02:56.790
+then it turns out that the ratio or
+the range of values for
+
+43
+00:02:56.790 --> 00:03:02.020
+the parameters w1 and w2 will end
+up taking on very different values.
+
+44
+00:03:02.020 --> 00:03:06.771
+And so maybe these axes should be w1 and
+w2, but I'll plot w and b,
+
+45
+00:03:06.771 --> 00:03:11.270
+then your cost function can be
+a very elongated bowl like that.
+
+46
+00:03:11.270 --> 00:03:14.440
+So if you part the contours
+of this function,
+
+47
+00:03:14.440 --> 00:03:17.705
+you can have a very elongated
+function like that.
+
+48
+00:03:17.705 --> 00:03:19.500
+Whereas if you normalize the features,
+
+49
+00:03:19.500 --> 00:03:24.570
+then your cost function will on
+average look more symmetric.
+
+50
+00:03:24.570 --> 00:03:28.728
+And if you're running gradient descent
+on the cost function like the one on
+
+51
+00:03:28.728 --> 00:03:33.216
+the left, then you might have to use a
+very small learning rate because if you're
+
+52
+00:03:33.216 --> 00:03:37.242
+here that gradient descent might need
+a lot of steps to oscillate back and
+
+53
+00:03:37.242 --> 00:03:40.800
+forth before it finally finds
+its way to the minimum.
+
+54
+00:03:40.800 --> 00:03:45.466
+Whereas if you have a more spherical
+contours, then wherever you start
+
+55
+00:03:45.466 --> 00:03:49.125
+gradient descent can pretty much
+go straight to the minimum.
+
+56
+00:03:49.125 --> 00:03:53.665
+You can take much larger steps with
+gradient descent rather than needing to
+
+57
+00:03:53.665 --> 00:03:56.345
+oscillate around like like
+the picture on the left.
+
+58
+00:03:56.345 --> 00:04:00.250
+Of course in practice w is
+a high-dimensional vector, and so
+
+59
+00:04:00.250 --> 00:04:04.530
+trying to plot this in 2D doesn't
+convey all the intuitions correctly.
+
+60
+00:04:04.530 --> 00:04:08.220
+But the rough intuition that your
+cost function will be more round and
+
+61
+00:04:08.220 --> 00:04:12.510
+easier to optimize when your
+features are all on similar scales.
+
+62
+00:04:12.510 --> 00:04:15.600
+Not from one to 1000, zero to one, but
+
+63
+00:04:15.600 --> 00:04:20.880
+mostly from minus one to one or
+of about similar variances of each other.
+
+64
+00:04:20.880 --> 00:04:25.630
+That just makes your cost function
+J easier and faster to optimize.
+
+65
+00:04:25.630 --> 00:04:30.450
+In practice if one feature, say X1,
+ranges from zero to one, and
+
+66
+00:04:30.450 --> 00:04:35.530
+X2 ranges from minus one to one,
+and X3 ranges from one to two,
+
+67
+00:04:35.530 --> 00:04:38.730
+these are fairly similar ranges,
+so this will work just fine.
+
+68
+00:04:38.730 --> 00:04:41.430
+It's when they're on dramatically
+different ranges like
+
+69
+00:04:41.430 --> 00:04:42.470
+ones from 1 to a 1000, and
+
+70
+00:04:42.470 --> 00:04:46.720
+the another from 0 to 1, that that really
+hurts your authorization algorithm.
+
+71
+00:04:46.720 --> 00:04:50.664
+But by just setting all of them to a 0
+mean and say, variance 1, like we did in
+
+72
+00:04:50.664 --> 00:04:54.857
+the last slide, that just guarantees that
+all your features on a similar scale and
+
+73
+00:04:54.857 --> 00:04:58.290
+will usually help your
+learning algorithm run faster.
+
+74
+00:04:58.290 --> 00:05:01.600
+So, if your input features came
+from very different scales,
+
+75
+00:05:01.600 --> 00:05:03.410
+maybe some features are from 0 to 1,
+
+76
+00:05:03.410 --> 00:05:08.130
+some from 1 to 1,000, then it's
+important to normalize your features.
+
+77
+00:05:08.130 --> 00:05:11.630
+If your features came in on similar
+scales, then this step is less important.
+
+78
+00:05:11.630 --> 00:05:15.235
+Although performing this type of
+normalization pretty much never does any
+
+79
+00:05:15.235 --> 00:05:19.170
+harm, so I'll often do it anyway
+if I'm not sure whether or
+
+80
+00:05:19.170 --> 00:05:21.970
+not it will help with speeding
+up training for your algebra.
+
+81
+00:05:22.970 --> 00:05:26.020
+So that's it for
+normalizing your input features.
+
+82
+00:05:26.020 --> 00:05:29.840
+Next, let's keep talking about ways to
+speed up the training of your new network.

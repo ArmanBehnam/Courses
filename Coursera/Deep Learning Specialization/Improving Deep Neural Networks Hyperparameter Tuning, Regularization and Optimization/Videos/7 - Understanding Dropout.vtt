@@ -1,0 +1,509 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.015
+Drop out does this seemingly crazy thing of randomly knocking out units on your network.
+
+2
+00:00:06.015 --> 00:00:08.240
+Why does it work so well with a regularizer?
+
+3
+00:00:08.240 --> 00:00:10.665
+Let's gain some better intuition.
+
+4
+00:00:10.665 --> 00:00:11.970
+In the previous video,
+
+5
+00:00:11.970 --> 00:00:16.705
+I gave this intuition that drop-out randomly knocks out units in your network.
+
+6
+00:00:16.705 --> 00:00:20.860
+So it's as if on every iteration you're working with a smaller neural network,
+
+7
+00:00:20.860 --> 00:00:26.360
+and so using a smaller neural network seems like it should have a regularizing effect.
+
+8
+00:00:26.360 --> 00:00:28.255
+Here's a second intuition which is,
+
+9
+00:00:28.255 --> 00:00:34.795
+let's look at it from the perspective of a single unit. Let's say this one.
+
+10
+00:00:34.795 --> 00:00:37.530
+Now, for this unit to do his job as for inputs and
+
+11
+00:00:37.530 --> 00:00:41.370
+it needs to generate some meaningful output.
+
+12
+00:00:41.370 --> 00:00:42.595
+Now with drop out,
+
+13
+00:00:42.595 --> 00:00:45.555
+the inputs can get randomly eliminated.
+
+14
+00:00:45.555 --> 00:00:47.965
+Sometimes those two units will get eliminated,
+
+15
+00:00:47.965 --> 00:00:50.530
+sometimes a different unit will get eliminated.
+
+16
+00:00:50.530 --> 00:00:52.635
+So, what this means is that this unit,
+
+17
+00:00:52.635 --> 00:00:54.005
+which I'm circling in purple,
+
+18
+00:00:54.005 --> 00:00:58.560
+it can't rely on any one feature because any one feature could go away at
+
+19
+00:00:58.560 --> 00:01:03.715
+random or any one of its own inputs could go away at random.
+
+20
+00:01:03.715 --> 00:01:08.070
+Some particular would be reluctant to put all of its bets on,
+
+21
+00:01:08.070 --> 00:01:10.475
+say, just this input, right?
+
+22
+00:01:10.475 --> 00:01:12.990
+The weights, we're reluctant to put too much weight
+
+23
+00:01:12.990 --> 00:01:16.035
+on any one input because it can go away.
+
+24
+00:01:16.035 --> 00:01:20.820
+So this unit will be more motivated to spread out this way and give you a little bit of
+
+25
+00:01:20.820 --> 00:01:26.250
+weight to each of the four inputs to this unit.
+
+26
+00:01:26.250 --> 00:01:27.765
+And by spreading all the weights,
+
+27
+00:01:27.765 --> 00:01:34.815
+this will tend to have an effect of shrinking the squared norm of the weights.
+
+28
+00:01:34.815 --> 00:01:38.730
+And so, similar to what we saw with L2 regularization,
+
+29
+00:01:38.730 --> 00:01:41.650
+the effect of implementing drop out is that it shrinks
+
+30
+00:01:41.650 --> 00:01:46.195
+the weights and does some of those outer regularization that helps prevent over-fitting.
+
+31
+00:01:46.195 --> 00:01:48.750
+But it turns out that drop out can formally be
+
+32
+00:01:48.750 --> 00:01:52.035
+shown to be an adaptive form without a regularization.
+
+33
+00:01:52.035 --> 00:01:55.305
+But L2 penalty on different weights are different,
+
+34
+00:01:55.305 --> 00:01:58.830
+depending on the size of the activations being multiplied that way.
+
+35
+00:01:58.830 --> 00:02:02.580
+But to summarize, it is possible to show that drop out has
+
+36
+00:02:02.580 --> 00:02:06.705
+a similar effect to L2 regularization.
+
+37
+00:02:06.705 --> 00:02:09.990
+Only to L2 regularization applied to different ways can be
+
+38
+00:02:09.990 --> 00:02:13.540
+a little bit different and even more adaptive to the scale of different inputs.
+
+39
+00:02:13.540 --> 00:02:15.930
+One more detail for when you're implementing drop out.
+
+40
+00:02:15.930 --> 00:02:19.510
+Here's a network where you have three input features.
+
+41
+00:02:19.510 --> 00:02:21.795
+This is seven hidden units here,
+
+42
+00:02:21.795 --> 00:02:24.625
+seven, three, two, one.
+
+43
+00:02:24.625 --> 00:02:26.915
+So, one of the parameters we had to choose was
+
+44
+00:02:26.915 --> 00:02:31.395
+the cheap prop which has a chance of keeping a unit in each layer.
+
+45
+00:02:31.395 --> 00:02:36.550
+So, it is also feasible to vary key prop by layer.
+
+46
+00:02:36.550 --> 00:02:38.490
+So for the first layer,
+
+47
+00:02:38.490 --> 00:02:42.460
+your matrix W1 will be three by seven.
+
+48
+00:02:42.460 --> 00:02:46.120
+Your second weight matrix will be seven by seven.
+
+49
+00:02:46.120 --> 00:02:49.680
+W3 will be seven by three and so on.
+
+50
+00:02:49.680 --> 00:02:53.205
+And so W2 is actually the biggest weight matrix,
+
+51
+00:02:53.205 --> 00:02:55.500
+because they're actually the largest set of parameters
+
+52
+00:02:55.500 --> 00:02:58.195
+would be in W2 which is seven by seven.
+
+53
+00:02:58.195 --> 00:03:01.605
+So to prevent, to reduce over-fitting of that matrix,
+
+54
+00:03:01.605 --> 00:03:03.600
+maybe for this layer,
+
+55
+00:03:03.600 --> 00:03:05.205
+I guess this is layer two,
+
+56
+00:03:05.205 --> 00:03:08.490
+you might have a key prop that's relatively low,
+
+57
+00:03:08.490 --> 00:03:10.435
+say zero point five,
+
+58
+00:03:10.435 --> 00:03:13.825
+whereas for different layers where you might worry less about over-fitting,
+
+59
+00:03:13.825 --> 00:03:15.080
+you could have a higher key prop,
+
+60
+00:03:15.080 --> 00:03:18.255
+maybe just zero point seven.
+
+61
+00:03:18.255 --> 00:03:22.715
+And if a layers we don't worry about over-fitting at all,
+
+62
+00:03:22.715 --> 00:03:25.240
+you can have a key prop of one point zero.
+
+63
+00:03:25.240 --> 00:03:30.725
+For clarity, these are numbers I'm drawing on the purple boxes.
+
+64
+00:03:30.725 --> 00:03:34.635
+These could be different key props for different layers.
+
+65
+00:03:34.635 --> 00:03:39.100
+Notice that the key prop of one point zero means that you're keeping every unit and so,
+
+66
+00:03:39.100 --> 00:03:41.855
+you're really not using drop out for that layer.
+
+67
+00:03:41.855 --> 00:03:44.730
+But for layers where you're more worried about over-fitting,
+
+68
+00:03:44.730 --> 00:03:46.660
+really the layers with a lot of parameters,
+
+69
+00:03:46.660 --> 00:03:51.600
+you can set the key prop to be smaller to apply a more powerful form of drop out.
+
+70
+00:03:51.600 --> 00:03:53.070
+It's kind of like cranking up
+
+71
+00:03:53.070 --> 00:03:54.910
+the regularization parameter lambda of
+
+72
+00:03:54.910 --> 00:03:57.960
+L2 regularization where you try to regularize some layers more than others.
+
+73
+00:03:57.960 --> 00:04:02.715
+And technically, you can also apply drop out to the input layer,
+
+74
+00:04:02.715 --> 00:04:07.295
+where you can have some chance of just maxing out one or more of the input features.
+
+75
+00:04:07.295 --> 00:04:11.580
+Although in practice, usually don't do that that often.
+
+76
+00:04:11.580 --> 00:04:15.270
+And so, a key prop of one point zero was quite common for the input there.
+
+77
+00:04:15.270 --> 00:04:17.985
+You can also use a very high value, maybe zero point nine,
+
+78
+00:04:17.985 --> 00:04:22.740
+but it's much less likely that you want to eliminate half of the input features.
+
+79
+00:04:22.740 --> 00:04:25.665
+So usually key prop, if you apply the law,
+
+80
+00:04:25.665 --> 00:04:32.030
+will be a number close to one if you even apply drop out at all to the input there.
+
+81
+00:04:32.030 --> 00:04:33.450
+So just to summarize,
+
+82
+00:04:33.450 --> 00:04:36.330
+if you're more worried about some layers overfitting than others,
+
+83
+00:04:36.330 --> 00:04:40.320
+you can set a lower key prop for some layers than others.
+
+84
+00:04:40.320 --> 00:04:41.430
+The downside is, this gives you
+
+85
+00:04:41.430 --> 00:04:44.955
+even more hyper parameters to search for using cross-validation.
+
+86
+00:04:44.955 --> 00:04:48.525
+One other alternative might be to have some layers where you apply
+
+87
+00:04:48.525 --> 00:04:50.460
+drop out and some layers where you don't apply drop
+
+88
+00:04:50.460 --> 00:04:52.630
+out and then just have one hyper parameter,
+
+89
+00:04:52.630 --> 00:04:55.910
+which is a key prop for the layers for which you do apply drop outs.
+
+90
+00:04:55.910 --> 00:04:59.070
+And before we wrap up, just a couple implementational tips.
+
+91
+00:04:59.070 --> 00:05:03.850
+Many of the first successful implementations of drop outs were to computer vision.
+
+92
+00:05:03.850 --> 00:05:05.075
+So in computer vision,
+
+93
+00:05:05.075 --> 00:05:06.890
+the input size is so big,
+
+94
+00:05:06.890 --> 00:05:11.275
+inputting all these pixels that you almost never have enough data.
+
+95
+00:05:11.275 --> 00:05:14.710
+And so drop out is very frequently used by computer vision.
+
+96
+00:05:14.710 --> 00:05:18.035
+And there's some computer vision researchers that pretty much always use it,
+
+97
+00:05:18.035 --> 00:05:19.750
+almost as a default.
+
+98
+00:05:19.750 --> 00:05:24.866
+But really the thing to remember is that drop out is a regularization technique,
+
+99
+00:05:24.866 --> 00:05:27.010
+it helps prevent over-fitting.
+
+100
+00:05:27.010 --> 00:05:30.880
+And so, unless my algorithm is over-fitting,
+
+101
+00:05:30.880 --> 00:05:33.250
+I wouldn't actually bother to use drop out.
+
+102
+00:05:33.250 --> 00:05:36.557
+So it's used somewhat less often than other application areas.
+
+103
+00:05:36.557 --> 00:05:38.320
+There's just with computer vision,
+
+104
+00:05:38.320 --> 00:05:40.600
+you usually just don't have enough data,
+
+105
+00:05:40.600 --> 00:05:42.090
+so you're almost always overfitting,
+
+106
+00:05:42.090 --> 00:05:46.425
+which is why there tends to be some computer vision researchers who swear by drop out.
+
+107
+00:05:46.425 --> 00:05:52.498
+But their intuition doesn't always generalize I think to other disciplines.
+
+108
+00:05:52.498 --> 00:06:00.490
+One big downside of drop out is that the cost function J is no longer well-defined.
+
+109
+00:06:00.490 --> 00:06:06.635
+On every iteration, you are randomly killing off a bunch of nodes.
+
+110
+00:06:06.635 --> 00:06:10.855
+And so, if you are double checking the performance of grade and dissent,
+
+111
+00:06:10.855 --> 00:06:14.590
+it's actually harder to double check that you have
+
+112
+00:06:14.590 --> 00:06:20.365
+a well defined cost function J that is going downhill on every iteration.
+
+113
+00:06:20.365 --> 00:06:24.625
+Because the cost function J that you're optimizing is actually less.
+
+114
+00:06:24.625 --> 00:06:27.395
+Less well defined, or is certainly hard to calculate.
+
+115
+00:06:27.395 --> 00:06:30.160
+So you lose this debugging tool to will a plot,
+
+116
+00:06:30.160 --> 00:06:32.010
+a graph like this.
+
+117
+00:06:32.010 --> 00:06:34.805
+So what I usually do is turn off drop out,
+
+118
+00:06:34.805 --> 00:06:37.060
+you will set key prop equals one,
+
+119
+00:06:37.060 --> 00:06:40.885
+and I run my code and make sure that it is monotonically decreasing J,
+
+120
+00:06:40.885 --> 00:06:43.960
+and then turn on drop out and hope that I
+
+121
+00:06:43.960 --> 00:06:47.035
+didn't introduce bugs into my code during drop out.
+
+122
+00:06:47.035 --> 00:06:49.195
+Because you need other ways, I guess,
+
+123
+00:06:49.195 --> 00:06:52.060
+but not plotting these figures to make sure that your code is
+
+124
+00:06:52.060 --> 00:06:55.900
+working to greatness and it's working even with drop outs.
+
+125
+00:06:55.900 --> 00:06:58.130
+So with that, there's still
+
+126
+00:06:58.130 --> 00:07:01.830
+a few more regularization techniques that are worth your knowing.
+
+127
+00:07:01.830 --> 00:07:04.480
+Let's talk about a few more such techniques in the next video.

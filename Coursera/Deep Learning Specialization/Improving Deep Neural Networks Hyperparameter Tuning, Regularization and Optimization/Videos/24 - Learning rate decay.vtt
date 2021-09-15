@@ -1,0 +1,500 @@
+WEBVTT
+
+1
+00:00:00.380 --> 00:00:03.140
+One of the things that might help
+speed up your learning algorithm,
+
+2
+00:00:03.140 --> 00:00:06.240
+is to slowly reduce your
+learning rate over time.
+
+3
+00:00:06.240 --> 00:00:08.520
+We call this learning rate decay.
+
+4
+00:00:08.520 --> 00:00:10.650
+Let's see how you can implement this.
+
+5
+00:00:10.650 --> 00:00:13.710
+Let's start with an example of
+why you might want to implement
+
+6
+00:00:13.710 --> 00:00:15.150
+learning rate decay.
+
+7
+00:00:15.150 --> 00:00:18.260
+Suppose you're implementing
+mini-batch gradient descent,
+
+8
+00:00:18.260 --> 00:00:20.070
+with a reasonably small mini-batch.
+
+9
+00:00:20.070 --> 00:00:24.210
+Maybe a mini-batch has just 64,
+128 examples.
+
+10
+00:00:24.210 --> 00:00:28.210
+Then as you iterate,
+your steps will be a little bit noisy.
+
+11
+00:00:28.210 --> 00:00:33.940
+And it will tend towards this minimum
+over here, but it won't exactly converge.
+
+12
+00:00:33.940 --> 00:00:38.040
+But your algorithm might just
+end up wandering around, and
+
+13
+00:00:38.040 --> 00:00:43.390
+never really converge, because you're
+using some fixed value for alpha.
+
+14
+00:00:43.390 --> 00:00:46.660
+And there's just some noise in
+your different mini-batches.
+
+15
+00:00:46.660 --> 00:00:52.650
+But if you were to slowly reduce
+your learning rate alpha,
+
+16
+00:00:52.650 --> 00:00:56.410
+then during the initial phases, while
+your learning rate alpha is still large,
+
+17
+00:00:56.410 --> 00:00:59.270
+you can still have
+relatively fast learning.
+
+18
+00:00:59.270 --> 00:01:05.940
+But then as alpha gets smaller, your steps
+you take will be slower and smaller.
+
+19
+00:01:05.940 --> 00:01:11.160
+And so you end up oscillating in
+a tighter region around this minimum,
+
+20
+00:01:11.160 --> 00:01:15.398
+rather than wandering far away,
+even as training goes on and on.
+
+21
+00:01:15.398 --> 00:01:20.200
+So the intuition behind slowly
+reducing alpha, is that maybe
+
+22
+00:01:20.200 --> 00:01:25.170
+during the initial steps of learning, you
+could afford to take much bigger steps.
+
+23
+00:01:25.170 --> 00:01:29.060
+But then as learning approaches converges,
+
+24
+00:01:29.060 --> 00:01:33.070
+then having a slower learning rate
+allows you to take smaller steps.
+
+25
+00:01:33.070 --> 00:01:36.650
+So here's how you can
+implement learning rate decay.
+
+26
+00:01:36.650 --> 00:01:40.640
+Recall that one epoch is one pass,
+
+27
+00:01:42.512 --> 00:01:45.430
+Through the data, right?
+
+28
+00:01:45.430 --> 00:01:49.053
+So if you have a training set as follows,
+
+29
+00:01:49.053 --> 00:01:53.866
+maybe you break it up into
+different mini-batches.
+
+30
+00:01:53.866 --> 00:02:00.446
+Then the first pass through the training
+set is called the first epoch,
+
+31
+00:02:00.446 --> 00:02:05.613
+and then the second pass is
+the second epoch, and so on.
+
+32
+00:02:05.613 --> 00:02:10.628
+So one thing you could do,
+is set your learning rate alpha = 1
+
+33
+00:02:10.628 --> 00:02:15.464
+/ 1 + a parameter,
+which I'm going to call the decay rate,
+
+34
+00:02:18.112 --> 00:02:22.490
+Times the epoch-num.
+
+35
+00:02:22.490 --> 00:02:26.890
+And this is going to be times some
+initial learning rate alpha 0.
+
+36
+00:02:26.890 --> 00:02:30.730
+Note that the decay rate here
+becomes another hyper-parameter,
+
+37
+00:02:30.730 --> 00:02:32.340
+which you might need to tune.
+
+38
+00:02:32.340 --> 00:02:33.910
+So here's a concrete example.
+
+39
+00:02:35.070 --> 00:02:39.659
+If you take several epochs, so
+several passes through your data.
+
+40
+00:02:39.659 --> 00:02:46.211
+If alpha 0 = 0.2, and the decay-rate = 1,
+
+41
+00:02:46.211 --> 00:02:50.267
+then during your first epoch,
+
+42
+00:02:50.267 --> 00:02:55.268
+alpha will be 1 / 1 + 1 * alpha 0.
+
+43
+00:02:55.268 --> 00:02:59.785
+So your learning rate will be 0.1.
+
+44
+00:02:59.785 --> 00:03:04.289
+That's just evaluating this formula,
+when the decay-rate is equal to 1, and
+
+45
+00:03:04.289 --> 00:03:05.755
+the the epoch-num is 1.
+
+46
+00:03:05.755 --> 00:03:10.613
+On the second epoch,
+your learning rate decays to 0.67.
+
+47
+00:03:10.613 --> 00:03:15.924
+On the third, 0.5,
+on the fourth, 0.4, and so on.
+
+48
+00:03:15.924 --> 00:03:18.150
+And feel free to evaluate more
+of these values yourself.
+
+49
+00:03:18.150 --> 00:03:23.200
+And get a sense that, as a function of
+your epoch number, your learning rate
+
+50
+00:03:23.200 --> 00:03:29.930
+gradually decreases, right,
+according to this formula up on top.
+
+51
+00:03:29.930 --> 00:03:33.860
+So if you wish to use learning rate decay,
+what you can do,
+
+52
+00:03:33.860 --> 00:03:38.830
+is try a variety of values of
+both hyper-parameter alpha 0.
+
+53
+00:03:38.830 --> 00:03:41.550
+As well as this decay
+rate hyper-parameter,
+
+54
+00:03:41.550 --> 00:03:44.710
+and then try to find
+the value that works well.
+
+55
+00:03:44.710 --> 00:03:47.188
+Other than this formula for
+learning rate decay,
+
+56
+00:03:47.188 --> 00:03:49.314
+there are a few other
+ways that people use.
+
+57
+00:03:49.314 --> 00:03:52.097
+For example,
+this is called exponential decay.
+
+58
+00:03:52.097 --> 00:03:58.009
+Where alpha is equal to
+some number less than 1,
+
+59
+00:03:58.009 --> 00:04:04.513
+such as 0.95 times epoch-num,
+times alpha 0.
+
+60
+00:04:04.513 --> 00:04:10.500
+So this will exponentially
+quickly decay your learning rate.
+
+61
+00:04:10.500 --> 00:04:15.788
+Other formulas that people
+use are things like alpha
+
+62
+00:04:15.788 --> 00:04:21.805
+= some constant / epoch-num
+square root times alpha 0.
+
+63
+00:04:21.805 --> 00:04:26.627
+Or some constant k,
+another hyper-parameter,
+
+64
+00:04:26.627 --> 00:04:32.956
+over the mini-batch number t,
+square rooted, times alpha 0.
+
+65
+00:04:32.956 --> 00:04:37.627
+And sometimes you also see people use
+a learning rate that decreases in
+
+66
+00:04:37.627 --> 00:04:38.821
+discrete steps.
+
+67
+00:04:38.821 --> 00:04:42.798
+Wherefore some number of steps,
+you have some learning rate,
+
+68
+00:04:42.798 --> 00:04:45.960
+and then after a while you
+decrease it by one half.
+
+69
+00:04:45.960 --> 00:04:47.320
+After a while by one half.
+
+70
+00:04:47.320 --> 00:04:48.970
+After a while by one half.
+
+71
+00:04:48.970 --> 00:04:52.793
+And so this is a discrete staircase.
+
+72
+00:04:55.954 --> 00:05:01.395
+So so far, we've talked about using
+some formula to govern how alpha,
+
+73
+00:05:01.395 --> 00:05:05.210
+the learning rate, changes over time.
+
+74
+00:05:05.210 --> 00:05:08.900
+One other thing that people sometimes do,
+is manual decay.
+
+75
+00:05:08.900 --> 00:05:11.980
+And so if you're training
+just one model at a time, and
+
+76
+00:05:11.980 --> 00:05:16.070
+if your model takes many hours,
+or even many days to train.
+
+77
+00:05:16.070 --> 00:05:17.090
+What some people will do,
+
+78
+00:05:17.090 --> 00:05:21.638
+is just watch your model as it's
+training over a large number of days.
+
+79
+00:05:21.638 --> 00:05:25.180
+And then manually say, it looks
+like the learning rate slowed down,
+
+80
+00:05:25.180 --> 00:05:27.180
+I'm going to decrease alpha a little bit.
+
+81
+00:05:27.180 --> 00:05:30.242
+Of course this works,
+this manually controlling alpha,
+
+82
+00:05:30.242 --> 00:05:33.710
+really tuning alpha by hand,
+hour by hour, or day by day.
+
+83
+00:05:33.710 --> 00:05:37.140
+This works only if you're training
+only a small number of models, but
+
+84
+00:05:37.140 --> 00:05:39.100
+sometimes people do that as well.
+
+85
+00:05:39.100 --> 00:05:43.580
+So now you have a few more options for
+how to control the learning rate alpha.
+
+86
+00:05:43.580 --> 00:05:46.630
+Now, in case you're thinking, wow,
+this is a lot of hyper-parameters.
+
+87
+00:05:46.630 --> 00:05:49.320
+How do I select amongst all
+these different options?
+
+88
+00:05:49.320 --> 00:05:51.190
+I would say, don't worry about it for now.
+
+89
+00:05:51.190 --> 00:05:56.550
+In next week, we'll talk more about how to
+systematically choose hyper-parameters.
+
+90
+00:05:56.550 --> 00:06:00.500
+For me, I would say that learning
+rate decay is usually lower down on
+
+91
+00:06:00.500 --> 00:06:02.080
+the list of things I try.
+
+92
+00:06:02.080 --> 00:06:05.670
+Setting alpha, just a fixed value of
+alpha, and getting that to be well tuned,
+
+93
+00:06:05.670 --> 00:06:07.080
+has a huge impact.
+
+94
+00:06:07.080 --> 00:06:09.050
+Learning rate decay does help.
+
+95
+00:06:09.050 --> 00:06:11.050
+Sometimes it can really
+help speed up training, but
+
+96
+00:06:11.050 --> 00:06:15.720
+it is a little bit lower down my list
+in terms of the things I would try.
+
+97
+00:06:15.720 --> 00:06:18.543
+But next week,
+when we talk about hyper-parameter tuning,
+
+98
+00:06:18.543 --> 00:06:21.978
+you see more systematic ways to
+organize all of these hyper-parameters.
+
+99
+00:06:21.978 --> 00:06:24.422
+And how to efficiently
+search amongst them.
+
+100
+00:06:24.422 --> 00:06:27.790
+So that's it for learning rate decay.
+
+101
+00:06:27.790 --> 00:06:31.420
+Finally, I was also going to talk
+a little bit about local optima, and
+
+102
+00:06:31.420 --> 00:06:33.390
+saddle points, in neural networks.
+
+103
+00:06:33.390 --> 00:06:36.210
+So you can have a little bit better
+intuition about the types of
+
+104
+00:06:36.210 --> 00:06:39.970
+optimization problems your optimization
+algorithm is trying to solve,
+
+105
+00:06:39.970 --> 00:06:41.840
+when you're trying to train
+these neural networks.
+
+106
+00:06:41.840 --> 00:06:43.570
+Let's go on to the next video to see that.
