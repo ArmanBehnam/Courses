@@ -1,0 +1,812 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:06.838
+[MUSIC]
+
+2
+00:00:06.838 --> 00:00:08.117
+In continuing tasks,
+
+3
+00:00:08.117 --> 00:00:11.765
+we might be interested in extremely
+long horizon performance.
+
+4
+00:00:11.765 --> 00:00:14.127
+Up until now, we've used discounting and
+
+5
+00:00:14.127 --> 00:00:19.100
+continuing problems to balance short-term
+performance and long-term gain.
+
+6
+00:00:19.100 --> 00:00:22.900
+However, this is not the only
+way to formulate the problem.
+
+7
+00:00:22.900 --> 00:00:26.600
+Today, we'll learn about a new way
+of formulating continuing problems
+
+8
+00:00:26.600 --> 00:00:28.700
+called the average reward formulation.
+
+9
+00:00:30.000 --> 00:00:34.500
+By the end of this video, you'll be able
+to describe the average reward setting,
+
+10
+00:00:34.500 --> 00:00:38.300
+explain when average reward optimal
+policies are different from policies
+
+11
+00:00:38.300 --> 00:00:42.400
+obtained under discounting and
+understand differential value functions.
+
+12
+00:00:43.400 --> 00:00:45.987
+Today is all about continuing tasks.
+
+13
+00:00:45.987 --> 00:00:51.000
+Imagine a simple task where the states
+are arranged in two intersecting rings.
+
+14
+00:00:51.000 --> 00:00:53.000
+Let's call this the nearsighted MDP.
+
+15
+00:00:54.000 --> 00:00:59.100
+In most states, there's only one action,
+so there are no decisions to be made.
+
+16
+00:00:59.100 --> 00:01:01.800
+There's only one state were
+a decision can be made.
+
+17
+00:01:01.800 --> 00:01:05.600
+In this state, the agent can
+decide which ring to traverse.
+
+18
+00:01:05.600 --> 00:01:08.427
+This means there are two
+deterministic policies,
+
+19
+00:01:08.427 --> 00:01:11.523
+traversing the left ring or
+traversing the right ring.
+
+20
+00:01:11.523 --> 00:01:16.300
+The reward is zero everywhere except for
+in one transition in each ring.
+
+21
+00:01:16.300 --> 00:01:21.123
+In the left ring, the reward is
++1 immediately after state S.
+
+22
+00:01:21.123 --> 00:01:26.600
+In the right ring, the reward is
++2 immediately before state S.
+
+23
+00:01:26.600 --> 00:01:31.326
+Intuitively, you would pick the right
+action because you know you will get
+
+24
+00:01:31.326 --> 00:01:32.234
++2 reward.
+
+25
+00:01:32.234 --> 00:01:34.200
+But what would the value
+function tell us to do?
+
+26
+00:01:35.600 --> 00:01:36.985
+If we use discounting,
+
+27
+00:01:36.985 --> 00:01:40.873
+what are the values of state S
+under these two different policies?
+
+28
+00:01:40.873 --> 00:01:45.547
+The policy that chooses the left
+action has a value of 1 over 1 minus
+
+29
+00:01:45.547 --> 00:01:47.000
+gamma to the 5.
+
+30
+00:01:47.000 --> 00:01:48.450
+How do we figure this out?
+
+31
+00:01:48.450 --> 00:01:52.588
+If you write out the infinite discounted
+return, you will see this is a fairly
+
+32
+00:01:52.588 --> 00:01:56.100
+straightforward geometric series
+with a closed form solution.
+
+33
+00:01:56.100 --> 00:01:58.000
+See if you can get the same
+answer that we did.
+
+34
+00:01:59.300 --> 00:02:04.241
+The policy that chooses the right action
+has a value of 2 times gamma 2 of
+
+35
+00:02:04.241 --> 00:02:06.673
+the 4 over 1 minus gamma to the 5.
+
+36
+00:02:06.673 --> 00:02:10.159
+Let's think of the value of state S
+under these two part policies for
+
+37
+00:02:10.159 --> 00:02:11.708
+particular values of gamma.
+
+38
+00:02:11.708 --> 00:02:16.543
+If gamma 0.5, VL is approximately 1 and
+
+39
+00:02:16.543 --> 00:02:19.819
+VR is approximately 0.1.
+
+40
+00:02:19.819 --> 00:02:24.394
+This means the policy that takes
+the left action is preferable under this
+
+41
+00:02:24.394 --> 00:02:26.500
+more myopic discount.
+
+42
+00:02:26.500 --> 00:02:29.300
+Let's try a larger value of gamma, 0.9.
+
+43
+00:02:30.300 --> 00:02:35.500
+VL is now approximately 2.4 and
+VR is approximately 3.2.
+
+44
+00:02:35.500 --> 00:02:38.000
+So now we prefer the other policy.
+
+45
+00:02:38.000 --> 00:02:41.276
+In fact, we can figure out
+the minimum value of gamma so
+
+46
+00:02:41.276 --> 00:02:44.354
+that the agent prefers
+the policy that goes right.
+
+47
+00:02:44.354 --> 00:02:48.300
+Gamma needs to be at least 0.841.
+
+48
+00:02:48.300 --> 00:02:52.119
+So the problem here is that the discount
+magnitude depends on the problem.
+
+49
+00:02:52.119 --> 00:02:55.900
+For this example,
+0.85 is sufficiently large.
+
+50
+00:02:55.900 --> 00:02:58.000
+But if the rings had 100 states each,
+
+51
+00:02:58.000 --> 00:03:01.100
+this discount factor would
+need to be over 0.99.
+
+52
+00:03:02.200 --> 00:03:06.300
+In general, the only way to ensure that
+the agents actions maximize reward
+
+53
+00:03:06.300 --> 00:03:10.800
+over time is to keep increasing
+the discount factor towards 1.
+
+54
+00:03:10.800 --> 00:03:14.200
+Depending on the problem,
+we might need gamma to be quite large.
+
+55
+00:03:14.200 --> 00:03:17.700
+And remember, we can't set it
+to 1 in a continuing setting
+
+56
+00:03:17.700 --> 00:03:20.500
+because then the return might be infinite.
+
+57
+00:03:20.500 --> 00:03:22.732
+Now, what's wrong with
+having larger gamma?
+
+58
+00:03:22.732 --> 00:03:26.545
+Larger values of gamma can also result
+in larger and more variables sums,
+
+59
+00:03:26.545 --> 00:03:28.900
+which might be difficult to learn.
+
+60
+00:03:28.900 --> 00:03:30.900
+So is there an alternative?
+
+61
+00:03:30.900 --> 00:03:34.304
+Let's discuss a new objective
+called the average reward.
+
+62
+00:03:34.304 --> 00:03:38.400
+Imagine the agent has interacted
+with the world for H steps.
+
+63
+00:03:38.400 --> 00:03:42.500
+This is the reward it has received
+on average across those H steps.
+
+64
+00:03:42.500 --> 00:03:45.200
+In other words, it's rate of reward.
+
+65
+00:03:45.200 --> 00:03:48.412
+If the agents goal is to
+maximize this average reward,
+
+66
+00:03:48.412 --> 00:03:52.100
+then it cares equally about nearby and
+distant rewards.
+
+67
+00:03:52.100 --> 00:03:56.000
+We denote the average reward
+of a policy with R pi.
+
+68
+00:03:56.000 --> 00:04:00.745
+More generally, we can write the average
+reward using the state visitation, mu.
+
+69
+00:04:00.745 --> 00:04:05.515
+This inner term is the expected
+reward in a state under policy pi.
+
+70
+00:04:05.515 --> 00:04:10.300
+The outer sum takes the expectation
+over how frequently the policy is in
+
+71
+00:04:10.300 --> 00:04:11.600
+that state.
+
+72
+00:04:11.600 --> 00:04:14.566
+Together, we get the expected
+reward across states.
+
+73
+00:04:14.566 --> 00:04:18.100
+In other words,
+the average reward for a policy.
+
+74
+00:04:18.100 --> 00:04:22.700
+In the nearsighted example, the two
+deterministic possible policies visit
+
+75
+00:04:22.700 --> 00:04:26.000
+either the left loop or
+the right loop indefinitely.
+
+76
+00:04:26.000 --> 00:04:31.854
+In both cases, the five states in each
+loop are visited equally many times.
+
+77
+00:04:31.854 --> 00:04:36.092
+In the left loop,
+the immediate expected reward is +0 for
+
+78
+00:04:36.092 --> 00:04:39.100
+all states except one, which gets +1.
+
+79
+00:04:39.100 --> 00:04:43.400
+This results in an average reward
+of 1 every 5 steps or 0.2.
+
+80
+00:04:44.800 --> 00:04:48.600
+Most states in the right loop also
+have +0 mu to expected reward.
+
+81
+00:04:48.600 --> 00:04:51.600
+But this time, the last date gets +2.
+
+82
+00:04:51.600 --> 00:04:55.500
+This gives an average reward
+of 2 every 5 steps or 0.4.
+
+83
+00:04:56.800 --> 00:05:00.800
+We can see the average reward puts
+preference on the policy that receives
+
+84
+00:05:00.800 --> 00:05:05.500
+more reward in total without having to
+consider larger and larger discounts.
+
+85
+00:05:06.808 --> 00:05:10.600
+The average reward definition is intuitive
+for saying if one policy is better than
+
+86
+00:05:10.600 --> 00:05:14.900
+another, but how can we decide which
+actions from a state are better?
+
+87
+00:05:14.900 --> 00:05:17.800
+What we need are action values for
+this new setting.
+
+88
+00:05:17.800 --> 00:05:21.700
+The first step is to figure
+out what the return is.
+
+89
+00:05:21.700 --> 00:05:26.220
+In the average reward setting, returns are
+defined in terms of differences between
+
+90
+00:05:26.220 --> 00:05:28.800
+rewards and the average reward R pi.
+
+91
+00:05:28.800 --> 00:05:31.639
+This is called the differential return.
+
+92
+00:05:31.639 --> 00:05:36.052
+Let's look at what the differential
+returns are in our nearsighted MDP.
+
+93
+00:05:36.052 --> 00:05:40.103
+The differential return represents how
+much more reward the agent will receive
+
+94
+00:05:40.103 --> 00:05:44.800
+from the current state in action compared
+to the average reward of the policy.
+
+95
+00:05:44.800 --> 00:05:48.000
+Let's look at the differential
+return starting in state S,
+
+96
+00:05:48.000 --> 00:05:52.900
+first choosing action L and
+then following pi L afterwards.
+
+97
+00:05:52.900 --> 00:05:56.000
+The average reward for this policy is 0.2.
+
+98
+00:05:56.000 --> 00:05:59.700
+The differential return is the sum
+of rewards into the future
+
+99
+00:05:59.700 --> 00:06:03.300
+with the average reward
+subtracted from each one.
+
+100
+00:06:03.300 --> 00:06:06.700
+This sum starts in state
+S with the action L.
+
+101
+00:06:06.700 --> 00:06:09.900
+We can compute it by summing
+to some finite horizon H.
+
+102
+00:06:09.900 --> 00:06:12.900
+Then taking the limit
+as H goes to infinity.
+
+103
+00:06:12.900 --> 00:06:16.300
+We are simplifying things slightly
+with this limit notation.
+
+104
+00:06:16.300 --> 00:06:18.747
+While notation provider
+works in many cases,
+
+105
+00:06:18.747 --> 00:06:22.524
+we need to use a different technique
+when the environment is periodic.
+
+106
+00:06:22.524 --> 00:06:26.812
+In this case, we compute the return using
+a more general limit called the Cesaro
+
+107
+00:06:26.812 --> 00:06:29.600
+sum, but
+this technical detail is not critical.
+
+108
+00:06:29.600 --> 00:06:32.535
+The main point here is the intuition.
+
+109
+00:06:32.535 --> 00:06:36.100
+We find that the differential
+return is 0.4.
+
+110
+00:06:36.100 --> 00:06:38.200
+Now, let's look at the other action.
+
+111
+00:06:38.200 --> 00:06:41.904
+This time, we can break
+the differential return into two parts.
+
+112
+00:06:41.904 --> 00:06:45.800
+First the sum for a single
+trajectory through the right loop.
+
+113
+00:06:45.800 --> 00:06:48.508
+We can write the sum explicitly and
+it's equal to 1.
+
+114
+00:06:48.508 --> 00:06:53.223
+Then the sum corresponding to taking
+the left action indefinitely.
+
+115
+00:06:53.223 --> 00:06:58.400
+This sum is the same as the differential
+return we just computed, 0.4.
+
+116
+00:06:58.400 --> 00:07:02.900
+Adding the two parts together, we find
+that the differential return is 1.4.
+
+117
+00:07:03.900 --> 00:07:08.500
+So if the agents policy is to always
+take the left action, it can observe its
+
+118
+00:07:08.500 --> 00:07:12.400
+differential returns and realize it
+should switch to taking the right action.
+
+119
+00:07:14.000 --> 00:07:18.209
+Now, let's look at the differential
+returns if the agents policy is to always
+
+120
+00:07:18.209 --> 00:07:19.500
+take the right action.
+
+121
+00:07:19.500 --> 00:07:25.067
+This policy results in an average reward
+of 0.4 and the differential return for
+
+122
+00:07:25.067 --> 00:07:30.000
+the policy that takes the right
+action in state S is -0.8.
+
+123
+00:07:30.000 --> 00:07:32.900
+Now, what's the differential return for
+taking the left action,
+
+124
+00:07:32.900 --> 00:07:37.000
+once in state S and
+then taking the right action indefinitely?
+
+125
+00:07:37.000 --> 00:07:40.675
+Like before,
+we break up the sum into two parts,
+
+126
+00:07:40.675 --> 00:07:46.694
+taking the left loop once results in a sum
+of -1 over the first five time steps.
+
+127
+00:07:46.694 --> 00:07:51.067
+Adding the differential return
+from following pi R from state S,
+
+128
+00:07:51.067 --> 00:07:55.400
+which we found to be -0.8
+results in our answer of -1.8.
+
+129
+00:07:55.400 --> 00:07:58.200
+Once again,
+we see that the right action is preferred.
+
+130
+00:07:59.300 --> 00:08:03.950
+You may have noticed that the differential
+returns for pi R were lower than
+
+131
+00:08:03.950 --> 00:08:08.907
+the differential returns for pi L even
+though pi R has a higher average reward.
+
+132
+00:08:08.907 --> 00:08:13.308
+This is because the differential return
+represents how much better it is to take
+
+133
+00:08:13.308 --> 00:08:17.200
+an action in a state then on
+average under a certain policy.
+
+134
+00:08:17.200 --> 00:08:21.300
+The differential return can only be used
+to compare actions if the same policy
+
+135
+00:08:21.300 --> 00:08:23.900
+is followed on subsequent time steps.
+
+136
+00:08:23.900 --> 00:08:27.400
+To compare policies, their average
+reward should be used instead.
+
+137
+00:08:28.500 --> 00:08:33.078
+Interestingly, the differential return is
+only a convergent sum if the subtracted
+
+138
+00:08:33.078 --> 00:08:35.601
+constant is equal to
+the true average reward.
+
+139
+00:08:35.601 --> 00:08:39.194
+If a lower or higher number is subtracted,
+the sum will diverge to positive or
+
+140
+00:08:39.194 --> 00:08:40.200
+negative infinity.
+
+141
+00:08:41.400 --> 00:08:43.799
+Now that we have a valid
+definition of the return for
+
+142
+00:08:43.799 --> 00:08:49.300
+average reward, we define value functions
+in the usual way, as the expected return.
+
+143
+00:08:49.300 --> 00:08:54.382
+Similarly, we can also define differential
+value functions as the expected
+
+144
+00:08:54.382 --> 00:08:59.395
+differential return under a policy from
+a given state or state action pair.
+
+145
+00:08:59.395 --> 00:09:03.239
+This quantity captures how much more
+reward the agent will get by starting
+
+146
+00:09:03.239 --> 00:09:07.331
+in a particular state than it would get
+on average over all states if it followed
+
+147
+00:09:07.331 --> 00:09:08.200
+a fixed policy.
+
+148
+00:09:09.600 --> 00:09:11.200
+Like in the discounted setting,
+
+149
+00:09:11.200 --> 00:09:14.300
+differential value functions can
+be written as Bellman equations.
+
+150
+00:09:14.300 --> 00:09:17.991
+Conveniently, they look like
+the previous ones we've seen.
+
+151
+00:09:17.991 --> 00:09:21.428
+They only differ in that they subtract
+R pi from the immediate reward and
+
+152
+00:09:21.428 --> 00:09:22.700
+there is no discounting.
+
+153
+00:09:24.100 --> 00:09:27.655
+Many algorithms from the discounted
+case can be rewritten to apply
+
+154
+00:09:27.655 --> 00:09:29.187
+to the average reward case.
+
+155
+00:09:29.187 --> 00:09:29.877
+For example,
+
+156
+00:09:29.877 --> 00:09:34.400
+differential Sarsa is very similar to
+the Sarsa algorithm you've seen before.
+
+157
+00:09:34.400 --> 00:09:36.964
+Let's step through the differences.
+
+158
+00:09:36.964 --> 00:09:41.070
+A key difference is that differential
+Sarsa has to track an estimate of
+
+159
+00:09:41.070 --> 00:09:43.368
+the average reward under its policy and
+
+160
+00:09:43.368 --> 00:09:47.100
+subtract it from the sample
+reward in its update.
+
+161
+00:09:47.100 --> 00:09:48.752
+This implementation does so
+
+162
+00:09:48.752 --> 00:09:53.445
+with the incremental averaging techniques
+we've seen throughout the course.
+
+163
+00:09:53.445 --> 00:09:59.200
+Given this estimate, it then subtracts R
+bar from the sampled reward in its update.
+
+164
+00:09:59.200 --> 00:09:59.914
+In practice,
+
+165
+00:09:59.914 --> 00:10:03.791
+we can get better performance with
+a slight modification to this algorithm.
+
+166
+00:10:03.791 --> 00:10:07.362
+Instead of the exponential average
+of the reward to compute R bar,
+
+167
+00:10:07.362 --> 00:10:09.800
+we use this update which
+has lower variance.
+
+168
+00:10:11.100 --> 00:10:15.662
+In this video, we introduced the average
+reward objective and defined differential
+
+169
+00:10:15.662 --> 00:10:18.972
+returns and differential value
+functions for this setting.
+
+170
+00:10:18.972 --> 00:10:22.700
+Next week, we'll talk about another way to
+optimize this average reward objective.
+
+171
+00:10:22.700 --> 00:10:23.300
+See you then.

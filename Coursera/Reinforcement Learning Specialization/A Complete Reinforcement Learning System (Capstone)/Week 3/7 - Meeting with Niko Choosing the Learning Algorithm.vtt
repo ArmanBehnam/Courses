@@ -1,0 +1,250 @@
+WEBVTT
+
+1
+00:00:05.151 --> 00:00:08.878
+Welcome to week two of
+the Capstone project.
+
+2
+00:00:08.878 --> 00:00:13.893
+I'm Nico Yasui, I'm a grad student
+here at the University of Alberta,
+
+3
+00:00:13.893 --> 00:00:18.016
+and I'm one of the creators of
+this specialization so far.
+
+4
+00:00:18.016 --> 00:00:22.416
+We've discussed a fun problem,
+landing a shuttle on the moon.
+
+5
+00:00:22.416 --> 00:00:27.184
+We have formalized this
+problem as an MDP this week.
+
+6
+00:00:27.184 --> 00:00:32.344
+We will begin discussing how to solve
+this MDP by deciding which of the many
+
+7
+00:00:32.344 --> 00:00:37.019
+algorithms you have learned about
+are a good fit for this problem.
+
+8
+00:00:37.019 --> 00:00:42.936
+You might remember our course map that
+helped guide us through all the algorithms
+
+9
+00:00:42.936 --> 00:00:48.692
+in course 3, let's use it to decide
+what algorithm to use for this Capstone.
+
+10
+00:00:48.692 --> 00:00:53.751
+First step, can we represent the value
+function using only a table?
+
+11
+00:00:53.751 --> 00:00:57.778
+Let's recall the state space
+of the lunar lander problem.
+
+12
+00:00:57.778 --> 00:01:02.414
+The agent observes the position,
+orientation, velocity and
+
+13
+00:01:02.414 --> 00:01:05.223
+contact sensors of the lunar module.
+
+14
+00:01:05.223 --> 00:01:08.296
+Six of the eight state
+variables are continuous,
+
+15
+00:01:08.296 --> 00:01:11.747
+which means that we cannot
+represent them with a table.
+
+16
+00:01:11.747 --> 00:01:16.499
+And in any case we'd like to take
+advantage of generalization to learn
+
+17
+00:01:16.499 --> 00:01:17.151
+faster.
+
+18
+00:01:17.151 --> 00:01:22.733
+Next ask yourself, would this be well
+formulated as an average word problem?
+
+19
+00:01:22.733 --> 00:01:25.497
+Think about the dynamics of this problem.
+
+20
+00:01:25.497 --> 00:01:28.030
+The lunar module starts in low orbit and
+
+21
+00:01:28.030 --> 00:01:31.807
+descends until it comes to rest
+on the surface of the moon.
+
+22
+00:01:31.807 --> 00:01:36.278
+This process then repeats with each
+new attempt at landing beginning
+
+23
+00:01:36.278 --> 00:01:39.290
+independently of how
+the previous one ended.
+
+24
+00:01:39.290 --> 00:01:43.300
+This is exactly our definition
+of an episodic task.
+
+25
+00:01:43.300 --> 00:01:47.378
+We use the average reward formulation for
+continuing tasks, so
+
+26
+00:01:47.378 --> 00:01:49.501
+that is not the best choice here.
+
+27
+00:01:49.501 --> 00:01:53.470
+So let's eliminate that
+branch of algorithms.
+
+28
+00:01:53.470 --> 00:01:58.377
+Next we want to think about if it's
+possible and beneficial to update
+
+29
+00:01:58.377 --> 00:02:03.978
+the policy and value function on every
+time step, we can use Monte Carlo or TV.
+
+30
+00:02:03.978 --> 00:02:07.255
+But think about landing
+your module on the moon.
+
+31
+00:02:07.255 --> 00:02:10.714
+If any of our sensors becomes
+damaged during the episode,
+
+32
+00:02:10.714 --> 00:02:14.747
+we want to be able to update the policy
+before the end of the episode.
+
+33
+00:02:14.747 --> 00:02:18.101
+It's like what we discussed
+in the driving home example,
+
+34
+00:02:18.101 --> 00:02:21.532
+we expect the TD method to do
+better in this kind of problem.
+
+35
+00:02:21.532 --> 00:02:25.009
+Finally, let's not lose
+sight of the objective here.
+
+36
+00:02:25.009 --> 00:02:28.871
+We want to learn a safe and
+a robust policy in our simulator so
+
+37
+00:02:28.871 --> 00:02:30.813
+that we can use it on the moon.
+
+38
+00:02:30.813 --> 00:02:37.032
+We want to learn a policy that maximizes
+reward, and so this is a control task.
+
+39
+00:02:37.032 --> 00:02:42.986
+This leaves us with three algorithms,
+SARSA, expected SARSA and Q-learning.
+
+40
+00:02:42.986 --> 00:02:46.746
+Since we are using function approximation,
+learning and
+
+41
+00:02:46.746 --> 00:02:51.895
+epsilon soft policy will be more robust
+than learning a deterministic policy.
+
+42
+00:02:51.895 --> 00:02:55.240
+Remember the example where
+due to state aliasing,
+
+43
+00:02:55.240 --> 00:02:57.976
+a deterministic policy was suboptimal.
+
+44
+00:02:57.976 --> 00:03:01.830
+Expected SARSA and SARSA,
+both allow us to learn
+
+45
+00:03:01.830 --> 00:03:06.624
+an optimal epsilon soft policy,
+but Q-learning does not.
+
+46
+00:03:06.624 --> 00:03:11.220
+Now we need to choose between
+expected SARSA and SARSA.
+
+47
+00:03:11.220 --> 00:03:14.803
+We mentioned in an earlier video
+that expected SARSA usually
+
+48
+00:03:14.803 --> 00:03:16.570
+performs better than SARSA.
+
+49
+00:03:16.570 --> 00:03:20.145
+So, let's eliminate SARSA.
+
+50
+00:03:20.145 --> 00:03:21.881
+And that's it for this week,
+
+51
+00:03:21.881 --> 00:03:26.609
+we have now chosen an algorithm which will
+provide the foundation for our agent.
+
+52
+00:03:26.609 --> 00:03:27.600
+See you next week.

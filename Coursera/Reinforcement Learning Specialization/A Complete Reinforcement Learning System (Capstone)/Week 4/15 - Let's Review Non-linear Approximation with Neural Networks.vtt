@@ -1,0 +1,327 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.756
+[MUSIC]
+
+2
+00:00:05.756 --> 00:00:09.934
+Tile coding is one way to create a fixed
+set of features for a prediction.
+
+3
+00:00:09.934 --> 00:00:13.800
+Neural networks provide a strategy for
+learning a useful set of features.
+
+4
+00:00:13.800 --> 00:00:17.909
+Today we'll discuss how neural
+networks create these features.
+
+5
+00:00:17.909 --> 00:00:19.047
+By the end of this video,
+
+6
+00:00:19.047 --> 00:00:22.304
+you will understand how neural
+networks do feature construction, and
+
+7
+00:00:22.304 --> 00:00:25.900
+you will understand how neural networks
+are a non-linear function of state.
+
+8
+00:00:27.000 --> 00:00:29.340
+Let's revisit feed-forward
+neural networks.
+
+9
+00:00:29.340 --> 00:00:33.829
+When we first build the neural network,
+we need to specify the initial weights.
+
+10
+00:00:33.829 --> 00:00:37.292
+The way we initialize the weights is
+important, but more on this later.
+
+11
+00:00:37.292 --> 00:00:40.700
+For now, let's just assume there
+are drawn from some random distribution.
+
+12
+00:00:42.000 --> 00:00:46.395
+Let's take a look at what happens to
+a given input vector as we pass it through
+
+13
+00:00:46.395 --> 00:00:47.230
+the network.
+
+14
+00:00:47.230 --> 00:00:50.000
+Let's start by looking at
+only one node of the network.
+
+15
+00:00:50.000 --> 00:00:53.518
+Each of the inputs are multiplied
+their corresponding weights.
+
+16
+00:00:53.518 --> 00:00:58.145
+Then, the weighted sum of these inputs
+is passed to a non-linear activation
+
+17
+00:00:58.145 --> 00:01:01.862
+function resulting in a non-linear
+function of the inputs.
+
+18
+00:01:01.862 --> 00:01:06.200
+This process is done again and again for
+each of the nodes in the layer.
+
+19
+00:01:06.200 --> 00:01:09.088
+Each node has a different set of weights,
+so
+
+20
+00:01:09.088 --> 00:01:13.005
+will produce a different output,
+which we call a feature.
+
+21
+00:01:13.005 --> 00:01:18.109
+All of these new features, collectively,
+are considered the new representation.
+
+22
+00:01:18.109 --> 00:01:21.861
+This process is actually not
+that different from tile coding,
+
+23
+00:01:21.861 --> 00:01:25.705
+we pass inputs to a tile coder and
+get back a new representation.
+
+24
+00:01:25.705 --> 00:01:26.840
+So in both cases,
+
+25
+00:01:26.840 --> 00:01:31.630
+we construct a non-linear mapping of
+the inputs to produce the features.
+
+26
+00:01:31.630 --> 00:01:36.139
+In both cases, we take a linear
+combination of the representation to
+
+27
+00:01:36.139 --> 00:01:40.507
+produce the output, the approximate
+value of the current state.
+
+28
+00:01:40.507 --> 00:01:44.960
+Let's get more insight into the neural
+network representation by contrasting with
+
+29
+00:01:44.960 --> 00:01:45.720
+tile coding.
+
+30
+00:01:45.720 --> 00:01:49.700
+Recall that when we created the tile
+coder we had to set several parameters,
+
+31
+00:01:49.700 --> 00:01:53.100
+the size and shape of the tiles and
+the number of tilings.
+
+32
+00:01:53.100 --> 00:01:56.180
+These parameters were
+fixed before learning.
+
+33
+00:01:56.180 --> 00:02:00.578
+In a neural network, we have similar
+parameters corresponding to the number of
+
+34
+00:02:00.578 --> 00:02:04.793
+layers, the number of nodes in each layer,
+and the activation functions.
+
+35
+00:02:04.793 --> 00:02:08.047
+These are all, typically,
+fixed before learning.
+
+36
+00:02:08.047 --> 00:02:12.363
+In this sense, both use prior knowledge
+to help in constructing features.
+
+37
+00:02:12.363 --> 00:02:16.995
+However, in addition, the neural network
+also has adjustable parameters that
+
+38
+00:02:16.995 --> 00:02:19.256
+change the features during learning.
+
+39
+00:02:19.256 --> 00:02:22.905
+The neural network can use
+data to improve the features,
+
+40
+00:02:22.905 --> 00:02:27.478
+whereas the tile coder cannot
+incorporate new information from data.
+
+41
+00:02:27.478 --> 00:02:31.645
+More tile coding in neural networks
+produce features that are non-linear in
+
+42
+00:02:31.645 --> 00:02:32.614
+the input space.
+
+43
+00:02:32.614 --> 00:02:36.078
+We can understand this better by
+visualizing the hidden layer of
+
+44
+00:02:36.078 --> 00:02:37.883
+a pre-trained neural network.
+
+45
+00:02:37.883 --> 00:02:42.861
+We trained an agent in a continuous 2D
+space that contains a narrow corridor
+
+46
+00:02:42.861 --> 00:02:44.196
+between two walls.
+
+47
+00:02:44.196 --> 00:02:47.021
+Here, we've plotted
+the receptive field for
+
+48
+00:02:47.021 --> 00:02:49.779
+an individual feature
+learn by the network.
+
+49
+00:02:49.779 --> 00:02:55.353
+The axis correspond to x, y locations,
+which is the state space of the MDP.
+
+50
+00:02:55.353 --> 00:03:00.204
+Each point in the plot corresponds to
+the feature value for that xy state,
+
+51
+00:03:00.204 --> 00:03:02.486
+darker means larger activation.
+
+52
+00:03:02.486 --> 00:03:06.091
+If it is white,
+the feature is not active for that state.
+
+53
+00:03:06.091 --> 00:03:07.896
+So what does this plot mean?
+
+54
+00:03:07.896 --> 00:03:11.280
+This plot shows for
+which state this feature is active,
+
+55
+00:03:11.280 --> 00:03:15.098
+meaning the feature's magnitude
+is above a small threshold.
+
+56
+00:03:15.098 --> 00:03:19.186
+So at a higher level this plot shows
+you how this feature generalizes.
+
+57
+00:03:19.186 --> 00:03:24.248
+Updates to its weight,
+change the values for all these states.
+
+58
+00:03:24.248 --> 00:03:28.738
+Looking at the receptive fields for
+several features, we can see that
+
+59
+00:03:28.738 --> 00:03:34.615
+different features generalize in different
+ways, and form complex non-linear shapes.
+
+60
+00:03:34.615 --> 00:03:38.483
+The activations do not have hard
+boundaries like in tile coding.
+
+61
+00:03:38.483 --> 00:03:42.011
+These learn features can have
+boundaries that change smoothly.
+
+62
+00:03:42.011 --> 00:03:46.295
+This feature has different degrees of
+generalization depending on the state.
+
+63
+00:03:46.295 --> 00:03:50.105
+It's also kind of fun that the feature
+activations in this network,
+
+64
+00:03:50.105 --> 00:03:52.280
+show us the locations of the two walls.
+
+65
+00:03:52.280 --> 00:03:53.763
+That's it for this video.
+
+66
+00:03:53.763 --> 00:03:57.917
+You learned how neural networks can be
+viewed as a way to construct features, and
+
+67
+00:03:57.917 --> 00:04:01.046
+that neural networks are non-linear
+functions of sState.
+
+68
+00:04:01.046 --> 00:04:01.546
+Bye for now.

@@ -1,0 +1,544 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:07.140
+[MUSIC]
+
+2
+00:00:07.140 --> 00:00:10.869
+Hi, I'm Drew Bagnell, the chief
+technology officer at Aurora Vision.
+
+3
+00:00:10.869 --> 00:00:14.870
+In the second lecture, I'll give you
+a quick introduction to the process of
+
+4
+00:00:14.870 --> 00:00:18.435
+learning models within model-based
+reinforcement learning with
+
+5
+00:00:18.435 --> 00:00:21.264
+an emphasis on approaches
+you might find practical.
+
+6
+00:00:21.264 --> 00:00:24.513
+Okay, last time we discussed
+the key benefits of using a model,
+
+7
+00:00:24.513 --> 00:00:28.424
+the ability to learn and simulation,
+and thus greatly reduce the expense and
+
+8
+00:00:28.424 --> 00:00:30.247
+time of real-world interaction.
+
+9
+00:00:30.247 --> 00:00:33.988
+Of course, the key to make that happen
+is we need the ability to learn a model.
+
+10
+00:00:33.988 --> 00:00:38.163
+For the rest of this lecture, we're going
+to use as an example the problem of
+
+11
+00:00:38.163 --> 00:00:42.686
+autonomous helicopter patrol, in this
+case what's known as a nose-in funnel.
+
+12
+00:00:42.686 --> 00:00:45.784
+When we want to learn
+a model from observations so
+
+13
+00:00:45.784 --> 00:00:50.329
+that we can apply optimal control to,
+for instance, this given task.
+
+14
+00:00:50.329 --> 00:00:53.706
+The traditional view, this is known
+as system identification is talked in
+
+15
+00:00:53.706 --> 00:00:57.500
+engineering statistics, is essentially
+a supervised learning approach.
+
+16
+00:00:57.500 --> 00:01:01.000
+We have some way of collecting
+data using exploration policy, for
+
+17
+00:01:01.000 --> 00:01:03.700
+instance for
+pilot who controls the helicopter and
+
+18
+00:01:03.700 --> 00:01:07.600
+induces deviations in those controls
+to explore the space of states.
+
+19
+00:01:07.600 --> 00:01:11.300
+We then take that observed data and
+we apply a supervised learning algorithm.
+
+20
+00:01:11.300 --> 00:01:13.400
+Imagine for instance,
+applying linear regression.
+
+21
+00:01:14.400 --> 00:01:18.100
+Given that supervised learning algorithm
+of the data, we're learning a model
+
+22
+00:01:18.100 --> 00:01:23.600
+here called T hat, which maps states and
+actions to next dates.
+
+23
+00:01:23.600 --> 00:01:25.200
+We take that model.
+
+24
+00:01:25.200 --> 00:01:26.400
+We take a cost function.
+
+25
+00:01:26.400 --> 00:01:30.454
+We combine them together using planning or
+optimal control synthesis algorithms,
+
+26
+00:01:30.454 --> 00:01:32.972
+reinforcement learning algorithms,
+if you will.
+
+27
+00:01:32.972 --> 00:01:38.943
+And we output a learn policy, which is
+hopefully optimal in the actual world.
+
+28
+00:01:38.943 --> 00:01:42.720
+In practice what we find is this is
+not actually what good engineers do.
+
+29
+00:01:42.720 --> 00:01:47.200
+Instead, they tend to take a iterative
+approach to building the model.
+
+30
+00:01:47.200 --> 00:01:50.025
+Let's see why.
+
+31
+00:01:50.025 --> 00:01:55.154
+In this example, we begin by collecting
+data from expert demonstration
+
+32
+00:01:55.154 --> 00:02:01.138
+of this nose-in funnel, and we collect a
+variety of examples of it doing this task.
+
+33
+00:02:01.138 --> 00:02:05.805
+Then we apply the class of optimal
+control algorithms we talked
+
+34
+00:02:05.805 --> 00:02:09.778
+about in the last lecture to
+try to generate a policy.
+
+35
+00:02:09.778 --> 00:02:15.049
+What you find is unfortunately,
+it fails pretty spectacularly.
+
+36
+00:02:15.049 --> 00:02:16.650
+Now, why does this go wrong?
+
+37
+00:02:16.650 --> 00:02:20.469
+Well fundamentally, the problem of system
+identification is really a chicken or
+
+38
+00:02:20.469 --> 00:02:21.309
+the egg problem.
+
+39
+00:02:21.309 --> 00:02:25.005
+We really want to learn a model
+that's good where the RL algorithm or
+
+40
+00:02:25.005 --> 00:02:30.100
+optimal control synthesis algorithm,
+is likely to visit as it learns a policy.
+
+41
+00:02:30.100 --> 00:02:33.900
+Unfortunately, if we learn them all
+when then planar on lies against it
+
+42
+00:02:33.900 --> 00:02:37.700
+will almost certainly visit states in the
+process where the model was inaccurate.
+
+43
+00:02:37.700 --> 00:02:40.600
+They were under sampled during
+data collection procedure.
+
+44
+00:02:40.600 --> 00:02:44.320
+And then the RL algorithm can find
+any way to exploit that inaccuracy,
+
+45
+00:02:44.320 --> 00:02:48.356
+just need to learn a policy that doesn't
+perform well because the real world
+
+46
+00:02:48.356 --> 00:02:50.648
+doesn't match the model in those states.
+
+47
+00:02:50.648 --> 00:02:55.215
+This General problem is sometimes known
+as covariate or distributional shift,
+
+48
+00:02:55.215 --> 00:02:59.714
+and it's really a fundamental problem
+whenever we blend statistical learning
+
+49
+00:02:59.714 --> 00:03:01.070
+with decision making.
+
+50
+00:03:01.070 --> 00:03:05.339
+The result is both in theory and practice
+you can build statistical models that
+
+51
+00:03:05.339 --> 00:03:08.637
+are dynamics with very low error,
+apply a good olptimizer or
+
+52
+00:03:08.637 --> 00:03:12.731
+RL algorithm to that model and still
+get bad performance in the real world.
+
+53
+00:03:12.731 --> 00:03:16.041
+That's really a bummer.
+
+54
+00:03:16.041 --> 00:03:19.727
+I find a really useful way to think
+about model base reinforcement
+
+55
+00:03:19.727 --> 00:03:23.011
+learning is as a two-player
+game between the optimizer or
+
+56
+00:03:23.011 --> 00:03:26.576
+RL algorithm, and the model learning and
+the world together.
+
+57
+00:03:26.576 --> 00:03:30.611
+As I learned years ago from Chris Akesson,
+the best way to find an in accuracy in
+
+58
+00:03:30.611 --> 00:03:33.606
+your simulator is to let an RL
+algorithm try to exploit it,
+
+59
+00:03:33.606 --> 00:03:35.396
+the final loophole in your model.
+
+60
+00:03:35.396 --> 00:03:37.586
+A glitch in The Matrix, if you will.
+
+61
+00:03:37.586 --> 00:03:39.686
+We thus need approaches
+that are more robust and
+
+62
+00:03:39.686 --> 00:03:42.850
+fundamentally interactive to find
+good models and good controllers.
+
+63
+00:03:45.215 --> 00:03:48.877
+I'll take you through an approach here,
+which is fundamentally interactive.
+
+64
+00:03:48.877 --> 00:03:55.705
+The idea is that we will collect data
+from our purported current optimal policy
+
+65
+00:03:55.705 --> 00:04:00.886
+as well as that exploration
+polic I've described before.
+
+66
+00:04:00.886 --> 00:04:05.559
+We'll get transitions that describe
+the way the helicopter goes from a state,
+
+67
+00:04:05.559 --> 00:04:08.083
+takes an action and
+goes to the next state.
+
+68
+00:04:08.083 --> 00:04:12.286
+We'll aggregate that together with all
+the previous transitions that we've had,
+
+69
+00:04:12.286 --> 00:04:14.372
+again, this is an iterative algorithm.
+
+70
+00:04:14.372 --> 00:04:18.891
+We'll fit them all, again, I'm showing
+your fitting linear regression.
+
+71
+00:04:18.891 --> 00:04:23.254
+Then we'll hand this off to an optimal
+control synthesis approach or a planner or
+
+72
+00:04:23.254 --> 00:04:27.937
+reinforcement learning algorithm, if you
+will, and the result will be a new policy,
+
+73
+00:04:27.937 --> 00:04:29.754
+a new purported optimal policy.
+
+74
+00:04:29.754 --> 00:04:34.719
+And then we run this loop again,
+collecting data from the new policy,
+
+75
+00:04:34.719 --> 00:04:39.022
+together mixed with some data
+from the exploration policy.
+
+76
+00:04:39.022 --> 00:04:43.023
+All of those transitions are aggregated
+together with everything we've previously
+
+77
+00:04:43.023 --> 00:04:43.697
+seen before.
+
+78
+00:04:43.697 --> 00:04:46.721
+We fit them all and
+it off to the synthesis,
+
+79
+00:04:46.721 --> 00:04:51.425
+which hands back up reported new
+policy and continue in this loop.
+
+80
+00:04:51.425 --> 00:04:55.102
+It turns out if you run this loop
+,Stefan Roth demonstrated that this kind
+
+81
+00:04:55.102 --> 00:04:56.467
+of interactive approach,
+
+82
+00:04:56.467 --> 00:05:00.443
+which turns out too much more closely
+match the style used by expert engineers,
+
+83
+00:05:00.443 --> 00:05:04.691
+works really well in practice and it can
+provide stronger theoretical guarantees.
+
+84
+00:05:04.691 --> 00:05:08.668
+If you learn a low error model across
+iterations of interaction using a stable
+
+85
+00:05:08.668 --> 00:05:12.831
+function approximator, and you generate
+policies using a good optimal control
+
+86
+00:05:12.831 --> 00:05:15.240
+solver, you must achieve good performance.
+
+87
+00:05:15.240 --> 00:05:19.514
+And put in the contrapositive, to not
+get good real world performance using
+
+88
+00:05:19.514 --> 00:05:24.191
+a No-Regret learning algorithm, the class
+of algorithm we're talking about for
+
+89
+00:05:24.191 --> 00:05:28.396
+learning, a good optimizer against that
+all it must be the case that at some
+
+90
+00:05:28.396 --> 00:05:32.120
+point you failed to build a low
+error model of how the world works.
+
+91
+00:05:32.120 --> 00:05:35.478
+There's lots of details to these
+statistical guarantees, but they indicated
+
+92
+00:05:35.478 --> 00:05:39.000
+that stable learning and on policy model
+learning are probably on the right track.
+
+93
+00:05:40.600 --> 00:05:44.089
+I mentioned briefly this
+idea of No-Regret learning.
+
+94
+00:05:44.089 --> 00:05:47.071
+It's a powerful concept
+worth learning about and
+
+95
+00:05:47.071 --> 00:05:50.416
+it's very useful in any
+context which seems game like.
+
+96
+00:05:50.416 --> 00:05:54.523
+You can simplify it in your head to
+the class of algorithms that don't change
+
+97
+00:05:54.523 --> 00:05:58.760
+the model they returned much, in response
+to the small perturbations in their
+
+98
+00:05:58.760 --> 00:06:03.087
+training data, and which achieve good
+performance in the limit of large data.
+
+99
+00:06:05.785 --> 00:06:08.771
+Okay, we can take that same inverted or
+
+100
+00:06:08.771 --> 00:06:13.113
+rather nose-in funnel problem
+I described before, and
+
+101
+00:06:13.113 --> 00:06:17.463
+apply this loop we described,
+and here's the results.
+
+102
+00:06:19.900 --> 00:06:25.231
+Will collect the same number of samples
+using this data set aggregation approach.
+
+103
+00:06:25.231 --> 00:06:28.397
+And in this case, we'll be able
+to actually solve the problems.
+
+104
+00:06:28.397 --> 00:06:29.344
+This is interesting.
+
+105
+00:06:29.344 --> 00:06:32.652
+The only thing that's different
+same synthesis algorithm,
+
+106
+00:06:32.652 --> 00:06:33.994
+same number of samples.
+
+107
+00:06:33.994 --> 00:06:37.963
+All that's different is we've
+collected data in an interactive way,
+
+108
+00:06:37.963 --> 00:06:42.596
+where we've proposed optimal controllers,
+tried them collected more data, and
+
+109
+00:06:42.596 --> 00:06:44.001
+then rebuild the model.
+
+110
+00:06:44.001 --> 00:06:48.749
+And the result is we're successfully
+able to execute the nose-in funnel.
+
+111
+00:06:51.157 --> 00:06:52.224
+I thank you for your attention.
+
+112
+00:06:52.224 --> 00:06:54.455
+And I really hope these lectures
+give you a head start on ideas for
+
+113
+00:06:54.455 --> 00:06:56.700
+applying models and
+reinforcement learning in the real world.

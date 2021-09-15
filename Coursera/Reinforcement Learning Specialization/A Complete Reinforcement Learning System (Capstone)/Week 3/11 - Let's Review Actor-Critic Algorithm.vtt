@@ -1,0 +1,591 @@
+WEBVTT
+
+1
+00:00:04.700 --> 00:00:07.650
+Do we have to choose
+between directly learning
+
+2
+00:00:07.650 --> 00:00:10.275
+the policy parameters and
+learning a value function?
+
+3
+00:00:10.275 --> 00:00:13.770
+No. Even within policy
+gradient methods,
+
+4
+00:00:13.770 --> 00:00:15.450
+value-learning methods like TD
+
+5
+00:00:15.450 --> 00:00:17.445
+still have an important
+role to play.
+
+6
+00:00:17.445 --> 00:00:19.500
+In this setup,
+the parameterized policy
+
+7
+00:00:19.500 --> 00:00:21.030
+plays the role of an actor,
+
+8
+00:00:21.030 --> 00:00:23.415
+while the value function
+plays the role of a critic,
+
+9
+00:00:23.415 --> 00:00:26.415
+evaluating the actions
+selected by the actor.
+
+10
+00:00:26.415 --> 00:00:28.930
+These so-called
+actor-critic methods,
+
+11
+00:00:28.930 --> 00:00:30.960
+were some of the earliest
+TD-based methods
+
+12
+00:00:30.960 --> 00:00:33.370
+introduced in
+reinforcement learning.
+
+13
+00:00:34.130 --> 00:00:36.170
+After watching this video,
+
+14
+00:00:36.170 --> 00:00:39.320
+you'll be able to describe
+the actor-critic algorithm for
+
+15
+00:00:39.320 --> 00:00:43.590
+control with function approximation
+for continuing tasks.
+
+16
+00:00:44.500 --> 00:00:47.420
+We finished off
+the last video with
+
+17
+00:00:47.420 --> 00:00:50.700
+this expression for the policy
+gradient learning rule.
+
+18
+00:00:50.710 --> 00:00:53.725
+But we don't have access to q Pi,
+
+19
+00:00:53.725 --> 00:00:55.680
+so we'll have to approximate it.
+
+20
+00:00:55.680 --> 00:00:57.975
+We can do the usual TD thing,
+
+21
+00:00:57.975 --> 00:01:00.420
+the one-step, bootstrap return.
+
+22
+00:01:00.420 --> 00:01:02.540
+That is, the differential reward
+
+23
+00:01:02.540 --> 00:01:04.865
+plus the value of the next state.
+
+24
+00:01:04.865 --> 00:01:08.180
+As usual, the parameterize
+function V hat
+
+25
+00:01:08.180 --> 00:01:10.580
+is learned estimate of
+the value function.
+
+26
+00:01:10.580 --> 00:01:14.240
+In this case, V hat is
+the differential value function.
+
+27
+00:01:14.240 --> 00:01:17.390
+This is the critic part of
+the actor-critic algorithm.
+
+28
+00:01:17.390 --> 00:01:20.275
+The critic provides
+immediate feedback.
+
+29
+00:01:20.275 --> 00:01:22.030
+To train the critic,
+
+30
+00:01:22.030 --> 00:01:24.950
+we can use any state value
+learning algorithm.
+
+31
+00:01:24.950 --> 00:01:26.975
+We will use the average
+reward version
+
+32
+00:01:26.975 --> 00:01:29.165
+of semi-gradient TD.
+
+33
+00:01:29.165 --> 00:01:32.090
+The parameterized
+policy is the actor.
+
+34
+00:01:32.090 --> 00:01:35.275
+It uses the policy gradient
+updates shown here.
+
+35
+00:01:35.275 --> 00:01:37.735
+We could use this form
+of the update,
+
+36
+00:01:37.735 --> 00:01:39.200
+but there is
+one last thing we can
+
+37
+00:01:39.200 --> 00:01:40.865
+do to improve the algorithm.
+
+38
+00:01:40.865 --> 00:01:44.090
+We can subtract off what
+is called a baseline.
+
+39
+00:01:44.090 --> 00:01:47.900
+Instead of using the one-step
+value estimate alone,
+
+40
+00:01:47.900 --> 00:01:49.940
+we can subtract the value
+estimate for the state,
+
+41
+00:01:49.940 --> 00:01:53.075
+S_t, to get the update
+that looks like this.
+
+42
+00:01:53.075 --> 00:01:57.025
+V hat of S_t is
+the baseline in this case.
+
+43
+00:01:57.025 --> 00:02:00.950
+Notice that this expression
+is equal to the TD error.
+
+44
+00:02:00.950 --> 00:02:03.530
+The expected value of
+this update is the same as
+
+45
+00:02:03.530 --> 00:02:06.700
+the previous one. Why is this?
+
+46
+00:02:06.710 --> 00:02:08.900
+Let's take the expectation of
+
+47
+00:02:08.900 --> 00:02:11.030
+the update condition
+on a particular state
+
+48
+00:02:11.030 --> 00:02:14.855
+S at time t. Taking the
+expectation of the sum,
+
+49
+00:02:14.855 --> 00:02:17.495
+is the same as the sum
+of the expectations.
+
+50
+00:02:17.495 --> 00:02:20.000
+We can use this to separate
+out the expectation of
+
+51
+00:02:20.000 --> 00:02:21.410
+our original term from
+
+52
+00:02:21.410 --> 00:02:22.550
+the expectation which involves
+
+53
+00:02:22.550 --> 00:02:24.770
+the subtracted value function.
+
+54
+00:02:24.770 --> 00:02:28.510
+It turns out the expectation
+of the second term is zero.
+
+55
+00:02:28.510 --> 00:02:30.785
+So we can add this
+baseline to the update
+
+56
+00:02:30.785 --> 00:02:33.380
+without changing the
+expectation of the update.
+
+57
+00:02:33.380 --> 00:02:35.675
+You can verify this for yourself.
+
+58
+00:02:35.675 --> 00:02:38.420
+To start, write the
+expectation as a sum of
+
+59
+00:02:38.420 --> 00:02:42.040
+reactions and pull
+the V hat term out of the sum.
+
+60
+00:02:42.040 --> 00:02:44.510
+We'll leave this as an exercise.
+
+61
+00:02:44.510 --> 00:02:46.820
+So why do we add this baseline
+
+62
+00:02:46.820 --> 00:02:49.310
+if the update is the
+same and expectation?
+
+63
+00:02:49.310 --> 00:02:51.650
+Subtracting this baseline
+tends to reduce
+
+64
+00:02:51.650 --> 00:02:53.000
+the variance of the update which
+
+65
+00:02:53.000 --> 00:02:55.380
+results in faster learning.
+
+66
+00:02:55.630 --> 00:02:58.670
+This update makes
+sense intuitively.
+
+67
+00:02:58.670 --> 00:03:00.365
+After we execute an action,
+
+68
+00:03:00.365 --> 00:03:02.780
+we use the TD error to
+decide how good the action
+
+69
+00:03:02.780 --> 00:03:06.035
+was compared to the average
+for that state.
+
+70
+00:03:06.035 --> 00:03:08.400
+If the TD error is positive,
+
+71
+00:03:08.400 --> 00:03:10.280
+then it means the selected action
+
+72
+00:03:10.280 --> 00:03:12.680
+resulted in a higher value
+than expected.
+
+73
+00:03:12.680 --> 00:03:16.525
+Taking that action more often
+should improve our policy.
+
+74
+00:03:16.525 --> 00:03:19.220
+That is exactly what
+this update does.
+
+75
+00:03:19.220 --> 00:03:21.140
+It changes the policy parameters
+
+76
+00:03:21.140 --> 00:03:22.460
+to increase the probability of
+
+77
+00:03:22.460 --> 00:03:24.050
+actions that were better than
+
+78
+00:03:24.050 --> 00:03:26.375
+expected according to the critic.
+
+79
+00:03:26.375 --> 00:03:28.400
+Correspondingly, if the critic is
+
+80
+00:03:28.400 --> 00:03:30.580
+disappointed and
+the TD error is negative,
+
+81
+00:03:30.580 --> 00:03:33.260
+then the probability of
+the action is decreased.
+
+82
+00:03:33.260 --> 00:03:34.880
+The actor and the critic learn at
+
+83
+00:03:34.880 --> 00:03:37.220
+the same time,
+constantly interacting.
+
+84
+00:03:37.220 --> 00:03:39.290
+The actor is continually changing
+
+85
+00:03:39.290 --> 00:03:42.535
+the policy to exceed
+the critics expectation,
+
+86
+00:03:42.535 --> 00:03:44.300
+and the critic is
+constantly updating
+
+87
+00:03:44.300 --> 00:03:45.650
+its value function to
+
+88
+00:03:45.650 --> 00:03:48.870
+evaluate the actors
+changing policy.
+
+89
+00:03:48.910 --> 00:03:51.470
+With the policy update in place,
+
+90
+00:03:51.470 --> 00:03:53.240
+we're ready to go through
+the full algorithm
+
+91
+00:03:53.240 --> 00:03:55.600
+for average reward actor-critic.
+
+92
+00:03:55.600 --> 00:03:57.420
+To start, we specify
+
+93
+00:03:57.420 --> 00:03:59.090
+the policy parameterization and
+
+94
+00:03:59.090 --> 00:04:00.980
+the value function
+parameterization.
+
+95
+00:04:00.980 --> 00:04:03.560
+For example, we might use
+towel coding to construct
+
+96
+00:04:03.560 --> 00:04:04.970
+the approximate value function
+
+97
+00:04:04.970 --> 00:04:07.910
+and a softmax policy
+parameterization.
+
+98
+00:04:07.910 --> 00:04:10.610
+We will need to
+maintain an estimate of
+
+99
+00:04:10.610 --> 00:04:12.230
+the average reward just like we
+
+100
+00:04:12.230 --> 00:04:14.480
+did in the differential
+SARS algorithm.
+
+101
+00:04:14.480 --> 00:04:17.105
+We initialize this to zero.
+
+102
+00:04:17.105 --> 00:04:19.130
+We can initialize the weights and
+
+103
+00:04:19.130 --> 00:04:21.145
+the policy parameters
+however we like.
+
+104
+00:04:21.145 --> 00:04:23.330
+We initialize
+the step size parameters
+
+105
+00:04:23.330 --> 00:04:24.350
+for the value estimate,
+
+106
+00:04:24.350 --> 00:04:26.615
+the policy, and
+the average reward,
+
+107
+00:04:26.615 --> 00:04:28.190
+and they could all be different.
+
+108
+00:04:28.190 --> 00:04:29.540
+We get the initial state from
+
+109
+00:04:29.540 --> 00:04:32.305
+the environment and then
+begin acting and learning.
+
+110
+00:04:32.305 --> 00:04:35.300
+On each time step, we choose
+the action according to
+
+111
+00:04:35.300 --> 00:04:36.770
+our policy and receive
+
+112
+00:04:36.770 --> 00:04:39.530
+the next state and reward
+from the environment.
+
+113
+00:04:39.530 --> 00:04:41.930
+Using this information,
+we compute
+
+114
+00:04:41.930 --> 00:04:43.550
+the differential TD error and
+
+115
+00:04:43.550 --> 00:04:46.770
+updating our running estimate
+of the average reward.
+
+116
+00:04:46.900 --> 00:04:51.015
+We update the value function
+weights using the TD update.
+
+117
+00:04:51.015 --> 00:04:53.870
+Finally, we update the
+policy parameters using
+
+118
+00:04:53.870 --> 00:04:57.350
+our policy gradient
+update. That's it.
+
+119
+00:04:57.350 --> 00:04:59.665
+This algorithms is designed
+for continuing tasks.
+
+120
+00:04:59.665 --> 00:05:01.430
+So we can run it indefinitely
+
+121
+00:05:01.430 --> 00:05:04.325
+and continue to improve
+the policy forever.
+
+122
+00:05:04.325 --> 00:05:06.260
+That's it for this video.
+
+123
+00:05:06.260 --> 00:05:08.300
+You should now understand
+that is useful to learn
+
+124
+00:05:08.300 --> 00:05:09.530
+a value function to estimate
+
+125
+00:05:09.530 --> 00:05:11.860
+the gradient for the
+policy parameters,
+
+126
+00:05:11.860 --> 00:05:15.140
+and the actor-critic algorithm
+implements this idea with
+
+127
+00:05:15.140 --> 00:05:16.760
+a critic to learn
+the value function for
+
+128
+00:05:16.760 --> 00:05:19.770
+the actor. Bye for now.

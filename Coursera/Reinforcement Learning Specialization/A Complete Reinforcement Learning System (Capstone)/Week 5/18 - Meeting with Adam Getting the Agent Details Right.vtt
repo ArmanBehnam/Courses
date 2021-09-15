@@ -1,0 +1,384 @@
+WEBVTT
+
+1
+00:00:03.345 --> 00:00:08.800
+Welcome to the second last
+week of the Capstone project.
+
+2
+00:00:08.800 --> 00:00:14.314
+This is an exciting time because you
+finally get to start building your Agent.
+
+3
+00:00:14.314 --> 00:00:18.343
+Last week we brainstormed some of
+the high-level Agent design choices.
+
+4
+00:00:18.343 --> 00:00:22.591
+This week we will discuss a few
+implementation details regarding
+
+5
+00:00:22.591 --> 00:00:24.761
+the network and how to update it.
+
+6
+00:00:24.761 --> 00:00:28.100
+In practice these decisions can
+have a big impact on performance.
+
+7
+00:00:29.400 --> 00:00:34.280
+Today we will discuss how we will update
+our estimates of the action values and
+
+8
+00:00:34.280 --> 00:00:36.543
+the details of the ADAM algorithm.
+
+9
+00:00:36.543 --> 00:00:39.896
+We decided to use a neural network for
+the action values, but
+
+10
+00:00:39.896 --> 00:00:42.407
+let's refresh our memory
+on how that works.
+
+11
+00:00:42.407 --> 00:00:47.313
+You may recall from Course 3 that
+the neural network takes the state and
+
+12
+00:00:47.313 --> 00:00:49.611
+produces a new representation.
+
+13
+00:00:49.611 --> 00:00:54.146
+For instance, in this case,
+the state would be composed of
+
+14
+00:00:54.146 --> 00:00:58.240
+things like the position and
+velocity of the lander.
+
+15
+00:00:58.240 --> 00:01:01.995
+We'll then use the resultant
+representation to estimate the value of
+
+16
+00:01:01.995 --> 00:01:02.766
+each action.
+
+17
+00:01:02.766 --> 00:01:07.993
+We do this by building a network that
+has one output node for each action.
+
+18
+00:01:07.993 --> 00:01:11.387
+Let's discuss how to train this neural
+network to approximate the action value
+
+19
+00:01:11.387 --> 00:01:12.600
+function.
+
+20
+00:01:12.600 --> 00:01:15.600
+We will use the TD error
+to train the network.
+
+21
+00:01:15.600 --> 00:01:21.568
+More precisely, we will modify the ways
+to reduce the TD error on each time step.
+
+22
+00:01:21.568 --> 00:01:23.375
+We will only update the weights for
+
+23
+00:01:23.375 --> 00:01:26.800
+the output corresponding to
+the action that was selected.
+
+24
+00:01:26.800 --> 00:01:32.636
+We simply do not update the weights in
+the last layer for the actions 2 and 3.
+
+25
+00:01:32.636 --> 00:01:34.799
+You might ask is this a problem?
+
+26
+00:01:34.799 --> 00:01:39.110
+In general, no, but
+there are some nuances to consider here.
+
+27
+00:01:39.110 --> 00:01:42.810
+For linear function approximation,
+we also maintain separate weights for
+
+28
+00:01:42.810 --> 00:01:44.300
+each action value.
+
+29
+00:01:44.300 --> 00:01:47.200
+We only updated weights for
+the action that was taken.
+
+30
+00:01:48.700 --> 00:01:53.681
+With a neural network each, time an action
+is updated the shared representation for
+
+31
+00:01:53.681 --> 00:01:55.656
+all the actions is also changed.
+
+32
+00:01:55.656 --> 00:01:58.998
+But during learning, the result of
+each action might cause different,
+
+33
+00:01:58.998 --> 00:02:02.500
+possibly conflicting ,updates
+to the representation.
+
+34
+00:02:02.500 --> 00:02:04.813
+But this is actually
+something that we want.
+
+35
+00:02:04.813 --> 00:02:09.222
+We want the neural network to learn
+a representation that is useful for
+
+36
+00:02:09.222 --> 00:02:10.352
+all the actions.
+
+37
+00:02:10.352 --> 00:02:12.709
+Features that are good for
+multiple predictions,
+
+38
+00:02:12.709 --> 00:02:14.800
+are often features that generalize better.
+
+39
+00:02:16.200 --> 00:02:17.121
+In contrast,
+
+40
+00:02:17.121 --> 00:02:22.432
+we could instead learn completely separate
+neural networks one for each action.
+
+41
+00:02:22.432 --> 00:02:26.036
+But then the representation for
+each action is learned with fewer samples.
+
+42
+00:02:26.036 --> 00:02:29.944
+And we can't gain the potential benefits
+from learning a shared representation.
+
+43
+00:02:31.739 --> 00:02:36.451
+[SOUND] The other decision we made
+was to use the ADAM algorithm.
+
+44
+00:02:36.451 --> 00:02:40.817
+This algorithm combines both vector
+step-sizes and a form of momentum.
+
+45
+00:02:40.817 --> 00:02:44.215
+In Course 3 we discussed
+vector step-sizes.
+
+46
+00:02:44.215 --> 00:02:48.354
+Each way to the network has its own
+step-size adapted based on the statistics
+
+47
+00:02:48.354 --> 00:02:49.765
+of the learning process.
+
+48
+00:02:49.765 --> 00:02:52.558
+This means we can make larger
+updates to some weights, and
+
+49
+00:02:52.558 --> 00:02:54.100
+smaller updates to the others.
+
+50
+00:02:55.200 --> 00:02:59.000
+This might be useful if the loss
+is flatter in some dimensions.
+
+51
+00:02:59.000 --> 00:03:03.211
+Alternatively, we can take smaller steps
+in other dimensions where the loss changes
+
+52
+00:03:03.211 --> 00:03:03.979
+more sharply.
+
+53
+00:03:03.979 --> 00:03:08.146
+We also discuss how to use momentum
+to accelerate our learning,
+
+54
+00:03:08.146 --> 00:03:12.095
+especially if we find ourselves
+in a flat region of our loss.
+
+55
+00:03:12.095 --> 00:03:15.887
+Remember that taking repeated steps in
+the same direction builds momentum.
+
+56
+00:03:15.887 --> 00:03:19.200
+While taking steps in a different
+direction will kill the momentum.
+
+57
+00:03:19.200 --> 00:03:22.048
+The ADAM algorithm combines
+both of these ideas.
+
+58
+00:03:22.048 --> 00:03:25.909
+It keeps a moving average of
+the gradients to compute the momentum.
+
+59
+00:03:25.909 --> 00:03:30.762
+The beta M parameter is a meta-parameter
+that controls the amount of momentum.
+
+60
+00:03:30.762 --> 00:03:35.055
+ADAM also keeps a moving average
+of the square of the gradient,
+
+61
+00:03:35.055 --> 00:03:37.736
+this gives us a vector of step-sizes.
+
+62
+00:03:37.736 --> 00:03:41.564
+This update typically results in more
+data-efficient learning because each
+
+63
+00:03:41.564 --> 00:03:43.400
+update is more effective.
+
+64
+00:03:43.400 --> 00:03:47.504
+You may have noticed that we just
+introduced several new meta parameters
+
+65
+00:03:47.504 --> 00:03:48.924
+that we will need to set.
+
+66
+00:03:48.924 --> 00:03:50.856
+We have the two decay rates,
+
+67
+00:03:50.856 --> 00:03:55.800
+the size of the small offset in
+the denominator and a global step-size.
+
+68
+00:03:55.800 --> 00:04:00.100
+So we haven't achieved
+meta-parameter free learning here.
+
+69
+00:04:00.100 --> 00:04:03.800
+In fact, we have introduced four
+meta-parameters in place of one.
+
+70
+00:04:03.800 --> 00:04:06.800
+Fortunately, it is typically not too
+difficult to find good settings for
+
+71
+00:04:06.800 --> 00:04:09.539
+these meta-parameters
+using rules of thumb.
+
+72
+00:04:09.539 --> 00:04:14.301
+But better performance can usually be
+achieved by tuning them individually.
+
+73
+00:04:14.301 --> 00:04:18.196
+Many people are working on methods to
+reduce the sensitivity to meta-parameter
+
+74
+00:04:18.196 --> 00:04:20.037
+choices and reinforce the learning.
+
+75
+00:04:20.037 --> 00:04:24.057
+But this is still very
+much an open problem.
+
+76
+00:04:24.057 --> 00:04:25.057
+In this Capstone,
+
+77
+00:04:25.057 --> 00:04:29.317
+you will investigate the impact of
+different choices of the global step-size.
+
+78
+00:04:29.317 --> 00:04:31.926
+We will use fixed values for
+the other parameters.
+
+79
+00:04:31.926 --> 00:04:33.908
+[SOUND] And that's it for this week,
+
+80
+00:04:33.908 --> 00:04:37.620
+you should now have all the tools
+you need to implement your Agent.
+
+81
+00:04:37.620 --> 00:04:41.300
+Next up, landing a shuttle on
+the moon with reinforcement learning.

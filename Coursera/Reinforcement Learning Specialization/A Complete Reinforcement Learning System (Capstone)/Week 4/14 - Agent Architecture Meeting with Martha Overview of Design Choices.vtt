@@ -1,0 +1,694 @@
+WEBVTT
+
+1
+00:00:05.930 --> 00:00:09.950
+You are now in the third week
+of the Capstone Project,
+
+2
+00:00:09.950 --> 00:00:11.490
+which means we are
+halfway through
+
+3
+00:00:11.490 --> 00:00:13.965
+building a complete RL system.
+
+4
+00:00:13.965 --> 00:00:16.170
+So far, we have formalized
+
+5
+00:00:16.170 --> 00:00:19.485
+the lunar lander problem
+using the language of MDPs.
+
+6
+00:00:19.485 --> 00:00:21.180
+Last week, we discussed
+
+7
+00:00:21.180 --> 00:00:23.820
+which algorithm to use
+to solve that MDP.
+
+8
+00:00:23.820 --> 00:00:26.790
+Now, let's discuss the meta
+parameter choices that
+
+9
+00:00:26.790 --> 00:00:29.715
+you will have to make to
+fully implement the agent.
+
+10
+00:00:29.715 --> 00:00:31.530
+This means we need to decide
+
+11
+00:00:31.530 --> 00:00:33.060
+on the function approximator,
+
+12
+00:00:33.060 --> 00:00:36.150
+choices in the optimizer for
+updating the action values,
+
+13
+00:00:36.150 --> 00:00:38.205
+and how to do exploration.
+
+14
+00:00:38.205 --> 00:00:41.770
+So which function
+approximator will you use?
+
+15
+00:00:41.770 --> 00:00:44.975
+My general advice is to
+always start simple.
+
+16
+00:00:44.975 --> 00:00:46.700
+For a function approximation,
+
+17
+00:00:46.700 --> 00:00:49.700
+that would mean using a fixed
+basis like tile coding.
+
+18
+00:00:49.700 --> 00:00:52.400
+Unfortunately, that might
+not be the best choice for
+
+19
+00:00:52.400 --> 00:00:56.000
+this problem without carefully
+designing the tile coder.
+
+20
+00:00:56.000 --> 00:00:58.130
+If you tile all the
+inputs together,
+
+21
+00:00:58.130 --> 00:00:59.450
+the number of features grows
+
+22
+00:00:59.450 --> 00:01:01.670
+exponentially with
+the input dimension.
+
+23
+00:01:01.670 --> 00:01:04.220
+For example, if you want
+to use ten tiles per
+
+24
+00:01:04.220 --> 00:01:07.040
+dimension for this
+eight-dimensional problem,
+
+25
+00:01:07.040 --> 00:01:09.935
+you could easily end up
+with 100 million features.
+
+26
+00:01:09.935 --> 00:01:11.630
+So maybe we should consider
+
+27
+00:01:11.630 --> 00:01:13.535
+using a neural network instead.
+
+28
+00:01:13.535 --> 00:01:16.160
+One hidden layer should
+be sufficiently powerful
+
+29
+00:01:16.160 --> 00:01:18.830
+to represent the value
+function for lunar lander,
+
+30
+00:01:18.830 --> 00:01:22.160
+and it will be a bit easier
+for you to implement.
+
+31
+00:01:22.160 --> 00:01:24.200
+We need to decide the number of
+
+32
+00:01:24.200 --> 00:01:25.835
+hidden units in that layer.
+
+33
+00:01:25.835 --> 00:01:27.440
+Remember that you get to choose
+
+34
+00:01:27.440 --> 00:01:29.720
+the size of the hidden
+layer of a neural network.
+
+35
+00:01:29.720 --> 00:01:31.820
+As you add more nodes to a layer,
+
+36
+00:01:31.820 --> 00:01:33.965
+you add more
+representational power.
+
+37
+00:01:33.965 --> 00:01:35.420
+However, the more nodes you
+
+38
+00:01:35.420 --> 00:01:37.985
+add the more parameters
+there are to learn.
+
+39
+00:01:37.985 --> 00:01:41.390
+We also need to pick the
+activation functions.
+
+40
+00:01:41.390 --> 00:01:43.610
+We could use a
+sigmoidal function like
+
+41
+00:01:43.610 --> 00:01:46.835
+tanh but these have some
+issues of saturation.
+
+42
+00:01:46.835 --> 00:01:48.230
+Think about when the inputs to
+
+43
+00:01:48.230 --> 00:01:50.480
+the activation function
+are high magnitude,
+
+44
+00:01:50.480 --> 00:01:52.280
+either positive or negative.
+
+45
+00:01:52.280 --> 00:01:53.900
+The gradient is computed in
+
+46
+00:01:53.900 --> 00:01:56.065
+these flat regions
+of the activation.
+
+47
+00:01:56.065 --> 00:01:58.640
+Such a gradient near
+zero does not provide
+
+48
+00:01:58.640 --> 00:02:02.195
+much signal to change our
+weights and can slow learning.
+
+49
+00:02:02.195 --> 00:02:05.645
+We can also use a linear
+threshold unit or LTU.
+
+50
+00:02:05.645 --> 00:02:07.310
+But again, these flat regions
+
+51
+00:02:07.310 --> 00:02:09.500
+make it hard to train
+the neural network.
+
+52
+00:02:09.500 --> 00:02:11.870
+A pretty effective and
+common choice is to
+
+53
+00:02:11.870 --> 00:02:14.180
+use rectified linear
+units or ReLUs.
+
+54
+00:02:14.180 --> 00:02:16.440
+So let's go ahead with those.
+
+55
+00:02:16.900 --> 00:02:19.520
+We also need to discuss how
+
+56
+00:02:19.520 --> 00:02:21.380
+we are going to train
+the neural network.
+
+57
+00:02:21.380 --> 00:02:23.650
+Using vanilla stochastic
+gradient descent
+
+58
+00:02:23.650 --> 00:02:26.015
+will likely be too
+slow for this project.
+
+59
+00:02:26.015 --> 00:02:28.295
+So what are other options?
+
+60
+00:02:28.295 --> 00:02:31.025
+We could try this
+algorithm called adagrad.
+
+61
+00:02:31.025 --> 00:02:33.260
+The downside to this
+is that adagrad
+
+62
+00:02:33.260 --> 00:02:35.450
+decays the step
+sizes towards zero,
+
+63
+00:02:35.450 --> 00:02:38.650
+which can be problematic for
+non-stationary learning.
+
+64
+00:02:38.650 --> 00:02:40.845
+We could try RMSProp,
+
+65
+00:02:40.845 --> 00:02:42.310
+which uses information about
+
+66
+00:02:42.310 --> 00:02:45.385
+the curvature of the loss to
+improve the descent step.
+
+67
+00:02:45.385 --> 00:02:47.440
+However, we'd like to also
+
+68
+00:02:47.440 --> 00:02:50.365
+incorporate momentum
+to speed up learning.
+
+69
+00:02:50.365 --> 00:02:53.200
+A good choice can be
+the ADAM optimizer.
+
+70
+00:02:53.200 --> 00:02:55.300
+This combines the
+curvature information
+
+71
+00:02:55.300 --> 00:02:58.580
+from RMSProp and momentum.
+
+72
+00:02:59.490 --> 00:03:01.780
+We finally need to discuss
+
+73
+00:03:01.780 --> 00:03:04.255
+which expiration
+method we will use.
+
+74
+00:03:04.255 --> 00:03:06.575
+What about optimistic
+initial values?
+
+75
+00:03:06.575 --> 00:03:09.205
+This would be a reasonable
+choice if we were using
+
+76
+00:03:09.205 --> 00:03:10.975
+a linear function approximator
+
+77
+00:03:10.975 --> 00:03:12.985
+with non-negative features.
+
+78
+00:03:12.985 --> 00:03:15.640
+But since we are using
+a neural network,
+
+79
+00:03:15.640 --> 00:03:17.110
+it is difficult to maintain
+
+80
+00:03:17.110 --> 00:03:21.200
+optimistic values and so is
+unlikely to be effective.
+
+81
+00:03:21.200 --> 00:03:23.830
+We can also consider
+Epsilon greedy,
+
+82
+00:03:23.830 --> 00:03:26.105
+this is very straight
+forward to implement.
+
+83
+00:03:26.105 --> 00:03:29.210
+The downside though is that
+it's exploration completely
+
+84
+00:03:29.210 --> 00:03:30.560
+ignores whatever information
+
+85
+00:03:30.560 --> 00:03:32.230
+the action values might have.
+
+86
+00:03:32.230 --> 00:03:35.030
+It is equally likely to
+explore an action with
+
+87
+00:03:35.030 --> 00:03:38.615
+really negative value as an
+action with moderate value.
+
+88
+00:03:38.615 --> 00:03:42.430
+I know how about we
+use a Softmax policy?
+
+89
+00:03:42.430 --> 00:03:45.290
+This choice could be better
+because the probability of
+
+90
+00:03:45.290 --> 00:03:46.490
+selecting an action is
+
+91
+00:03:46.490 --> 00:03:48.890
+proportional to the
+value of that action.
+
+92
+00:03:48.890 --> 00:03:50.900
+This way we are less likely to
+
+93
+00:03:50.900 --> 00:03:53.675
+explore actions that we
+think are really bad.
+
+94
+00:03:53.675 --> 00:03:55.555
+By the way, in course 3,
+
+95
+00:03:55.555 --> 00:03:57.650
+we only talked about
+Softmax policies
+
+96
+00:03:57.650 --> 00:03:59.345
+on action preferences.
+
+97
+00:03:59.345 --> 00:04:01.190
+We use policy gradient methods to
+
+98
+00:04:01.190 --> 00:04:03.040
+adjust the action preferences.
+
+99
+00:04:03.040 --> 00:04:05.510
+But it is not a big
+leap to consider
+
+100
+00:04:05.510 --> 00:04:08.630
+using an action value
+method like expected SARSA,
+
+101
+00:04:08.630 --> 00:04:12.290
+and use a Softmax directly
+on the learn action values.
+
+102
+00:04:12.290 --> 00:04:14.210
+There are few things
+to consider when
+
+103
+00:04:14.210 --> 00:04:16.480
+using a Softmax on
+the action values.
+
+104
+00:04:16.480 --> 00:04:18.350
+First, let's think about how it
+
+105
+00:04:18.350 --> 00:04:20.375
+affects the expected
+SARSA update.
+
+106
+00:04:20.375 --> 00:04:22.130
+Remember that we need to compute
+
+107
+00:04:22.130 --> 00:04:25.535
+the expectation over action
+values for the next state.
+
+108
+00:04:25.535 --> 00:04:28.475
+This means we'll need to
+compute the probabilities for
+
+109
+00:04:28.475 --> 00:04:32.075
+all the actions first under
+the Softmax function.
+
+110
+00:04:32.075 --> 00:04:34.880
+Next, we also need
+to consider how much
+
+111
+00:04:34.880 --> 00:04:38.090
+the agent focuses on the
+highest value actions.
+
+112
+00:04:38.090 --> 00:04:41.465
+We control those with a
+temperature parameter called Tau.
+
+113
+00:04:41.465 --> 00:04:43.130
+If Tau is large,
+
+114
+00:04:43.130 --> 00:04:44.855
+then the agent is more stochastic
+
+115
+00:04:44.855 --> 00:04:46.865
+and selects more of the actions.
+
+116
+00:04:46.865 --> 00:04:48.290
+For very large Tau,
+
+117
+00:04:48.290 --> 00:04:51.835
+the agent behaves nearly like
+a uniform random policy.
+
+118
+00:04:51.835 --> 00:04:53.835
+For very small Tau,
+
+119
+00:04:53.835 --> 00:04:56.900
+the agent mostly selects
+the greedy action.
+
+120
+00:04:56.900 --> 00:05:00.290
+Finally, we need to consider
+an additional trick to
+
+121
+00:05:00.290 --> 00:05:03.380
+avoid overflow issues when
+computing the Softmax.
+
+122
+00:05:03.380 --> 00:05:06.070
+Imagine that the action
+values are large.
+
+123
+00:05:06.070 --> 00:05:09.245
+Exponentiating those
+values can get very large.
+
+124
+00:05:09.245 --> 00:05:10.760
+Instead, we can use
+
+125
+00:05:10.760 --> 00:05:12.920
+the fact that subtracting
+a constant from
+
+126
+00:05:12.920 --> 00:05:14.870
+the action values when computing
+
+127
+00:05:14.870 --> 00:05:17.360
+the probabilities has no effect.
+
+128
+00:05:17.360 --> 00:05:19.340
+For example, we can subtract
+
+129
+00:05:19.340 --> 00:05:22.625
+the maximum action value
+divided by the temperature.
+
+130
+00:05:22.625 --> 00:05:25.520
+Then, all the exponents
+are negative and we
+
+131
+00:05:25.520 --> 00:05:28.885
+avoid taking the exponent
+of large positive numbers.
+
+132
+00:05:28.885 --> 00:05:32.630
+Altogether, we now have a
+reasonable strategy to learn
+
+133
+00:05:32.630 --> 00:05:35.000
+an optimal soft policy that also
+
+134
+00:05:35.000 --> 00:05:38.105
+explores a bit more intelligently
+than Epsilon greedy.
+
+135
+00:05:38.105 --> 00:05:40.070
+The agent takes
+actions according to
+
+136
+00:05:40.070 --> 00:05:41.914
+its current Softmax policy
+
+137
+00:05:41.914 --> 00:05:44.960
+and uses expected SARSA updates.
+
+138
+00:05:44.960 --> 00:05:47.150
+That's it for this video.
+
+139
+00:05:47.150 --> 00:05:48.830
+Today, we brainstorm some
+
+140
+00:05:48.830 --> 00:05:50.575
+of the key choices in your agent.
+
+141
+00:05:50.575 --> 00:05:53.045
+Overall, there are a
+lot of choices to make.
+
+142
+00:05:53.045 --> 00:05:55.100
+Most of these choices we set by
+
+143
+00:05:55.100 --> 00:05:57.605
+reasoning through what might
+be the most appropriate,
+
+144
+00:05:57.605 --> 00:06:00.725
+like we did for the choices
+in the function approximator.
+
+145
+00:06:00.725 --> 00:06:03.500
+Other choices like
+specific step sizes in
+
+146
+00:06:03.500 --> 00:06:04.820
+the optimizer or
+
+147
+00:06:04.820 --> 00:06:06.919
+exploration parameters
+like the temperature,
+
+148
+00:06:06.919 --> 00:06:09.470
+can be less obvious
+to simply select.
+
+149
+00:06:09.470 --> 00:06:11.360
+We will discuss more
+ways to determine
+
+150
+00:06:11.360 --> 00:06:15.360
+these parameters in
+module 5. See you then.

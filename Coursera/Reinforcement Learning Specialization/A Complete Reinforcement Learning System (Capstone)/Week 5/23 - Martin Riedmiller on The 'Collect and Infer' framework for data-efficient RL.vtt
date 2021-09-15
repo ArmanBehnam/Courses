@@ -1,0 +1,437 @@
+WEBVTT
+
+1
+00:00:00.006 --> 00:00:08.900
+Hi, I'm Martin Riedmiller,
+
+2
+00:00:08.900 --> 00:00:11.700
+head of the control team at Deepmind.
+
+3
+00:00:11.700 --> 00:00:16.700
+And I've been working for more than 20
+years on New Reinforcement Learning Agents
+
+4
+00:00:16.700 --> 00:00:19.025
+for the control of dynamical systems.
+
+5
+00:00:19.025 --> 00:00:23.938
+[SOUND] Today, I want to introduce
+you to a particular viewpoint or
+
+6
+00:00:23.938 --> 00:00:27.166
+perspective on reinforcement learning.
+
+7
+00:00:27.166 --> 00:00:31.316
+The collect and
+infer framework is particularly suited for
+
+8
+00:00:31.316 --> 00:00:36.400
+the design and development of
+data efficient learning agents.
+
+9
+00:00:36.400 --> 00:00:41.364
+The control of weaver dynamical systems
+is an attractive application area for
+
+10
+00:00:41.364 --> 00:00:43.933
+reinforcement learning controllers.
+
+11
+00:00:43.933 --> 00:00:47.043
+Like control of autonomous cars,
+
+12
+00:00:47.043 --> 00:00:53.488
+control of soccer-playing robots,
+our slot car racing from pixels.
+
+13
+00:00:56.124 --> 00:01:01.727
+They all share the same principle
+feedback control structure, a controller
+
+14
+00:01:01.727 --> 00:01:07.429
+gets the observation, computes an action
+and applies it to the environment.
+
+15
+00:01:07.429 --> 00:01:13.149
+Classical control theory would first model
+the process as a set of differential
+
+16
+00:01:13.149 --> 00:01:19.100
+equations for which then a control
+law must be analytically derived.
+
+17
+00:01:19.100 --> 00:01:25.317
+A tedious job in particular if the systems
+are complex or highly nonlinear.
+
+18
+00:01:25.317 --> 00:01:28.833
+Reinforcement learning in contrast
+promises to be able to learn
+
+19
+00:01:28.833 --> 00:01:30.900
+the controller autonomously.
+
+20
+00:01:30.900 --> 00:01:34.800
+If only the overall
+control goal is specified.
+
+21
+00:01:34.800 --> 00:01:38.012
+This is typically done by
+defining the immediate reward.
+
+22
+00:01:38.012 --> 00:01:44.712
+The RL controller optimizes the expected
+cumulated sum of rewards over time.
+
+23
+00:01:44.712 --> 00:01:49.450
+[SOUND] Reinforcement learning therefore
+offers the right framework to tackle
+
+24
+00:01:49.450 --> 00:01:51.969
+feedback control of dynamical systems.
+
+25
+00:01:51.969 --> 00:01:57.669
+We are looking for a policy that optimizes
+expected cumulated reward over time.
+
+26
+00:01:57.669 --> 00:02:03.000
+This can be done in a model free setting
+by iterating on a Q value function.
+
+27
+00:02:03.000 --> 00:02:07.700
+Since in most control applications we are
+typically dealing with continuous states
+
+28
+00:02:07.700 --> 00:02:09.400
+and actions.
+
+29
+00:02:09.400 --> 00:02:15.158
+Will be using a neural network
+with inputs s and a to compute Q.
+
+30
+00:02:15.158 --> 00:02:19.515
+The above Bellman equation is then
+transformed into a quadratic loss
+
+31
+00:02:19.515 --> 00:02:20.274
+function.
+
+32
+00:02:20.274 --> 00:02:24.609
+That is minimized by gradient
+descent over the network parameters.
+
+33
+00:02:24.609 --> 00:02:29.506
+[SOUND] The core question when
+it comes to learning on real
+
+34
+00:02:29.506 --> 00:02:33.371
+systems is how to do
+this data efficiently.
+
+35
+00:02:33.371 --> 00:02:36.690
+[SOUND] In classical
+RL the update rule for
+
+36
+00:02:36.690 --> 00:02:40.990
+the value function is
+applied in an online fashion.
+
+37
+00:02:40.990 --> 00:02:44.984
+The agent observes an input,
+computes an action and
+
+38
+00:02:44.984 --> 00:02:50.900
+observes the resulting state and
+then updates its controller accordingly.
+
+39
+00:02:52.800 --> 00:02:55.822
+Every transition is used only once,
+
+40
+00:02:55.822 --> 00:03:01.575
+empirically this leads to highly
+data consuming learning behavior.
+
+41
+00:03:01.575 --> 00:03:05.034
+Which might be okay if our
+environment is a simulator and
+
+42
+00:03:05.034 --> 00:03:07.100
+provides us with infinite data.
+
+43
+00:03:08.200 --> 00:03:13.225
+But typically does not work for Realworld
+System where data is not abundant.
+
+44
+00:03:13.225 --> 00:03:15.591
+[SOUND] If data is limited,
+
+45
+00:03:15.591 --> 00:03:21.084
+then the core inside reads data
+is precious and data is true.
+
+46
+00:03:21.084 --> 00:03:25.582
+So we shouldn't throw away any
+transition experience as a as crime but
+
+47
+00:03:25.582 --> 00:03:28.808
+instead store all of them
+in a transition memory.
+
+48
+00:03:28.808 --> 00:03:32.900
+Learning is then done
+on the entire data set.
+
+49
+00:03:34.200 --> 00:03:38.337
+In this step, we infer knowledge
+from our transition memory.
+
+50
+00:03:38.337 --> 00:03:43.220
+[SOUND] The inferred knowledge can
+only be as good as the data in
+
+51
+00:03:43.220 --> 00:03:45.241
+the transition memory.
+
+52
+00:03:45.241 --> 00:03:49.465
+Therefore, collecting the right
+data is the second important
+
+53
+00:03:49.465 --> 00:03:51.464
+component of our framework.
+
+54
+00:03:51.464 --> 00:03:55.799
+[SOUND] These two steps together
+build the so-called collecting and
+
+55
+00:03:55.799 --> 00:03:58.776
+infer framework of reinforcement learning.
+
+56
+00:03:58.776 --> 00:04:04.700
+This perspective keeps us focused on the
+two main question of data efficient RL.
+
+57
+00:04:04.700 --> 00:04:09.808
+Infer, which means squeezing out the most
+of a given set of transition data.
+
+58
+00:04:09.808 --> 00:04:16.446
+And collect, which means sampling the most
+formative data from the environment.
+
+59
+00:04:16.446 --> 00:04:21.505
+In the interest of time, we will only
+concentrate on the infer part for
+
+60
+00:04:21.505 --> 00:04:23.838
+the remainder of this lecture.
+
+61
+00:04:23.838 --> 00:04:28.838
+[SOUND] The neural fitted Q
+algorithm fully embraces this idea
+
+62
+00:04:28.838 --> 00:04:32.572
+of learning from a start
+set of transitions.
+
+63
+00:04:32.572 --> 00:04:37.301
+Given the set of N transition
+tuples we first set the training
+
+64
+00:04:37.301 --> 00:04:40.500
+set M equal to the whole data set D.
+
+65
+00:04:40.500 --> 00:04:45.500
+Then we compute Q target values for
+every sample in M
+
+66
+00:04:45.500 --> 00:04:51.000
+based on the Q iteration rule derived
+from dynamic programming principles.
+
+67
+00:04:52.100 --> 00:04:56.900
+Once the targets are computed for all the
+transitions in M, the neural network is
+
+68
+00:04:56.900 --> 00:05:02.200
+fitted to these target values by
+an ordinary supervised learning step.
+
+69
+00:05:02.200 --> 00:05:04.468
+The outer loop can be repeated for
+
+70
+00:05:04.468 --> 00:05:08.039
+an arbitrary number of
+dynamic programming steps.
+
+71
+00:05:08.039 --> 00:05:14.217
+Until the optimal value function Q star is
+approximated with in a satisfying occurs.
+
+72
+00:05:14.217 --> 00:05:20.534
+Finally the control law is given by
+the greedy evaluation of Q star at s.
+
+73
+00:05:20.534 --> 00:05:24.901
+NFQ basically turns reinforcement
+learning into a series of
+
+74
+00:05:24.901 --> 00:05:27.306
+supervised learning problems.
+
+75
+00:05:27.306 --> 00:05:32.730
+It is assumes to always do updates on
+the whole available set of transitions.
+
+76
+00:05:32.730 --> 00:05:37.760
+This might be impractical for
+very large data sets dqn is a popular
+
+77
+00:05:37.760 --> 00:05:43.200
+variant of nfq that uses mini
+batches of samples for the updates.
+
+78
+00:05:43.200 --> 00:05:48.615
+And some additional adaptations
+to deal with huge data sets
+
+79
+00:05:48.615 --> 00:05:54.911
+as an example consider the classical
+called pole system in reality.
+
+80
+00:05:54.911 --> 00:05:59.359
+It's learned here completely from scratch.
+
+81
+00:05:59.359 --> 00:06:03.000
+The reward function
+definition is rather simple.
+
+82
+00:06:03.000 --> 00:06:06.200
+It's one if the pole is upright and
+0 else.
+
+83
+00:06:07.200 --> 00:06:11.964
+Optionally one could also consider
+the card position as an additional
+
+84
+00:06:11.964 --> 00:06:14.070
+input to the reward function.
+
+85
+00:06:14.070 --> 00:06:17.323
+Classical online td0
+needed about 1 million of
+
+86
+00:06:17.323 --> 00:06:21.300
+trials in a simulated version
+to learn to balance the pole.
+
+87
+00:06:22.500 --> 00:06:26.800
+With nfq training needs less
+than three hundred trials
+
+88
+00:06:26.800 --> 00:06:29.300
+several orders of magnitude faster.
+
+89
+00:06:30.300 --> 00:06:34.647
+This makes it possible to apply
+new reinforcement learning to
+
+90
+00:06:34.647 --> 00:06:37.412
+real-world systems directly [SOUND].
+
+91
+00:06:37.412 --> 00:06:42.422
+To summarize the collect and infer
+framework opens the door to increasingly
+
+92
+00:06:42.422 --> 00:06:47.600
+complex real-world applications of
+the reinforcement learning paradigm.

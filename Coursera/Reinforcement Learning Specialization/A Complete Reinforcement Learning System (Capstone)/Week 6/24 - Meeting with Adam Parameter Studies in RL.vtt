@@ -1,0 +1,430 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.366
+[MUSIC]
+
+2
+00:00:05.366 --> 00:00:09.400
+This is it,
+the final week of the capstone project.
+
+3
+00:00:09.400 --> 00:00:13.100
+After completing this week's notebook
+you will have successfully implemented
+
+4
+00:00:13.100 --> 00:00:15.600
+a complete reinforcement learning system,
+
+5
+00:00:15.600 --> 00:00:20.600
+from problem specification to careful
+selection of meta-parameters.
+
+6
+00:00:20.600 --> 00:00:25.500
+Today we'll discuss that careful
+selection of meta-parameters part.
+
+7
+00:00:25.500 --> 00:00:29.400
+Recall all the key performance parameters
+that we identified in an earlier part of
+
+8
+00:00:29.400 --> 00:00:30.800
+the capstone.
+
+9
+00:00:30.800 --> 00:00:35.181
+We need to pick good values of each of
+these if we have any hope of building
+
+10
+00:00:35.181 --> 00:00:37.089
+a successful learning agent.
+
+11
+00:00:37.089 --> 00:00:40.466
+[SOUND] In practice we will likely
+have to use rules of thumb for
+
+12
+00:00:40.466 --> 00:00:42.200
+many of these choices.
+
+13
+00:00:42.200 --> 00:00:46.841
+However, in some cases we have
+the opportunity to study the impacts of
+
+14
+00:00:46.841 --> 00:00:49.055
+the parameters to gain insight.
+
+15
+00:00:49.055 --> 00:00:52.867
+For example, when learning in our
+simulator we can test our agent with many
+
+16
+00:00:52.867 --> 00:00:55.800
+different configurations
+of the parameters.
+
+17
+00:00:55.800 --> 00:00:59.900
+This can help us identify a good range for
+a particular parameter.
+
+18
+00:00:59.900 --> 00:01:04.599
+This might also help us set the parameter
+when we deploy the agent on the moon.
+
+19
+00:01:04.599 --> 00:01:08.900
+In research we might test our algorithms
+in a variety of simulated problems
+
+20
+00:01:08.900 --> 00:01:11.400
+with many different parameter settings.
+
+21
+00:01:11.400 --> 00:01:14.600
+This can provide insight into how our
+algorithms might behave in general.
+
+22
+00:01:15.600 --> 00:01:19.902
+Running such scientific studies is
+not just useful for scientists, but
+
+23
+00:01:19.902 --> 00:01:22.025
+it's also useful in industry too.
+
+24
+00:01:22.025 --> 00:01:25.700
+In both cases it is important to truly
+understand the methods you deploy.
+
+25
+00:01:27.500 --> 00:01:30.800
+Let's think about how we might better
+understand how our algorithm behaves with
+
+26
+00:01:30.800 --> 00:01:32.700
+different parameters.
+
+27
+00:01:32.700 --> 00:01:37.384
+We can pick a range of each parameter and
+test several values in that range.
+
+28
+00:01:37.384 --> 00:01:41.400
+We can visualize the results with
+a parameter sensitivity curve.
+
+29
+00:01:42.800 --> 00:01:45.600
+On the y-axis we have
+some performance measure.
+
+30
+00:01:45.600 --> 00:01:47.522
+For example, if we ran the agent for
+
+31
+00:01:47.522 --> 00:01:53.200
+50 episodes this measure could be the sum
+of the returns over these 50 episodes.
+
+32
+00:01:53.200 --> 00:01:55.700
+We call this the total return.
+
+33
+00:01:55.700 --> 00:02:01.146
+We then average this across multiple
+runs to get an average total return.
+
+34
+00:02:01.146 --> 00:02:06.231
+On the x-axis we have the values
+of the parameter we are testing.
+
+35
+00:02:06.231 --> 00:02:09.500
+We do a complete run for
+each value of the meta-parameter.
+
+36
+00:02:09.500 --> 00:02:13.100
+This means we run the agent for
+the allocated number of steps,
+
+37
+00:02:13.100 --> 00:02:17.300
+say 10,000 steps, for
+the desired number of runs, say 30 rounds.
+
+38
+00:02:18.300 --> 00:02:23.600
+We compute the total return for each run
+and average those numbers over 30 runs.
+
+39
+00:02:23.600 --> 00:02:24.900
+We plot these averages for
+
+40
+00:02:24.900 --> 00:02:28.400
+each chosen meta-parameter to
+obtain the sensitivity curve.
+
+41
+00:02:29.800 --> 00:02:33.925
+This curve provides insight into how
+the algorithm behaves for a range of its
+
+42
+00:02:33.925 --> 00:02:38.500
+meta-parameters, as well as how difficult
+it might be to pick those parameters.
+
+43
+00:02:40.300 --> 00:02:41.987
+If the curve is very pointed,
+
+44
+00:02:41.987 --> 00:02:45.504
+then it indicates there is
+a narrow range of good parameters.
+
+45
+00:02:45.504 --> 00:02:47.285
+If you did not know this ahead of time,
+
+46
+00:02:47.285 --> 00:02:51.000
+then it is unlikely you would
+find this good parameter setting.
+
+47
+00:02:51.000 --> 00:02:54.400
+Even if you managed to pick
+a meta-parameter very near the best one,
+
+48
+00:02:55.800 --> 00:02:57.700
+the performance could be much worse.
+
+49
+00:02:58.900 --> 00:03:03.200
+So even though in the best case
+the iron can perform well in practice,
+
+50
+00:03:03.200 --> 00:03:05.800
+it could perform significantly worse.
+
+51
+00:03:05.800 --> 00:03:09.000
+You might think, well,
+once I have found this good setting
+
+52
+00:03:09.000 --> 00:03:12.400
+I can just use that meta-parameter and
+get the good performance.
+
+53
+00:03:12.400 --> 00:03:17.163
+Unfortunately, for a new problem the best
+meta-parameter is likely different.
+
+54
+00:03:17.163 --> 00:03:20.459
+Rather this analysis suggests you
+might have a hard time picking
+
+55
+00:03:20.459 --> 00:03:21.700
+the meta-parameter.
+
+56
+00:03:21.700 --> 00:03:25.615
+So we need to be careful in deployment.
+
+57
+00:03:25.615 --> 00:03:28.529
+On the other hand,
+if the range of good parameters is broad,
+
+58
+00:03:28.529 --> 00:03:32.600
+then it is more likely you will be
+successful in choosing a good one.
+
+59
+00:03:32.600 --> 00:03:35.886
+Further, it might indicate that your
+algorithm is not too sensitive to its
+
+60
+00:03:35.886 --> 00:03:37.252
+meta-parameter in general.
+
+61
+00:03:37.252 --> 00:03:41.515
+This is even more likely to be
+true if you observe similar
+
+62
+00:03:41.515 --> 00:03:45.800
+sensitivity to the meta-parameter
+across problems.
+
+63
+00:03:45.800 --> 00:03:49.500
+We do have to pay attention to a couple
+factors to produce meaningful curves.
+
+64
+00:03:49.500 --> 00:03:55.000
+First, we have to test a sufficient
+number of values for the meta-parameters.
+
+65
+00:03:55.000 --> 00:04:01.041
+Otherwise our approximation to the true
+parameter sensitivity curve will be poor.
+
+66
+00:04:01.041 --> 00:04:06.100
+To see why, imagine that the true curve
+with respect to alpha looks like this.
+
+67
+00:04:07.100 --> 00:04:09.873
+If we subsample only a few points to test,
+
+68
+00:04:09.873 --> 00:04:14.324
+we may accidentally jump over
+the best value of those parameters.
+
+69
+00:04:14.324 --> 00:04:18.800
+We also need to test a sufficiently
+wide range of the parameters.
+
+70
+00:04:18.800 --> 00:04:22.819
+If we choose a range that the best
+value is at one end of the range,
+
+71
+00:04:22.819 --> 00:04:26.400
+we may miss out on better
+values of the meta-parameter.
+
+72
+00:04:26.400 --> 00:04:27.401
+Don't worry,
+
+73
+00:04:27.401 --> 00:04:32.900
+we will not ask you to exhaustively test
+each combination of the meta-parameters.
+
+74
+00:04:32.900 --> 00:04:38.281
+You will only get to sweep over one of the
+parameters for your expected SARSA agent.
+
+75
+00:04:38.281 --> 00:04:41.992
+That way you will gain some experience
+doing a parameter study, but
+
+76
+00:04:41.992 --> 00:04:44.934
+you won't have to wait hours for
+your program to run.
+
+77
+00:04:44.934 --> 00:04:47.500
+We will suggest good values for
+the remaining parameters.
+
+78
+00:04:49.100 --> 00:04:51.700
+It is important to note that
+we do not use parameter
+
+79
+00:04:51.700 --> 00:04:55.500
+sweeps to actually select parameters for
+real problems.
+
+80
+00:04:55.500 --> 00:04:56.964
+Rather this is a strategy for
+
+81
+00:04:56.964 --> 00:04:59.900
+understanding our algorithms
+in simplified settings.
+
+82
+00:04:59.900 --> 00:05:04.180
+It is typically not feasible to
+systematically test the agent with many
+
+83
+00:05:04.180 --> 00:05:05.500
+meta-parameters.
+
+84
+00:05:05.500 --> 00:05:08.522
+How can we test landing
+the module on the moon over and
+
+85
+00:05:08.522 --> 00:05:13.000
+over with bad meta-parameter settings
+that might cause repeated crashes?
+
+86
+00:05:13.000 --> 00:05:15.900
+You would be fired in no time.
+
+87
+00:05:15.900 --> 00:05:18.784
+It is so
+important to understand our algorithms and
+
+88
+00:05:18.784 --> 00:05:23.342
+how they might behave this is especially
+true in deployment in the real world, or
+
+89
+00:05:23.342 --> 00:05:25.100
+in this case, in outer space.
+
+90
+00:05:25.100 --> 00:05:27.617
+And that's it for today's video.
+
+91
+00:05:27.617 --> 00:05:30.200
+Good luck in the final part
+of the capstone project.
