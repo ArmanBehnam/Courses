@@ -1,0 +1,584 @@
+WEBVTT
+
+1
+00:00:04.490 --> 00:00:07.020
+Course three is really a story
+
+2
+00:00:07.020 --> 00:00:08.640
+of something old
+and something new.
+
+3
+00:00:08.640 --> 00:00:10.620
+Today, we begin our journey and
+
+4
+00:00:10.620 --> 00:00:13.155
+reinforce our learning with
+function approximation.
+
+5
+00:00:13.155 --> 00:00:15.990
+In a way, this is totally
+new because we will for
+
+6
+00:00:15.990 --> 00:00:18.600
+the first time discuss
+objective functions,
+
+7
+00:00:18.600 --> 00:00:20.990
+gradient descent,
+parameterized functions
+
+8
+00:00:20.990 --> 00:00:23.345
+and generalization
+discrimination.
+
+9
+00:00:23.345 --> 00:00:25.775
+But, you're totally ready for it.
+
+10
+00:00:25.775 --> 00:00:28.260
+The ideas of exploration
+exploitation,
+
+11
+00:00:28.260 --> 00:00:30.065
+value functions policies,
+
+12
+00:00:30.065 --> 00:00:31.340
+and many of the elements
+you've already
+
+13
+00:00:31.340 --> 00:00:32.405
+learned about transfer
+
+14
+00:00:32.405 --> 00:00:35.230
+in a natural way to the function
+approximation setting.
+
+15
+00:00:35.230 --> 00:00:37.220
+The beginning of
+course, represents
+
+16
+00:00:37.220 --> 00:00:39.440
+a significant change
+in perspective.
+
+17
+00:00:39.440 --> 00:00:40.730
+We need to change our focus
+
+18
+00:00:40.730 --> 00:00:42.395
+to learning
+parameterized functions.
+
+19
+00:00:42.395 --> 00:00:44.360
+We will no longer
+assume we can store
+
+20
+00:00:44.360 --> 00:00:46.505
+the values for all
+states in a table.
+
+21
+00:00:46.505 --> 00:00:48.440
+In fact, we can't even
+guarantee we will
+
+22
+00:00:48.440 --> 00:00:50.450
+see the same state
+more than once.
+
+23
+00:00:50.450 --> 00:00:52.310
+Instead, we'll learn functions
+
+24
+00:00:52.310 --> 00:00:53.855
+parameterized by set of weights,
+
+25
+00:00:53.855 --> 00:00:56.735
+like a neural network to
+approximate the values.
+
+26
+00:00:56.735 --> 00:00:59.425
+We won't be able to get
+this approximation perfect.
+
+27
+00:00:59.425 --> 00:01:00.870
+That means in some states,
+
+28
+00:01:00.870 --> 00:01:01.930
+we'll have to be okay with
+
+29
+00:01:01.930 --> 00:01:03.640
+the value function
+being inaccurate.
+
+30
+00:01:03.640 --> 00:01:05.530
+Despite this, the move
+to parameterize
+
+31
+00:01:05.530 --> 00:01:07.090
+value functions is actually
+
+32
+00:01:07.090 --> 00:01:09.715
+overall positive because
+of generalization.
+
+33
+00:01:09.715 --> 00:01:12.220
+In fact, this better
+reflects how we learn.
+
+34
+00:01:12.220 --> 00:01:13.600
+You generalize your predictions
+
+35
+00:01:13.600 --> 00:01:14.980
+about how much work
+you'll have to do in
+
+36
+00:01:14.980 --> 00:01:18.410
+this class based on experience
+taking other classes.
+
+37
+00:01:18.410 --> 00:01:21.475
+The concepts will become
+a bit more technical.
+
+38
+00:01:21.475 --> 00:01:22.540
+We will reason about
+
+39
+00:01:22.540 --> 00:01:24.010
+the distribution of
+states our agents
+
+40
+00:01:24.010 --> 00:01:25.240
+encounter and how that
+
+41
+00:01:25.240 --> 00:01:27.370
+impacts the accuracy
+of the value function.
+
+42
+00:01:27.370 --> 00:01:28.570
+We'll compute the gradient of
+
+43
+00:01:28.570 --> 00:01:31.705
+objective functions and
+derive new learning rules.
+
+44
+00:01:31.705 --> 00:01:33.400
+At this point of specialization,
+
+45
+00:01:33.400 --> 00:01:34.870
+you've learned about many things.
+
+46
+00:01:34.870 --> 00:01:37.315
+Now we're going to learn
+about a bunch of new things.
+
+47
+00:01:37.315 --> 00:01:38.780
+It's easy to get lost.
+
+48
+00:01:38.780 --> 00:01:40.990
+Worse, you might lose sight
+of which algorithms are
+
+49
+00:01:40.990 --> 00:01:43.615
+most relevant for
+the given task at hand.
+
+50
+00:01:43.615 --> 00:01:46.745
+To help with this, we've
+developed a course map.
+
+51
+00:01:46.745 --> 00:01:48.170
+The idea is that you should
+
+52
+00:01:48.170 --> 00:01:49.460
+be able to start at the top of
+
+53
+00:01:49.460 --> 00:01:51.350
+the tree and work
+your way down to
+
+54
+00:01:51.350 --> 00:01:53.275
+the algorithm that best
+fits your problem.
+
+55
+00:01:53.275 --> 00:01:55.025
+Remember, this is a course map.
+
+56
+00:01:55.025 --> 00:01:57.800
+It does not include all
+the algorithms in RL,
+
+57
+00:01:57.800 --> 00:02:00.035
+just the ones we
+have talked about.
+
+58
+00:02:00.035 --> 00:02:01.730
+The map is designed to summarize
+
+59
+00:02:01.730 --> 00:02:03.080
+the algorithms in this course.
+
+60
+00:02:03.080 --> 00:02:05.120
+It is not necessarily
+the best way to
+
+61
+00:02:05.120 --> 00:02:07.955
+categorize the broader set
+of algorithms in RL.
+
+62
+00:02:07.955 --> 00:02:11.355
+So use this as a mental
+model of the course itself.
+
+63
+00:02:11.355 --> 00:02:13.520
+Let's remind ourselves what
+we've covered in course
+
+64
+00:02:13.520 --> 00:02:15.665
+one and two using the map.
+
+65
+00:02:15.665 --> 00:02:17.480
+We started by assuming
+the agent could
+
+66
+00:02:17.480 --> 00:02:19.940
+perfectly represent
+the values in a table.
+
+67
+00:02:19.940 --> 00:02:22.460
+We did this to focus on
+the fundamental concepts of
+
+68
+00:02:22.460 --> 00:02:24.200
+reinforced learning
+without getting
+
+69
+00:02:24.200 --> 00:02:26.030
+bogged down by approximation.
+
+70
+00:02:26.030 --> 00:02:28.170
+The first RL methods
+we discussed,
+
+71
+00:02:28.170 --> 00:02:31.160
+use a model of the world
+that was given not learned.
+
+72
+00:02:31.160 --> 00:02:32.960
+We use dynamic
+programming methods
+
+73
+00:02:32.960 --> 00:02:34.320
+to compute value functions
+
+74
+00:02:34.320 --> 00:02:35.975
+in iterative policies
+from the model
+
+75
+00:02:35.975 --> 00:02:38.075
+without ever interacting
+with the world.
+
+76
+00:02:38.075 --> 00:02:40.145
+The branches of this map show
+
+77
+00:02:40.145 --> 00:02:42.620
+all three DP algorithms
+that we discussed.
+
+78
+00:02:42.620 --> 00:02:45.695
+In the next course, we
+covered sample-based methods.
+
+79
+00:02:45.695 --> 00:02:48.020
+We first talked about
+Monte Carlo methods which must
+
+80
+00:02:48.020 --> 00:02:50.765
+wait until the end of
+an episode to make updates.
+
+81
+00:02:50.765 --> 00:02:52.475
+We'll learn about two
+Monte Carlo methods
+
+82
+00:02:52.475 --> 00:02:54.800
+for prediction and
+two for control.
+
+83
+00:02:54.800 --> 00:02:56.390
+After that, we introduce
+
+84
+00:02:56.390 --> 00:02:57.845
+you to temporal
+difference learning.
+
+85
+00:02:57.845 --> 00:02:59.150
+This family of algorithms
+
+86
+00:02:59.150 --> 00:03:00.680
+allows the agent
+to make updates to
+
+87
+00:03:00.680 --> 00:03:02.405
+the value function and policy
+
+88
+00:03:02.405 --> 00:03:04.370
+on each step of the episode.
+
+89
+00:03:04.370 --> 00:03:06.110
+Here, we learned about some of
+
+90
+00:03:06.110 --> 00:03:08.045
+the most widely used algorithms
+
+91
+00:03:08.045 --> 00:03:10.565
+from reinforcement learning
+including Q-Learning,
+
+92
+00:03:10.565 --> 00:03:12.700
+SARSA and expected SARSA.
+
+93
+00:03:12.700 --> 00:03:14.390
+We finished off course two by
+
+94
+00:03:14.390 --> 00:03:17.135
+looping backup to model
+these planning methods.
+
+95
+00:03:17.135 --> 00:03:19.340
+We study the Dyna
+architecture in which
+
+96
+00:03:19.340 --> 00:03:20.510
+the agent learns a model
+
+97
+00:03:20.510 --> 00:03:22.310
+while interacting with the world.
+
+98
+00:03:22.310 --> 00:03:23.930
+For course three, we only
+
+99
+00:03:23.930 --> 00:03:25.400
+need the right side of this map.
+
+100
+00:03:25.400 --> 00:03:27.770
+We will first introduce
+parameters functions and
+
+101
+00:03:27.770 --> 00:03:30.200
+how we can use them to
+approximate value functions.
+
+102
+00:03:30.200 --> 00:03:32.540
+We will talk about
+generalization discrimination as
+
+103
+00:03:32.540 --> 00:03:34.805
+well as particular
+function approximators,
+
+104
+00:03:34.805 --> 00:03:37.195
+including course coding
+and neural networks.
+
+105
+00:03:37.195 --> 00:03:38.570
+As before, we'll start with
+
+106
+00:03:38.570 --> 00:03:41.000
+prediction and derive
+new Monte Carlo and
+
+107
+00:03:41.000 --> 00:03:42.590
+TER algorithms using ideas from
+
+108
+00:03:42.590 --> 00:03:44.975
+supervised learning
+and gradient descent.
+
+109
+00:03:44.975 --> 00:03:46.670
+Then we'll talk about
+control algorithms
+
+110
+00:03:46.670 --> 00:03:47.975
+for function approximation.
+
+111
+00:03:47.975 --> 00:03:51.025
+This includes expected SARSA
+and Q-Learning.
+
+112
+00:03:51.025 --> 00:03:53.030
+After that, we will totally blow
+
+113
+00:03:53.030 --> 00:03:54.650
+your mind with a new way of
+
+114
+00:03:54.650 --> 00:03:56.690
+formulating continuing
+control problems
+
+115
+00:03:56.690 --> 00:03:58.220
+called average reward.
+
+116
+00:03:58.220 --> 00:03:59.780
+We'll finish off course three
+
+117
+00:03:59.780 --> 00:04:01.255
+with parameterized policies.
+
+118
+00:04:01.255 --> 00:04:03.090
+In a nutshell, we
+can parameterize
+
+119
+00:04:03.090 --> 00:04:06.155
+policies just like we
+parameterize the value function.
+
+120
+00:04:06.155 --> 00:04:07.460
+We will discuss how to do this
+
+121
+00:04:07.460 --> 00:04:08.990
+in the average reward setting.
+
+122
+00:04:08.990 --> 00:04:10.505
+By the end of this course,
+
+123
+00:04:10.505 --> 00:04:12.140
+you will know much
+of what you need to
+
+124
+00:04:12.140 --> 00:04:14.030
+scale RL to real problems.
+
+125
+00:04:14.030 --> 00:04:16.490
+You'll then get to use all
+this newfound understanding to
+
+126
+00:04:16.490 --> 00:04:19.340
+implement a complete RL system
+in course four.
+
+127
+00:04:19.340 --> 00:04:21.570
+So let's get to it.

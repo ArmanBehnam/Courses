@@ -1,0 +1,249 @@
+WEBVTT
+
+1
+00:00:05.600 --> 00:00:09.306
+TD learning is built on the idea
+that the agent can use its own
+
+2
+00:00:09.306 --> 00:00:13.032
+estimate of the value function
+to update its predictions.
+
+3
+00:00:13.032 --> 00:00:15.800
+We've seen TD learning
+in the tabular case.
+
+4
+00:00:15.800 --> 00:00:18.600
+Today we will describe how it
+works with function approximation.
+
+5
+00:00:20.200 --> 00:00:24.500
+By the end of this video you will be
+able to understand the TD update for
+
+6
+00:00:24.500 --> 00:00:27.700
+function approximation, and
+
+7
+00:00:27.700 --> 00:00:32.200
+outline the semi-gradient TD algorithm for
+value estimation.
+
+8
+00:00:32.200 --> 00:00:35.100
+Recall the gradient
+Monte Carlo update equation.
+
+9
+00:00:35.100 --> 00:00:40.578
+It updates our current value estimate to
+be closer to a sample of the return Gt,
+
+10
+00:00:40.578 --> 00:00:44.981
+but we can consider using other
+targets instead of the return.
+
+11
+00:00:44.981 --> 00:00:49.800
+In fact, we can replace the return in this
+update with any estimate of the value.
+
+12
+00:00:50.800 --> 00:00:54.301
+Let's call this estimate Ut.
+
+13
+00:00:54.301 --> 00:00:59.233
+If Ut is an unbiased estimate of the true
+value then our function approximator will
+
+14
+00:00:59.233 --> 00:01:03.100
+converge to a local optimum under
+the appropriate conditions.
+
+15
+00:01:04.200 --> 00:01:08.982
+This was the case for the return,
+but we can also replace Ut
+
+16
+00:01:08.982 --> 00:01:13.675
+with a bootstrap target,
+such as the one step TD target.
+
+17
+00:01:13.675 --> 00:01:18.800
+This is still an estimate of the return,
+but in this case, the estimate is biased.
+
+18
+00:01:18.800 --> 00:01:21.763
+The TD target uses our
+current value estimate,
+
+19
+00:01:21.763 --> 00:01:25.105
+which will likely not equal
+the true value function.
+
+20
+00:01:25.105 --> 00:01:29.520
+Because of this we cannot guarantee this
+algorithm will converge to a local minimum
+
+21
+00:01:29.520 --> 00:01:30.600
+of the value error.
+
+22
+00:01:33.400 --> 00:01:36.100
+The upside is that the TD target
+
+23
+00:01:36.100 --> 00:01:39.300
+often has lower variance than
+the sample of the return.
+
+24
+00:01:39.300 --> 00:01:43.298
+This means TD will tend to
+converge in fewer updates.
+
+25
+00:01:43.298 --> 00:01:46.870
+The TD update is not actually
+a stochastic gradient descent update.
+
+26
+00:01:46.870 --> 00:01:51.548
+To see why we take the gradient of
+the error with respect to the weights for
+
+27
+00:01:51.548 --> 00:01:52.400
+one sample.
+
+28
+00:01:54.000 --> 00:01:57.528
+Remember Ut is equal to the TD target.
+
+29
+00:01:57.528 --> 00:02:00.411
+Using the chain rule we get
+this expanded expression for
+
+30
+00:02:00.411 --> 00:02:03.800
+the gradient of the squared error for
+one sample.
+
+31
+00:02:03.800 --> 00:02:05.200
+But, wait a minute.
+
+32
+00:02:05.200 --> 00:02:07.600
+This doesn't look like the TD update.
+
+33
+00:02:07.600 --> 00:02:12.600
+These two expressions would only
+be equal if the gradient of Ut=0.
+
+34
+00:02:12.600 --> 00:02:14.075
+This is not the case for TD.
+
+35
+00:02:14.075 --> 00:02:20.600
+In TD the target contains an estimate of
+the value, which depends on the weights.
+
+36
+00:02:20.600 --> 00:02:23.800
+This means the gradient of
+Ut is not 0 as shown here,
+
+37
+00:02:24.800 --> 00:02:29.700
+therefore TD is not performing gradient
+descent updates on the squared error.
+
+38
+00:02:29.700 --> 00:02:32.200
+We call it a semi-gradient method.
+
+39
+00:02:32.200 --> 00:02:36.802
+Despite this, TD converges in
+many of the cases we care about.
+
+40
+00:02:36.802 --> 00:02:39.912
+We will discuss TD's convergence
+properties in an upcoming video.
+
+41
+00:02:39.912 --> 00:02:44.375
+Here is the pseudocode for
+semi-gradient TD.
+
+42
+00:02:44.375 --> 00:02:48.987
+It's actually very similar to the TD
+argument for the tabular setting.
+
+43
+00:02:48.987 --> 00:02:53.400
+This album does not have to wait until
+the end of an episode to make updates.
+
+44
+00:02:53.400 --> 00:02:57.300
+TD performs an update on each step,
+unlike radio Monte Carlo.
+
+45
+00:02:57.300 --> 00:03:02.400
+On each step of the episode the agents
+selects an action A, in state S.
+
+46
+00:03:02.400 --> 00:03:07.242
+We use the resulting reward in next
+state to compute the TD target, and
+
+47
+00:03:07.242 --> 00:03:09.632
+update the weights immediately.
+
+48
+00:03:09.632 --> 00:03:12.852
+We continue in this way until
+we reach the terminal state,
+
+49
+00:03:12.852 --> 00:03:17.400
+which is defined to have value zero, then
+we start a new episode, and that's it.
+
+50
+00:03:18.700 --> 00:03:21.300
+It's really not that
+different from tabular TD.
+
+51
+00:03:23.500 --> 00:03:24.800
+That's it for today.
+
+52
+00:03:24.800 --> 00:03:28.300
+You should now understand
+the semi-gradient TD algorithm.

@@ -1,0 +1,414 @@
+WEBVTT
+
+1
+00:00:05.090 --> 00:00:08.130
+In principle, we
+can use any kind of
+
+2
+00:00:08.130 --> 00:00:10.890
+function approximation for
+reinforcement learning.
+
+3
+00:00:10.890 --> 00:00:13.110
+Linear function approximation is
+
+4
+00:00:13.110 --> 00:00:15.000
+an important special case.
+
+5
+00:00:15.000 --> 00:00:17.740
+It is simple enough that
+we can understand it well,
+
+6
+00:00:17.740 --> 00:00:20.535
+but it is still quite
+powerful in general.
+
+7
+00:00:20.535 --> 00:00:22.920
+In fact, linear
+function approximation
+
+8
+00:00:22.920 --> 00:00:24.330
+with TD has been used
+
+9
+00:00:24.330 --> 00:00:26.100
+to build Atari agents that exceed
+
+10
+00:00:26.100 --> 00:00:28.665
+human performance in many games.
+
+11
+00:00:28.665 --> 00:00:30.885
+After watching this video,
+
+12
+00:00:30.885 --> 00:00:32.360
+you'll be able to derive
+
+13
+00:00:32.360 --> 00:00:35.135
+the TD update with
+linear function approximation,
+
+14
+00:00:35.135 --> 00:00:37.130
+understand that tabular TD as
+
+15
+00:00:37.130 --> 00:00:40.340
+a special case of linear
+semi gradient TD,
+
+16
+00:00:40.340 --> 00:00:41.690
+and understand why we care about
+
+17
+00:00:41.690 --> 00:00:44.015
+linear TD as a special case.
+
+18
+00:00:44.015 --> 00:00:47.150
+Recall the update for
+semi gradient TD.
+
+19
+00:00:47.150 --> 00:00:48.920
+It adjusts the weights and
+
+20
+00:00:48.920 --> 00:00:51.170
+the direction of the TD air times
+
+21
+00:00:51.170 --> 00:00:53.420
+the gradient of
+the approximate value function
+
+22
+00:00:53.420 --> 00:00:55.190
+with respect to the weights.
+
+23
+00:00:55.190 --> 00:00:56.870
+In the linear case,
+
+24
+00:00:56.870 --> 00:00:58.700
+the gradient of
+the approximate value for
+
+25
+00:00:58.700 --> 00:01:02.000
+a state is just the feature
+vector for that state.
+
+26
+00:01:02.000 --> 00:01:06.380
+So the update for semi gradient
+TD would look like this.
+
+27
+00:01:06.380 --> 00:01:08.660
+The weight is updated
+in the direction of
+
+28
+00:01:08.660 --> 00:01:11.600
+the feature vector
+times the TD air.
+
+29
+00:01:11.600 --> 00:01:12.860
+If a feature is large,
+
+30
+00:01:12.860 --> 00:01:14.420
+then the corresponding weight can
+
+31
+00:01:14.420 --> 00:01:16.610
+have a large impact
+on the prediction.
+
+32
+00:01:16.610 --> 00:01:19.535
+On the other hand if
+the feature is zero,
+
+33
+00:01:19.535 --> 00:01:21.290
+then that weight has no impact on
+
+34
+00:01:21.290 --> 00:01:24.255
+the prediction and the gradient
+is therefore zero.
+
+35
+00:01:24.255 --> 00:01:26.390
+The fixed basis given by
+
+36
+00:01:26.390 --> 00:01:27.905
+the expert design features
+
+37
+00:01:27.905 --> 00:01:29.975
+has a large impact on the update.
+
+38
+00:01:29.975 --> 00:01:31.700
+If well-designed, we can get
+
+39
+00:01:31.700 --> 00:01:33.785
+effective value
+function approximation
+
+40
+00:01:33.785 --> 00:01:36.060
+with a simple update.
+
+41
+00:01:36.250 --> 00:01:40.100
+We already saw how linear value
+function approximation is
+
+42
+00:01:40.100 --> 00:01:41.780
+a strict generalization of
+
+43
+00:01:41.780 --> 00:01:44.450
+tabular value function
+approximation.
+
+44
+00:01:44.450 --> 00:01:48.365
+We can show that linear TD
+is a strict generalization
+
+45
+00:01:48.365 --> 00:01:52.310
+of both tabular TD and TD
+with state aggregation.
+
+46
+00:01:52.310 --> 00:01:54.560
+Let's take a closer look
+at the algorithm to
+
+47
+00:01:54.560 --> 00:01:57.650
+see this explicitly
+for tabular TD.
+
+48
+00:01:57.650 --> 00:02:01.265
+Imagine we have a tabular
+state representation.
+
+49
+00:02:01.265 --> 00:02:03.590
+Only one feature
+will be equal to one
+
+50
+00:02:03.590 --> 00:02:05.705
+corresponding to
+the current state
+
+51
+00:02:05.705 --> 00:02:08.210
+and the rest will be zero.
+
+52
+00:02:08.210 --> 00:02:11.450
+The value approximation
+for a state is equal to
+
+53
+00:02:11.450 --> 00:02:14.345
+the weight associated
+with the current state.
+
+54
+00:02:14.345 --> 00:02:15.920
+We can therefore think of
+
+55
+00:02:15.920 --> 00:02:18.290
+the weight vector as
+just a table of values,
+
+56
+00:02:18.290 --> 00:02:20.195
+one for each state.
+
+57
+00:02:20.195 --> 00:02:22.130
+Here's the update for semi
+
+58
+00:02:22.130 --> 00:02:24.755
+gradient TD with
+these tabular features.
+
+59
+00:02:24.755 --> 00:02:27.350
+In the update,
+the feature vector X of
+
+60
+00:02:27.350 --> 00:02:29.675
+ST selects a single weight
+
+61
+00:02:29.675 --> 00:02:31.955
+associated with
+the current state.
+
+62
+00:02:31.955 --> 00:02:35.075
+This weight is just the value
+estimate for the state.
+
+63
+00:02:35.075 --> 00:02:36.950
+So this update corresponds to
+
+64
+00:02:36.950 --> 00:02:40.475
+the tabular TD update we
+saw in a previous course.
+
+65
+00:02:40.475 --> 00:02:43.660
+We can use the same analysis
+to show that TD with
+
+66
+00:02:43.660 --> 00:02:47.675
+state aggregation is also
+a special case of linear TD.
+
+67
+00:02:47.675 --> 00:02:49.670
+But why do we care so much about
+
+68
+00:02:49.670 --> 00:02:52.990
+the special case of
+linear function approximation?
+
+69
+00:02:52.990 --> 00:02:54.470
+Linear methods are simpler to
+
+70
+00:02:54.470 --> 00:02:56.840
+understand and analyze
+mathematically.
+
+71
+00:02:56.840 --> 00:02:58.100
+Much of the theory of
+
+72
+00:02:58.100 --> 00:03:00.290
+TD learning is for
+the linear setting.
+
+73
+00:03:00.290 --> 00:03:02.920
+We will discuss this
+more in the next video.
+
+74
+00:03:02.920 --> 00:03:05.540
+In some applications,
+you may have access to
+
+75
+00:03:05.540 --> 00:03:08.600
+expert knowledge to help
+you design good features.
+
+76
+00:03:08.600 --> 00:03:11.090
+Perhaps, you are
+the domain expert or
+
+77
+00:03:11.090 --> 00:03:12.410
+perhaps you can
+talk to someone who
+
+78
+00:03:12.410 --> 00:03:14.480
+knows a lot about
+your application.
+
+79
+00:03:14.480 --> 00:03:17.000
+If we can design
+these features well,
+
+80
+00:03:17.000 --> 00:03:18.920
+then we can expect
+linear methods to learn
+
+81
+00:03:18.920 --> 00:03:21.875
+quickly and achieve
+good prediction accuracy.
+
+82
+00:03:21.875 --> 00:03:24.110
+Feature design provides one way
+
+83
+00:03:24.110 --> 00:03:26.000
+to incorporate
+domain knowledge that can
+
+84
+00:03:26.000 --> 00:03:27.350
+result in good performance in
+
+85
+00:03:27.350 --> 00:03:30.500
+practice. That's it for today.
+
+86
+00:03:30.500 --> 00:03:33.345
+We talked about
+the linear TD update,
+
+87
+00:03:33.345 --> 00:03:34.880
+how tabular TD is
+
+88
+00:03:34.880 --> 00:03:37.730
+a special case of linear
+semi gradient TD,
+
+89
+00:03:37.730 --> 00:03:39.530
+and why linear function
+approximation might
+
+90
+00:03:39.530 --> 00:03:42.510
+be useful. See you next time.

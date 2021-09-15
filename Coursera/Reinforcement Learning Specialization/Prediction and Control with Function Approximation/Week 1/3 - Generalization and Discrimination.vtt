@@ -1,0 +1,561 @@
+WEBVTT
+
+1
+00:00:05.000 --> 00:00:08.400
+Perhaps the most important
+consideration in
+
+2
+00:00:08.400 --> 00:00:10.230
+function approximation is how
+
+3
+00:00:10.230 --> 00:00:12.735
+it generalizes between states.
+
+4
+00:00:12.735 --> 00:00:15.915
+Generalization is something
+that humans do naturally.
+
+5
+00:00:15.915 --> 00:00:18.420
+Once a person learns
+how to drive one car,
+
+6
+00:00:18.420 --> 00:00:19.980
+they don't have to
+start from scratch to
+
+7
+00:00:19.980 --> 00:00:22.155
+learn how to drive
+a different car.
+
+8
+00:00:22.155 --> 00:00:24.150
+They also don't have to
+start from scratch on
+
+9
+00:00:24.150 --> 00:00:26.430
+a different street or
+when it is raining.
+
+10
+00:00:26.430 --> 00:00:29.700
+We'd like our agents to be
+able to generalize too.
+
+11
+00:00:29.700 --> 00:00:31.995
+By the end of this video,
+
+12
+00:00:31.995 --> 00:00:34.625
+you will be able to
+understand what is meant
+
+13
+00:00:34.625 --> 00:00:37.640
+by generalization
+and discrimination,
+
+14
+00:00:37.640 --> 00:00:41.305
+understand how generalization
+can be beneficial,
+
+15
+00:00:41.305 --> 00:00:44.150
+and explain why we want
+both generalization
+
+16
+00:00:44.150 --> 00:00:47.790
+and discrimination from
+our function approximation.
+
+17
+00:00:47.950 --> 00:00:51.980
+Generalization intuitively
+means applying knowledge about
+
+18
+00:00:51.980 --> 00:00:54.020
+specific situations to draw
+
+19
+00:00:54.020 --> 00:00:57.305
+conclusions about
+a wider variety of situations.
+
+20
+00:00:57.305 --> 00:00:59.270
+When we talk about
+generalization in
+
+21
+00:00:59.270 --> 00:01:01.580
+the context of policy evaluation,
+
+22
+00:01:01.580 --> 00:01:04.100
+we mean that updates to
+the value estimate of
+
+23
+00:01:04.100 --> 00:01:07.850
+one state influence
+the value of other states.
+
+24
+00:01:07.850 --> 00:01:11.150
+Imagine a robot tasked
+with collecting cans,
+
+25
+00:01:11.150 --> 00:01:14.015
+observing the world through
+a set of distance sensors.
+
+26
+00:01:14.015 --> 00:01:15.860
+In many locations, it would take
+
+27
+00:01:15.860 --> 00:01:19.280
+the same amount of time to
+drive to the nearest can.
+
+28
+00:01:19.280 --> 00:01:22.420
+Even though they correspond
+to different sensor readings,
+
+29
+00:01:22.420 --> 00:01:24.885
+these locations have
+similar values.
+
+30
+00:01:24.885 --> 00:01:27.050
+Thus, we might want
+the value function
+
+31
+00:01:27.050 --> 00:01:29.825
+to generalize across
+those states.
+
+32
+00:01:29.825 --> 00:01:32.420
+Generalization can
+speed learning by
+
+33
+00:01:32.420 --> 00:01:35.270
+making better use of
+the experience we have.
+
+34
+00:01:35.270 --> 00:01:36.680
+You may not have to visit
+
+35
+00:01:36.680 --> 00:01:38.750
+every state as much
+to get this values
+
+36
+00:01:38.750 --> 00:01:42.935
+correct if we can learn
+its value from similar states.
+
+37
+00:01:42.935 --> 00:01:45.590
+On the other hand, discrimination
+
+38
+00:01:45.590 --> 00:01:47.540
+means the ability to
+make the values for
+
+39
+00:01:47.540 --> 00:01:49.310
+two states different to
+
+40
+00:01:49.310 --> 00:01:52.520
+distinguish between the values
+for these two states.
+
+41
+00:01:52.520 --> 00:01:56.224
+Going back to the example
+of a robot collecting cans,
+
+42
+00:01:56.224 --> 00:02:00.040
+imagine it is in a state where
+a can is three feet away,
+
+43
+00:02:00.040 --> 00:02:01.730
+but behind a wall.
+
+44
+00:02:01.730 --> 00:02:05.000
+Contrast this to a state where
+a can is three feet away,
+
+45
+00:02:05.000 --> 00:02:07.175
+but with a clear paths
+to reach it.
+
+46
+00:02:07.175 --> 00:02:08.930
+The robot would want to assign
+
+47
+00:02:08.930 --> 00:02:11.480
+different values to these states.
+
+48
+00:02:11.480 --> 00:02:14.480
+So while it is useful
+to generalize between
+
+49
+00:02:14.480 --> 00:02:17.250
+states with similar distance
+to the nearest can,
+
+50
+00:02:17.250 --> 00:02:18.680
+it is also important that we
+
+51
+00:02:18.680 --> 00:02:20.855
+discriminate between
+states based on
+
+52
+00:02:20.855 --> 00:02:22.490
+other information when it
+
+53
+00:02:22.490 --> 00:02:25.380
+is likely to impact their value.
+
+54
+00:02:25.400 --> 00:02:27.920
+We can visualize the space of
+
+55
+00:02:27.920 --> 00:02:29.600
+possible methods in terms of
+
+56
+00:02:29.600 --> 00:02:31.160
+a two-dimensional plot of
+
+57
+00:02:31.160 --> 00:02:34.040
+generalization and
+discrimination.
+
+58
+00:02:34.040 --> 00:02:38.740
+The tabular methods we've
+discussed so far lie down here.
+
+59
+00:02:38.740 --> 00:02:41.690
+They discriminate between
+different states perfectly,
+
+60
+00:02:41.690 --> 00:02:45.055
+but do not generalize
+the learn values at all,
+
+61
+00:02:45.055 --> 00:02:48.815
+each value is represented
+independently.
+
+62
+00:02:48.815 --> 00:02:51.065
+On the other extreme,
+
+63
+00:02:51.065 --> 00:02:53.870
+we could treat
+all states as the same.
+
+64
+00:02:53.870 --> 00:02:55.700
+Each update generalizes to
+
+65
+00:02:55.700 --> 00:02:58.520
+all states but cannot
+discriminate at all.
+
+66
+00:02:58.520 --> 00:03:00.650
+At best, we will be able to learn
+
+67
+00:03:00.650 --> 00:03:03.980
+the average return independent
+of the current state,
+
+68
+00:03:03.980 --> 00:03:05.945
+this is not very useful.
+
+69
+00:03:05.945 --> 00:03:07.820
+What we would really like is
+
+70
+00:03:07.820 --> 00:03:09.170
+a learning method that achieves
+
+71
+00:03:09.170 --> 00:03:12.275
+good generalization and
+a good discrimination.
+
+72
+00:03:12.275 --> 00:03:13.970
+Such a method would generalize
+
+73
+00:03:13.970 --> 00:03:15.980
+the learn values
+to similar states,
+
+74
+00:03:15.980 --> 00:03:17.795
+allowing it to learn faster,
+
+75
+00:03:17.795 --> 00:03:20.905
+but it could also
+discriminate between states.
+
+76
+00:03:20.905 --> 00:03:22.545
+Meaning, with more data,
+
+77
+00:03:22.545 --> 00:03:24.200
+the value function approximation
+
+78
+00:03:24.200 --> 00:03:26.735
+can accurately
+represent the values.
+
+79
+00:03:26.735 --> 00:03:30.290
+In practice, we are more
+likely to get a point here,
+
+80
+00:03:30.290 --> 00:03:31.670
+where we trade off some level
+
+81
+00:03:31.670 --> 00:03:33.980
+of discrimination
+for generalization.
+
+82
+00:03:33.980 --> 00:03:36.770
+For example, we might combine
+
+83
+00:03:36.770 --> 00:03:38.360
+similar states together and
+
+84
+00:03:38.360 --> 00:03:41.220
+represent their values
+with one number.
+
+85
+00:03:41.230 --> 00:03:43.640
+To build some more intuition,
+
+86
+00:03:43.640 --> 00:03:47.035
+let's look at the game of
+chess as a concrete example.
+
+87
+00:03:47.035 --> 00:03:49.140
+Take the extreme case where we
+
+88
+00:03:49.140 --> 00:03:51.110
+treat all states as the same.
+
+89
+00:03:51.110 --> 00:03:54.080
+This value corresponds
+to the probability of
+
+90
+00:03:54.080 --> 00:03:57.380
+winning regardless of
+the state of the game.
+
+91
+00:03:57.380 --> 00:03:59.300
+With equally matched players,
+
+92
+00:03:59.300 --> 00:04:01.780
+this number might be 50 percent.
+
+93
+00:04:01.780 --> 00:04:03.870
+On the opposite extreme,
+
+94
+00:04:03.870 --> 00:04:05.265
+we have the tabular case,
+
+95
+00:04:05.265 --> 00:04:08.095
+where we treat every state
+as totally different.
+
+96
+00:04:08.095 --> 00:04:10.165
+This is fine for small problems,
+
+97
+00:04:10.165 --> 00:04:11.410
+but in a game like chess,
+
+98
+00:04:11.410 --> 00:04:12.910
+it is impractical to even
+
+99
+00:04:12.910 --> 00:04:15.070
+enumerate all the
+possible states.
+
+100
+00:04:15.070 --> 00:04:18.365
+There are approximately
+10 to the 46 states.
+
+101
+00:04:18.365 --> 00:04:21.010
+Further, imagine how
+long it would take to
+
+102
+00:04:21.010 --> 00:04:24.085
+individually learn the value
+of all these states.
+
+103
+00:04:24.085 --> 00:04:27.250
+We obviously want something
+in-between where we
+
+104
+00:04:27.250 --> 00:04:28.690
+generalize between states with
+
+105
+00:04:28.690 --> 00:04:30.985
+similar probabilities of winning.
+
+106
+00:04:30.985 --> 00:04:33.610
+Identifying these
+similarities to get
+
+107
+00:04:33.610 --> 00:04:35.860
+such groupings is
+a difficult question
+
+108
+00:04:35.860 --> 00:04:37.445
+with no single answer.
+
+109
+00:04:37.445 --> 00:04:38.960
+How we generalize can have
+
+110
+00:04:38.960 --> 00:04:41.630
+a major impact on the
+performance of our algorithms,
+
+111
+00:04:41.630 --> 00:04:42.920
+and as a central topic in
+
+112
+00:04:42.920 --> 00:04:45.710
+machine learning and
+reinforcement learning.
+
+113
+00:04:45.710 --> 00:04:47.885
+That's it for this video.
+
+114
+00:04:47.885 --> 00:04:51.080
+You should now understand
+that tabular representations
+
+115
+00:04:51.080 --> 00:04:54.710
+provide good discrimination
+but no generalization.
+
+116
+00:04:54.710 --> 00:04:58.100
+Generalization is important
+for faster learning,
+
+117
+00:04:58.100 --> 00:05:00.110
+and having both generalization
+
+118
+00:05:00.110 --> 00:05:02.110
+and discrimination is ideal.
+
+119
+00:05:02.110 --> 00:05:05.165
+Though at practice, there's
+typically a trade off.
+
+120
+00:05:05.165 --> 00:05:07.340
+Throughout the next few modules,
+
+121
+00:05:07.340 --> 00:05:09.110
+we will visit
+these concepts as we
+
+122
+00:05:09.110 --> 00:05:12.410
+examined particular
+function approximators.

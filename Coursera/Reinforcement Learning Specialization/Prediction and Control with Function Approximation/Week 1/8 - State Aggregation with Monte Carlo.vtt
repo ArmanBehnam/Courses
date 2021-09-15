@@ -1,0 +1,560 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.035
+[MUSIC]
+
+2
+00:00:06.035 --> 00:00:10.495
+In this video, we will discuss a concrete
+example of value approximation using
+
+3
+00:00:10.495 --> 00:00:12.766
+a technique called state aggregation.
+
+4
+00:00:12.766 --> 00:00:17.461
+We will use Monte Carlo with state
+aggregation to approximate the values for
+
+5
+00:00:17.461 --> 00:00:19.232
+a large random walk domain.
+
+6
+00:00:19.232 --> 00:00:24.489
+[SOUND] After watching this video,
+you will be able to understand how
+
+7
+00:00:24.489 --> 00:00:29.749
+state aggregation can be used to
+approximate the value function and
+
+8
+00:00:29.749 --> 00:00:33.919
+apply gradient Monte Carlo
+with state aggregation.
+
+9
+00:00:33.919 --> 00:00:38.621
+[SOUND] Let's look at an example
+where function approximation can
+
+10
+00:00:38.621 --> 00:00:42.307
+help speed up learning,
+a large random walk task.
+
+11
+00:00:42.307 --> 00:00:47.400
+The states are numbered from 1 to 1,000
+and arranged in a line from left to right.
+
+12
+00:00:48.700 --> 00:00:53.209
+All episodes will begin in the middle
+of the line, at state 500.
+
+13
+00:00:53.209 --> 00:00:56.181
+There are two actions, left and right.
+
+14
+00:00:56.181 --> 00:01:00.600
+The left action moves the agent to the
+left, but not necessarily just one place.
+
+15
+00:01:02.000 --> 00:01:07.993
+The agent jumps left to any state
+within 100 neighboring states,
+
+16
+00:01:07.993 --> 00:01:09.963
+uniformly at random.
+
+17
+00:01:09.963 --> 00:01:13.215
+Likewise, the right action
+jumps to the right,
+
+18
+00:01:13.215 --> 00:01:16.000
+to one of the neighboring 100 states.
+
+19
+00:01:16.000 --> 00:01:20.811
+Let's evaluate the uniform random policy,
+which moves either left or
+
+20
+00:01:20.811 --> 00:01:22.985
+right with equal probability.
+
+21
+00:01:22.985 --> 00:01:25.368
+States close to the terminal state,
+on the left,
+
+22
+00:01:25.368 --> 00:01:27.600
+have fewer than 100 neighbors to the left.
+
+23
+00:01:29.200 --> 00:01:32.000
+All actions that would jump
+past the end of the chain
+
+24
+00:01:32.000 --> 00:01:34.400
+go to the terminal state instead.
+
+25
+00:01:34.400 --> 00:01:36.406
+Likewise on the right.
+
+26
+00:01:36.406 --> 00:01:39.213
+Terminating on the left
+gives a reward of minus 1,
+
+27
+00:01:39.213 --> 00:01:42.600
+terminating the right
+gives a reward of plus 1.
+
+28
+00:01:42.600 --> 00:01:46.100
+All other transitions give reward of 0.
+
+29
+00:01:46.100 --> 00:01:48.944
+The discount gamma is 1.
+
+30
+00:01:48.944 --> 00:01:52.217
+This task seems fairly simple,
+but learning the values for
+
+31
+00:01:52.217 --> 00:01:54.647
+1,000 states might take a lot of time.
+
+32
+00:01:54.647 --> 00:01:57.292
+We might benefit from some kind
+of function approximation.
+
+33
+00:01:57.292 --> 00:02:02.372
+[SOUND] Here we will use a technique
+called state aggregation.
+
+34
+00:02:02.372 --> 00:02:07.895
+As the name suggests, state aggregation
+treats certain states as the same.
+
+35
+00:02:07.895 --> 00:02:09.642
+In this table of eight states,
+
+36
+00:02:09.642 --> 00:02:13.285
+we might choose to aggregate
+states together in groups of four.
+
+37
+00:02:13.285 --> 00:02:19.916
+So now instead of a table of eight entries
+for the value function, we just have two.
+
+38
+00:02:19.916 --> 00:02:22.647
+When we update the value of
+any state in the first group,
+
+39
+00:02:22.647 --> 00:02:25.563
+the values of all the other
+states in that group is updated.
+
+40
+00:02:27.891 --> 00:02:33.032
+State aggregation is another example
+of linear function approximation.
+
+41
+00:02:33.032 --> 00:02:36.500
+There is one feature for
+each group of states.
+
+42
+00:02:36.500 --> 00:02:42.379
+Each feature will be 1 if the current
+state belongs to the associated group,
+
+43
+00:02:42.379 --> 00:02:43.831
+and 0 otherwise.
+
+44
+00:02:43.831 --> 00:02:47.543
+The approximate value of a state is
+the weight associated with the group that
+
+45
+00:02:47.543 --> 00:02:48.478
+state belongs to.
+
+46
+00:02:48.478 --> 00:02:54.981
+[SOUND] Let's look at the gradient Monte
+Carlo algorithm with state aggregation.
+
+47
+00:02:54.981 --> 00:02:59.392
+We already know how to compute
+the value for a given state.
+
+48
+00:02:59.392 --> 00:03:04.482
+Now we need to think about how we compute
+the gradient of the value function so
+
+49
+00:03:04.482 --> 00:03:07.118
+that we can use our key update formula.
+
+50
+00:03:07.118 --> 00:03:10.827
+State aggregation is an example of
+linear function approximation, so
+
+51
+00:03:10.827 --> 00:03:13.190
+the gradient is equal
+to the feature vector.
+
+52
+00:03:15.073 --> 00:03:20.511
+The update rule modifies only the weight
+corresponding to the current active group.
+
+53
+00:03:20.511 --> 00:03:23.643
+Let's think about how this
+update rule changes the weight.
+
+54
+00:03:23.643 --> 00:03:27.870
+If the estimated value was smaller
+than the sample of return Gt,
+
+55
+00:03:27.870 --> 00:03:29.916
+then the weight is increased.
+
+56
+00:03:29.916 --> 00:03:33.332
+If the estimated value was greater
+than the sample of return Gt,
+
+57
+00:03:33.332 --> 00:03:34.986
+then the weight is decreased.
+
+58
+00:03:34.986 --> 00:03:38.246
+[SOUND] Let's return
+to the random walk and
+
+59
+00:03:38.246 --> 00:03:41.424
+see how we can apply state aggregation.
+
+60
+00:03:41.424 --> 00:03:44.511
+First, we have to choose
+how we aggregate states.
+
+61
+00:03:44.511 --> 00:03:49.111
+State aggregation forces states in the
+same group to use the same value estimate.
+
+62
+00:03:49.111 --> 00:03:53.841
+So ideally, we should group states
+together if we have reason to believe
+
+63
+00:03:53.841 --> 00:03:55.866
+their values will be similar.
+
+64
+00:03:59.059 --> 00:04:01.151
+In this problem, it's an easy choice,
+
+65
+00:04:01.151 --> 00:04:03.865
+states close together
+should have similar values.
+
+66
+00:04:06.150 --> 00:04:09.536
+Now we have to choose how many
+states to put in each group.
+
+67
+00:04:09.536 --> 00:04:14.264
+If the groups are small, our value
+estimates will ultimately be more
+
+68
+00:04:14.264 --> 00:04:17.372
+accurate, but we'll take longer to learn.
+
+69
+00:04:17.372 --> 00:04:20.573
+We use ten groups,
+each containing 100 states.
+
+70
+00:04:20.573 --> 00:04:23.517
+This is a nice change from
+1,000 states we started with.
+
+71
+00:04:23.517 --> 00:04:30.651
+[SOUND] Let's step through the gradient
+Monte Carlo algorithm to see how it works.
+
+72
+00:04:30.651 --> 00:04:35.262
+We input the policy,
+our chosen state aggregation function, and
+
+73
+00:04:35.262 --> 00:04:37.909
+a small step-size parameter value.
+
+74
+00:04:37.909 --> 00:04:39.632
+We initialize the weights to 0.
+
+75
+00:04:41.721 --> 00:04:44.367
+First, we generate an episode.
+
+76
+00:04:44.367 --> 00:04:46.868
+Once we have a complete trajectory,
+
+77
+00:04:46.868 --> 00:04:50.992
+we step through all the states
+we visited and make an update.
+
+78
+00:04:50.992 --> 00:04:52.956
+The return from each state was 1,
+
+79
+00:04:52.956 --> 00:04:56.758
+because the agent terminated on
+the right with a reward of plus 1.
+
+80
+00:04:56.758 --> 00:04:59.305
+All other transitions generated 0 reward.
+
+81
+00:05:01.256 --> 00:05:06.034
+Our first update is to state 500,
+which belongs to group five.
+
+82
+00:05:06.034 --> 00:05:10.455
+So we perform a gradient Monte Carlo
+update to that weight based on the sample
+
+83
+00:05:10.455 --> 00:05:11.293
+return of 1.
+
+84
+00:05:13.355 --> 00:05:16.149
+We do updates like this for
+every state in the trajectory.
+
+85
+00:05:16.149 --> 00:05:19.360
+Eventually, we finish with state 936,
+
+86
+00:05:19.360 --> 00:05:23.542
+which was the last state we
+visited before terminating.
+
+87
+00:05:23.542 --> 00:05:30.268
+Since state 936 belongs to group ten,
+the last update we make is to weight 10.
+
+88
+00:05:30.268 --> 00:05:32.618
+After all the updates have been made,
+
+89
+00:05:32.618 --> 00:05:35.932
+our value estimates might
+look something like this.
+
+90
+00:05:35.932 --> 00:05:40.779
+This plot shows the estimates
+after a single episode.
+
+91
+00:05:40.779 --> 00:05:45.438
+We plotted the learn values for
+each states from 1 to 1,000.
+
+92
+00:05:45.438 --> 00:05:48.214
+The state space is not continuous, but
+
+93
+00:05:48.214 --> 00:05:52.091
+it makes sense to plot
+the approximate value as a line.
+
+94
+00:05:52.091 --> 00:05:55.125
+Notice that the value estimates for
+each group are non-negative.
+
+95
+00:05:56.884 --> 00:06:00.649
+This is because the return for
+the first episode was positive and
+
+96
+00:06:00.649 --> 00:06:02.541
+our initial estimates were 0.
+
+97
+00:06:05.949 --> 00:06:08.679
+Let's look at the same plot
+after another episode.
+
+98
+00:06:08.679 --> 00:06:13.207
+This time the agent terminated on
+the left, getting reward of minus 1.
+
+99
+00:06:13.207 --> 00:06:17.402
+That means the return from
+every state was minus 1.
+
+100
+00:06:17.402 --> 00:06:20.679
+The weights for
+the visited states decreased slightly.
+
+101
+00:06:20.679 --> 00:06:22.777
+After running for many episodes,
+
+102
+00:06:22.777 --> 00:06:25.898
+we get state values that
+look something like this.
+
+103
+00:06:25.898 --> 00:06:30.673
+Each step in the plot corresponds
+to our group of states that
+
+104
+00:06:30.673 --> 00:06:33.548
+share the same approximate value.
+
+105
+00:06:33.548 --> 00:06:37.279
+For comparison,
+here's the true value function.
+
+106
+00:06:37.279 --> 00:06:41.769
+Although we have heavily approximated
+by aggregating many states together,
+
+107
+00:06:41.769 --> 00:06:44.020
+our value estimate is not that far off.
+
+108
+00:06:44.020 --> 00:06:48.726
+Why doesn't the red line pass directly
+through the center of all the blue steps?
+
+109
+00:06:48.726 --> 00:06:51.497
+This is where mu plays an important role.
+
+110
+00:06:51.497 --> 00:06:56.254
+Recall mu of s is the visitation
+frequency for state s.
+
+111
+00:06:56.254 --> 00:06:59.285
+States near the center of
+the chain are visited more often
+
+112
+00:06:59.285 --> 00:07:02.326
+than those near the terminal states,
+as depicted here.
+
+113
+00:07:02.326 --> 00:07:07.476
+For example, let's look at the leftmost
+group of states, states 1 to 100.
+
+114
+00:07:07.476 --> 00:07:12.641
+States near state 100 are visited
+much more than states near state 1.
+
+115
+00:07:12.641 --> 00:07:17.710
+The approximate value is skewed towards
+the true value for states near state 100.
+
+116
+00:07:17.710 --> 00:07:21.035
+This is because mu weights these
+states higher in the value error.
+
+117
+00:07:21.035 --> 00:07:24.216
+[SOUND] That's it for this video.
+
+118
+00:07:24.216 --> 00:07:28.495
+You should now have an idea of how
+gradient Monte Carlo works in practice
+
+119
+00:07:28.495 --> 00:07:30.932
+when combined with state aggregation.
+
+120
+00:07:30.932 --> 00:07:31.500
+See you next time.

@@ -1,0 +1,405 @@
+WEBVTT
+
+1
+00:00:04.730 --> 00:00:06.930
+We discussed how we can frame
+
+2
+00:00:06.930 --> 00:00:10.155
+value estimation as a
+Supervised Learning problem.
+
+3
+00:00:10.155 --> 00:00:12.780
+In Supervised Learning,
+an important step
+
+4
+00:00:12.780 --> 00:00:15.210
+is to find the objective
+to optimize.
+
+5
+00:00:15.210 --> 00:00:17.070
+In this video, we'll be more
+
+6
+00:00:17.070 --> 00:00:20.590
+precise about the objective
+we would like to optimize.
+
+7
+00:00:21.140 --> 00:00:26.160
+After watching this video you
+will be able to: understand
+
+8
+00:00:26.160 --> 00:00:28.170
+the Mean Squared
+Value Error objective for
+
+9
+00:00:28.170 --> 00:00:30.630
+policy evaluation and explain
+
+10
+00:00:30.630 --> 00:00:34.350
+the role of the state
+distribution in the objective.
+
+11
+00:00:34.350 --> 00:00:37.920
+Let's start by imagining
+an idealized scenario.
+
+12
+00:00:37.920 --> 00:00:41.850
+We get a sequence of pairs
+of states and true values.
+
+13
+00:00:41.850 --> 00:00:43.820
+We want to use this data to find
+
+14
+00:00:43.820 --> 00:00:48.035
+a parameterized function that
+closely approximates V Pi.
+
+15
+00:00:48.035 --> 00:00:50.030
+We will do this by adjusting
+
+16
+00:00:50.030 --> 00:00:51.830
+the weights so that the output of
+
+17
+00:00:51.830 --> 00:00:53.240
+the function closely matches
+
+18
+00:00:53.240 --> 00:00:56.305
+the associated value
+for a given state.
+
+19
+00:00:56.305 --> 00:00:58.910
+In general, we can't
+expect to perfectly
+
+20
+00:00:58.910 --> 00:01:02.045
+match the value
+function on all states.
+
+21
+00:01:02.045 --> 00:01:04.640
+The function approximately
+we choose will
+
+22
+00:01:04.640 --> 00:01:07.280
+limit the value functions
+we can represent.
+
+23
+00:01:07.280 --> 00:01:09.170
+To make our goal precise,
+
+24
+00:01:09.170 --> 00:01:11.420
+we need to specify
+some measure of how
+
+25
+00:01:11.420 --> 00:01:15.485
+close our approximation
+is to the value function.
+
+26
+00:01:15.485 --> 00:01:18.634
+Consider a linear value
+function approximation
+
+27
+00:01:18.634 --> 00:01:20.045
+denoted by V hat.
+
+28
+00:01:20.045 --> 00:01:22.475
+Here to keep the
+visualization simple,
+
+29
+00:01:22.475 --> 00:01:26.310
+the state is a single-dimensional
+and continuous.
+
+30
+00:01:26.980 --> 00:01:30.475
+Let's plot our estimate
+of the value function.
+
+31
+00:01:30.475 --> 00:01:34.420
+Now, imagine the true value
+function looks like this.
+
+32
+00:01:34.420 --> 00:01:37.050
+Clearly, our
+approximation of V Pi is
+
+33
+00:01:37.050 --> 00:01:39.605
+not perfect, but
+how far off is it?
+
+34
+00:01:39.605 --> 00:01:42.750
+Let's define this more precisely.
+
+35
+00:01:43.150 --> 00:01:46.115
+Let's start by defining
+a measure of the error
+
+36
+00:01:46.115 --> 00:01:49.710
+between the value of a state
+and the approximate value.
+
+37
+00:01:50.480 --> 00:01:53.900
+A natural choice is
+the squared error.
+
+38
+00:01:53.900 --> 00:01:56.045
+That is; the squared difference
+
+39
+00:01:56.045 --> 00:01:58.715
+between the value and
+our approximation.
+
+40
+00:01:58.715 --> 00:02:00.890
+However, this is not
+enough to define
+
+41
+00:02:00.890 --> 00:02:02.960
+an objective for
+function approximation.
+
+42
+00:02:02.960 --> 00:02:05.345
+Making the estimate more
+accurate in one state
+
+43
+00:02:05.345 --> 00:02:09.250
+will often mean making it less
+accurate in another state.
+
+44
+00:02:09.250 --> 00:02:12.380
+For this reason, we need
+to specify how much we
+
+45
+00:02:12.380 --> 00:02:15.190
+care about getting the value
+right for each state.
+
+46
+00:02:15.190 --> 00:02:19.865
+We will call that Mu of S.
+More about that in a second.
+
+47
+00:02:19.865 --> 00:02:22.760
+We can now write
+our full objective as a sum of
+
+48
+00:02:22.760 --> 00:02:24.230
+the squared error over
+
+49
+00:02:24.230 --> 00:02:25.670
+the entire state space
+
+50
+00:02:25.670 --> 00:02:28.500
+where each state
+is weighted by Mu.
+
+51
+00:02:28.690 --> 00:02:33.395
+We call this objective
+the Mean Squared Value Error.
+
+52
+00:02:33.395 --> 00:02:38.345
+Back to Mu. What should
+we pick from Mu of S?
+
+53
+00:02:38.345 --> 00:02:40.430
+Remember, Mu of S should tell
+
+54
+00:02:40.430 --> 00:02:42.805
+us how much we care
+about each state.
+
+55
+00:02:42.805 --> 00:02:45.110
+A natural measure
+is the fraction of
+
+56
+00:02:45.110 --> 00:02:48.875
+time each state is
+visited under the policy.
+
+57
+00:02:48.875 --> 00:02:51.050
+That means we want to minimize
+
+58
+00:02:51.050 --> 00:02:52.550
+the average value error for
+
+59
+00:02:52.550 --> 00:02:55.490
+the states we visit
+while following Pi.
+
+60
+00:02:55.490 --> 00:02:58.400
+The states that the policy
+spends more time
+
+61
+00:02:58.400 --> 00:03:01.085
+in have a higher weight
+in the objective.
+
+62
+00:03:01.085 --> 00:03:02.840
+We care less about errors in
+
+63
+00:03:02.840 --> 00:03:05.695
+the states the policy visits
+less frequently.
+
+64
+00:03:05.695 --> 00:03:08.570
+Mu of S is a probability
+distribution
+
+65
+00:03:08.570 --> 00:03:10.040
+as shown on the slide.
+
+66
+00:03:10.040 --> 00:03:11.930
+In this example,
+the policy spends
+
+67
+00:03:11.930 --> 00:03:14.585
+little time at the extremes
+of the state space.
+
+68
+00:03:14.585 --> 00:03:17.600
+This means, under the Mean
+Squared Value Error,
+
+69
+00:03:17.600 --> 00:03:19.580
+we allow the value
+approximation to have
+
+70
+00:03:19.580 --> 00:03:22.175
+higher error in those states.
+
+71
+00:03:22.175 --> 00:03:25.760
+Now remember the purpose of
+defining this objective.
+
+72
+00:03:25.760 --> 00:03:28.010
+We want to adapt
+or weights to make
+
+73
+00:03:28.010 --> 00:03:30.980
+the Mean Squared Value Error
+as low as possible.
+
+74
+00:03:30.980 --> 00:03:35.435
+From now on we will call
+this objective VE bar.
+
+75
+00:03:35.435 --> 00:03:38.630
+Changing the weights in
+one way may increase
+
+76
+00:03:38.630 --> 00:03:40.370
+the value error while
+changing them in
+
+77
+00:03:40.370 --> 00:03:43.025
+a different way might
+decrease the value error.
+
+78
+00:03:43.025 --> 00:03:45.080
+In the next lecture, we'll
+talk about how we can
+
+79
+00:03:45.080 --> 00:03:49.620
+use gradient descent to
+incrementally adjust the weights.
+
+80
+00:03:49.870 --> 00:03:52.565
+That brings us to
+the end of this video.
+
+81
+00:03:52.565 --> 00:03:55.820
+You should now understand
+why policy evaluation under
+
+82
+00:03:55.820 --> 00:03:57.890
+function approximation
+requires us
+
+83
+00:03:57.890 --> 00:04:00.400
+to specify an objective.
+
+84
+00:04:00.400 --> 00:04:02.780
+The Mean Squared Value Error is
+
+85
+00:04:02.780 --> 00:04:07.300
+one possible objective.
+See you next time.

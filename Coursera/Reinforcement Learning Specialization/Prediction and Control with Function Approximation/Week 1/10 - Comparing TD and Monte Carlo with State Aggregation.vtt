@@ -1,0 +1,443 @@
+WEBVTT
+
+1
+00:00:04.610 --> 00:00:07.050
+We just talked about
+Monte Carlo with
+
+2
+00:00:07.050 --> 00:00:08.700
+function approximation and
+
+3
+00:00:08.700 --> 00:00:10.905
+TD with function approximation.
+
+4
+00:00:10.905 --> 00:00:13.170
+But how do these
+algorithms differ?
+
+5
+00:00:13.170 --> 00:00:15.900
+Today, we're going to talk
+more about the bias in
+
+6
+00:00:15.900 --> 00:00:17.550
+the TD update and compare it to
+
+7
+00:00:17.550 --> 00:00:20.440
+Monte Carlo in
+a small experiment.
+
+8
+00:00:20.600 --> 00:00:23.025
+After watching this video,
+
+9
+00:00:23.025 --> 00:00:24.360
+you'll be able to;
+
+10
+00:00:24.360 --> 00:00:26.220
+understand that TD converges to
+
+11
+00:00:26.220 --> 00:00:29.250
+a bias value estimate and
+
+12
+00:00:29.250 --> 00:00:30.750
+understand that TD can learn
+
+13
+00:00:30.750 --> 00:00:33.150
+faster than Gradient Monte Carlo.
+
+14
+00:00:33.150 --> 00:00:35.220
+Under reasonable assumptions,
+
+15
+00:00:35.220 --> 00:00:36.780
+Gradient Monte Carlo
+will approach
+
+16
+00:00:36.780 --> 00:00:38.070
+a local minimum of
+
+17
+00:00:38.070 --> 00:00:42.465
+the Mean Squared Value Error
+with more and more samples.
+
+18
+00:00:42.465 --> 00:00:44.410
+This is because it uses
+
+19
+00:00:44.410 --> 00:00:47.915
+an unbiased estimate of
+the gradient of the value error.
+
+20
+00:00:47.915 --> 00:00:51.250
+In theory, we need to
+run the algorithm for
+
+21
+00:00:51.250 --> 00:00:52.880
+a very long time and decay
+
+22
+00:00:52.880 --> 00:00:56.155
+the step size parameters to
+obtain this convergence.
+
+23
+00:00:56.155 --> 00:00:59.110
+In practice, we use
+a constant step size.
+
+24
+00:00:59.110 --> 00:01:02.540
+So the algorithm oscillates
+around a local minimum.
+
+25
+00:01:04.700 --> 00:01:07.540
+On the other hand, the TD target
+
+26
+00:01:07.540 --> 00:01:10.765
+depends on our estimate of
+the value in the next state.
+
+27
+00:01:10.765 --> 00:01:13.270
+This means our update
+could be biased
+
+28
+00:01:13.270 --> 00:01:16.370
+because the estimate in
+our target may not be accurate.
+
+29
+00:01:16.370 --> 00:01:18.670
+Since our value
+approximation will never
+
+30
+00:01:18.670 --> 00:01:20.710
+be perfect even in the limit,
+
+31
+00:01:20.710 --> 00:01:22.600
+the target may remain biased.
+
+32
+00:01:22.600 --> 00:01:25.430
+We cannot guarantee that
+semi-gradient TD will
+
+33
+00:01:25.430 --> 00:01:26.945
+converge to a local minimum
+
+34
+00:01:26.945 --> 00:01:29.215
+at the Mean Squared value error.
+
+35
+00:01:29.215 --> 00:01:31.100
+Of course, this bias will
+
+36
+00:01:31.100 --> 00:01:33.110
+reduce as their
+estimates improved.
+
+37
+00:01:33.110 --> 00:01:35.644
+But how do all these
+theoretical concerns
+
+38
+00:01:35.644 --> 00:01:38.340
+impact performance in practice?
+
+39
+00:01:38.560 --> 00:01:42.730
+Let's return to the 1,000
+state Random Walk example,
+
+40
+00:01:42.730 --> 00:01:46.015
+to see the impact of
+bias in the TD update.
+
+41
+00:01:46.015 --> 00:01:49.250
+This time, we'll learn
+approximate values using
+
+42
+00:01:49.250 --> 00:01:52.900
+semi-gradient TD
+instead of Monte Carlo.
+
+43
+00:01:52.900 --> 00:01:55.890
+After running TD for a long time,
+
+44
+00:01:55.890 --> 00:01:57.470
+such that our value
+estimates have stopped
+
+45
+00:01:57.470 --> 00:01:59.330
+changing, this is what we get.
+
+46
+00:01:59.330 --> 00:02:01.310
+The value estimates do not align
+
+47
+00:02:01.310 --> 00:02:03.875
+well with the true values
+for many states.
+
+48
+00:02:03.875 --> 00:02:05.510
+TD's estimates are not as
+
+49
+00:02:05.510 --> 00:02:08.095
+accurate as the estimates
+done by Monte Carlo.
+
+50
+00:02:08.095 --> 00:02:10.749
+In this domain, the
+state aggregation,
+
+51
+00:02:10.749 --> 00:02:12.500
+Monte Carlo has an advantage in
+
+52
+00:02:12.500 --> 00:02:15.210
+terms of long-run performance.
+
+53
+00:02:15.730 --> 00:02:18.740
+But what about
+the speed of learning?
+
+54
+00:02:18.740 --> 00:02:21.095
+Which of TD and Monte Carlo
+
+55
+00:02:21.095 --> 00:02:23.680
+makes best use of
+limited samples?
+
+56
+00:02:23.680 --> 00:02:25.370
+Let's run a different experiment
+
+57
+00:02:25.370 --> 00:02:27.610
+to get to the bottom of this.
+
+58
+00:02:27.610 --> 00:02:29.925
+To focus on early learning,
+
+59
+00:02:29.925 --> 00:02:32.100
+we only run 30 episodes.
+
+60
+00:02:32.100 --> 00:02:33.750
+Remember, in the last experiment,
+
+61
+00:02:33.750 --> 00:02:36.340
+we used 1,000 episodes.
+
+62
+00:02:36.370 --> 00:02:39.260
+The performance of
+both algorithms depends on
+
+63
+00:02:39.260 --> 00:02:42.260
+how we set the step size
+parameter Alpha.
+
+64
+00:02:42.260 --> 00:02:44.270
+The two algorithms may require
+
+65
+00:02:44.270 --> 00:02:46.670
+very different values of Alpha.
+
+66
+00:02:46.670 --> 00:02:49.125
+To do a fair comparison,
+
+67
+00:02:49.125 --> 00:02:50.825
+we tested each algorithm with
+
+68
+00:02:50.825 --> 00:02:55.720
+100 evenly spaced values of
+Alpha between zero and one.
+
+69
+00:02:55.720 --> 00:02:58.380
+We take the best
+performing Alpha for
+
+70
+00:02:58.380 --> 00:03:01.355
+each algorithm and
+compare the performance.
+
+71
+00:03:01.355 --> 00:03:04.430
+The best Alpha was defined
+as the one that resulted in
+
+72
+00:03:04.430 --> 00:03:08.135
+the lowest value error after
+30 episodes of training.
+
+73
+00:03:08.135 --> 00:03:14.470
+For this task, the best Alpha
+we found for TD was 0.22.
+
+74
+00:03:14.600 --> 00:03:20.650
+The best alpha for Monte Carlo
+was much smaller, 0.01.
+
+75
+00:03:20.650 --> 00:03:23.560
+Let's plot the performance
+of each algorithm.
+
+76
+00:03:23.560 --> 00:03:25.510
+The y-axis shows the root mean
+
+77
+00:03:25.510 --> 00:03:27.970
+squared value error for the 1,000
+
+78
+00:03:27.970 --> 00:03:30.895
+states averaged over 100 runs.
+
+79
+00:03:30.895 --> 00:03:33.955
+The x-axis shows us
+the episode number.
+
+80
+00:03:33.955 --> 00:03:36.760
+We expect a value error for
+each algorithm to start
+
+81
+00:03:36.760 --> 00:03:39.204
+high and progressively decrease
+
+82
+00:03:39.204 --> 00:03:41.935
+with more and more episodes.
+
+83
+00:03:41.935 --> 00:03:44.875
+Let's look at the results.
+
+84
+00:03:44.875 --> 00:03:49.555
+We see the TD reaches
+a lower error faster.
+
+85
+00:03:49.555 --> 00:03:51.490
+This is not a one-off result.
+
+86
+00:03:51.490 --> 00:03:54.580
+TD often learns faster
+the Monte Carlo.
+
+87
+00:03:54.580 --> 00:03:56.560
+This is because TD
+can learn during
+
+88
+00:03:56.560 --> 00:03:59.770
+the episode and has
+lower variance updates.
+
+89
+00:03:59.770 --> 00:04:02.205
+Monte Carlo is better on
+long-run performance,
+
+90
+00:04:02.205 --> 00:04:04.405
+it's not always the main concern.
+
+91
+00:04:04.405 --> 00:04:06.470
+We can never run our experiments
+
+92
+00:04:06.470 --> 00:04:08.735
+to achieve asymptotic
+performance.
+
+93
+00:04:08.735 --> 00:04:11.150
+Early learning is perhaps
+more important in
+
+94
+00:04:11.150 --> 00:04:15.650
+practice. That's it for today.
+
+95
+00:04:15.650 --> 00:04:18.380
+You have now seen how
+
+96
+00:04:18.380 --> 00:04:21.800
+the TD update for function
+approximation can be biased.
+
+97
+00:04:21.800 --> 00:04:25.430
+But we often prefer TD learning
+over Monte Carlo anyway
+
+98
+00:04:25.430 --> 00:04:30.150
+because it can learn more
+quickly. See you next time.

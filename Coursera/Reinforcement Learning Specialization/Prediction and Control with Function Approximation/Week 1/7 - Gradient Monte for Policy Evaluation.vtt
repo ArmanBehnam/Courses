@@ -1,0 +1,610 @@
+WEBVTT
+
+1
+00:00:05.120 --> 00:00:07.680
+You now know one strategy to
+
+2
+00:00:07.680 --> 00:00:10.380
+minimize objectives,
+gradient descent,
+
+3
+00:00:10.380 --> 00:00:13.020
+and we formulated
+a clear objective
+
+4
+00:00:13.020 --> 00:00:15.915
+for policy evaluation,
+the value error.
+
+5
+00:00:15.915 --> 00:00:17.790
+We should now be
+able to put these
+
+6
+00:00:17.790 --> 00:00:20.070
+together to approximate values.
+
+7
+00:00:20.070 --> 00:00:22.620
+Let's return to
+our old friend, Monte Carlo,
+
+8
+00:00:22.620 --> 00:00:26.640
+and see how it can be used
+to minimize the value error.
+
+9
+00:00:26.800 --> 00:00:29.365
+After watching this video,
+
+10
+00:00:29.365 --> 00:00:31.390
+you will be able to
+
+11
+00:00:31.390 --> 00:00:33.170
+understand how to use
+
+12
+00:00:33.170 --> 00:00:35.645
+gradient descent and
+stochastic gradient descent
+
+13
+00:00:35.645 --> 00:00:38.515
+to minimize value error and
+
+14
+00:00:38.515 --> 00:00:40.955
+outline the Gradient
+Monte Carlo algorithm
+
+15
+00:00:40.955 --> 00:00:43.070
+for value estimation.
+
+16
+00:00:43.070 --> 00:00:45.290
+We just saw how to use
+
+17
+00:00:45.290 --> 00:00:47.750
+gradient descent to
+minimize objectives.
+
+18
+00:00:47.750 --> 00:00:49.235
+To use this approach,
+
+19
+00:00:49.235 --> 00:00:52.745
+the first step is to find the
+gradient of your objective.
+
+20
+00:00:52.745 --> 00:00:54.740
+So let's start by computing
+
+21
+00:00:54.740 --> 00:00:56.750
+the gradient of the mean
+squared value error,
+
+22
+00:00:56.750 --> 00:00:59.735
+with respect to the weights
+of our approximation.
+
+23
+00:00:59.735 --> 00:01:02.300
+Remember, this objective is
+
+24
+00:01:02.300 --> 00:01:06.275
+a weighted sum of the squared
+error over all states.
+
+25
+00:01:06.275 --> 00:01:08.890
+Following the rules of calculus,
+
+26
+00:01:08.890 --> 00:01:12.155
+we can pull the gradient
+inside the sum.
+
+27
+00:01:12.155 --> 00:01:16.115
+We then take the gradient of
+each term inside the sum,
+
+28
+00:01:16.115 --> 00:01:18.475
+which requires the chain rule.
+
+29
+00:01:18.475 --> 00:01:21.255
+The gradient of v_Pi minus v hat,
+
+30
+00:01:21.255 --> 00:01:24.300
+equals the gradient of
+v hat because v_Pi is
+
+31
+00:01:24.300 --> 00:01:27.570
+not a function of
+w. In other words,
+
+32
+00:01:27.570 --> 00:01:32.155
+changing w does not
+change v_Pi of s.
+
+33
+00:01:32.155 --> 00:01:35.480
+The gradient of the value
+function approximation will
+
+34
+00:01:35.480 --> 00:01:36.889
+depend on the particular
+
+35
+00:01:36.889 --> 00:01:39.380
+parameterized function
+we are using.
+
+36
+00:01:39.380 --> 00:01:42.620
+In the case of linear
+function approximation,
+
+37
+00:01:42.620 --> 00:01:44.800
+the gradient is
+particularly easy to
+
+38
+00:01:44.800 --> 00:01:48.595
+compute as we showed
+in the previous video.
+
+39
+00:01:48.595 --> 00:01:52.585
+It is simply the feature
+vector in that state.
+
+40
+00:01:52.585 --> 00:01:54.880
+This gradient makes sense.
+
+41
+00:01:54.880 --> 00:01:56.260
+The gradient of the value
+
+42
+00:01:56.260 --> 00:01:58.570
+function approximation
+indicates how
+
+43
+00:01:58.570 --> 00:01:59.920
+to change the weights to
+
+44
+00:01:59.920 --> 00:02:02.875
+increase the value
+for that state.
+
+45
+00:02:02.875 --> 00:02:05.650
+We multiply this direction by
+
+46
+00:02:05.650 --> 00:02:09.145
+the difference between
+the true value and our estimate.
+
+47
+00:02:09.145 --> 00:02:11.885
+If the difference is positive,
+
+48
+00:02:11.885 --> 00:02:14.995
+it means the true value is
+higher than our estimate,
+
+49
+00:02:14.995 --> 00:02:16.780
+so we should change
+the weights in
+
+50
+00:02:16.780 --> 00:02:19.680
+the direction that
+increases our estimate.
+
+51
+00:02:19.680 --> 00:02:22.425
+If the current error is negative,
+
+52
+00:02:22.425 --> 00:02:25.880
+we should change the weights
+in the opposite direction.
+
+53
+00:02:26.220 --> 00:02:28.570
+Computing the
+gradient for the mean
+
+54
+00:02:28.570 --> 00:02:31.760
+squared value error requires
+summing over all states.
+
+55
+00:02:31.760 --> 00:02:34.090
+This is generally not feasible.
+
+56
+00:02:34.090 --> 00:02:38.155
+Also, we likely do not
+know the distribution Mu.
+
+57
+00:02:38.155 --> 00:02:41.765
+Instead, let's approximate
+this gradient.
+
+58
+00:02:41.765 --> 00:02:44.060
+Imagine an idealized
+setting where
+
+59
+00:02:44.060 --> 00:02:46.450
+we have access to v_Pi.
+
+60
+00:02:46.450 --> 00:02:49.285
+Though we do not
+explicitly have Mu,
+
+61
+00:02:49.285 --> 00:02:50.840
+we can sample states from it
+
+62
+00:02:50.840 --> 00:02:53.255
+simply by following the policy.
+
+63
+00:02:53.255 --> 00:02:56.180
+Let's take one of
+these states, S_1,
+
+64
+00:02:56.180 --> 00:02:57.590
+that occurs while following
+
+65
+00:02:57.590 --> 00:03:01.570
+the policy with
+target v_Pi of S_1.
+
+66
+00:03:01.570 --> 00:03:04.460
+We can use this pair
+to make an update
+
+67
+00:03:04.460 --> 00:03:06.995
+to decrease the error
+on that example.
+
+68
+00:03:06.995 --> 00:03:09.815
+Here is the gradient
+for a single state.
+
+69
+00:03:09.815 --> 00:03:11.480
+We can do gradient descent with
+
+70
+00:03:11.480 --> 00:03:14.990
+this gradient to decrease
+the error on that state.
+
+71
+00:03:14.990 --> 00:03:18.755
+So here's the corresponding
+gradient update rule for S_1.
+
+72
+00:03:18.755 --> 00:03:20.705
+We can perform this update to
+
+73
+00:03:20.705 --> 00:03:23.105
+decrease the error for this pair.
+
+74
+00:03:23.105 --> 00:03:26.195
+Then we can do this again
+with another state,
+
+75
+00:03:26.195 --> 00:03:28.925
+S_2, observed while following Pi.
+
+76
+00:03:28.925 --> 00:03:31.130
+By making small updates
+in the direction
+
+77
+00:03:31.130 --> 00:03:33.320
+that improves error on each pair,
+
+78
+00:03:33.320 --> 00:03:34.910
+we might sometimes increase
+
+79
+00:03:34.910 --> 00:03:37.040
+the error on the full objective.
+
+80
+00:03:37.040 --> 00:03:39.320
+But the overall trend will be to
+
+81
+00:03:39.320 --> 00:03:42.380
+make progress for
+the full objective.
+
+82
+00:03:42.380 --> 00:03:44.450
+This updating approach is
+
+83
+00:03:44.450 --> 00:03:46.400
+called stochastic
+gradient descent,
+
+84
+00:03:46.400 --> 00:03:47.750
+because it only uses
+
+85
+00:03:47.750 --> 00:03:50.270
+a stochastic estimate
+of the gradient.
+
+86
+00:03:50.270 --> 00:03:53.300
+In fact, the expectation
+of each stochastic
+
+87
+00:03:53.300 --> 00:03:56.615
+gradient equals the
+gradient of the objective.
+
+88
+00:03:56.615 --> 00:03:59.000
+You can think of
+this stochastic gradient as
+
+89
+00:03:59.000 --> 00:04:00.680
+a noisy approximation to
+
+90
+00:04:00.680 --> 00:04:03.680
+the gradient that is
+much cheaper to compute,
+
+91
+00:04:03.680 --> 00:04:07.470
+but can nonetheless make
+steady progress to a minimum.
+
+92
+00:04:07.720 --> 00:04:11.180
+Stochastic gradient descent
+allowed us to efficiently
+
+93
+00:04:11.180 --> 00:04:12.215
+update the weights on
+
+94
+00:04:12.215 --> 00:04:14.720
+every step by sampling
+the gradient.
+
+95
+00:04:14.720 --> 00:04:17.465
+However, there is
+one remaining practical issue.
+
+96
+00:04:17.465 --> 00:04:19.975
+We do not have access to v_Pi.
+
+97
+00:04:19.975 --> 00:04:23.735
+Let's see how we can get rid
+of it from our update rule.
+
+98
+00:04:23.735 --> 00:04:27.125
+Let's replace v_Pi
+with an estimate.
+
+99
+00:04:27.125 --> 00:04:29.240
+One option is to use samples of
+
+100
+00:04:29.240 --> 00:04:31.455
+the return for
+each visited state,
+
+101
+00:04:31.455 --> 00:04:35.060
+S_t, as we did for
+Monte Carlo methods.
+
+102
+00:04:35.060 --> 00:04:37.640
+This makes sense because
+the value function is
+
+103
+00:04:37.640 --> 00:04:40.550
+the expected value
+of these samples.
+
+104
+00:04:40.550 --> 00:04:44.000
+In fact, the expectation
+of the gradient when we
+
+105
+00:04:44.000 --> 00:04:47.390
+use a sampled return in
+place of the true value,
+
+106
+00:04:47.390 --> 00:04:48.530
+is still equal to
+
+107
+00:04:48.530 --> 00:04:51.660
+the gradient of the mean
+squared value error.
+
+108
+00:04:51.770 --> 00:04:55.455
+This brings us to the Gradient
+Monte Carlo algorithm
+
+109
+00:04:55.455 --> 00:04:57.630
+for estimating v_Pi.
+
+110
+00:04:57.630 --> 00:05:01.374
+We take any policy Pi
+we wish to evaluate,
+
+111
+00:05:01.374 --> 00:05:04.730
+we choose some function which
+maps states and weights to
+
+112
+00:05:04.730 --> 00:05:07.995
+a real number that is
+differentiable in the weights.
+
+113
+00:05:07.995 --> 00:05:09.525
+For a given weight vector,
+
+114
+00:05:09.525 --> 00:05:10.940
+this v hat is a function of
+
+115
+00:05:10.940 --> 00:05:13.805
+state producing
+the approximate values.
+
+116
+00:05:13.805 --> 00:05:16.835
+We choose a value of
+the step size Alpha,
+
+117
+00:05:16.835 --> 00:05:18.500
+and initialize the weights
+
+118
+00:05:18.500 --> 00:05:20.985
+parameterizing our estimate
+however we like.
+
+119
+00:05:20.985 --> 00:05:23.115
+For example, to zero.
+
+120
+00:05:23.115 --> 00:05:26.150
+On each iteration,
+the agent interacts with
+
+121
+00:05:26.150 --> 00:05:29.525
+the environment to
+generate a full episode.
+
+122
+00:05:29.525 --> 00:05:33.545
+We compute the sampled return
+for each visited state.
+
+123
+00:05:33.545 --> 00:05:35.420
+Then we loop through
+
+124
+00:05:35.420 --> 00:05:37.460
+every step in
+the episode and perform
+
+125
+00:05:37.460 --> 00:05:38.750
+a stochastic gradients and
+
+126
+00:05:38.750 --> 00:05:42.065
+update based on
+the sampled returns.
+
+127
+00:05:42.065 --> 00:05:43.940
+That's it for this video.
+
+128
+00:05:43.940 --> 00:05:45.590
+You should now understand how
+
+129
+00:05:45.590 --> 00:05:47.720
+stochastic gradient descent can
+
+130
+00:05:47.720 --> 00:05:50.090
+be used to estimate
+a value function,
+
+131
+00:05:50.090 --> 00:05:54.235
+and how the Gradient Monte
+Carlo algorithm works.
+
+132
+00:05:54.235 --> 00:05:58.830
+Next time, you'll get to see
+the algorithm in action.

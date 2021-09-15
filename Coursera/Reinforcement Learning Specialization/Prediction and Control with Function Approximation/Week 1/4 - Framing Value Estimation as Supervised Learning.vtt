@@ -1,0 +1,411 @@
+WEBVTT
+
+1
+00:00:05.030 --> 00:00:08.340
+Supervised learning
+methods learn a function
+
+2
+00:00:08.340 --> 00:00:11.070
+from a set of input
+target examples.
+
+3
+00:00:11.070 --> 00:00:13.695
+This is very different from
+reinforcement learning.
+
+4
+00:00:13.695 --> 00:00:16.500
+But supervised learning
+methods can be
+
+5
+00:00:16.500 --> 00:00:18.090
+useful for handling parts of
+
+6
+00:00:18.090 --> 00:00:20.635
+the reinforcement
+learning problem.
+
+7
+00:00:20.635 --> 00:00:23.035
+By the end of this video,
+
+8
+00:00:23.035 --> 00:00:25.410
+you will be able
+to understand how
+
+9
+00:00:25.410 --> 00:00:26.730
+value estimation can be
+
+10
+00:00:26.730 --> 00:00:29.400
+framed as a supervised
+learning problem,
+
+11
+00:00:29.400 --> 00:00:32.895
+and recognize that not all
+function approximation methods
+
+12
+00:00:32.895 --> 00:00:35.475
+are well suited for
+reinforcement learning.
+
+13
+00:00:35.475 --> 00:00:38.040
+Supervised learning
+involves approximating
+
+14
+00:00:38.040 --> 00:00:41.370
+a function given a dataset
+of input target pairs.
+
+15
+00:00:41.370 --> 00:00:43.730
+For example, imagine
+we had a list of
+
+16
+00:00:43.730 --> 00:00:45.170
+house prices along with
+
+17
+00:00:45.170 --> 00:00:47.435
+a set of attributes
+for each house.
+
+18
+00:00:47.435 --> 00:00:49.550
+We could use supervised
+learning to train
+
+19
+00:00:49.550 --> 00:00:51.200
+a function to take
+the attributes of
+
+20
+00:00:51.200 --> 00:00:53.090
+a house as input and
+
+21
+00:00:53.090 --> 00:00:55.955
+estimate the expected
+price of the house.
+
+22
+00:00:55.955 --> 00:00:58.160
+The hope is that the function
+
+23
+00:00:58.160 --> 00:00:59.570
+learned will also generalize to
+
+24
+00:00:59.570 --> 00:01:01.595
+approximate the expected price
+
+25
+00:01:01.595 --> 00:01:04.520
+for houses that were not
+in the training set.
+
+26
+00:01:04.520 --> 00:01:07.100
+This parameterized
+function can be
+
+27
+00:01:07.100 --> 00:01:09.230
+represented in a variety of ways.
+
+28
+00:01:09.230 --> 00:01:12.060
+For example, a neural network.
+
+29
+00:01:12.580 --> 00:01:15.410
+The problem of
+policy evaluation in
+
+30
+00:01:15.410 --> 00:01:18.265
+reinforcement learning
+can be framed similarly.
+
+31
+00:01:18.265 --> 00:01:20.060
+This similarity is most
+
+32
+00:01:20.060 --> 00:01:22.900
+obvious in the case of
+Monte Carlo methods.
+
+33
+00:01:22.900 --> 00:01:25.730
+Remember, the Monte Carlo
+methods estimate
+
+34
+00:01:25.730 --> 00:01:29.015
+the value function using
+samples of the return.
+
+35
+00:01:29.015 --> 00:01:30.530
+We can think of this as
+
+36
+00:01:30.530 --> 00:01:32.650
+an example of a supervised
+learning problem,
+
+37
+00:01:32.650 --> 00:01:34.370
+where the input is the state
+
+38
+00:01:34.370 --> 00:01:36.640
+and the targets are the returns.
+
+39
+00:01:36.640 --> 00:01:39.345
+By training on enough examples,
+
+40
+00:01:39.345 --> 00:01:42.080
+we hope that the output of
+our learn function will be
+
+41
+00:01:42.080 --> 00:01:45.230
+a close approximation
+of the expected return.
+
+42
+00:01:45.230 --> 00:01:48.005
+In other words,
+the value in each state.
+
+43
+00:01:48.005 --> 00:01:51.235
+TD can also be framed
+as supervised learning.
+
+44
+00:01:51.235 --> 00:01:53.330
+In this case, the targets are
+
+45
+00:01:53.330 --> 00:01:55.640
+the one-step bootstrap return.
+
+46
+00:01:55.640 --> 00:01:59.180
+In principle, any function
+approximation technique from
+
+47
+00:01:59.180 --> 00:02:00.740
+supervised learning can be
+
+48
+00:02:00.740 --> 00:02:03.175
+applied to the policy
+evaluation task.
+
+49
+00:02:03.175 --> 00:02:06.215
+However, not all are
+equally well-suited.
+
+50
+00:02:06.215 --> 00:02:09.680
+Let's see why. In
+reinforcement learning,
+
+51
+00:02:09.680 --> 00:02:11.615
+an agent interacts
+with an environment
+
+52
+00:02:11.615 --> 00:02:14.225
+and continually
+generates new data.
+
+53
+00:02:14.225 --> 00:02:17.485
+This is often called
+the online setting.
+
+54
+00:02:17.485 --> 00:02:19.550
+To distinguish it
+from the offline
+
+55
+00:02:19.550 --> 00:02:21.680
+setting where the full dataset is
+
+56
+00:02:21.680 --> 00:02:23.570
+available from the start
+
+57
+00:02:23.570 --> 00:02:26.540
+and remains fixed
+throughout learning.
+
+58
+00:02:26.540 --> 00:02:30.440
+If we want to use a function
+approximation technique,
+
+59
+00:02:30.440 --> 00:02:33.395
+we should make sure it can
+work in the online setting.
+
+60
+00:02:33.395 --> 00:02:35.510
+Some methods are
+not compatible with
+
+61
+00:02:35.510 --> 00:02:37.400
+the online setting
+because they are either
+
+62
+00:02:37.400 --> 00:02:39.755
+designed for
+a fixed batch of data
+
+63
+00:02:39.755 --> 00:02:43.535
+or there are not designed for
+temporally correlated data,
+
+64
+00:02:43.535 --> 00:02:45.360
+and the data in
+reinforcement learning
+
+65
+00:02:45.360 --> 00:02:47.560
+is always correlated.
+
+66
+00:02:47.660 --> 00:02:51.215
+TD methods introduce
+an additional complication
+
+67
+00:02:51.215 --> 00:02:54.290
+when applying techniques
+from supervised learning.
+
+68
+00:02:54.290 --> 00:02:56.815
+TD methods use bootstrapping,
+
+69
+00:02:56.815 --> 00:03:00.320
+meaning that our targets now
+depend on our own estimates.
+
+70
+00:03:00.320 --> 00:03:02.300
+These estimates
+change as learning
+
+71
+00:03:02.300 --> 00:03:05.750
+progresses and so our
+targets continually change.
+
+72
+00:03:05.750 --> 00:03:08.555
+This is different than supervised
+learning where we have
+
+73
+00:03:08.555 --> 00:03:11.795
+access to a ground truth
+label as the target.
+
+74
+00:03:11.795 --> 00:03:14.930
+For example, the price of
+a house does not depend on
+
+75
+00:03:14.930 --> 00:03:16.460
+our estimate nor does it
+
+76
+00:03:16.460 --> 00:03:18.740
+change when we change
+our estimates.
+
+77
+00:03:18.740 --> 00:03:20.480
+Supervised learning methods are
+
+78
+00:03:20.480 --> 00:03:22.370
+typically not
+designed for changing
+
+79
+00:03:22.370 --> 00:03:24.350
+targets nor targets computed
+
+80
+00:03:24.350 --> 00:03:26.885
+from the agent's own estimates.
+
+81
+00:03:26.885 --> 00:03:29.030
+That's it for this video.
+
+82
+00:03:29.030 --> 00:03:31.460
+You should now understand
+how we can frame
+
+83
+00:03:31.460 --> 00:03:33.140
+the policy evaluation task as
+
+84
+00:03:33.140 --> 00:03:35.105
+a supervised learning problem.
+
+85
+00:03:35.105 --> 00:03:37.010
+But that not all methods from
+
+86
+00:03:37.010 --> 00:03:40.120
+supervised learning are ideal
+for reinforcement learning,
+
+87
+00:03:40.120 --> 00:03:42.485
+we will need methods
+that are compatible with
+
+88
+00:03:42.485 --> 00:03:46.950
+online updating and
+bootstrapping. See you next time.

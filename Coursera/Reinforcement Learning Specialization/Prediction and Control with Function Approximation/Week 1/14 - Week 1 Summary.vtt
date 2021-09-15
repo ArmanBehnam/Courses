@@ -1,0 +1,442 @@
+WEBVTT
+
+1
+00:00:05.000 --> 00:00:08.100
+This week, we learned
+a lot about how to extend
+
+2
+00:00:08.100 --> 00:00:09.360
+reinforce learning for
+
+3
+00:00:09.360 --> 00:00:12.120
+the tabular case to
+function approximation.
+
+4
+00:00:12.120 --> 00:00:14.220
+In many real-world problems,
+
+5
+00:00:14.220 --> 00:00:15.870
+it is not practical to enumerate
+
+6
+00:00:15.870 --> 00:00:17.910
+every possible state in a table.
+
+7
+00:00:17.910 --> 00:00:19.920
+So moving to function
+approximation is
+
+8
+00:00:19.920 --> 00:00:21.390
+a big step in making
+
+9
+00:00:21.390 --> 00:00:23.850
+reinforce learning more
+broadly applicable.
+
+10
+00:00:23.850 --> 00:00:25.350
+In this video, we'll do
+
+11
+00:00:25.350 --> 00:00:27.960
+a quick recap of
+what we've learned.
+
+12
+00:00:27.960 --> 00:00:30.360
+We've covered a lot
+of material already,
+
+13
+00:00:30.360 --> 00:00:33.030
+and it's easy to get lost in
+all the different concepts.
+
+14
+00:00:33.030 --> 00:00:34.980
+Select step back and see how
+
+15
+00:00:34.980 --> 00:00:37.800
+this week's topics fit
+into the bigger picture.
+
+16
+00:00:37.800 --> 00:00:39.690
+This maps shows all
+
+17
+00:00:39.690 --> 00:00:41.010
+the different algorithms
+we've covered
+
+18
+00:00:41.010 --> 00:00:44.090
+in this specialization and how
+they relate to each other.
+
+19
+00:00:44.090 --> 00:00:46.250
+Remember, the map only shows
+
+20
+00:00:46.250 --> 00:00:49.070
+the items we present
+in the specialization.
+
+21
+00:00:49.070 --> 00:00:52.400
+The main conceptual change
+this week was moving to
+
+22
+00:00:52.400 --> 00:00:56.040
+the framework of parameterized
+function approximation.
+
+23
+00:00:56.320 --> 00:00:59.000
+This means, we are
+no longer using
+
+24
+00:00:59.000 --> 00:01:01.520
+a table to store
+the value of each state.
+
+25
+00:01:01.520 --> 00:01:04.500
+This puts us on
+the left side of the map.
+
+26
+00:01:04.900 --> 00:01:07.955
+Our discussion of
+average reward will come later.
+
+27
+00:01:07.955 --> 00:01:10.400
+For now, let's focus over here.
+
+28
+00:01:10.400 --> 00:01:13.715
+This week, we focus on
+the policy evaluation problem.
+
+29
+00:01:13.715 --> 00:01:15.365
+We cover two algorithms.
+
+30
+00:01:15.365 --> 00:01:18.810
+Gradient Monte Carlo
+and Semi-Gradient TD.
+
+31
+00:01:18.810 --> 00:01:20.735
+Gradient Monte Carlo makes
+
+32
+00:01:20.735 --> 00:01:23.370
+updates at the end
+of each episode.
+
+33
+00:01:23.440 --> 00:01:26.630
+TD bootstraps using
+the value estimate
+
+34
+00:01:26.630 --> 00:01:27.980
+and the next time step.
+
+35
+00:01:27.980 --> 00:01:29.090
+So it does not need to wait
+
+36
+00:01:29.090 --> 00:01:31.415
+until the end of
+an episode to learn.
+
+37
+00:01:31.415 --> 00:01:33.650
+Now that we've got
+the big picture,
+
+38
+00:01:33.650 --> 00:01:36.845
+let's do a quick recap
+of some of the details.
+
+39
+00:01:36.845 --> 00:01:39.740
+We described a parameterized
+value function as
+
+40
+00:01:39.740 --> 00:01:42.275
+a mapping from states
+to real numbers.
+
+41
+00:01:42.275 --> 00:01:44.300
+The output is
+controlled by a vector
+
+42
+00:01:44.300 --> 00:01:46.865
+of real valued weights W.
+
+43
+00:01:46.865 --> 00:01:49.940
+We use the notation
+V hat of S and
+
+44
+00:01:49.940 --> 00:01:53.405
+W to represent the
+approximate value function.
+
+45
+00:01:53.405 --> 00:01:56.900
+This indicates that
+the value estimate is determined
+
+46
+00:01:56.900 --> 00:02:00.515
+by the current state and
+the learn weight vector.
+
+47
+00:02:00.515 --> 00:02:03.560
+One example of a parameterized
+value function is
+
+48
+00:02:03.560 --> 00:02:07.265
+a linear function of
+fixed or expert design features.
+
+49
+00:02:07.265 --> 00:02:10.520
+Another example is
+a neural network.
+
+50
+00:02:10.520 --> 00:02:13.430
+We talked about
+two key properties of
+
+51
+00:02:13.430 --> 00:02:14.614
+function approximation,
+
+52
+00:02:14.614 --> 00:02:17.255
+generalization and
+discrimination.
+
+53
+00:02:17.255 --> 00:02:19.520
+Updating the value
+of one state can
+
+54
+00:02:19.520 --> 00:02:21.905
+improve the value estimates
+of other states.
+
+55
+00:02:21.905 --> 00:02:25.535
+This generalization can
+make learning faster.
+
+56
+00:02:25.535 --> 00:02:27.950
+We also want our value
+function to assign
+
+57
+00:02:27.950 --> 00:02:30.635
+different values when
+states are very different.
+
+58
+00:02:30.635 --> 00:02:33.330
+We call this discrimination.
+
+59
+00:02:33.610 --> 00:02:36.950
+Next, we discussed
+how to use ideas from
+
+60
+00:02:36.950 --> 00:02:40.640
+supervised learning to learn
+approximate value functions.
+
+61
+00:02:40.640 --> 00:02:43.520
+We cannot guarantee
+perfect approximation
+
+62
+00:02:43.520 --> 00:02:45.580
+for every state's value.
+
+63
+00:02:45.580 --> 00:02:48.475
+So we need to define
+an objective,
+
+64
+00:02:48.475 --> 00:02:50.030
+a measure of the distance between
+
+65
+00:02:50.030 --> 00:02:53.240
+our approximation
+and the true values.
+
+66
+00:02:53.240 --> 00:02:56.810
+We use the Mean
+Squared value or objective.
+
+67
+00:02:56.810 --> 00:02:58.475
+The sum of the squared error
+
+68
+00:02:58.475 --> 00:03:00.440
+between the value
+of each state and
+
+69
+00:03:00.440 --> 00:03:02.300
+our approximate value weighted
+
+70
+00:03:02.300 --> 00:03:05.160
+by the visitation frequency Mu.
+
+71
+00:03:05.620 --> 00:03:08.870
+We discussed how
+stochastic gradient descent
+
+72
+00:03:08.870 --> 00:03:11.850
+can be used to optimize
+their objective.
+
+73
+00:03:11.930 --> 00:03:14.690
+The Gradient Monte Carlo
+algorithm performs
+
+74
+00:03:14.690 --> 00:03:16.610
+stochastic gradient descent using
+
+75
+00:03:16.610 --> 00:03:19.175
+sampled returns to
+update the weights.
+
+76
+00:03:19.175 --> 00:03:21.860
+This means, it can learn
+approximate value from
+
+77
+00:03:21.860 --> 00:03:23.300
+the experience generated by
+
+78
+00:03:23.300 --> 00:03:25.940
+an agent interacting
+with the world.
+
+79
+00:03:25.940 --> 00:03:29.150
+We also introduced
+semi gradient TD
+
+80
+00:03:29.150 --> 00:03:32.300
+as an approximation to
+stochastic gradient descent.
+
+81
+00:03:32.300 --> 00:03:35.615
+Semi-Gradient TD takes
+advantage of bootstrapping,
+
+82
+00:03:35.615 --> 00:03:37.070
+and in practice may converge
+
+83
+00:03:37.070 --> 00:03:39.055
+much faster than Monte Carlo.
+
+84
+00:03:39.055 --> 00:03:41.390
+Semi-Gradient part
+of the name reminds
+
+85
+00:03:41.390 --> 00:03:44.195
+us that it's not
+a gradient descent algorithm.
+
+86
+00:03:44.195 --> 00:03:46.100
+Finally, we discussed
+
+87
+00:03:46.100 --> 00:03:48.230
+the linear Semi-Gradient
+TD algorithm
+
+88
+00:03:48.230 --> 00:03:52.055
+or TD with linear
+function approximation.
+
+89
+00:03:52.055 --> 00:03:56.885
+Linear TD provably converges
+to a well-understood point.
+
+90
+00:03:56.885 --> 00:03:59.720
+You now have a good
+foundation to understand
+
+91
+00:03:59.720 --> 00:04:02.455
+reinforce learning with
+parameterized functions.
+
+92
+00:04:02.455 --> 00:04:05.870
+Next, we will discuss different
+ways to construct state,
+
+93
+00:04:05.870 --> 00:04:07.415
+and state action features.
+
+94
+00:04:07.415 --> 00:04:10.500
+Until next time.

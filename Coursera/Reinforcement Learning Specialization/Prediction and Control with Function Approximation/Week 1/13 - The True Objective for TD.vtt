@@ -1,0 +1,537 @@
+WEBVTT
+
+1
+00:00:04.670 --> 00:00:06.825
+In a previous lecture,
+
+2
+00:00:06.825 --> 00:00:09.180
+we introduced semi gradient TD as
+
+3
+00:00:09.180 --> 00:00:10.770
+approximate gradient descent in
+
+4
+00:00:10.770 --> 00:00:12.345
+the mean squared value error.
+
+5
+00:00:12.345 --> 00:00:15.540
+But this is a simplification
+of a more nuanced story.
+
+6
+00:00:15.540 --> 00:00:19.560
+TD does not precisely optimize
+this objective, instead,
+
+7
+00:00:19.560 --> 00:00:21.960
+there's a different objective
+we can consider for
+
+8
+00:00:21.960 --> 00:00:25.125
+semi gradient TD with linear
+function approximation.
+
+9
+00:00:25.125 --> 00:00:27.770
+In fact, linear TD
+provably converges to
+
+10
+00:00:27.770 --> 00:00:29.945
+a well understood approximation
+
+11
+00:00:29.945 --> 00:00:31.925
+called the TD fixed point.
+
+12
+00:00:31.925 --> 00:00:34.100
+We'll talk about this today.
+
+13
+00:00:34.100 --> 00:00:36.200
+By the end of this video,
+
+14
+00:00:36.200 --> 00:00:37.850
+you will be able to understand
+
+15
+00:00:37.850 --> 00:00:40.280
+the fixed point of linear TD and
+
+16
+00:00:40.280 --> 00:00:42.440
+describe a theoretical
+guarantee on the mean
+
+17
+00:00:42.440 --> 00:00:45.440
+squared value error at
+the TD fixed point.
+
+18
+00:00:45.440 --> 00:00:48.470
+Let's take a closer look
+at the TD update
+
+19
+00:00:48.470 --> 00:00:51.155
+with linear function
+approximation.
+
+20
+00:00:51.155 --> 00:00:53.540
+The value of a state is
+the inner product of
+
+21
+00:00:53.540 --> 00:00:56.465
+the state features and
+the learn weight vector.
+
+22
+00:00:56.465 --> 00:00:58.594
+To simplify the notation,
+
+23
+00:00:58.594 --> 00:01:00.230
+we'll use X_ t to mean
+
+24
+00:01:00.230 --> 00:01:03.740
+the features associated
+with the state S_t.
+
+25
+00:01:03.740 --> 00:01:07.765
+We can then expand
+the TD update like this.
+
+26
+00:01:07.765 --> 00:01:11.330
+We can rewrite this using
+a bit of linear algebra.
+
+27
+00:01:11.330 --> 00:01:14.920
+First, we'll pull X_t
+into the brackets.
+
+28
+00:01:14.920 --> 00:01:17.440
+We then use the fact that
+taking the transpose
+
+29
+00:01:17.440 --> 00:01:20.135
+of a scalar, leaves it unchanged.
+
+30
+00:01:20.135 --> 00:01:21.880
+Now, let's think about
+what this update
+
+31
+00:01:21.880 --> 00:01:23.740
+looks like in expectation.
+
+32
+00:01:23.740 --> 00:01:25.720
+Understanding
+the expected update is
+
+33
+00:01:25.720 --> 00:01:27.565
+key for proving convergence.
+
+34
+00:01:27.565 --> 00:01:29.980
+The TD update can be rewritten as
+
+35
+00:01:29.980 --> 00:01:32.560
+the expected update
+plus a noise term,
+
+36
+00:01:32.560 --> 00:01:34.479
+and so is largely dominated
+
+37
+00:01:34.479 --> 00:01:36.925
+by the behavior of
+the expected update.
+
+38
+00:01:36.925 --> 00:01:40.000
+The expected update characterizes
+the expected change
+
+39
+00:01:40.000 --> 00:01:43.240
+in the weight from
+one time step to the next.
+
+40
+00:01:43.240 --> 00:01:46.690
+The expected TD update can
+be written as a vector b
+
+41
+00:01:46.690 --> 00:01:50.530
+minus a matrix A times
+the current weights.
+
+42
+00:01:50.530 --> 00:01:53.080
+The matrix A is defined in
+
+43
+00:01:53.080 --> 00:01:55.699
+terms of an expectation
+over the features,
+
+44
+00:01:55.699 --> 00:01:57.610
+while the vector b is defined in
+
+45
+00:01:57.610 --> 00:02:00.830
+terms of the features
+and the reward.
+
+46
+00:02:00.870 --> 00:02:03.280
+The weights are said to converge,
+
+47
+00:02:03.280 --> 00:02:05.605
+when this expected
+TD update is zero.
+
+48
+00:02:05.605 --> 00:02:09.020
+We call this point W_TD.
+
+49
+00:02:09.020 --> 00:02:10.680
+If A is invertible,
+
+50
+00:02:10.680 --> 00:02:15.300
+we can express this as
+W_TD equals A inverse b.
+
+51
+00:02:15.300 --> 00:02:20.485
+More generally, W_TD is a
+solution to this linear system.
+
+52
+00:02:20.485 --> 00:02:23.800
+We call this solution
+the TD fixed point.
+
+53
+00:02:23.800 --> 00:02:28.090
+It can be proven that linear TD
+converges to this point.
+
+54
+00:02:28.090 --> 00:02:31.705
+In fact, it can be
+shown that TD minimizes
+
+55
+00:02:31.705 --> 00:02:35.400
+an objective that is
+based on this A and b.
+
+56
+00:02:35.400 --> 00:02:37.865
+This objective extends
+the connection
+
+57
+00:02:37.865 --> 00:02:40.415
+between TD and Bellman equations,
+
+58
+00:02:40.415 --> 00:02:42.965
+to the function
+approximation setting.
+
+59
+00:02:42.965 --> 00:02:45.110
+Recall that in
+the tabular setting,
+
+60
+00:02:45.110 --> 00:02:47.180
+we describe TD as a sample
+
+61
+00:02:47.180 --> 00:02:50.305
+based method for solving
+the Bellman equation.
+
+62
+00:02:50.305 --> 00:02:52.760
+Linear TD similarly approximates
+
+63
+00:02:52.760 --> 00:02:54.860
+the solution to
+the Bellman equation,
+
+64
+00:02:54.860 --> 00:02:58.310
+minimizing what is called
+the projected Bellman error.
+
+65
+00:02:58.310 --> 00:03:00.050
+The details of this objective are
+
+66
+00:03:00.050 --> 00:03:01.940
+beyond the scope of this course,
+
+67
+00:03:01.940 --> 00:03:05.180
+but you can refer to the course
+textbook for more detail.
+
+68
+00:03:05.180 --> 00:03:08.240
+The key takeaway is that
+even though TD does
+
+69
+00:03:08.240 --> 00:03:09.950
+not converge to the minimum
+
+70
+00:03:09.950 --> 00:03:11.765
+of the mean squared value error,
+
+71
+00:03:11.765 --> 00:03:13.280
+It does converge to
+
+72
+00:03:13.280 --> 00:03:15.500
+the minimum of
+a principled objective,
+
+73
+00:03:15.500 --> 00:03:18.300
+based on Bellman equations.
+
+74
+00:03:18.830 --> 00:03:21.320
+Nonetheless, we do still want to
+
+75
+00:03:21.320 --> 00:03:23.090
+understand the
+relationship between
+
+76
+00:03:23.090 --> 00:03:24.170
+the solution found by
+
+77
+00:03:24.170 --> 00:03:27.500
+TD and the minimum
+value error solution.
+
+78
+00:03:27.500 --> 00:03:29.210
+We can formally characterize
+
+79
+00:03:29.210 --> 00:03:31.565
+this relationship
+with this equation.
+
+80
+00:03:31.565 --> 00:03:34.280
+The difference between
+the TD fixed point and
+
+81
+00:03:34.280 --> 00:03:36.380
+the minimum value error solution
+
+82
+00:03:36.380 --> 00:03:39.170
+can be large if Gamma
+is close to one.
+
+83
+00:03:39.170 --> 00:03:42.170
+If Gamma is very close to
+zero on the other hand,
+
+84
+00:03:42.170 --> 00:03:44.120
+the TD fixed point
+is very close to
+
+85
+00:03:44.120 --> 00:03:46.720
+the minimum value error solution.
+
+86
+00:03:46.720 --> 00:03:50.150
+This bound also depends on
+the quality of the features.
+
+87
+00:03:50.150 --> 00:03:51.860
+If the features are limited,
+
+88
+00:03:51.860 --> 00:03:53.030
+both the minimum mean
+
+89
+00:03:53.030 --> 00:03:55.070
+squared value error
+and the value era,
+
+90
+00:03:55.070 --> 00:03:58.385
+the TD fixed point, may be large.
+
+91
+00:03:58.385 --> 00:04:01.520
+If we can perfectly represent
+the value function,
+
+92
+00:04:01.520 --> 00:04:03.380
+then regardless of Gamma,
+
+93
+00:04:03.380 --> 00:04:05.345
+the TD fixed point is equivalent
+
+94
+00:04:05.345 --> 00:04:07.715
+to the minimum value
+error solution.
+
+95
+00:04:07.715 --> 00:04:09.920
+This is because both the left and
+
+96
+00:04:09.920 --> 00:04:12.895
+right-hand sides would be zero.
+
+97
+00:04:12.895 --> 00:04:15.470
+So in general, why isn't
+
+98
+00:04:15.470 --> 00:04:16.850
+the TD fixed point equal to
+
+99
+00:04:16.850 --> 00:04:18.930
+the minimum value error solution?
+
+100
+00:04:18.930 --> 00:04:20.645
+This is because of bootstrapping
+
+101
+00:04:20.645 --> 00:04:22.550
+under function approximation.
+
+102
+00:04:22.550 --> 00:04:24.680
+If our estimate of
+the next state is
+
+103
+00:04:24.680 --> 00:04:28.075
+persistently inaccurate due
+to function approximation,
+
+104
+00:04:28.075 --> 00:04:32.120
+then TD forever update
+towards an inaccurate target.
+
+105
+00:04:32.120 --> 00:04:34.730
+On the other hand, if
+our function approximator
+
+106
+00:04:34.730 --> 00:04:35.990
+is very good,
+
+107
+00:04:35.990 --> 00:04:37.340
+then our estimate
+of the next state
+
+108
+00:04:37.340 --> 00:04:38.855
+will become very accurate.
+
+109
+00:04:38.855 --> 00:04:41.120
+So bootstrapping off
+this estimate is
+
+110
+00:04:41.120 --> 00:04:43.340
+not problematic and the error for
+
+111
+00:04:43.340 --> 00:04:45.140
+the TD Solution is close to
+
+112
+00:04:45.140 --> 00:04:49.115
+the minimum value error.
+That's it for today.
+
+113
+00:04:49.115 --> 00:04:51.140
+You should now know
+a bit more about
+
+114
+00:04:51.140 --> 00:04:53.315
+why linear semi-gradient TD
+
+115
+00:04:53.315 --> 00:04:55.280
+is guaranteed to converge to
+
+116
+00:04:55.280 --> 00:04:57.885
+a fixed point called
+the TD fixed point,
+
+117
+00:04:57.885 --> 00:05:00.260
+and how the TD
+fixed point relates
+
+118
+00:05:00.260 --> 00:05:03.240
+to the minimum Mean
+Squared Value Error.
