@@ -1,0 +1,812 @@
+WEBVTT
+
+1
+00:00:06.050 --> 00:00:08.595
+Hi, my name's Andrew Barto,
+
+2
+00:00:08.595 --> 00:00:11.490
+and I'm going to talk
+about eligibility traces.
+
+3
+00:00:11.490 --> 00:00:13.530
+What are eligibility traces
+
+4
+00:00:13.530 --> 00:00:16.275
+and why do they have that name?
+
+5
+00:00:16.275 --> 00:00:18.525
+By the end of this video,
+
+6
+00:00:18.525 --> 00:00:21.060
+you'll understand the
+origin of the idea of
+
+7
+00:00:21.060 --> 00:00:23.460
+eligibility traces
+and you'll actually
+
+8
+00:00:23.460 --> 00:00:26.760
+see that you've been
+using them all along.
+
+9
+00:00:26.760 --> 00:00:30.450
+I know that the course
+omits Chapter 12 of
+
+10
+00:00:30.450 --> 00:00:34.530
+the book which focuses
+on eligibility traces,
+
+11
+00:00:34.530 --> 00:00:37.170
+but this little presentation
+
+12
+00:00:37.170 --> 00:00:39.240
+will give you a bit of a head
+
+13
+00:00:39.240 --> 00:00:42.390
+start in understanding
+that theory
+
+14
+00:00:42.390 --> 00:00:44.295
+that occurs in Chapter 12.
+
+15
+00:00:44.295 --> 00:00:46.670
+So to begin, the idea of
+
+16
+00:00:46.670 --> 00:00:49.220
+eligibility traces comes from
+
+17
+00:00:49.220 --> 00:00:52.180
+a hypothesis by Harry Klopf,
+
+18
+00:00:52.180 --> 00:00:54.860
+The Hedonistic Neuron
+Hypothesis and
+
+19
+00:00:54.860 --> 00:00:57.200
+Harry was a senior scientist
+
+20
+00:00:57.200 --> 00:00:58.910
+at the Avionics Directorate at
+
+21
+00:00:58.910 --> 00:01:02.245
+the Air Force Office of
+Scientific Research.
+
+22
+00:01:02.245 --> 00:01:06.290
+He published a monograph in
+1972 called The Hedonistic.
+
+23
+00:01:06.290 --> 00:01:07.490
+Well, I'm not sure
+what is the title,
+
+24
+00:01:07.490 --> 00:01:10.475
+but it was about the
+hedonistic neuron book in
+
+25
+00:01:10.475 --> 00:01:13.700
+'82 called The Hedonistic Neuron.
+
+26
+00:01:13.700 --> 00:01:16.130
+His idea, his hypothesis was
+
+27
+00:01:16.130 --> 00:01:19.040
+that neurons are
+individually hedonists
+
+28
+00:01:19.040 --> 00:01:23.065
+that work to maximize a
+local analog of pleasure
+
+29
+00:01:23.065 --> 00:01:27.830
+while working to minimize
+a local analog of pain.
+
+30
+00:01:27.830 --> 00:01:31.250
+In other words,
+according to his idea,
+
+31
+00:01:31.250 --> 00:01:34.940
+neurons are reinforcement
+learning agents and the brain
+
+32
+00:01:34.940 --> 00:01:36.470
+is a society of
+
+33
+00:01:36.470 --> 00:01:39.440
+interacting reinforcement
+learning agents.
+
+34
+00:01:39.440 --> 00:01:41.870
+Now a little bit about
+neurons so that you
+
+35
+00:01:41.870 --> 00:01:44.810
+can understand
+Klopf's hypothesis.
+
+36
+00:01:44.810 --> 00:01:46.610
+A neuron's output or
+
+37
+00:01:46.610 --> 00:01:49.520
+action is called an
+action potential,
+
+38
+00:01:49.520 --> 00:01:53.810
+transmitted to other neurons
+by the neuron's axon.
+
+39
+00:01:53.810 --> 00:01:57.470
+When a neuron generates
+an action potential,
+
+40
+00:01:57.470 --> 00:01:59.390
+it is said to fire.
+
+41
+00:01:59.390 --> 00:02:03.680
+Action potentials act on
+other neurons via synapses,
+
+42
+00:02:03.680 --> 00:02:06.650
+and synapses have efficacies or
+
+43
+00:02:06.650 --> 00:02:11.110
+weights or strength which
+change during learning.
+
+44
+00:02:11.530 --> 00:02:14.915
+Here is a sketch of a synapse.
+
+45
+00:02:14.915 --> 00:02:17.720
+An action potential
+would arrive via
+
+46
+00:02:17.720 --> 00:02:20.600
+the presynaptic terminal
+shown at the top,
+
+47
+00:02:20.600 --> 00:02:22.115
+and it would affect
+
+48
+00:02:22.115 --> 00:02:24.905
+the postsynaptic neuron
+shown at the bottom,
+
+49
+00:02:24.905 --> 00:02:27.500
+and the synaptic
+weight or efficacy
+
+50
+00:02:27.500 --> 00:02:30.154
+we tend to think resides
+in this connection,
+
+51
+00:02:30.154 --> 00:02:35.120
+and often we think of eligibility
+as being something that
+
+52
+00:02:35.120 --> 00:02:40.260
+is implemented by
+Biochemistry within the axon,
+
+53
+00:02:40.260 --> 00:02:44.405
+perhaps the presynaptic
+terminal as suggested here.
+
+54
+00:02:44.405 --> 00:02:47.135
+Klopf's specific hypothesis then,
+
+55
+00:02:47.135 --> 00:02:50.254
+is that when a neuron
+fires an action potential,
+
+56
+00:02:50.254 --> 00:02:53.300
+all the contributing
+synapses become
+
+57
+00:02:53.300 --> 00:02:55.490
+eligible to undergo changes
+
+58
+00:02:55.490 --> 00:02:58.295
+in their efficacies or weights.
+
+59
+00:02:58.295 --> 00:03:01.460
+If the action potential
+is followed within
+
+60
+00:03:01.460 --> 00:03:05.060
+an appropriate time period
+by an increasing reward,
+
+61
+00:03:05.060 --> 00:03:08.630
+the efficacies of all
+eligible synapses increase
+
+62
+00:03:08.630 --> 00:03:12.260
+or decrease in the
+case of penalty.
+
+63
+00:03:12.260 --> 00:03:15.590
+So this raises the
+question on what
+
+64
+00:03:15.590 --> 00:03:18.440
+should the shape of an
+eligibility trace be,
+
+65
+00:03:18.440 --> 00:03:20.405
+where the eligibility trace
+
+66
+00:03:20.405 --> 00:03:24.950
+is the account of the memory that
+
+67
+00:03:24.950 --> 00:03:27.595
+is stored at the synapse
+
+68
+00:03:27.595 --> 00:03:32.505
+based on previous
+activity of the neuron.
+
+69
+00:03:32.505 --> 00:03:37.040
+Harry's idea was
+pointing out that
+
+70
+00:03:37.040 --> 00:03:39.350
+neurons are embedded
+in a large number
+
+71
+00:03:39.350 --> 00:03:41.900
+of feedback loops of
+varying durations.
+
+72
+00:03:41.900 --> 00:03:43.430
+Some feedback loops are within
+
+73
+00:03:43.430 --> 00:03:45.680
+the nervous system and
+therefore very short.
+
+74
+00:03:45.680 --> 00:03:47.869
+Some go outside of the organism,
+
+75
+00:03:47.869 --> 00:03:50.795
+through the environment and
+back through sensory organs
+
+76
+00:03:50.795 --> 00:03:54.620
+and therefore very much
+longer feedback loops.
+
+77
+00:03:54.620 --> 00:03:56.090
+So the consequences of
+
+78
+00:03:56.090 --> 00:03:58.250
+a neuron's activity returns
+
+79
+00:03:58.250 --> 00:04:00.635
+to it with varying time delays.
+
+80
+00:04:00.635 --> 00:04:03.500
+The shape of an eligibility
+trace is a kind of
+
+81
+00:04:03.500 --> 00:04:07.765
+histogram of the durations
+of these feedback loops.
+
+82
+00:04:07.765 --> 00:04:10.635
+So here's a sketch of what
+
+83
+00:04:10.635 --> 00:04:15.240
+one of these eligibility
+traces might look like.
+
+84
+00:04:15.240 --> 00:04:19.520
+So at the time the neuron
+fires and after that,
+
+85
+00:04:19.520 --> 00:04:23.510
+there are a few very
+short feedback loops
+
+86
+00:04:23.510 --> 00:04:25.470
+that return information.
+
+87
+00:04:25.470 --> 00:04:28.340
+There may be a maximum number at
+
+88
+00:04:28.340 --> 00:04:31.840
+some number like
+600 milliseconds.
+
+89
+00:04:31.840 --> 00:04:33.770
+Of course, it would be
+
+90
+00:04:33.770 --> 00:04:35.780
+different for
+different neurons and
+
+91
+00:04:35.780 --> 00:04:39.865
+then a few very long
+feedback loops.
+
+92
+00:04:39.865 --> 00:04:42.550
+So the shape of an
+eligibility trace,
+
+93
+00:04:42.550 --> 00:04:47.745
+as Klopf hypothesized,
+look something like this.
+
+94
+00:04:47.745 --> 00:04:50.840
+Now there are two kinds
+of eligibility traces.
+
+95
+00:04:50.840 --> 00:04:53.635
+One we call ontingent eligibility
+
+96
+00:04:53.635 --> 00:04:57.730
+depends on presynaptic and
+postsynaptic activity,
+
+97
+00:04:57.730 --> 00:04:59.210
+as hypothesized by Klopf.
+
+98
+00:04:59.210 --> 00:05:01.820
+So presynaptic input needs to
+
+99
+00:05:01.820 --> 00:05:05.525
+participate in generating
+the postsynaptic activity.
+
+100
+00:05:05.525 --> 00:05:09.420
+This leads to a three-factor
+learning rule: pre-synaptic,
+
+101
+00:05:09.420 --> 00:05:15.365
+post-synaptic, and a reinforcement
+input arriving later.
+
+102
+00:05:15.365 --> 00:05:18.005
+Non-contingent
+eligibility is triggered
+
+103
+00:05:18.005 --> 00:05:20.120
+only by the presynaptic activity
+
+104
+00:05:20.120 --> 00:05:22.240
+leads to a two-factor
+learning rule:
+
+105
+00:05:22.240 --> 00:05:24.975
+presynaptic and reinforcement,
+
+106
+00:05:24.975 --> 00:05:26.750
+and not dependent on
+
+107
+00:05:26.750 --> 00:05:29.435
+the activity of the
+postsynaptic neuron.
+
+108
+00:05:29.435 --> 00:05:33.570
+So here's a little sketch
+showing these ideas.
+
+109
+00:05:33.570 --> 00:05:38.085
+At the top are a few
+presynaptic action potentials.
+
+110
+00:05:38.085 --> 00:05:40.920
+The next curve,
+
+111
+00:05:40.920 --> 00:05:45.980
+the next line shows a few
+postsynaptic action potentials,
+
+112
+00:05:45.980 --> 00:05:47.839
+and you can see in two instances,
+
+113
+00:05:47.839 --> 00:05:51.920
+they occur roughly
+together indicating that
+
+114
+00:05:51.920 --> 00:05:54.185
+the presynaptic action potential
+
+115
+00:05:54.185 --> 00:05:58.035
+is instrumental in causing
+the postsynaptic action,
+
+116
+00:05:58.035 --> 00:06:00.540
+and for the contingent
+eligibility traces,
+
+117
+00:06:00.540 --> 00:06:01.970
+those are the only two cases that
+
+118
+00:06:01.970 --> 00:06:03.650
+trigger and eligibility trace.
+
+119
+00:06:03.650 --> 00:06:06.895
+Whereas a non-contingent
+trace will
+
+120
+00:06:06.895 --> 00:06:10.340
+add that last one which
+is only triggered via
+
+121
+00:06:10.340 --> 00:06:13.520
+presynaptic impulse
+even though there is
+
+122
+00:06:13.520 --> 00:06:17.990
+no postsynaptic impulse
+at the same time.
+
+123
+00:06:17.990 --> 00:06:21.350
+Now looking at the
+Actor-Critic Architecture,
+
+124
+00:06:21.350 --> 00:06:23.510
+which you have studied in terms
+
+125
+00:06:23.510 --> 00:06:27.575
+of policy gradient methods.
+
+126
+00:06:27.575 --> 00:06:31.040
+It turns out that
+the main difference
+
+127
+00:06:31.040 --> 00:06:34.550
+between the actor and
+the critic is that
+
+128
+00:06:34.550 --> 00:06:38.060
+the actor uses contingent
+eligibility traces and
+
+129
+00:06:38.060 --> 00:06:42.070
+the critic uses non-contingent
+eligibility traces.
+
+130
+00:06:42.070 --> 00:06:43.490
+So in the first case,
+
+131
+00:06:43.490 --> 00:06:48.250
+the actor attempts to
+maximize reinforcement.
+
+132
+00:06:48.250 --> 00:06:50.830
+Whereas in the critic case,
+
+133
+00:06:50.830 --> 00:06:54.780
+it attempts to predict
+reinforcement and
+
+134
+00:06:54.780 --> 00:06:56.540
+it's really due to
+the main difference
+
+135
+00:06:56.540 --> 00:06:58.655
+in these two types of
+eligibility traces.
+
+136
+00:06:58.655 --> 00:07:01.490
+Now the simplification
+of the kind of
+
+137
+00:07:01.490 --> 00:07:05.179
+trace that Klopf
+suggested is used in RL,
+
+138
+00:07:05.179 --> 00:07:07.340
+and it looks like this.
+
+139
+00:07:07.340 --> 00:07:10.480
+An exponentially decaying trace
+
+140
+00:07:10.480 --> 00:07:12.830
+instead of the more
+complicated trace
+
+141
+00:07:12.830 --> 00:07:14.060
+that I showed earlier.
+
+142
+00:07:14.060 --> 00:07:17.975
+This is much easier to
+implement and to analyze.
+
+143
+00:07:17.975 --> 00:07:21.470
+But it might be the case
+that traces more like
+
+144
+00:07:21.470 --> 00:07:26.100
+Klopf's traces can
+sometimes perform better.
+
+145
+00:07:26.100 --> 00:07:30.290
+I don't know of work that
+really explores that question.
+
+146
+00:07:30.290 --> 00:07:32.390
+So you've actually been using
+
+147
+00:07:32.390 --> 00:07:34.750
+eligibility traces all along,
+
+148
+00:07:34.750 --> 00:07:37.020
+although the most simple kind.
+
+149
+00:07:37.020 --> 00:07:39.350
+Just the one time step
+delay can be thought
+
+150
+00:07:39.350 --> 00:07:41.750
+of as implemented with
+eligibility trace.
+
+151
+00:07:41.750 --> 00:07:44.420
+So here's the timeline
+and event curves at time
+
+152
+00:07:44.420 --> 00:07:48.680
+t. Then at t plus 1 is the trace.
+
+153
+00:07:48.680 --> 00:07:54.360
+This means that the feedback loop
+
+154
+00:07:54.360 --> 00:07:55.670
+just takes one time step
+
+155
+00:07:55.670 --> 00:07:57.170
+and that's the only
+one considered.
+
+156
+00:07:57.170 --> 00:08:02.690
+So this is a degenerate
+case that nearly all the
+
+157
+00:08:02.690 --> 00:08:04.910
+reinforcement learning
+algorithms that you've looked
+
+158
+00:08:04.910 --> 00:08:09.215
+at use as part of
+their mechanism.
+
+159
+00:08:09.215 --> 00:08:11.255
+Okay, a few takeaways.
+
+160
+00:08:11.255 --> 00:08:14.310
+Eligibility was
+proposed by Harry Klopf
+
+161
+00:08:14.310 --> 00:08:17.855
+as part of his hypothesis
+of the hedonistic neuron.
+
+162
+00:08:17.855 --> 00:08:20.450
+Eligibility trace is a record of
+
+163
+00:08:20.450 --> 00:08:23.180
+a synapse's past activity so that
+
+164
+00:08:23.180 --> 00:08:25.670
+feedback arriving
+after that activity
+
+165
+00:08:25.670 --> 00:08:28.820
+can make changes in the
+synapse's strength.
+
+166
+00:08:28.820 --> 00:08:31.160
+The main difference
+between the actor and
+
+167
+00:08:31.160 --> 00:08:33.710
+the critic in the Actor-Critic
+Architecture is that
+
+168
+00:08:33.710 --> 00:08:36.170
+eligibility traces
+are contingent for
+
+169
+00:08:36.170 --> 00:08:39.995
+the actor but non-contingent
+for the critic.
+
+170
+00:08:39.995 --> 00:08:43.520
+Eligibility is essential
+for taking into account
+
+171
+00:08:43.520 --> 00:08:47.360
+the role of signal timing
+in synaptic learning rules.
+
+172
+00:08:47.360 --> 00:08:50.540
+Finally, a neuroscience is
+
+173
+00:08:50.540 --> 00:08:53.390
+accumulating evidence
+that something very
+
+174
+00:08:53.390 --> 00:08:56.060
+much like eligibility traces
+
+175
+00:08:56.060 --> 00:09:00.470
+exist in the nervous
+system. Thank you.

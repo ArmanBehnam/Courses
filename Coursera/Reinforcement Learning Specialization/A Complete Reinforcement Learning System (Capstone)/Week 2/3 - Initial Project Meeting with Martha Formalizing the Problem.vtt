@@ -1,0 +1,367 @@
+WEBVTT
+
+1
+00:00:06.000 --> 00:00:10.400
+Imagine that you would like to land on
+the moon this seems like a difficult task.
+
+2
+00:00:10.400 --> 00:00:13.150
+We would need to know loads of physics and
+control theory and
+
+3
+00:00:13.150 --> 00:00:16.240
+we would have to anticipate countless
+things that could go wrong.
+
+4
+00:00:16.240 --> 00:00:20.055
+But what if we frame this as
+a reinforcement learning problem.
+
+5
+00:00:20.055 --> 00:00:23.718
+Our agent does not need to know
+the dynamics of the real world,
+
+6
+00:00:23.718 --> 00:00:26.259
+it can learn simply through interaction.
+
+7
+00:00:26.259 --> 00:00:28.366
+And your agent will do just that,
+
+8
+00:00:28.366 --> 00:00:33.036
+the lunar module will interact with
+the world unsure of the dynamics, but
+
+9
+00:00:33.036 --> 00:00:37.652
+to get the module to do what you want,
+you will have to design the reward.
+
+10
+00:00:37.652 --> 00:00:40.127
+Of course,
+it might be a little dangerous and
+
+11
+00:00:40.127 --> 00:00:44.378
+costly to learn how to land a lunar module
+on the moon through trial and error.
+
+12
+00:00:44.378 --> 00:00:48.165
+Instead, we will train our agent in
+a simulator to find a robust and
+
+13
+00:00:48.165 --> 00:00:50.500
+efficient landing policy.
+
+14
+00:00:50.500 --> 00:00:52.500
+Then, we could deploy
+the agent on the moon and
+
+15
+00:00:52.500 --> 00:00:55.900
+it allow it to continue learning
+adjusting its value function and
+
+16
+00:00:55.900 --> 00:01:01.100
+policy to account for the differences
+between our simulator and reality.
+
+17
+00:01:01.100 --> 00:01:03.500
+This means we do not have
+to worry about safety or
+
+18
+00:01:03.500 --> 00:01:06.000
+money while training in the simulator.
+
+19
+00:01:06.000 --> 00:01:10.100
+But do keep in mind we are using
+a very simple simulation here.
+
+20
+00:01:10.100 --> 00:01:14.300
+It does not reflect all
+the complexities of outer space, but
+
+21
+00:01:14.300 --> 00:01:18.200
+we cannot use a high-fidelity simulator
+since we do need your experiments to
+
+22
+00:01:18.200 --> 00:01:20.100
+run reasonably quickly.
+
+23
+00:01:20.100 --> 00:01:24.448
+Even with our high fidelity simulator
+our agent might still have issues
+
+24
+00:01:24.448 --> 00:01:25.470
+in deployment.
+
+25
+00:01:25.470 --> 00:01:29.602
+There are many technical nuances required
+to get agents trained in simulators to
+
+26
+00:01:29.602 --> 00:01:31.070
+transfer to the real world.
+
+27
+00:01:31.070 --> 00:01:35.100
+But this topic is way outside
+the scope of this small project.
+
+28
+00:01:35.100 --> 00:01:39.614
+Our aim here is to help you tackle
+a moderately interesting problem and
+
+29
+00:01:39.614 --> 00:01:44.131
+help you gain experience converting
+word descriptions of problems to
+
+30
+00:01:44.131 --> 00:01:45.603
+a concrete solution.
+
+31
+00:01:45.603 --> 00:01:46.436
+In this video,
+
+32
+00:01:46.436 --> 00:01:50.293
+we will introduce you to the environment
+that you will be working with.
+
+33
+00:01:50.293 --> 00:01:53.476
+You will understand the state and
+action space and
+
+34
+00:01:53.476 --> 00:01:56.600
+the reward function that
+you need to implement.
+
+35
+00:01:58.400 --> 00:02:01.500
+This is what the lunar lander
+environment looks like and
+
+36
+00:02:01.500 --> 00:02:05.100
+here are a few examples of
+an agent successfully Landing.
+
+37
+00:02:09.699 --> 00:02:14.189
+Our goal is to land the lunar module in
+the landing zone located between the two
+
+38
+00:02:14.189 --> 00:02:15.100
+yellow flags.
+
+39
+00:02:15.100 --> 00:02:18.156
+The Landing zone is always
+in the same location, but
+
+40
+00:02:18.156 --> 00:02:21.500
+the shape of the ground
+around it may change.
+
+41
+00:02:21.500 --> 00:02:23.600
+We can fire the main thruster or
+
+42
+00:02:23.600 --> 00:02:28.500
+either of the side thrusters to orient
+the module and slow its descent.
+
+43
+00:02:28.500 --> 00:02:31.100
+The state is composed of eight variables.
+
+44
+00:02:31.100 --> 00:02:35.900
+It includes the XY position and velocity
+the module as well as its angle and
+
+45
+00:02:35.900 --> 00:02:38.800
+angular velocity with
+respect to the ground.
+
+46
+00:02:38.800 --> 00:02:43.828
+We also have a sensor for each leg that
+determines if it is touching the ground.
+
+47
+00:02:43.828 --> 00:02:46.955
+Let's take a deeper look at the part
+of the environment that you will be
+
+48
+00:02:46.955 --> 00:02:48.600
+implementing.
+
+49
+00:02:48.600 --> 00:02:52.300
+The environment inputs the action that
+actually is given to the dynamics
+
+50
+00:02:52.300 --> 00:02:56.306
+function along with the current
+state to produce a next state.
+
+51
+00:02:56.306 --> 00:03:00.000
+The next state in action will then be
+passed to reward function that encodes
+
+52
+00:03:00.000 --> 00:03:01.900
+the desired behavior.
+
+53
+00:03:01.900 --> 00:03:05.100
+Finally, the environment will omit
+the next state and the reward.
+
+54
+00:03:06.400 --> 00:03:09.200
+There are four actions
+that the agent can take,
+
+55
+00:03:09.200 --> 00:03:13.100
+the agent can fire the main thruster,
+fire the left thruster,
+
+56
+00:03:13.100 --> 00:03:17.000
+fire the right thruster or
+do nothing at all on this time step.
+
+57
+00:03:18.400 --> 00:03:21.558
+You will need to implement the reward
+function for this environment.
+
+58
+00:03:21.558 --> 00:03:25.500
+Fuel is expensive and
+the main thruster uses a lot of it.
+
+59
+00:03:25.500 --> 00:03:30.100
+We want to discourage the agent from using
+the main thruster more than necessary.
+
+60
+00:03:30.100 --> 00:03:33.000
+The side thrusters use less fuel,
+so it is less bad for
+
+61
+00:03:33.000 --> 00:03:34.800
+the agent to use those frequently.
+
+62
+00:03:34.800 --> 00:03:38.000
+We want to encourage the agent
+to move towards the goal.
+
+63
+00:03:38.000 --> 00:03:41.563
+So it will lose some reward
+based on how far it moved from
+
+64
+00:03:41.563 --> 00:03:43.815
+the goal since the last time step.
+
+65
+00:03:43.815 --> 00:03:47.371
+Let's try to discourage the agent
+from learning to pile the module to
+
+66
+00:03:47.371 --> 00:03:51.665
+the surface in ways that might damage the
+equipment and will also discourage flying
+
+67
+00:03:51.665 --> 00:03:55.000
+off into outer space or
+a distant creator never to be seen again.
+
+68
+00:03:56.300 --> 00:03:57.965
+The agent will be rewarded for
+
+69
+00:03:57.965 --> 00:04:00.900
+each leg that it manages
+to get touching the ground.
+
+70
+00:04:00.900 --> 00:04:03.401
+And the agent will receive
+a large reward for
+
+71
+00:04:03.401 --> 00:04:07.400
+successfully landing in the landing
+pad at an appropriate velocity.
+
+72
+00:04:08.400 --> 00:04:12.704
+More details like what is an appropriate
+velocity will be made available in
+
+73
+00:04:12.704 --> 00:04:13.671
+the notebooks.
+
+74
+00:04:13.671 --> 00:04:17.192
+And that's it, in this video,
+we introduced you to the lunar lander
+
+75
+00:04:17.192 --> 00:04:20.667
+environment that you will be working
+with throughout this course.
+
+76
+00:04:20.667 --> 00:04:25.000
+Your goal this week is to implement
+the reward function for this problem.
+
+77
+00:04:25.000 --> 00:04:26.700
+Good luck building your environment.
