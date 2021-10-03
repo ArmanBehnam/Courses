@@ -1,0 +1,339 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.921
+[MUSIC]
+
+2
+00:00:10.921 --> 00:00:15.112
+[SOUND] So, this time, we'll talk
+about how to program the Arduino,
+
+3
+00:00:15.112 --> 00:00:19.233
+not through the normal way,
+not through the regular USB route, but
+
+4
+00:00:19.233 --> 00:00:22.505
+to directly program
+the firmware on the processors.
+
+5
+00:00:22.505 --> 00:00:25.722
+Now, this is not something that
+you will typically need to do, but
+
+6
+00:00:25.722 --> 00:00:29.398
+we're gonna talk about it anyway because
+every once in a while you might want
+
+7
+00:00:29.398 --> 00:00:32.674
+to upload the bootloader to change
+the bootloader, update it, and
+
+8
+00:00:32.674 --> 00:00:35.230
+it's good for you to hear how you do that.
+
+9
+00:00:35.230 --> 00:00:38.270
+Cuz it's not the regular
+programming process through the ID
+
+10
+00:00:38.270 --> 00:00:39.280
+that we normally do.
+
+11
+00:00:40.960 --> 00:00:44.645
+So the bootloader is the name of
+the firmware on the microcontroller.
+
+12
+00:00:44.645 --> 00:00:47.897
+And a bootloader is just
+a generic term for the software,
+
+13
+00:00:47.897 --> 00:00:52.165
+it's not just an Arduino thing,
+this is just any kind of imbedded system,
+
+14
+00:00:52.165 --> 00:00:56.671
+microcontroller, generally, has
+bootloader code written into the flash.
+
+15
+00:00:56.671 --> 00:01:01.164
+It allows a flash and the EEPROM
+a non-volatile memory to be programmed so
+
+16
+00:01:01.164 --> 00:01:04.003
+that's what you do when
+you upload your code.
+
+17
+00:01:04.003 --> 00:01:08.126
+You upload your code, it has to be copied
+or programmed into the flash memory or
+
+18
+00:01:08.126 --> 00:01:12.184
+the EEPROM, but usually flash, and so
+in order for that to happen there has to
+
+19
+00:01:12.184 --> 00:01:15.629
+be code executed on the at mega
+328 that allows that to happen.
+
+20
+00:01:15.629 --> 00:01:18.171
+It communicates with the USB interface and
+does this.
+
+21
+00:01:18.171 --> 00:01:20.860
+So that's what the boot
+loader's main job is.
+
+22
+00:01:20.860 --> 00:01:23.380
+The boot loader does a few other
+things but that's its main job,
+
+23
+00:01:23.380 --> 00:01:27.660
+to allow the flash to be re-written and
+the EEPROM.
+
+24
+00:01:28.700 --> 00:01:32.670
+Also handles issues with reset and
+things like that but that's its main job.
+
+25
+00:01:32.670 --> 00:01:35.680
+So it manages the USB communication,
+and allows programming.
+
+26
+00:01:37.600 --> 00:01:43.630
+Now, the catch is that the bootloader
+can't reprogram itself, right.
+
+27
+00:01:43.630 --> 00:01:46.330
+So if you do want to
+update the bootloader,
+
+28
+00:01:46.330 --> 00:01:49.000
+you can't ask the bootloader
+to reprogram the bootloader.
+
+29
+00:01:49.000 --> 00:01:50.390
+All right?
+So what you do is,
+
+30
+00:01:50.390 --> 00:01:53.470
+if you wanna update the boot loader
+you can't do it through the normal USB
+
+31
+00:01:53.470 --> 00:01:54.670
+interface using the boot loader.
+
+32
+00:01:54.670 --> 00:01:56.790
+Instead you have to use
+a different interface.
+
+33
+00:01:56.790 --> 00:01:59.910
+So that's what
+In-Circuit Serial Programming is for.
+
+34
+00:01:59.910 --> 00:02:01.050
+ICSP.
+
+35
+00:02:01.050 --> 00:02:02.730
+That's an interface to the board,
+
+36
+00:02:02.730 --> 00:02:06.440
+the special pins on the board through
+which you can program the boot loader.
+
+37
+00:02:06.440 --> 00:02:10.545
+Now, you can program anything, but
+it's just sort of a more direct route.
+
+38
+00:02:10.545 --> 00:02:12.340
+Non-USB route.
+
+39
+00:02:12.340 --> 00:02:16.530
+To program the processors on the board,
+the microcontroller's on the board and
+
+40
+00:02:16.530 --> 00:02:19.440
+the only time you would
+ever need to use ICSP is
+
+41
+00:02:19.440 --> 00:02:22.330
+if you want tt update your bootloader.
+
+42
+00:02:22.330 --> 00:02:24.700
+Because otherwise if you're just
+updating authentication code,
+
+43
+00:02:24.700 --> 00:02:29.560
+you would use a normal USB route,
+but the ICSP ports are made so
+
+44
+00:02:29.560 --> 00:02:32.180
+you can update the bootloader directly,
+and the firmware.
+
+45
+00:02:32.180 --> 00:02:35.610
+Essentially the firmware directly,
+so if you look at the board.
+
+46
+00:02:35.610 --> 00:02:39.020
+It's got two ICSP ports because
+there are two processors, right.
+
+47
+00:02:39.020 --> 00:02:42.213
+There's the ATmega328,
+which is the main one.
+
+48
+00:02:42.213 --> 00:02:46.212
+But there's also the ATmega16U2,
+which is for the USB communication.
+
+49
+00:02:46.212 --> 00:02:47.711
+Right, and that also has firmware on it.
+
+50
+00:02:47.711 --> 00:02:49.280
+It has code running on it.
+
+51
+00:02:49.280 --> 00:02:51.812
+And if you want to program
+either one of those two,
+
+52
+00:02:51.812 --> 00:02:54.600
+you have to use their ICSP ports,
+their ICSP headers.
+
+53
+00:02:54.600 --> 00:02:58.712
+So there's one ICSP header
+right near the ATmega16U2.
+
+54
+00:02:58.712 --> 00:03:02.671
+And there’s another ICSP header for
+the ATmega328.
+
+55
+00:03:02.671 --> 00:03:05.763
+And, what you would do if you
+wanna program these two is you
+
+56
+00:03:05.763 --> 00:03:09.630
+have to use a special programmer device
+that you have to buy separately.
+
+57
+00:03:09.630 --> 00:03:12.310
+And you would connect it to those pins.
+
+58
+00:03:12.310 --> 00:03:15.200
+And then you could use it, and
+a different piece of software,
+
+59
+00:03:15.200 --> 00:03:19.920
+to program the firmware
+on both those parts.
+
+60
+00:03:19.920 --> 00:03:22.340
+So these headers are available for
+you to use.
+
+61
+00:03:22.340 --> 00:03:25.370
+The only time you need them is if
+you're rewriting the boot loader, and
+
+62
+00:03:25.370 --> 00:03:27.050
+in this class we're not going to do that.
+
+63
+00:03:27.050 --> 00:03:31.320
+If you change the boot loader, you're
+beyond the scope of this class, basically.
+
+64
+00:03:31.320 --> 00:03:34.250
+If you can rewrite a new boot loader,
+then you don't need this class.
+
+65
+00:03:34.250 --> 00:03:35.170
+You can move right on.
+
+66
+00:03:35.170 --> 00:03:36.837
+But if you, that's what they're for.
+
+67
+00:03:36.837 --> 00:03:39.150
+You should be aware of what they're for
+
+68
+00:03:39.150 --> 00:03:42.934
+in case there ever is a need in
+the future to update a boot loader,
+
+69
+00:03:42.934 --> 00:03:47.370
+do some sort of an update, maybe
+a security update or something like that.
+
+70
+00:03:47.370 --> 00:03:48.046
+Thank you.
+
+71
+00:03:48.046 --> 00:03:52.211
+[MUSIC]

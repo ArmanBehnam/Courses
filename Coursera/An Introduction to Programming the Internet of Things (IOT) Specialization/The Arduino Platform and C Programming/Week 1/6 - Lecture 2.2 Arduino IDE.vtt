@@ -1,0 +1,694 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.837
+[MUSIC]
+
+2
+00:00:10.837 --> 00:00:14.467
+In this lecture, we'll continue
+a little bit about the board and
+
+3
+00:00:14.467 --> 00:00:17.240
+the microcontroller and its properties.
+
+4
+00:00:17.240 --> 00:00:19.410
+But then we'll start talking
+about the IDE itself.
+
+5
+00:00:19.410 --> 00:00:23.090
+So that's the software environment that
+you use to actually do the coding,
+
+6
+00:00:23.090 --> 00:00:24.970
+and compile the code and upload the code.
+
+7
+00:00:27.800 --> 00:00:29.936
+So first about the microcontroller,
+
+8
+00:00:29.936 --> 00:00:33.547
+over here we've got a bunch of
+data about the microcontroller.
+
+9
+00:00:33.547 --> 00:00:37.995
+So just some statistics, high level
+information about the microcontroller that
+
+10
+00:00:37.995 --> 00:00:42.255
+you would find at the beginning of any
+datasheet about this microcontroller.
+
+11
+00:00:42.255 --> 00:00:46.272
+So it's ATmega328,
+it's an 8-bit microcontroller,
+
+12
+00:00:46.272 --> 00:00:51.600
+operating voltage is at five volts, so its
+pins are going from zero to five volts,
+
+13
+00:00:51.600 --> 00:00:55.950
+the input voltage recommended and
+the input voltage limits.
+
+14
+00:00:55.950 --> 00:01:00.000
+So what those are is if you're
+driving it with external power,
+
+15
+00:01:00.000 --> 00:01:02.200
+what voltage would you
+want to supply to it?
+
+16
+00:01:02.200 --> 00:01:05.750
+So you want to give it 7 to
+12 volts that is preferred.
+
+17
+00:01:05.750 --> 00:01:09.660
+And what it does is operating voltage
+at 5 volts it'll step that down, but
+
+18
+00:01:09.660 --> 00:01:13.410
+you want to get it in the range of 7
+to 12 volts if you're gonna do that.
+
+19
+00:01:13.410 --> 00:01:16.572
+Yeah, not through the USB but
+through external input.
+
+20
+00:01:16.572 --> 00:01:22.580
+Digital I/O pins, it's got 14 digital
+I/O pins, numbers zero through 13.
+
+21
+00:01:22.580 --> 00:01:28.550
+Analog input pins, it's got six
+analog input pins at A0 through A5.
+
+22
+00:01:28.550 --> 00:01:32.770
+DC current per pin and
+DC current on the 3.3V pin.
+
+23
+00:01:32.770 --> 00:01:34.819
+So DC current, why that matters
+
+24
+00:01:36.190 --> 00:01:40.818
+basically what that says is how much
+current can be supplied out of that pin?
+
+25
+00:01:40.818 --> 00:01:45.280
+So the Arduino can only drive a certain
+amount of current out of a pin because
+
+26
+00:01:45.280 --> 00:01:48.180
+it's a small device and
+only can push a certain amount of current.
+
+27
+00:01:48.180 --> 00:01:53.180
+So say the DC current for an IO pin is
+typically 40, the max is 40 milli- amps.
+
+28
+00:01:53.180 --> 00:01:54.370
+That's not a lot.
+
+29
+00:01:54.370 --> 00:01:55.750
+And that's important to know.
+
+30
+00:01:55.750 --> 00:01:59.570
+Because that tell you,
+that limits what you can drive.
+
+31
+00:01:59.570 --> 00:02:03.980
+So, for instance, if you're turning
+on an LED, 40 milliamps is fine.
+
+32
+00:02:03.980 --> 00:02:07.170
+In fact, you can only push maybe 20
+milliamps through an LED before you
+
+33
+00:02:07.170 --> 00:02:07.710
+fry the thing.
+
+34
+00:02:07.710 --> 00:02:11.820
+But if you wanna drive a motor or
+something like that, 40 milliamps is not.
+
+35
+00:02:12.860 --> 00:02:15.600
+So if you want to drive a motor,
+you gotta do something else.
+
+36
+00:02:15.600 --> 00:02:18.020
+Actually, we'll talk about
+that later in the next course.
+
+37
+00:02:19.030 --> 00:02:25.685
+So flash memory, flash memory is,
+let's see, it's not in volatile storage.
+
+38
+00:02:25.685 --> 00:02:27.055
+I happen to have one right here.
+
+39
+00:02:27.055 --> 00:02:29.755
+It's what you would find in
+something like this, right?
+
+40
+00:02:29.755 --> 00:02:31.425
+Any thumb drive, right?
+
+41
+00:02:31.425 --> 00:02:32.595
+That's flash memory.
+
+42
+00:02:32.595 --> 00:02:37.932
+It's not in volatile memory, and the
+ATMega328 actually has some flash memory.
+
+43
+00:02:37.932 --> 00:02:40.502
+All processors have some
+kind of flash memory, and
+
+44
+00:02:40.502 --> 00:02:42.932
+that's where you store
+the programs that you run.
+
+45
+00:02:42.932 --> 00:02:45.272
+So nonvolatile memory
+means that it stores and
+
+46
+00:02:45.272 --> 00:02:47.432
+holds its data, even if it loses power.
+
+47
+00:02:47.432 --> 00:02:49.562
+So that thumbdrive I just showed you,
+you unplug it,
+
+48
+00:02:49.562 --> 00:02:52.852
+it's unplugged from power right now, but
+it's storing this data, it's holding it.
+
+49
+00:02:52.852 --> 00:02:56.682
+So that's what you want for your program,
+so your program's going to flash memory,
+
+50
+00:02:56.682 --> 00:03:00.592
+and it's only got 32 kilobytes of flash
+memory, which is not much at all.
+
+51
+00:03:00.592 --> 00:03:01.872
+But it's enough for what we're doing.
+
+52
+00:03:03.170 --> 00:03:06.500
+SRAM, SRAM is just, that stands for
+static read-only memory.
+
+53
+00:03:06.500 --> 00:03:07.410
+Random access memory.
+
+54
+00:03:07.410 --> 00:03:09.310
+Standard random access memory.
+
+55
+00:03:09.310 --> 00:03:11.970
+Excuse me, static random access memory.
+
+56
+00:03:11.970 --> 00:03:16.090
+And that is a, it's just regular
+memory but it's volatile memory.
+
+57
+00:03:16.090 --> 00:03:21.210
+So, what that means is when you turn off
+the power anything in SRAM disappears.
+
+58
+00:03:21.210 --> 00:03:23.910
+And so, when you power it on,
+again, you've gotta reload SRAM.
+
+59
+00:03:23.910 --> 00:03:27.890
+So SRAM is a memory that uses at runtime,
+and 3 kilobytes,
+
+60
+00:03:27.890 --> 00:03:32.060
+which is not much.
+
+61
+00:03:32.060 --> 00:03:35.400
+EEPROM is like Flash but different.
+
+62
+00:03:35.400 --> 00:03:39.020
+It's controllable in individual
+bytes rather than whole blocks.
+
+63
+00:03:39.020 --> 00:03:42.890
+Very little of it, and
+clock speed is 16 MHz, so it can do, say,
+
+64
+00:03:42.890 --> 00:03:47.150
+roughly 16 million cycles a second,
+so 16 million operations in a second.
+
+65
+00:03:48.260 --> 00:03:53.210
+And so that's slow compared to a desktop,
+which might be three, four gigahertz.
+
+66
+00:03:53.210 --> 00:03:56.933
+But, it's plenty fast for
+the type of things we want to do.
+
+67
+00:03:56.933 --> 00:03:59.755
+And an 8-bit processor like the mega 328,
+
+68
+00:03:59.755 --> 00:04:04.305
+that might cost you $1.50 say,
+that ballpark.
+
+69
+00:04:04.305 --> 00:04:05.955
+If you wanted to buy
+an individual processor.
+
+70
+00:04:05.955 --> 00:04:07.255
+It might cost you $1.50.
+
+71
+00:04:07.255 --> 00:04:12.171
+The board itself, the whole Arduino board,
+costs $40, maybe less, $35.
+
+72
+00:04:12.171 --> 00:04:15.086
+You can it a little cheaper on Amazon,
+something like that.
+
+73
+00:04:15.086 --> 00:04:17.087
+But the board has a lot
+of other stuff on it.
+
+74
+00:04:17.087 --> 00:04:18.587
+It's much more convenient to use.
+
+75
+00:04:18.587 --> 00:04:21.253
+If you just get the bare chip
+you can't program it directly,
+
+76
+00:04:21.253 --> 00:04:23.130
+you need a programmer and all this.
+
+77
+00:04:23.130 --> 00:04:25.340
+Where the board gives you all that.
+
+78
+00:04:25.340 --> 00:04:26.655
+So, these things are pretty cheap.
+
+79
+00:04:26.655 --> 00:04:31.170
+All right, let's take a look at the IDEs.
+
+80
+00:04:31.170 --> 00:04:33.430
+So, Arduino Integrated
+Development Environment.
+
+81
+00:04:33.430 --> 00:04:37.880
+So an IDE is a software tool
+that you use for programming.
+
+82
+00:04:37.880 --> 00:04:40.940
+So the main thing in here,
+actually if you look at the IDE,
+
+83
+00:04:40.940 --> 00:04:44.590
+the main window right there is
+a text editor for writing code.
+
+84
+00:04:44.590 --> 00:04:48.490
+So you put your code right in that text
+editor and you can type it in there.
+
+85
+00:04:48.490 --> 00:04:50.330
+And right now,
+we just got a simple shell in there.
+
+86
+00:04:50.330 --> 00:04:53.610
+But you can type whatever code
+you want to that text editor.
+
+87
+00:04:53.610 --> 00:04:58.660
+Now above that, it's got the menu item,
+the file and all this to say,
+
+88
+00:04:58.660 --> 00:05:02.000
+regular commands, save file,
+open file, that sort of thing.
+
+89
+00:05:02.000 --> 00:05:04.710
+All the commands are in
+those menu options.
+
+90
+00:05:04.710 --> 00:05:06.610
+But underneath that
+there are these buttons,
+
+91
+00:05:06.610 --> 00:05:08.830
+that way you have the most
+common options in there.
+
+92
+00:05:08.830 --> 00:05:13.000
+So the most common operations,
+they put in the form of buttons.
+
+93
+00:05:13.000 --> 00:05:16.060
+But if you want to look at every
+operation that you could do,
+
+94
+00:05:16.060 --> 00:05:18.380
+you can look through the menus and
+find every operation.
+
+95
+00:05:18.380 --> 00:05:20.250
+But the buttons are the most important.
+
+96
+00:05:20.250 --> 00:05:22.580
+And at the bottom is the message area.
+
+97
+00:05:22.580 --> 00:05:27.230
+And that message area is usually for
+message areas, so when you're compiling
+
+98
+00:05:27.230 --> 00:05:30.080
+and you get some kind of an error,
+it puts it in the message area.
+
+99
+00:05:30.080 --> 00:05:33.320
+So this is the basic IDE,
+what it looks like.
+
+100
+00:05:33.320 --> 00:05:37.470
+And you're gonna download this from
+Arduino.cc, and install it and run it,
+
+101
+00:05:37.470 --> 00:05:38.700
+and when you double-click and
+
+102
+00:05:38.700 --> 00:05:40.670
+you run it you'll get a window
+that looks something like this.
+
+103
+00:05:43.340 --> 00:05:46.810
+Now just to go over the main
+functions to the buttons.
+
+104
+00:05:46.810 --> 00:05:49.780
+The buttons have the common,
+most useful operations.
+
+105
+00:05:49.780 --> 00:05:52.380
+So those buttons across the top row.
+
+106
+00:05:52.380 --> 00:05:53.150
+Here's what the are.
+
+107
+00:05:53.150 --> 00:05:58.635
+First there's a verify button,
+the check, that compiles the code.
+
+108
+00:05:58.635 --> 00:06:00.765
+In the act of compiling,
+it checks for errors.
+
+109
+00:06:00.765 --> 00:06:03.305
+If there is an error,
+it is detected on the compile.
+
+110
+00:06:03.305 --> 00:06:05.380
+So often you will want
+to compile your code.
+
+111
+00:06:05.380 --> 00:06:08.957
+They call iy 'verify' but you're
+compiling the code to see if it's not,
+
+112
+00:06:08.957 --> 00:06:12.497
+it doesn't completely
+check that it's correct.
+
+113
+00:06:12.497 --> 00:06:15.147
+It just checks that there
+are no compile errors, right?
+
+114
+00:06:15.147 --> 00:06:16.927
+If there's a compile error or
+a syntax error or
+
+115
+00:06:16.927 --> 00:06:19.297
+something like that,
+then it'll be caught in the verify.
+
+116
+00:06:20.328 --> 00:06:23.778
+Now Upload compiles the code and
+uploads it to the board.
+
+117
+00:06:23.778 --> 00:06:26.258
+So it does both in one fell swoop.
+
+118
+00:06:26.258 --> 00:06:28.928
+Now so Upload can only work if
+you have the board connected.
+
+119
+00:06:28.928 --> 00:06:33.418
+You can verify the code without connecting
+the Arduino to your desktop, laptop.
+
+120
+00:06:33.418 --> 00:06:35.078
+But for Upload,
+you gotta have it connected.
+
+121
+00:06:36.198 --> 00:06:38.278
+New creates a new sketch, a new program.
+
+122
+00:06:39.320 --> 00:06:40.800
+Open opens an existing,
+
+123
+00:06:40.800 --> 00:06:44.610
+save saves a sketch to a file
+in a directory of your choice.
+
+124
+00:06:44.610 --> 00:06:47.910
+And serial monitor opens a window
+to communicate with the board.
+
+125
+00:06:47.910 --> 00:06:50.620
+We'll get into more of this
+later in the next course.
+
+126
+00:06:50.620 --> 00:06:54.300
+Actually, later on in this course we'll
+get into what the serial monitor does.
+
+127
+00:06:54.300 --> 00:06:56.740
+But the idea is it opens
+a separate window.
+
+128
+00:06:56.740 --> 00:06:59.270
+So, one limitation of Arduino's embedded
+
+129
+00:06:59.270 --> 00:07:02.690
+processes in general Is that
+they don't have screens, right?
+
+130
+00:07:02.690 --> 00:07:05.360
+A desktop, laptop has a screen and
+a keyboard, right?
+
+131
+00:07:05.360 --> 00:07:08.940
+So it's very easy for you to send data in
+and read data out through the screen and
+
+132
+00:07:08.940 --> 00:07:11.130
+the keyboard, but
+an embedded device does not.
+
+133
+00:07:11.130 --> 00:07:12.070
+Your Adruino, it doesn't.
+
+134
+00:07:12.070 --> 00:07:15.650
+All it has is a couple LEDs
+sitting on it and some pins.
+
+135
+00:07:15.650 --> 00:07:18.560
+So If you wanna send data to it.
+
+136
+00:07:18.560 --> 00:07:22.090
+You wanna type data to it, or
+read data from it, like, on a screen,
+
+137
+00:07:22.090 --> 00:07:23.640
+you can't do it directly.
+
+138
+00:07:23.640 --> 00:07:25.530
+So that's what the serial monitor is for.
+
+139
+00:07:25.530 --> 00:07:26.210
+It's a monitor.
+
+140
+00:07:26.210 --> 00:07:29.055
+You start it, and
+it'll open up a window on your machine.
+
+141
+00:07:29.055 --> 00:07:32.608
+And it allows you to type text and
+send it straight to the Arduino,
+
+142
+00:07:32.608 --> 00:07:35.258
+also the Arduino can print
+stuff on the screen for
+
+143
+00:07:35.258 --> 00:07:38.055
+you and you can see it in
+the serial monitor window.
+
+144
+00:07:38.055 --> 00:07:40.719
+So we'll use that later on in the course,
+
+145
+00:07:40.719 --> 00:07:44.385
+actually in the next module
+we'll talk about that more.
+
+146
+00:07:44.385 --> 00:07:45.546
+Thank you.
+
+147
+00:07:45.546 --> 00:07:54.359
+[MUSIC]
