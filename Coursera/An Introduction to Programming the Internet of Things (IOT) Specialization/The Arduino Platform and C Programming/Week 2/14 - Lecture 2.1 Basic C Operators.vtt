@@ -1,0 +1,604 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.921
+[MUSIC]
+
+2
+00:00:10.921 --> 00:00:14.629
+[SOUND] In this lecture, we'll talk
+a little bit about the basic c operators.
+
+3
+00:00:14.629 --> 00:00:16.370
+All the operators that you perform.
+
+4
+00:00:16.370 --> 00:00:19.160
+That you'd regularly execute in
+an instruction that is in c.
+
+5
+00:00:19.160 --> 00:00:20.800
+The basic ones, anyway.
+
+6
+00:00:20.800 --> 00:00:24.040
+Basic arithmetic and logical operations.
+
+7
+00:00:24.040 --> 00:00:25.660
+These operations are very common.
+
+8
+00:00:25.660 --> 00:00:31.020
+You see them in all languages,
+virtual unchanged in different languages,
+
+9
+00:00:31.020 --> 00:00:31.870
+but we'll go over them.
+
+10
+00:00:33.410 --> 00:00:34.650
+So first there are constants.
+
+11
+00:00:35.970 --> 00:00:38.711
+You can define constants, there
+are actually a couple of ways to define
+
+12
+00:00:38.711 --> 00:00:40.505
+constants, but we'll talk about #define.
+
+13
+00:00:40.505 --> 00:00:44.491
+#define is a compiler directive, again
+its got a hash sign in front of it so
+
+14
+00:00:44.491 --> 00:00:46.088
+it's a compiler directive.
+
+15
+00:00:46.088 --> 00:00:51.090
+And #define basically substitutes
+one string for another.
+
+16
+00:00:51.090 --> 00:00:54.230
+So, like here I say #define answer 42.
+
+17
+00:00:55.280 --> 00:01:00.730
+So what it does is wherever it sees answer
+in the file, it substitutes that with 42.
+
+18
+00:01:00.730 --> 00:01:02.720
+So it's just a macro substitution.
+
+19
+00:01:02.720 --> 00:01:06.510
+It says, oh I see the word answer,
+I'm gonna stick a 42 in instead.
+
+20
+00:01:06.510 --> 00:01:07.060
+Very simple.
+
+21
+00:01:08.380 --> 00:01:12.800
+It happens at compile time, I think before
+the compile, so the pre-processing step.
+
+22
+00:01:12.800 --> 00:01:17.420
+It just looks around for every time it
+sees ANSWER and substitutes the 42 in.
+
+23
+00:01:17.420 --> 00:01:18.128
+You can do this with characters.
+
+24
+00:01:18.128 --> 00:01:20.172
+In that case, it was a number,
+the number 42.
+
+25
+00:01:20.172 --> 00:01:22.620
+You can do it with character constants,
+too.
+
+26
+00:01:22.620 --> 00:01:24.090
+In this case,
+if you want it to be a character,
+
+27
+00:01:24.090 --> 00:01:26.346
+you gotta put the character
+in single quotes.
+
+28
+00:01:26.346 --> 00:01:29.610
+So #define TERMINATOR 'x'.
+
+29
+00:01:29.610 --> 00:01:31.119
+Notice that I put the x in single quotes.
+
+30
+00:01:32.220 --> 00:01:35.450
+What it does is, if you put it in single
+quotes it knows that it's a character and
+
+31
+00:01:35.450 --> 00:01:37.610
+it interprets it as a character.
+
+32
+00:01:37.610 --> 00:01:41.390
+So it interprets it as an ASCII
+character or Unicode really.
+
+33
+00:01:41.390 --> 00:01:44.720
+So ASCII and Unicode,
+what they are I haven't described them.
+
+34
+00:01:44.720 --> 00:01:46.970
+But what they are is every character.
+
+35
+00:01:46.970 --> 00:01:48.900
+Visible character or
+an invisible character.
+
+36
+00:01:48.900 --> 00:01:50.400
+Every character you see
+on your keyboard for
+
+37
+00:01:50.400 --> 00:01:53.000
+instance and
+lots of other characters you can't.
+
+38
+00:01:53.000 --> 00:01:55.440
+They're all mapped to numbers.
+
+39
+00:01:55.440 --> 00:01:59.790
+So, X might be 41,
+Y might be 42, and so on.
+
+40
+00:01:59.790 --> 00:02:02.190
+They're all mapped to numbers in a table.
+
+41
+00:02:02.190 --> 00:02:05.100
+If you Google ASCII table,
+ASCII characters,
+
+42
+00:02:05.100 --> 00:02:09.460
+you'll get a table that lists every
+character and its ASCII code number.
+
+43
+00:02:09.460 --> 00:02:10.690
+Or Unicode is a bigger one.
+
+44
+00:02:10.690 --> 00:02:12.640
+So ASCII is only eight bits long.
+
+45
+00:02:12.640 --> 00:02:13.587
+Really seven bits.
+
+46
+00:02:13.587 --> 00:02:14.962
+Unicode is 16 bits.
+
+47
+00:02:14.962 --> 00:02:17.450
+So you're gonna have
+a lot more characters.
+
+48
+00:02:17.450 --> 00:02:19.370
+But ASCII and Unicode overlap.
+
+49
+00:02:19.370 --> 00:02:23.810
+So lowercase x has a certain
+representation, a certain number.
+
+50
+00:02:23.810 --> 00:02:27.410
+And if you put it in single
+quotes like that it will know,
+
+51
+00:02:27.410 --> 00:02:30.560
+oh this is meant to be a character, so
+I will represent it with this ASCII value.
+
+52
+00:02:30.560 --> 00:02:32.000
+You know, and
+it looks it up in the table and
+
+53
+00:02:32.000 --> 00:02:35.730
+stores that some characters
+are not easy to represent,
+
+54
+00:02:35.730 --> 00:02:39.140
+meaning they're invisible characters,
+like a bell character which, actually,
+
+55
+00:02:39.140 --> 00:02:41.830
+in old machines used to make
+a beep sound when you'd click it.
+
+56
+00:02:41.830 --> 00:02:44.450
+Control, kind of, it's been a while
+since I've used such a machine.
+
+57
+00:02:44.450 --> 00:02:45.910
+But there's a control keystroke.
+
+58
+00:02:45.910 --> 00:02:49.420
+Control something, it would make a beep
+that, you can't see it, all right?
+
+59
+00:02:49.420 --> 00:02:51.360
+It's one of those invisible characters.
+
+60
+00:02:51.360 --> 00:02:54.882
+So if you wanted to represent that
+as a character, you can do it But
+
+61
+00:02:54.882 --> 00:02:56.994
+you have to give the ASCII code number,
+
+62
+00:02:56.994 --> 00:03:00.212
+which is not something we're
+gonna necessarily get into.
+
+63
+00:03:00.212 --> 00:03:04.004
+So, they're constants and
+you can use hash define to define those.
+
+64
+00:03:04.004 --> 00:03:08.260
+Now, C has a set of arithmetic and
+relational operators.
+
+65
+00:03:08.260 --> 00:03:09.080
+Standard stuff.
+
+66
+00:03:09.080 --> 00:03:12.810
+So, plus, minus, times, divide, all that.
+
+67
+00:03:12.810 --> 00:03:15.180
+The percent sign is a modulo operator.
+
+68
+00:03:15.180 --> 00:03:18.840
+So, modulo is the remainder
+after division.
+
+69
+00:03:18.840 --> 00:03:22.570
+So for instance,
+9 module 02 is equal to 1,
+
+70
+00:03:22.570 --> 00:03:28.730
+because if you do 9 divided by 2 you get 4
+and the remainder is 1 so 1 was returned.
+
+71
+00:03:28.730 --> 00:03:32.645
+Or 9 module 03 is 0 because 9 module 03
+If you say, and I divided by three and
+
+72
+00:03:32.645 --> 00:03:35.245
+you get three perfectly,
+there's no remainder.
+
+73
+00:03:35.245 --> 00:03:36.255
+So zero is the remainder.
+
+74
+00:03:36.255 --> 00:03:38.985
+So module is basically the remainder.
+
+75
+00:03:38.985 --> 00:03:40.685
+Plus plus is an increment.
+
+76
+00:03:40.685 --> 00:03:44.005
+So if you want to take a variable
+like x and increment it, you say x++.
+
+77
+00:03:44.005 --> 00:03:47.546
+If you want to decrement it, you say x--.
+
+78
+00:03:47.546 --> 00:03:49.837
+There are comparator operators,
+relation operators.
+
+79
+00:03:49.837 --> 00:03:52.171
+So equal equal.
+
+80
+00:03:52.171 --> 00:03:54.790
+And actually this is something
+to be careful of in C.
+
+81
+00:03:54.790 --> 00:03:55.920
+And other languages.
+
+82
+00:03:55.920 --> 00:04:00.090
+If you say x equal 1,
+that's an assignment.
+
+83
+00:04:00.090 --> 00:04:05.880
+That assigns x to be one, but, if you
+say x equal equal 1, that is a test.
+
+84
+00:04:05.880 --> 00:04:07.150
+It's a relational operator.
+
+85
+00:04:07.150 --> 00:04:11.690
+It returns true if x is actually equal
+to 1 and false if it's not, okay?
+
+86
+00:04:11.690 --> 00:04:14.620
+So you would use x equal equal
+1 if you have an if statement,
+
+87
+00:04:14.620 --> 00:04:17.440
+like here take my if statement down there.
+
+88
+00:04:17.440 --> 00:04:18.610
+X is less than 5.
+
+89
+00:04:18.610 --> 00:04:21.670
+So if x is less than 5,
+do whatever, right?
+
+90
+00:04:21.670 --> 00:04:24.930
+So in that case you're using
+a relational operator as a test.
+
+91
+00:04:24.930 --> 00:04:27.690
+So x less than 5 returns true or false.
+
+92
+00:04:27.690 --> 00:04:31.379
+True if x is less than 5 and
+false if it's not.
+
+93
+00:04:31.379 --> 00:04:35.973
+So == is a relational operator,
+it's a comparison which returns true
+
+94
+00:04:35.973 --> 00:04:39.297
+if the two things are equal,
+false if they're not.
+
+95
+00:04:39.297 --> 00:04:44.220
+And they're used in if statements
+commonly and conditionals and so forth.
+
+96
+00:04:44.220 --> 00:04:48.030
+And so
+those are the common relational operators.
+
+97
+00:04:48.030 --> 00:04:50.910
+All the common relational and
+arithmetic operators.
+
+98
+00:04:50.910 --> 00:04:52.650
+Also, you have logical operators.
+
+99
+00:04:52.650 --> 00:04:57.170
+So logical operators meaning and,
+or, not so boolean logic.
+
+100
+00:04:57.170 --> 00:05:01.210
+So for instance, ampersand ampersand
+that's an and, bar bar that's an or and
+
+101
+00:05:01.210 --> 00:05:06.860
+exclamation that's a not so
+what happens is these operators
+
+102
+00:05:06.860 --> 00:05:14.509
+treat the arguments as one bit binary
+value so So AND, take AND, &&.
+
+103
+00:05:14.509 --> 00:05:17.421
+The arguments to that operator
+on the left and the right.
+
+104
+00:05:17.421 --> 00:05:22.129
+So you might say 1 AND 2, 1 && 2.
+
+105
+00:05:22.129 --> 00:05:23.170
+Let's say we did that.
+
+106
+00:05:23.170 --> 00:05:25.671
+So it has two arguments, 1 and 2.
+
+107
+00:05:25.671 --> 00:05:28.820
+These two arguments,
+it treats them as one, big, binary value.
+
+108
+00:05:28.820 --> 00:05:33.010
+So even though 1 and 2 could be integers,
+and have many bits, it says,
+
+109
+00:05:33.010 --> 00:05:36.770
+look, I'm gonna say you are either true or
+false, 1-bit binary.
+
+110
+00:05:36.770 --> 00:05:40.800
+And the way it does that is it says,
+look, if it's zero, whatever the value is,
+
+111
+00:05:40.800 --> 00:05:45.278
+if it's a zero, then that's a false, and
+if its anything but zero, then its a true.
+
+112
+00:05:45.278 --> 00:05:48.950
+So if I said one and two,
+it would say one is true and
+
+113
+00:05:48.950 --> 00:05:53.870
+two is true, and then true and
+true is true, so it would return true.
+
+114
+00:05:53.870 --> 00:05:57.280
+Okay, because one and
+two are both non zero, so
+
+115
+00:05:57.280 --> 00:06:00.990
+they're both considered to be true.
+
+116
+00:06:00.990 --> 00:06:06.140
+So for instance this statement,
+if A is equal to one and not B.
+
+117
+00:06:06.140 --> 00:06:09.090
+So first thing is if you look at the and
+it has two arguments.
+
+118
+00:06:09.090 --> 00:06:14.280
+The left side is A=1, so
+that's true if A is equal to one.
+
+119
+00:06:14.280 --> 00:06:15.730
+And false otherwise.
+
+120
+00:06:15.730 --> 00:06:19.070
+Then the right side,
+the not B is the argument.
+
+121
+00:06:19.070 --> 00:06:23.590
+So, not B is gonna be true if B is false.
+
+122
+00:06:23.590 --> 00:06:27.540
+So if B is equal to zero,
+then not B will be true.
+
+123
+00:06:27.540 --> 00:06:28.140
+Okay.
+
+124
+00:06:28.140 --> 00:06:31.120
+And if both of those things are true,
+if A is equal to one, and
+
+125
+00:06:31.120 --> 00:06:35.190
+B is equal to zero, then the if
+statement will evaluate to true and
+
+126
+00:06:35.190 --> 00:06:36.710
+it will execute whatever
+it's supposed to execute.
+
+127
+00:06:38.030 --> 00:06:40.090
+So that's how logical operators work.
+
+128
+00:06:40.090 --> 00:06:46.276
+They take the arguments and
+treat them as either true or
+
+129
+00:06:46.276 --> 00:06:51.269
+false, just like a 1-bit bullion value.
+
+130
+00:06:51.269 --> 00:06:53.796
+Thank you.
+
+131
+00:06:53.796 --> 00:06:56.869
+[MUSIC]

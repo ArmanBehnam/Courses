@@ -1,0 +1,983 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.462 --> 00:00:14.410
+This lecture will talk about
+the use of functions in C.
+
+3
+00:00:15.430 --> 00:00:16.510
+A very important concept.
+
+4
+00:00:16.510 --> 00:00:19.380
+It's basically a way of encapsulating
+a bunch of instructions and
+
+5
+00:00:19.380 --> 00:00:22.380
+giving them a name so
+you can refer to them again and again.
+
+6
+00:00:22.380 --> 00:00:25.500
+So, we'll talk about functions, and
+we're gonna need these for Arduino too.
+
+7
+00:00:25.500 --> 00:00:27.360
+They're well used functions.
+
+8
+00:00:27.360 --> 00:00:27.860
+They're very useful.
+
+9
+00:00:29.280 --> 00:00:31.460
+Okay, so a function, like I say,
+
+10
+00:00:31.460 --> 00:00:33.990
+a function is a way of encapsulating
+a group of instructions.
+
+11
+00:00:33.990 --> 00:00:35.700
+That's the main thing it's for.
+
+12
+00:00:35.700 --> 00:00:38.560
+So, if we look at the top,
+we got two examples of code.
+
+13
+00:00:38.560 --> 00:00:43.100
+The top, we got a main, and
+it executes these instructions.
+
+14
+00:00:43.100 --> 00:00:44.490
+It has three variables, x y z.
+
+15
+00:00:45.630 --> 00:00:47.850
+And it assigns Y equal to two,
+Z equal to three.
+
+16
+00:00:47.850 --> 00:00:52.910
+It performs some operations Y equals Y
+plus Z, X equals Y, so on and it prints X.
+
+17
+00:00:52.910 --> 00:00:53.410
+So fine.
+
+18
+00:00:53.410 --> 00:00:54.860
+Simple.
+
+19
+00:00:54.860 --> 00:00:58.377
+Three real instructions plus
+the definition of variables and
+
+20
+00:00:58.377 --> 00:01:00.753
+then below that we have another example.
+
+21
+00:01:00.753 --> 00:01:04.171
+A program that does the same
+thing as the top main.
+
+22
+00:01:04.171 --> 00:01:05.940
+Okay?
+
+23
+00:01:05.940 --> 00:01:09.920
+The program down below you got
+this new function called Foo.
+
+24
+00:01:09.920 --> 00:01:11.000
+So there's a main there.
+
+25
+00:01:11.000 --> 00:01:13.900
+If you look at the main down near
+the bottom you see this main.
+
+26
+00:01:13.900 --> 00:01:15.970
+But it doesn't have
+the code that we just had.
+
+27
+00:01:15.970 --> 00:01:16.730
+It changed it.
+
+28
+00:01:16.730 --> 00:01:20.320
+All it does is it says foo,
+open paren closed paren.
+
+29
+00:01:20.320 --> 00:01:24.580
+And then looking above it you see we've
+defined this function called foo.
+
+30
+00:01:24.580 --> 00:01:25.890
+Void foo.
+
+31
+00:01:25.890 --> 00:01:29.980
+And that function called foo does
+everything that the main did before.
+
+32
+00:01:29.980 --> 00:01:33.170
+In fact it has basically
+the same code that the main had.
+
+33
+00:01:33.170 --> 00:01:36.830
+We took that same code,
+we put it into this foo.
+
+34
+00:01:38.130 --> 00:01:41.585
+Now what happens is, so
+we've defined that into foo.
+
+35
+00:01:41.585 --> 00:01:43.865
+So we've given a name
+to those instructions.
+
+36
+00:01:43.865 --> 00:01:48.045
+And every time we wanna execute that
+sequence of instructions we just call foo.
+
+37
+00:01:48.045 --> 00:01:49.775
+So we see where it says function call.
+
+38
+00:01:49.775 --> 00:01:51.435
+We just give the name foo, open paren,
+
+39
+00:01:51.435 --> 00:01:53.615
+closed paren to let it
+know it's a function.
+
+40
+00:01:53.615 --> 00:01:56.495
+And then you call it and
+that set of instructions happens.
+
+41
+00:01:57.725 --> 00:01:59.815
+So the two programs you have up top.
+
+42
+00:01:59.815 --> 00:02:01.055
+The one you have up top, the main.
+
+43
+00:02:01.055 --> 00:02:02.785
+Where the one you have in the bottom,
+the foo.
+
+44
+00:02:03.980 --> 00:02:06.730
+With the main,
+those two do exactly the same thing.
+
+45
+00:02:06.730 --> 00:02:09.670
+The only difference is that
+the instructions in the top version,
+
+46
+00:02:09.670 --> 00:02:13.000
+the instructions that do the work,
+are in the main directly, and
+
+47
+00:02:13.000 --> 00:02:15.580
+in the bottom,
+the instructions are in this function foo.
+
+48
+00:02:15.580 --> 00:02:18.930
+And then that function foo
+is called from the main.
+
+49
+00:02:18.930 --> 00:02:20.620
+But they do exactly the same thing.
+
+50
+00:02:21.690 --> 00:02:24.240
+Now, you might ask,
+what's the benefit of this, right?
+
+51
+00:02:24.240 --> 00:02:28.580
+Right off the bat, one benefit is if
+these operations that foo is doing,
+
+52
+00:02:29.730 --> 00:02:33.010
+these set of instructions, if these
+are something that's done over and
+
+53
+00:02:33.010 --> 00:02:37.920
+over and over again, many times in your
+code, rather than copying it over and
+
+54
+00:02:37.920 --> 00:02:39.170
+over and over again into your main,
+
+55
+00:02:39.170 --> 00:02:43.230
+it is much more convenient to write
+a function that does those instructions.
+
+56
+00:02:43.230 --> 00:02:46.610
+And then every time you
+just call that function.
+
+57
+00:02:46.610 --> 00:02:48.320
+So now notice in my main,
+
+58
+00:02:48.320 --> 00:02:51.410
+when I wanted to execute those
+instructions I just called foo.
+
+59
+00:02:51.410 --> 00:02:54.590
+foo(), and it executed those instructions.
+
+60
+00:02:54.590 --> 00:02:57.815
+Say foo is something I did
+100 times in my code, right?
+
+61
+00:02:57.815 --> 00:03:00.895
+Rather than writing all those instructions
+over and over again a hundred times,
+
+62
+00:03:00.895 --> 00:03:02.735
+I just call foo a hundred times.
+
+63
+00:03:02.735 --> 00:03:06.295
+So it just reduces space right there,
+it makes the code simpler and
+
+64
+00:03:06.295 --> 00:03:07.595
+easier to understand.
+
+65
+00:03:07.595 --> 00:03:10.145
+Another thing that I did not cover,
+that I didn't mention here,
+
+66
+00:03:10.145 --> 00:03:13.685
+which is important though, is that the
+naming of the functions is very important.
+
+67
+00:03:13.685 --> 00:03:17.045
+Now I'm calling it foo,
+which means nothing, but
+
+68
+00:03:17.045 --> 00:03:20.680
+when you write these function, you wanna
+give them names that have meaning.
+
+69
+00:03:20.680 --> 00:03:21.240
+Right?
+
+70
+00:03:21.240 --> 00:03:25.710
+So for instance maybe foo was
+performing fibinocci or something,
+
+71
+00:03:25.710 --> 00:03:28.520
+doing some kind of exotic calculation,
+say it was taking a derivative.
+
+72
+00:03:28.520 --> 00:03:31.100
+You wouldn't call it foo,
+you would call it derivative.
+
+73
+00:03:31.100 --> 00:03:34.340
+And then just looking at
+the name you can say oh,
+
+74
+00:03:34.340 --> 00:03:37.780
+it's called derivative it must be taking a
+derivative and you wouldn't have to think,
+
+75
+00:03:37.780 --> 00:03:42.720
+as a program, you wouldn't have to think
+of what goes on when taking a derivative
+
+76
+00:03:42.720 --> 00:03:46.290
+You just, no look I call this function
+derivative and derivative is taken, right?
+
+77
+00:03:46.290 --> 00:03:50.320
+And this is much like the advantage
+that you get from using libraries in
+
+78
+00:03:51.560 --> 00:03:52.870
+arduino, right?
+
+79
+00:03:52.870 --> 00:03:57.390
+We showed this last module, where we're
+talking about the ethernet controller.
+
+80
+00:03:57.390 --> 00:04:01.040
+And there was connect function,
+and this connect function,
+
+81
+00:04:01.040 --> 00:04:04.270
+you're a programmer you don't have to know
+all the details of how connecting happens.
+
+82
+00:04:04.270 --> 00:04:06.950
+You just call connect and
+connecting happens.
+
+83
+00:04:06.950 --> 00:04:07.950
+Same thing here.
+
+84
+00:04:07.950 --> 00:04:09.100
+If you give a good name.
+
+85
+00:04:09.100 --> 00:04:11.780
+So it's important that the name shouldn't
+be something generic like foo but
+
+86
+00:04:11.780 --> 00:04:13.860
+it's an actual name that
+has meaning like connect.
+
+87
+00:04:13.860 --> 00:04:15.150
+Connect is clear.
+
+88
+00:04:15.150 --> 00:04:17.770
+I'm talking about connecting
+on the Internet, right?
+
+89
+00:04:17.770 --> 00:04:19.490
+An ethernet controller, right?
+
+90
+00:04:19.490 --> 00:04:20.790
+So you give it a meaningful name and
+
+91
+00:04:20.790 --> 00:04:23.860
+it can help make the code
+easier to understand.
+
+92
+00:04:23.860 --> 00:04:25.150
+So that's basically what a function is.
+
+93
+00:04:25.150 --> 00:04:28.340
+You are grouping a bunch of
+instructions and giving them a name so
+
+94
+00:04:28.340 --> 00:04:29.220
+you can reuse them.
+
+95
+00:04:29.220 --> 00:04:32.010
+You can call them over and over again,
+and it's sort of a shorthand.
+
+96
+00:04:32.010 --> 00:04:34.640
+The name is now a shorthand for
+that sequence of instructions.
+
+97
+00:04:34.640 --> 00:04:36.670
+So that's what a function is.
+
+98
+00:04:36.670 --> 00:04:39.280
+Now, there are more aspects to it,
+and we will talk about that now.
+
+99
+00:04:39.280 --> 00:04:42.890
+Notice that you have to define
+a function before you can use it.
+
+100
+00:04:42.890 --> 00:04:47.760
+So if you look in the bottom here we've
+got, sorry, if you look in the bottom
+
+101
+00:04:47.760 --> 00:04:52.120
+here we've got this function foo
+defined then we call foo, right?
+
+102
+00:04:52.120 --> 00:04:54.337
+So you've gotta define the function and
+then call it.
+
+103
+00:04:57.213 --> 00:04:58.710
+Functions can take arguments.
+
+104
+00:04:58.710 --> 00:05:02.170
+So data can be passed to a function.
+
+105
+00:05:02.170 --> 00:05:04.250
+Now if you look at
+the example on the left,
+
+106
+00:05:04.250 --> 00:05:05.970
+that's what we had in the last slide.
+
+107
+00:05:05.970 --> 00:05:08.030
+And in that case you're calling foo,
+
+108
+00:05:08.030 --> 00:05:11.520
+and when you call foo it
+executes the instructions in foo.
+
+109
+00:05:11.520 --> 00:05:13.880
+But it doesn't pass any data to foo.
+
+110
+00:05:13.880 --> 00:05:15.390
+There's no data to pass to foo.
+
+111
+00:05:15.390 --> 00:05:18.750
+Foo has all of its data internally,
+as int x, int y, int z.
+
+112
+00:05:18.750 --> 00:05:23.230
+Y is equal to two, z equals to three,
+so all the data it needs is inside foo.
+
+113
+00:05:23.230 --> 00:05:24.710
+It doesn't need data.
+
+114
+00:05:24.710 --> 00:05:28.650
+But if we look on the right, we've
+changed the definition of the function.
+
+115
+00:05:28.650 --> 00:05:31.587
+So, take a look at,
+let's look at the main first.
+
+116
+00:05:31.587 --> 00:05:36.462
+In the main, where we call foo,
+in parentheses you say foo(2, 3).
+
+117
+00:05:36.462 --> 00:05:37.550
+In parentheses.
+
+118
+00:05:37.550 --> 00:05:39.712
+Where on the left there's
+nothing in parentheses.
+
+119
+00:05:39.712 --> 00:05:42.920
+Now we're passing it to number 2 and
+number 3.
+
+120
+00:05:42.920 --> 00:05:44.070
+Now, why are we doing that?
+
+121
+00:05:44.070 --> 00:05:49.600
+What we're doing is,
+if you look at foo's definition now when
+
+122
+00:05:49.600 --> 00:05:54.280
+you define foo it's says void foo and then
+in parentheses it says int a comma int b.
+
+123
+00:05:54.280 --> 00:05:57.670
+So that's telling you foo is
+gonna take two arguments.
+
+124
+00:05:57.670 --> 00:05:58.530
+Ons is gonna be called A.
+
+125
+00:05:58.530 --> 00:05:59.379
+One is gonna be called B.
+
+126
+00:05:59.379 --> 00:06:03.429
+So when you make the call in
+the main where you say foo two comma
+
+127
+00:06:03.429 --> 00:06:04.712
+three A equals 2.
+
+128
+00:06:04.712 --> 00:06:07.440
+A is assigned to 2, and
+b is assigned to 3.
+
+129
+00:06:07.440 --> 00:06:09.420
+And then foo is executed.
+
+130
+00:06:09.420 --> 00:06:13.480
+And if you look at this, even though
+I've been changing names to a and b.
+
+131
+00:06:13.480 --> 00:06:15.940
+This foo does exactly what
+the previous foo did.
+
+132
+00:06:15.940 --> 00:06:18.950
+The foo on the right does exactly
+what the foo on the left does.
+
+133
+00:06:18.950 --> 00:06:21.390
+Except the foo on the right
+takes variables a and
+
+134
+00:06:21.390 --> 00:06:25.920
+b, and treats them just like the foo
+on the left treated y and z.
+
+135
+00:06:25.920 --> 00:06:26.421
+Okay.
+
+136
+00:06:26.421 --> 00:06:30.795
+So by calling the foo with 2, 3.
+
+137
+00:06:30.795 --> 00:06:33.694
+2 and 3 get bound to a and
+b and then it executes and
+
+138
+00:06:33.694 --> 00:06:36.990
+it does exactly the same
+as the foo on left.
+
+139
+00:06:36.990 --> 00:06:39.470
+So these two functions the one on
+the right and the one on the left,
+
+140
+00:06:39.470 --> 00:06:43.100
+they do exactly the same thing except
+the foo on the right takes two arguments.
+
+141
+00:06:43.100 --> 00:06:45.169
+Now you might say what's
+the benefit of this?
+
+142
+00:06:46.370 --> 00:06:51.420
+Well one benefit right off the bat is that
+now this foo function is much more generic
+
+143
+00:06:51.420 --> 00:06:57.410
+meaning the foo on the, on the left
+that foo it takes no argument so
+
+144
+00:06:57.410 --> 00:07:02.379
+all it can fo is treat y=2 and z=3,
+
+145
+00:07:02.379 --> 00:07:06.315
+but now with our new foo,
+we can change y and z if we want to.
+
+146
+00:07:06.315 --> 00:07:07.875
+We can say, oh, let's call foo (2, 3), or
+
+147
+00:07:07.875 --> 00:07:13.420
+maybe we'll call it (1, 2), and it does
+the same operation with different numbers.
+
+148
+00:07:13.420 --> 00:07:16.670
+So there are many cases where you have a
+function where you wanna do the same thing
+
+149
+00:07:16.670 --> 00:07:17.570
+with different numbers.
+
+150
+00:07:17.570 --> 00:07:19.280
+Take, for instance, average, right?
+
+151
+00:07:19.280 --> 00:07:21.600
+You wanna average
+a couple pair of numbers.
+
+152
+00:07:21.600 --> 00:07:25.390
+You could make a function, average,
+which averages exactly two numbers, or
+
+153
+00:07:25.390 --> 00:07:28.300
+you could make a function, average,
+which takes two arguments and
+
+154
+00:07:28.300 --> 00:07:30.570
+averages whichever arguments you pass.
+
+155
+00:07:30.570 --> 00:07:33.370
+And that makes the average function
+a heck of a lot more useful
+
+156
+00:07:33.370 --> 00:07:35.640
+because now you can call it with
+whatever arguments you want.
+
+157
+00:07:35.640 --> 00:07:39.370
+You can use it in a more
+generic way in other contexts.
+
+158
+00:07:39.370 --> 00:07:41.920
+So functions can be passed
+arguments like that, so
+
+159
+00:07:41.920 --> 00:07:44.110
+you're passing this data
+to the function and
+
+160
+00:07:44.110 --> 00:07:47.100
+the function uses that data in
+performing whatever its operations are.
+
+161
+00:07:47.100 --> 00:07:51.670
+And you have to declare it so
+the way you deal with arguments is.
+
+162
+00:07:51.670 --> 00:07:56.000
+In the function call you put
+the arguments between the parentheses.
+
+163
+00:07:56.000 --> 00:08:00.230
+In the function definition,
+you have to list the arguments and
+
+164
+00:08:00.230 --> 00:08:02.550
+their types after
+the name of the function.
+
+165
+00:08:02.550 --> 00:08:06.590
+So up there we say foo int a comma int b.
+
+166
+00:08:06.590 --> 00:08:08.720
+Int a and
+int b have to be in parentheses and
+
+167
+00:08:08.720 --> 00:08:11.740
+int declares what type those
+arguments are, int a int b.
+
+168
+00:08:11.740 --> 00:08:14.763
+You have to put that in
+parentheses after the word foo,
+
+169
+00:08:14.763 --> 00:08:16.546
+after the name of the function.
+
+170
+00:08:16.546 --> 00:08:21.463
+When you're doing the function
+definition in order to take arguments.
+
+171
+00:08:21.463 --> 00:08:27.530
+All right, in addition to taking
+arguments, a function can return values.
+
+172
+00:08:27.530 --> 00:08:33.420
+Now, if we look at the foo on the left,
+that function doesn't return any values.
+
+173
+00:08:33.420 --> 00:08:38.500
+It just does it's job and it prints
+something and that's the end of that.
+
+174
+00:08:38.500 --> 00:08:40.420
+No need for returning values.
+
+175
+00:08:40.420 --> 00:08:44.780
+Now, if we look at the foo on the right,
+though, this one.
+
+176
+00:08:44.780 --> 00:08:48.390
+Actually, let's look at how the structure
+of the main is changed first.
+
+177
+00:08:48.390 --> 00:08:49.210
+We look at the main.
+
+178
+00:08:49.210 --> 00:08:53.390
+It calls foo still, but notice that now
+we've declared this new variable, p,
+
+179
+00:08:53.390 --> 00:08:54.580
+I've called it.
+
+180
+00:08:54.580 --> 00:08:55.970
+And I say p equals foo.
+
+181
+00:08:57.260 --> 00:09:01.450
+Now, notice that on the left, I didn't say
+anything equals foo, I just called foo.
+
+182
+00:09:01.450 --> 00:09:03.370
+But now on the right,
+I'm saying p equals foo.
+
+183
+00:09:03.370 --> 00:09:09.100
+That's because the foo I'm defining on
+the right it's gonna return a value and
+
+184
+00:09:09.100 --> 00:09:12.690
+I want to assign p equal to
+whatever value the foo returns.
+
+185
+00:09:12.690 --> 00:09:15.720
+And then on the next line inside the main,
+I say print p.
+
+186
+00:09:15.720 --> 00:09:17.390
+I print p.
+
+187
+00:09:17.390 --> 00:09:21.330
+So if you look at the foo on the left,
+
+188
+00:09:21.330 --> 00:09:25.530
+it includes the printf, but the foo
+on the right does not have a printf.
+
+189
+00:09:25.530 --> 00:09:27.370
+Okay?
+Instead, I've taken the printf and
+
+190
+00:09:27.370 --> 00:09:29.780
+put it into the main, but in order for
+
+191
+00:09:29.780 --> 00:09:34.020
+the main to do the printing,
+it has to know what it's gonna print.
+
+192
+00:09:34.020 --> 00:09:37.680
+So foo computes the values it's gonna
+print, but foo doesn't do the printing.
+
+193
+00:09:37.680 --> 00:09:39.047
+Foo returns that value.
+
+194
+00:09:39.047 --> 00:09:44.962
+So if we look at the foo definition,
+It has the same top two lines, y=y+z; x=y.
+
+195
+00:09:44.962 --> 00:09:47.418
+But then the last line,
+instead of saying print,
+
+196
+00:09:47.418 --> 00:09:50.030
+instead of actually doing the print,
+it returns x.
+
+197
+00:09:50.030 --> 00:09:53.920
+So the result, the thing that should be
+printed, is not printed, it is returned.
+
+198
+00:09:53.920 --> 00:09:56.730
+Then the caller,
+which is main, gets that back.
+
+199
+00:09:56.730 --> 00:10:00.780
+So when that line where it says p = foo,
+whatever foo returned, the x value,
+
+200
+00:10:00.780 --> 00:10:04.660
+p gets set to that value, and
+then the main prints out the p.
+
+201
+00:10:05.760 --> 00:10:08.780
+So, this is another thing that's
+very useful about functions.
+
+202
+00:10:08.780 --> 00:10:13.400
+Have a function return a value, because
+then the function can do some job that
+
+203
+00:10:13.400 --> 00:10:18.140
+you needed to do, and
+give you a useful result in the end, okay?
+
+204
+00:10:18.140 --> 00:10:20.830
+So, sometimes functions
+do have return values.
+
+205
+00:10:20.830 --> 00:10:22.170
+Sometimes they don't.
+
+206
+00:10:22.170 --> 00:10:23.330
+It depends on the type of function.
+
+207
+00:10:23.330 --> 00:10:27.550
+We'll get more into that when we talk
+about Arduino specific problems.
+
+208
+00:10:27.550 --> 00:10:31.839
+But, so functions can take arguments and
+they can also return values.
+
+209
+00:10:31.839 --> 00:10:34.087
+Thank you.
+
+210
+00:10:34.087 --> 00:10:38.045
+[MUSIC]
