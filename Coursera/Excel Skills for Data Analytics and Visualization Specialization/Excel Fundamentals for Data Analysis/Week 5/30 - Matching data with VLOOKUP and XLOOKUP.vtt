@@ -1,0 +1,496 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.365
+[MUSIC]
+
+2
+00:00:05.365 --> 00:00:11.458
+In this video, we're going to look at how
+we can use VLOOKUP to match data exactly,
+
+3
+00:00:11.458 --> 00:00:16.620
+and we're also going to take a peek
+at the brand new XLOOKUP function.
+
+4
+00:00:16.620 --> 00:00:19.429
+So coming back to the reconciliation,
+
+5
+00:00:19.429 --> 00:00:24.449
+Zara has identified that in our
+MCI report, there are 84 invoices,
+
+6
+00:00:24.449 --> 00:00:29.575
+whereas if we check our supplier
+statement, there are actually 85.
+
+7
+00:00:29.575 --> 00:00:34.379
+So we know there's at least one record
+in the supplier statement that is
+
+8
+00:00:34.379 --> 00:00:35.830
+not in the MC report.
+
+9
+00:00:36.970 --> 00:00:40.520
+What we need to do is
+find out which one and
+
+10
+00:00:40.520 --> 00:00:43.510
+probably the easiest way to
+do that is using a vlookup.
+
+11
+00:00:45.170 --> 00:00:48.690
+Now, just coming back to our MC report for
+a moment.
+
+12
+00:00:48.690 --> 00:00:50.800
+When we do the lookup,
+we're going to use the whole table.
+
+13
+00:00:50.800 --> 00:00:54.620
+We're going to match the customer
+reference to our payment reference,
+
+14
+00:00:54.620 --> 00:00:59.220
+which is in the first column, and
+we're going to get back the amount,
+
+15
+00:00:59.220 --> 00:01:03.220
+because as well as identifying
+which record is missing,
+
+16
+00:01:03.220 --> 00:01:06.390
+we're also going to double-check
+that all the amounts match.
+
+17
+00:01:07.740 --> 00:01:10.066
+Now, to save us counting later on,
+
+18
+00:01:10.066 --> 00:01:13.874
+the amount happens to be
+the tenth column in this data set.
+
+19
+00:01:13.874 --> 00:01:18.870
+That is something you will need to
+check before doing your VLOOKUP.
+
+20
+00:01:18.870 --> 00:01:25.723
+So back in our supplier statement, we're
+going to click in U2 and type "=vl" and Tab.
+
+21
+00:01:25.723 --> 00:01:31.030
+Our lookup value, the thing we're going
+to match, is our customer reference, and
+
+22
+00:01:31.030 --> 00:01:35.244
+we're going to match that
+into our table MC, and comma.
+
+23
+00:01:35.244 --> 00:01:40.110
+Our column index - the column we want
+to get the value of back from -
+
+24
+00:01:40.110 --> 00:01:42.630
+is in the tenth position in that table.
+
+25
+00:01:44.390 --> 00:01:46.430
+And now, the most important thing for
+
+26
+00:01:46.430 --> 00:01:51.900
+the exact match,
+we have to specify it's an exact match.
+
+27
+00:01:51.900 --> 00:01:52.770
+Now, it's strange.
+
+28
+00:01:52.770 --> 00:01:57.310
+We choose false, what that means
+is it's not a range lookup.
+
+29
+00:01:58.950 --> 00:02:03.137
+So you can either do that, or if you get
+tired of doing that, you can just put a 0,
+
+30
+00:02:03.137 --> 00:02:04.995
+they work work the same in VLOOKUP.
+
+31
+00:02:04.995 --> 00:02:07.047
+And when we press Enter,
+
+32
+00:02:07.047 --> 00:02:12.742
+we can straight away see that
+the first record doesn't have a match.
+
+33
+00:02:12.742 --> 00:02:17.350
+That NA is not really an error,
+
+34
+00:02:17.350 --> 00:02:19.780
+it is just telling us that
+the VLOOKUP couldn't find a match.
+
+35
+00:02:20.970 --> 00:02:25.730
+Now, on closer inspection, you'll see
+that this invoice was paid in March, and
+
+36
+00:02:25.730 --> 00:02:29.350
+we are only trying to process
+invoices that were paid in April.
+
+37
+00:02:29.350 --> 00:02:31.380
+So that shouldn't even be on the list.
+
+38
+00:02:31.380 --> 00:02:34.350
+We've just identified and
+solved another part of the problem.
+
+39
+00:02:36.010 --> 00:02:41.190
+What we do want to double-check though is
+that all of these amounts actually match,
+
+40
+00:02:41.190 --> 00:02:45.730
+and the easiest way to do that is to just
+add a little bit to our calculation.
+
+41
+00:02:45.730 --> 00:02:50.565
+So I'm going to double-click into U2,
+click after the "=", and we'll take
+
+42
+00:02:50.565 --> 00:02:55.650
+the amount in our supplier statement and
+subtract the amount in our MC report.
+
+43
+00:02:57.110 --> 00:03:00.350
+And you can see most of them are 0,
+which is what we would expect, but
+
+44
+00:03:00.350 --> 00:03:04.590
+we do have one anomaly which is going
+to need a little more investigation.
+
+45
+00:03:05.880 --> 00:03:08.750
+Before we get into that though,
+with a recon,
+
+46
+00:03:08.750 --> 00:03:12.060
+it's always a good idea to
+match both ways, because there
+
+47
+00:03:12.060 --> 00:03:16.470
+could be information in the MC report
+that's not in the supplier statement.
+
+48
+00:03:17.760 --> 00:03:22.830
+So we could do another VLOOKUP, but
+we would need to create a Named Range or
+
+49
+00:03:22.830 --> 00:03:26.530
+something, because you'll notice
+the customer reference is not
+
+50
+00:03:26.530 --> 00:03:28.480
+in the first column in this data set.
+
+51
+00:03:29.940 --> 00:03:32.881
+VLOOKUP also has a few other limitations,
+and
+
+52
+00:03:32.881 --> 00:03:38.238
+one function that can help us get around
+these limitations is the XLOOKUP function,
+
+53
+00:03:38.238 --> 00:03:41.192
+and that's what we're
+going to look at next.
+
+54
+00:03:41.192 --> 00:03:44.602
+Now, the XLOOKUP doesn't
+look up entire tables,
+
+55
+00:03:44.602 --> 00:03:48.340
+it just works with individual columns or
+rows.
+
+56
+00:03:48.340 --> 00:03:52.680
+So it's easier if you name them first,
+you'll see we have already named our
+
+57
+00:03:52.680 --> 00:03:57.510
+Customer Reference, but
+we haven't named our Amount column.
+
+58
+00:03:57.510 --> 00:04:00.860
+So remember,
+we're going to come into our table,
+
+59
+00:04:00.860 --> 00:04:05.748
+click once at the top of the column, click
+a second time to include the headings,
+
+60
+00:04:05.748 --> 00:04:09.370
+and then to create our named range
+using Create from Selection,
+
+61
+00:04:09.370 --> 00:04:15.730
+we're going to press 
+"Ctrl + Shift + F3" and Enter.
+
+62
+00:04:15.730 --> 00:04:21.310
+Okay, both our columns named,
+let's come into our invoice report, and
+
+63
+00:04:21.310 --> 00:04:27.538
+we're going to click into Q5, and we're
+going to type "=xl", for XLOOKUP, and Tab.
+
+64
+00:04:27.538 --> 00:04:31.290
+Now, the XLOOKUP does not
+have to work vertically,
+
+65
+00:04:31.290 --> 00:04:34.910
+it can work horizontally or vertically,
+so it's really an advantage.
+
+66
+00:04:34.910 --> 00:04:38.640
+The lookup value is exactly the same.
+
+67
+00:04:38.640 --> 00:04:43.130
+We're going to click on our Payment
+Reference and type a comma, but now,
+
+68
+00:04:43.130 --> 00:04:46.448
+the lookup array is a single row or
+column.
+
+69
+00:04:46.448 --> 00:04:51.390
+So we're going to match that Payment
+Reference into our Customer Reference,
+
+70
+00:04:52.530 --> 00:04:53.070
+and comma.
+
+71
+00:04:55.120 --> 00:05:00.230
+The return array, we don't need to specify
+the column number within a block of data,
+
+72
+00:05:00.230 --> 00:05:03.040
+we can just refer to the array directly.
+
+73
+00:05:03.040 --> 00:05:08.110
+So that's actually a little easier and a
+lot more flexible, and our return array in
+
+74
+00:05:08.110 --> 00:05:13.038
+this case is our Amount, and comma.
+
+75
+00:05:13.038 --> 00:05:18.230
+The XLOOKUP also gives
+us a few other options.
+
+76
+00:05:18.230 --> 00:05:23.320
+So if it doesn't find a match,
+rather than bringing back an NA,
+
+77
+00:05:23.320 --> 00:05:26.370
+we can specify what value
+we'd like to get back.
+
+78
+00:05:26.370 --> 00:05:30.630
+And actually, we prefer to get a 0, so
+I'm going to type a 0 and then comma.
+
+79
+00:05:32.170 --> 00:05:36.860
+As well as specifying exact match,
+you can specify whether it brings back
+
+80
+00:05:36.860 --> 00:05:40.710
+the next smaller, the next larger,
+or you can even use a wildcard,
+
+81
+00:05:40.710 --> 00:05:44.920
+character like an asterisk,
+to get back something similar.
+
+82
+00:05:44.920 --> 00:05:48.710
+Well, we want an exact match here,
+so I'm just going to type 0, and
+
+83
+00:05:48.710 --> 00:05:51.290
+then there's one more optional argument.
+
+84
+00:05:51.290 --> 00:05:55.820
+You can actually specify your search
+order, and we're happy with first to last.
+
+85
+00:05:55.820 --> 00:05:59.860
+So I'm going to pop a 1 in there,
+close my brackets, and press Enter.
+
+86
+00:06:02.180 --> 00:06:05.576
+And you can see the XLOOKUP has done
+the job, same job as the VLOOKUP, but
+
+87
+00:06:05.576 --> 00:06:09.420
+it doesn't matter which sequence the
+columns are in, and if they actually move,
+
+88
+00:06:09.420 --> 00:06:12.513
+as long as you've named them,
+you're not going to have a problem.
+
+89
+00:06:12.513 --> 00:06:19.210
+So actually maybe a little more intuitive
+and definitely a lot more robust.
+
+90
+00:06:19.210 --> 00:06:23.070
+Now, let's make the same change to
+this calculation as we did previously.
+
+91
+00:06:23.070 --> 00:06:28.020
+So I'm going to double-click into Q5,
+and I'm just going to take the Amount
+
+92
+00:06:28.020 --> 00:06:32.860
+from this sheet and subtract the one
+from the supplier statement,
+
+93
+00:06:32.860 --> 00:06:35.250
+and again, we have one anomaly.
+
+94
+00:06:37.260 --> 00:06:40.250
+Now, if you don't have
+the newest version of XLOOKUP,
+
+95
+00:06:40.250 --> 00:06:44.870
+you might not have been able to do that,
+but it's good to see how it works because
+
+96
+00:06:44.870 --> 00:06:46.780
+hopefully you'll get that
+function really soon.
+
+97
+00:06:48.000 --> 00:06:51.949
+For your homework, I'm going to ask
+you all to try and repeat what we've
+
+98
+00:06:51.949 --> 00:06:56.177
+just done but using a VLOOKUP instead,
+so you get that additional practice.
+
+99
+00:06:56.177 --> 00:07:00.612
+The solution file will contain
+the VLOOKUP, not the XLOOKUP, so
+
+100
+00:07:00.612 --> 00:07:03.970
+you can check you've got it right.
+
+101
+00:07:03.970 --> 00:07:08.320
+In the next video, we're going to look
+at an even more powerful lookup function
+
+102
+00:07:08.320 --> 00:07:10.260
+that's available to everybody.
+
+103
+00:07:10.260 --> 00:07:12.652
+So don't worry if you don't
+have the XLOOKUP at this stage.
