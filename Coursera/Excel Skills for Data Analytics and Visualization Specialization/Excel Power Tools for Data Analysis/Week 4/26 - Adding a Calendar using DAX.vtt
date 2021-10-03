@@ -1,0 +1,1356 @@
+WEBVTT
+
+1
+00:00:04.190 --> 00:00:06.930
+In this video, we're
+going to create
+
+2
+00:00:06.930 --> 00:00:09.570
+a calendar table using DAX.
+
+3
+00:00:09.570 --> 00:00:11.250
+In the previous video,
+
+4
+00:00:11.250 --> 00:00:12.720
+we saw how easy it was to
+
+5
+00:00:12.720 --> 00:00:15.090
+create a date model in Power BI.
+
+6
+00:00:15.090 --> 00:00:18.285
+But if you're going to be
+doing any analytics dates,
+
+7
+00:00:18.285 --> 00:00:21.330
+it's a really good idea
+to have a calendar table.
+
+8
+00:00:21.330 --> 00:00:24.180
+We're going to look at how
+to create one of those.
+
+9
+00:00:24.180 --> 00:00:26.460
+There are actually
+quite a few options.
+
+10
+00:00:26.460 --> 00:00:27.690
+You could actually import a
+
+11
+00:00:27.690 --> 00:00:29.505
+calendar table using Power Query.
+
+12
+00:00:29.505 --> 00:00:32.190
+You can even generate
+a calendar table
+
+13
+00:00:32.190 --> 00:00:34.980
+using the M language
+in Power Query,
+
+14
+00:00:34.980 --> 00:00:36.570
+and there are few scripts around
+
+15
+00:00:36.570 --> 00:00:38.790
+that that you can
+download from the web.
+
+16
+00:00:38.790 --> 00:00:42.045
+Alternatively, and
+arguably a little easier,
+
+17
+00:00:42.045 --> 00:00:46.380
+you can create a table
+using DAX in Power BI.
+
+18
+00:00:46.380 --> 00:00:48.655
+That's what we're
+going to do next.
+
+19
+00:00:48.655 --> 00:00:50.480
+To begin with, we're
+going to need to
+
+20
+00:00:50.480 --> 00:00:51.950
+come to our Data View.
+
+21
+00:00:51.950 --> 00:00:54.470
+So select your Data View button.
+
+22
+00:00:54.470 --> 00:00:57.305
+This will activate the
+table tools within,
+
+23
+00:00:57.305 --> 00:01:01.350
+and on the far right, we're
+going to select New table.
+
+24
+00:01:04.210 --> 00:01:06.500
+To create the new table,
+
+25
+00:01:06.500 --> 00:01:09.635
+we're going to need
+a DAX expression.
+
+26
+00:01:09.635 --> 00:01:13.055
+We're going to start with
+giving our new table a name.
+
+27
+00:01:13.055 --> 00:01:14.630
+I'm going to call it calendar,
+
+28
+00:01:14.630 --> 00:01:17.155
+and then we're going
+to type equals.
+
+29
+00:01:17.155 --> 00:01:19.610
+There are two functions that will
+
+30
+00:01:19.610 --> 00:01:22.055
+allow us to create
+a calendar table.
+
+31
+00:01:22.055 --> 00:01:24.080
+If you type C-A-L-E,
+
+32
+00:01:24.080 --> 00:01:27.665
+you'll see there's
+CALENDAR and CALENDARAUTO.
+
+33
+00:01:27.665 --> 00:01:30.650
+CALENDARAUTO will
+automatically generated
+
+34
+00:01:30.650 --> 00:01:33.170
+based on the dates
+already in your data.
+
+35
+00:01:33.170 --> 00:01:35.915
+CALENDAR gives you a
+little more control,
+
+36
+00:01:35.915 --> 00:01:38.365
+so that's the option
+we're going to use.
+
+37
+00:01:38.365 --> 00:01:40.519
+Here we just need to specify
+
+38
+00:01:40.519 --> 00:01:42.935
+a start date and an end date.
+
+39
+00:01:42.935 --> 00:01:46.885
+Our data starts on the
+1st of July, 2017.
+
+40
+00:01:46.885 --> 00:01:48.680
+But I can't just
+type that because
+
+41
+00:01:48.680 --> 00:01:50.375
+that's obviously
+going to be text.
+
+42
+00:01:50.375 --> 00:01:53.530
+So I'm going to need to
+use my Date function.
+
+43
+00:01:53.530 --> 00:01:57.150
+Then I can specify
+the year, 2017,
+
+44
+00:01:57.150 --> 00:01:59.150
+the month, which is July,
+
+45
+00:01:59.150 --> 00:02:01.145
+and the day which is the 1st.
+
+46
+00:02:01.145 --> 00:02:02.750
+That will actually convert
+
+47
+00:02:02.750 --> 00:02:05.395
+those values into a date for me.
+
+48
+00:02:05.395 --> 00:02:08.100
+Now I type a comma. Now, I
+
+49
+00:02:08.100 --> 00:02:09.420
+want to make this a bit dynamic.
+
+50
+00:02:09.420 --> 00:02:11.050
+I could use the
+Today function and
+
+51
+00:02:11.050 --> 00:02:13.000
+add a certain number
+of days onto that.
+
+52
+00:02:13.000 --> 00:02:16.090
+But what I'd actually like
+to do is get the date
+
+53
+00:02:16.090 --> 00:02:19.220
+60 days after my my
+last order was placed.
+
+54
+00:02:19.220 --> 00:02:22.765
+I'm going to need to get
+the biggest older date.
+
+55
+00:02:22.765 --> 00:02:24.100
+Yes, you guessed it.
+
+56
+00:02:24.100 --> 00:02:25.945
+I need the Max function.
+
+57
+00:02:25.945 --> 00:02:28.055
+We're going to type MAX.
+
+58
+00:02:28.055 --> 00:02:31.610
+Then I'm going to type
+O-R-D for orders,
+
+59
+00:02:31.610 --> 00:02:35.830
+and make sure you've
+selected orders Order Date.
+
+60
+00:02:35.830 --> 00:02:38.440
+Close your bracket for
+your max function.
+
+61
+00:02:38.440 --> 00:02:41.465
+Now we're going to
+add 60 onto that.
+
+62
+00:02:41.465 --> 00:02:43.210
+Then close your bracket for
+
+63
+00:02:43.210 --> 00:02:46.935
+your calendar and press Enter.
+
+64
+00:02:46.935 --> 00:02:49.665
+How brilliant was that?
+
+65
+00:02:49.665 --> 00:02:51.890
+We've seen that DAX cannot only
+
+66
+00:02:51.890 --> 00:02:54.710
+create measures and
+calculated columns,
+
+67
+00:02:54.710 --> 00:02:57.474
+it can even create tables.
+
+68
+00:02:57.474 --> 00:02:59.810
+Now, one really important step,
+
+69
+00:02:59.810 --> 00:03:03.365
+we need to mark this
+as a date table.
+
+70
+00:03:03.365 --> 00:03:06.470
+Back in your ribbon, can
+you click the Mark as
+
+71
+00:03:06.470 --> 00:03:10.120
+date table and then select
+Mark as date table.
+
+72
+00:03:10.120 --> 00:03:12.840
+Our date column is
+going to be our date,
+
+73
+00:03:12.840 --> 00:03:15.165
+and we're going to click Okay.
+
+74
+00:03:15.165 --> 00:03:17.570
+That way Power BI knows to
+
+75
+00:03:17.570 --> 00:03:20.800
+use this table for
+anytime intelligence.
+
+76
+00:03:20.800 --> 00:03:22.970
+If you would like to reformat
+
+77
+00:03:22.970 --> 00:03:25.130
+your date column just select it,
+
+78
+00:03:25.130 --> 00:03:27.440
+come to the Column tools, Format,
+
+79
+00:03:27.440 --> 00:03:29.480
+and you get some options
+
+80
+00:03:29.480 --> 00:03:31.325
+that relate to your
+regional settings.
+
+81
+00:03:31.325 --> 00:03:32.840
+Choose any one you like.
+
+82
+00:03:32.840 --> 00:03:34.890
+I'm going to go for this one.
+
+83
+00:03:35.330 --> 00:03:38.505
+There's my date nicely formatted.
+
+84
+00:03:38.505 --> 00:03:41.795
+When we start working with
+this information however,
+
+85
+00:03:41.795 --> 00:03:43.910
+we're probably going
+to want to be able to
+
+86
+00:03:43.910 --> 00:03:46.505
+filter our data by
+year and month.
+
+87
+00:03:46.505 --> 00:03:49.115
+We're going to need a
+few additional columns.
+
+88
+00:03:49.115 --> 00:03:51.110
+To do this, we're going to create
+
+89
+00:03:51.110 --> 00:03:54.670
+some calculated columns,
+again using DAX.
+
+90
+00:03:54.670 --> 00:03:59.085
+Let's start with getting
+the year for each date.
+
+91
+00:03:59.085 --> 00:04:01.190
+On our Column tools tab,
+
+92
+00:04:01.190 --> 00:04:03.280
+we're going to come
+to the New column,
+
+93
+00:04:03.280 --> 00:04:07.620
+and this first column is
+going to be called year.
+
+94
+00:04:09.030 --> 00:04:12.130
+I'm just going to use
+the year function,
+
+95
+00:04:12.130 --> 00:04:14.015
+so exactly the same as Excel.
+
+96
+00:04:14.015 --> 00:04:16.620
+YEAR open my brackets
+and the date
+
+97
+00:04:16.620 --> 00:04:19.215
+I'm trying to get the year
+from is my calendar date.
+
+98
+00:04:19.215 --> 00:04:22.770
+So if you type cal and
+select Calendar Date,
+
+99
+00:04:22.770 --> 00:04:25.745
+close your brackets
+and press Enter,
+
+100
+00:04:25.745 --> 00:04:28.420
+we can now see the
+year for each date.
+
+101
+00:04:28.420 --> 00:04:31.135
+We can do something almost
+identical for month.
+
+102
+00:04:31.135 --> 00:04:33.650
+I'm going to click New Column
+
+103
+00:04:35.160 --> 00:04:37.510
+and I'm going to type Month,
+
+104
+00:04:37.510 --> 00:04:39.190
+but the month function
+is actually going
+
+105
+00:04:39.190 --> 00:04:41.065
+to return a Month Number.
+
+106
+00:04:41.065 --> 00:04:44.350
+Let's put Month Number
+and type equals
+
+107
+00:04:44.350 --> 00:04:48.190
+and then MON and tag to
+select month and again,
+
+108
+00:04:48.190 --> 00:04:50.740
+I'm converting the
+calendar date to
+
+109
+00:04:50.740 --> 00:04:55.285
+a month and when I press Enter,
+
+110
+00:04:55.285 --> 00:04:58.360
+I get the Month Number
+for each month.
+
+111
+00:04:58.360 --> 00:05:00.070
+In my charts however,
+
+112
+00:05:00.070 --> 00:05:02.890
+if I get 7's and 6's it's
+going to look a bit odd.
+
+113
+00:05:02.890 --> 00:05:05.830
+I'd probably prefer to
+have the month name.
+
+114
+00:05:05.830 --> 00:05:09.110
+One more column. Let's
+click New Column.
+
+115
+00:05:09.750 --> 00:05:12.685
+This one I'm just
+going to call Month,
+
+116
+00:05:12.685 --> 00:05:14.560
+and I'm going to type equals,
+
+117
+00:05:14.560 --> 00:05:16.330
+and you probably know in Excel
+
+118
+00:05:16.330 --> 00:05:18.070
+you would use the text function.
+
+119
+00:05:18.070 --> 00:05:20.830
+But index, there is a
+slight difference here.
+
+120
+00:05:20.830 --> 00:05:22.180
+We saw this last week.
+
+121
+00:05:22.180 --> 00:05:24.070
+We use the format function.
+
+122
+00:05:24.070 --> 00:05:27.325
+Can you type for and
+tab Select Format,
+
+123
+00:05:27.325 --> 00:05:31.310
+the value we're trying to
+format is our Calendar Date,
+
+124
+00:05:32.040 --> 00:05:35.590
+and we'd like to
+format that to see as
+
+125
+00:05:35.590 --> 00:05:40.180
+an abbreviated month
+names so, "mmm,
+
+126
+00:05:40.180 --> 00:05:42.640
+if you want the full
+month name, mmmm,
+
+127
+00:05:42.640 --> 00:05:45.925
+if you want the day
+of the week, D's,
+
+128
+00:05:45.925 --> 00:05:49.915
+so nice and easy.")
+
+129
+00:05:49.915 --> 00:05:52.190
+and press Enter.
+
+130
+00:05:53.730 --> 00:05:57.355
+Our calendar table is
+starting to take shape.
+
+131
+00:05:57.355 --> 00:05:59.770
+Let's go and see it in action.
+
+132
+00:05:59.770 --> 00:06:02.455
+I'm going to come back
+to my report view,
+
+133
+00:06:02.455 --> 00:06:06.925
+and for this one, I'd like
+to add an area chart.
+
+134
+00:06:06.925 --> 00:06:09.070
+Coming across my visualizations,
+
+135
+00:06:09.070 --> 00:06:10.750
+can you find area charts,
+
+136
+00:06:10.750 --> 00:06:13.615
+just to the right of
+line charts and click.
+
+137
+00:06:13.615 --> 00:06:15.385
+They were going to resize.
+
+138
+00:06:15.385 --> 00:06:18.070
+It runs the whole way
+across the sheet above
+
+139
+00:06:18.070 --> 00:06:23.650
+our existing visualizations and
+
+140
+00:06:23.650 --> 00:06:26.350
+I'd like to see revenue by year.
+
+141
+00:06:26.350 --> 00:06:28.420
+I'm going to start
+by adding year to
+
+142
+00:06:28.420 --> 00:06:30.910
+my access fields and then I'm
+
+143
+00:06:30.910 --> 00:06:32.800
+going to come to my Order Items
+
+144
+00:06:32.800 --> 00:06:36.230
+and find my revenue
+measure and just tick.
+
+145
+00:06:36.420 --> 00:06:39.250
+Now that's looking
+really strange,
+
+146
+00:06:39.250 --> 00:06:40.360
+hard to believe I've had
+
+147
+00:06:40.360 --> 00:06:43.765
+a consistent 18 million
+revenue across four years.
+
+148
+00:06:43.765 --> 00:06:46.810
+Something really important
+I've forgotten to do.
+
+149
+00:06:46.810 --> 00:06:49.420
+Yeah, I haven't created
+
+150
+00:06:49.420 --> 00:06:51.265
+the relationship
+in my data model.
+
+151
+00:06:51.265 --> 00:06:52.930
+This is really important.
+
+152
+00:06:52.930 --> 00:06:54.775
+You must have those relationships
+
+153
+00:06:54.775 --> 00:06:56.395
+that everything to work properly.
+
+154
+00:06:56.395 --> 00:06:59.090
+We're going to come
+back to our model.
+
+155
+00:06:59.340 --> 00:07:02.395
+When I take my
+properties panel away,
+
+156
+00:07:02.395 --> 00:07:03.700
+there's my calendar table.
+
+157
+00:07:03.700 --> 00:07:05.080
+Let's put this on the right over
+
+158
+00:07:05.080 --> 00:07:07.300
+here and what I
+need to do is grab
+
+159
+00:07:07.300 --> 00:07:12.130
+date and link that to
+order date on my orders.
+
+160
+00:07:12.130 --> 00:07:15.865
+Just make sure you've drag
+the one onto the other.
+
+161
+00:07:15.865 --> 00:07:19.300
+There's my relationship and
+now if I come back into
+
+162
+00:07:19.300 --> 00:07:23.065
+my report view that's
+looking much better.
+
+163
+00:07:23.065 --> 00:07:25.885
+Don't forget those relationships.
+
+164
+00:07:25.885 --> 00:07:28.015
+That's looking good,
+
+165
+00:07:28.015 --> 00:07:30.010
+except I'm a little
+concerned about the way
+
+166
+00:07:30.010 --> 00:07:34.240
+my sales appear to be
+tanking from 2019 to 2020.
+
+167
+00:07:34.240 --> 00:07:36.250
+So let's add another
+visual so we can
+
+168
+00:07:36.250 --> 00:07:37.420
+actually get a better idea of
+
+169
+00:07:37.420 --> 00:07:38.845
+what's happening in the data.
+
+170
+00:07:38.845 --> 00:07:42.400
+I'm going to click into the
+bottom right corner and this
+
+171
+00:07:42.400 --> 00:07:45.850
+time I'm going to add a matrix
+such as find the matrix.
+
+172
+00:07:45.850 --> 00:07:48.505
+This looks a lot
+like a pivot table
+
+173
+00:07:48.505 --> 00:07:51.760
+in Excel and I'd like
+to see revenue again.
+
+174
+00:07:51.760 --> 00:07:55.900
+Just select Revenue
+and for my row labels,
+
+175
+00:07:55.900 --> 00:07:57.130
+I'd like to use month,
+
+176
+00:07:57.130 --> 00:07:58.870
+make sure you didn't
+choose month number
+
+177
+00:07:58.870 --> 00:08:00.820
+and for my column labels,
+
+178
+00:08:00.820 --> 00:08:02.500
+I'd like to use year.
+
+179
+00:08:02.500 --> 00:08:05.290
+But that's really hard
+to read because you can
+
+180
+00:08:05.290 --> 00:08:08.500
+see it is sorting the
+months alphabetically.
+
+181
+00:08:08.500 --> 00:08:11.635
+We saw exactly the same
+problem in part with it.
+
+182
+00:08:11.635 --> 00:08:14.965
+Let's see how we can
+really easily fix this.
+
+183
+00:08:14.965 --> 00:08:18.715
+Coming back to our data view,
+
+184
+00:08:18.715 --> 00:08:23.630
+what we need to do is change
+the sort order on month.
+
+185
+00:08:23.630 --> 00:08:26.420
+Now just click away from
+the month table from there,
+
+186
+00:08:26.420 --> 00:08:28.430
+just click back and
+you'll see that
+
+187
+00:08:28.430 --> 00:08:31.355
+the sort by column
+is now activated.
+
+188
+00:08:31.355 --> 00:08:34.130
+We're going to click on that
+and we actually want to
+
+189
+00:08:34.130 --> 00:08:37.660
+sort the month column
+by month number.
+
+190
+00:08:37.660 --> 00:08:39.500
+This is a fantastic feature.
+
+191
+00:08:39.500 --> 00:08:41.600
+You can choose to
+sort any column by
+
+192
+00:08:41.600 --> 00:08:44.030
+any other column and
+
+193
+00:08:44.030 --> 00:08:46.730
+if we come back into
+our report view,
+
+194
+00:08:46.730 --> 00:08:49.590
+that is looking a
+whole bunch better.
+
+195
+00:08:49.590 --> 00:08:52.420
+Now we can see what
+the problem is.
+
+196
+00:08:52.420 --> 00:08:54.355
+The revenue is actually being
+
+197
+00:08:54.355 --> 00:08:56.815
+collected from July to June.
+
+198
+00:08:56.815 --> 00:08:59.680
+I don't actually have 12
+months worth of data for
+
+199
+00:08:59.680 --> 00:09:04.435
+2020 because this company
+runs on a fiscal year basis.
+
+200
+00:09:04.435 --> 00:09:07.300
+The fiscal year starts in July.
+
+201
+00:09:07.300 --> 00:09:10.810
+What we're looking at actually
+here is from July to June
+
+202
+00:09:10.810 --> 00:09:14.470
+here that is the fiscal
+year 2018 's data.
+
+203
+00:09:14.470 --> 00:09:16.495
+But unfortunately at this point,
+
+204
+00:09:16.495 --> 00:09:18.550
+my visualizations are not
+
+205
+00:09:18.550 --> 00:09:21.120
+reflecting that. They
+actually look long.
+
+206
+00:09:21.120 --> 00:09:23.140
+This is where a calendar can be
+
+207
+00:09:23.140 --> 00:09:25.420
+so powerful because
+you can set it
+
+208
+00:09:25.420 --> 00:09:26.785
+up to run according to
+
+209
+00:09:26.785 --> 00:09:29.800
+any calendar that
+suits your business.
+
+210
+00:09:29.800 --> 00:09:31.870
+What we're going to
+do now is go back
+
+211
+00:09:31.870 --> 00:09:33.610
+into our data view and add
+
+212
+00:09:33.610 --> 00:09:34.990
+a few extra columns to
+
+213
+00:09:34.990 --> 00:09:38.950
+accommodate fiscal
+year and fiscal month.
+
+214
+00:09:38.970 --> 00:09:43.670
+Back into our data view
+and we're going to add
+
+215
+00:09:43.670 --> 00:09:44.980
+a new column and
+
+216
+00:09:44.980 --> 00:09:48.440
+the first one we're
+gonna do is fiscal year.
+
+217
+00:09:48.810 --> 00:09:53.905
+We're going to type
+fiscal year equals.
+
+218
+00:09:53.905 --> 00:09:56.980
+Now we going to need
+an if function because
+
+219
+00:09:56.980 --> 00:10:00.410
+if the month is July or after,
+
+220
+00:10:00.410 --> 00:10:02.650
+we need to add one to
+the calendar year.
+
+221
+00:10:02.650 --> 00:10:04.465
+If it's before July,
+
+222
+00:10:04.465 --> 00:10:06.415
+we don't need to add anything.
+
+223
+00:10:06.415 --> 00:10:08.350
+We're going to put our
+little if function
+
+224
+00:10:08.350 --> 00:10:10.420
+is in and again,
+identical to excel.
+
+225
+00:10:10.420 --> 00:10:14.800
+A logical test is going to
+be based on month number.
+
+226
+00:10:14.800 --> 00:10:16.420
+I'm just going to type calendar,
+
+227
+00:10:16.420 --> 00:10:19.015
+but I'm going to
+select month number
+
+228
+00:10:19.015 --> 00:10:23.110
+and I'm going to check if
+that is greater than six.
+
+229
+00:10:23.110 --> 00:10:25.420
+If it is, I'm going to
+
+230
+00:10:25.420 --> 00:10:27.365
+need to add one to
+my calendar year.
+
+231
+00:10:27.365 --> 00:10:29.044
+I'm going to type calendar,
+
+232
+00:10:29.044 --> 00:10:32.470
+select a year, and add one.
+
+233
+00:10:32.470 --> 00:10:35.920
+If it isn't, I'm going
+to leave it as is.
+
+234
+00:10:35.920 --> 00:10:40.520
+So calendar year is just
+going to be calendar year.
+
+235
+00:10:40.980 --> 00:10:44.210
+Now I'm going to click enter,
+
+236
+00:10:44.550 --> 00:10:47.560
+and you'll see my fiscal year for
+
+237
+00:10:47.560 --> 00:10:50.945
+July 2017 is actually
+showing up as 2018.
+
+238
+00:10:50.945 --> 00:10:53.150
+That's working really nicely.
+
+239
+00:10:53.150 --> 00:10:56.800
+Now fiscal month, July is July,
+
+240
+00:10:56.800 --> 00:10:59.735
+what's going to change
+is the sequence.
+
+241
+00:10:59.735 --> 00:11:03.025
+I'm going to need to calculate
+a fiscal month number,
+
+242
+00:11:03.025 --> 00:11:06.560
+which I can then sort
+my fiscal month by.
+
+243
+00:11:06.560 --> 00:11:11.185
+New column and this is going to
+
+244
+00:11:11.185 --> 00:11:13.740
+be fiscal month and I'm going to
+
+245
+00:11:13.740 --> 00:11:16.635
+do [inaudible] is equal to,
+
+246
+00:11:16.635 --> 00:11:18.390
+and we need another
+if function here,
+
+247
+00:11:18.390 --> 00:11:20.015
+similar to the last one.
+
+248
+00:11:20.015 --> 00:11:22.240
+I'm going to check if
+
+249
+00:11:22.240 --> 00:11:28.390
+my calendar month number
+is greater than six.
+
+250
+00:11:28.520 --> 00:11:31.890
+But this time, if it
+is greater than six,
+
+251
+00:11:31.890 --> 00:11:35.380
+I'm actually going to subtract
+six because if it's July,
+
+252
+00:11:35.380 --> 00:11:37.080
+I want it to be
+first in the list.
+
+253
+00:11:37.080 --> 00:11:38.870
+I'm going to take six away.
+
+254
+00:11:38.870 --> 00:11:40.795
+It's going to be month number,
+
+255
+00:11:40.795 --> 00:11:45.850
+calendar month number
+obviously subtract six,
+
+256
+00:11:45.850 --> 00:11:48.460
+then a comma if it isn't,
+
+257
+00:11:48.460 --> 00:11:50.050
+if it's January to June,
+
+258
+00:11:50.050 --> 00:11:52.180
+I'm actually going to
+need to add six because
+
+259
+00:11:52.180 --> 00:11:55.135
+those are the last
+ones in the list.
+
+260
+00:11:55.135 --> 00:12:01.825
+Again, calendar month
+number plus six,
+
+261
+00:12:01.825 --> 00:12:04.180
+close my bracket and press
+
+262
+00:12:04.180 --> 00:12:09.130
+enter and you see
+
+263
+00:12:09.130 --> 00:12:12.715
+now July is showing up as
+fiscal month number one,
+
+264
+00:12:12.715 --> 00:12:16.195
+which is exactly what we need
+to sort our fiscal month.
+
+265
+00:12:16.195 --> 00:12:17.860
+Then let's add that last column,
+
+266
+00:12:17.860 --> 00:12:18.910
+this is a nice easy one,
+
+267
+00:12:18.910 --> 00:12:21.310
+so we're just going
+to click new column.
+
+268
+00:12:22.020 --> 00:12:25.070
+This is our fiscal month
+
+269
+00:12:26.220 --> 00:12:28.505
+and that's literally
+just going to be
+
+270
+00:12:28.505 --> 00:12:35.240
+equal to our calendar month,
+and then press enter.
+
+271
+00:12:36.620 --> 00:12:39.500
+Just one thing we
+need to change there,
+
+272
+00:12:39.500 --> 00:12:43.360
+we need to sort this by
+fiscal month number.
+
+273
+00:12:43.360 --> 00:12:45.805
+Now let's go and
+fix up our report,
+
+274
+00:12:45.805 --> 00:12:47.575
+back into report view.
+
+275
+00:12:47.575 --> 00:12:48.850
+We're going to start with
+
+276
+00:12:48.850 --> 00:12:52.090
+our area chart and I'm going
+to get rid of the years.
+
+277
+00:12:52.090 --> 00:12:53.350
+I'm just going to
+click the little cross
+
+278
+00:12:53.350 --> 00:12:54.955
+next to year to remove it
+
+279
+00:12:54.955 --> 00:12:56.890
+and then I'm going
+to grab fiscal year
+
+280
+00:12:56.890 --> 00:12:58.810
+and drop it into the axis.
+
+281
+00:12:58.810 --> 00:13:01.240
+That's much better, you
+can see we've actually
+
+282
+00:13:01.240 --> 00:13:03.920
+had a steady increase in revenue.
+
+283
+00:13:03.920 --> 00:13:07.190
+Now coming to our matrix.
+
+284
+00:13:07.470 --> 00:13:10.150
+I'm going to get rid of month
+
+285
+00:13:10.150 --> 00:13:11.950
+and instead I'm going
+to add fiscal month,
+
+286
+00:13:11.950 --> 00:13:15.130
+but make sure its fiscal month
+not fiscal Month Number.
+
+287
+00:13:15.130 --> 00:13:17.810
+You can see that
+sorting very nicely,
+
+288
+00:13:17.810 --> 00:13:19.945
+and then I'm going to
+get rid of the year,
+
+289
+00:13:19.945 --> 00:13:24.140
+and I'm going to add
+fiscal year to my columns.
+
+290
+00:13:24.180 --> 00:13:27.100
+That's looking terrific.
+
+291
+00:13:27.100 --> 00:13:29.215
+Really powerful feature,
+
+292
+00:13:29.215 --> 00:13:32.895
+including a calendar
+table in your model.
+
+293
+00:13:32.895 --> 00:13:35.355
+For your challenge homework,
+
+294
+00:13:35.355 --> 00:13:37.315
+I'd like you to add day,
+
+295
+00:13:37.315 --> 00:13:41.115
+quarter, and fiscal
+quarter to your calendar.
+
+296
+00:13:41.115 --> 00:13:44.740
+When you're done, join
+me for the next video.
