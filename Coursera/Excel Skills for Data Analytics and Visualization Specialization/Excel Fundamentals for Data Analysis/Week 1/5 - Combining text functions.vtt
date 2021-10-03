@@ -1,0 +1,617 @@
+WEBVTT
+
+1
+00:00:04.310 --> 00:00:08.775
+In this video, we're going to
+look at how we can combine
+
+2
+00:00:08.775 --> 00:00:10.485
+Excel functions to get
+
+3
+00:00:10.485 --> 00:00:11.970
+even more power and
+
+4
+00:00:11.970 --> 00:00:14.520
+solve those more
+complicated problems.
+
+5
+00:00:14.520 --> 00:00:16.290
+In the last example,
+
+6
+00:00:16.290 --> 00:00:18.660
+we used a MID function to
+
+7
+00:00:18.660 --> 00:00:22.545
+extract the first
+letter of the location.
+
+8
+00:00:22.545 --> 00:00:25.875
+Zara really needs the Full Name.
+
+9
+00:00:25.875 --> 00:00:28.890
+The only problem
+is that Sydney is
+
+10
+00:00:28.890 --> 00:00:31.590
+six letters and Melbourne
+is nine letters.
+
+11
+00:00:31.590 --> 00:00:34.650
+So she can't just type a
+six or a nine in here.
+
+12
+00:00:34.650 --> 00:00:40.080
+She needs Excel to calculate
+that length for her.
+
+13
+00:00:40.080 --> 00:00:41.660
+The good news is that Excel is
+
+14
+00:00:41.660 --> 00:00:43.489
+very good at working
+with patterns.
+
+15
+00:00:43.489 --> 00:00:45.845
+As long as there's a
+pattern in the data,
+
+16
+00:00:45.845 --> 00:00:47.705
+it can probably help.
+
+17
+00:00:47.705 --> 00:00:51.640
+If you had data that was
+all lowercase 'mickeymouse',
+
+18
+00:00:51.640 --> 00:00:54.110
+although our brains
+could immediately
+
+19
+00:00:54.110 --> 00:00:56.060
+split that, there is no pattern.
+
+20
+00:00:56.060 --> 00:00:58.640
+It's all lowercase.
+Excel can't help us.
+
+21
+00:00:58.640 --> 00:01:01.670
+But with our customer
+purchase order,
+
+22
+00:01:01.670 --> 00:01:04.490
+there are a couple of
+fairly obvious patterns.
+
+23
+00:01:04.490 --> 00:01:06.185
+You'll notice, for example,
+
+24
+00:01:06.185 --> 00:01:08.510
+that the location always
+has three characters
+
+25
+00:01:08.510 --> 00:01:11.585
+before it and always
+has a hyphen after it.
+
+26
+00:01:11.585 --> 00:01:14.555
+So if we can just locate
+the position of the hyphen,
+
+27
+00:01:14.555 --> 00:01:17.930
+we can work out how
+long a location is.
+
+28
+00:01:17.930 --> 00:01:20.345
+This is exactly what
+we're going to do
+
+29
+00:01:20.345 --> 00:01:23.650
+using Excel's FIND function.
+
+30
+00:01:23.650 --> 00:01:26.525
+I'm going to start by
+doing the FIND on its
+
+31
+00:01:26.525 --> 00:01:29.270
+own and will just borrow
+the 'type' column for this.
+
+32
+00:01:29.270 --> 00:01:35.770
+In P2, we're going to
+type "=FIN" and TAB.
+
+33
+00:01:35.770 --> 00:01:39.950
+What the FIND does is
+find a string within
+
+34
+00:01:39.950 --> 00:01:41.750
+another string and return
+
+35
+00:01:41.750 --> 00:01:45.175
+the position at which it starts.
+
+36
+00:01:45.175 --> 00:01:49.040
+By default, it will return
+the first instance it finds,
+
+37
+00:01:49.040 --> 00:01:52.750
+but we'll see that we can
+specify a start position.
+
+38
+00:01:52.750 --> 00:01:54.950
+The first thing it
+wants to know is
+
+39
+00:01:54.950 --> 00:01:57.485
+the string or the texts
+you're looking for,
+
+40
+00:01:57.485 --> 00:01:59.765
+and in this situation,
+it's our hyphen.
+
+41
+00:01:59.765 --> 00:02:02.075
+So open double-quotes, hyphen,
+
+42
+00:02:02.075 --> 00:02:05.140
+close double-quotes,
+and now type a comma.
+
+43
+00:02:05.140 --> 00:02:07.220
+The second thing it
+wants to know is
+
+44
+00:02:07.220 --> 00:02:08.900
+where we're searching
+for this hyphen,
+
+45
+00:02:08.900 --> 00:02:10.895
+and we're looking for
+it in our customer
+
+46
+00:02:10.895 --> 00:02:13.505
+PO, and type a comma.
+
+47
+00:02:13.505 --> 00:02:16.910
+The last argument
+has square brackets,
+
+48
+00:02:16.910 --> 00:02:18.530
+and that means it's optional,
+
+49
+00:02:18.530 --> 00:02:20.720
+which means in
+certain circumstances
+
+50
+00:02:20.720 --> 00:02:22.430
+we don't have to supply it.
+
+51
+00:02:22.430 --> 00:02:24.590
+If we were quite happy
+for Excel to find
+
+52
+00:02:24.590 --> 00:02:26.660
+the first hyphen, we
+could leave it off,
+
+53
+00:02:26.660 --> 00:02:27.950
+but we don't want
+
+54
+00:02:27.950 --> 00:02:29.855
+the first hyphen and
+we want the second,
+
+55
+00:02:29.855 --> 00:02:32.360
+so we need to specify
+that it starts
+
+56
+00:02:32.360 --> 00:02:36.685
+from position four or somewhere
+after the first hyphen.
+
+57
+00:02:36.685 --> 00:02:38.790
+That's our FIND and if I press
+
+58
+00:02:38.790 --> 00:02:40.640
+"Enter," it told me it found
+
+59
+00:02:40.640 --> 00:02:44.510
+the second hyphen at
+position 10, that's great.
+
+60
+00:02:44.510 --> 00:02:46.580
+The problem is I don't actually
+
+61
+00:02:46.580 --> 00:02:49.580
+want to extract 10 characters,
+
+62
+00:02:49.580 --> 00:02:52.045
+I only want to extract six.
+
+63
+00:02:52.045 --> 00:02:54.230
+I need to account for
+the fact that there are
+
+64
+00:02:54.230 --> 00:02:57.470
+three characters before
+Sydney and the hyphen after,
+
+65
+00:02:57.470 --> 00:03:00.050
+that's all being included
+in that calculation.
+
+66
+00:03:00.050 --> 00:03:02.750
+So I need to subtract four to
+
+67
+00:03:02.750 --> 00:03:05.725
+get back to my actual location
+length, which is six.
+
+68
+00:03:05.725 --> 00:03:07.905
+Coming back into P2,
+
+69
+00:03:07.905 --> 00:03:11.420
+I'm going to double-click
+and I'm gonna type minus
+
+70
+00:03:11.420 --> 00:03:14.000
+four outside the brackets
+
+71
+00:03:14.000 --> 00:03:17.395
+and press "Enter,"
+and there's my six.
+
+72
+00:03:17.395 --> 00:03:19.435
+Now that I've done that,
+
+73
+00:03:19.435 --> 00:03:21.875
+I could go and retype
+it into my MID,
+
+74
+00:03:21.875 --> 00:03:24.230
+but I don't need to, I
+can just copy paste.
+
+75
+00:03:24.230 --> 00:03:26.210
+So I'm going to select
+everything from
+
+76
+00:03:26.210 --> 00:03:28.280
+FIND to the end of
+the minus four,
+
+77
+00:03:28.280 --> 00:03:32.550
+but don't include the equals
+and "Control+C" to copy.
+
+78
+00:03:32.550 --> 00:03:34.210
+Now press "Escape" so you don't
+
+79
+00:03:34.210 --> 00:03:36.090
+accidentally mess
+up your formula,
+
+80
+00:03:36.090 --> 00:03:38.940
+and double-click back into O2.
+
+81
+00:03:38.940 --> 00:03:41.925
+Where we had our one previously,
+
+82
+00:03:41.925 --> 00:03:43.810
+we're going to remove that
+
+83
+00:03:43.810 --> 00:03:46.330
+and we're going to
+paste in our FIND,
+
+84
+00:03:46.330 --> 00:03:49.685
+"Control+V" to paste.
+
+85
+00:03:49.685 --> 00:03:53.985
+Now press "Enter."
+There is Sydney,
+
+86
+00:03:53.985 --> 00:03:55.330
+and if I double-clicked copy
+
+87
+00:03:55.330 --> 00:03:58.370
+down, there's all my Melbournes.
+
+88
+00:03:58.370 --> 00:04:01.080
+That was how we
+could use the FIND.
+
+89
+00:04:01.080 --> 00:04:04.030
+But the FIND does
+rely on us having
+
+90
+00:04:04.030 --> 00:04:05.560
+some form of delimiter
+
+91
+00:04:05.560 --> 00:04:07.810
+and we don't always
+have that luxury.
+
+92
+00:04:07.810 --> 00:04:11.915
+What about if there were no
+hyphens in this example?
+
+93
+00:04:11.915 --> 00:04:15.580
+Well, actually there is
+another pattern as well.
+
+94
+00:04:15.580 --> 00:04:18.560
+The location is
+always preceded by
+
+95
+00:04:18.560 --> 00:04:23.210
+three characters and
+has seven after.
+
+96
+00:04:23.210 --> 00:04:26.300
+In other words, the total
+length of the string is
+
+97
+00:04:26.300 --> 00:04:29.345
+always going to be
+10 plus my location.
+
+98
+00:04:29.345 --> 00:04:32.960
+If I get the total length of
+the string and subtract 10,
+
+99
+00:04:32.960 --> 00:04:36.625
+that will tell me how
+long my location name is.
+
+100
+00:04:36.625 --> 00:04:39.490
+There's a function that
+can help us with this.
+
+101
+00:04:39.490 --> 00:04:41.555
+It's called the LEN function,
+
+102
+00:04:41.555 --> 00:04:43.915
+which is an
+abbreviation of length.
+
+103
+00:04:43.915 --> 00:04:46.045
+Let's see how it works.
+
+104
+00:04:46.045 --> 00:04:48.029
+Clicking back into P2,
+
+105
+00:04:48.029 --> 00:04:51.405
+I'm going to type equals LEN,
+
+106
+00:04:51.405 --> 00:04:54.605
+and tab to open my brackets,
+
+107
+00:04:54.605 --> 00:04:56.570
+and then I'm going to click on
+
+108
+00:04:56.570 --> 00:04:59.465
+my purchase order number
+and press "Enter."
+
+109
+00:04:59.465 --> 00:05:03.415
+As we would expect, the
+total length is 16.
+
+110
+00:05:03.415 --> 00:05:05.625
+Now we need to subtract
+
+111
+00:05:05.625 --> 00:05:08.620
+the 10 characters that
+are not our location.
+
+112
+00:05:08.620 --> 00:05:11.120
+So I'm just going
+to type minus 10,
+
+113
+00:05:11.120 --> 00:05:13.490
+and we're back to our six.
+
+114
+00:05:13.490 --> 00:05:15.470
+Brilliant. Let's finish that
+
+115
+00:05:15.470 --> 00:05:17.600
+off by putting our
+MID function in.
+
+116
+00:05:17.600 --> 00:05:19.175
+Just after the equals,
+
+117
+00:05:19.175 --> 00:05:21.820
+I'm going to type "MID" and tab,
+
+118
+00:05:21.820 --> 00:05:25.350
+the text I'm trying
+to chop up is G2.
+
+119
+00:05:25.350 --> 00:05:28.000
+I need to start at position 4,
+
+120
+00:05:28.000 --> 00:05:30.410
+and a comma, and that's
+
+121
+00:05:30.410 --> 00:05:33.020
+how many characters I
+need to extract that.
+
+122
+00:05:33.020 --> 00:05:35.470
+But now we have more than
+one set of brackets,
+
+123
+00:05:35.470 --> 00:05:38.240
+we must remember to close
+our brackets for our MID.
+
+124
+00:05:38.240 --> 00:05:42.205
+Tip to the wise. Make sure
+you last bracket is black.
+
+125
+00:05:42.205 --> 00:05:45.510
+When I press "Enter,"
+there is Sydney,
+
+126
+00:05:45.510 --> 00:05:47.625
+and if I copy down,
+
+127
+00:05:47.625 --> 00:05:49.950
+there are my locations.
+
+128
+00:05:49.950 --> 00:05:52.655
+So two great solutions
+to this problem,
+
+129
+00:05:52.655 --> 00:05:55.645
+one using FIND, one using LEN.
+
+130
+00:05:55.645 --> 00:05:57.740
+The important takeaway though
+
+131
+00:05:57.740 --> 00:05:59.870
+is to see how we can
+actually combine
+
+132
+00:05:59.870 --> 00:06:01.400
+Excel functions to get
+
+133
+00:06:01.400 --> 00:06:03.110
+even more power and solve
+
+134
+00:06:03.110 --> 00:06:05.880
+those more complicated problems.
