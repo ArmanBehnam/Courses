@@ -1,0 +1,618 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.294
+[MUSIC]
+
+2
+00:00:05.294 --> 00:00:07.869
+In this video we continue our DAX journey,
+
+3
+00:00:07.869 --> 00:00:11.600
+having a look at some of the DAX
+time intelligence functions.
+
+4
+00:00:13.090 --> 00:00:16.762
+As we saw in the previous video,
+the real power and
+
+5
+00:00:16.762 --> 00:00:20.794
+Power Pivot comes in when we
+start using DAX measures.
+
+6
+00:00:20.794 --> 00:00:24.621
+Coming back to have a look
+at our DAX library again,
+
+7
+00:00:24.621 --> 00:00:29.516
+if you scroll down in the list,
+you will see a category called time
+
+8
+00:00:29.516 --> 00:00:35.190
+intelligence functions and
+now some amazing options in here.
+
+9
+00:00:35.190 --> 00:00:39.078
+Time intelligence functions allow
+us to measure patterns in our
+
+10
+00:00:39.078 --> 00:00:41.380
+business metrics over time.
+
+11
+00:00:41.380 --> 00:00:46.906
+So for example, I might want to know,
+my total at the end of the quarter,
+
+12
+00:00:46.906 --> 00:00:52.068
+or I might need to know my total month
+to date, or the one we're going to
+
+13
+00:00:52.068 --> 00:00:57.620
+be looking at, which is what was
+the same value, same period last year.
+
+14
+00:00:59.130 --> 00:01:02.962
+Before we can start using these time
+intelligence functions, however,
+
+15
+00:01:02.962 --> 00:01:08.160
+there's another function we need to know
+about, called the calculate function.
+
+16
+00:01:08.160 --> 00:01:09.640
+And that's where we're going to start.
+
+17
+00:01:11.200 --> 00:01:15.555
+I'm back in my sales by year, and we
+have a completely different requirement,
+
+18
+00:01:15.555 --> 00:01:18.580
+but we're going to reuse
+the same pivot table.
+
+19
+00:01:18.580 --> 00:01:22.133
+This time what we'd like to be able to do,
+
+20
+00:01:22.133 --> 00:01:28.200
+is to compare our total sales
+compared to just our bike sales.
+
+21
+00:01:28.200 --> 00:01:30.680
+And we want to do this by month.
+
+22
+00:01:30.680 --> 00:01:33.475
+So on I'm going to get rid of my category.
+
+23
+00:01:33.475 --> 00:01:35.092
+I'm just going to remove that, and
+
+24
+00:01:35.092 --> 00:01:37.875
+I'm going to get rid of
+date hierarchy as well.
+
+25
+00:01:37.875 --> 00:01:41.940
+And then coming to my calendar,
+I'm going to expand more items, and
+
+26
+00:01:41.940 --> 00:01:44.781
+I'm going to grab month and
+drag it into rows.
+
+27
+00:01:46.362 --> 00:01:51.608
+But you'll notice something quite
+interesting in regular pivot tables
+
+28
+00:01:51.608 --> 00:01:56.940
+it uses custom lists to sort that
+has not happened in my pivot table.
+
+29
+00:01:56.940 --> 00:02:00.026
+Now if you have the same problem,
+don't worry about it.
+
+30
+00:02:00.026 --> 00:02:03.380
+You're going to come to row labels,
+click the drop down.
+
+31
+00:02:03.380 --> 00:02:08.331
+Come to more sort options, and
+we're going to sort ascending by month and
+
+32
+00:02:08.331 --> 00:02:10.980
+then just click OK, problem solved.
+
+33
+00:02:12.200 --> 00:02:14.522
+Now I'm just going to tidy
+up my chart a little bit, so
+
+34
+00:02:14.522 --> 00:02:16.510
+just make it a little bit wider.
+
+35
+00:02:16.510 --> 00:02:20.785
+We're going to put the legend at
+the bottom of the chart and I'm going to
+
+36
+00:02:20.785 --> 00:02:25.700
+switch off my field buttons just to
+make it a little easier to work with.
+
+37
+00:02:25.700 --> 00:02:29.473
+All right, now we don't want
+our sum of all the quantity.
+
+38
+00:02:29.473 --> 00:02:33.979
+We actually want to start working
+without order items because we
+
+39
+00:02:33.979 --> 00:02:38.904
+need to filter by category, and
+there's no link between category and
+
+40
+00:02:38.904 --> 00:02:43.250
+order, only between category and
+order items.
+
+41
+00:02:43.250 --> 00:02:48.122
+So let's start by adding a measure to make
+it a little easier to work with our line
+
+42
+00:02:48.122 --> 00:02:48.641
+total.
+
+43
+00:02:48.641 --> 00:02:52.042
+We're going to come to
+our order items table,
+
+44
+00:02:52.042 --> 00:02:57.200
+right click ,add measure,
+we going to call this measure, Item Total.
+
+45
+00:03:00.320 --> 00:03:04.860
+And in our formula box, we're just
+going to add up our total items.
+
+46
+00:03:04.860 --> 00:03:10.250
+So equals sum,
+open up our brackets if you just type lin.
+
+47
+00:03:10.250 --> 00:03:13.003
+There's our order item line total and
+
+48
+00:03:13.003 --> 00:03:17.575
+I'm going to close my brackets,
+set it to currency and click OK.
+
+49
+00:03:19.289 --> 00:03:24.218
+What we're going to do now,
+is remove our sum of all the quantity and
+
+50
+00:03:24.218 --> 00:03:27.540
+instead, we're going to
+add our item total.
+
+51
+00:03:27.540 --> 00:03:31.425
+So that is my total sales,
+but now next to that,
+
+52
+00:03:31.425 --> 00:03:34.920
+I want to see my total sales for bikes.
+
+53
+00:03:34.920 --> 00:03:40.124
+In other words, I want to be able to
+filter the data using a measure and
+
+54
+00:03:40.124 --> 00:03:44.860
+the calculation going to
+need is our calculate.
+
+55
+00:03:44.860 --> 00:03:49.370
+Calculate is probably most similar
+to a countifs or a sumifs.
+
+56
+00:03:49.370 --> 00:03:53.600
+It allows us to do an aggregation and
+specify the filter.
+
+57
+00:03:53.600 --> 00:03:58.001
+What's brilliant about the calculate
+is it overwrites the fields of context,
+
+58
+00:03:58.001 --> 00:04:01.650
+in your pivot table,
+let's have a look at how it works.
+
+59
+00:04:01.650 --> 00:04:06.248
+So coming back to order items,
+I'm going to right click, and measure and
+
+60
+00:04:06.248 --> 00:04:09.250
+I'm going to call this measure,
+Bike Sales.
+
+61
+00:04:11.440 --> 00:04:15.641
+I'm going to click into my formula box,
+and I'm going to type cal and
+
+62
+00:04:15.641 --> 00:04:18.440
+select my calculate function.
+
+63
+00:04:18.440 --> 00:04:22.548
+The first thing the calculate wants
+is an expression which tells it
+
+64
+00:04:22.548 --> 00:04:27.190
+what it's trying to aggregate and
+in this case it's my Item Total.
+
+65
+00:04:27.190 --> 00:04:31.510
+So if you just type it and select,
+Item Total, nice and easy.
+
+66
+00:04:32.630 --> 00:04:39.250
+Now I'm going to type a comma, the next
+and the calculate needs is your filters.
+
+67
+00:04:39.250 --> 00:04:43.306
+And you can add multiple filters,
+but we're just going to add one,
+
+68
+00:04:43.306 --> 00:04:46.120
+we want to filter by our lookup category.
+
+69
+00:04:46.120 --> 00:04:51.164
+So I'm just going to type cat,
+select a lookup products Category and
+
+70
+00:04:51.164 --> 00:04:55.500
+I need that to be equal to
+open new double quotes, Bikes.
+
+71
+00:04:56.980 --> 00:05:02.269
+I'm going to close my bracket now,
+select Currency again and
+
+72
+00:05:02.269 --> 00:05:06.285
+click OK, and
+if I come into my order items and
+
+73
+00:05:06.285 --> 00:05:12.760
+tick Bike Sales I can now see my
+Bike Sales next to my Item Total.
+
+74
+00:05:12.760 --> 00:05:16.300
+If I remove Item Total and come up and
+
+75
+00:05:16.300 --> 00:05:21.138
+choose some category for
+my look up product, and
+
+76
+00:05:21.138 --> 00:05:26.934
+grab product sub category and
+pop it into columns,
+
+77
+00:05:26.934 --> 00:05:32.420
+You'll notice it's only giving me the sub
+categories for the category bikes.
+
+78
+00:05:32.420 --> 00:05:37.318
+So you can actually see that that
+calculate is forcing the filter context
+
+79
+00:05:37.318 --> 00:05:38.690
+within this pivot.
+
+80
+00:05:39.950 --> 00:05:42.980
+All right,
+let's take this one step further.
+
+81
+00:05:42.980 --> 00:05:47.126
+What I'd like to be able to see now
+I'm going to get rid of subcategory
+
+82
+00:05:47.126 --> 00:05:50.013
+I'd like to be able to
+compare my bike sales for
+
+83
+00:05:50.013 --> 00:05:53.860
+a given year to the bike
+sales the previous year.
+
+84
+00:05:53.860 --> 00:05:56.650
+So I'm going to need to add a slicer.
+
+85
+00:05:56.650 --> 00:06:01.391
+So clicking into my pivot table,
+I'm going to come up to pivot table,
+
+86
+00:06:01.391 --> 00:06:05.460
+analyze Insert slicer, and
+I need a slicer for year.
+
+87
+00:06:05.460 --> 00:06:08.050
+I am going to use the one for
+my date hierarchy.
+
+88
+00:06:08.050 --> 00:06:11.506
+So select that and click OK.
+
+89
+00:06:11.506 --> 00:06:15.587
+And now I'm going to move my slicer
+down beneath my pivot table and
+
+90
+00:06:15.587 --> 00:06:19.129
+I'm just going to make it quite wide and
+quite short, and
+
+91
+00:06:19.129 --> 00:06:21.990
+then change the columns to full.
+
+92
+00:06:21.990 --> 00:06:24.870
+So I can actually see my
+dates a little more easily.
+
+93
+00:06:24.870 --> 00:06:30.099
+And if I select 2019,
+I'm seeing my total bike sales for 2019.
+
+94
+00:06:30.099 --> 00:06:32.158
+But now I need another measure,
+
+95
+00:06:32.158 --> 00:06:36.630
+which will show me the bike
+sales from the previous year.
+
+96
+00:06:36.630 --> 00:06:40.460
+And this is where we're going to use
+our time intelligence functions, and
+
+97
+00:06:40.460 --> 00:06:43.115
+the one we're going to use
+is same period last year.
+
+98
+00:06:45.378 --> 00:06:50.870
+So clicking into your pivot, we're
+going to come and add one last measure.
+
+99
+00:06:52.100 --> 00:06:55.620
+Right click order items, add measure.
+
+100
+00:06:55.620 --> 00:07:01.944
+This is going to be Bike Sales,
+previous year and I'm splitting yr,
+
+101
+00:07:01.944 --> 00:07:07.150
+and then I'm going to
+/click into my formula box.
+
+102
+00:07:07.150 --> 00:07:11.588
+Now once again, we're going to have
+to use the calculate function,
+
+103
+00:07:11.588 --> 00:07:14.840
+because I need to override this filter.
+
+104
+00:07:14.840 --> 00:07:18.466
+So we're going to type cal and calculate.
+
+105
+00:07:18.466 --> 00:07:22.871
+What we're trying to add up this
+time is our bike sales, so bik,
+
+106
+00:07:22.871 --> 00:07:25.740
+and tab to select Bike Sales.
+
+107
+00:07:25.740 --> 00:07:30.796
+Then we're going to press a comma and
+now we add our filter.
+
+108
+00:07:30.796 --> 00:07:35.379
+We're going to filter to show just
+the values for the same period last year.
+
+109
+00:07:35.379 --> 00:07:39.604
+So SAM, and
+tab to select same period last year and
+
+110
+00:07:39.604 --> 00:07:44.029
+the argument that this
+function needs is a date, but
+
+111
+00:07:44.029 --> 00:07:49.530
+it's quite important that
+the dates are sequential.
+
+112
+00:07:49.530 --> 00:07:51.645
+So we're going to use
+our calendar date and
+
+113
+00:07:51.645 --> 00:07:54.890
+this is where our calendars
+come in really handy.
+
+114
+00:07:54.890 --> 00:07:58.807
+Now close your bracket for your same
+period last year, close your bracket for
+
+115
+00:07:58.807 --> 00:07:59.720
+your calculate.
+
+116
+00:08:00.740 --> 00:08:03.170
+Set it to currency and click OK.
+
+117
+00:08:04.900 --> 00:08:08.632
+A new measure has been added and
+when I select it,
+
+118
+00:08:08.632 --> 00:08:15.030
+I can now see my bike sales for this
+year and the previous year side by side.
+
+119
+00:08:15.030 --> 00:08:21.080
+If I select 2020, I can now see 2020 and
+2019, side by side.
+
+120
+00:08:21.080 --> 00:08:26.880
+And now we're starting to see the real
+power of Power Pivot and Dax.
+
+121
+00:08:26.880 --> 00:08:31.837
+So this week, we have seen how we can
+add millions of rows to our data model,
+
+122
+00:08:31.837 --> 00:08:37.191
+how we can create data analysis that draws
+data from multiple related datasets,
+
+123
+00:08:37.191 --> 00:08:41.940
+how we can access the data model using
+pivot tables and cube functions.
+
+124
+00:08:43.130 --> 00:08:44.662
+And most importantly,
+
+125
+00:08:44.662 --> 00:08:49.420
+how we can use DAX to start building
+powerful data analysis expressions.
+
+126
+00:08:50.590 --> 00:08:54.938
+What you may not realize is that all
+of the features we've been learning
+
+127
+00:08:54.938 --> 00:08:58.345
+about this course so far,
+are also available in another
+
+128
+00:08:58.345 --> 00:09:02.580
+powerful business intelligence
+tool called Power BI.
+
+129
+00:09:02.580 --> 00:09:04.977
+And that's what we're
+going to look at next week.

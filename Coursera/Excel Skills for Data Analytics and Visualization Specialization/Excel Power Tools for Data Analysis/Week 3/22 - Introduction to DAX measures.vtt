@@ -1,0 +1,675 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.229
+[MUSIC]
+
+2
+00:00:05.229 --> 00:00:08.970
+In this video,
+we're going to start using DAX measures.
+
+3
+00:00:10.090 --> 00:00:14.504
+We've already seen a huge range of
+benefits to working with power pivot.
+
+4
+00:00:14.504 --> 00:00:18.648
+But alongside the ability to work
+with multiple related data sets,
+
+5
+00:00:18.648 --> 00:00:22.290
+the ability to use DAX measures
+is one of the most powerful.
+
+6
+00:00:23.930 --> 00:00:25.445
+DAX, which stands for
+
+7
+00:00:25.445 --> 00:00:30.880
+data analysis expressions allows us to
+perform advanced analytics on our data.
+
+8
+00:00:32.020 --> 00:00:36.201
+Currently, there are over
+250 DAX functions.
+
+9
+00:00:36.201 --> 00:00:40.009
+But the great news is a lot of them
+are very similar to Excel functions, and
+
+10
+00:00:40.009 --> 00:00:42.810
+so it's not a very steep learning curve.
+
+11
+00:00:42.810 --> 00:00:46.830
+We've actually already used DAX
+to create a calculated column.
+
+12
+00:00:46.830 --> 00:00:49.545
+You may recall we used
+the DAX year function,
+
+13
+00:00:49.545 --> 00:00:53.790
+which was almost identical
+to the Excel year function.
+
+14
+00:00:53.790 --> 00:00:56.370
+Let's have a look at another example.
+
+15
+00:00:56.370 --> 00:00:59.373
+We're going to come back
+to our data model, so
+
+16
+00:00:59.373 --> 00:01:02.069
+onto your Power Pivot ribbon and Manage.
+
+17
+00:01:04.853 --> 00:01:08.422
+And we're going to come to
+our Calendar table, and
+
+18
+00:01:08.422 --> 00:01:11.501
+can I ask you to click
+into the Month column?
+
+19
+00:01:11.501 --> 00:01:16.020
+If you have a look in your formula bar,
+you'll see this is actually a calculated
+
+20
+00:01:16.020 --> 00:01:19.609
+column, and that calculation
+may look quite familiar to you.
+
+21
+00:01:19.609 --> 00:01:23.510
+But in Excel, we use the text function,
+whereas in DAX,
+
+22
+00:01:23.510 --> 00:01:25.476
+we use the format function.
+
+23
+00:01:25.476 --> 00:01:27.840
+They do exactly the same thing.
+
+24
+00:01:27.840 --> 00:01:31.537
+So if I were to only want
+the abbreviated month name,
+
+25
+00:01:31.537 --> 00:01:36.338
+I can come into the formula,
+remove one of the M's and press Enter.
+
+26
+00:01:37.630 --> 00:01:40.230
+And there is my abbreviated month format.
+
+27
+00:01:41.290 --> 00:01:44.900
+So DAX is very useful for
+creating calculated columns.
+
+28
+00:01:44.900 --> 00:01:47.922
+But we want to keep our
+calculated columns to a minimum,
+
+29
+00:01:47.922 --> 00:01:51.180
+because they do add
+bulk to our data model.
+
+30
+00:01:51.180 --> 00:01:56.356
+So another option and arguably more
+powerful one is to work with measures.
+
+31
+00:01:56.356 --> 00:02:01.642
+Now that term may not be very familiar
+to you, but the concept probably is.
+
+32
+00:02:01.642 --> 00:02:05.660
+Can I ask you to press Alt +
+Tab to come back into Excel?
+
+33
+00:02:07.250 --> 00:02:10.576
+And we're going to come to our
+Pivot Table Analyze ribbon, and
+
+34
+00:02:10.576 --> 00:02:13.040
+we're just going to clear the filter.
+
+35
+00:02:13.040 --> 00:02:16.727
+So I'm going to come to Clear,
+and Clear Filters.
+
+36
+00:02:16.727 --> 00:02:20.683
+And now in our field list,
+I'm going to grab the subtotal.
+
+37
+00:02:20.683 --> 00:02:24.717
+Don't unselected it,
+we're just going to click on it, drag and
+
+38
+00:02:24.717 --> 00:02:26.629
+drop it into the values area.
+
+39
+00:02:26.629 --> 00:02:33.055
+That has now added up the order totals
+before freight for each of my countries.
+
+40
+00:02:33.055 --> 00:02:36.389
+If I click in Australia and Drill Down,
+
+41
+00:02:36.389 --> 00:02:41.150
+it's showing me the totals for
+my states in Australia.
+
+42
+00:02:41.150 --> 00:02:44.600
+And if I click Drill Up,
+we're back to countries.
+
+43
+00:02:44.600 --> 00:02:45.930
+That is a measure.
+
+44
+00:02:47.640 --> 00:02:52.183
+A measure is basically a dynamic
+calculation where the results change
+
+45
+00:02:52.183 --> 00:02:54.320
+depending on the context.
+
+46
+00:02:54.320 --> 00:02:57.290
+And in this case,
+the context is the filters.
+
+47
+00:02:57.290 --> 00:03:00.438
+The measures we're working
+with at the moment,
+
+48
+00:03:00.438 --> 00:03:02.983
+are referred to as implicit measures.
+
+49
+00:03:02.983 --> 00:03:07.289
+We imply we need the measure by
+adding that field to our Pivot.
+
+50
+00:03:07.289 --> 00:03:11.750
+But implicit measures have
+some very real limitations.
+
+51
+00:03:11.750 --> 00:03:15.968
+For one thing, when we add them,
+we often get a name we don't like,
+
+52
+00:03:15.968 --> 00:03:18.201
+which we then have to go and change.
+
+53
+00:03:18.201 --> 00:03:24.639
+So this is a silly name,
+Active customers would describe it better.
+
+54
+00:03:26.843 --> 00:03:31.050
+I might also need to change my formatting,
+I might need to change my calculation.
+
+55
+00:03:31.050 --> 00:03:34.801
+And the problem is when I then remove that
+and add it again, or add it to another
+
+56
+00:03:34.801 --> 00:03:38.560
+pivot table, I'm going to have to go
+through that whole process again.
+
+57
+00:03:38.560 --> 00:03:40.760
+So not very efficient.
+
+58
+00:03:40.760 --> 00:03:45.192
+More of a limitation however is I can't
+use those measures to calculate other
+
+59
+00:03:45.192 --> 00:03:49.190
+measures unless they're
+already in the Pivot Table.
+
+60
+00:03:49.190 --> 00:03:53.840
+And I have a very limited set
+of calculations available to me.
+
+61
+00:03:53.840 --> 00:03:57.250
+DAX measures addresses
+all of these problems.
+
+62
+00:03:57.250 --> 00:03:59.450
+How do we create one though?
+
+63
+00:03:59.450 --> 00:04:01.115
+Well, you actually have two options.
+
+64
+00:04:01.115 --> 00:04:04.870
+From 2016 onwards, you can actually
+do it directly in the Pivot Table.
+
+65
+00:04:04.870 --> 00:04:07.040
+But you can also do it in the data model.
+
+66
+00:04:07.040 --> 00:04:08.680
+So let's start with looking at that.
+
+67
+00:04:08.680 --> 00:04:11.186
+I'm going to press Alt + Tab again, and
+
+68
+00:04:11.186 --> 00:04:14.150
+I'm going to come to my
+Orders table this time.
+
+69
+00:04:15.410 --> 00:04:20.343
+And I'd like to replace that
+implicit measure on subtotal with
+
+70
+00:04:20.343 --> 00:04:22.121
+an explicit measure.
+
+71
+00:04:22.121 --> 00:04:26.732
+You can create your measures
+anywhere underneath the data, so
+
+72
+00:04:26.732 --> 00:04:28.994
+in the section below the data.
+
+73
+00:04:28.994 --> 00:04:32.670
+And I'm going to click underneath
+the SubTotal column and
+
+74
+00:04:32.670 --> 00:04:36.430
+I could start typing the calculation in,
+but even easier.
+
+75
+00:04:36.430 --> 00:04:40.278
+If I come up to my ribbon you'll see
+there's an option to AutoSum, and
+
+76
+00:04:40.278 --> 00:04:44.130
+from the drop down,
+there are a few other options as well.
+
+77
+00:04:44.130 --> 00:04:46.440
+Now I should just want to sum,
+so I'm going to click AutoSum.
+
+78
+00:04:47.630 --> 00:04:52.160
+And having a look in my formula bar now,
+it has summed up the SubTotal.
+
+79
+00:04:52.160 --> 00:04:55.900
+And it's called the measure sum
+of SubTotal2, which is not great.
+
+80
+00:04:55.900 --> 00:04:59.608
+So I'm going to select that name and
+replace it, and
+
+81
+00:04:59.608 --> 00:05:02.180
+I'm going to call this Order Total.
+
+82
+00:05:04.810 --> 00:05:07.671
+Now please note the syntax after the name,
+
+83
+00:05:07.671 --> 00:05:11.130
+its colon equals, and
+then the calculation.
+
+84
+00:05:11.130 --> 00:05:13.550
+Don't delete the colon or
+it won't work so well.
+
+85
+00:05:14.810 --> 00:05:19.710
+Now coming to my SubTotal column, I'm
+going to just make that quite a lot wider.
+
+86
+00:05:21.950 --> 00:05:24.262
+At the moment, there are no filters,
+
+87
+00:05:24.262 --> 00:05:28.020
+so the context is it's
+giving me the total orders.
+
+88
+00:05:28.020 --> 00:05:30.743
+I'm not that excited about
+all those decimal places, so
+
+89
+00:05:30.743 --> 00:05:33.130
+I'd like to change the formatting.
+
+90
+00:05:33.130 --> 00:05:37.083
+With the value selected,
+we're going to come back into our ribbon,
+
+91
+00:05:37.083 --> 00:05:41.827
+find the Format, and instead of General,
+we're going to change it to Currency.
+
+92
+00:05:44.951 --> 00:05:49.489
+So I've now explicitly declared what I'm
+calling it, what the calculation is, and
+
+93
+00:05:49.489 --> 00:05:51.180
+what the formatting is.
+
+94
+00:05:51.180 --> 00:05:53.950
+I'm ready to use it in my Pivot Table.
+
+95
+00:05:53.950 --> 00:05:54.869
+Let's test it out.
+
+96
+00:05:54.869 --> 00:05:57.208
+Alt + Tab to come back into Excel.
+
+97
+00:05:58.605 --> 00:06:03.377
+We're going to scroll down into our Orders
+again, and you'll see a new item has been
+
+98
+00:06:03.377 --> 00:06:07.490
+added at the bottom, and
+it's got this little fx in front of it.
+
+99
+00:06:07.490 --> 00:06:12.078
+That tells us that is an explicit measure,
+and if I select that option,
+
+100
+00:06:12.078 --> 00:06:16.600
+it has been added to my values section,
+and there are my order totals.
+
+101
+00:06:18.080 --> 00:06:21.552
+The values are identical to our
+implicit that the formatting and
+
+102
+00:06:21.552 --> 00:06:23.360
+the name are a lot better.
+
+103
+00:06:23.360 --> 00:06:26.780
+So I think I'm going to be using
+the explicit from here on out.
+
+104
+00:06:26.780 --> 00:06:30.250
+I'm going to come to some of SubTotal2 and
+remove that from the Pivot Table.
+
+105
+00:06:31.690 --> 00:06:36.630
+Now one of the other main benefits
+is our range of calculations.
+
+106
+00:06:36.630 --> 00:06:42.464
+So let's say for example,
+I want to know the median order price.
+
+107
+00:06:42.464 --> 00:06:47.880
+Pivot Tables give us the option to
+calculate an average, but not a median.
+
+108
+00:06:47.880 --> 00:06:49.885
+Fortunately, DAX can help us out.
+
+109
+00:06:49.885 --> 00:06:54.880
+This time, we're going to create the
+calculation directly in the Pivot Table.
+
+110
+00:06:54.880 --> 00:06:59.139
+So I'm going to come to my pivot field
+list, I'm going to find the Orders table,
+
+111
+00:06:59.139 --> 00:07:01.710
+that's where I'm adding my measure.
+
+112
+00:07:01.710 --> 00:07:05.154
+And I'm going to right-click and
+select Add measure.
+
+113
+00:07:07.910 --> 00:07:10.070
+The first thing I need to do
+was give my measure names.
+
+114
+00:07:10.070 --> 00:07:15.739
+So I'm going to click in Measure Name, and
+I'm going to call this Medium Order Value.
+
+115
+00:07:17.946 --> 00:07:22.885
+Then in my formula box, I need to type my
+calculation and the DAX calculation for
+
+116
+00:07:22.885 --> 00:07:25.290
+median is the same as the Excel.
+
+117
+00:07:25.290 --> 00:07:28.670
+So I can literally type med and
+tab to select median.
+
+118
+00:07:28.670 --> 00:07:32.067
+It then wants to know what I
+want to get a median of, and
+
+119
+00:07:32.067 --> 00:07:36.320
+the great news is the autocomplete
+works really well here.
+
+120
+00:07:36.320 --> 00:07:40.756
+So if I type sub for subtotal,
+I see there's my orders subtotal,
+
+121
+00:07:40.756 --> 00:07:43.270
+I'm going to press Tab to select that.
+
+122
+00:07:44.490 --> 00:07:48.478
+By putting the table name in front,
+it means there won't be any confusion
+
+123
+00:07:48.478 --> 00:07:53.400
+if I've used the word SubTotal in
+another table, so that's good practice.
+
+124
+00:07:53.400 --> 00:07:58.108
+Now I'm going to close my bracket, let's
+click in after and close the bracket, and
+
+125
+00:07:58.108 --> 00:08:00.030
+I want to give it a proper format.
+
+126
+00:08:00.030 --> 00:08:05.062
+So coming to category, I'm going to select
+Currency, 0 decimal places is fine.
+
+127
+00:08:07.508 --> 00:08:12.145
+Now back in our pivot field list, you'll
+see the Median Order Measure has been
+
+128
+00:08:12.145 --> 00:08:15.600
+added, and when I select it,
+it adds it to my Pivot Table.
+
+129
+00:08:16.910 --> 00:08:22.420
+So we're no longer limited in terms of
+the calculations we can use in our pivots.
+
+130
+00:08:22.420 --> 00:08:26.920
+We can create these measures and
+use them in many different pivots.
+
+131
+00:08:26.920 --> 00:08:31.484
+You don't actually have to have the
+measure in the pivot to use it in another
+
+132
+00:08:31.484 --> 00:08:33.020
+calculation.
+
+133
+00:08:33.020 --> 00:08:34.618
+And as we saw in the last video,
+
+134
+00:08:34.618 --> 00:08:38.130
+you can even use these measures
+in your cube functions.
+
+135
+00:08:38.130 --> 00:08:42.708
+So we're starting to unlock
+the real power of Power Pivot.
+
+136
+00:08:42.708 --> 00:08:45.810
+As I've mentioned,
+there are lot of decks functions.
+
+137
+00:08:45.810 --> 00:08:49.745
+Unfortunately, Microsoft has provided
+us with the fairly comprehensive
+
+138
+00:08:49.745 --> 00:08:51.470
+reference guide.
+
+139
+00:08:51.470 --> 00:08:55.300
+I'm just going to show that to you now so
+you can either just do a Google or
+
+140
+00:08:55.300 --> 00:08:58.790
+we have provided a link to
+this in this week's toolbox.
+
+141
+00:08:58.790 --> 00:09:03.011
+So take a moment to checkout some of
+the data analysis expressions available.
+
+142
+00:09:03.011 --> 00:09:06.818
+And we'll be looking at some
+more options in the next video.
+
+143
+00:09:06.818 --> 00:09:08.670
+[MUSIC]
