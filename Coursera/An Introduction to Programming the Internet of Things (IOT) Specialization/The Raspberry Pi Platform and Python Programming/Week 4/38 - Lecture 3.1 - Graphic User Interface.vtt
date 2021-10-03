@@ -1,0 +1,527 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.288 --> 00:00:15.860
+This lecture will talk about making
+a program, a Python program that actually
+
+3
+00:00:15.860 --> 00:00:20.490
+has a graphic user interface so
+the user can interact with the hardware.
+
+4
+00:00:20.490 --> 00:00:24.120
+Directly through some nice graphic user
+interface and this is interesting because
+
+5
+00:00:24.120 --> 00:00:27.390
+it's something you can do on
+Raspberry Pi that is interesting,
+
+6
+00:00:27.390 --> 00:00:31.040
+and you can't do it with something
+like an Arduino, not easily anyway.
+
+7
+00:00:32.800 --> 00:00:35.030
+So graphic user interface is basically,
+
+8
+00:00:35.030 --> 00:00:38.560
+a user interface that uses
+pictures somehow, all right.
+
+9
+00:00:38.560 --> 00:00:42.610
+And we've all seen graphic interfaces,
+point and click, buttons, pull downs,
+
+10
+00:00:42.610 --> 00:00:43.200
+that sort of thing.
+
+11
+00:00:44.340 --> 00:00:49.310
+So you would like to be able to use a
+graphic user interface to, you might like
+
+12
+00:00:49.310 --> 00:00:52.420
+to be able to use a graphic user interface
+to access the general purpose I/O pins.
+
+13
+00:00:52.420 --> 00:00:55.570
+Now, of course you're going
+to have to write some code,
+
+14
+00:00:55.570 --> 00:00:56.840
+write some pifying code for that.
+
+15
+00:00:56.840 --> 00:01:00.980
+But then once you've written that code,
+the user can interact with the pins,
+
+16
+00:01:00.980 --> 00:01:02.940
+make things happen on the pins,
+
+17
+00:01:02.940 --> 00:01:07.340
+and communicate with other devices by
+interacting with a graphic user interface.
+
+18
+00:01:07.340 --> 00:01:10.940
+So they'll see something on the screen,
+some kind of user interface, and click and
+
+19
+00:01:10.940 --> 00:01:13.860
+point and type and stuff like that and
+make something happen.
+
+20
+00:01:13.860 --> 00:01:17.480
+So that's the goal here to define some
+program that has a graphic user interface.
+
+21
+00:01:19.470 --> 00:01:21.260
+Now Raspberry Pi does it, Arduino doesn't.
+
+22
+00:01:21.260 --> 00:01:23.630
+So this is one of those
+things that's different,
+
+23
+00:01:23.630 --> 00:01:25.870
+that distinguishes
+Raspberry Pi from Arduino.
+
+24
+00:01:25.870 --> 00:01:31.020
+So the stuff we've seen for the last few
+lectures talking about accessing GPIO and
+
+25
+00:01:31.020 --> 00:01:34.920
+making pins high and low and pulse
+with modulation, and so on, all those
+
+26
+00:01:34.920 --> 00:01:39.348
+are things that the Arduino can do just
+as well, maybe better in a lot of cases.
+
+27
+00:01:39.348 --> 00:01:44.070
+But they don't really leverage
+the operating system at all.
+
+28
+00:01:45.100 --> 00:01:49.220
+So GUIs, graphic user interfaces,
+that's one of the things,
+
+29
+00:01:49.220 --> 00:01:51.830
+one of the advantages you get
+from having an operating system.
+
+30
+00:01:51.830 --> 00:01:55.910
+The operating system supports, you can
+talk to the HDMI, talk to the keyboard,
+
+31
+00:01:55.910 --> 00:01:59.265
+talk to the mouse and it can provide you
+with this graphic user interface, right?
+
+32
+00:01:59.265 --> 00:02:00.255
+And Linux allows that, right?
+
+33
+00:02:00.255 --> 00:02:03.135
+It supports that, so why not use that?
+
+34
+00:02:03.135 --> 00:02:04.955
+Right?
+So this is one of those things
+
+35
+00:02:04.955 --> 00:02:08.465
+that you can do with Raspberry Pi because
+it has this operating system support
+
+36
+00:02:08.465 --> 00:02:11.575
+that you couldn't do with regular or
+Arduino.
+
+37
+00:02:11.575 --> 00:02:17.310
+Not easily, when you're making
+a graphic user interface,
+
+38
+00:02:17.310 --> 00:02:19.490
+the user interacts with widgets.
+
+39
+00:02:19.490 --> 00:02:24.590
+Widgets are some kind of visual entities,
+something the user can interact with
+
+40
+00:02:24.590 --> 00:02:28.780
+what these are intuitively, you've seen
+these before buttons, menus, sliders,
+
+41
+00:02:28.780 --> 00:02:33.070
+scroll bars all those things you see on
+the screen that a user can mess with.
+
+42
+00:02:33.070 --> 00:02:35.410
+A drawing surface for drawing,
+you can put a drawing surface, and
+
+43
+00:02:35.410 --> 00:02:37.710
+a person can draw into that.
+
+44
+00:02:37.710 --> 00:02:40.990
+Any kind of graphic way User
+interacts with the screen.
+
+45
+00:02:40.990 --> 00:02:43.930
+Those are called widgets, so
+lots of different widgets, and
+
+46
+00:02:43.930 --> 00:02:45.330
+what you want to be able to do.
+
+47
+00:02:45.330 --> 00:02:49.190
+Well, for one thing, is to put these
+widgets on the screen in a Python program.
+
+48
+00:02:49.190 --> 00:02:52.910
+So write a Python program that puts
+widgets on the screen for you, and
+
+49
+00:02:52.910 --> 00:02:53.940
+allows users to interact.
+
+50
+00:02:55.080 --> 00:02:57.390
+Now, the execution of the code,
+
+51
+00:02:57.390 --> 00:03:02.780
+when you're talking about one of these
+graphic user interface programs it's
+
+52
+00:03:02.780 --> 00:03:06.800
+typically not completely controlled by
+the programmer but by the user, instead.
+
+53
+00:03:06.800 --> 00:03:10.090
+So what that means is
+the programmer writes code and
+
+54
+00:03:10.090 --> 00:03:13.530
+the code lists a bunch of lines of code
+that execute in a certain sequence.
+
+55
+00:03:13.530 --> 00:03:18.470
+Right, and with a regular Python program,
+everything, the order is completely
+
+56
+00:03:18.470 --> 00:03:21.230
+controlled by the programmer and
+the data the programmer receives.
+
+57
+00:03:21.230 --> 00:03:24.540
+But the programmer writes
+the sequence of instructions and
+
+58
+00:03:24.540 --> 00:03:27.000
+determines in what sequence
+they will execute, right?
+
+59
+00:03:27.000 --> 00:03:30.310
+And there are options, if-then statements,
+might execute this sequence or that.
+
+60
+00:03:30.310 --> 00:03:34.050
+But the programmer is in control of
+that by the way they write the code.
+
+61
+00:03:34.050 --> 00:03:37.150
+Now with a graphic user interface what
+happens is that the code that gets
+
+62
+00:03:37.150 --> 00:03:41.840
+executed is determined by what
+the user does in the interface.
+
+63
+00:03:41.840 --> 00:03:46.200
+That is if the user clicks on one button
+and then function gets called and
+
+64
+00:03:46.200 --> 00:03:49.370
+if user clicks on another button
+then another function get called.
+
+65
+00:03:49.370 --> 00:03:52.030
+So which function gets called
+isn't completely under
+
+66
+00:03:52.030 --> 00:03:53.700
+the control of the programmer.
+
+67
+00:03:53.700 --> 00:03:55.920
+In a regular Python program,
+you can have an if statement,
+
+68
+00:03:55.920 --> 00:04:00.120
+if this is true call function
+one else call function two.
+
+69
+00:04:00.120 --> 00:04:04.110
+Then the program determines one of
+these two things is gonna happen, but
+
+70
+00:04:04.110 --> 00:04:07.340
+with a graphic user interface
+these functions their
+
+71
+00:04:07.340 --> 00:04:09.560
+execution is controlled by the user and
+what they do.
+
+72
+00:04:09.560 --> 00:04:13.480
+Maybe they move a slider and then this
+function gets executed and so on.
+
+73
+00:04:13.480 --> 00:04:16.440
+That actually makes coding
+somewhat harder for
+
+74
+00:04:16.440 --> 00:04:21.400
+the programmer because you can't predict
+the control flow sequence as well, right?
+
+75
+00:04:21.400 --> 00:04:22.790
+You don't know exactly,
+
+76
+00:04:22.790 --> 00:04:25.010
+maybe the program's gonna press
+this button 100 times, right?
+
+77
+00:04:25.010 --> 00:04:27.220
+You don't know what random
+sequence they're gonna press, and
+
+78
+00:04:27.220 --> 00:04:28.940
+you have to accommodate
+all possible sequences.
+
+79
+00:04:28.940 --> 00:04:31.850
+So in general,
+it makes programming more difficult,
+
+80
+00:04:31.850 --> 00:04:34.168
+but you get a graphic user interface,
+and that's a good thing.
+
+81
+00:04:34.168 --> 00:04:38.780
+Okay, so often,
+
+82
+00:04:38.780 --> 00:04:42.780
+graphic user interface based programs
+are written as one big event loop, okay?
+
+83
+00:04:42.780 --> 00:04:46.705
+And this is simpler than it sounds,
+typically the program waits.
+
+84
+00:04:46.705 --> 00:04:50.700
+[LAUGH] It just sits there waiting for
+the user to interact with a widget, okay?
+
+85
+00:04:50.700 --> 00:04:52.740
+So it doesn't do anything it
+just sits there statically,
+
+86
+00:04:52.740 --> 00:04:53.870
+maybe it does some initial stuff.
+
+87
+00:04:53.870 --> 00:04:56.770
+But it puts a screen out there and
+it sits there and waits.
+
+88
+00:04:56.770 --> 00:04:59.590
+Until the user does something, type
+something and when the user isn't typing
+
+89
+00:04:59.590 --> 00:05:03.670
+anything, click anything,
+the code's not doing anything often.
+
+90
+00:05:03.670 --> 00:05:06.580
+So the user pushes a button or
+selects a menu item or
+
+91
+00:05:06.580 --> 00:05:10.730
+something, draws something,
+grabs a slider, does some event, okay.
+
+92
+00:05:11.840 --> 00:05:14.890
+Now when the event happens you do
+something in response to that event.
+
+93
+00:05:14.890 --> 00:05:17.450
+So when that event happens
+a function is called.
+
+94
+00:05:17.450 --> 00:05:20.350
+So when you say do something in response
+you typically mean execute a function.
+
+95
+00:05:20.350 --> 00:05:21.950
+So this so
+
+96
+00:05:21.950 --> 00:05:25.710
+in some place in your code in your Python
+code you're gonna have to associate
+
+97
+00:05:25.710 --> 00:05:29.830
+these events that the user could do with
+functions that you want to execute, right?
+
+98
+00:05:29.830 --> 00:05:32.124
+So somebody clicks on this
+button this function's executed.
+
+99
+00:05:32.124 --> 00:05:35.289
+They move this slider this
+function's executed and so on.
+
+100
+00:05:35.289 --> 00:05:37.577
+So you do something in response
+you call this function, and
+
+101
+00:05:37.577 --> 00:05:39.450
+you execute the function.
+
+102
+00:05:39.450 --> 00:05:42.570
+Then after your done executing
+the function, the function completes, and
+
+103
+00:05:42.570 --> 00:05:44.340
+then you wait for something else to do.
+
+104
+00:05:44.340 --> 00:05:47.490
+So you again wait until
+the user interacts again, and
+
+105
+00:05:47.490 --> 00:05:50.460
+then when the user interacts again
+you do the appropriate function.
+
+106
+00:05:50.460 --> 00:05:51.540
+So, that's the event loop.
+
+107
+00:05:51.540 --> 00:05:53.010
+You sit there, you wait for an event.
+
+108
+00:05:53.010 --> 00:05:56.350
+When the event happens you
+execute the appropriate function,
+
+109
+00:05:56.350 --> 00:05:58.628
+and then you wait for the next exam, okay.
+
+110
+00:05:58.628 --> 00:06:06.795
+[MUSIC]

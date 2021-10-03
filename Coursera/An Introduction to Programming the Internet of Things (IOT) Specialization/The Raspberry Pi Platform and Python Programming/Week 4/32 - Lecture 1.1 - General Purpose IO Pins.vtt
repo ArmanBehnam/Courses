@@ -1,0 +1,500 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.192 --> 00:00:17.352
+This lecture's about the General Purpose
+Input/Output Pins on the Raspberry Pi B+.
+
+3
+00:00:17.352 --> 00:00:22.860
+So this is a layout of what
+the Raspberry Pi's pins look like.
+
+4
+00:00:22.860 --> 00:00:27.270
+Now there's several different Raspberry
+Pis, we're using the Raspberry Pi B+,
+
+5
+00:00:27.270 --> 00:00:29.960
+which has more pins,
+it actually has 40 of these pins.
+
+6
+00:00:29.960 --> 00:00:35.133
+And so if you look at the picture, there
+are 40 pins, two rows, 20 pins each row.
+
+7
+00:00:35.133 --> 00:00:38.789
+There are other Raspberry Pis,
+like the Raspberry Pi B and
+
+8
+00:00:38.789 --> 00:00:42.390
+the Raspberry Pi A, and
+those have 26 pins.
+
+9
+00:00:42.390 --> 00:00:46.000
+So, the stuff that I'll be talking
+about is generally applicable to all
+
+10
+00:00:46.000 --> 00:00:47.610
+of the Raspberry Pi versions.
+
+11
+00:00:47.610 --> 00:00:51.936
+But we'll be talking specifically about
+the pin layout on the Raspberry Pi B+.
+
+12
+00:00:51.936 --> 00:00:54.360
+And if you wanna apply this
+to other Raspberry Pis,
+
+13
+00:00:54.360 --> 00:00:57.560
+you can just look at their pin layout,
+it's the same ideas.
+
+14
+00:00:57.560 --> 00:01:00.630
+So there are a lot of pins,
+two rows of pins.
+
+15
+00:01:00.630 --> 00:01:04.210
+And this is similar to the Arduino,
+the Arduino had the pins on the sides.
+
+16
+00:01:04.210 --> 00:01:08.630
+Our Raspberry Pi has them all together
+in one block on one side of the board.
+
+17
+00:01:09.920 --> 00:01:13.660
+So if you look at the pins, you could
+generally group them into the dedicated
+
+18
+00:01:13.660 --> 00:01:15.712
+pins, dedicated power and ground pins.
+
+19
+00:01:15.712 --> 00:01:20.072
+So several of these pins,
+all they do is output power and ground,
+
+20
+00:01:20.072 --> 00:01:23.500
+which you can use to
+interface with other devices.
+
+21
+00:01:23.500 --> 00:01:26.370
+So say you wanna have a breadboard,
+wire up a circuit, you need power,
+
+22
+00:01:26.370 --> 00:01:29.460
+you need ground,
+you wire them to these pins.
+
+23
+00:01:29.460 --> 00:01:31.710
+So that it's a common power and ground.
+
+24
+00:01:31.710 --> 00:01:36.106
+So, now remember, the Raspberry Pi
+actually, its pins run at 3.3 volts,
+
+25
+00:01:36.106 --> 00:01:37.940
+so 0 to 3.3 volts.
+
+26
+00:01:37.940 --> 00:01:42.830
+So you got several pins, two pins
+actually, pins 1 and 17 are 3.3 volts,
+
+27
+00:01:42.830 --> 00:01:44.590
+they just supply 3.3 volts.
+
+28
+00:01:44.590 --> 00:01:48.570
+You also have pins that supply 5 volts,
+pins 2 and 4 supply 5 volts.
+
+29
+00:01:48.570 --> 00:01:53.010
+You need that because there's still a lot
+of 5 volt devices out there that need 5
+
+30
+00:01:53.010 --> 00:01:55.530
+volts, so the board supplies that too.
+
+31
+00:01:55.530 --> 00:01:59.500
+Although remember that the output pins in
+the Raspberry Pi, when you drive outputs,
+
+32
+00:01:59.500 --> 00:02:01.450
+they're gonna be 0 and 3.3 volts.
+
+33
+00:02:01.450 --> 00:02:04.260
+And when you take inputs,
+they've gotta be 0 and 3.3 volts.
+
+34
+00:02:04.260 --> 00:02:06.940
+You can't have 5 volts coming in or
+going out.
+
+35
+00:02:06.940 --> 00:02:08.650
+But it supplies 5 volts for
+
+36
+00:02:08.650 --> 00:02:14.140
+other parts in the system that you might
+wanna be running that need 5 volts.
+
+37
+00:02:14.140 --> 00:02:17.790
+And then there are several ground pins,
+6, 9, 14, 20, 30, and
+
+38
+00:02:17.790 --> 00:02:20.900
+39 are all ground pins
+that are on the board.
+
+39
+00:02:22.030 --> 00:02:27.360
+So a lot of the pins are dedicated,
+the power, the ground and so on.
+
+40
+00:02:27.360 --> 00:02:32.360
+But then the rest of the pins
+are general purpose pins and
+
+41
+00:02:32.360 --> 00:02:34.050
+some of those are multi-function pins.
+
+42
+00:02:34.050 --> 00:02:37.970
+So general purpose, GPIL stands for
+general purpose input/output.
+
+43
+00:02:37.970 --> 00:02:41.231
+So a GPIO pin is just a pin that can
+be used as an input or an output, and
+
+44
+00:02:41.231 --> 00:02:43.312
+this is the same as on the Arduino, right?
+
+45
+00:02:43.312 --> 00:02:46.674
+All those pins were input/output,
+except for the dedicated power and ground,
+
+46
+00:02:46.674 --> 00:02:48.612
+they're input and output, same thing here.
+
+47
+00:02:48.612 --> 00:02:51.152
+So you've got GPIO, and
+they're numbered GPIO.
+
+48
+00:02:51.152 --> 00:02:54.812
+Here we've got GPIO2, GPIO3, and GPIO4.
+
+49
+00:02:54.812 --> 00:02:57.452
+Notice the numbering,
+this will come up later.
+
+50
+00:02:57.452 --> 00:03:01.532
+But the number of the PINs, there are two
+different names for these pins, right?
+
+51
+00:03:01.532 --> 00:03:08.820
+You can call them 3, 5 and 7, or
+you can call them GPIO2, GPIO3, or GPIO4.
+
+52
+00:03:08.820 --> 00:03:12.850
+So the pins, all of the rest of the pins
+besides the dedicated ones are GPIOs and
+
+53
+00:03:12.850 --> 00:03:15.800
+that means that you can
+control them programmatically.
+
+54
+00:03:15.800 --> 00:03:20.370
+So you can write code that sits in the
+high or low, and you write code that reads
+
+55
+00:03:20.370 --> 00:03:23.270
+the values that are driven on
+to them from external sources.
+
+56
+00:03:24.450 --> 00:03:29.344
+Now, all of the pins
+labeled GPIO are that way.
+
+57
+00:03:29.344 --> 00:03:32.919
+Now notice that some of these pins, if we
+look at the three pins we got up here,
+
+58
+00:03:32.919 --> 00:03:35.784
+two of these pins are actually,
+they have two names, right?
+
+59
+00:03:35.784 --> 00:03:38.100
+There's GPIO2, if we look at pin 3.
+
+60
+00:03:38.100 --> 00:03:41.602
+It's labeled GPIO2 and then SDA1I2C.
+
+61
+00:03:41.602 --> 00:03:45.082
+And then GPIO3 is labeled SCL1I2C.
+
+62
+00:03:45.082 --> 00:03:48.730
+So they've got two names, so
+we'll call those multi-function pins.
+
+63
+00:03:48.730 --> 00:03:50.020
+They can serve multiple purposes.
+
+64
+00:03:50.020 --> 00:03:54.042
+They can act as either GPIOs where as
+a programmer you could just access
+
+65
+00:03:54.042 --> 00:03:55.008
+them directly.
+
+66
+00:03:55.008 --> 00:03:56.711
+Or they could serve another,
+
+67
+00:03:56.711 --> 00:04:00.328
+an alternate function based on
+their alternate name, right?
+
+68
+00:04:00.328 --> 00:04:03.668
+So just from the name of these pins we
+can already tell what their function is.
+
+69
+00:04:03.668 --> 00:04:06.642
+And it's good to get familiar with these
+things because when you look at boards,
+
+70
+00:04:06.642 --> 00:04:09.890
+you look at the pin names, and just from
+the name you can tell what the pin's for.
+
+71
+00:04:09.890 --> 00:04:12.910
+So this is SDA and SCL, these two pins.
+
+72
+00:04:12.910 --> 00:04:16.705
+And so if we remember from
+previous courses, SDA and SCL,
+
+73
+00:04:16.705 --> 00:04:20.180
+the communication pins for
+the I2C protocol.
+
+74
+00:04:20.180 --> 00:04:22.460
+So those two pins are actually
+part of the I2C protocol,
+
+75
+00:04:22.460 --> 00:04:24.930
+actually it says right there, ISDA1I2C.
+
+76
+00:04:24.930 --> 00:04:30.330
+But if you remember I2C is a two-wire
+protocol, two pins, SDA, SEL.
+
+77
+00:04:30.330 --> 00:04:34.970
+So these pins can be used for
+alternate functions as well, some of them.
+
+78
+00:04:34.970 --> 00:04:38.760
+And notice pin 7 is just GPIO4, and
+it doesn't serve any special function,
+
+79
+00:04:38.760 --> 00:04:40.350
+it's just general purpose I/O.
+
+80
+00:04:40.350 --> 00:04:42.350
+But some of these pins have dual function.
+
+81
+00:04:44.010 --> 00:04:46.379
+So let's start talking about some
+of these multi-function pins.
+
+82
+00:04:47.510 --> 00:04:49.810
+Right here we'll talk about the UART pins.
+
+83
+00:04:49.810 --> 00:04:53.760
+So UART, if you remember from when we were
+talking about Arduino, we covered UART.
+
+84
+00:04:53.760 --> 00:04:58.300
+UART is serial protocol, single bit,
+one bit at a time is being transferred.
+
+85
+00:04:59.310 --> 00:05:07.070
+So these two pins, they're GPIO14 and
+15 but they are also UART0_TXD and RXD.
+
+86
+00:05:07.070 --> 00:05:11.180
+So TX stands for transmit,
+and RX stands for receive.
+
+87
+00:05:11.180 --> 00:05:15.680
+So if you remember UART, basically
+you're sending one bit at a time, and
+
+88
+00:05:15.680 --> 00:05:17.340
+TX is the transmission pin.
+
+89
+00:05:17.340 --> 00:05:20.055
+So if you wanna send serial bit,
+serial data,
+
+90
+00:05:20.055 --> 00:05:25.100
+UART data from the Raspberry Pi to
+another device, you send it on the TX,
+
+91
+00:05:25.100 --> 00:05:27.938
+and on the receiving end,
+you receive it on the RX.
+
+92
+00:05:27.938 --> 00:05:32.641
+That's the common way to do it, TX for
+transmission, RX for receiving.
+
+93
+00:05:32.641 --> 00:05:35.186
+Remember that if you
+remember with the Arduino,
+
+94
+00:05:35.186 --> 00:05:37.121
+we actually didn't use these pins.
+
+95
+00:05:37.121 --> 00:05:40.101
+The Arduino has pins that can be used for
+that, but we didn't do that.
+
+96
+00:05:40.101 --> 00:05:43.135
+When we used serial protocol,
+when we used UART,
+
+97
+00:05:43.135 --> 00:05:45.461
+we actually did it over the USB input.
+
+98
+00:05:45.461 --> 00:05:46.961
+Which is another way to do it.
+
+99
+00:05:46.961 --> 00:05:49.821
+But generally USB is convenient for
+the Arduino.
+
+100
+00:05:49.821 --> 00:05:51.971
+You can do that with the Raspberry Pi, but
+
+101
+00:05:51.971 --> 00:05:56.027
+an alternate way which only consumes two
+pins, which is kinda nice rather than
+
+102
+00:05:56.027 --> 00:06:00.341
+consuming the whole USB port, you can just
+use two pins, is using these two wires.
+
+103
+00:06:00.341 --> 00:06:04.505
+So if you say had another Raspberry Pi,
+you could take the TX and RX of this one,
+
+104
+00:06:04.505 --> 00:06:08.501
+connect it to the TX and RX of the other
+one, and they can talk to each other.
+
+105
+00:06:08.501 --> 00:06:09.561
+Thank you.
+
+106
+00:06:09.561 --> 00:06:16.941
+[MUSIC]

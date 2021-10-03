@@ -1,0 +1,353 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.964
+[MUSIC]
+
+2
+00:00:10.964 --> 00:00:13.397
+This lecture, we'll talk about, again,
+
+3
+00:00:13.397 --> 00:00:16.720
+the general purpose IO
+pins on the Raspberry Pi.
+
+4
+00:00:16.720 --> 00:00:20.460
+And we'll talk specifically about
+the pins that are multi-function pins
+
+5
+00:00:20.460 --> 00:00:25.010
+that have a function that's
+dedicated to communication protocols
+
+6
+00:00:25.010 --> 00:00:27.330
+with other devices or
+other chips, or things like that.
+
+7
+00:00:29.270 --> 00:00:33.310
+So a couple of these pins are for
+I2C communication protocol.
+
+8
+00:00:33.310 --> 00:00:37.790
+Now if you remember I2C, it's a serial
+communication protocol between,
+
+9
+00:00:37.790 --> 00:00:39.370
+generally used between two chips or
+
+10
+00:00:39.370 --> 00:00:44.070
+two devices that are relatively close,
+that can share a clock.
+
+11
+00:00:44.070 --> 00:00:46.480
+So, this is a clocked,
+a synchronous protocol, so
+
+12
+00:00:46.480 --> 00:00:49.010
+the two devices have to be close enough
+that they can share the same clock.
+
+13
+00:00:49.010 --> 00:00:50.977
+So, typically, on the same board or
+something like that.
+
+14
+00:00:50.977 --> 00:00:52.856
+They've gotta be physically close.
+
+15
+00:00:52.856 --> 00:00:58.670
+So, I2C protocol,
+it's got two wires, its SDA and SCL.
+
+16
+00:00:58.670 --> 00:01:01.970
+SDA sends the sends the data
+as with data gets sent and
+
+17
+00:01:01.970 --> 00:01:04.860
+received, and
+SCL is where the clock that gets sent.
+
+18
+00:01:04.860 --> 00:01:08.590
+Now this is as oppose to the UART,
+which we were just talking about.
+
+19
+00:01:08.590 --> 00:01:10.680
+UART done in the last lecture.
+
+20
+00:01:10.680 --> 00:01:11.523
+UART is not clocked.
+
+21
+00:01:11.523 --> 00:01:14.658
+There's no clock in there, so
+they don't have a clock wire or clock pin.
+
+22
+00:01:14.658 --> 00:01:19.041
+I2C does have a clock pin,
+which makes it a lot faster protocol, but
+
+23
+00:01:19.041 --> 00:01:23.804
+it is restricted in distance because you
+have to be close enough that you can
+
+24
+00:01:23.804 --> 00:01:25.256
+send a clock with MSQ.
+
+25
+00:01:25.256 --> 00:01:32.800
+Okay, so, pin 3 is the SDA line,
+pin 5 is the SDL line.
+
+26
+00:01:32.800 --> 00:01:34.550
+So, they can be used for
+I2C communications.
+
+27
+00:01:34.550 --> 00:01:37.670
+The idea is that if you had several
+different, say Raspberry Pis, or
+
+28
+00:01:37.670 --> 00:01:42.130
+other devised that had I2C, you connect
+all their SDA lines together, and
+
+29
+00:01:42.130 --> 00:01:47.180
+connect all their SCL lines together, and
+they can communicate using I2C protocol.
+
+30
+00:01:47.180 --> 00:01:50.800
+Now of course you'd have to write the
+appropriate code, we'll talk about that
+
+31
+00:01:50.800 --> 00:01:55.790
+later, but you'd write some Python
+code that can read I2C data,
+
+32
+00:01:55.790 --> 00:01:59.369
+write I2C data, things like that, but
+it would do it through these two pins.
+
+33
+00:02:02.010 --> 00:02:04.370
+Another communication protocol,
+very common,
+
+34
+00:02:04.370 --> 00:02:08.000
+just like I2C, is SPI,
+Serial Parallel Interface.
+
+35
+00:02:08.000 --> 00:02:11.040
+We talked about this, actually,
+in the context of the Arduino.
+
+36
+00:02:11.040 --> 00:02:15.680
+And actually, Arduino uses this heavily
+for communicating between the board and
+
+37
+00:02:15.680 --> 00:02:17.600
+the shields when you stack them.
+
+38
+00:02:17.600 --> 00:02:23.490
+But this protocol basically
+involves four wires, at least four.
+
+39
+00:02:24.540 --> 00:02:26.470
+First you got the MOSI.
+
+40
+00:02:26.470 --> 00:02:30.830
+So if you look at pin
+19 that says SPI 0MOSI.
+
+41
+00:02:30.830 --> 00:02:33.390
+That's master out, slave in.
+
+42
+00:02:33.390 --> 00:02:38.330
+Then pin 21, that's MISO,
+master in, slave out.
+
+43
+00:02:38.330 --> 00:02:43.420
+So, each one of those wires is
+directional, right, so master out.
+
+44
+00:02:43.420 --> 00:02:49.960
+So say this device is a master, then the
+MOSI is the output, and MISO the input.
+
+45
+00:02:49.960 --> 00:02:52.830
+And then S clock S pin 23,
+
+46
+00:02:52.830 --> 00:02:55.990
+SCLK, that's the clock that
+all the devices would share.
+
+47
+00:02:57.050 --> 00:03:01.250
+So, in addition to that though,
+there's also a chip enable.
+
+48
+00:03:01.250 --> 00:03:05.810
+Now chip enable is because with SPI,
+if you remember, there can be a master,
+
+49
+00:03:05.810 --> 00:03:08.350
+the single master, talking to many slaves.
+
+50
+00:03:08.350 --> 00:03:10.140
+But it can only talk to
+one slave at a time.
+
+51
+00:03:10.140 --> 00:03:15.080
+So it needs to assert the chip enable for
+the particular slave that it's talking to,
+
+52
+00:03:15.080 --> 00:03:17.420
+to let that slave know
+it is communicating,
+
+53
+00:03:17.420 --> 00:03:20.420
+right, that slave should wake up and
+listen.
+
+54
+00:03:20.420 --> 00:03:24.552
+So each slave has to have a chip enable
+associated with it that the master can
+
+55
+00:03:24.552 --> 00:03:28.439
+assert, can pull down, in order to
+wake them up and have them listen.
+
+56
+00:03:28.439 --> 00:03:33.118
+So in this case, in this board you
+get two chip enables, pins 24 and 26.
+
+57
+00:03:33.118 --> 00:03:37.680
+So 24 is chip enable CE0, and 26 is CE1.
+
+58
+00:03:37.680 --> 00:03:41.460
+And notice the N after the name,
+CE0_N, CE1_N.
+
+59
+00:03:41.460 --> 00:03:42.328
+N is for negative.
+
+60
+00:03:42.328 --> 00:03:46.236
+So it's negatively assertive,
+meaning you have to pull that wire down so
+
+61
+00:03:46.236 --> 00:03:49.954
+the Raspberry Pi will send that from
+one to zero to let the client know,
+
+62
+00:03:49.954 --> 00:03:52.868
+let the slave know that it
+is being communicated with.
+
+63
+00:03:52.868 --> 00:03:56.734
+So Raspberry Pi gives you
+two chip enabled pins.
+
+64
+00:03:56.734 --> 00:04:00.794
+You might need more, depending on how many
+SPI components are on your bus, how many
+
+65
+00:04:00.794 --> 00:04:05.250
+slaves you have on your bus, cuz you need
+a chip enabled for every single slave.
+
+66
+00:04:05.250 --> 00:04:07.300
+But this gives you two,
+which is pretty good.
+
+67
+00:04:07.300 --> 00:04:10.290
+I mean, I don't know how many you are
+gonna need, depends on the application.
+
+68
+00:04:10.290 --> 00:04:15.241
+So this is SPI, and
+SPI you've got the MOSI and MISO,
+
+69
+00:04:15.241 --> 00:04:18.530
+and you got two chip enables.
+
+70
+00:04:18.530 --> 00:04:21.948
+And again, when you actually do this,
+when you actually use this protocol,
+
+71
+00:04:21.948 --> 00:04:23.686
+you'll be using the Python library for
+
+72
+00:04:23.686 --> 00:04:25.914
+communication, which we
+will talk about later.
+
+73
+00:04:25.914 --> 00:04:27.609
+Thank you.
+
+74
+00:04:27.609 --> 00:04:36.219
+[MUSIC]

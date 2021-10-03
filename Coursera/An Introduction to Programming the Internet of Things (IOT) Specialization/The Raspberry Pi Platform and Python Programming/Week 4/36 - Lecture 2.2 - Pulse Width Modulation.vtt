@@ -1,0 +1,776 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.884
+[MUSIC]
+
+2
+00:00:05.884 --> 00:00:10.463
+[SOUND] In this lecture,
+we'll talk about how to
+
+3
+00:00:10.463 --> 00:00:15.738
+generate a pulse width
+modulated signal on a GPIO pin.
+
+4
+00:00:15.738 --> 00:00:17.856
+So, how to use the GPIO library,
+
+5
+00:00:17.856 --> 00:00:22.178
+the python GPIO library to generate
+pulse with modulated signals.
+
+6
+00:00:22.178 --> 00:00:25.087
+And there are several
+functions in the library, and
+
+7
+00:00:25.087 --> 00:00:27.146
+we'll talk about how you use those.
+
+8
+00:00:27.146 --> 00:00:30.630
+So, pulse width modulation
+as a really quick recap.
+
+9
+00:00:30.630 --> 00:00:34.391
+[COUGH] The pulse width modulated
+signal is just square wave, and
+
+10
+00:00:34.391 --> 00:00:37.466
+you can see in the picture
+we got three square waves.
+
+11
+00:00:37.466 --> 00:00:40.124
+And the difference between these
+three square waves is what's called
+
+12
+00:00:40.124 --> 00:00:40.808
+the pulse width.
+
+13
+00:00:40.808 --> 00:00:45.790
+Basically, how long they are high versus
+how long they are low, the duty cycle.
+
+14
+00:00:45.790 --> 00:00:49.760
+So, if you look at these three square
+waves,that they all three of them have
+
+15
+00:00:49.760 --> 00:00:50.888
+the same frequency.
+
+16
+00:00:50.888 --> 00:00:53.988
+If you look at the time when
+the signal goes from zero to one,
+
+17
+00:00:53.988 --> 00:00:56.106
+it's the same on all three square ways.
+
+18
+00:00:56.106 --> 00:00:59.278
+So they have the same frequency,
+and same period.
+
+19
+00:00:59.278 --> 00:01:01.502
+But they differ in how long,
+
+20
+00:01:01.502 --> 00:01:05.403
+what percentage of the time
+their signal is high.
+
+21
+00:01:05.403 --> 00:01:10.616
+So the top wave form, it's high 75%
+of the time, and low 25% of the time.
+
+22
+00:01:10.616 --> 00:01:15.875
+Then the middle one is 50/50, and
+then the bottom one is 25% high, 75% low.
+
+23
+00:01:15.875 --> 00:01:20.095
+So that's called the duty cycle, what
+percentage of time the signal is high.
+
+24
+00:01:20.095 --> 00:01:22.613
+And that's what you want to change
+with pulse width modulation,
+
+25
+00:01:22.613 --> 00:01:24.347
+you don't change the frequency.
+
+26
+00:01:24.347 --> 00:01:28.027
+You use some constant, high frequency,
+and you modify the pulse width.
+
+27
+00:01:28.027 --> 00:01:33.807
+The whole idea of this, is to control
+an analog device from a digital circuit.
+
+28
+00:01:33.807 --> 00:01:39.400
+So our circuit, our Raspberry Pi,
+it generates digital signals, high or low.
+
+29
+00:01:39.400 --> 00:01:45.040
+But there are some devices,
+which respond to analog.
+
+30
+00:01:45.040 --> 00:01:48.790
+But we can't generate analog, cuz we don't
+have a digital analog converter built in,
+
+31
+00:01:48.790 --> 00:01:49.745
+or not that we can use.
+
+32
+00:01:49.745 --> 00:01:54.700
+So, one way to deal with that is to
+send a pulse width modulated signal.
+
+33
+00:01:54.700 --> 00:01:57.398
+You make the signal go from
+high to low really fast.
+
+34
+00:01:57.398 --> 00:02:00.170
+Like in this case,
+maybe 500 hertz or something.
+
+35
+00:02:00.170 --> 00:02:03.270
+Very fast,
+faster than the analog device can respond.
+
+36
+00:02:03.270 --> 00:02:05.830
+So, let's say, this is a motor or
+something like that.
+
+37
+00:02:05.830 --> 00:02:08.530
+This motor can't turn off and
+on at that speed.
+
+38
+00:02:08.530 --> 00:02:13.551
+So what happens is,
+it just moves at a speed
+
+39
+00:02:13.551 --> 00:02:18.860
+that corresponds to
+the average duty cycle.
+
+40
+00:02:18.860 --> 00:02:25.090
+So, if the duty cycle's 75%, then
+the average voltage that the device sees,
+
+41
+00:02:25.090 --> 00:02:26.890
+is going to be higher than
+if you do your cycle,
+
+42
+00:02:26.890 --> 00:02:30.380
+say, 25%,
+because its high much less of the time.
+
+43
+00:02:30.380 --> 00:02:35.520
+So, this is basically a digital way
+to fake out devices expecting analog.
+
+44
+00:02:35.520 --> 00:02:38.761
+You can do that with digital, just
+make it go high and low very fast, and
+
+45
+00:02:38.761 --> 00:02:41.748
+just change the percentage of time
+that the signal is high or low.
+
+46
+00:02:41.748 --> 00:02:45.739
+So, let's go through the library that
+we use to generate pulse with modulated
+
+47
+00:02:45.739 --> 00:02:46.900
+signals.
+
+48
+00:02:46.900 --> 00:02:49.850
+First thing you wanna do if you want to
+generate pulse with modulated signal on
+
+49
+00:02:49.850 --> 00:02:52.890
+a pin, you gotta mark that pin.
+
+50
+00:02:52.890 --> 00:02:55.747
+You have to basically declare that,
+that pin is going to be used for
+
+51
+00:02:55.747 --> 00:02:56.878
+pulse width modulation.
+
+52
+00:02:56.878 --> 00:03:00.388
+And this does something inside
+the processor that we don't need to talk
+
+53
+00:03:00.388 --> 00:03:03.236
+about, but
+you have to call this function, GPIO.PWM.
+
+54
+00:03:03.236 --> 00:03:07.080
+Now, GPIO.PWM takes two arguments.
+
+55
+00:03:07.080 --> 00:03:10.668
+First argument, is the pin that you wanna
+set pulse width modulating signals on.
+
+56
+00:03:10.668 --> 00:03:11.834
+And the second argument,
+
+57
+00:03:11.834 --> 00:03:15.388
+is the frequency of the pulse width
+modulating signal that you wanna generate.
+
+58
+00:03:15.388 --> 00:03:17.027
+So in this case, we're saying, look,
+
+59
+00:03:17.027 --> 00:03:19.208
+pin 18 is gonna get a pulse
+width modulated signal.
+
+60
+00:03:19.208 --> 00:03:21.448
+It's frequency is gonna be 400 hertz.
+
+61
+00:03:21.448 --> 00:03:27.242
+Now, note that when you call this function
+GPIO.PWM, when you call this function,
+
+62
+00:03:27.242 --> 00:03:32.403
+it does not right then and there generate
+the pulse width modulated signal.
+
+63
+00:03:32.403 --> 00:03:36.689
+This only changes the internal
+connections inside the processor, so
+
+64
+00:03:36.689 --> 00:03:41.300
+that the pulse width modulated
+signals can be generated on pin 18.
+
+65
+00:03:41.300 --> 00:03:43.238
+But it doesn't actually
+start generating it yet.
+
+66
+00:03:43.238 --> 00:03:45.250
+There's another function for that.
+
+67
+00:03:45.250 --> 00:03:48.675
+Another thing to note about
+this function GPIO.PWM is
+
+68
+00:03:48.675 --> 00:03:52.853
+that it actually returns an object,
+pwm_obj we're calling it.
+
+69
+00:03:52.853 --> 00:03:57.742
+Pwm_obj equals blah, so
+that object is what you're gonna
+
+70
+00:03:57.742 --> 00:04:01.373
+use to make your method
+calls in the future.
+
+71
+00:04:01.373 --> 00:04:04.000
+It is easier said, easier shown.
+
+72
+00:04:05.030 --> 00:04:08.440
+So, we've been sort of skirting this
+idea of object orientated program.
+
+73
+00:04:08.440 --> 00:04:10.683
+We talked about it a little bit,
+just very briefly, but
+
+74
+00:04:10.683 --> 00:04:12.176
+we're not getting heavily into it.
+
+75
+00:04:12.176 --> 00:04:14.656
+But here, it comes up again here.
+
+76
+00:04:14.656 --> 00:04:19.193
+What happens is this pwm_obj is
+an object of a particular class, and
+
+77
+00:04:19.193 --> 00:04:20.925
+we can make method calls.
+
+78
+00:04:20.925 --> 00:04:24.967
+We can call functions that
+just apply to that object, so
+
+79
+00:04:24.967 --> 00:04:27.630
+it's easier if I just show you.
+
+80
+00:04:27.630 --> 00:04:29.975
+So, once you make this pwm_obj object,
+
+81
+00:04:29.975 --> 00:04:33.938
+now maybe you wanna start generating
+a pulse width modulated signal.
+
+82
+00:04:33.938 --> 00:04:35.178
+So, how do you do that?
+
+83
+00:04:35.178 --> 00:04:38.538
+You call it start function,
+not this start, or it's a method.
+
+84
+00:04:38.538 --> 00:04:43.523
+This start method it is called,
+is the call is prefixed with pwm_ obj,
+
+85
+00:04:43.523 --> 00:04:47.926
+so whatever object you got
+returned from that GPIO.PWM call,
+
+86
+00:04:47.926 --> 00:04:52.740
+that object, you call this
+start function on that object.
+
+87
+00:04:52.740 --> 00:04:57.408
+So, pwm_obj.start(100) takes one argument,
+in this case 100.
+
+88
+00:04:57.408 --> 00:05:01.860
+So that argument indicates
+the pulse width, the duty cycle.
+
+89
+00:05:01.860 --> 00:05:05.622
+So, the duty cycle goes from 0 to 100,
+0% to 100%.
+
+90
+00:05:05.622 --> 00:05:09.130
+So, 100 duty cycle means
+it is high all the time.
+
+91
+00:05:09.130 --> 00:05:11.230
+If you gave it 0,
+that would be low all the time.
+
+92
+00:05:11.230 --> 00:05:15.090
+If you gave it 50 you would be high half
+the time, low half the time, and so on.
+
+93
+00:05:15.090 --> 00:05:17.563
+So, once you call that start function,
+
+94
+00:05:17.563 --> 00:05:22.378
+that actually starts generating the pulse
+width modulated signal on the pin.
+
+95
+00:05:22.378 --> 00:05:25.186
+Now, once you start generating
+a pulse width modulated signal,
+
+96
+00:05:25.186 --> 00:05:28.368
+you can change the pulse width if you
+want to while you're generating it.
+
+97
+00:05:28.368 --> 00:05:30.760
+And for that, you call ChangeDutyCycle.
+
+98
+00:05:30.760 --> 00:05:33.798
+Again, you call it on the pwm_obj object.
+
+99
+00:05:33.798 --> 00:05:39.710
+So, pwm_obj.ChangeDutyCycle(50) that
+just assigns a new duty cycle of 50.
+
+100
+00:05:39.710 --> 00:05:44.035
+So, now I've changed it from 100
+duty cycle, high all the time,
+
+101
+00:05:44.035 --> 00:05:48.298
+to a 50/50 duty cycle,
+high half the time, low half the time.
+
+102
+00:05:48.298 --> 00:05:51.796
+You should note that the frequency is
+not accurate on these Raspberry Pies.
+
+103
+00:05:51.796 --> 00:05:55.167
+So, actually this is very
+different that the Arduino,
+
+104
+00:05:55.167 --> 00:05:58.048
+the frequency that you
+get is not too accurate.
+
+105
+00:05:58.048 --> 00:06:01.513
+And it could be off by
+a lot up to 50% when
+
+106
+00:06:01.513 --> 00:06:05.576
+you get to higher frequencies,
+just know that.
+
+107
+00:06:05.576 --> 00:06:08.507
+What that means is that, if you really
+need tight pulse width modulated control
+
+108
+00:06:08.507 --> 00:06:10.570
+you're gonna have to do something else.
+
+109
+00:06:10.570 --> 00:06:12.670
+There are other ways to go about it.
+
+110
+00:06:12.670 --> 00:06:16.788
+You can't use a standard library function,
+if you want accuracy on a Raspberry Pi,
+
+111
+00:06:16.788 --> 00:06:20.558
+and part of the reason why you get this
+inaccurate behavior is because you're
+
+112
+00:06:20.558 --> 00:06:21.950
+using an operating system.
+
+113
+00:06:21.950 --> 00:06:26.253
+The operating system has these delays that
+are hard to know, and hard to predict.
+
+114
+00:06:26.253 --> 00:06:27.834
+But the Arduino has no delays, so
+
+115
+00:06:27.834 --> 00:06:30.383
+it's much better in terms
+of real time performance.
+
+116
+00:06:30.383 --> 00:06:33.085
+You can get the delays
+that you want directly.
+
+117
+00:06:33.085 --> 00:06:36.425
+You can do it too with Raspberry Pi,
+but you almost have to circumvent
+
+118
+00:06:36.425 --> 00:06:41.021
+the operating system in a way that we'll
+talk about, that's in next course.
+
+119
+00:06:42.980 --> 00:06:44.250
+Now, frequency control.
+
+120
+00:06:44.250 --> 00:06:47.493
+These pulse width modulated signals,
+when you generate them,
+
+121
+00:06:47.493 --> 00:06:49.848
+you generate them at
+a particular frequency.
+
+122
+00:06:49.848 --> 00:06:54.670
+So you can assign the frequency
+when you mark that pin for for
+
+123
+00:06:54.670 --> 00:06:58.140
+being a pulse width modulated signal.
+
+124
+00:06:58.140 --> 00:07:01.980
+When you call GPI.PWM you pass
+the frequency that you want,
+
+125
+00:07:01.980 --> 00:07:03.798
+400, say 400 hertz.
+
+126
+00:07:03.798 --> 00:07:07.340
+But you can't change that frequency
+once you've created it, not easily.
+
+127
+00:07:07.340 --> 00:07:10.670
+You can't just say, okay,
+now I want to go to 500 hertz, 600 hertz.
+
+128
+00:07:10.670 --> 00:07:11.610
+Now, if you're using pulse width
+
+129
+00:07:11.610 --> 00:07:14.300
+modulation you don't need
+to change the frequency.
+
+130
+00:07:14.300 --> 00:07:16.990
+But it is nice to be able to
+change frequencies because maybe
+
+131
+00:07:16.990 --> 00:07:17.800
+you wanna make tones.
+
+132
+00:07:17.800 --> 00:07:20.930
+Maybe you wanna make beautiful music,
+and you wanna make different sounds,
+
+133
+00:07:20.930 --> 00:07:21.940
+different frequencies.
+
+134
+00:07:21.940 --> 00:07:24.050
+And then it would be nice to
+be able to have a square wave
+
+135
+00:07:24.050 --> 00:07:25.720
+with frequency you could change.
+
+136
+00:07:25.720 --> 00:07:28.670
+Now, if you remember in Arduino,
+we did this.
+
+137
+00:07:28.670 --> 00:07:29.880
+We had a tone function,
+
+138
+00:07:29.880 --> 00:07:32.950
+and this tone function you
+couldn't change the duty cycle.
+
+139
+00:07:32.950 --> 00:07:36.380
+It was always 50/50, but
+you could change the frequency.
+
+140
+00:07:36.380 --> 00:07:40.940
+And then we hooked it up to a buzzer,
+and made different frequency sounds.
+
+141
+00:07:40.940 --> 00:07:42.540
+So, that was very convenient.
+
+142
+00:07:42.540 --> 00:07:47.530
+You don't have a built-in function for
+that in the GPIO library.
+
+143
+00:07:47.530 --> 00:07:51.337
+So, what you have to do if you wanna do
+that, if you want to make something where
+
+144
+00:07:51.337 --> 00:07:54.006
+you change its frequency,
+you have to do it manually.
+
+145
+00:07:54.006 --> 00:07:55.660
+Got to do it the hard way.
+
+146
+00:07:55.660 --> 00:07:57.017
+So, what I mean by that is,
+
+147
+00:07:57.017 --> 00:08:00.628
+you actually have to adjust the delays
+to make it the frequency you want.
+
+148
+00:08:00.628 --> 00:08:01.748
+So, here's an example.
+
+149
+00:08:01.748 --> 00:08:06.008
+You got your infinite while loop,
+GPIO.output 18 equals True.
+
+150
+00:08:06.008 --> 00:08:08.988
+Then you sleep for 0.5, half a second.
+
+151
+00:08:08.988 --> 00:08:10.608
+GPIO.output 18, False.
+
+152
+00:08:10.608 --> 00:08:12.048
+Then you sleep for another half second.
+
+153
+00:08:12.048 --> 00:08:15.265
+So, what this gives you is a square wave,
+high, low, and
+
+154
+00:08:15.265 --> 00:08:17.773
+whose frequency whose
+period is one second.
+
+155
+00:08:17.773 --> 00:08:21.017
+Cuz you've slept for half a second, half
+a second, so you've got a 1 second period,
+
+156
+00:08:21.017 --> 00:08:22.318
+which means a 1 hertz frequency.
+
+157
+00:08:22.318 --> 00:08:25.738
+So, this gives you a square
+wave with a 1 hertz frequency.
+
+158
+00:08:25.738 --> 00:08:30.220
+So, by changing those time values you
+can change the frequency manually.
+
+159
+00:08:30.220 --> 00:08:34.929
+You can compute what the period should be,
+and you make the time value half of that.
+
+160
+00:08:34.929 --> 00:08:36.608
+And then you can get
+whatever frequency you want.
+
+161
+00:08:36.608 --> 00:08:40.197
+So, if you want a more accurate frequency
+control, your gonna have to do.
+
+162
+00:08:40.197 --> 00:08:43.893
+If you wanna be able to change frequency
+control easier your gonna have to do
+
+163
+00:08:43.893 --> 00:08:44.724
+this manually.
+
+164
+00:08:44.724 --> 00:08:45.384
+Thank you.
+
+165
+00:08:45.384 --> 00:08:49.565
+[MUSIC]

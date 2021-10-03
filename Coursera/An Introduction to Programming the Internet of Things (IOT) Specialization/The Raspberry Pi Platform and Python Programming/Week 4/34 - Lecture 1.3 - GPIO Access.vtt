@@ -1,0 +1,415 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.337
+[MUSIC]
+
+2
+00:00:06.337 --> 00:00:14.430
+[SOUND] This lecture's about accessing the
+GPIO pins that we've been talking about.
+
+3
+00:00:14.430 --> 00:00:17.480
+Accessing them through a Python program.
+
+4
+00:00:17.480 --> 00:00:19.588
+So, Python's the language we're using.
+
+5
+00:00:19.588 --> 00:00:22.879
+We'll basically go through the functions
+that you use to access those pins.
+
+6
+00:00:22.879 --> 00:00:28.970
+And by access, I mean to write to those
+pins and to read from those pins.
+
+7
+00:00:28.970 --> 00:00:32.080
+So, let's look from
+the Python point of view.
+
+8
+00:00:32.080 --> 00:00:35.462
+First thing you need to do is you
+need to use the GPIO library.
+
+9
+00:00:35.462 --> 00:00:40.456
+So Python for Raspberry Pi has a GPIO
+library just for controlling and
+
+10
+00:00:40.456 --> 00:00:42.450
+observing these pins.
+
+11
+00:00:42.450 --> 00:00:43.480
+So, you're gonna have to use that.
+
+12
+00:00:43.480 --> 00:00:46.380
+So, that means at the beginning of your
+Python program you're going to have to
+
+13
+00:00:46.380 --> 00:00:47.110
+import the library.
+
+14
+00:00:47.110 --> 00:00:51.880
+So, import Rpi.GPIO as GPIO.
+
+15
+00:00:51.880 --> 00:00:55.500
+What this does is it imports
+this library called Rpi.GPIO.
+
+16
+00:00:55.500 --> 00:01:00.290
+And by saying as GPIO it gives it that
+name GPIO, it's sort of a shorter name.
+
+17
+00:01:00.290 --> 00:01:02.510
+So that when you refer to
+it later in your code,
+
+18
+00:01:02.510 --> 00:01:06.400
+you can just say GPIO
+instead of saying Rpi.GPIO.
+
+19
+00:01:06.400 --> 00:01:08.860
+So that's just a shorthand.
+
+20
+00:01:08.860 --> 00:01:10.520
+So first, you import that.
+
+21
+00:01:10.520 --> 00:01:11.750
+That'll be your first line of code.
+
+22
+00:01:12.800 --> 00:01:14.420
+Then you're gonna write a script,
+
+23
+00:01:14.420 --> 00:01:17.950
+write a Python program that does
+whatever you want it to do.
+
+24
+00:01:18.990 --> 00:01:20.720
+So remember when you write this program,
+the first line's the import.
+
+25
+00:01:20.720 --> 00:01:22.404
+When you write this program and
+
+26
+00:01:22.404 --> 00:01:25.760
+you want to execute it once
+you are done writing it.
+
+27
+00:01:25.760 --> 00:01:29.730
+When you execute it you need to have
+root permission when you execute it.
+
+28
+00:01:29.730 --> 00:01:33.565
+So, this is one of the constraints
+on Raspberry Pi and
+
+29
+00:01:33.565 --> 00:01:37.754
+a lot of systems,
+specifically with operating systems.
+
+30
+00:01:37.754 --> 00:01:42.158
+Basically it's considered unsafe to allow
+the regular user to manipulate the pins,
+
+31
+00:01:42.158 --> 00:01:44.380
+to do low-level hardware manipulation.
+
+32
+00:01:44.380 --> 00:01:45.360
+This is a common thing.
+
+33
+00:01:45.360 --> 00:01:47.820
+Operating systems often basically guard,
+
+34
+00:01:47.820 --> 00:01:51.180
+protect the low-level hardware
+from the user, right?
+
+35
+00:01:51.180 --> 00:01:55.290
+So, the idea is maybe you don't trust
+the user, the user might mess things up.
+
+36
+00:01:55.290 --> 00:01:58.180
+Now, of course, we need to use the pins,
+so you need to override that.
+
+37
+00:01:58.180 --> 00:02:03.080
+So what you do is, you have to become root
+just for the execution of this program.
+
+38
+00:02:03.080 --> 00:02:07.710
+To become root for
+the execution of one program you use sudo.
+
+39
+00:02:07.710 --> 00:02:09.950
+So you type sudo.
+
+40
+00:02:09.950 --> 00:02:11.087
+You prefix your command with that.
+
+41
+00:02:11.087 --> 00:02:16.962
+Let's say your program type is
+called test or something like that.
+
+42
+00:02:16.962 --> 00:02:21.046
+So you type Python three test
+to run it at the command line.
+
+43
+00:02:21.046 --> 00:02:24.794
+Now you're gonna type sudo Python
+three test, and that will run it, but
+
+44
+00:02:24.794 --> 00:02:26.130
+it will run it as root.
+
+45
+00:02:26.130 --> 00:02:31.058
+So you'll actually have sufficient
+permission to actually go ahead and
+
+46
+00:02:31.058 --> 00:02:33.430
+manipulate the pins.
+
+47
+00:02:33.430 --> 00:02:35.060
+Inside your program,
+
+48
+00:02:35.060 --> 00:02:38.820
+first thing you're gonna need to do
+is select your pin numbering mode.
+
+49
+00:02:38.820 --> 00:02:41.047
+So these pins, they have numbers, clearly.
+
+50
+00:02:41.047 --> 00:02:45.480
+But they have multiple pin numberings,
+two that we're gonna talk about.
+
+51
+00:02:45.480 --> 00:02:48.030
+There're two different
+ways to number these pins.
+
+52
+00:02:48.030 --> 00:02:50.760
+And you have to define that at
+the beginning before you can even
+
+53
+00:02:50.760 --> 00:02:51.820
+refer to the pins in your code.
+
+54
+00:02:53.030 --> 00:02:58.070
+So, the first way is to number the pins
+based on their order in the board,
+
+55
+00:02:58.070 --> 00:03:00.315
+the order in the headers on the board.
+
+56
+00:03:00.315 --> 00:03:04.010
+So, if you look at the picture up here,
+
+57
+00:03:04.010 --> 00:03:06.300
+that means the numbers in the circles,
+okay?
+
+58
+00:03:06.300 --> 00:03:07.380
+One, two, three, four, five,
+
+59
+00:03:07.380 --> 00:03:10.860
+six, they're just counting them
+off as they appear on the board.
+
+60
+00:03:10.860 --> 00:03:12.836
+So, those are shown in circles,
+and that's one way to do it,
+
+61
+00:03:12.836 --> 00:03:14.172
+according to the numbering on the board.
+
+62
+00:03:14.172 --> 00:03:17.020
+So that's the board way of numbering it.
+
+63
+00:03:17.020 --> 00:03:20.020
+The other way is to use
+the Broadcom SoC number.
+
+64
+00:03:20.020 --> 00:03:22.450
+SoC standing for system on chip.
+
+65
+00:03:22.450 --> 00:03:26.900
+So, that's from the perspective of
+the chip of the microcontroller,
+
+66
+00:03:26.900 --> 00:03:29.990
+what the numbers are from
+that point of view.
+
+67
+00:03:29.990 --> 00:03:33.930
+And those are shown in
+the rectangles after GPIO.
+
+68
+00:03:33.930 --> 00:03:38.546
+So, for instance a pin that says GPIO
+three, it's number three, right?
+
+69
+00:03:38.546 --> 00:03:41.005
+GPIO five, it's number five, and so on.
+
+70
+00:03:41.005 --> 00:03:43.280
+So that's a different numbering.
+
+71
+00:03:43.280 --> 00:03:46.645
+So, you gotta select the mode, which
+one of those two modes you wanna use or
+
+72
+00:03:46.645 --> 00:03:48.610
+else you can't refer to the pins.
+
+73
+00:03:48.610 --> 00:03:52.463
+So you use GPIO.setmode to do that.
+
+74
+00:03:52.463 --> 00:03:57.740
+In this case, this line up here we're
+saying GPIO.setmode(GPIO.BOARD).
+
+75
+00:03:57.740 --> 00:04:02.940
+So GPIO.BOARD means the numbering that
+we're using is the board based numbering.
+
+76
+00:04:02.940 --> 00:04:04.790
+The numbers in the circles, right?
+
+77
+00:04:04.790 --> 00:04:06.170
+That's one way to number.
+
+78
+00:04:06.170 --> 00:04:07.060
+And that's how you would do it.
+
+79
+00:04:07.060 --> 00:04:10.546
+You do that at the beginning of your code.
+
+80
+00:04:10.546 --> 00:04:15.730
+Another numbering mode is the BCM mode,
+Broadcom SoC numbering mode.
+
+81
+00:04:15.730 --> 00:04:17.170
+Now that, like I said,
+
+82
+00:04:17.170 --> 00:04:21.720
+the number after the word GPIO on
+the pin name in the rectangles.
+
+83
+00:04:21.720 --> 00:04:23.047
+So ,you can use that too.
+
+84
+00:04:23.047 --> 00:04:26.529
+You can just give as
+an argument to the setmode,
+
+85
+00:04:26.529 --> 00:04:30.462
+you give GPIO.BCM and
+they'll use that numbering.
+
+86
+00:04:30.462 --> 00:04:32.371
+It's sometimes nice, but
+
+87
+00:04:32.371 --> 00:04:37.968
+the catch with that is that it can change
+from model to model of the Raspberry Pi.
+
+88
+00:04:37.968 --> 00:04:41.402
+So, we're gonna end up
+using the GPIO.Board, but
+
+89
+00:04:41.402 --> 00:04:45.629
+note that you could use either
+numbering that you wanted to use.
+
+90
+00:04:45.629 --> 00:04:49.589
+Thank you.
+
+91
+00:04:49.589 --> 00:04:53.712
+[MUSIC]

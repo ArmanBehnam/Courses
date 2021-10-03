@@ -1,0 +1,500 @@
+WEBVTT
+
+1
+00:00:00.440 --> 00:00:03.000
+We're going to talk
+about how to use
+
+2
+00:00:03.000 --> 00:00:05.310
+general purpose IO pins
+in the Raspberry Pi.
+
+3
+00:00:05.310 --> 00:00:08.085
+Now, we've already talked
+about this in the Arduino.
+
+4
+00:00:08.085 --> 00:00:10.740
+So, there are pretty
+analogous operations
+
+5
+00:00:10.740 --> 00:00:13.590
+except this time,
+we're using Python.
+
+6
+00:00:13.590 --> 00:00:15.030
+We're writing Python code using
+
+7
+00:00:15.030 --> 00:00:18.165
+Python packages that are
+built into Raspberry Pi
+
+8
+00:00:18.165 --> 00:00:21.330
+instead of the C stuff
+
+9
+00:00:21.330 --> 00:00:23.565
+that we're using in the
+Arduino or C plus plus stuff,
+
+10
+00:00:23.565 --> 00:00:26.115
+the libraries that we're
+using in the Arduino.
+
+11
+00:00:26.115 --> 00:00:30.615
+So, start off with this
+GPIO.setup function.
+
+12
+00:00:30.615 --> 00:00:32.295
+Now, what that does
+
+13
+00:00:32.295 --> 00:00:35.605
+is it sets the direction,
+the pin direction.
+
+14
+00:00:35.605 --> 00:00:37.490
+Is it an input or an output?
+
+15
+00:00:37.490 --> 00:00:39.320
+Now, this is the same as
+
+16
+00:00:39.320 --> 00:00:43.790
+the pinMode function in
+the Arduino, same operation.
+
+17
+00:00:43.790 --> 00:00:47.195
+So, if you look at GPIO
+setup, takes two arguments.
+
+18
+00:00:47.195 --> 00:00:49.070
+The first argument
+is the pin number
+
+19
+00:00:49.070 --> 00:00:50.525
+that you want to set.
+
+20
+00:00:50.525 --> 00:00:53.610
+Second argument is
+the direction GPIO.output,
+
+21
+00:00:53.610 --> 00:00:54.735
+clearly makes it an output.
+
+22
+00:00:54.735 --> 00:00:57.105
+GPIO.n would make it an input.
+
+23
+00:00:57.105 --> 00:00:59.045
+So, this is the type of thing
+
+24
+00:00:59.045 --> 00:01:01.940
+you usually do once at
+the beginning of the program.
+
+25
+00:01:01.940 --> 00:01:03.470
+Right? Just like in the Arduino,
+
+26
+00:01:03.470 --> 00:01:04.520
+when you set the pinMode,
+
+27
+00:01:04.520 --> 00:01:06.590
+you'd set that in
+the setup function
+
+28
+00:01:06.590 --> 00:01:08.760
+which would happen once.
+
+29
+00:01:08.860 --> 00:01:12.030
+Now, let's say here,
+
+30
+00:01:12.030 --> 00:01:18.435
+we want to assign a pin
+value, GPIO.output 13, True.
+
+31
+00:01:18.435 --> 00:01:21.665
+So, GPIO.output will
+assign a value to a pin.
+
+32
+00:01:21.665 --> 00:01:24.680
+The first argument that it
+takes is 13 in this case,
+
+33
+00:01:24.680 --> 00:01:26.555
+is the pin number that
+you want to assign.
+
+34
+00:01:26.555 --> 00:01:28.610
+The second argument is
+the value one to assign
+
+35
+00:01:28.610 --> 00:01:31.370
+to it true or false,
+got to be binary.
+
+36
+00:01:31.370 --> 00:01:36.095
+So, that's the same as
+digital right in the Arduino.
+
+37
+00:01:36.095 --> 00:01:39.875
+Right. digitalWrite 11
+comma HIGH, same thing.
+
+38
+00:01:39.875 --> 00:01:42.755
+So, that's how you do
+this in Raspberry Pi.
+
+39
+00:01:42.755 --> 00:01:44.810
+Now, so, first,
+
+40
+00:01:44.810 --> 00:01:46.655
+we talked about setting
+up the pin direction,
+
+41
+00:01:46.655 --> 00:01:49.370
+we talked about writing
+a value to an output.
+
+42
+00:01:49.370 --> 00:01:50.720
+Now, we also want to be able to
+
+43
+00:01:50.720 --> 00:01:52.355
+read a value from an input,
+
+44
+00:01:52.355 --> 00:01:53.840
+actually first, let's look at
+
+45
+00:01:53.840 --> 00:01:54.890
+our example program blink
+
+46
+00:01:54.890 --> 00:01:56.860
+an LED and we'll talk
+about the reading.
+
+47
+00:01:56.860 --> 00:01:59.570
+So, here's how you might
+write the example program.
+
+48
+00:01:59.570 --> 00:02:00.980
+First thing we do at
+the top of the program
+
+49
+00:02:00.980 --> 00:02:02.855
+is we import some packages.
+
+50
+00:02:02.855 --> 00:02:04.550
+Since we're using the GPIO pin,
+
+51
+00:02:04.550 --> 00:02:08.215
+you got to import our RPi.GPIO,
+
+52
+00:02:08.215 --> 00:02:09.710
+we call as GPIO,
+
+53
+00:02:09.710 --> 00:02:12.110
+we're calling it GPIO just
+for convenience sake.
+
+54
+00:02:12.110 --> 00:02:14.450
+Import time because
+we wanted to sleep
+
+55
+00:02:14.450 --> 00:02:16.610
+operations in this is because
+we want to blink an LED.
+
+56
+00:02:16.610 --> 00:02:19.000
+Right? So, we need
+the time package.
+
+57
+00:02:19.000 --> 00:02:23.670
+Now, we start off
+GPIO.setmode, GPIO.BOARD.
+
+58
+00:02:23.670 --> 00:02:26.700
+Now, what that does, I
+think already said this,
+
+59
+00:02:26.700 --> 00:02:28.785
+but what that does
+is, it tells you,
+
+60
+00:02:28.785 --> 00:02:30.595
+I think, it tells you
+the pin numbering.
+
+61
+00:02:30.595 --> 00:02:32.720
+Okay. Which pin numbering
+we're going to use.
+
+62
+00:02:32.720 --> 00:02:34.460
+Unfortunately, the
+Raspberry Pi has
+
+63
+00:02:34.460 --> 00:02:37.880
+multiple pin numberings and
+you just got to pick one.
+
+64
+00:02:37.880 --> 00:02:40.770
+We're using the
+GPIO.BOARD pin numbering,
+
+65
+00:02:40.770 --> 00:02:42.785
+so, that's how we
+set it. So, fine.
+
+66
+00:02:42.785 --> 00:02:46.560
+Then, GPIO.setup, we set
+pin 13 to be an output,
+
+67
+00:02:46.560 --> 00:02:48.410
+because presumably, we put,
+
+68
+00:02:48.410 --> 00:02:50.180
+connected pin 13 to an LED.
+
+69
+00:02:50.180 --> 00:02:50.900
+Of course, we put
+
+70
+00:02:50.900 --> 00:02:52.520
+a little resistor in
+there so we don't blow
+
+71
+00:02:52.520 --> 00:02:55.900
+the LED, but an LED.
+
+72
+00:02:55.900 --> 00:02:57.765
+Then, we in our while loop,
+
+73
+00:02:57.765 --> 00:02:59.670
+while true. So, infinite loop.
+
+74
+00:02:59.670 --> 00:03:03.420
+Gpio.output 13, True,
+turning on the LED,
+
+75
+00:03:03.420 --> 00:03:04.890
+then you sleep for one second.
+
+76
+00:03:04.890 --> 00:03:07.455
+GPIO output 13, false,
+
+77
+00:03:07.455 --> 00:03:09.600
+turning it off and
+sleep for one second.
+
+78
+00:03:09.600 --> 00:03:14.055
+So, this is simple blinking
+of an LED. No big deal.
+
+79
+00:03:14.055 --> 00:03:17.195
+But this is how you do it in
+the Python on Raspberry PI.
+
+80
+00:03:17.195 --> 00:03:20.195
+Now, reading input pins.
+
+81
+00:03:20.195 --> 00:03:22.670
+So, we talked about how
+you drive an output pin.
+
+82
+00:03:22.670 --> 00:03:24.190
+How do you read an input pin?
+
+83
+00:03:24.190 --> 00:03:27.060
+So, first thing, you got
+to set it to be an input.
+
+84
+00:03:27.060 --> 00:03:30.930
+So, you would say
+GPIO.setup 13, GPIO.IN.
+
+85
+00:03:30.930 --> 00:03:33.020
+All right? That
+makes it an input.
+
+86
+00:03:33.020 --> 00:03:34.700
+Then you can read from it and
+
+87
+00:03:34.700 --> 00:03:36.515
+get a value true or false value.
+
+88
+00:03:36.515 --> 00:03:41.265
+So, I can say, value
+equals GPIO.input 13.
+
+89
+00:03:41.265 --> 00:03:42.810
+GPIO.input is a function.
+
+90
+00:03:42.810 --> 00:03:45.680
+It reads some pin
+13, and it reads
+
+91
+00:03:45.680 --> 00:03:48.680
+a value into the variable
+value right there,
+
+92
+00:03:48.680 --> 00:03:50.810
+which is whatever
+true-false value,
+
+93
+00:03:50.810 --> 00:03:53.845
+it's reading a zero or one value
+is reading off the pin.
+
+94
+00:03:53.845 --> 00:03:58.355
+Now, this is the same as
+a digital read on Arduino.
+
+95
+00:03:58.355 --> 00:04:01.040
+Now, one thing about
+the Raspberry Pi
+
+96
+00:04:01.040 --> 00:04:03.395
+is there is no equivalent
+to an analog read.
+
+97
+00:04:03.395 --> 00:04:04.970
+So, Arduino had an analog read,
+
+98
+00:04:04.970 --> 00:04:06.110
+which would allow you to
+
+99
+00:04:06.110 --> 00:04:07.880
+read an analog value
+off of a pin and
+
+100
+00:04:07.880 --> 00:04:11.570
+assign a value from I
+think it was zero to 1023,
+
+101
+00:04:11.570 --> 00:04:13.100
+assign that into the to
+
+102
+00:04:13.100 --> 00:04:14.330
+a variable that corresponds
+
+103
+00:04:14.330 --> 00:04:15.940
+to the voltage that read on pin.
+
+104
+00:04:15.940 --> 00:04:17.920
+That doesn't exist
+in the Raspberry Pi,
+
+105
+00:04:17.920 --> 00:04:19.040
+because Raspberry Pi does not
+
+106
+00:04:19.040 --> 00:04:20.960
+have an analog-to-digital
+converter.
+
+107
+00:04:20.960 --> 00:04:23.690
+So, that's a limitation
+of the Raspberry Pi,
+
+108
+00:04:23.690 --> 00:04:27.840
+but you can do all the
+digital operations just fine.

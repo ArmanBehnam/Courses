@@ -1,0 +1,454 @@
+WEBVTT
+
+1
+00:00:00.066 --> 00:00:10.066
+[MUSIC]
+
+2
+00:00:11.768 --> 00:00:15.019
+Today, we are going to make an LED blink.
+
+3
+00:00:15.019 --> 00:00:17.921
+So, we're gonna run,
+on our Raspberry Pi here.
+
+4
+00:00:17.921 --> 00:00:20.260
+We're gonna run a program, blink program.
+
+5
+00:00:20.260 --> 00:00:21.940
+It's the program that
+you saw in Lecture 2.1,
+
+6
+00:00:21.940 --> 00:00:24.500
+that blink program, slightly modified.
+
+7
+00:00:24.500 --> 00:00:28.810
+I will talk about the modifications
+after we put this circuit together.
+
+8
+00:00:28.810 --> 00:00:32.150
+But right now let's just show and
+talk about what we have and
+
+9
+00:00:32.150 --> 00:00:33.210
+the circuit we're gonna make.
+
+10
+00:00:33.210 --> 00:00:35.812
+We're just gonna blink
+an led using the GPIO,
+
+11
+00:00:35.812 --> 00:00:38.087
+general purpose IO on the Raspberry Pi.
+
+12
+00:00:38.087 --> 00:00:40.623
+So here's my Raspberry Pi, the B+.
+
+13
+00:00:40.623 --> 00:00:43.290
+These are the GPIO pins right along here.
+
+14
+00:00:44.590 --> 00:00:48.080
+Right now, in my Raspberry Pi,
+I have plugged in the HDMI and
+
+15
+00:00:48.080 --> 00:00:49.937
+also have the power plugged in.
+
+16
+00:00:49.937 --> 00:00:51.655
+You can see the red light.
+
+17
+00:00:51.655 --> 00:00:57.923
+I've also got my USB for
+my wireless keyboard and mouse.
+
+18
+00:00:57.923 --> 00:00:59.039
+Also, I've got my Wi-Fi.
+
+19
+00:00:59.039 --> 00:01:01.836
+You don't need that right now,
+but I have it plugged in.
+
+20
+00:01:01.836 --> 00:01:05.899
+Now, I've got my breadboard for making the
+circuit, I've got an LED and a resistor.
+
+21
+00:01:05.899 --> 00:01:10.640
+I'm using a 1 k resistor, but
+that's not really that important.
+
+22
+00:01:10.640 --> 00:01:14.249
+I mean it can be plus or minus but
+I'm using 1 k, one kilohm.
+
+23
+00:01:14.249 --> 00:01:15.970
+I got a couple of wires.
+
+24
+00:01:15.970 --> 00:01:19.160
+Also, I've got this,
+now this wire, this I'm using.
+
+25
+00:01:19.160 --> 00:01:21.570
+You'll notice this wire is three
+wires put together really.
+
+26
+00:01:21.570 --> 00:01:26.160
+It's a servo cable, but
+it's got three holes in there.
+
+27
+00:01:26.160 --> 00:01:27.400
+So this is female, right?
+
+28
+00:01:27.400 --> 00:01:29.670
+It's got three holes on each side.
+
+29
+00:01:29.670 --> 00:01:33.165
+And we need that because
+the GPIO pins here are male.
+
+30
+00:01:33.165 --> 00:01:36.480
+They're leads that
+are protruding straight out.
+
+31
+00:01:36.480 --> 00:01:41.240
+In order for us to connect to those
+we need something with holes in it.
+
+32
+00:01:41.240 --> 00:01:44.290
+So, we need this,
+this thing just is an adapter so
+
+33
+00:01:44.290 --> 00:01:45.940
+we can end up connecting to the board.
+
+34
+00:01:47.120 --> 00:01:48.580
+This is different than the Arduino.
+
+35
+00:01:48.580 --> 00:01:52.770
+If you remember the Arduino,
+these general purpose IO were all female.
+
+36
+00:01:52.770 --> 00:01:56.550
+They were holes you could stick
+these leads straight into them, but
+
+37
+00:01:56.550 --> 00:01:59.110
+it's a little different here.
+
+38
+00:01:59.110 --> 00:02:03.200
+Now let me wire together the circuit and
+it's pretty easy.
+
+39
+00:02:03.200 --> 00:02:07.428
+This is actually exactly the same as what
+we did with the Arduino when we blinked
+
+40
+00:02:07.428 --> 00:02:08.080
+its light.
+
+41
+00:02:08.080 --> 00:02:14.500
+So we take the LED, plug its anode and
+cathode into two different rows.
+
+42
+00:02:14.500 --> 00:02:16.730
+That should be fine.
+
+43
+00:02:16.730 --> 00:02:20.165
+Then we'll take the resistor,
+plug that in in series.
+
+44
+00:02:20.165 --> 00:02:23.600
+Oh, this is the same row here.
+
+45
+00:02:25.170 --> 00:02:28.220
+And plug the other lead into another row.
+
+46
+00:02:28.220 --> 00:02:29.880
+Okay.
+
+47
+00:02:29.880 --> 00:02:32.100
+Okay, so we got that wired together.
+
+48
+00:02:32.100 --> 00:02:36.650
+Now, let's plug in our cable
+into our Raspberry Pi.
+
+49
+00:02:36.650 --> 00:02:41.909
+Now what we're gonna do is we're
+gonna use pins six and eight, really.
+
+50
+00:02:44.240 --> 00:02:45.340
+Okay, let's count off these pins.
+
+51
+00:02:45.340 --> 00:02:46.940
+We're using the board numbering.
+
+52
+00:02:46.940 --> 00:02:48.310
+So they're numbered starting here.
+
+53
+00:02:48.310 --> 00:02:52.450
+One, two, three, four,
+five, six, and so on.
+
+54
+00:02:52.450 --> 00:02:55.500
+Now, it turns out pin six is a ground and
+
+55
+00:02:55.500 --> 00:02:58.520
+pin eight is the pin that
+we're going to use for GPIO.
+
+56
+00:02:58.520 --> 00:03:01.490
+So we need the ground cuz we need to
+connect the ground to this circuit.
+
+57
+00:03:01.490 --> 00:03:08.077
+So we're going to take this, plug it into
+the three pins, pins six, eight, and ten.
+
+58
+00:03:08.077 --> 00:03:15.090
+So pins, six is black,
+red is eight, and white is ten.
+
+59
+00:03:15.090 --> 00:03:16.872
+We're going to use those.
+
+60
+00:03:16.872 --> 00:03:20.306
+We're gonna take the ground,
+which I have connected to black,
+
+61
+00:03:20.306 --> 00:03:24.220
+and take that,
+plug this into the black on this end.
+
+62
+00:03:25.920 --> 00:03:29.671
+And we're gonna plug that into our
+circuit onto one end of this resistor.
+
+63
+00:03:32.689 --> 00:03:33.514
+There we go.
+
+64
+00:03:33.514 --> 00:03:35.034
+Oh, I got it in the wrong row.
+
+65
+00:03:35.034 --> 00:03:35.930
+Move it up one row.
+
+66
+00:03:37.310 --> 00:03:38.130
+There.
+
+67
+00:03:38.130 --> 00:03:39.070
+Okay, so we got that.
+
+68
+00:03:40.180 --> 00:03:43.684
+Now we're gonna use pin eight.
+
+69
+00:03:43.684 --> 00:03:45.937
+GPIO8, which is the red.
+
+70
+00:03:45.937 --> 00:03:48.920
+We're gonna connect that to
+the other side of the LED.
+
+71
+00:03:48.920 --> 00:03:51.805
+We'll take that,
+plug the yellow wire into that and
+
+72
+00:03:51.805 --> 00:03:56.060
+plug that into the outside of the LED,
+the anode of the LED.
+
+73
+00:03:56.060 --> 00:03:57.170
+Okay so now it's wired up.
+
+74
+00:03:58.190 --> 00:04:00.370
+So now we're gonna run our program.
+
+75
+00:04:00.370 --> 00:04:04.110
+Now, to let you know about the program,
+the slight modifications.
+
+76
+00:04:04.110 --> 00:04:09.270
+So the program in Lecture 2.1, the blink
+program, it actually used pin 13.
+
+77
+00:04:09.270 --> 00:04:15.234
+We're using pin 8, so
+I changed that to 8 instead of 13.
+
+78
+00:04:15.234 --> 00:04:18.733
+Also the sleep time,
+in the program on Lecture 2.1,
+
+79
+00:04:18.733 --> 00:04:20.899
+we used a one-second sleep time.
+
+80
+00:04:20.899 --> 00:04:23.836
+We're using a 0.5-second sleep time so
+it blinks a little faster.
+
+81
+00:04:23.836 --> 00:04:24.720
+Every half second it blinks.
+
+82
+00:04:26.250 --> 00:04:29.580
+So, that's it, that should be
+all wired up and ready to go.
+
+83
+00:04:29.580 --> 00:04:33.560
+Now, what we're gonna do,
+one thing you can't see is the keyboard.
+
+84
+00:04:33.560 --> 00:04:35.410
+So, I have a keyboard
+connect to my Raspberry Pi.
+
+85
+00:04:36.430 --> 00:04:38.470
+And I am going to start
+running the program.
+
+86
+00:04:38.470 --> 00:04:40.500
+Now the program, I call it Blink.py.
+
+87
+00:04:40.500 --> 00:04:43.790
+Dot py, it's a typical suffix for
+Python programs.
+
+88
+00:04:43.790 --> 00:04:45.570
+So I have a program called Blink.py, and
+
+89
+00:04:45.570 --> 00:04:49.125
+it's basically what I told
+you about in Lecture 2.1.
+
+90
+00:04:49.125 --> 00:04:53.953
+Now, I've typed that in and to execute it
+I would only type python3 Blink.py, but
+
+91
+00:04:53.953 --> 00:04:57.149
+remember that since I'm using
+GPIO I need to be in root,
+
+92
+00:04:57.149 --> 00:04:59.000
+I need to have root permission.
+
+93
+00:04:59.000 --> 00:05:04.548
+So I am going to put pseudo before that,
+so I'm typing pseudo python3 Blink.py.
+
+94
+00:05:04.548 --> 00:05:07.682
+I'm just going to hit execute on it,
+and hit Enter on there.
+
+95
+00:05:07.682 --> 00:05:09.598
+And it should be blinking.
+
+96
+00:05:09.598 --> 00:05:11.409
+Yes, it is.
+
+97
+00:05:11.409 --> 00:05:13.127
+Indeed, and there it is.
+
+98
+00:05:13.127 --> 00:05:15.566
+And that is how we blink
+an LED with Raspberry Pi.
+
+99
+00:05:15.566 --> 00:05:17.469
+It's pretty straightforward to make.
+
+100
+00:05:17.469 --> 00:05:26.519
+[MUSIC]
