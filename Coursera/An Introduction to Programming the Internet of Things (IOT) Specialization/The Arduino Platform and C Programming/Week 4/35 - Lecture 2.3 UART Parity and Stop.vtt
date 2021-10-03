@@ -1,0 +1,543 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.134 --> 00:00:15.623
+This lecture will continue talking
+about UART, talk about more of the bits
+
+3
+00:00:15.623 --> 00:00:19.699
+that are transmitted in addition to
+the data bits and the start bit.
+
+4
+00:00:21.690 --> 00:00:22.560
+So Parity Bit.
+
+5
+00:00:22.560 --> 00:00:26.260
+This is an optional bit that
+you can transmit with the data.
+
+6
+00:00:27.530 --> 00:00:29.800
+So transmission is assumed
+to be error prone.
+
+7
+00:00:29.800 --> 00:00:32.650
+This is very common,
+long distance communication.
+
+8
+00:00:32.650 --> 00:00:35.100
+You can have lots of
+electromagnetic radiation.
+
+9
+00:00:35.100 --> 00:00:36.990
+Some kind of noise, right?
+
+10
+00:00:36.990 --> 00:00:41.230
+So this maybe synchronization accuracy,
+or inaccuracy, something like that.
+
+11
+00:00:41.230 --> 00:00:44.970
+There are lots of reasons why
+there can be noise on a line.
+
+12
+00:00:44.970 --> 00:00:47.810
+So there can be times
+where you expect a zero.
+
+13
+00:00:47.810 --> 00:00:51.760
+Zero is being transmitted, but
+the receiver receives a one instead, or
+
+14
+00:00:51.760 --> 00:00:52.640
+vice versa.
+
+15
+00:00:52.640 --> 00:00:53.610
+You transmit a one but
+
+16
+00:00:53.610 --> 00:00:57.400
+the receiver receives a zero,
+because of various types of noise.
+
+17
+00:00:57.400 --> 00:00:59.940
+So to adjust for that,
+to take care of that,
+
+18
+00:00:59.940 --> 00:01:02.790
+at least to detect that,
+we have parity bits.
+
+19
+00:01:02.790 --> 00:01:04.510
+So parity bit is optional.
+
+20
+00:01:04.510 --> 00:01:06.920
+One parity bit can be
+sent with each packet,
+
+21
+00:01:06.920 --> 00:01:09.630
+each, say group of eight data bits.
+
+22
+00:01:09.630 --> 00:01:12.360
+The parity bit is used to check for error.
+
+23
+00:01:12.360 --> 00:01:15.102
+So, the parity of a sequence of bits.
+
+24
+00:01:15.102 --> 00:01:17.783
+So let's say we're sending eight bits,
+eight data bits.
+
+25
+00:01:17.783 --> 00:01:21.487
+The parity is the count, you either
+have even parity or odd parity, and
+
+26
+00:01:21.487 --> 00:01:24.980
+it's related to the number of
+ones that are transmitted.
+
+27
+00:01:24.980 --> 00:01:27.980
+So, if you're transmitting eight bits and
+
+28
+00:01:27.980 --> 00:01:34.340
+an odd number of those bits are ones,
+then you say you have odd parody.
+
+29
+00:01:34.340 --> 00:01:38.630
+And if an even number of those bits
+is a one, then you have even parity.
+
+30
+00:01:38.630 --> 00:01:40.630
+So parity's always gonna be even or odd.
+
+31
+00:01:40.630 --> 00:01:42.950
+Let's say even is zero and odd's a one.
+
+32
+00:01:42.950 --> 00:01:46.040
+So parities of any sequence
+of bits is always even or
+
+33
+00:01:46.040 --> 00:01:48.950
+odd depending on how many
+bits you're transmitting.
+
+34
+00:01:48.950 --> 00:01:53.500
+So what we do is, if we use a parity bit,
+we send the data bits, and then we
+
+35
+00:01:53.500 --> 00:01:57.310
+also send one more bit which is the parity
+bit, which is either zero or one.
+
+36
+00:01:57.310 --> 00:02:02.010
+A zero if the parity of the other
+bits is even, a one if it's odd.
+
+37
+00:02:04.020 --> 00:02:07.460
+And then what can happen is on the
+receiving end, it can check the parity.
+
+38
+00:02:07.460 --> 00:02:11.670
+So it can count the number of ones that it
+received, and checks if it's even or odd,
+
+39
+00:02:11.670 --> 00:02:13.710
+and then it compares
+that to the parity bit.
+
+40
+00:02:13.710 --> 00:02:17.285
+If the parity bit set is even,
+it's parity bit is zero, let's say,
+
+41
+00:02:17.285 --> 00:02:20.923
+indicating that it's even parity,
+and it has an even number of ones,
+
+42
+00:02:20.923 --> 00:02:23.534
+then it assumes, okay,
+transmission was fine.
+
+43
+00:02:23.534 --> 00:02:27.060
+Where if it gets odd parity, then it
+assumes that transmission was not fine,
+
+44
+00:02:27.060 --> 00:02:28.593
+and it needs a new transmission.
+
+45
+00:02:28.593 --> 00:02:34.150
+It basically sends some kind of request
+to say, send me the data again.
+
+46
+00:02:34.150 --> 00:02:37.550
+Oh, and this bit, this parity
+bit is sent after the data bit.
+
+47
+00:02:37.550 --> 00:02:40.440
+So you have the start bit,
+then you have the data bits,
+
+48
+00:02:40.440 --> 00:02:43.300
+then you send the parity bit,
+then you send the stop bit, or bits.
+
+49
+00:02:43.300 --> 00:02:45.345
+You can send one or more stop.
+
+50
+00:02:45.345 --> 00:02:49.737
+So here's an example, we've got some
+series of bits, eight bits, and
+
+51
+00:02:49.737 --> 00:02:52.192
+there are five ones in those eight bits.
+
+52
+00:02:52.192 --> 00:02:57.200
+So it's an odd number of ones, that means
+this set of eight bits is odd parity.
+
+53
+00:02:57.200 --> 00:03:00.250
+So the parity bit that would be
+set with this would be a one.
+
+54
+00:03:00.250 --> 00:03:03.008
+So you'd send these eight bits,
+then you'd send one more one.
+
+55
+00:03:03.008 --> 00:03:06.336
+And the total parity is odd, so
+now at the receiving end, it,
+
+56
+00:03:06.336 --> 00:03:08.768
+as it counted the number
+of ones that came in.
+
+57
+00:03:08.768 --> 00:03:12.404
+It counted five ones, it realized that
+was odd compared to the parity bit,
+
+58
+00:03:12.404 --> 00:03:16.840
+and if the parity is also one, the parity
+bit's one, then it says this is okay.
+
+59
+00:03:16.840 --> 00:03:20.650
+Where if one of these bits was flipped in
+transmission, then the parity would have
+
+60
+00:03:20.650 --> 00:03:23.460
+changed, say zero was changed to a one,
+or one change was zero.
+
+61
+00:03:23.460 --> 00:03:27.560
+Either way, the parity would have become
+even and it would have noticed a mismatch.
+
+62
+00:03:27.560 --> 00:03:32.692
+So if a single bit is changed, then
+this can be detected using a parity bit.
+
+63
+00:03:32.692 --> 00:03:37.470
+Note that this is sort of a minimal
+check because if two bits are altered,
+
+64
+00:03:37.470 --> 00:03:39.180
+then you won't detect it, right?
+
+65
+00:03:39.180 --> 00:03:43.370
+Cuz two bits, say you change zero to one
+then you change a one to a zero, then
+
+66
+00:03:43.370 --> 00:03:47.080
+the total number of ones stays the same
+even though the data is still incorrect.
+
+67
+00:03:47.080 --> 00:03:48.440
+So you wouldn't catch that.
+
+68
+00:03:48.440 --> 00:03:51.290
+If two bits are changed,
+you might miss it.
+
+69
+00:03:51.290 --> 00:03:54.500
+You would miss it if two bits are changed,
+but if a single bit is changed,
+
+70
+00:03:54.500 --> 00:03:56.020
+you could detect that using a parity bit.
+
+71
+00:03:57.990 --> 00:04:02.190
+So in addition to the parity bit,
+you have to have stop bits.
+
+72
+00:04:02.190 --> 00:04:04.660
+Now the parity bit is optional,
+stop bit is required.
+
+73
+00:04:04.660 --> 00:04:05.810
+Although you can have one or
+
+74
+00:04:05.810 --> 00:04:08.640
+two stop bits,
+you have to have at least one stop bit.
+
+75
+00:04:08.640 --> 00:04:12.580
+So in this example, this timing diagram,
+we show one start bit at the beginning,
+
+76
+00:04:12.580 --> 00:04:17.090
+eight data bits, no parity bit, but then
+we have the stop bit right at the end.
+
+77
+00:04:17.090 --> 00:04:19.420
+A single stop bit, in this case.
+
+78
+00:04:19.420 --> 00:04:22.940
+Now, the stop bit,
+basically it's high, it's always high.
+
+79
+00:04:22.940 --> 00:04:25.910
+So after the eight databits are sent and
+a parody bit,
+
+80
+00:04:25.910 --> 00:04:28.060
+if a parody bit is gonna be sent.
+
+81
+00:04:28.060 --> 00:04:29.820
+The signal should be high.
+
+82
+00:04:29.820 --> 00:04:33.220
+So the stop bit is the time
+when the signal is high after
+
+83
+00:04:33.220 --> 00:04:34.860
+the transmission is done.
+
+84
+00:04:34.860 --> 00:04:36.310
+It's expected to be high.
+
+85
+00:04:36.310 --> 00:04:38.245
+You can take one stop bit or
+two stop bits.
+
+86
+00:04:38.245 --> 00:04:42.390
+If it's not a high,
+if it's not a one at that point, then
+
+87
+00:04:42.390 --> 00:04:46.080
+it's assumed that an error has occurred,
+and retransmition is gonna be required.
+
+88
+00:04:47.940 --> 00:04:50.230
+So, Data Throughput versus Baud.
+
+89
+00:04:50.230 --> 00:04:55.250
+So the Baud rate is the maximum
+number of transitions in a second.
+
+90
+00:04:55.250 --> 00:05:00.450
+The maximum transitions, which is
+the maximum bits that you can send.
+
+91
+00:05:00.450 --> 00:05:03.190
+And it's true that you can
+send that many bits, but
+
+92
+00:05:03.190 --> 00:05:05.000
+not all of those bits
+are actually data bits.
+
+93
+00:05:05.000 --> 00:05:07.670
+So the data throughput is not
+as high as the Baud rate,
+
+94
+00:05:08.710 --> 00:05:13.200
+because you're sending the stop bit,
+the start bit and the parody bit.
+
+95
+00:05:13.200 --> 00:05:14.650
+Stop bit could be two bits and
+
+96
+00:05:14.650 --> 00:05:18.500
+the parody bit, you send this extra
+stuff that is not actually data.
+
+97
+00:05:18.500 --> 00:05:22.450
+So the data transmission rate is
+going to be less than the baud rate.
+
+98
+00:05:24.260 --> 00:05:26.080
+So, these signalling bits have to be sent,
+so
+
+99
+00:05:26.080 --> 00:05:29.090
+let's imagine an example where
+you're sending eight data bits.
+
+100
+00:05:29.090 --> 00:05:33.880
+And you're sending one parity bit, and
+one stop bit, and start bit, let's say.
+
+101
+00:05:33.880 --> 00:05:35.880
+So, you're sending eight data bits, but
+
+102
+00:05:35.880 --> 00:05:39.655
+there are 11 actual bits that you have to
+send in order to send the eight, right?
+
+103
+00:05:39.655 --> 00:05:43.640
+Cuz you gotta send the start bit, and
+the parity bit, and the stop bit, and
+
+104
+00:05:43.640 --> 00:05:45.450
+I'll say the baud rate is 9600 baud.
+
+105
+00:05:47.040 --> 00:05:50.420
+So nice things in a baud would be
+the maximum rate of the number of bits,
+
+106
+00:05:50.420 --> 00:05:53.070
+9600 bits per second can be sent.
+
+107
+00:05:53.070 --> 00:05:55.420
+But you're sending 11 bits a second,
+8 data bits.
+
+108
+00:05:55.420 --> 00:05:56.719
+So your data throughput,
+
+109
+00:05:56.719 --> 00:06:00.568
+would be less because the transmission
+efficiency is only eight out of 11.
+
+110
+00:06:00.568 --> 00:06:03.492
+So you get 73% efficiency out of that.
+
+111
+00:06:03.492 --> 00:06:07.582
+So the data throughput rate
+is actually only 73% of 9600.
+
+112
+00:06:07.582 --> 00:06:12.482
+So you get, 6981 bits per second
+of data that you can actually send
+
+113
+00:06:12.482 --> 00:06:16.737
+when you're using 9600 baud
+under those assumptions.
+
+114
+00:06:16.737 --> 00:06:17.376
+Thank you.
+
+115
+00:06:17.376 --> 00:06:26.359
+[MUSIC]

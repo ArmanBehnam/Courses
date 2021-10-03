@@ -1,0 +1,662 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.392
+[MUSIC]
+
+2
+00:00:07.392 --> 00:00:11.572
+[SOUND] In this lecture,
+we'll talk a little bit more detail about
+
+3
+00:00:11.572 --> 00:00:16.284
+the UART Protocol which is the serial
+protocol that we're going to use for
+
+4
+00:00:16.284 --> 00:00:18.722
+debugging but also for other things.
+
+5
+00:00:18.722 --> 00:00:22.612
+So we'll get some detail about that.
+
+6
+00:00:22.612 --> 00:00:26.530
+So here's a picture of what
+UART communication looks like.
+
+7
+00:00:27.850 --> 00:00:29.720
+So you've got two sides
+to the communication.
+
+8
+00:00:29.720 --> 00:00:32.240
+The sender, the transmitter and
+the receiver.
+
+9
+00:00:32.240 --> 00:00:33.592
+The transmitter is Tx.
+
+10
+00:00:33.592 --> 00:00:38.225
+The receiver is Rx, and you can see in
+between the transmitter and the receiver,
+
+11
+00:00:38.225 --> 00:00:40.600
+there is a serial a single wire.
+
+12
+00:00:40.600 --> 00:00:42.910
+Now generally, there might be two but
+
+13
+00:00:42.910 --> 00:00:45.760
+there might be a ground but
+let's say a single wire.
+
+14
+00:00:45.760 --> 00:00:47.480
+Serial out of the transmitter.
+
+15
+00:00:47.480 --> 00:00:48.930
+Serial into the receiver.
+
+16
+00:00:50.500 --> 00:00:52.338
+Now, if we look at the transmitter side,
+
+17
+00:00:52.338 --> 00:00:54.502
+you've got parallel data
+coming in on the left.
+
+18
+00:00:54.502 --> 00:00:58.044
+So that typically would be a byte or
+some chunk of data.
+
+19
+00:00:58.044 --> 00:01:01.410
+So let's say it's 8 bits, an 8 bit byte.
+
+20
+00:01:01.410 --> 00:01:03.350
+So 8 bits comes in.
+
+21
+00:01:03.350 --> 00:01:06.120
+The transmitter sends
+those bits on serial out.
+
+22
+00:01:06.120 --> 00:01:10.830
+The bits get received by the receiver on
+serial in and then it creates parallel
+
+23
+00:01:10.830 --> 00:01:14.470
+data and sends that back out on parallel
+out to the rest of the system and
+
+24
+00:01:14.470 --> 00:01:15.520
+their these status bits.
+
+25
+00:01:15.520 --> 00:01:17.982
+So the data is serialized by Tx.
+
+26
+00:01:17.982 --> 00:01:22.740
+What that means is say 8 bits come in
+on parallel in, they get serialized.
+
+27
+00:01:22.740 --> 00:01:26.410
+Set one at a time,
+one bit at a time on serial out.
+
+28
+00:01:26.410 --> 00:01:28.390
+And then they deserialize
+them on the receiving end.
+
+29
+00:01:28.390 --> 00:01:30.400
+So they come in one bit at a time and
+
+30
+00:01:30.400 --> 00:01:33.299
+then they get packaged into
+chunks of probably 8 bits.
+
+31
+00:01:35.280 --> 00:01:39.260
+The status data, there's a status
+of the Tx and the Rx on both sides.
+
+32
+00:01:39.260 --> 00:01:44.150
+The status is usually indicating the state
+of the transmit and receive buffers.
+
+33
+00:01:44.150 --> 00:01:47.080
+So what that means is inside Tx and Rx,
+
+34
+00:01:47.080 --> 00:01:50.220
+inside the transmitter and
+receiver you've typically got buffers.
+
+35
+00:01:50.220 --> 00:01:52.140
+So for instance on the receiving end,
+
+36
+00:01:52.140 --> 00:01:54.490
+you're probably gonna have
+some receiving buffer.
+
+37
+00:01:54.490 --> 00:01:58.480
+So you'll be receiving one bit at
+a time and filling up a buffer, and
+
+38
+00:01:58.480 --> 00:02:01.497
+once a buffer is full say
+the buffer is 8 bits long.
+
+39
+00:02:01.497 --> 00:02:03.759
+Once the buffer is full
+then you've got a byte and
+
+40
+00:02:03.759 --> 00:02:07.300
+you can send it out on parallel
+out to the rest of the system.
+
+41
+00:02:07.300 --> 00:02:11.940
+So when these buffers are full,
+you can't receive anymore.
+
+42
+00:02:11.940 --> 00:02:14.210
+So the receiver can't
+receive if the buffer's full.
+
+43
+00:02:14.210 --> 00:02:17.310
+Also the sender can't send
+if its buffer is empty.
+
+44
+00:02:17.310 --> 00:02:20.380
+So the status bits are basically
+information about that that goes back to
+
+45
+00:02:20.380 --> 00:02:23.570
+the code running on the transmitter and
+receiver to tell it if you should be able
+
+46
+00:02:23.570 --> 00:02:26.310
+to send a new piece of data or
+receive a new piece of data and so forth.
+
+47
+00:02:27.850 --> 00:02:28.940
+Used for flow control.
+
+48
+00:02:28.940 --> 00:02:31.570
+Make sure that there's a constant
+amount of or not constant but
+
+49
+00:02:31.570 --> 00:02:33.150
+at least a regular amount of flow.
+
+50
+00:02:33.150 --> 00:02:36.460
+So specifically, what you wanna
+make sure is that the receiver
+
+51
+00:02:36.460 --> 00:02:40.020
+is receiving data at the same rate that
+the transmitter is transmitting it.
+
+52
+00:02:40.020 --> 00:02:43.370
+If the receiver is receiving data
+faster than the transmitter then
+
+53
+00:02:43.370 --> 00:02:46.380
+the transmitter can't keep up and
+the receiver will be stopped.
+
+54
+00:02:46.380 --> 00:02:49.090
+And vice versa,
+if the receiver is receiving data slower
+
+55
+00:02:49.090 --> 00:02:52.088
+then the transmitter will be too fast and
+it'll have to stop.
+
+56
+00:02:52.088 --> 00:02:54.730
+So you wanna match those rates,
+so that you don't lose any data.
+
+57
+00:02:57.480 --> 00:02:58.870
+So a UART timing diagram.
+
+58
+00:02:58.870 --> 00:03:04.367
+This is an approximate timing diagram but
+this is the idea.
+
+59
+00:03:04.367 --> 00:03:06.578
+What this timing diagram
+is showing you is,
+
+60
+00:03:06.578 --> 00:03:10.345
+it's showing you the value on that
+serial wire between the transmitter and
+
+61
+00:03:10.345 --> 00:03:12.800
+the receiver,
+the value that is on that wire.
+
+62
+00:03:12.800 --> 00:03:15.720
+Now, remember that value is one bit and
+it's digital, so
+
+63
+00:03:15.720 --> 00:03:17.300
+we're assuming that's either high or low.
+
+64
+00:03:18.460 --> 00:03:23.460
+So you can see in this timing diagram,
+the time is the x axis.
+
+65
+00:03:23.460 --> 00:03:26.440
+So the signal it starts
+off high then it goes low
+
+66
+00:03:27.570 --> 00:03:31.170
+then there are these eight green blocks.
+
+67
+00:03:31.170 --> 00:03:34.910
+So on those eight green blocks,
+those are 8 bits that are being sent.
+
+68
+00:03:34.910 --> 00:03:39.620
+Could be high or low and then it goes high
+again, at the end of the communication.
+
+69
+00:03:40.680 --> 00:03:43.540
+So let's break this down,
+this communication.
+
+70
+00:03:43.540 --> 00:03:48.470
+So this is an example of sending
+one byte of data via UART.
+
+71
+00:03:48.470 --> 00:03:52.700
+So the first bit is the start bit and
+that initiates the transfer.
+
+72
+00:03:52.700 --> 00:03:57.240
+So the start bit is that first bit
+where it starts off high by default but
+
+73
+00:03:57.240 --> 00:04:00.570
+as soon as you wanna start
+sending some data it goes low.
+
+74
+00:04:00.570 --> 00:04:05.110
+So you can see that first bit that
+first chunk of time there, it's low for
+
+75
+00:04:05.110 --> 00:04:07.670
+one chunk of time, for one unit.
+
+76
+00:04:07.670 --> 00:04:09.350
+That is the start bit.
+
+77
+00:04:09.350 --> 00:04:11.475
+Now after that,
+the next bits are the data.
+
+78
+00:04:11.475 --> 00:04:16.129
+So all those 8 bits that are green, those
+are data and those can be high or low.
+
+79
+00:04:16.129 --> 00:04:19.705
+They're green and we don't draw them
+as high or low, they can be either,
+
+80
+00:04:19.705 --> 00:04:20.350
+high or low.
+
+81
+00:04:21.420 --> 00:04:25.650
+So you send those bits high low for a
+certain period of time and let's say, you
+
+82
+00:04:25.650 --> 00:04:31.190
+send it in chunk of eight which is common
+but you can change that, with say 8 bits.
+
+83
+00:04:31.190 --> 00:04:33.060
+Then the last bits are the stock bits.
+
+84
+00:04:33.060 --> 00:04:36.990
+So you see after you've sent the 8
+bits the signal is high, for
+
+85
+00:04:36.990 --> 00:04:39.910
+in this case two chucks of time.
+
+86
+00:04:39.910 --> 00:04:41.140
+Those are called stock bits.
+
+87
+00:04:41.140 --> 00:04:45.550
+And those tell the receiver okay,
+I'm done sending now.
+
+88
+00:04:45.550 --> 00:04:47.290
+So this is how the start bit and
+
+89
+00:04:47.290 --> 00:04:50.800
+the stop bit are needed by their receiver
+to know when communication is starting and
+
+90
+00:04:50.800 --> 00:04:54.430
+when it's ceasing and
+in between that, you send the data.
+
+91
+00:04:57.450 --> 00:05:00.150
+So each bit that's being
+sent has a certain duration.
+
+92
+00:05:00.150 --> 00:05:03.495
+It's sent on the wires for
+a certain period of time.
+
+93
+00:05:03.495 --> 00:05:05.860
+Each bit transmitted for a fixed duration.
+
+94
+00:05:05.860 --> 00:05:09.200
+This duration has to be known by both
+the transmitter and the receiver.
+
+95
+00:05:09.200 --> 00:05:12.310
+So before you can do serial
+communication both the transmitter and
+
+96
+00:05:12.310 --> 00:05:16.090
+the receiver have to know every
+bit is going to be either high or
+
+97
+00:05:16.090 --> 00:05:18.670
+low for a certain fixed period of time.
+
+98
+00:05:18.670 --> 00:05:22.430
+Some number of microseconds let's say or
+milliseconds or whatever it is,
+
+99
+00:05:22.430 --> 00:05:25.170
+you have to know that ahead of time,
+so that has to be configured.
+
+100
+00:05:27.380 --> 00:05:30.030
+So the baud rate determines the duration.
+
+101
+00:05:30.030 --> 00:05:32.484
+So the duration we'll call T,
+it's the period.
+
+102
+00:05:32.484 --> 00:05:35.570
+T is the common letter people use for
+the period.
+
+103
+00:05:35.570 --> 00:05:39.400
+So the duration is T,
+the duration of a single bit.
+
+104
+00:05:39.400 --> 00:05:40.902
+Tha baud rate is the frequency.
+
+105
+00:05:40.902 --> 00:05:43.210
+It's the inverse of T.
+
+106
+00:05:43.210 --> 00:05:46.170
+So baud rate is the number
+of transitions per second or
+
+107
+00:05:46.170 --> 00:05:48.670
+the maximum number of
+transitions per second.
+
+108
+00:05:48.670 --> 00:05:51.350
+And it's typically measured
+in bits per second
+
+109
+00:05:51.350 --> 00:05:53.880
+because you can send one
+bit in every transition.
+
+110
+00:05:53.880 --> 00:05:56.371
+T the period equals 1 over f.
+
+111
+00:05:56.371 --> 00:05:59.540
+So if you know the baud rate, you invert
+that and that give you the period.
+
+112
+00:06:00.650 --> 00:06:04.251
+So for instance,
+common baud rate is 9600 tons baud.
+
+113
+00:06:04.251 --> 00:06:09.530
+9600 baud, if you invert that to 1 over
+9600 is approximately 104 microseconds.
+
+114
+00:06:10.580 --> 00:06:15.116
+So what that's saying is, that if you
+have agreed on a 9600 baud rate of
+
+115
+00:06:15.116 --> 00:06:19.292
+transfer then that means that when
+the transmitter is sending a bit,
+
+116
+00:06:19.292 --> 00:06:21.105
+it keeps that bit high or low.
+
+117
+00:06:21.105 --> 00:06:23.100
+If it's zero, one, high or low.
+
+118
+00:06:23.100 --> 00:06:27.160
+Keeps that holds that bit for
+104 microseconds approximately,
+
+119
+00:06:27.160 --> 00:06:29.120
+and that's what the receiver expects.
+
+120
+00:06:31.250 --> 00:06:34.390
+The transmission rate is
+actually less than the baud rate.
+
+121
+00:06:34.390 --> 00:06:38.310
+So the baud rate is the rate at
+which you're sending these bits.
+
+122
+00:06:38.310 --> 00:06:41.110
+But remember that in addition
+to sending the data bits,
+
+123
+00:06:41.110 --> 00:06:43.880
+you're sending this padding there
+are other bits that you send.
+
+124
+00:06:43.880 --> 00:06:49.140
+The start bit, that's a bit that you have
+to send but just to initiate the transfer.
+
+125
+00:06:49.140 --> 00:06:51.480
+But it's not actually
+containing real data.
+
+126
+00:06:51.480 --> 00:06:53.880
+So that's something of a waste.
+
+127
+00:06:53.880 --> 00:06:54.980
+It's an overhead put it like that.
+
+128
+00:06:54.980 --> 00:06:56.990
+It's not a waste you need it but
+it's an overhead.
+
+129
+00:06:56.990 --> 00:07:00.300
+It's a bit of time that you send but
+you can't send real data.
+
+130
+00:07:00.300 --> 00:07:01.550
+Also stop bits.
+
+131
+00:07:01.550 --> 00:07:02.990
+Say, you're using two
+stop bits at the end.
+
+132
+00:07:02.990 --> 00:07:07.236
+Those are two more bits
+that are not sending data.
+
+133
+00:07:07.236 --> 00:07:13.010
+So after the data transmission rate
+is actually less than the baud rate.
+
+134
+00:07:13.010 --> 00:07:15.794
+Because there are start bits,
+stop bits and also maybe a parity bit,
+
+135
+00:07:15.794 --> 00:07:16.811
+we'll talk about that.
+
+136
+00:07:16.811 --> 00:07:18.730
+So there are extra bits
+that you're sending.
+
+137
+00:07:18.730 --> 00:07:22.625
+But the baud rate is the maximum
+data transmission rate but
+
+138
+00:07:22.625 --> 00:07:25.018
+you can't actually achieve that.
+
+139
+00:07:25.018 --> 00:07:28.199
+You need start bits, stop bits and
+parity bit which we'll talk about later.
+
+140
+00:07:28.199 --> 00:07:28.942
+Thank you.
+
+141
+00:07:28.942 --> 00:07:37.255
+[MUSIC]

@@ -1,0 +1,1093 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.099
+[MUSIC]
+
+2
+00:00:06.099 --> 00:00:10.197
+[SOUND] So this lecture and
+
+3
+00:00:10.197 --> 00:00:17.424
+really this module is all about debugging.
+
+4
+00:00:17.424 --> 00:00:21.994
+So debugging is after you write your code
+and you try to run it and it doesn't work,
+
+5
+00:00:21.994 --> 00:00:24.110
+trying to fix the code.
+
+6
+00:00:24.110 --> 00:00:27.960
+And, not just your code really, I mean,
+in general with these IOT devices,
+
+7
+00:00:27.960 --> 00:00:31.300
+there's code, there's a software part,
+but there's also the hardware part.
+
+8
+00:00:31.300 --> 00:00:34.670
+And, you have to debug them both together,
+which adds complexity.
+
+9
+00:00:34.670 --> 00:00:37.230
+We're just talking right now,
+about the software part.
+
+10
+00:00:37.230 --> 00:00:40.000
+We'll get to the hardware part later and
+how to debug that.
+
+11
+00:00:40.000 --> 00:00:43.850
+But, right now, given the code,
+how do you debug that code?
+
+12
+00:00:43.850 --> 00:00:47.070
+And, you can expect that a lot of
+your time will be spent debugging
+
+13
+00:00:47.070 --> 00:00:48.530
+when you write real pieces of code.
+
+14
+00:00:48.530 --> 00:00:51.790
+I mean, right now we're working with
+the blink example, things like that.
+
+15
+00:00:51.790 --> 00:00:53.010
+No big deal.
+
+16
+00:00:53.010 --> 00:00:57.640
+But when you get to complicated pieces of
+code, probably, you'll spend more time
+
+17
+00:00:57.640 --> 00:00:59.790
+debugging than you'll spend writing
+the code in the first place.
+
+18
+00:00:59.790 --> 00:01:03.130
+It's very common in
+complicated pieces of code.
+
+19
+00:01:03.130 --> 00:01:06.159
+So we'll talk a little bit about how
+to do debugging and what's required.
+
+20
+00:01:08.620 --> 00:01:09.340
+Debug and Trace.
+
+21
+00:01:09.340 --> 00:01:14.910
+So one thing about debugging and
+testing in general in debugging
+
+22
+00:01:14.910 --> 00:01:20.870
+is that you require controllability and
+observability to locate the bug.
+
+23
+00:01:20.870 --> 00:01:21.900
+So what do I mean by that?
+
+24
+00:01:21.900 --> 00:01:24.790
+Controllability is the ability to control
+
+25
+00:01:24.790 --> 00:01:27.870
+sources of data that are used
+by the system, okay.
+
+26
+00:01:27.870 --> 00:01:33.050
+This you need in order to apply tests, to
+test something, to see if a feature works.
+
+27
+00:01:33.050 --> 00:01:36.100
+So, when I say source of data used
+by the system, what do I mean?
+
+28
+00:01:36.100 --> 00:01:39.900
+So, the main source of data used by the
+system is going to be in the input pins.
+
+29
+00:01:39.900 --> 00:01:41.420
+If you want to do a test case,
+
+30
+00:01:41.420 --> 00:01:44.580
+you have to be able to apply
+some value to the input pins.
+
+31
+00:01:44.580 --> 00:01:48.140
+Now, this might be done
+through your sensors, right?
+
+32
+00:01:48.140 --> 00:01:51.140
+So, for instance, say I've got
+a switch connected to the input pins.
+
+33
+00:01:51.140 --> 00:01:52.630
+I can flip that switch off and on and
+
+34
+00:01:52.630 --> 00:01:56.430
+control the input pins that way,
+which is the best, right?
+
+35
+00:01:56.430 --> 00:02:00.370
+Or, say I've got a light sensor or
+something like that and
+
+36
+00:02:00.370 --> 00:02:03.430
+it's connected to some pins,
+I wanna control that.
+
+37
+00:02:03.430 --> 00:02:05.280
+I can change the lighting in the room.
+
+38
+00:02:05.280 --> 00:02:08.840
+Right, and control the pins in that way,
+indirectly.
+
+39
+00:02:08.840 --> 00:02:13.340
+So, the input pins are your main interface
+and if you want to do a test you say well,
+
+40
+00:02:13.340 --> 00:02:16.160
+I wonder how my system works if
+the switch is flicked on and
+
+41
+00:02:16.160 --> 00:02:17.610
+it's very bright in the room.
+
+42
+00:02:17.610 --> 00:02:20.140
+Then you can set that up and
+power it on and run it.
+
+43
+00:02:20.140 --> 00:02:20.980
+That's a test case.
+
+44
+00:02:20.980 --> 00:02:24.530
+Then you can run other test cases right,
+to detect the bugs.
+
+45
+00:02:24.530 --> 00:02:29.520
+So that's what I mean by controlling
+the data sources that the code is using.
+
+46
+00:02:29.520 --> 00:02:33.280
+Now, the input pins aren't the only thing
+if you would like to be able to control.
+
+47
+00:02:34.380 --> 00:02:39.830
+In addition to that, you would optimally
+like to be able to control the internal
+
+48
+00:02:39.830 --> 00:02:44.830
+data, meaning the storage elements, the
+registers and the memory inside the chip.
+
+49
+00:02:44.830 --> 00:02:48.070
+Now, we won't be doing that in this class.
+
+50
+00:02:48.070 --> 00:02:51.470
+I'm just saying optimally, if you're doing
+this professionally, you don't just say,
+
+51
+00:02:51.470 --> 00:02:52.480
+let me control the pins.
+
+52
+00:02:52.480 --> 00:02:54.200
+You go straight into the device and say,
+
+53
+00:02:54.200 --> 00:02:58.050
+okay I'm gonna set this register value
+equal to ten and see what happens, right?
+
+54
+00:02:58.050 --> 00:03:01.840
+I'm gonna write some data into this
+memory location and see what happens.
+
+55
+00:03:01.840 --> 00:03:03.100
+You would like to be able to do that.
+
+56
+00:03:03.100 --> 00:03:06.910
+It gives you a much more precise
+control over the behavior of the system
+
+57
+00:03:06.910 --> 00:03:10.960
+because doing through the input
+bins can be indirect but
+
+58
+00:03:10.960 --> 00:03:13.360
+optimally that's what you would like.
+
+59
+00:03:13.360 --> 00:03:14.290
+So that's controllability.
+
+60
+00:03:14.290 --> 00:03:18.060
+Controllability allows you to do
+testing to test certain circumstances
+
+61
+00:03:18.060 --> 00:03:23.080
+that you think might be causing a bug or
+triggering a bug at any rate.
+
+62
+00:03:23.080 --> 00:03:26.580
+So addition to controllability
+you need observability.
+
+63
+00:03:26.580 --> 00:03:31.320
+Now observability is the ability to
+observe intermediate and final results.
+
+64
+00:03:31.320 --> 00:03:32.740
+So what do you need to observe?
+
+65
+00:03:32.740 --> 00:03:34.940
+First thing you need to
+observe are the output pins.
+
+66
+00:03:34.940 --> 00:03:38.350
+The outputs of the whole system, you need
+to see what values are on those pins.
+
+67
+00:03:38.350 --> 00:03:42.450
+Now often you can observe these
+directly through the actuators.
+
+68
+00:03:42.450 --> 00:03:44.700
+So say the output pin
+is connected to an LED.
+
+69
+00:03:44.700 --> 00:03:46.960
+You look at the LED,
+you can tell if the pen is high or
+
+70
+00:03:46.960 --> 00:03:48.640
+low, right, something like that.
+
+71
+00:03:48.640 --> 00:03:52.240
+You look at the, say it's a wired to an
+LCD screen, you look at the LCD screen and
+
+72
+00:03:52.240 --> 00:03:56.450
+you can tell based on that, you can infer
+what type of data is on those pins.
+
+73
+00:03:56.450 --> 00:03:58.660
+So you wanna be able to observe the pins.
+
+74
+00:03:58.660 --> 00:04:02.990
+You can also directly observe
+the pins If you take a multimeter and
+
+75
+00:04:02.990 --> 00:04:04.840
+wire it straight to the pins.
+
+76
+00:04:04.840 --> 00:04:07.760
+Multimeter, basically,
+you can read the voltage, and the current,
+
+77
+00:04:07.760 --> 00:04:08.480
+and the resistance.
+
+78
+00:04:08.480 --> 00:04:11.470
+So, you could just read the voltage off of
+the pins, and see what the voltages are.
+
+79
+00:04:11.470 --> 00:04:13.780
+So, that's a more direct
+way of reading it.
+
+80
+00:04:13.780 --> 00:04:15.420
+Now, another way to do it, and
+
+81
+00:04:15.420 --> 00:04:19.120
+we won't be doing this in
+the class is using a oscilloscope.
+
+82
+00:04:19.120 --> 00:04:21.200
+So if a signal, an output ping,
+
+83
+00:04:21.200 --> 00:04:25.640
+changes slowly over time,
+then a multimeter is fine.
+
+84
+00:04:25.640 --> 00:04:27.860
+Multimeters change slowly,
+too so that works.
+
+85
+00:04:27.860 --> 00:04:32.500
+But if the signal is changing fact
+in every millisecond, let's say.
+
+86
+00:04:32.500 --> 00:04:34.170
+You can't see that on a multimeter.
+
+87
+00:04:34.170 --> 00:04:35.642
+You would need to use a oscilloscope.
+
+88
+00:04:35.642 --> 00:04:38.820
+And a oscilloscope basically
+shows me the voltage over time.
+
+89
+00:04:38.820 --> 00:04:42.491
+So you'd wire to the oscilloscope and you
+can see you can observe the data that way.
+
+90
+00:04:42.491 --> 00:04:44.800
+So the outputs are something that
+you would want to observe and
+
+91
+00:04:44.800 --> 00:04:48.480
+we have ways of observing outputs of,
+at least if they're slowly changing we can
+
+92
+00:04:48.480 --> 00:04:51.140
+observe them through whatever
+the devices are that.
+
+93
+00:04:51.140 --> 00:04:52.040
+Maybe multimedia but
+
+94
+00:04:52.040 --> 00:04:56.070
+also whatever the output devices are,
+whatever the actuators are.
+
+95
+00:04:57.190 --> 00:04:58.000
+Now again,
+
+96
+00:04:58.000 --> 00:05:01.080
+you would also optimally like to be
+able to observe the registry content.
+
+97
+00:05:01.080 --> 00:05:04.510
+So you'd be able to, like to be able to
+look at the registry values at a certain
+
+98
+00:05:04.510 --> 00:05:06.140
+point in time, see what they are.
+
+99
+00:05:06.140 --> 00:05:07.900
+Like after a certain instruction,
+maybe say,
+
+100
+00:05:07.900 --> 00:05:12.430
+oh what's in this memory, right,
+to see what the intermediate results are.
+
+101
+00:05:12.430 --> 00:05:16.970
+We won't be doing that in this class but
+optimally you would like that.
+
+102
+00:05:16.970 --> 00:05:18.550
+So you need controllability and
+
+103
+00:05:18.550 --> 00:05:22.630
+observability somehow in order
+to do testing and do debugging.
+
+104
+00:05:22.630 --> 00:05:29.460
+And we're primarily going to do that
+through the input and output pins.
+
+105
+00:05:29.460 --> 00:05:31.770
+So now okay so we're doing it
+through the input and output pins.
+
+106
+00:05:31.770 --> 00:05:35.600
+And next slide says I/O, input and
+output access, is insufficient.
+
+107
+00:05:35.600 --> 00:05:39.510
+So that's maybe a strong term,
+not insufficient.
+
+108
+00:05:39.510 --> 00:05:43.760
+It is maybe more difficult to
+debug through only the inputs and
+
+109
+00:05:43.760 --> 00:05:47.970
+outputs, but with the level of difficulty
+that we're dealing with in this class,
+
+110
+00:05:47.970 --> 00:05:50.910
+input and output pins
+are generally sufficient for that.
+
+111
+00:05:50.910 --> 00:05:54.970
+But if you're doing this professionally or
+making bigger pieces of code, just look at
+
+112
+00:05:54.970 --> 00:05:58.150
+the input and outputs, will probably
+not be sufficient to do debugging.
+
+113
+00:05:58.150 --> 00:05:59.850
+It'll make debugging much harder.
+
+114
+00:05:59.850 --> 00:06:05.180
+So, here's a little example, say you've
+got some Arduino program running, and
+
+115
+00:06:05.180 --> 00:06:07.850
+the Arduino you're using pins zero and
+one on the left side.
+
+116
+00:06:07.850 --> 00:06:11.255
+Pins 0 and 1 as the input pins,
+and pin two is the output pins,
+
+117
+00:06:11.255 --> 00:06:13.810
+wired to some actuator or whatever it is.
+
+118
+00:06:13.810 --> 00:06:17.330
+Now in between, inside the Arduino
+we've got some code running.
+
+119
+00:06:17.330 --> 00:06:18.890
+And those blocks are showing
+the code running.
+
+120
+00:06:18.890 --> 00:06:22.730
+So, you see three blocks main, and fu,
+and bar, those are three functions.
+
+121
+00:06:22.730 --> 00:06:24.420
+There's the main function
+which calls a fu function,
+
+122
+00:06:24.420 --> 00:06:27.870
+which calls a bar function,
+three functions inside your code.
+
+123
+00:06:27.870 --> 00:06:32.200
+Now let's say you run your system and
+the output is on Pin 2.
+
+124
+00:06:32.200 --> 00:06:35.660
+So you look at Pin 2, you look at it's
+values, see it's wired to an LED.
+
+125
+00:06:35.660 --> 00:06:37.860
+And you see that it has the wrong value.
+
+126
+00:06:38.980 --> 00:06:43.700
+So if it has the wrong value how
+do you know where the bug is?
+
+127
+00:06:43.700 --> 00:06:46.880
+The bug could be in the main function, it
+could be in the fu function, it could be
+
+128
+00:06:46.880 --> 00:06:51.060
+in the bar function, or it could be in
+some nasty combination of the three.
+
+129
+00:06:51.060 --> 00:06:54.400
+But how do you zero in
+on where the bug is?
+
+130
+00:06:54.400 --> 00:06:56.210
+Just knowing that the output is wrong,
+
+131
+00:06:56.210 --> 00:06:58.690
+that the Pin 2 is wrong,
+doesn't give you a lot of information.
+
+132
+00:06:58.690 --> 00:07:01.710
+It's exactly where in the chain
+the problem happened,
+
+133
+00:07:01.710 --> 00:07:03.370
+what part of your code it happened.
+
+134
+00:07:03.370 --> 00:07:06.520
+Now if you have a small piece
+of code like the blink example.
+
+135
+00:07:06.520 --> 00:07:10.140
+If you're talking five or six lines
+of code or something, so who cares.
+
+136
+00:07:10.140 --> 00:07:14.130
+But if you have a real piece of code
+then you need more direction than just,
+
+137
+00:07:14.130 --> 00:07:15.440
+the output is wrong, right?
+
+138
+00:07:15.440 --> 00:07:18.120
+You need to know exactly
+where it went wrong.
+
+139
+00:07:18.120 --> 00:07:21.820
+Maybe which variable had the wrong value
+in the variable stored memory somewhere.
+
+140
+00:07:22.980 --> 00:07:26.978
+So I/O access for big systems is
+insufficient for doing debugging, but for
+
+141
+00:07:26.978 --> 00:07:30.302
+what we're doing, it's what we have,
+and it's efficient.
+
+142
+00:07:32.318 --> 00:07:34.520
+Okay, so
+properties of debugging environment.
+
+143
+00:07:34.520 --> 00:07:38.160
+So what would you like to have in
+terms of debugging environment?
+
+144
+00:07:38.160 --> 00:07:40.920
+And what I'm talking about here
+is really optimal, in terms of,
+
+145
+00:07:40.920 --> 00:07:44.120
+if you're building a bigger system or more
+complicated system what you would like.
+
+146
+00:07:44.120 --> 00:07:47.980
+We don't have this, okay, for the Arduino,
+but this is what you would like,
+
+147
+00:07:47.980 --> 00:07:49.190
+this is what professionals have.
+
+148
+00:07:50.650 --> 00:07:52.450
+So run control of the target.
+
+149
+00:07:53.470 --> 00:07:57.931
+Run control of the target is very useful,
+and in fact, now we won't have it for
+
+150
+00:07:57.931 --> 00:08:01.796
+the Arduino, but when you write code,
+you gotta have run control.
+
+151
+00:08:01.796 --> 00:08:05.026
+If you just write C code on your desktop,
+laptop, you can get run control.
+
+152
+00:08:05.026 --> 00:08:08.407
+So by run control I mean you've
+gotta be able to stop and
+
+153
+00:08:08.407 --> 00:08:10.476
+start the program In the middle.
+
+154
+00:08:10.476 --> 00:08:12.876
+Not just wait till the end,
+just wait till it's done.
+
+155
+00:08:12.876 --> 00:08:15.384
+You wanna be able to stop
+the program dead in the middle and
+
+156
+00:08:15.384 --> 00:08:18.365
+at that point start looking at variables,
+let's say.
+
+157
+00:08:18.365 --> 00:08:21.640
+Looking at register values, look at
+memory contents, that type of thing.
+
+158
+00:08:21.640 --> 00:08:22.860
+So it allows you,
+
+159
+00:08:22.860 --> 00:08:26.650
+having run control allows you to look
+at the intermediate values manually.
+
+160
+00:08:26.650 --> 00:08:31.090
+So generally this is
+done using breakpoints.
+
+161
+00:08:31.090 --> 00:08:34.189
+We won't be using breakpoints, but
+breakpoints are basically you look at your
+
+162
+00:08:34.189 --> 00:08:36.977
+code, and you see something's gone wrong,
+and you have a suspicion.
+
+163
+00:08:36.977 --> 00:08:38.980
+Oh, I think the problem's
+somewhere around line 53.
+
+164
+00:08:38.980 --> 00:08:43.510
+So you set a breakpoint at line 53, and
+you let the code run until line 53.
+
+165
+00:08:43.510 --> 00:08:46.848
+Then it stops, and at line 53,
+you can then type in, or
+
+166
+00:08:46.848 --> 00:08:50.410
+it depend on your interface of
+your debugging environment.
+
+167
+00:08:50.410 --> 00:08:53.257
+You can look at the values of
+the registries, the values of the memory,
+
+168
+00:08:53.257 --> 00:08:55.644
+the values of the variables,
+at when you're at line 53.
+
+169
+00:08:55.644 --> 00:08:59.880
+And then you can step through the code,
+you can say okay, one more line.
+
+170
+00:08:59.880 --> 00:09:01.180
+Let's look at the values now.
+
+171
+00:09:01.180 --> 00:09:03.180
+And you can keep looking at
+the values until they go wrong.
+
+172
+00:09:03.180 --> 00:09:07.500
+You can say, oh now value x has the wrong
+value, I know it happened on line 54,
+
+173
+00:09:07.500 --> 00:09:08.020
+something like that.
+
+174
+00:09:08.020 --> 00:09:10.200
+So that's one control of the target.
+
+175
+00:09:10.200 --> 00:09:13.350
+We don't have that for the Arduino,
+for the Arduino UNO, anyway.
+
+176
+00:09:13.350 --> 00:09:15.195
+But that's a very useful thing to have.
+
+177
+00:09:15.195 --> 00:09:18.887
+Real-time monitoring of the target.
+
+178
+00:09:18.887 --> 00:09:21.914
+So what we mean by this is that,
+if you, so
+
+179
+00:09:21.914 --> 00:09:26.419
+say you use the run control on
+the target it alters the timing.
+
+180
+00:09:26.419 --> 00:09:29.030
+The timing execution of the target.
+
+181
+00:09:29.030 --> 00:09:34.560
+So what that means is, that say your code,
+say you got a piece of code.
+
+182
+00:09:34.560 --> 00:09:37.300
+And generally that code,
+say you got a loop, right?
+
+183
+00:09:37.300 --> 00:09:38.400
+The loop function.
+
+184
+00:09:38.400 --> 00:09:41.610
+And it takes one millisecond to
+execute the loop function, let's say.
+
+185
+00:09:41.610 --> 00:09:43.060
+So if you do run control and
+
+186
+00:09:43.060 --> 00:09:47.730
+you stop, set a break point in the middle
+of that, it runs for half a millisecond.
+
+187
+00:09:47.730 --> 00:09:50.350
+You check things and you run it for
+another half a millisecond.
+
+188
+00:09:50.350 --> 00:09:54.480
+But, the total execution time is now
+much longer because you stopped it and
+
+189
+00:09:54.480 --> 00:09:56.410
+did some debugging and checking, right?
+
+190
+00:09:56.410 --> 00:09:59.920
+So, you have now completely altered
+the timing, the performance of the system.
+
+191
+00:10:01.070 --> 00:10:04.690
+Now in a system like in IOT devices,
+a lot of IOT devices,
+
+192
+00:10:04.690 --> 00:10:08.230
+the timing is very important to
+the correct operation of the system.
+
+193
+00:10:08.230 --> 00:10:10.490
+If you don't get the timing
+right it doesn't work.
+
+194
+00:10:11.520 --> 00:10:14.030
+So real-time monitoring
+is what you would like.
+
+195
+00:10:14.030 --> 00:10:16.970
+Real time is where you don't stop,
+you don't set a break point and
+
+196
+00:10:16.970 --> 00:10:18.540
+just stop the execution.
+
+197
+00:10:18.540 --> 00:10:22.460
+You view data about the execution
+in real time right.
+
+198
+00:10:22.460 --> 00:10:24.700
+As it is executing,
+you are viewing the data.
+
+199
+00:10:24.700 --> 00:10:28.350
+So for instance,
+say there's a value x of variable x,
+
+200
+00:10:28.350 --> 00:10:31.890
+you don't have to stop the program and
+then say print x.
+
+201
+00:10:31.890 --> 00:10:35.560
+You can just see x coming out on
+some pins while it's executing.
+
+202
+00:10:35.560 --> 00:10:39.820
+Without slowing down the processor, you
+can still see the value of x, let's say.
+
+203
+00:10:39.820 --> 00:10:43.190
+That's run-time monitoring, very useful.
+
+204
+00:10:43.190 --> 00:10:44.290
+We don't have that.
+
+205
+00:10:44.290 --> 00:10:46.180
+But, very useful.
+
+206
+00:10:46.180 --> 00:10:48.710
+It's not intrusive in
+terms of performance.
+
+207
+00:10:48.710 --> 00:10:51.380
+That's fairly important for
+our timing constraint systems.
+
+208
+00:10:51.380 --> 00:10:54.580
+There are many IOC devices
+where timing is important.
+
+209
+00:10:57.090 --> 00:11:00.220
+Related to that is timing and
+functional accuracy.
+
+210
+00:11:00.220 --> 00:11:02.890
+Again, this is also related to the timing.
+
+211
+00:11:02.890 --> 00:11:06.460
+What this is referring to is the fact that
+sometimes the way people debug is rather
+
+212
+00:11:06.460 --> 00:11:09.310
+than running the code on a real system,
+they simulate the code.
+
+213
+00:11:09.310 --> 00:11:12.300
+Now, if you simulate the code,
+
+214
+00:11:12.300 --> 00:11:17.090
+the simulator usually doesn't run at
+the same speed as the actual system.
+
+215
+00:11:17.090 --> 00:11:20.430
+So you're altering the timing performance
+just because you're doing simulation.
+
+216
+00:11:20.430 --> 00:11:22.830
+So you want timing and
+functional accuracy.
+
+217
+00:11:22.830 --> 00:11:27.420
+You want the simulated version to be
+exactly the same in terms of timing
+
+218
+00:11:27.420 --> 00:11:31.030
+as the original and
+you want functional accuracy.
+
+219
+00:11:31.030 --> 00:11:35.040
+So another thing about simulators
+is that often simulators,
+
+220
+00:11:35.040 --> 00:11:38.830
+they model most things but there's certain
+things they can't accurately model.
+
+221
+00:11:38.830 --> 00:11:40.620
+So they can't do certain behaviors.
+
+222
+00:11:40.620 --> 00:11:43.200
+For instance,
+if you're doing a simulation.
+
+223
+00:11:43.200 --> 00:11:46.260
+Simulating an analog to digital
+converter is very hard.
+
+224
+00:11:46.260 --> 00:11:49.670
+Sometimes simulators won't do that.
+
+225
+00:11:49.670 --> 00:11:52.510
+So it'll be inaccurate in its results for
+the A to D conversion.
+
+226
+00:11:52.510 --> 00:11:54.820
+You might be doing an analog read.
+
+227
+00:11:54.820 --> 00:11:57.721
+And then your analog read data
+will be incorrect because
+
+228
+00:11:57.721 --> 00:11:59.888
+the simulator wasn't accurate enough.
+
+229
+00:11:59.888 --> 00:12:03.641
+So you want accuracy
+in terms of timing and
+
+230
+00:12:03.641 --> 00:12:08.691
+in terms of functionality if
+you can get it, thank you.
+
+231
+00:12:08.691 --> 00:12:14.864
+[MUSIC]

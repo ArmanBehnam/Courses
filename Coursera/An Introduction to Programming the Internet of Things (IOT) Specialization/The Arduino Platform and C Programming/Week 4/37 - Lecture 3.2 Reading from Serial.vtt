@@ -1,0 +1,351 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.224 --> 00:00:15.406
+So, so far we've been talking
+about the serial interface,
+
+3
+00:00:15.406 --> 00:00:19.240
+using it to send data from
+the Arduino to the host.
+
+4
+00:00:19.240 --> 00:00:23.080
+But it can be used in the opposite
+direction, so we'll talk about that.
+
+5
+00:00:23.080 --> 00:00:24.930
+So that can be useful a lot of times.
+
+6
+00:00:24.930 --> 00:00:29.040
+To be able to take data at the host,
+and sent it to the Arduino.
+
+7
+00:00:29.040 --> 00:00:31.360
+It's great for user interfaces right?
+
+8
+00:00:31.360 --> 00:00:34.490
+If you want to send commands manually,
+you type in a command and
+
+9
+00:00:34.490 --> 00:00:38.270
+have the Arduino do something
+in response to your command.
+
+10
+00:00:38.270 --> 00:00:42.770
+You might use a serial interface, want to
+type something and send it to the Arduino.
+
+11
+00:00:42.770 --> 00:00:45.840
+So the way you do that is, again,
+you do it through the serial monitor.
+
+12
+00:00:47.170 --> 00:00:50.830
+The serial monitor,
+you can see up here is at the top of it,
+
+13
+00:00:50.830 --> 00:00:53.910
+right now I'm just showing the top
+of that serial monitor window.
+
+14
+00:00:53.910 --> 00:00:58.770
+At the top is a little entry
+area when you enter text and
+
+15
+00:00:58.770 --> 00:01:02.180
+click on send, so you type some kind
+of text, some type of characters,
+
+16
+00:01:02.180 --> 00:01:06.681
+you click on send, and that data is
+sent via serial over to the Arduino.
+
+17
+00:01:07.780 --> 00:01:11.070
+So, you can use a serial monitor to
+send data as well as receive data.
+
+18
+00:01:12.630 --> 00:01:17.810
+So, when data is sent, it goes into
+a buffer in the Arduino until it's red,
+
+19
+00:01:17.810 --> 00:01:22.310
+because maybe when you send data, the
+Arduino might not immediately receive it.
+
+20
+00:01:22.310 --> 00:01:25.990
+When it receives the data, when it wants
+to read the data, depends on the code.
+
+21
+00:01:25.990 --> 00:01:29.140
+Maybe the code's busy doing
+something else when you do the send.
+
+22
+00:01:29.140 --> 00:01:34.000
+But, the data, it's held inside
+a buffer inside the Arduino
+
+23
+00:01:34.000 --> 00:01:38.170
+until the code is ready to actually
+read the data out of that buffer.
+
+24
+00:01:38.170 --> 00:01:39.370
+So there's a buffer in the Arduino,
+
+25
+00:01:39.370 --> 00:01:42.980
+a certain size, where data can
+sort of be held temporarily.
+
+26
+00:01:45.130 --> 00:01:49.560
+Now, there's a function in the serial
+library called Serial.available
+
+27
+00:01:49.560 --> 00:01:53.090
+that is used to see how many
+bytes are waiting in the buffer.
+
+28
+00:01:53.090 --> 00:01:56.830
+And you need this because again, this is
+sort of a synchronization issue between
+
+29
+00:01:56.830 --> 00:02:01.710
+the microcontroller and the human,
+or, not necessarily human.
+
+30
+00:02:01.710 --> 00:02:03.560
+Because from the point
+of view of the Arduino,
+
+31
+00:02:03.560 --> 00:02:06.110
+it could be receiving data from a human
+through the serial monitor, but
+
+32
+00:02:06.110 --> 00:02:08.370
+it might be receiving data
+from another microcontroller.
+
+33
+00:02:08.370 --> 00:02:11.060
+Right?
+Who knows where it's receiving data from.
+
+34
+00:02:11.060 --> 00:02:16.060
+But when it's receiving data, it can't
+just read data, if no data is available.
+
+35
+00:02:16.060 --> 00:02:19.390
+So typically before the Arduino
+tries to rad the data,
+
+36
+00:02:19.390 --> 00:02:21.760
+it should check to see if
+the data is available.
+
+37
+00:02:21.760 --> 00:02:25.510
+So it calls this function called serial
+data available, which will return
+
+38
+00:02:25.510 --> 00:02:28.269
+how much data is available in
+the buffer waiting to be read.
+
+39
+00:02:30.000 --> 00:02:31.176
+Here's an example.
+
+40
+00:02:31.176 --> 00:02:35.540
+int bytenum = Serial.available(); and
+it just simply returns the number of bytes
+
+41
+00:02:35.540 --> 00:02:38.220
+that are available in the buffer,
+waiting to be read.
+
+42
+00:02:39.220 --> 00:02:42.490
+So, when the Arduino wants to
+read a byte out of the buffer,
+
+43
+00:02:42.490 --> 00:02:46.590
+from the serial communication interface,
+it's called Serial.read.
+
+44
+00:02:46.590 --> 00:02:47.600
+So inside your code,
+
+45
+00:02:47.600 --> 00:02:51.360
+you call Serial.read, reads one byte
+from that buffer, that receiving buffer.
+
+46
+00:02:51.360 --> 00:02:53.900
+So in this case, int bval = Serial.read.
+
+47
+00:02:53.900 --> 00:02:57.400
+And bval will be assigned
+to whatever that byte is.
+
+48
+00:02:57.400 --> 00:02:59.764
+Notice that bval is an integer,
+not a byte.
+
+49
+00:02:59.764 --> 00:03:01.990
+Integer is actually bigger than a byte.
+
+50
+00:03:01.990 --> 00:03:04.920
+The reason why it needs to be bigger than
+a byte is because it also has to have
+
+51
+00:03:04.920 --> 00:03:06.280
+the option of returning a -1.
+
+52
+00:03:06.280 --> 00:03:09.020
+A byte can't have it be a -1.
+
+53
+00:03:09.020 --> 00:03:12.400
+It has to have the option of returning
+a -1, if no data is available.
+
+54
+00:03:14.240 --> 00:03:18.720
+So, in addition to reading one byte,
+you could read many bytes at a time.
+
+55
+00:03:18.720 --> 00:03:22.220
+So, Serial.read will read one byte,
+but you might wanna read many bytes.
+
+56
+00:03:22.220 --> 00:03:26.470
+If you read many bytes,
+you'd call Serial.readBytes.
+
+57
+00:03:26.470 --> 00:03:31.120
+That reads several bytes out of that
+buffer, that transmission receiving
+
+58
+00:03:31.120 --> 00:03:36.210
+buffer, but it writes those bites into a
+new buffer that the programmer specifies.
+
+59
+00:03:36.210 --> 00:03:40.300
+So, one of the arguments of read bites
+is gonna be the name of the buffer
+
+60
+00:03:40.300 --> 00:03:42.150
+that you want the data to go into.
+
+61
+00:03:42.150 --> 00:03:45.760
+So, read bites will read out of
+the built-in receiving buffer, and
+
+62
+00:03:45.760 --> 00:03:49.670
+write those bytes into the buffer that
+you specify, so you can access it later.
+
+63
+00:03:50.690 --> 00:03:54.106
+As an example,
+let's say I say char buff [10].
+
+64
+00:03:54.106 --> 00:03:57.210
+So that gives me a buffer called buff,
+
+65
+00:03:57.210 --> 00:03:59.730
+which is 10 characters long or
+10 bytes long.
+
+66
+00:03:59.730 --> 00:04:01.630
+So it can fit 10 bytes.
+
+67
+00:04:01.630 --> 00:04:05.350
+Then I call serial.readBytes and I give it
+two arguments, buff which is the name of
+
+68
+00:04:05.350 --> 00:04:09.680
+the buffer I just created, and 10 which
+is the number of bytes that I wanna read.
+
+69
+00:04:09.680 --> 00:04:13.530
+And what readBytes will do is read 10
+bytes out of the receiving buffer and
+
+70
+00:04:13.530 --> 00:04:16.780
+place them into buff,
+the buffer that I specify.
+
+71
+00:04:16.780 --> 00:04:20.796
+I can access that buffer later and
+do things with the data.
+
+72
+00:04:20.796 --> 00:04:21.565
+Thank you.
+
+73
+00:04:21.565 --> 00:04:26.800
+[MUSIC]

@@ -1,0 +1,719 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.164 --> 00:00:17.630
+This lecture we'll talk about how
+we'll do debugging using the Arduino.
+
+3
+00:00:19.045 --> 00:00:22.432
+Specifically, how are we
+gonna do observability?
+
+4
+00:00:22.432 --> 00:00:23.940
+How are we gonna get observability?
+
+5
+00:00:23.940 --> 00:00:28.826
+So observing information about what's
+going on when you're running the Arduino,
+
+6
+00:00:28.826 --> 00:00:30.695
+when you're running the code.
+
+7
+00:00:30.695 --> 00:00:33.361
+Now, one way is to just look
+at the output pins, but
+
+8
+00:00:33.361 --> 00:00:38.570
+we often wanna see more important, more
+detailed information, to put it like that.
+
+9
+00:00:38.570 --> 00:00:42.630
+And so, we need some way to transfer
+information from the Arduino, or
+
+10
+00:00:42.630 --> 00:00:46.340
+some microcontroller,
+to the host that we're debugging from.
+
+11
+00:00:46.340 --> 00:00:49.130
+And serial interface is
+how we're gonna do that.
+
+12
+00:00:49.130 --> 00:00:51.575
+So, we'll talk about that right now.
+
+13
+00:00:51.575 --> 00:00:52.845
+So, serial protocols.
+
+14
+00:00:52.845 --> 00:00:57.280
+So, serial interface basically,
+we're talking about a protocol,
+
+15
+00:00:57.280 --> 00:01:02.481
+a set of protocols really, that speak
+between the host and the microcontroller.
+
+16
+00:01:02.481 --> 00:01:08.190
+And we're going to focus on serial
+protocol here, a serial protocol.
+
+17
+00:01:08.190 --> 00:01:12.480
+Serial protocol in general is
+where you transmit data serially.
+
+18
+00:01:12.480 --> 00:01:16.000
+So you transmit data one bit at a time,
+or one chunk at a time.
+
+19
+00:01:16.000 --> 00:01:18.340
+In our case, one bit at a time.
+
+20
+00:01:18.340 --> 00:01:20.860
+Instead of, say, eight bits at a time.
+
+21
+00:01:20.860 --> 00:01:24.663
+The Arduino, the microprocessor in there,
+the Mega 328,
+
+22
+00:01:24.663 --> 00:01:28.553
+it's a eight bit processor, so
+each chunk of data is eight bit.
+
+23
+00:01:28.553 --> 00:01:31.537
+But we're gonna be transmitting
+one bit at a time.
+
+24
+00:01:31.537 --> 00:01:32.890
+So why would we do that?
+
+25
+00:01:34.490 --> 00:01:36.740
+So the parallel data, eight bits parallel,
+
+26
+00:01:36.740 --> 00:01:38.630
+are gonna be transmitted
+one bit at a time.
+
+27
+00:01:38.630 --> 00:01:43.830
+The reason why we do this,
+is because it saves us pins okay?
+
+28
+00:01:43.830 --> 00:01:47.314
+So what has to happen is these
+parallel bits, these eight bits,
+
+29
+00:01:47.314 --> 00:01:48.869
+they're sent one at a time.
+
+30
+00:01:48.869 --> 00:01:51.945
+And at the receiving end they have
+to be received one at a time but
+
+31
+00:01:51.945 --> 00:01:53.869
+grouped back into eight bits, right?
+
+32
+00:01:53.869 --> 00:01:56.020
+We need the original eight bits back.
+
+33
+00:01:56.020 --> 00:01:58.740
+So they receive one at a time, and once
+you get to eight, it says, okay this is
+
+34
+00:01:58.740 --> 00:02:02.770
+a group of eight, that's a byte, and
+it sends it off and processes it.
+
+35
+00:02:02.770 --> 00:02:04.510
+So we do this to save pins.
+
+36
+00:02:05.560 --> 00:02:07.350
+Pin usage is important.
+
+37
+00:02:07.350 --> 00:02:10.040
+So we mention this when we're
+talking about debugging.
+
+38
+00:02:10.040 --> 00:02:12.820
+There aren't too many pins on these chips.
+
+39
+00:02:12.820 --> 00:02:14.841
+Relatively, there are very
+few pins on these chips.
+
+40
+00:02:14.841 --> 00:02:19.241
+So, you don't want to have to use eight
+pins for debugging if you could help it.
+
+41
+00:02:19.241 --> 00:02:21.447
+You would rather use one pin.
+
+42
+00:02:21.447 --> 00:02:24.912
+So that's why serial protocols
+are very common for this purpose, for
+
+43
+00:02:24.912 --> 00:02:27.920
+debugging interfaces,
+because they don't use many pins.
+
+44
+00:02:27.920 --> 00:02:29.290
+Now, they are slower, right?
+
+45
+00:02:29.290 --> 00:02:32.131
+Because instead of sending all eight
+pins in one clock cycle you have to send
+
+46
+00:02:32.131 --> 00:02:33.360
+one at a time.
+
+47
+00:02:33.360 --> 00:02:37.993
+So it slows you down but
+it saves pins and pins are important.
+
+48
+00:02:37.993 --> 00:02:40.600
+So pins are precious, that's why we're
+using serial protocols in general.
+
+49
+00:02:40.600 --> 00:02:44.223
+Now there are many different, or rather,
+several different serial protocols.
+
+50
+00:02:44.223 --> 00:02:46.370
+We are gonna focus on UART.
+
+51
+00:02:46.370 --> 00:02:50.956
+UART stands for Universal
+Asynchronous Receiver/Transmitter.
+
+52
+00:02:50.956 --> 00:02:53.020
+It is an old, old protocol.
+
+53
+00:02:54.150 --> 00:02:54.838
+Still useful though.
+
+54
+00:02:54.838 --> 00:02:57.610
+It's used for
+serial communication between devices.
+
+55
+00:02:57.610 --> 00:02:59.020
+It gives you long distance actually.
+
+56
+00:03:00.050 --> 00:03:02.920
+It's asynchronous,
+meaning no shared clock.
+
+57
+00:03:02.920 --> 00:03:06.080
+So what we mean by this is that, so
+we talked about what a clock is.
+
+58
+00:03:06.080 --> 00:03:08.700
+A clock is basically a square wave, okay?
+
+59
+00:03:08.700 --> 00:03:11.680
+And the square wave has rising edges and
+falling edges.
+
+60
+00:03:11.680 --> 00:03:17.219
+And all the devices in the system time
+themselves off of the rising edge, okay.
+
+61
+00:03:17.219 --> 00:03:21.863
+So, one goal when you're using a clock
+is that every item, every say part,
+
+62
+00:03:21.863 --> 00:03:27.040
+that's receiving the clock, they have to
+receive the rising edge at the same time.
+
+63
+00:03:28.240 --> 00:03:32.240
+So if you look at a circuit board, say you
+look at the mother board of a computer,
+
+64
+00:03:32.240 --> 00:03:33.935
+there is gonna be a system clock.
+
+65
+00:03:33.935 --> 00:03:38.135
+And the system clock it goes to all
+the parts that receive all the chips,
+
+66
+00:03:38.135 --> 00:03:40.169
+let's say, on the mother board.
+
+67
+00:03:40.169 --> 00:03:42.932
+And the system clock is gonna
+run at a certain frequency.
+
+68
+00:03:42.932 --> 00:03:47.388
+And the rising edge has to travel
+from wherever the clock is generated,
+
+69
+00:03:47.388 --> 00:03:48.210
+to the chip.
+
+70
+00:03:48.210 --> 00:03:49.710
+And there is a certain amount of distance.
+
+71
+00:03:49.710 --> 00:03:51.990
+Maybe it's traveling this far, okay?
+
+72
+00:03:51.990 --> 00:03:53.022
+But these things are fast.
+
+73
+00:03:53.022 --> 00:03:55.367
+So this far is a long distance, okay?
+
+74
+00:03:55.367 --> 00:04:00.222
+So it is important that the rising
+edge arrives at every destination at
+
+75
+00:04:00.222 --> 00:04:02.704
+the same time, or very close to it.
+
+76
+00:04:02.704 --> 00:04:06.992
+That's the assumption for all of our
+systems, that all the parts on your device
+
+77
+00:04:06.992 --> 00:04:11.353
+that are receiving the clock, they all
+receive the rising edge at the same time.
+
+78
+00:04:11.353 --> 00:04:15.720
+Now that's hard to guarantee in any kind
+of a big system because even this much
+
+79
+00:04:15.720 --> 00:04:18.750
+distance takes a certain
+amount of time to travel.
+
+80
+00:04:18.750 --> 00:04:20.176
+I mean, even for light.
+
+81
+00:04:20.176 --> 00:04:22.578
+And these signals are travelling
+a lot slower than light.
+
+82
+00:04:22.578 --> 00:04:26.433
+I mean, if you think about how
+fast these signals are traveling.
+
+83
+00:04:26.433 --> 00:04:30.972
+So just give you ball park numbers,
+right, take the speed of light, okay?
+
+84
+00:04:30.972 --> 00:04:34.162
+Now I don't remember the speed of
+light off the top of my head, but
+
+85
+00:04:34.162 --> 00:04:38.120
+I happen to remember that, well I know
+that the clock rate of typical processes.
+
+86
+00:04:38.120 --> 00:04:40.950
+Let's take a processor,
+let's say one gigahertz clock rate.
+
+87
+00:04:40.950 --> 00:04:45.210
+Now that's a slow clock rate for
+a modern processor, for a desktop or
+
+88
+00:04:45.210 --> 00:04:46.450
+something like that.
+
+89
+00:04:46.450 --> 00:04:47.700
+But, let's say one gigahertz.
+
+90
+00:04:47.700 --> 00:04:49.650
+So if you have a one gigahertz clock rate,
+
+91
+00:04:49.650 --> 00:04:51.350
+then you have a one
+nanosecond clock period.
+
+92
+00:04:51.350 --> 00:04:53.357
+That means between two clock edges,
+
+93
+00:04:53.357 --> 00:04:56.278
+you've got one nanosecond
+of time in between there.
+
+94
+00:04:56.278 --> 00:04:59.888
+So, then how far does the light travel,
+even light which is the fastest,
+
+95
+00:04:59.888 --> 00:05:02.450
+how far this light travel in a nanosecond?
+
+96
+00:05:02.450 --> 00:05:04.079
+I don't know, about so far, okay?
+
+97
+00:05:04.079 --> 00:05:07.650
+I don't remember the distance, I'd have to
+compute it, but you can check into that.
+
+98
+00:05:07.650 --> 00:05:09.960
+But it's some short distance, okay.
+
+99
+00:05:09.960 --> 00:05:12.068
+This isn't a lot of distance.
+
+100
+00:05:12.068 --> 00:05:15.510
+And a board,
+a motherboard can be bigger than this.
+
+101
+00:05:15.510 --> 00:05:18.350
+So what this is saying is that in a clock,
+
+102
+00:05:18.350 --> 00:05:22.780
+even the fastest signal can't travel
+from one end of the board, right.
+
+103
+00:05:22.780 --> 00:05:27.244
+And remember that our electrical signals
+are traveling a lot slower than light is.
+
+104
+00:05:27.244 --> 00:05:32.278
+So the reason I bring this is up is
+because guaranteeing that every device
+
+105
+00:05:32.278 --> 00:05:37.658
+in the system receives a rising clock
+edge at the same time is extremely hard.
+
+106
+00:05:37.658 --> 00:05:41.786
+Because they're all different
+distances away from wherever the clock
+
+107
+00:05:41.786 --> 00:05:42.755
+generation is.
+
+108
+00:05:42.755 --> 00:05:44.220
+So it's very hard.
+
+109
+00:05:44.220 --> 00:05:45.844
+And that makes UART a nice thing,
+
+110
+00:05:45.844 --> 00:05:48.985
+because UART is asynchronous
+meaning it doesn't have a clock.
+
+111
+00:05:48.985 --> 00:05:52.860
+It doesn't require a clock so
+that's a good feature of UART.
+
+112
+00:05:52.860 --> 00:05:57.280
+Now as a result of that, UART is slower
+than a lot of other protocols and
+
+113
+00:05:57.280 --> 00:05:58.840
+synchronous protocols might be.
+
+114
+00:05:58.840 --> 00:06:03.304
+But it has that advantage that it can
+work over very long distances because
+
+115
+00:06:03.304 --> 00:06:06.264
+it doesn't require them
+to have the same clock.
+
+116
+00:06:08.400 --> 00:06:12.347
+Yeah, so
+you get the longer communication distance.
+
+117
+00:06:12.347 --> 00:06:13.730
+Clock skew is not a problem.
+
+118
+00:06:13.730 --> 00:06:19.100
+So skew is basically, so like I said,
+in a synchronous system,
+
+119
+00:06:19.100 --> 00:06:21.850
+all the clock edges,
+all the components receiving the clock,
+
+120
+00:06:21.850 --> 00:06:24.550
+have to receive the clock
+edge at the same instant.
+
+121
+00:06:24.550 --> 00:06:26.760
+But they never receive it at
+exactly the same instant.
+
+122
+00:06:26.760 --> 00:06:29.660
+There's always a little bit of difference
+in the time when they receive it.
+
+123
+00:06:29.660 --> 00:06:31.710
+And that difference is called clock skew.
+
+124
+00:06:31.710 --> 00:06:32.785
+And you want to minimize clock skew.
+
+125
+00:06:32.785 --> 00:06:39.182
+But clock skew isn't such a problem with
+UART, because it doesn't have a clock.
+
+126
+00:06:39.182 --> 00:06:41.570
+So, ways that we use UART.
+
+127
+00:06:41.570 --> 00:06:45.950
+So, UART used to be much more used.
+
+128
+00:06:45.950 --> 00:06:46.740
+Not so much anymore.
+
+129
+00:06:46.740 --> 00:06:49.480
+It's been replaced by other protocols.
+
+130
+00:06:49.480 --> 00:06:52.570
+But it was used by modems
+to connect to networks.
+
+131
+00:06:52.570 --> 00:06:56.338
+So if you're old enough, you remember
+that people would actually take,
+
+132
+00:06:56.338 --> 00:06:59.865
+when you connect to a network,
+AOL or whatever, CompuServe.
+
+133
+00:06:59.865 --> 00:07:03.155
+You take a phone and actually connect
+it to your computer through a modem,
+
+134
+00:07:03.155 --> 00:07:06.965
+through a big fat modem,
+and those thing use UART.
+
+135
+00:07:06.965 --> 00:07:10.415
+Real slow communication and
+very long distance, but it worked.
+
+136
+00:07:10.415 --> 00:07:13.560
+It was slow, but it worked.
+
+137
+00:07:13.560 --> 00:07:16.682
+Computers used to have an RS232 port,
+standard.
+
+138
+00:07:16.682 --> 00:07:21.250
+RS232 is a port made to
+communicate with UART.
+
+139
+00:07:21.250 --> 00:07:23.650
+So they used to come standard.
+
+140
+00:07:23.650 --> 00:07:27.960
+They don't do that anymore because
+UART has been sort of supplanted,
+
+141
+00:07:27.960 --> 00:07:32.210
+taken over by other better,
+more effective, protocols nowadays.
+
+142
+00:07:32.210 --> 00:07:34.842
+So it's not well-used outside
+of embedded systems and
+
+143
+00:07:34.842 --> 00:07:36.692
+IoT devices like we're dealing with.
+
+144
+00:07:36.692 --> 00:07:40.290
+It's still using those domains for
+debugging mostly.
+
+145
+00:07:40.290 --> 00:07:44.320
+But it's been replaced by things like USB,
+ethernet connections, I2C, SPI,
+
+146
+00:07:44.320 --> 00:07:46.260
+we'll cover those later.
+
+147
+00:07:46.260 --> 00:07:50.080
+But there are a lot of other options
+you can use instead of UART nowadays.
+
+148
+00:07:51.170 --> 00:07:55.927
+But it's simple, UART is very simple
+protocol and it's low hardware overhead.
+
+149
+00:07:55.927 --> 00:07:59.354
+That's another reason why people still use
+it in embedded systems for communication,
+
+150
+00:07:59.354 --> 00:08:00.800
+for debugging and things like that.
+
+151
+00:08:02.020 --> 00:08:04.950
+So it's just so convenient to use.
+
+152
+00:08:04.950 --> 00:08:06.790
+And it's built into most microcontrollers.
+
+153
+00:08:06.790 --> 00:08:10.740
+So most microcontrollers have
+hardware support for UART,
+
+154
+00:08:10.740 --> 00:08:13.031
+so why not use that for debugging?
+
+155
+00:08:13.031 --> 00:08:13.553
+Thank you.
+
+156
+00:08:13.553 --> 00:08:22.359
+[MUSIC]

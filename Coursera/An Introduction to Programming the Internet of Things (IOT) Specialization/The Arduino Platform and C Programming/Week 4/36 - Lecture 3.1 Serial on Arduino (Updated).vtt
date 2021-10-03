@@ -1,0 +1,1342 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:04.890
+Serial communication is
+sending one bit at a time.
+
+2
+00:00:04.890 --> 00:00:06.750
+That's essentially what it means.
+
+3
+00:00:06.750 --> 00:00:08.279
+Now, in this context,
+
+4
+00:00:08.279 --> 00:00:09.705
+and often you'll see the
+
+5
+00:00:09.705 --> 00:00:11.520
+term serial communication
+used this way,
+
+6
+00:00:11.520 --> 00:00:13.785
+serial means UART communication.
+
+7
+00:00:13.785 --> 00:00:16.335
+UART is a specific
+serial protocol
+
+8
+00:00:16.335 --> 00:00:18.300
+that we've talked about.
+
+9
+00:00:18.300 --> 00:00:20.055
+We're going to talk about
+more too in the class,
+
+10
+00:00:20.055 --> 00:00:22.170
+but it's a specific
+serial protocol.
+
+11
+00:00:22.170 --> 00:00:25.950
+The term serial really is
+more broad than just UART,
+
+12
+00:00:25.950 --> 00:00:28.485
+but it is often used
+interchangeably.
+
+13
+00:00:28.485 --> 00:00:30.480
+Specifically, in the
+Arduino context,
+
+14
+00:00:30.480 --> 00:00:33.450
+we're going to use this
+serial communication library.
+
+15
+00:00:33.450 --> 00:00:35.100
+It's called serial, but it is
+
+16
+00:00:35.100 --> 00:00:36.540
+a UART communication library.
+
+17
+00:00:36.540 --> 00:00:38.415
+So, you should be aware of that.
+
+18
+00:00:38.415 --> 00:00:43.125
+So, we're using UART protocol
+over a USB cable.
+
+19
+00:00:43.125 --> 00:00:46.890
+UART protocol needs
+say three wires.
+
+20
+00:00:46.890 --> 00:00:49.690
+One transmit, one receive,
+
+21
+00:00:49.690 --> 00:00:51.740
+and then another one
+for the common ground.
+
+22
+00:00:51.740 --> 00:00:53.000
+There are other wires you
+
+23
+00:00:53.000 --> 00:00:54.955
+could use, but those are minimum.
+
+24
+00:00:54.955 --> 00:00:58.220
+It sends one bit at a time in
+one direction or the other,
+
+25
+00:00:58.220 --> 00:00:59.330
+or actually, it can send
+
+26
+00:00:59.330 --> 00:01:00.530
+both directions at the same time.
+
+27
+00:01:00.530 --> 00:01:02.255
+So, it's got two different wires.
+
+28
+00:01:02.255 --> 00:01:03.815
+But you need those wires.
+
+29
+00:01:03.815 --> 00:01:06.335
+So, you can connect to
+
+30
+00:01:06.335 --> 00:01:10.100
+a microcontroller or
+an integrated circuit
+
+31
+00:01:10.100 --> 00:01:12.290
+and communicate just via wires,
+
+32
+00:01:12.290 --> 00:01:13.580
+but it is most common in
+
+33
+00:01:13.580 --> 00:01:16.020
+bigger systems to use
+the USB cable itself.
+
+34
+00:01:16.020 --> 00:01:18.290
+So, from the Arduino to
+
+35
+00:01:18.290 --> 00:01:21.230
+the laptop when they want to
+communicate with each other,
+
+36
+00:01:21.230 --> 00:01:24.080
+they communicate
+over the USB cable.
+
+37
+00:01:24.080 --> 00:01:26.840
+When you're using
+the serial library,
+
+38
+00:01:26.840 --> 00:01:27.980
+they are communicating using
+
+39
+00:01:27.980 --> 00:01:31.985
+the UART protocol
+over the USB cable.
+
+40
+00:01:31.985 --> 00:01:33.875
+But it wasn't
+originally that way.
+
+41
+00:01:33.875 --> 00:01:36.020
+There was another cable, RS-232,
+
+42
+00:01:36.020 --> 00:01:39.440
+that was originally made
+specifically for this protocol,
+
+43
+00:01:39.440 --> 00:01:42.380
+but that's not installed
+in machines anymore.
+
+44
+00:01:42.380 --> 00:01:45.700
+So, now people just do it
+commonly over the USB cable.
+
+45
+00:01:45.700 --> 00:01:50.050
+So, the way you start serial
+communication in Arduino
+
+46
+00:01:50.050 --> 00:01:52.580
+is you have to call
+this initialization function
+
+47
+00:01:52.580 --> 00:01:54.265
+Serial.begin.
+
+48
+00:01:54.265 --> 00:01:57.200
+Typically, you put that
+initialization function inside
+
+49
+00:01:57.200 --> 00:01:58.640
+your setup because you only want
+
+50
+00:01:58.640 --> 00:02:00.275
+it to be executed one time,
+
+51
+00:02:00.275 --> 00:02:02.195
+you don't want it to
+be executed in a loop.
+
+52
+00:02:02.195 --> 00:02:06.700
+Now, Serial.begin it can
+take one or two arguments.
+
+53
+00:02:06.700 --> 00:02:08.970
+If it's one argument,
+that argument is
+
+54
+00:02:08.970 --> 00:02:11.370
+the speed and if
+it's two arguments,
+
+55
+00:02:11.370 --> 00:02:12.650
+then the first argument is
+
+56
+00:02:12.650 --> 00:02:14.710
+the speed and the second
+is the configuration.
+
+57
+00:02:14.710 --> 00:02:17.765
+Now, the speed is the baud rate.
+
+58
+00:02:17.765 --> 00:02:19.070
+That means the bits per
+
+59
+00:02:19.070 --> 00:02:21.080
+second that you're
+sending or the number of
+
+60
+00:02:21.080 --> 00:02:22.910
+transitions per second
+on the line which is
+
+61
+00:02:22.910 --> 00:02:25.360
+essentially the bits per
+second that you're sending.
+
+62
+00:02:25.360 --> 00:02:27.450
+These are not all data bits node.
+
+63
+00:02:27.450 --> 00:02:29.540
+So, even if you have
+a high baud rate,
+
+64
+00:02:29.540 --> 00:02:31.040
+remember that the data rate is a
+
+65
+00:02:31.040 --> 00:02:33.125
+little bit less than that
+because there's an overhead,
+
+66
+00:02:33.125 --> 00:02:34.820
+there is the stop bit
+and a parody bit and
+
+67
+00:02:34.820 --> 00:02:36.915
+other things that
+we'll talk about.
+
+68
+00:02:36.915 --> 00:02:39.740
+But baud rate is the number
+of bits per second.
+
+69
+00:02:39.740 --> 00:02:44.495
+There are certain baud rates
+that are common in serial.
+
+70
+00:02:44.495 --> 00:02:45.950
+You can use anyone you want.
+
+71
+00:02:45.950 --> 00:02:47.720
+There's certain
+common baud rates,
+
+72
+00:02:47.720 --> 00:02:50.125
+like 9,600 baud is
+a common baud rate.
+
+73
+00:02:50.125 --> 00:02:52.590
+Now, note that the
+
+74
+00:02:52.590 --> 00:02:55.365
+faster the baud rate the faster
+the data transmission.
+
+75
+00:02:55.365 --> 00:02:56.670
+So that sounds good. You want
+
+76
+00:02:56.670 --> 00:02:57.775
+to transmit as fast as you can.
+
+77
+00:02:57.775 --> 00:02:59.285
+Ninety-six hundred baud
+is pretty slow.
+
+78
+00:02:59.285 --> 00:03:02.165
+Ninety-six hundred bits
+per second is pretty slow.
+
+79
+00:03:02.165 --> 00:03:05.210
+But there's a limit to
+this because there's
+
+80
+00:03:05.210 --> 00:03:06.590
+a synchronization that goes on
+
+81
+00:03:06.590 --> 00:03:08.840
+between the two
+communicating parties.
+
+82
+00:03:08.840 --> 00:03:12.655
+They have to be timed in sync
+
+83
+00:03:12.655 --> 00:03:14.990
+and the synchronization
+fails once
+
+84
+00:03:14.990 --> 00:03:18.670
+the baud rate gets too high.
+They don't synchronize well.
+
+85
+00:03:18.980 --> 00:03:21.680
+Sometimes in practice when making
+
+86
+00:03:21.680 --> 00:03:23.630
+an IoT device or
+analyzing a device,
+
+87
+00:03:23.630 --> 00:03:25.175
+when communicating
+with the device
+
+88
+00:03:25.175 --> 00:03:26.600
+at a particular baud rate,
+
+89
+00:03:26.600 --> 00:03:29.300
+often just slowing down the
+baud rate will make it work.
+
+90
+00:03:29.300 --> 00:03:30.710
+So, maybe at a high
+baud rate it doesn't
+
+91
+00:03:30.710 --> 00:03:32.360
+work because they're
+not synchronizing well,
+
+92
+00:03:32.360 --> 00:03:33.605
+but if I just slow it down,
+
+93
+00:03:33.605 --> 00:03:36.365
+then they synchronize fine
+and everything's okay.
+
+94
+00:03:36.365 --> 00:03:38.360
+The synchronization
+goes wrong because of
+
+95
+00:03:38.360 --> 00:03:41.030
+noise errors in the wires
+and stuff like that,
+
+96
+00:03:41.030 --> 00:03:43.790
+a long wire, stuff like
+this will cause problems.
+
+97
+00:03:43.790 --> 00:03:46.300
+So, just slowing down the
+baud rate is often helpful.
+
+98
+00:03:46.300 --> 00:03:48.030
+So, speed is first argument.
+
+99
+00:03:48.030 --> 00:03:49.325
+You have to give that argument.
+
+100
+00:03:49.325 --> 00:03:51.230
+The other argument
+is a configuration.
+
+101
+00:03:51.230 --> 00:03:53.810
+So, this sets the properties
+of the communication,
+
+102
+00:03:53.810 --> 00:03:55.100
+basically the bits
+that you're sending.
+
+103
+00:03:55.100 --> 00:03:57.125
+How many data bits,
+how many parity bit,
+
+104
+00:03:57.125 --> 00:03:58.700
+or are you sending
+a parity bit rather,
+
+105
+00:03:58.700 --> 00:04:00.715
+how many stop bits and so on.
+
+106
+00:04:00.715 --> 00:04:02.930
+So, there are a set of
+constants that are defined
+
+107
+00:04:02.930 --> 00:04:04.985
+for that in the Arduino library.
+
+108
+00:04:04.985 --> 00:04:06.710
+So, one thing you could call a
+
+109
+00:04:06.710 --> 00:04:08.435
+Serial.begin 9,600 that's a
+
+110
+00:04:08.435 --> 00:04:12.430
+common and that says okay
+centered at 9,600 baud rate.
+
+111
+00:04:12.430 --> 00:04:14.420
+Now, you can also try
+
+112
+00:04:14.420 --> 00:04:15.980
+this where you get
+the second argument.
+
+113
+00:04:15.980 --> 00:04:18.125
+The second argument is a
+
+114
+00:04:18.125 --> 00:04:19.490
+constant that is associated
+
+115
+00:04:19.490 --> 00:04:21.070
+with some certain configuration.
+
+116
+00:04:21.070 --> 00:04:24.090
+So, that Serial 8N1 that means,
+
+117
+00:04:24.090 --> 00:04:25.330
+and you just have
+to look this up,
+
+118
+00:04:25.330 --> 00:04:27.200
+but what that means
+is eight data bits,
+
+119
+00:04:27.200 --> 00:04:29.240
+no parody, one-stop bit.
+
+120
+00:04:29.240 --> 00:04:31.580
+Typically, we're not going
+to use a second argument.
+
+121
+00:04:31.580 --> 00:04:33.980
+Not in this class because we're
+going to use the default.
+
+122
+00:04:33.980 --> 00:04:35.225
+That's actually the default.
+
+123
+00:04:35.225 --> 00:04:38.060
+We're going to use
+a default configuration
+
+124
+00:04:38.060 --> 00:04:39.245
+and that's fine for us.
+
+125
+00:04:39.245 --> 00:04:40.520
+But you can change that if you
+
+126
+00:04:40.520 --> 00:04:42.158
+wanted to for
+any particular reason.
+
+127
+00:04:42.158 --> 00:04:47.760
+Okay. So, again,
+
+128
+00:04:47.760 --> 00:04:50.715
+with Arduino Serial
+communication with the library,
+
+129
+00:04:50.715 --> 00:04:53.120
+there are several different
+functions that you can call.
+
+130
+00:04:53.120 --> 00:04:54.380
+Now, the first
+function we already
+
+131
+00:04:54.380 --> 00:04:56.330
+talked about is Serial.begin.
+
+132
+00:04:56.330 --> 00:04:58.120
+You call that in
+the setup one time.
+
+133
+00:04:58.120 --> 00:05:01.535
+But, there are other functions
+you can call to send data
+
+134
+00:05:01.535 --> 00:05:04.880
+from the Arduino to
+the other device,
+
+135
+00:05:04.880 --> 00:05:08.300
+in this case, to the laptop
+let's say over the USB cable.
+
+136
+00:05:08.300 --> 00:05:11.810
+Serial.print is a very
+common function to call.
+
+137
+00:05:11.810 --> 00:05:14.690
+Serial.print does basically
+what you would think.
+
+138
+00:05:14.690 --> 00:05:19.130
+It sends a string and it
+sends it to the laptop.
+
+139
+00:05:19.130 --> 00:05:20.390
+Let's say it's a laptop,
+it sends it to
+
+140
+00:05:20.390 --> 00:05:21.770
+the laptop over the USB cable.
+
+141
+00:05:21.770 --> 00:05:24.695
+Now, what happens when
+it arrives there is that
+
+142
+00:05:24.695 --> 00:05:28.160
+the Arduino sending via serial
+
+143
+00:05:28.160 --> 00:05:31.520
+there has to be
+a receiving program running on
+
+144
+00:05:31.520 --> 00:05:35.470
+the laptop to receive
+the serial communication.
+
+145
+00:05:35.470 --> 00:05:37.445
+Now, typically what
+we're going to do
+
+146
+00:05:37.445 --> 00:05:39.920
+is if you look at
+the Arduino IDE,
+
+147
+00:05:39.920 --> 00:05:42.755
+there's a button on there
+called, it's serial monitor.
+
+148
+00:05:42.755 --> 00:05:45.545
+You click on that. It
+opens up a window.
+
+149
+00:05:45.545 --> 00:05:47.540
+The window we see here. It opens
+
+150
+00:05:47.540 --> 00:05:49.315
+up a window and it's blank.
+
+151
+00:05:49.315 --> 00:05:51.720
+Then when the Arduino
+is running and when it
+
+152
+00:05:51.720 --> 00:05:54.495
+calls Serial.print say hello,
+
+153
+00:05:54.495 --> 00:05:56.330
+that hello is sent over
+
+154
+00:05:56.330 --> 00:05:59.330
+the USB cable to
+the serial monitor
+
+155
+00:05:59.330 --> 00:06:01.355
+running on the laptop and then
+
+156
+00:06:01.355 --> 00:06:04.310
+that whatever text it was
+appears in the monitor.
+
+157
+00:06:04.310 --> 00:06:05.785
+So, that's what
+we're seeing here.
+
+158
+00:06:05.785 --> 00:06:07.290
+Now, notice that it's
+just saying hello,
+
+159
+00:06:07.290 --> 00:06:09.435
+hello, hello, hello
+over and over.
+
+160
+00:06:09.435 --> 00:06:12.350
+That's because, I'm not
+sure on the whole program,
+
+161
+00:06:12.350 --> 00:06:13.849
+but that's because I
+put the Serial.print
+
+162
+00:06:13.849 --> 00:06:15.710
+hello inside the loop function
+
+163
+00:06:15.710 --> 00:06:17.540
+in the Arduino sketch and
+
+164
+00:06:17.540 --> 00:06:19.855
+so it just loops and does
+it over and over and over.
+
+165
+00:06:19.855 --> 00:06:21.885
+So, that's what we
+would expect to see.
+
+166
+00:06:21.885 --> 00:06:25.540
+Then notice there's no carriage
+return after the hello.
+
+167
+00:06:25.540 --> 00:06:28.145
+It's just hello, hello
+strung out after each other.
+
+168
+00:06:28.145 --> 00:06:30.620
+If I did Serial.print line ln,
+
+169
+00:06:30.620 --> 00:06:32.150
+it will put a carriage
+return after one
+
+170
+00:06:32.150 --> 00:06:33.545
+and then each one would
+be on a different line,
+
+171
+00:06:33.545 --> 00:06:35.295
+but this why I chose to do.
+
+172
+00:06:35.295 --> 00:06:38.100
+So, this is the general idea.
+
+173
+00:06:38.100 --> 00:06:42.765
+Now, something there
+about UART is that,
+
+174
+00:06:42.765 --> 00:06:44.340
+basically UART is a protocol to
+
+175
+00:06:44.340 --> 00:06:46.560
+send bytes, to send eight bits.
+
+176
+00:06:46.560 --> 00:06:48.260
+These eight bits of data can be
+
+177
+00:06:48.260 --> 00:06:50.540
+just raw data, can
+represent anything.
+
+178
+00:06:50.540 --> 00:06:52.925
+Now, in this case though
+with Serial.print,
+
+179
+00:06:52.925 --> 00:06:56.150
+we're generally representing
+strings, printable strings.
+
+180
+00:06:56.150 --> 00:07:00.355
+Serial.print "hello" is
+a string, five characters.
+
+181
+00:07:00.355 --> 00:07:02.900
+So, there are five
+characters that we need to
+
+182
+00:07:02.900 --> 00:07:07.430
+send via UART over to the laptop.
+
+183
+00:07:07.430 --> 00:07:09.455
+So, the thing is these,
+
+184
+00:07:09.455 --> 00:07:11.090
+remember that we're sending bits,
+
+185
+00:07:11.090 --> 00:07:12.290
+like sequences of bits, sending
+
+186
+00:07:12.290 --> 00:07:13.775
+one bit at a time,
+zeros and ones.
+
+187
+00:07:13.775 --> 00:07:15.380
+So each one of
+these five characters
+
+188
+00:07:15.380 --> 00:07:17.000
+has to be represented as
+
+189
+00:07:17.000 --> 00:07:18.575
+a sequence of zeros and ones
+
+190
+00:07:18.575 --> 00:07:21.240
+in order to be sent via UART.
+
+191
+00:07:22.910 --> 00:07:26.990
+The most common representation
+for small things like this
+
+192
+00:07:26.990 --> 00:07:30.335
+is called ASCII code, A-S-C-I-I.
+
+193
+00:07:30.335 --> 00:07:31.595
+So, if you google this,
+
+194
+00:07:31.595 --> 00:07:33.020
+you'll find the ASCII code table.
+
+195
+00:07:33.020 --> 00:07:35.675
+It's a big table and it's
+
+196
+00:07:35.675 --> 00:07:38.960
+an eight-bit
+representation of most of
+
+197
+00:07:38.960 --> 00:07:40.280
+the characters that there is
+
+198
+00:07:40.280 --> 00:07:42.440
+an English that you want to
+represent on the screen.
+
+199
+00:07:42.440 --> 00:07:44.975
+So, all the characters on
+your keyboard plus some more,
+
+200
+00:07:44.975 --> 00:07:48.105
+each one of them is
+associated with a number,
+
+201
+00:07:48.105 --> 00:07:49.575
+an ASCII code number.
+
+202
+00:07:49.575 --> 00:07:51.770
+So, for instance, I happen
+to remember off the top
+
+203
+00:07:51.770 --> 00:07:56.525
+my head a capital A
+is a 41 in ASCII.
+
+204
+00:07:56.525 --> 00:07:57.920
+That's the only one I remember.
+
+205
+00:07:57.920 --> 00:08:00.050
+But each one of this character is
+
+206
+00:08:00.050 --> 00:08:04.110
+associated with a number
+in a big table.
+
+207
+00:08:04.110 --> 00:08:06.870
+This number is an
+eight-bit number.
+
+208
+00:08:06.870 --> 00:08:10.705
+So, what happens is when
+you'd call Serial.print,
+
+209
+00:08:10.705 --> 00:08:12.620
+it says okay I've
+got five characters.
+
+210
+00:08:12.620 --> 00:08:15.080
+It says H that is say it's 51.
+
+211
+00:08:15.080 --> 00:08:17.285
+It picks a 51, represent it as
+
+212
+00:08:17.285 --> 00:08:19.610
+an eight-bit number and sends
+
+213
+00:08:19.610 --> 00:08:21.855
+that eight bits to the laptop,
+
+214
+00:08:21.855 --> 00:08:23.235
+to the serial monitor.
+
+215
+00:08:23.235 --> 00:08:25.620
+The serial monitor receives
+that eight bits and says,
+
+216
+00:08:25.620 --> 00:08:27.395
+this eight bits
+must be ASCII code.
+
+217
+00:08:27.395 --> 00:08:31.175
+It looks up that ASCII code
+number inside the table,
+
+218
+00:08:31.175 --> 00:08:32.600
+says that's the letter H and it
+
+219
+00:08:32.600 --> 00:08:34.360
+prints an H on the screen.
+
+220
+00:08:34.360 --> 00:08:36.060
+That's how the data is sent
+
+221
+00:08:36.060 --> 00:08:37.530
+and represented on the screen.
+
+222
+00:08:37.530 --> 00:08:41.030
+So, an ASCII code is
+
+223
+00:08:41.030 --> 00:08:42.710
+just an eight-bit code for
+
+224
+00:08:42.710 --> 00:08:45.355
+every character that
+you want to display.
+
+225
+00:08:45.355 --> 00:08:48.240
+Though that's what's actually
+being sent over the wires,
+
+226
+00:08:48.240 --> 00:08:50.085
+this ASCII code representation.
+
+227
+00:08:50.085 --> 00:08:52.630
+Now, I'm talking about ASCII.
+
+228
+00:08:52.630 --> 00:08:54.570
+That's an eight-bit
+code and that's
+
+229
+00:08:54.570 --> 00:08:56.715
+limited because if you
+only got eight-bit code,
+
+230
+00:08:56.715 --> 00:08:59.640
+you can only represent
+256 characters max.
+
+231
+00:08:59.640 --> 00:09:01.070
+Now, in English that's fine.
+
+232
+00:09:01.070 --> 00:09:03.790
+But especially when you get
+to like Chinese or something,
+
+233
+00:09:03.790 --> 00:09:06.610
+you got a lot of characters
+and 256 will not cut it.
+
+234
+00:09:06.610 --> 00:09:08.010
+So, you need more.
+
+235
+00:09:08.010 --> 00:09:09.180
+Not just Chinese either,
+
+236
+00:09:09.180 --> 00:09:10.300
+but there are other scripts,
+
+237
+00:09:10.300 --> 00:09:12.160
+but Chinese particularly
+is all character-based.
+
+238
+00:09:12.160 --> 00:09:13.510
+You got a lot of characters.
+
+239
+00:09:13.510 --> 00:09:16.610
+Plus there are other characters
+besides letters,
+
+240
+00:09:16.610 --> 00:09:18.665
+periods, and all kinds
+of weird characters
+
+241
+00:09:18.665 --> 00:09:20.320
+that you might want to
+represent on the screen.
+
+242
+00:09:20.320 --> 00:09:22.710
+So, 256 is not really enough.
+
+243
+00:09:22.710 --> 00:09:24.450
+So, now people use
+
+244
+00:09:24.450 --> 00:09:26.985
+Unicode, 16-bit character
+representation.
+
+245
+00:09:26.985 --> 00:09:29.025
+But for now, we'll
+talk about ASCII.
+
+246
+00:09:29.025 --> 00:09:31.245
+So, this is the idea.
+
+247
+00:09:31.245 --> 00:09:33.980
+Each one of these characters
+is represented as
+
+248
+00:09:33.980 --> 00:09:36.050
+an eight-bit number
+out of an ASCII table,
+
+249
+00:09:36.050 --> 00:09:38.150
+you can google it and look
+at the table if you want to.
+
+250
+00:09:38.150 --> 00:09:40.580
+Those eight bits are
+transmitted and then they're
+
+251
+00:09:40.580 --> 00:09:43.105
+printed on the screen
+at the receiving end.
+
+252
+00:09:43.105 --> 00:09:45.620
+They re-represented as
+the original character
+
+253
+00:09:45.620 --> 00:09:48.470
+they represented and
+that's put on the screen.
+
+254
+00:09:48.470 --> 00:09:51.665
+Now, that's what
+Serial.print does.
+
+255
+00:09:51.665 --> 00:09:55.320
+Now, instead of
+using Serial.print,
+
+256
+00:09:55.320 --> 00:09:57.285
+you might want to
+use Serial.write.
+
+257
+00:09:57.285 --> 00:10:01.070
+Now, Serial.write it also
+sends bytes to the screen,
+
+258
+00:10:01.070 --> 00:10:02.750
+but it sends one bite at a time.
+
+259
+00:10:02.750 --> 00:10:04.850
+So, you remember what
+that Serial.print hello,
+
+260
+00:10:04.850 --> 00:10:07.880
+you had in quotes as
+string H-E-L-L-O so it
+
+261
+00:10:07.880 --> 00:10:15.345
+send five characters
+which means five bytes.
+
+262
+00:10:15.345 --> 00:10:17.935
+In this case, Serial.write,
+
+263
+00:10:17.935 --> 00:10:20.605
+you just give it one argument
+which is a number.
+
+264
+00:10:20.605 --> 00:10:23.135
+That number it represents
+that as a byte.
+
+265
+00:10:23.135 --> 00:10:25.190
+So, like in this case,
+Serial.write 42.
+
+266
+00:10:25.190 --> 00:10:28.265
+It represents that as
+a number in binary,
+
+267
+00:10:28.265 --> 00:10:31.040
+a sequence of bits and
+binary, eight bits.
+
+268
+00:10:31.040 --> 00:10:35.420
+It sends those eight bits
+to the serial monitor.
+
+269
+00:10:35.420 --> 00:10:36.920
+Now, the serial monitor,
+
+270
+00:10:36.920 --> 00:10:38.570
+it receives all the bits and
+
+271
+00:10:38.570 --> 00:10:40.520
+again it does what it
+did with serial print.
+
+272
+00:10:40.520 --> 00:10:42.290
+It looks at those eight bits
+and says okay what
+
+273
+00:10:42.290 --> 00:10:44.095
+ASCII character does
+this represent?
+
+274
+00:10:44.095 --> 00:10:45.470
+And the ASCII character
+
+275
+00:10:45.470 --> 00:10:46.930
+is what gets printed
+on the screen.
+
+276
+00:10:46.930 --> 00:10:50.150
+So, notice even though you're
+doing Serial.write 42,
+
+277
+00:10:50.150 --> 00:10:51.530
+42 is not appearing on
+
+278
+00:10:51.530 --> 00:10:53.840
+screen because what's
+happening is on
+
+279
+00:10:53.840 --> 00:10:55.760
+the receiving end
+isn't taken that from
+
+280
+00:10:55.760 --> 00:10:57.530
+42 and interpreting that
+
+281
+00:10:57.530 --> 00:10:58.970
+as an ASCII character
+and saying well,
+
+282
+00:10:58.970 --> 00:11:01.985
+which character is
+represented by the number 42?
+
+283
+00:11:01.985 --> 00:11:03.920
+It happens that it's an
+asterisk in this case.
+
+284
+00:11:03.920 --> 00:11:05.405
+So, that's why we got asterisk
+
+285
+00:11:05.405 --> 00:11:07.285
+appearing all down the screen.
+
+286
+00:11:07.285 --> 00:11:08.960
+So, that's what
+Serial.write does.
+
+287
+00:11:08.960 --> 00:11:10.520
+It sends a raw byte.
+
+288
+00:11:10.520 --> 00:11:11.900
+You just give it the number,
+
+289
+00:11:11.900 --> 00:11:15.185
+it interprets it as eight-bit
+number and it sends that
+
+290
+00:11:15.185 --> 00:11:17.990
+and it gets represented
+in ASCII at
+
+291
+00:11:17.990 --> 00:11:19.100
+the serial monitor because
+
+292
+00:11:19.100 --> 00:11:21.330
+that's what serial monitor does.
