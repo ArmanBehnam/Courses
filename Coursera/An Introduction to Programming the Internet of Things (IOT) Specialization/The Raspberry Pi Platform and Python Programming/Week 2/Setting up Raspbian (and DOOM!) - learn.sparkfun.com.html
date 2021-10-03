@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- mobile mode if small screen device -->
+    
+    <title>Setting up Raspbian (and DOOM!) - learn.sparkfun.com</title>
+
+          <link rel="canonical" href="https://learn.sparkfun.com/tutorials/setting-up-raspbian-and-doom/all">
+            
+    <link href="/css/bootstrap.min.css?rev=1608656476" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.github.css?rev=1608656476" type="text/css" media="screen" />    <link rel="alternate" type="application/atom+xml" title="Education Blog" href="https://learn.sparkfun.com/feeds/blog" />
+    <link rel="alternate" type="application/atom+xml" title="Tutorials" href="https://learn.sparkfun.com/feeds/tutorials" />
+    <link rel="alternate" type="application/atom+xml" title="Education Blog Comments" href="https://learn.sparkfun.com/feeds/blog_comments" />
+    <link rel="alternate" type="application/atom+xml" title="Tutorial Comments" href="https://learn.sparkfun.com/feeds/tutorial_comments" />
+  </head>
+
+  <body id=learn class="layout-default no-type tutorials-view" ontouchstart="">
+    <script>;</script>
+    <div class="wrapper" itemscope itemtype="http://schema.org/WebSite">
+      <meta itemprop="url" content="https://learn.sparkfun.com/">
+      <div class=wrapper-inner>
+
+    
+<div class="header">
+  <div class="container">
+
+    <!-- Mobile Nav Button -->
+    <div class="mobile-menu-container left">
+      <a id="nav_toggle" class="mobile-menu-button nav_toggle" href="#"><span class="sfe-icon-hamburger"></span></a>
+              <a id="search_toggle" class="mobile-menu-button" href="#"><span class="glyphicon glyphicon-search"></span></a>
+          </div>
+
+    <nav class="top-links">
+      <ul>
+        <li>
+          <a href="https://www.sparkfun.com/distributors">Find a Retailer</a>        </li>
+                  <li>
+            <div class="dropdown">
+              <a href="#" id="phone_hours" type="button" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                Need Help?
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu pull-right need-help" role="menu" aria-labelledby="phone_hours">
+                <h4>Customer Service</h4>
+                <p><a href="https://www.sparkfun.com/orders/"><span class="glyphicon glyphicon-dashboard"></span> Track My Order</a></p>
+                <p><a href="https://www.sparkfun.com/support"><span class="glyphicon glyphicon-question-sign"></span> Frequently Asked Questions</a></p>
+                <p><a href="https://www.sparkfun.com/support#InternationalShipping"><span class="glyphicon glyphicon-globe"></span> International Shipping Info</a></p>
+                <p><a href="mailto:support@sparkfun.com"><span class="glyphicon glyphicon-envelope"></span> Send Email</a></p>
+                <p class="small text-muted">
+                  Mon-Fri, 9am to 12pm and<br>
+                  1pm to 5pm U.S. Mountain Time:
+                </p>
+                <p><span class="glyphicon glyphicon-earphone"></span> (303) 284-0979</p>
+                              </div>
+            </div>
+          </li>
+              </ul>
+    </nav>
+
+    <!-- Logo -->
+    <div class="logo-container">
+      <a class="logo" href="https://www.sparkfun.com/">
+        <span class="sfe-icon-flame"></span>
+        <span class="sfe-icon-sparkfun" data-icon="&#x1f525;">
+          <span class="visuallyhidden">sparkfun.com</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Tabs -->
+    <!-- also edit mobile tabs in .tabs-container-mobile -->
+    <nav class="tabs-container hidden-xs">
+      <ul>
+        <li class="shop "><a href="https://www.sparkfun.com/categories">Shop</a></li>
+        <li class="learn active"><a href="https://learn.sparkfun.com/">Learn</a></li>
+        <li class="blog "><a href="https://www.sparkfun.com/news">Blog</a></li>
+        <li class="services "><a href="https://www.sparkfun.com/services">Services</a></li>
+      </ul>
+    </nav>
+
+    <!-- Cart & User -->
+    <div class="user-container mobile-menu-container right">
+
+      <a id="account_toggle" class="mobile-menu-button" href="#"><span class="glyphicon glyphicon-user"></span></a>
+
+              <div class="cart mobile-menu-button">
+          <a href="https://www.sparkfun.com/cart">
+            <span id="cart_status" class="sfe-icon-carticon cart-empty">
+              <span class="visuallyhidden">Shopping Cart</span>
+            </span>
+            <span class="cart_count">
+              <span id="items_in_cart">0</span>
+              <span id="cart_noun" class="visuallyhidden">items</span>
+            </span>
+          </a>
+        </div>
+      
+              <div class="user">
+          <!-- login modal trigger -->
+          <a class="btn btn-default" href="https://www.sparkfun.com/account/login?redirect=%2Flearn%2Ftutorials%2Fsetting-up-raspbian-and-doom" data-toggle="modal" data-target="#login_modal" data-remote="false">log in</a>
+          <a class="btn btn-default" href="https://www.sparkfun.com/account/make">register</a>        </div>
+      
+    </div>
+
+    <nav class="tabs-container-mobile visible-xs col-xs-12">
+      <ul>
+        <li class="shop "><a href="https://www.sparkfun.com/categories">Shop</a></li>
+        <li class="learn active"><a href="https://learn.sparkfun.com/">Learn</a></li>
+        <li class="blog "><a href="https://www.sparkfun.com/news">Blog</a></li>
+        <li class="services "><a href="https://www.sparkfun.com/services">Services</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- Navigation / Search -->
+  <div class="main-nav-container">
+
+    <div class="container">
+
+      <nav class="product-nav">
+        <button type="button" class="product-menu">
+          <span class="menu-icon sfe-icon-hamburger"></span>
+          <span class="product-menu-name">Product Menu</span>
+        </button>
+
+                  <form id="search_form" class="search" action="https://www.sparkfun.com/search/results" method="get" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction">
+            <meta itemprop="target" content="https://www.sparkfun.com/search/results?term={term}">
+            <div class="ui-widget">
+              <input name="term" id="global-search" class="form-control" type="text" value="" placeholder="find products, tutorials, etc..." itemprop="query-input" autocomplete="off">
+              <button type="submit" class="glyphicon glyphicon-search global-search-icon" aria-label="Search"></button>
+            </div>
+          </form>
+              </nav>
+
+      <nav class="sub-nav">
+        <ul>
+          <li>
+            <a href="https://alc.sparkfun.com/"><span class="sfe-icon-a-la-carte"></span></a>          </li>
+          <li>
+            <a href="https://www.sparkfun.com/sales">Today's Deals</a>          </li>
+          <li class="hidden-sm">
+            <a href="https://www.sparkfun.com/sparkx"><span class="sfe-icon-sparkx"></span></a>          </li>
+          <li>
+            <a href="https://forum.sparkfun.com/" target="_blank">Forum</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class="product-menu-container">
+      <div class="container">
+
+        <div class="fixed-product-menu-container col-lg-2 col-sm-3 col-xs-12">
+          <div class="sub-nav-mobile product-menu-group">
+            <a class="product-menu-heading" href="https://www.sparkfun.com/sales">Today's Deals</a>            <a class="product-menu-heading" href="https://www.sparkfun.com/sparkx"><span class="sfe-icon-sparkx"></span></a>            <a class="product-menu-heading" href="https://alc.sparkfun.com/"><span class="sfe-icon-a-la-carte"></span></a>            <a class="product-menu-heading" href="https://forum.sparkfun.com/" target="_blank">Forum</a>
+            <a class="product-menu-heading desktop-toggle" href="https://www.sparkfun.com/account/mobile_toggle?redirect=%2Flearn%2Ftutorials%2Fsetting-up-raspbian-and-doom">Desktop Site</a>            <ul class="list-unstyled">
+            </ul>
+          </div>
+          <div class="product-menu-group">
+            <a class="product-menu-heading" href="https://www.sparkfun.com/categories">All Categories</a>            <ul class="list-unstyled">
+            </ul>
+          </div>
+          <div class="product-menu-group">
+            <a class="product-menu-heading" href="https://www.sparkfun.com/categories/featured">Featured <span class="visible-xs pull-right glyphicon glyphicon-plus"></span></a>            <ul class="list-unstyled">
+              <li><a class="product-menu-item" href="https://www.sparkfun.com/categories/new_products">New Products</a></li>
+              <li><a class="product-menu-item" href="https://www.sparkfun.com/categories/top"><span class="sfe-icon-flame"></span> Top Sellers</a></li>
+                            <li><a class="product-menu-item" href="https://www.sparkfun.com/categories/283"><span class="sfe-icon-sparkx"></span></a></li>
+              <li><a class="product-menu-item" href="https://www.sparkfun.com/categories/sale">Sale</a></li>
+              <li><a class="product-menu-item" href="https://www.sparkfun.com/gift_certificates">Gift Certificates</a></li>
+            </ul>
+          </div>
+                      <a href="https://bit.ly/31OmZVs" class="hidden-xs">
+              <img class="img-responsive img-rounded center-block" src="https://cdn.sparkfun.com//c/180-180/assets/product_menu_items/1/ALC-dropdown-image.jpg" alt="A La Carte">
+            </a>
+                  </div>
+
+                              <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/287" class="product-menu-heading">
+                 Brands                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/featured" class="product-menu-item">
+                                              <span class="product-menu-item-icon sfe-icon-flame" style="color:#ee2e22"></span> SparkFun                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/103" class="product-menu-item">
+                                              <span class="product-menu-item-icon sfe-icon-arduino" style="color:#00878f"></span> Arduino                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/233" class="product-menu-item">
+                                              <span class="product-menu-item-icon sfe-icon-rpi-multi-color" style="color:#ffffff"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span> Raspberry Pi                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/qwiic" class="product-menu-item">
+                                              <span class="product-menu-item-icon sfe-icon-qwiic" style="color:#ffffff"></span> Qwiic                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/284" class="product-menu-item">
+                                               micro:bit                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/287" class="product-menu-item">
+                                               <small>all brands</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/2" class="product-menu-heading">
+                 Development                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/299" class="product-menu-item">
+                                               Single Board Comp.                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/300" class="product-menu-item">
+                                               Microcontrollers                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/419" class="product-menu-item">
+                                               Machine Learning                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/136" class="product-menu-item">
+                                               FPGA                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/149" class="product-menu-item">
+                                               Prototyping Boards                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/2" class="product-menu-item">
+                                               <small>all development</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/23" class="product-menu-heading">
+                 Sensors                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/304" class="product-menu-item">
+                                               Movement                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/146" class="product-menu-item">
+                                               Biometrics                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/102" class="product-menu-item">
+                                               Imaging                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/305" class="product-menu-item">
+                                               Environment                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/117" class="product-menu-item">
+                                               Capacitive                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/23" class="product-menu-item">
+                                               <small>all sensors</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/46" class="product-menu-heading">
+                 Tools                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/271" class="product-menu-item">
+                                               3D Printing                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/280" class="product-menu-item">
+                                               CNC                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/49" class="product-menu-item">
+                                               Soldering                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/47" class="product-menu-item">
+                                               Hand Tools                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/177" class="product-menu-item">
+                                               Instruments                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/46" class="product-menu-item">
+                                               <small>all tools</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/310" class="product-menu-heading">
+                 Miscellaneous                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/157" class="product-menu-item">
+                                               All Kits                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/176" class="product-menu-item">
+                                               Books                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/311" class="product-menu-item">
+                                               Arts/Crafts Supplies                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/351" class="product-menu-item">
+                                               SD Cards                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/130" class="product-menu-item">
+                                               Swag                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/310" class="product-menu-item">
+                                               <small>all misc</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/51" class="product-menu-heading">
+                 Components                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/89" class="product-menu-item">
+                                               LED &amp; Illumination                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/145" class="product-menu-item">
+                                               Buttons &amp; Switches                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/76" class="product-menu-item">
+                                               LCDs &amp; OLEDs                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/28" class="product-menu-item">
+                                               Power                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/70" class="product-menu-item">
+                                               Cables &amp; Wire                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/51" class="product-menu-item">
+                                               <small>all components</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/204" class="product-menu-heading">
+                 E-Textiles                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/327" class="product-menu-item">
+                                               LilyPad                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/328" class="product-menu-item">
+                                               Sewable Electronics                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/206" class="product-menu-item">
+                                               Materials                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/268" class="product-menu-item">
+                                               E-Textile Power                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/329" class="product-menu-item">
+                                               E-Textile Kits                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/204" class="product-menu-item">
+                                               <small>all e-textiles</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/31" class="product-menu-heading">
+                 Robotics                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/pages/Actobotics" class="product-menu-item">
+                                               Actobotics                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/178" class="product-menu-item">
+                                               Motors &amp; Drivers                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/330" class="product-menu-item">
+                                               Parts                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/155" class="product-menu-item">
+                                               Hardware                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/181" class="product-menu-item">
+                                               Robotics Kits                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/31" class="product-menu-item">
+                                               <small>all robotics</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/16" class="product-menu-heading">
+                 Wireless &amp; IoT                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/115" class="product-menu-item">
+                                               Bluetooth                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/112" class="product-menu-item">
+                                               WiFi                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/338" class="product-menu-item">
+                                               Satellite                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/4" class="product-menu-item">
+                                               GPS &amp; GNSS                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/339" class="product-menu-item">
+                                               Wireless Kits                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/16" class="product-menu-item">
+                                               <small>all wireless/IoT</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                      <div class="product-menu-group col-lg-2 col-sm-3 col-xs-12">
+              <a href="https://www.sparkfun.com/categories/273" class="product-menu-heading">
+                 Audio                <span class="visible-xs pull-right glyphicon glyphicon-plus"></span>
+              </a>
+              <ul class="list-unstyled">
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/343" class="product-menu-item">
+                                               Audio Boards                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/342" class="product-menu-item">
+                                               Audio Cables                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/344" class="product-menu-item">
+                                               Speakers                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/345" class="product-menu-item">
+                                               Audio Chips                                          </a>
+                  </li>
+                                  <li>
+                    <a href="https://www.sparkfun.com/categories/273" class="product-menu-item">
+                                               <small>all audio</small>
+                                          </a>
+                  </li>
+                              </ul>
+            </div>
+                  
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+    
+    <div class=content>
+      <div class=container id=airlock>
+
+        
+        <div class=main-title>
+  <ul class="breadcrumb">
+    <li><a href="https://learn.sparkfun.com/">Home</a></li>
+    <li><a href="https://learn.sparkfun.com/tutorials">Tutorials</a></li>
+    <li>Setting up Raspbian (and DOOM!)</li>
+      </ul>
+
+  <h1>
+    Setting up Raspbian (and DOOM!)  </h1>
+
+</div>
+
+
+<a id=nav_toggle_pages class="nav_toggle nav-toggle-trigger" href="#"><span>&#8801;</span> Pages</a>
+
+<div id=tutorial class="row">
+
+  <div class="col-sm-8" id="sections">
+
+    <div class="contributors">
+                      Contributors:
+                <a href="https://www.sparkfun.com/users/69916"><img src="https://static.sparkfun.com/avatar/3d3509851c3a5223dbe27da5fddd33df?d=retro&s=20&r=pg" /> jimblom</a>          </div>
+
+    <span class="fave_widget verbose">
+  <a href="#" class="fave_btn " title="Add to favorites" data-entity="learn_tutorials" data-entity-id="162">
+    <span class="fave_yes">
+      <span class="glyphicon glyphicon-heart"></span>
+      <span class="name">Favorited</span>
+    </span>
+    <span class="fave_no">
+      <span class="glyphicon glyphicon-heart-empty"></span>
+      <span class="name">Favorite</span>
+    </span>
+  </a>
+  <span class="fave_count">11</span>
+</span>    <div class="share-link-inline">
+
+  <a class="share-link-toggle" href="#">
+    <span class="share-title">
+      <span class="sfe-icon-share"></span>
+      Share    </span>
+  </a>
+
+  <div class="share-link-inner dialog">
+    Use this URL to share:<br>
+    <input class="form-control input-sm" type="text" value="http://sfe.io/t162" onclick="$(this).trigger('select');">
+
+    <div class="share-social">
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','googleplus');" href="https://plus.google.com/share?url=http%3A%2F%2Fsfe.io%2Ft162" title="Share on Google+"><span class="sfe-icon-google-plus hidetext"><span>Share on Google+</span></span></a>
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','tumblr');" href="https://www.tumblr.com/share/link?url=http%3A%2F%2Fsfe.io%2Ft162&name=Setting+up+Raspbian+%28and+DOOM%21%29" title="Share on Tumblr"><span class="sfe-icon-tumblr hidetext"><span>Share on Tumblr</span></span></a>
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','reddit');" href="https://www.reddit.com/submit?url=http%3A%2F%2Fsfe.io%2Ft162" title="Submit to reddit"><span class="sfe-icon-reddit hidetext"><span>Submit to reddi</span></span></a>
+
+    </div>
+
+    </div>
+  
+  <div class="share-social">
+
+    <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','twitter');" href="https://twitter.com/intent/tweet?text=Setting+up+Raspbian+%28and+DOOM%21%29&url=http%3A%2F%2Fsfe.io%2Ft162&via=sparkfun" title="Share on Twitter"><span class="sfe-icon-twitter hidetext"><span>Share on Twitter</span></span></a>
+
+    <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','facebook');" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsfe.io%2Ft162&t=Setting+up+Raspbian+%28and+DOOM%21%29" title="Share on Facebook"><span class="sfe-icon-facebook-nobox hidetext"><span>Share on Facebook</span></span></a>
+
+          <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','pinterest');" href="https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fsfe.io%2Ft162&media=https%3A%2F%2Fcdn.sparkfun.com%2F%2Fr%2F500-1000%2Fassets%2F1%2Fe%2F4%2Ff%2Fa%2F52a8cbcc757b7f5b198b4567.png&description=Setting+up+Raspbian+%28and+DOOM%21%29" title="Pin It"><span class="sfe-icon-pinterest hidetext"><span>Pin It</span></span></a>
+    
+  </div>
+
+  
+</div>
+
+          <div class="section tutorial-page">
+        <h2 id="introduction">Introduction</h2>
+        <p>The Raspberry Pi is a cross between a typical embedded system -- like an <a href="https://learn.sparkfun.com/tutorials/what-is-an-arduino">Arduino</a> -- and a desktop computer. The Pi packs a 700MHz ARM11 Core with 512MB of RAM, <strong>HDMI</strong> and audio outputs, 2 <strong>USB</strong> ports, an <strong>Ethernet</strong> jack, and an <strong>SD</strong> socket with support for up to a 32GB SD card. In the eyes of some, it's one of the more powerful, cost-effective embedded boards to hit the market. To others, it's one of the most compact, bare-bones personal computers ever to grace the electronics world with it's presence. In either case, it's here to blur the line between the world of embedded electronics and personal computing.</p>
+
+<p><div class="center-block text-center"> <a href="https://www.sparkfun.com/products/11546"><img src="https://cdn.sparkfun.com/assets/5/b/9/2/2/52a8cd3a757b7f5b198b4568.png" alt="Pi ISO shot" /></a> </div></p>
+
+<p>The Raspberry Pi is a great platform on which to <strong>learn Linux and programming</strong>. It's also a powerful solution for many "Internet-of-Things" projects out there, because it's so easy to get connected to the Internet. It can run Python scripts, or even compile programs written in C. It's a full-blown computer!</p>
+
+<p>And, of course, it can be used to play games.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/1/e/4/f/a/52a8cbcc757b7f5b198b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/1/e/4/f/a/52a8cbcc757b7f5b198b4567.png" alt="Doom on the Pi" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>Chocolate Doom running on the Pi.</em> </div></p>
+
+<h3>Covered in This Tutorial</h3>
+
+<p>In this tutorial, we'll show you how to quickly get up-and-running with the Raspberry Pi. We'll set the Pi up with the most popular, community-driven Linux distribution available: <strong>Raspbian</strong>. Next, we'll show you how to set up Raspbian, and access some of the features included with it.</p>
+
+<p>Finally, and most importantly, we'll show you how to set up and run <a href="http://www.chocolate-doom.org/wiki/index.php/Chocolate_Doom">Chocolate Doom</a>, a Doom source port that runs beautifully on the little Pi. Mmmm chocolate pie.</p>
+
+<h3>Required Materials</h3>
+
+<p>To follow along with this tutorial, you'll need the following materials:</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/9/8/3/1/0/52b22bd7ce395f45498b456b.jpg"><img src="https://cdn.sparkfun.com/r/600-600/assets/9/8/3/1/0/52b22bd7ce395f45498b456b.jpg" alt="List of materials" /></a> </div></p>
+
+<ul>
+<li><a href="https://www.sparkfun.com/products/11546">Raspberry Pi Model B</a> or <a href="https://www.sparkfun.com/products/11837">Model A</a> (has less RAM and no Ethernet)</li>
+<li>A <a href="https://www.sparkfun.com/products/11456">5V power supply</a> with a <a href="https://www.sparkfun.com/products/10215">micro USB</a> termination. The supply should be able to source <strong>at least 700mA</strong>. Most phone chargers (with micro USB cables) should work.</li>
+<li>An <a href="https://www.sparkfun.com/products/11609">SD Card</a> no smaller than 4GB, and no less than class 4.</li>
+<li>A <strong>USB keyboard</strong> and <strong>mouse</strong>.</li>
+<li>A <strong>display</strong> connected to either the <a href="https://www.sparkfun.com/products/11572">HDMI</a> or <a href="https://www.sparkfun.com/products/11573">RCA composite video</a> output.
+
+<ul>
+<li>If your monitor only has a VGA port, there are <a href="https://www.sparkfun.com/products/12613">HDMI to VGA adapters</a> to convert between the two. (You may need a beefier power supply if you're using that.)</li>
+<li>If your monitor only has DVI, converting from HDMI is easy with an <a href="https://www.sparkfun.com/products/12612">HDMI to DVI cable</a>.</li>
+</ul></li>
+<li>An <strong>ethernet cable</strong> and a connection to an Internet-connected network. (Optional, but <em>very</em> useful to get software updates [and Doom].)
+
+<ul>
+<li>Alternatively, you can use a <strong>USB WiFi module</strong> with the Pi. Check out our <a href="https://learn.sparkfun.com/tutorials/using-pcduinos-wifi-dongle-with-the-pi">Wireless on the Pi</a> tutorial for help setting that up.</li>
+</ul></li>
+<li><strong>Headphones</strong> or <strong>speakers</strong> with a 3.5mm stereo jack termination (optional, unless, for some reason, you don't want to hear the dying wails of <a href="http://pnmedia.gamespy.com/planetdoom.gamespy.com/oldimages/new_classic_doom_enem_pisto.gif">former humans</a>).</li>
+</ul>
+
+<h3>Suggested Reading</h3>
+
+<p>This tutorial aims to be as Raspberry Pi beginnger-friendly as possible. No previous knowledge of electronics is required. Feel free to jump right in on the next page. If you want to learn a little bit about what's going on behind the scenes, here are some beginner tutorials we recommend reading:</p>
+
+<ul>
+<li><a href="https://learn.sparkfun.com/tutorials/what-is-electricity">What is Electricity?</a></li>
+<li><a href="https://learn.sparkfun.com/tutorials/voltage-current-resistance-and-ohms-law">Voltage, Current, Resistance, and Ohm's Law</a></li>
+<li><a href="https://learn.sparkfun.com/tutorials/analog-vs-digital">Analog vs. Digital</a></li>
+<li><a href="https://learn.sparkfun.com/tutorials/analog-vs-digital">Series and Parallel Circuits</a></li>
+</ul>      </div>
+          <div class="section tutorial-page">
+        <h2 id="prepare-an-sd-card">Prepare an SD Card</h2>
+        <p>Before you can start installing Raspbian, you'll have to get the installer set up on an SD card. Follow the steps below to prepare your SD card by <a href="#format">formatting</a> it, and then <a href="#install-NOOBS">installing the NOOBS software</a>.</p>
+
+<p>Regardless of which operating system you're using, begin by <strong>inserting your SD card</strong> into your computer. Then, you'll need to begin by formatting the card. Follow along with the section below that matches your OS.</p>
+
+<p><a name="format"></a></p>
+
+<h3>Format the Card</h3>
+
+<h4>Windows</h4>
+
+<ol>
+<li><strong>Download</strong> <a href="https://www.sdcard.org/downloads/formatter_4/eula_windows/">SDFormatter for Windows</a>. <strong>Unzip</strong> it, and <strong>run <em>Setup.exe</em></strong>. Follow along with the InstallShield Wizard to install SDFormatter.</li>
+<li><strong>Open SDFormatter</strong>.</li>
+<li>Click <strong><em>Option</em></strong> and set <em>FORMAT SIZE ADJUSTMENT</em> to <strong><em>ON</em></strong>.<br><br><center><a href="https://cdn.sparkfun.com/assets/4/0/4/c/c/52a8eb00757b7f297d8b4568.png"><img src="https://cdn.sparkfun.com/assets/4/0/4/c/c/52a8eb00757b7f297d8b4568.png" /></a></center><br></li>
+<li><strong>Select your card</strong> from the <em>Drive</em> dropdown menu (if it wasn't selected automatically). Check and double-check that the drive letter is correct.</li>
+<li>Click <strong><em>Format</em></strong>, then click <em>OK</em> a couple times. You should get a <em>Drive Format complete!</em> pop up shortly.</li>
+</ol>
+
+<h4>Mac OS X</h4>
+
+<ol>
+<li><strong>Download</strong> <a href="https://www.sdcard.org/downloads/formatter_4/eula_mac">SDFormatter for Mac</a>. Open the the downloaded file, and follow the <strong>Installer</strong> directions to install.</li>
+<li><strong>Open <em>SDFormatter</em></strong> (it should be in your <em>Applications</em> folder).</li>
+<li>Select <em>Overwrite Format</em> as the format option.<br><br><center><a href="https://cdn.sparkfun.com/r/600-600/assets/0/c/0/5/5/52a8ed6b757b7f805f8b4567.png"><img src="https://cdn.sparkfun.com/assets/0/c/0/5/5/52a8ed6b757b7f805f8b4567.png" /></a></center><br></li>
+<li><strong>Select your card</strong> from the top dropdown menu (if it wasn't selected automatically). Make sure it's correct!</li>
+<li>Click <em>Format</em>, and watch the progress bar slowly crawl across the bottom of the window. A <em>Card Format complete !</em> message should appear once successful.</li>
+</ol>
+
+<p><a name="install-NOOBS"></a></p>
+
+<h3>Download NOOBS</h3>
+
+<p>Raspberry Pi's <em>New Out of Box Software</em> (NOOBS) is recommended for first time Pi users (and even advanced ones). It includes a variety of useful operating system images (including Raspbian), and really simplifies the process of installing them.</p>
+
+<p>Head over to the <a href="http://www.raspberrypi.org/downloads">Raspbery Pi downloads page</a>, and download the most recent <strong>NOOBS (offline install) image</strong> (<em>NOOBS&#95;v1&#95;3&#95;2.zip</em> as of writing this). It should be a 1-ish GB ZIP folder.</p>
+
+<p>Once the download has finished, <strong>extract the ZIP folder</strong> and place the contents at the top level of your SD card. Once unzipped, the directory structure should look a little something like this:</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/5/b/2/1/1/52a9f90c757b7f7e2c8b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/5/b/2/1/1/52a9f90c757b7f7e2c8b4567.png" alt="SD card directory structure" /></a> </div></p>
+
+<p>Dang! That is one prepared SD card. Time to set up the Pi.</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="prepare-the-pi">Prepare the Pi</h2>
+        <p>This page is all about connecting peripherals to your Pi in preparation for installing Raspbian. So preheat your oven and let's get cooking.</p>
+
+<h3>Connect Display</h3>
+
+<p>There are two potential places to connect a display on the Pi: either <strong>HDMI</strong> or <strong>component video</strong>.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/7/4/f/1/0/52b22c65ce395fbe428b4567.jpg"><img src="https://cdn.sparkfun.com/r/600-600/assets/7/4/f/1/0/52b22c65ce395fbe428b4567.jpg" alt="HDMI connected to Pi" /></a> </div></p>
+
+<p>If your monitor has neither of those inputs, a <a href="https://www.sparkfun.com/products/12613">VGA-to-HDMI adapter</a> or <a href="https://www.sparkfun.com/products/12612">HDMI to DVI</a> cable might be what you need.</p>
+
+<p>HDMI does carry audio, if your display can support that. Otherwise you can use the 3.5mm jack on the other side.</p>
+
+<h3>Connect USB Peripherals</h3>
+
+<p>Next up, connect your <strong>mouse and keyboard</strong>. As long as you don't plan to use any other USB peripherals (flash drives, WiFi cards, etc.) you can use both USB ports on the Pi. Otherwise, you may want to look into adding a USB hub.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/0/0/7/2/b/52b22c65ce395f9d7c8b456a.jpg"><img src="https://cdn.sparkfun.com/r/600-600/assets/0/0/7/2/b/52b22c65ce395f9d7c8b456a.jpg" alt="USB connected to Pi" /></a> </div></p>
+
+<p>Some of these peripherals can use a lot of power (especially optical and wireless mice). If you notice issues with the mouse or keyboard, you may need to use them with a <strong>powered USB hub</strong>.</p>
+
+<h3>Insert SD Card</h3>
+
+<p>Insert your prepared SD card into the Pi. The SD socket is on the bottom side of the board. When inserting your card, make sure the <strong>gold contacts are facing up toward the board</strong>.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/9/6/9/b/2/52b22c65ce395ff4378b456a.jpg"><img src="https://cdn.sparkfun.com/r/600-600/assets/9/6/9/b/2/52b22c65ce395ff4378b456a.jpg" alt="SD inserted into Pi" /></a> </div></p>
+
+<h3>(Optional, Recommended) Connect Ethernet</h3>
+
+<p>In order to download updates and other software for your Pi, it's recommended that you connect it to an Internet-connected network via Ethernet. The Ethernet jack sits right next to the pair of USB sockets.</p>
+
+<h3>Connect Power</h3>
+
+<p>Power time! Plug your <a href="https://www.sparkfun.com/products/10215">micro-B USB cable</a> into your wall adapter, then plug the other end into your Pi's small, micro-B USB port.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/b/d/3/0/4/52b22c64ce395f66428b4567.jpg"><img src="https://cdn.sparkfun.com/r/600-600/assets/b/d/3/0/4/52b22c64ce395f66428b4567.jpg" alt="Power connected to Pi" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>The Pi-quad-topus is complete. Time to power it up!</em> </div></p>
+
+<p>The Pi doesn't have a power switch, so <strong>make sure everything else is plugged in before connecting power</strong>. As soon as power is applied to the Pi, it'll look at the contents of the SD card and begin to boot up.</p>
+
+<hr />
+
+<p>Quick! As the Pi begins to boot for the first time, head over to the next page for further directions.</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="install-raspbian">Install Raspbian</h2>
+        <p>As your Pi begins to boot for the first time, you should be presented with the image installation screen. If so, skip down to the <a href="#image-installation">Image Installation Selection section</a>. Otherwise, time for some quick troubleshooting:</p>
+
+<h3>Blank, Black Display on First Boot?</h3>
+
+<p>If you're turning on your Pi for the first time, and don't see anything on the screen, don't fret! As long as your monitor isn't complaining about "No Signal", the Pi probably <em>is</em> working.</p>
+
+<p>First, try pressing either 1, 2, 3, or 4 on your keyboard depending on which display mode you need:</p>
+
+<ol>
+<li><strong>HDMI</strong> -- Regular HDMI mode.</li>
+<li><strong>HDMI safe</strong> -- Try this if you're using HDMI, but option 1 doesn't work.</li>
+<li><strong>Composite PAL</strong> -- Composite cable, PAL signal out.</li>
+<li><strong>Composite NTSC</strong> -- Composite cable, NTSC signal out.</li>
+</ol>
+
+<p>After selecting the correct mode, your screen should continue on to the install selection screen.</p>
+
+<h4>Still No Luck?</h4>
+
+<p>If your screen is still blank, you may have to manually configure it. Try this:</p>
+
+<ol>
+<li>Unplug your Pi, take out the SD card, and plug it back into your computer.</li>
+<li>Create a new file called <code>config.txt</code> at the top level of your SD card.</li>
+<li>In <code>config.txt</code> add these lines:<br></li>
+</ol>
+
+<pre>
+hdmi_drive=2            # HDMI/DVI mode (1=DVI, 2=HDMI)
+hdmi_group=2            # HDMI type (1=CEA, 2=DMT)
+hdmi_mode=16            # Resolution (9=800x600/60Hz, 16=1024x768/60, 28=1280x800/60)
+hdmi_force_hotplug=1    # 1=Force HDMI mode even if no HDMI montor is detected</pre>
+
+<p>You may need to alter some values there. These settings manually define things like HDMI mode and resolution. For more help altering the config.txt file, check out the <a href="http://elinux.org/RPiconfig">RPiconfig page</a>.</p>
+
+<p>(These values were required for an old 15-inch monitor connected to the Pi via a VGA-to-HDMI adapter.)</p>
+
+<p><a name="image-installation"></a></p>
+
+<h3>Image Install Selection</h3>
+
+<p>The first step in NOOBS setup is selecting which images to install. We recommend selecting <em>at least</em> Raspbian. If you have a lot of space on your card, you can install multiple operating system images.</p>
+
+<p>Use you mouse to select or de-select options (or navigate up and down with the arrow keys, and Spacebar to select).</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/1/5/3/7/4/52aa4598757b7f684b8b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/1/5/3/7/4/52aa4598757b7f684b8b4567.png" alt="NOOBS image selector" /></a> </div></p>
+
+<p>After selecting the image, you can modify the language setting. Then <strong>click install</strong> or press <code>i</code> to start the installation.</p>
+
+<p>The installation procedure will take a while (30 minutes to an hour-ish). Read the handful of installation slides:</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/5/5/2/a/7/52b0a76c757b7f7c2f8b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/5/5/2/a/7/52b0a76c757b7f7c2f8b4567.png" alt="Raspbian install slides" /></a> </div></p>
+
+<p>Then go take a break to bake some pie or something.</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="setup-raspbian">Setup Raspbian</h2>
+        <p>After NOOBS runs through the installation process the Raspberry Pi will reboot, and present you with the <em>Raspberry Pi Software Configuration Tool</em> (if you don't see this, scroll down to the <a href="#recovery">next section</a>:</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/a/e/1/b/6/52b0a966757b7f7f2b8b456a.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/a/e/1/b/6/52b0a966757b7f7f2b8b456a.png" alt="Raspi-config tool" /></a> </div></p>
+
+<ol>
+<li><strong>Expand Filesystem</strong> -- Don't worry about this. NOOBS already did it for you.</li>
+<li><strong>Change User Password</strong> -- This step is recommended! Follow the on-screen directions to set a new password for you Pi. By default the password is set to <em>raspberry</em>, and the user is set to <em>pi</em>.</li>
+<li><strong>Enable Boot to Desktop/Scratch</strong> -- Select whether to boot into desktop or simply the text console. The console mode will obviously boot faster, and you can type <code>Startx</code> to open the GUI. Booting to desktop may be easier for those more comfortable with Windows or Mac, though.</li>
+<li><strong>Internationalisation Options</strong> -- Here you can adjust the timezone, keyboard layout, and language of your Pi. These changes take a while to be made, so be patient.</li>
+<li><strong>Enable Camera</strong> -- If you've got a <a href="https://www.sparkfun.com/products/11868">Raspberry Pi Camera</a>, this is the setting for you.</li>
+<li><strong>Add to Rastrack</strong> -- If you want your Pi to be documented on <a href="http://rastrack.co.uk/">Rastrack</a>.</li>
+<li><strong>Overclock</strong> -- If really want to ride your Pi to the max, you can overclock it. This taxes the entire system, and can lead to failures. Make sure you have a beefier power supply if you overclock. We recommend at least <em>trying</em> the Pi at normal clock settings, before deciding to overclock it.</li>
+<li><strong>Advanced Options</strong> -- There are some fun options here, like setting the <strong>hostname</strong> or enabling/disabling SPI and SSH. For the most part, these options can be left alone, though.</li>
+</ol>
+
+<p>Once you've made all of your adjustments, scroll down and over to <code>&lt;Finish&gt;</code> and allow the Pi to Reboot.</p>
+
+<p>If you booted into console mode, type <code>Startx</code> to open the GUI. Otherwise, you'll already be presented with the beautiful Raspberry Pi desktop.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/f/6/4/1/4/52b0aa14757b7f95688b456d.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/f/6/4/1/4/52b0aa14757b7f95688b456d.png" alt="Raspbian desktop" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>The default Raspbian desktop.</em> </div></p>
+
+<p><a name="recovery"></a></p>
+
+<h3>Booting to Blank, Black Screen?</h3>
+
+<p>If, after installing Raspbian, your Pi boots up only to land back on a blank, black screen, you may need to edit another <code>config.txt</code>. This one specific to the Raspbian install.</p>
+
+<p>The key to this is entering <strong>recovery mode</strong>. When the Pi is booting, you should at least see this screen:</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/4/8/7/3/b/52ab44ac757b7fa05c8b456b.png"><img src="https://cdn.sparkfun.com/assets/4/8/7/3/b/52ab44ac757b7fa05c8b456b.png" alt="Raspberry Pi recovery mode wallpaper" /></a> </div></p>
+
+<p>As soon as you see that grey, recovery mode screen <strong>hold down shift</strong> to enter recovery mode. This should present you with a familiar looking window. "Raspbian" should already be selected, and it should have a greenish background to indicate it's installed. <strong>Select your Raspbian image</strong>, and then <strong>click <em>Edit config (e)</em></strong> (or press <code>e</code>) to open <code>config.txt</code>.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/b/4/e/d/8/52b0bf5c757b7f9a0d8b4567.png"><img src="https://cdn.sparkfun.com/assets/b/4/e/d/8/52b0bf5c757b7f9a0d8b4567.png" alt="Config editor" /></a> </div></p>
+
+<p>Each line that begins with a <code>#</code> is commented out, so scroll down to the very bottom where there are a handful of non-comment lines. This is where you'll want to modify the <em>NOOBS Auto-generated Settings</em> to match what you need. If you had to manually create a <code>config.txt</code> file in the last step, try using those same values. For example, this worked for us:</p>
+
+<pre>hdmi_drive=2            # HDMI/DVI mode (1=DVI, 2=HDMI)
+hdmi_group=2            # HDMI type (1=CEA, 2=DMT)
+hdmi_mode=16            # Resolution (9=800x600/60Hz, 16=1024x768/60, 28=1280x800/60)
+hdmi_force_hotplug=1    # 1=Force HDMI mode even if no HDMI montor is detected</pre>
+
+<p>Check out the <a href="http://elinux.org/RPiconfig">RPiconfig page</a> for more help adjusting keys and values. Make sure you comment out (or replace) the keys and values that were already there.</p>
+
+<p>Then <strong>hit ESC</strong> and cross your fingers as the Pi reboots. If you see a wall of scrolling text as the operating system begins to boot, that's a good sign! If not, go back to recovery mode and try modifying <code>config.txt</code> some other way.</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="exploring-raspbian">Exploring Raspbian</h2>
+        <p>Raspbian comes with a variety of useful software tools. The UI should feel generally similar to Windows, OS X, and other Linux OS'es you may have used.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/8/f/0/a/7/52b0b19f757b7f36258b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/8/f/0/a/7/52b0b19f757b7f36258b4567.png" alt="Annoatated desktop" /></a> </div></p>
+
+<p>You can explore the environment on your own, but here are some of our favorite included tools:</p>
+
+<h3>File Manager</h3>
+
+<p>If you've done any sort of file manipulation, creation, or deletion, you've probably encountered a file browser before. Open the File Manager by clicking the second icon from the left on the bottom taskbar.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/8/c/9/3/4/52b0b274757b7f2d1f8b4567.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/8/c/9/3/4/52b0b274757b7f2d1f8b4567.png" alt="File manager" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>Using the file manager to browse around the Applications folder.</em> </div></p>
+
+<p>You can use the File Manager to look around at what files, applications, and tools are included with Raspbian. Or you can be a little more Linux-y by using the terminal...</p>
+
+<h3>LXTerminal</h3>
+
+<p>LXTerminal is Raspbian's default terminal program. If thinking of "Linux" conjures images of hackers typing furiously into a text-filled black-and-white terminal, LXTerminal is the actualization of that.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/3/d/7/2/4/52b0b268757b7f070f8b4569.png"><img src="https://cdn.sparkfun.com/assets/3/d/7/2/4/52b0b268757b7f070f8b4569.png" alt="LXTerminal" /></a> </div></p>
+
+<p>If you've never used Linux, or are unfamiliar with the command line interface (CLI), there are <a href="http://elinux.org/CLI_Spells">plenty</a> of <a href="http://linuxcommand.org/learning_the_shell.php">resources</a> to help <a href="http://www.my-guides.net/en/content/view/29/26/">get you started</a>. Begin with navigating around using <code>cd</code>, list some directory contents with <code>ls</code>, read some command manuals with <code>man</code>, and you'll be a command line ninja in no time.</p>
+
+<h3>Midori</h3>
+
+<p>Midori is the default <strong>web browser</strong> bundled with Raspbian. Midori aims to be both fast and lightweight, but it can still handle a lot of modern web pages.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/b/3/8/b/9/52b0b29e757b7fe86f8b456e.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/b/3/8/b/9/52b0b29e757b7fe86f8b456e.png" alt="Midori" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>Browsing SFE from Midori.</em> </div></p>
+
+<p>With Midori you have access to tabs, bookmarks, search bars, and other utilities you may be accustomed to with using other web browsers. No Flash, though, so no Youtube'ing.</p>
+
+<h3>Text Editors: Nano &amp; Leafpad</h3>
+
+<p>Both of these text editors can be used to modify text files, which is necssary to <strong>configure</strong> many applications. The difference between the two is the GUI. <a href="http://tarot.freeshell.org/leafpad/">Leafpad</a> is a few-frills, graphical text editor like Notepad (Windows) or TextEdit (OS X). Leafpad can be found from the "Accessories" menu under the Start menu.</p>
+
+<p><a href="http://www.nano-editor.org/">Nano</a> is Raspbian's <strong>terminal-based</strong> text editor. It's fast, lightweight, and more technical than Leafpad. Once you get into the habit of using Nano, you'll never go back to Leafpad, because you can edit stuff so much faster.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/7/2/a/a/d/52b0b2b6757b7f84068b4567.png"><img src="https://cdn.sparkfun.com/assets/7/2/a/a/d/52b0b2b6757b7f84068b4567.png" alt="Nano" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>Editing a makefile config file with Nano.</em> </div></p>
+
+<p>Nano is perfect for editing short configuration files, especially those you need superuser privileges for. To open a file for editing with nano, use the terminal command <code>nano filename.abc</code>. Or, to open it with root privileges, use <code>sudo nano filename.abc</code>.</p>
+
+<p>If you <em>really</em> want to take your terminal text editing a step further, Raspbian does include <a href="http://en.wikipedia.org/wiki/Vi">Vi</a> (or you can download and install <a href="http://www.gnu.org/software/emacs/">Emacs</a> [not trying to start a <a href="http://xkcd.com/378/">turf war</a> here]).</p>
+
+<h3>Python</h3>
+
+<p>Raspbian also includes Python (both version 2.7.3 and 3.2.3), a scripting language of which we're <a href="https://www.sparkfun.com/news/1304">quite enamored</a> with. Python is an amazingly powerful programming language, thanks to all of the amazing libraries that have already been written with it and its cross-platform-ability.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/c/4/a/c/0/52b0b2dd757b7fad268b456a.png"><img src="https://cdn.sparkfun.com/assets/c/4/a/c/0/52b0b2dd757b7fad268b456a.png" alt="Python" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>Doing math and <a href="http://xkcd.com/353/">defying gravity</a> with Python!</em> </div></p>
+
+<p>Python is useful for simple hardware control (toggling I/O pins, interfacing with I<sup>2</sup>C sensors, etc.), and it can even be used to create fully-functional projects, like our <a href="https://learn.sparkfun.com/tutorials/raspberry-pi-twitter-monitor">Twitter Monitor</a>.</p>
+
+<p>If you want to begin learning Python, there are plenty of resources to help you get started. <a href="https://www.programiz.com/python-programming">Programiz</a> and <a href="http://www.codecademy.com">Codeacademy</a> are great, sources of tutorials and interactive simulators. And of course, if you're feeling ambitious, there is the <a href="http://docs.python.org/2/">Python Documentation</a> itself.</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="dooooooom">DOOOOOOOM!</h2>
+        <p>Once you've familiarized yourself with everything Raspbian includes, you may notice it's missing something. Certainly you've got the web, you've got Python, you even have Python games. But there aren't any Python games that have you playing a space marine fighting off an otherworldly invasion on Mars. Let's install [Doom](http://en.wikipedia.org/wiki/Doom&#95;(video&#95;game&#41;).</p>
+
+<p>This step does require a <strong>connection to the Internet</strong>. So you'll either need to route Ethernet to your Pi, or <a href="https://learn.sparkfun.com/tutorials/using-pcduinos-wifi-dongle-with-the-pi">set up WiFi</a>. If you're a Linux newbie, this is a great opportunity to have your first experience with <a href="http://en.wikipedia.org/wiki/Advanced_Packaging_Tool">apt-get</a>, tarball extraction, binary compilation, and installation -- stuff you'll be doing a lot of as you continue on.</p>
+
+<p>There will be a lot of <strong>command line</strong> interaction here, so <strong>open up LXTerminal</strong> now. Every terminal command you should send will be presented as such:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~ $ </span><span style="color:#a8a8a8">man apt-get</span></p>
+
+<p>Which emulates the default look of your terminal. Only <strong>send the grey-ish text</strong> in that line. The text in green represents your user and localhost name (which may be different). The text in blue represents your current directory (<code>~</code> is the /home/pi directory).</p>
+
+<h3>Install Dependencies</h3>
+
+<p>Before we can compile Chocolate Doom, there are a few dependencies we need to harness first.</p>
+
+<p>To begin, it's always a good idea to <strong>update your apt-get index</strong> with:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~ $ </span><span style="color:#a8a8a8">sudo apt-get update</span></p>
+
+<p>After <code>apt-get update</code> runs, we can <code>apt-get</code> all of our dependencies with this beast of a command:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~ $ </span><span style="color:#a8a8a8">sudo apt-get install libsdl1.2debian libsdl-image1.2 libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-net1.2 libsdl-net1.2-dev timidity.</span></p>
+
+<p>It'll alert you that the total "get" will be about 90MB. Type <code>Y</code> to begin the download. Now, time for something you'll be doing a lot of: waiting. The downloading and unpacking will take 20-or-so minutes to finish up. While you're waiting you can read up on the dependencies you're installing:</p>
+
+<ul>
+<li><a href="http://packages.debian.org/wheezy/libsdl1.2debian">libsdl1.2debian</a> -- Simple DirectMedia Layer (SDL)</li>
+<li><a href="http://packages.debian.org/wheezy/libsdl-image1.2">libsdl-image1.2</a> -- Image loading for SDL</li>
+<li><a href="http://packages.debian.org/wheezy/libsdl-mixer1.2">libsdl-mixer1.2</a> -- Audio mixer library for SDL</li>
+<li><a href="http://packages.debian.org/wheezy/libsdl-mixer1.2-dev">libsdl-mixer1.2-dev</a> -- Audio mixer library development files</li>
+<li><a href="http://packages.debian.org/wheezy/libsdl-net1.2">libsdl-net1.2</a> -- Network library for SDL</li>
+<li><a href="http://packages.debian.org/wheezy/libsdl-net1.2-dev">libsdl-net1.2-dev</a> -- Network library development files</li>
+<li><a href="http://packages.debian.org/wheezy/timidity">timidity</a> -- MIDI, MOD and other sound file renderer</li>
+</ul>
+
+<p>It's always good to know a little something about what you're downloading and installing.</p>
+
+<h3>Download and Unpack the Source</h3>
+
+<p>Now that we have the dependencies under control, we can download the Chocolate Doom source code. First, <strong>navigate to a directory</strong> where you want the files to live. Here are commands to create a directory called "Doom" and go there:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50">pi@raspberrypi </span><span style="color:#5054f8">~ $ </span><span style="color:#a8a8a8">mkdir Doom</span><br>
+<span style="color:#50fc50">pi@raspberrypi </span><span style="color:#5054f8">~ $ </span><span style="color:#a8a8a8">cd Doom</span></p>
+
+<p>Next, download Chocolate Doom with the <code>wget</code> command by sending:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">sudo wget http://www.chocolate-doom.org/downloads/2.0.0/chocolate-doom-2.0.0.tar.gz</span></p>
+
+<p>(The version number may update, which may make that link 404. If you get an error, check for a new version on <a href="http://www.chocolate-doom.org/wiki/index.php/Downloads">Chocolate Doom's homepage</a>.)</p>
+
+<p>Extract the tar.gz file by with this <code>tar</code> command:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">tar -xvf chocolate-doom-2.0.0.tar.gz</span></p>
+
+<p>Then move into the <code>chocolate-doom-2.0.0</code> directory by sending:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">cd chocolate-doom-2.0.0</span></p>
+
+<h3>Configure, Make and Install</h3>
+
+<p>To double-check that everything looks correct, you can use the <code>ls</code> command to view all files in your current directory.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/e/f/8/b/8/52af769c757b7f93118b456b.png"><img src="https://cdn.sparkfun.com/assets/e/f/8/b/8/52af769c757b7f93118b456b.png" alt="alt text" /></a> </div></p>
+
+<p><div class="center-block text-center"> <em>After un-tarring comes the _./configure</em> command._ </div></p>
+
+<p>The next step is to configure Chocolate Doom by running the <code>configure</code> file. Do this with:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom/chocolate-doom-2.0.0 $ </span><span style="color:#a8a8a8">./configure</span></p>
+
+<p>Getting close! The next step is to <code>make</code> Chocolate Doom:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom/chocolate-doom-2.0.0 $ </span><span style="color:#a8a8a8">make</span></p>
+
+<p>Watch the compilation scroll through a huge list of processes. Time for more thumb-twiddling. Once that's done, the last step is to:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom/chocolate-doom-2.0.0 $ </span><span style="color:#a8a8a8">sudo make install</span></p>
+
+<p>Woo! The Chocolate Doom engine is installed!</p>
+
+<h3>Download a WAD</h3>
+
+<p>You've got the game installed, but where's all the data? WAD's where all the data is. In order to run Chocolate Doom requires that you point it to a WAD file on your Pi.</p>
+
+<p>There are a variety of WAD files out there. If you don't own the game, you can download a shareware WAD <a href="http://www.jbserver.com/downloads/games/doom/misc/shareware/doom1.wad.zip">here</a>. Or if you want to stick to the command line, type this:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom/chocolate-doom-2.0.0 $ </span><span style="color:#a8a8a8">cd ..</span><br>
+<span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">sudo wget http://www.jbserver.com/downloads/games/doom/misc/shareware/doom1.wad.zip</span></p>
+
+<p>And then unzip the WAD with this command:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom/chocolate-doom-2.0.0 $ </span><span style="color:#a8a8a8">sudo unzip doom1.wad.zip</span></p>
+
+<p>Now you should have a file named <code>DOOM1.WAD</code> in your <code>Doom</code> folder.</p>
+
+<h3>Setup and Play!</h3>
+
+<p>To open the Chocolate Doom setup utility, use the <code>chocolate-doom-setup</code> command. While you're doing so, you should also point it to the Doom WAD file you downloaded:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">chocolate-setup -iwad DOOM1.WAD</span></p>
+
+<p>With the Chocolate Doom Setup utility you can adjust things like <strong>screen resolution</strong> (full-screen or windowed), configure <strong>keyboard, mouse, and joystick</strong> inputs, and <strong>sound</strong>.</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/a/2/5/3/8/52af761d757b7f59178b4568.png"><img src="https://cdn.sparkfun.com/assets/a/2/5/3/8/52af761d757b7f59178b4568.png" alt="Chocolate setup screenshot" /></a> </div></p>
+
+<p>Once you've made all of those changes, click "Save Parameters and Launch DOOM".</p>
+
+<p><div class="center-block text-center"> <a href="https://cdn.sparkfun.com/assets/8/6/2/7/6/52af75f6757b7f65108b456d.png"><img src="https://cdn.sparkfun.com/r/600-600/assets/8/6/2/7/6/52af75f6757b7f65108b456d.png" alt="Doom screenshot" /></a> </div></p>
+
+<p>If you ever want to launch straight into Doom, you can use this command:</p>
+
+<p style="background:black; font-family:monospace"><span style="color:#50fc50;">pi@raspberrypi </span><span style="color:#5054f8">~/Doom $ </span><span style="color:#a8a8a8">chocolate-doom -iwad DOOM1.WAD</span></p>
+
+<p>Now go save the world!</p>      </div>
+          <div class="section tutorial-page">
+        <h2 id="resources--going-further">Resources and Going Further</h2>
+        <p>There are loads of resources around the web to help answer your Raspberry Pi-related cravings. Including:</p>
+
+<ul>
+<li><strong>Raspberry Pi Resources:</strong>
+
+<ul>
+<li><a href="http://elinux.org/RaspberryPiBoard">eLinux Raspberry Pi Hub</a> -- An excellent wiki resource for all things Pi.</li>
+<li><a href="http://elinux.org/index.php?title=R-Pi_Troubleshooting">eLinux Troubleshooting Guide</a></li>
+<li><a href="http://www.raspbian.org/RaspbianDocumentation">Raspbian Documentation</a></li>
+<li><a href="http://www.raspbian.org/RaspbianFAQ">Raspbian FAQ</a></li>
+<li><a href="http://www.raspbian.org/RaspbianForums">Raspbian Forums</a></li>
+<li><a href="https://projects.drogon.net/raspberry-pi/wiringpi/">wiringPi</a> -- An Arduino-like programming interface for the Raspberry Pi.</li>
+</ul></li>
+<li><strong>General Linux Resources:</strong>
+
+<ul>
+<li><a href="http://www.my-guides.net/en/content/view/29/26/">Basic Linux Commands</a> -- Great resource for Linux newbies.</li>
+<li><a href="http://explainshell.com/">ExplainShell.com</a> -- Really cool tool that dissects terminal commands. Great if you've ever wondered what, exactly, those seemingly aimless command lines do.</li>
+</ul></li>
+<li><strong>Etc.</strong>
+
+<ul>
+<li><a href="http://www.chocolate-doom.org/wiki/index.php/User_guide">Chocolate Doom Wiki</a></li>
+</ul></li>
+</ul>
+
+<h3>Going Further</h3>
+
+<ul>
+<li><a href="https://learn.sparkfun.com/tutorials/raspberry-pi-twitter-monitor">Raspberry Pi Twitter Monitor</a> -- Learn how to use a Raspberry Pi to monitor Twitter and blink LEDs.</li>
+<li><a href="https://learn.sparkfun.com/tutorials/using-pcduinos-wifi-dongle-with-the-pi">Using a USB WiFi Dongle With the Pi</a> -- Learn how to set up WiFi on the Pi. Connect to wireless networks via a <a href="https://www.sparkfun.com/products/11713">USB WiFi Dongle</a>.</li>
+<li><a href="https://learn.sparkfun.com/tutorials/pcduino-hookup-guide">Getting Started with pcDuino</a> -- If the Pi doesn't give you enough hardware access, consider stepping up to the <a href="https://www.sparkfun.com/products/11712">pcDuino</a>. This tutorial teaches you how to begin using the powerful little development board.</li>
+</ul>      </div>
+    
+        <div class="share-link-inline">
+
+  <a class="share-link-toggle" href="#">
+    <span class="share-title">
+      <span class="sfe-icon-share"></span>
+      Share    </span>
+  </a>
+
+  <div class="share-link-inner dialog">
+    Use this URL to share:<br>
+    <input class="form-control input-sm" type="text" value="http://sfe.io/t162" onclick="$(this).trigger('select');">
+
+    <div class="share-social">
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','googleplus');" href="https://plus.google.com/share?url=http%3A%2F%2Fsfe.io%2Ft162" title="Share on Google+"><span class="sfe-icon-google-plus hidetext"><span>Share on Google+</span></span></a>
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','tumblr');" href="https://www.tumblr.com/share/link?url=http%3A%2F%2Fsfe.io%2Ft162&name=Setting+up+Raspbian+%28and+DOOM%21%29" title="Share on Tumblr"><span class="sfe-icon-tumblr hidetext"><span>Share on Tumblr</span></span></a>
+
+      <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','reddit');" href="https://www.reddit.com/submit?url=http%3A%2F%2Fsfe.io%2Ft162" title="Submit to reddit"><span class="sfe-icon-reddit hidetext"><span>Submit to reddi</span></span></a>
+
+    </div>
+
+    </div>
+  
+  <div class="share-social">
+
+    <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','twitter');" href="https://twitter.com/intent/tweet?text=Setting+up+Raspbian+%28and+DOOM%21%29&url=http%3A%2F%2Fsfe.io%2Ft162&via=sparkfun" title="Share on Twitter"><span class="sfe-icon-twitter hidetext"><span>Share on Twitter</span></span></a>
+
+    <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','facebook');" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsfe.io%2Ft162&t=Setting+up+Raspbian+%28and+DOOM%21%29" title="Share on Facebook"><span class="sfe-icon-facebook-nobox hidetext"><span>Share on Facebook</span></span></a>
+
+          <a rel=nofollow onclick="return $(this).sfeutil('track_link',this,'Share','clicked','pinterest');" href="https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fsfe.io%2Ft162&media=https%3A%2F%2Fcdn.sparkfun.com%2F%2Fr%2F500-1000%2Fassets%2F1%2Fe%2F4%2Ff%2Fa%2F52a8cbcc757b7f5b198b4567.png&description=Setting+up+Raspbian+%28and+DOOM%21%29" title="Pin It"><span class="sfe-icon-pinterest hidetext"><span>Pin It</span></span></a>
+    
+  </div>
+
+  
+</div>
+
+  </div>
+
+  <div class="col-sm-4 nav-menu" id="nav-pages">
+
+    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+    <div id="sidebar_affix">
+
+      <div id="tutorial-pages" class="list-group">
+        <a class="list-group-item"><b>Sections</b></a>
+                          <a data-pagename="introduction" class="list-group-item" href="#introduction">
+            Introduction          </a>
+                  <a data-pagename="prepare-an-sd-card" class="list-group-item" href="#prepare-an-sd-card">
+            Prepare an SD Card          </a>
+                  <a data-pagename="prepare-the-pi" class="list-group-item" href="#prepare-the-pi">
+            Prepare the Pi          </a>
+                  <a data-pagename="install-raspbian" class="list-group-item" href="#install-raspbian">
+            Install Raspbian          </a>
+                  <a data-pagename="setup-raspbian" class="list-group-item" href="#setup-raspbian">
+            Setup Raspbian          </a>
+                  <a data-pagename="exploring-raspbian" class="list-group-item" href="#exploring-raspbian">
+            Exploring Raspbian          </a>
+                  <a data-pagename="dooooooom" class="list-group-item" href="#dooooooom">
+            DOOOOOOOM!          </a>
+                  <a data-pagename="resources--going-further" class="list-group-item" href="#resources--going-further">
+            Resources and Going Further          </a>
+              </div>
+
+      <div class="list-group">
+        <a class="list-group-item" href="https://learn.sparkfun.com/tutorials/setting-up-raspbian-and-doom/discuss">
+          Comments
+          <span class="badge">3</span>
+        </a>
+                  <a class="list-group-item" href="https://learn.sparkfun.com/tutorials/setting-up-raspbian-and-doom/introduction">
+            View Paginated
+          </a>
+                <a class="list-group-item" href="#" onclick="window.print(); return false;">
+          Print
+        </a>
+      </div>
+
+      <ul class="list-group">
+        <li class="list-group-item"><b>Tags</b></li>
+        <li class="list-group-item"><ul class="tags-list">
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/hookup">Hookup</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/raspberry-pi">Raspberry Pi</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/single-board-computer">Single Board Computer</a>  </li>
+  <li>
+    <a class="tag" href="https://learn.sparkfun.com/tutorials/tags/start-a-project">Start a Project</a>  </li>
+</ul>
+</li>
+      </ul>
+
+      <ul class="list-group">
+        <li class="list-group-item"><b>License</b></li>
+        <li class="list-group-item">
+          <span class="sfe-icon-cc">
+            <span class="visuallyhidden">Creative Commons</span>
+          </span>
+          <small>tutorials are <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="new">CC BY-SA 4.0</a></small>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>
+
+      </div> <!-- /container -->
+    </div> <!-- /content -->
+
+    
+<footer>
+
+<div class="social">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="newsletter">
+          
+<!--[if lte IE 8]>
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+<![endif]-->
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+<script>
+hbspt.forms.create({
+portalId: "2224003",
+formId: "1f5a7872-dd7a-4e36-99fe-cafe431ba0b2"
+});
+</script>
+        </div>
+        <p>Weekly product releases, special offers, and more.</p>
+      </div>
+    </div><!-- end .row -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <ul class="spew">
+          <li><a href="https://www.youtube.com/sparkfun" target="_blank" class=sfe-icon-youtube><span class=visuallyhidden>YouTube</span></a></li>
+          <li><a href="https://www.instagram.com/sparkfun/" target="_blank" class=sfe-icon-instagram><span class=visuallyhidden>Instagram</span></a></li>
+          <li><a href="https://www.github.com/sparkfun" target="_blank" class=sfe-icon-github><span class=visuallyhidden>GitHub</span></a></li>
+          <li><a href="https://www.facebook.com/SparkFun" target="_blank" class=sfe-icon-facebook><span class=visuallyhidden>Facebook</span></a></li>
+          <li><a href="https://twitter.com/sparkfun" target="_blank" class=sfe-icon-twitter><span class=visuallyhidden>Twitter</span></a></li>
+          <li><a href="https://www.sparkfun.com/feeds" class=sfe-icon-feed><span class=visuallyhidden>RSS</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- end .container -->
+</div><!-- end .social -->
+
+<div class="container">
+
+    <div class="row">
+
+    <div class="subfooter">
+      <div class="col-md-12 col-xs-12">
+
+        <div class="row">
+
+          <div class="col-md-3 col-sm-6 col-xs-6">
+          <h3>ABOUT SPARKFUN</h3>
+            <ul>
+              <li><a href="https://www.sparkfun.com/about_sparkfun">Read Our Story</a></li>
+              <li><a href="https://www.sparkfun.com/coverage">Press &amp; Media</a></li>
+              <li><a href="https://www.sparkfun.com/success">Success with SparkFun</a></li>
+              <li><a href="http://www.sparkfuneducation.com" target="_blank">SparkFun Education <span class="glyphicon glyphicon-new-window"></span></a></li>
+              <li><a href="https://www.sparkfun.com/jobs">Job Openings</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-6">
+          <h3>PARTNER WITH US</h3>
+            <ul>
+              <li><a href="https://www.sparkfun.com/partner_with_us">See Our Partners</a></li>
+              <li><a href="https://www.sparkfun.com/become_a_distributor">Become a Distributor/Reseller</a></li>
+              <li><a href="https://www.sparkfun.com/volume_sales">Receive Volume Discounts</a></li>
+              <li><a href="https://www.sparkfun.com/services">Explore Services</a></li>
+              <li><a href="https://www.sparkfun.com/community_outreach">Apply for a Hardware Donation</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-6">
+          <h3>SUPPORT</h3>
+            <ul>
+              <li><a href="https://www.sparkfun.com/support">Customer Support</a>              <li><a href="https://www.sparkfun.com/support#PurchaseOrders">Purchase Orders &amp; Payment Terms</a></li>
+              <li><a href="https://www.sparkfun.com/technical_assistance">Technical Assistance</a></li>
+              <li><a href="https://www.sparkfun.com/faq">FAQs</a></li>
+              <li><a href="https://www.sparkfun.com/support">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <h3>SITE INFORMATION</h3>
+            <ul>
+              <li><a href="https://www.sparkfun.com/terms">Terms of Service</a></li>
+              <li><a href="https://www.sparkfun.com/privacy">Privacy Policy</a></li>
+              <li><a href="https://www.sparkfun.com/compliance">Compliance</a></li>
+              <li><a href="https://www.sparkfun.com/sitemap">Site Map</a></li>
+            </ul>
+          </div>
+
+        </div><!-- end .row -->
+      </div><!-- end left column .col-sm-6 -->
+    </div><!-- end .subfooter -->
+
+  </div><!-- end .row -->
+  
+  <ul class="copyleft">
+    <li>SparkFun Electronics <a href="https://www.sparkfun.com/news/300">&reg;</a></li>
+    <li><a href="http://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=6333+Dry+Creek+Parkway,+Niwot,+CO+80503"><strong>6333 Dry Creek Parkway, Niwot, Colorado 80503</strong></a></li>
+    <li class="desktop-toggle">
+              <a href="https://www.sparkfun.com/account/mobile_toggle?redirect=%2Flearn%2Ftutorials%2Fsetting-up-raspbian-and-doom">Desktop Site</a>          </li>
+  </ul>
+
+</div><!-- end .container -->
+
+</footer>
+
+    <div class="nav-account">
+  <ul class="nav nav-tabs">
+    <li class="visible-xs">
+      <a class="nav-toggle-account back" href="#">Your Account</a>
+    </li>
+          <li class="">
+        <a href="https://www.sparkfun.com/account/login?redirect=%2Flearn%2Ftutorials%2Fsetting-up-raspbian-and-doom" data-toggle="modal" data-target="#login_modal" data-remote="false">Log In</a>
+      </li>
+          <li class="">
+        <a href="https://www.sparkfun.com/account/make">Register</a>
+      </li>
+      </ul>
+</div>
+
+      </div><!-- end .wrapper-inner -->
+    </div><!-- end .wrapper -->
+
+    <div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-hidden="true" data-remote-content="https://learn.sparkfun.com/index/login_modal_dialog?redirect=%2Flearn%2Ftutorials%2Fsetting-up-raspbian-and-doom">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Log In</h4>
+        <p class="modal-header-msg"></p>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+    
+    <script type="text/javascript">
+      var SFECONFIG = {
+        dnt: false,
+        http_server: 'http://learn.sparkfun.com',
+        https_server: 'https://learn.sparkfun.com',
+        http_static: 'https://cdn.sparkfun.com',
+        learn_server: 'https://learn.sparkfun.com',
+        commerce_server: 'https://www.sparkfun.com',
+        base_url: '/',
+        url: '/',
+        controller: 'tutorials',
+        action: 'view',
+        entity_id: '',
+        auth: false,
+        sparkrev: '1608656476',
+        search_key: 'xY6qr5Ui3V2UMA762D9Z'      };
+    </script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+      <script src="/js/learn-built.min.js?sparkrev=1608656476"></script>
+    
+    <script>
+      $('#learn').learn();
+      $('#learn').sfeutil();
+      $.shared('domready');
+    </script>
+                            <script src="/js/tutorials-built.min.js?sparkrev=1608656476"></script>
+                            <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-3404365-1', 'auto', {'allowLinker': true});
+        ga('require', 'linker');
+        ga('linker:autoLink', ['www.sparkfun.com', 'alc.sparkfun.com', 'avc.sparkfun.com', 'data.sparkfun.com', 'forum.sparkfun.com']);
+        ga('require', 'displayfeatures');
+                ga('set', 'dimension1', 'Guest');
+        ga('send', 'pageview');
+
+      </script>
+        <script>
+    var fbq = null;
+  </script>
+      
+          <script type="text/javascript">
+      (function(d,s,i,r) {
+        if (d.getElementById(i)){return;}
+        var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+        n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/2224003.js';
+        e.parentNode.insertBefore(n, e);
+      })(document,"script","hs-analytics",300000);
+    </script>
+        <script type="text/javascript">
+    setTimeout(function(){var a=document.createElement("script");
+    var b=document.getElementsByTagName("script")[0];
+    a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0046/4761.js?"+Math.floor(new Date().getTime()/3600000);
+    a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+  </script>
+      </body>
+</html>
