@@ -1,0 +1,511 @@
+WEBVTT
+
+1
+00:00:04.850 --> 00:00:08.100
+In this video, we're going
+to look at how we can use
+
+2
+00:00:08.100 --> 00:00:12.495
+Power Query to get and
+transform data from a database.
+
+3
+00:00:12.495 --> 00:00:15.239
+To help with enrollments
+and reporting,
+
+4
+00:00:15.239 --> 00:00:17.910
+we actually need an
+up-to-date staff list
+
+5
+00:00:17.910 --> 00:00:20.055
+inside our Excel workbook.
+
+6
+00:00:20.055 --> 00:00:23.595
+But the staff list is actually
+maintained in a database.
+
+7
+00:00:23.595 --> 00:00:25.380
+Now what would
+typically happen in
+
+8
+00:00:25.380 --> 00:00:27.090
+this scenario is the data
+
+9
+00:00:27.090 --> 00:00:28.830
+would be downloaded
+from the database,
+
+10
+00:00:28.830 --> 00:00:31.680
+imported into Excel,
+and then cleaned up,
+
+11
+00:00:31.680 --> 00:00:33.270
+and this would probably
+have to happen quite
+
+12
+00:00:33.270 --> 00:00:35.565
+regularly to keep
+the data up to date.
+
+13
+00:00:35.565 --> 00:00:38.650
+This is a very
+time-consuming process.
+
+14
+00:00:38.650 --> 00:00:42.650
+With Power Query, you can
+actually connect directly to
+
+15
+00:00:42.650 --> 00:00:44.210
+the database and make
+
+16
+00:00:44.210 --> 00:00:46.910
+the transformations
+direct in Power Query,
+
+17
+00:00:46.910 --> 00:00:49.985
+so all you have to do is
+hit the Refresh button,
+
+18
+00:00:49.985 --> 00:00:53.390
+and you're guaranteed
+an up-to-date dataset.
+
+19
+00:00:53.390 --> 00:00:55.355
+Let's see how to do it.
+
+20
+00:00:55.355 --> 00:00:57.560
+We're starting in our staff list,
+
+21
+00:00:57.560 --> 00:00:59.825
+and we're going to come
+to our data ribbon,
+
+22
+00:00:59.825 --> 00:01:02.615
+get and transform, get data,
+
+23
+00:01:02.615 --> 00:01:05.035
+and we're going to get
+it from a database.
+
+24
+00:01:05.035 --> 00:01:07.430
+There's a great range of
+options to choose from,
+
+25
+00:01:07.430 --> 00:01:09.995
+including SQL Server, Oracle.
+
+26
+00:01:09.995 --> 00:01:12.560
+Even if you don't see
+your option there,
+
+27
+00:01:12.560 --> 00:01:14.780
+you can usually use
+an ODBC connection
+
+28
+00:01:14.780 --> 00:01:16.595
+to connect to just
+about anything.
+
+29
+00:01:16.595 --> 00:01:18.620
+The option we're
+going to go for is
+
+30
+00:01:18.620 --> 00:01:21.260
+Access Database and then
+
+31
+00:01:21.260 --> 00:01:22.810
+navigate to where
+your workbooks are,
+
+32
+00:01:22.810 --> 00:01:25.580
+and you should see a
+database called Staff.
+
+33
+00:01:25.580 --> 00:01:27.820
+We're just going to
+double-click on that.
+
+34
+00:01:27.820 --> 00:01:30.665
+If you're connecting
+to Oracle or SQL,
+
+35
+00:01:30.665 --> 00:01:33.335
+you will probably be asked
+for some login credentials,
+
+36
+00:01:33.335 --> 00:01:34.475
+which you'll need to provide,
+
+37
+00:01:34.475 --> 00:01:37.090
+but otherwise the
+process is very similar.
+
+38
+00:01:37.090 --> 00:01:39.290
+Once you've connected
+to the database,
+
+39
+00:01:39.290 --> 00:01:41.479
+it will show you a list
+of all the tables,
+
+40
+00:01:41.479 --> 00:01:43.235
+and usually, there'll
+be quite a few.
+
+41
+00:01:43.235 --> 00:01:45.230
+But we've just got
+the Staff table,
+
+42
+00:01:45.230 --> 00:01:46.690
+so we're going to click on that.
+
+43
+00:01:46.690 --> 00:01:48.650
+There's our preview.
+
+44
+00:01:48.650 --> 00:01:51.650
+But we do want to make
+some transformations.
+
+45
+00:01:51.650 --> 00:01:55.740
+Please click the Transform
+Data or the Edit button.
+
+46
+00:01:56.660 --> 00:01:58.980
+We're back in Power Query.
+
+47
+00:01:58.980 --> 00:02:01.400
+Now, if you'd like to actually
+zoom out a little bit,
+
+48
+00:02:01.400 --> 00:02:04.070
+you can press Control
+Shift plus and
+
+49
+00:02:04.070 --> 00:02:07.400
+just do it a few times
+until the data is readable.
+
+50
+00:02:07.400 --> 00:02:11.580
+Now the first change we would
+like to make is start date.
+
+51
+00:02:11.580 --> 00:02:14.030
+We don't want to
+include the time,
+
+52
+00:02:14.030 --> 00:02:17.210
+but this data type
+is set to date time.
+
+53
+00:02:17.210 --> 00:02:18.695
+So we're going to change it.
+
+54
+00:02:18.695 --> 00:02:20.810
+Select the Start Date column,
+
+55
+00:02:20.810 --> 00:02:22.395
+come to the Home ribbon,
+
+56
+00:02:22.395 --> 00:02:25.370
+and you're looking for
+the Data Type button,
+
+57
+00:02:25.370 --> 00:02:28.670
+which at the moment is
+showing it as Date Time.
+
+58
+00:02:28.670 --> 00:02:30.425
+We're going to
+click the dropdown,
+
+59
+00:02:30.425 --> 00:02:36.105
+and we're going to change
+it to just date. Too easy.
+
+60
+00:02:36.105 --> 00:02:39.110
+The next thing we want
+to do is we want to
+
+61
+00:02:39.110 --> 00:02:41.690
+combine the first
+name and last name.
+
+62
+00:02:41.690 --> 00:02:44.165
+Because when we're doing
+lookups and reporting,
+
+63
+00:02:44.165 --> 00:02:47.425
+it's easier to have the staff
+name as a single column.
+
+64
+00:02:47.425 --> 00:02:49.800
+Again, really easy
+with Power Query.
+
+65
+00:02:49.800 --> 00:02:52.100
+We're going to select
+our First Name column.
+
+66
+00:02:52.100 --> 00:02:53.570
+We're going to hold our Shift key
+
+67
+00:02:53.570 --> 00:02:56.135
+down and click our
+Last Name column.
+
+68
+00:02:56.135 --> 00:02:59.545
+Now we're going to come
+to the Transform ribbon.
+
+69
+00:02:59.545 --> 00:03:01.950
+Here, the middle,
+we're looking for
+
+70
+00:03:01.950 --> 00:03:07.395
+the Merge Columns button.
+We're going to click that.
+
+71
+00:03:07.395 --> 00:03:09.630
+The first thing that's
+going to check is,
+
+72
+00:03:09.630 --> 00:03:11.400
+do we need a separator?
+
+73
+00:03:11.400 --> 00:03:13.740
+Yes, we do. Click the dropdown,
+
+74
+00:03:13.740 --> 00:03:15.870
+and we're going to choose Space.
+
+75
+00:03:15.870 --> 00:03:17.780
+If we don't change this,
+
+76
+00:03:17.780 --> 00:03:19.190
+it's going to call
+the column Merge,
+
+77
+00:03:19.190 --> 00:03:20.450
+which is not a great name.
+
+78
+00:03:20.450 --> 00:03:24.815
+We're going to call our
+new column Stuff Name,
+
+79
+00:03:24.815 --> 00:03:29.120
+and then we're going
+to click "Okay" You
+
+80
+00:03:29.120 --> 00:03:33.040
+can now see we have a single
+column with just Staff Name.
+
+81
+00:03:33.040 --> 00:03:35.525
+It's a little bit like
+the concatenate operator,
+
+82
+00:03:35.525 --> 00:03:38.195
+but again, it's all
+automated for us.
+
+83
+00:03:38.195 --> 00:03:40.310
+When new staff get
+added to the database,
+
+84
+00:03:40.310 --> 00:03:41.750
+we hit the Refresh button,
+
+85
+00:03:41.750 --> 00:03:43.085
+and we'll see them come through
+
+86
+00:03:43.085 --> 00:03:45.040
+with a name and a single column.
+
+87
+00:03:45.040 --> 00:03:47.730
+We're ready to load that data.
+
+88
+00:03:47.730 --> 00:03:49.500
+We're going to come
+to our Home tab,
+
+89
+00:03:49.500 --> 00:03:53.445
+Close & Load, Close & load Too,
+
+90
+00:03:53.445 --> 00:03:55.170
+and we're going to put it in
+
+91
+00:03:55.170 --> 00:03:57.465
+an existing worksheet and say
+
+92
+00:03:57.465 --> 00:04:03.790
+"Okay" There's our data
+linked to our database.
+
+93
+00:04:03.790 --> 00:04:06.820
+Ideally, we shouldn't
+really change the data in
+
+94
+00:04:06.820 --> 00:04:09.640
+Excel because this is really
+linked to the database.
+
+95
+00:04:09.640 --> 00:04:10.795
+So when we refresh it,
+
+96
+00:04:10.795 --> 00:04:12.640
+it's going to overwrite
+any local changes
+
+97
+00:04:12.640 --> 00:04:14.750
+we've made with the
+actual dataset.
+
+98
+00:04:14.750 --> 00:04:16.585
+But what that means is we can now
+
+99
+00:04:16.585 --> 00:04:18.655
+update the data in one place.
+
+100
+00:04:18.655 --> 00:04:21.355
+But we can work with
+it direct in Excel,
+
+101
+00:04:21.355 --> 00:04:23.530
+and at any point,
+
+102
+00:04:23.530 --> 00:04:25.165
+we can just hit the
+Refresh button,
+
+103
+00:04:25.165 --> 00:04:27.575
+and this data will update.
+
+104
+00:04:27.575 --> 00:04:30.040
+We've seen in this
+video how we can use
+
+105
+00:04:30.040 --> 00:04:33.475
+Power Query to get and
+transform data from a database.
+
+106
+00:04:33.475 --> 00:04:35.200
+In the next video,
+we're going to look at
+
+107
+00:04:35.200 --> 00:04:36.820
+something even more amazing,
+
+108
+00:04:36.820 --> 00:04:39.100
+and that is how we
+can pull data from
+
+109
+00:04:39.100 --> 00:04:42.260
+a folder. Keep watching.

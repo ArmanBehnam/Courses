@@ -1,0 +1,980 @@
+WEBVTT
+
+1
+00:00:04.700 --> 00:00:07.665
+In this video, we're
+going to look at
+
+2
+00:00:07.665 --> 00:00:10.380
+unpivoting data in
+the Query Editor,
+
+3
+00:00:10.380 --> 00:00:13.380
+and troubleshoot
+common query errors.
+
+4
+00:00:13.380 --> 00:00:16.490
+In the previous video,
+we did a great job of
+
+5
+00:00:16.490 --> 00:00:18.545
+condensing and
+transforming our data
+
+6
+00:00:18.545 --> 00:00:20.330
+into something more manageable.
+
+7
+00:00:20.330 --> 00:00:23.135
+But for those of you who
+tried the challenge, I said,
+
+8
+00:00:23.135 --> 00:00:24.830
+you probably found
+it was still quite
+
+9
+00:00:24.830 --> 00:00:27.625
+difficult to get
+analytics from this data.
+
+10
+00:00:27.625 --> 00:00:30.950
+That's because it's in
+a form we call pivoted.
+
+11
+00:00:30.950 --> 00:00:33.205
+What do we mean by pivoted?
+
+12
+00:00:33.205 --> 00:00:35.670
+Well these values, five, four,
+
+13
+00:00:35.670 --> 00:00:38.135
+three, two, one, are ratings.
+
+14
+00:00:38.135 --> 00:00:39.800
+We would actually expect to see
+
+15
+00:00:39.800 --> 00:00:41.570
+those as values in a column that
+
+16
+00:00:41.570 --> 00:00:43.130
+instead they're being shown as
+
+17
+00:00:43.130 --> 00:00:45.260
+column headings in
+their own right.
+
+18
+00:00:45.260 --> 00:00:48.085
+This is quite a common problem.
+
+19
+00:00:48.085 --> 00:00:50.900
+What typically happens
+in business is
+
+20
+00:00:50.900 --> 00:00:53.515
+we start with data
+that is flattened.
+
+21
+00:00:53.515 --> 00:00:58.385
+You can see each month is shown
+as a value in the column.
+
+22
+00:00:58.385 --> 00:01:01.700
+But then, to make this
+data easier to read,
+
+23
+00:01:01.700 --> 00:01:04.280
+somebody will create
+a pivot table to show
+
+24
+00:01:04.280 --> 00:01:07.435
+us a breakdown of
+expenses by month.
+
+25
+00:01:07.435 --> 00:01:10.125
+The pivot table looks like this,
+
+26
+00:01:10.125 --> 00:01:12.795
+as a report that's
+much easier to read.
+
+27
+00:01:12.795 --> 00:01:16.160
+But the problem is the original
+flattened data sometimes
+
+28
+00:01:16.160 --> 00:01:20.095
+gets lost and this is very
+hard to do analytics with.
+
+29
+00:01:20.095 --> 00:01:22.910
+What we're looking at is
+how can we get from the
+
+30
+00:01:22.910 --> 00:01:26.375
+pivoted back to the flattened?
+
+31
+00:01:26.375 --> 00:01:29.375
+We can do that with Query Editor.
+
+32
+00:01:29.375 --> 00:01:34.535
+Back in our data, we're going
+to need to edit the query,
+
+33
+00:01:34.535 --> 00:01:36.515
+so we're going to come
+to our data ribbon,
+
+34
+00:01:36.515 --> 00:01:38.210
+click Queries and Connections,
+
+35
+00:01:38.210 --> 00:01:41.430
+and double click our Evals Query.
+
+36
+00:01:42.470 --> 00:01:45.650
+The first thing we need
+to decide is which
+
+37
+00:01:45.650 --> 00:01:48.155
+columns do we need to unpivot.
+
+38
+00:01:48.155 --> 00:01:51.640
+In this case, it's our
+ratings from five to one.
+
+39
+00:01:51.640 --> 00:01:53.355
+You actually have a choice,
+
+40
+00:01:53.355 --> 00:01:56.060
+you can select the columns
+you want to unpivot,
+
+41
+00:01:56.060 --> 00:01:58.805
+or you can select the columns
+you don't want to unpivot.
+
+42
+00:01:58.805 --> 00:02:01.055
+It might sound counter intuitive,
+
+43
+00:02:01.055 --> 00:02:02.825
+but you're actually better off
+
+44
+00:02:02.825 --> 00:02:05.605
+selecting the columns you
+don't want to unpivot.
+
+45
+00:02:05.605 --> 00:02:07.980
+That's because the
+columns you want
+
+46
+00:02:07.980 --> 00:02:10.560
+to unpivot are more
+likely to change.
+
+47
+00:02:10.560 --> 00:02:12.335
+We're going to
+select from course,
+
+48
+00:02:12.335 --> 00:02:15.640
+hold our "Shift" key
+down to questions,
+
+49
+00:02:15.640 --> 00:02:18.920
+and then we're going to
+come to our Transform tab;
+
+50
+00:02:18.920 --> 00:02:23.715
+and we're going to find the
+Unpivot Columns button.
+
+51
+00:02:23.715 --> 00:02:25.170
+But we're going to click the drop
+
+52
+00:02:25.170 --> 00:02:27.230
+down because the
+option we actually
+
+53
+00:02:27.230 --> 00:02:31.130
+want to use is Unpivot
+Other Columns.
+
+54
+00:02:31.130 --> 00:02:34.550
+If we selected the columns
+we wanted to unpivot,
+
+55
+00:02:34.550 --> 00:02:37.225
+then we would say
+Unpivot Columns.
+
+56
+00:02:37.225 --> 00:02:40.530
+We're going to choose
+unpivot other columns.
+
+57
+00:02:40.730 --> 00:02:43.215
+How easy was that?
+
+58
+00:02:43.215 --> 00:02:45.380
+We probably don't want
+to call the column
+
+59
+00:02:45.380 --> 00:02:47.465
+Attribute THOSE edit out
+
+60
+00:02:47.465 --> 00:02:50.430
+M code, we're going
+to call that rating.
+
+61
+00:02:50.870 --> 00:02:53.925
+We don't need the
+value column at all,
+
+62
+00:02:53.925 --> 00:02:55.070
+so I'm just going to select
+
+63
+00:02:55.070 --> 00:02:57.575
+the value column
+and press "Delete".
+
+64
+00:02:57.575 --> 00:02:59.555
+We're now ready to
+close and load,
+
+65
+00:02:59.555 --> 00:03:03.090
+so back to our Home ribbon,
+and close and load.
+
+66
+00:03:03.860 --> 00:03:07.465
+That data is going to be
+much easier to work with.
+
+67
+00:03:07.465 --> 00:03:09.950
+If you're working
+with 2016 or earlier,
+
+68
+00:03:09.950 --> 00:03:11.750
+you may find your table rows
+
+69
+00:03:11.750 --> 00:03:13.220
+wouldn't actually cleaned up.
+
+70
+00:03:13.220 --> 00:03:14.630
+That's very easy to fix,
+
+71
+00:03:14.630 --> 00:03:17.045
+we're going to select
+column E to I,
+
+72
+00:03:17.045 --> 00:03:20.460
+come to Home ribbon, and
+just press "Delete".
+
+73
+00:03:20.840 --> 00:03:24.240
+Now let's try doing the analysis.
+
+74
+00:03:24.240 --> 00:03:26.870
+We would like to
+get a chart showing
+
+75
+00:03:26.870 --> 00:03:29.615
+the average rating to each
+of the trainer questions,
+
+76
+00:03:29.615 --> 00:03:32.060
+and the best way to do
+it is a pivot table.
+
+77
+00:03:32.060 --> 00:03:33.650
+Now on the table data,
+
+78
+00:03:33.650 --> 00:03:35.840
+you just click on it and
+come up to Table Design.
+
+79
+00:03:35.840 --> 00:03:38.050
+You'll see the
+tables called Evals,
+
+80
+00:03:38.050 --> 00:03:39.950
+I'm going to use
+that in a moment.
+
+81
+00:03:39.950 --> 00:03:44.030
+Can you come to your
+evaluation report worksheet?
+
+82
+00:03:44.030 --> 00:03:46.085
+Make sure you clicked in C four,
+
+83
+00:03:46.085 --> 00:03:48.980
+we're going to
+insert pivot table,
+
+84
+00:03:48.980 --> 00:03:51.470
+and we're going to get
+it from the Evals table,
+
+85
+00:03:51.470 --> 00:03:53.095
+and just press "Enter".
+
+86
+00:03:53.095 --> 00:03:56.310
+The first field we
+want is our questions,
+
+87
+00:03:56.310 --> 00:03:57.680
+so I'm going to grab questions,
+
+88
+00:03:57.680 --> 00:04:00.040
+drag and drop it into the rows,
+
+89
+00:04:00.040 --> 00:04:02.045
+and you'll see each
+unique question
+
+90
+00:04:02.045 --> 00:04:04.135
+is represented as a row label.
+
+91
+00:04:04.135 --> 00:04:05.700
+Now I want my ratings.
+
+92
+00:04:05.700 --> 00:04:07.065
+I'm going to grab
+ratings, drag it
+
+93
+00:04:07.065 --> 00:04:08.970
+and drop it into values.
+
+94
+00:04:08.970 --> 00:04:11.495
+But it's giving me a count
+and I don't want to count,
+
+95
+00:04:11.495 --> 00:04:13.175
+I want an average.
+
+96
+00:04:13.175 --> 00:04:17.525
+If you right-click on
+one of those ratings,
+
+97
+00:04:17.525 --> 00:04:19.805
+come down to summarize values by,
+
+98
+00:04:19.805 --> 00:04:22.580
+we're going to choose average.
+
+99
+00:04:22.580 --> 00:04:25.685
+Ooh dear, we have a problem.
+
+100
+00:04:25.685 --> 00:04:27.560
+Let's come back to
+our original data and
+
+101
+00:04:27.560 --> 00:04:29.735
+see if we can see
+what the issue is.
+
+102
+00:04:29.735 --> 00:04:31.370
+All the numbers are sitting on
+
+103
+00:04:31.370 --> 00:04:33.035
+the left-hand side of the cell,
+
+104
+00:04:33.035 --> 00:04:35.375
+and that's your first big clue,
+
+105
+00:04:35.375 --> 00:04:36.815
+that's probably not a number,
+
+106
+00:04:36.815 --> 00:04:40.070
+it's probably texts;
+better go check our query.
+
+107
+00:04:40.070 --> 00:04:43.020
+I'm going to double-click
+into my query,
+
+108
+00:04:44.680 --> 00:04:48.800
+you can see the rating
+is in fact still text,
+
+109
+00:04:48.800 --> 00:04:50.960
+we're going to need
+to change that.
+
+110
+00:04:50.960 --> 00:04:52.700
+Can you select the rating column?
+
+111
+00:04:52.700 --> 00:04:54.740
+We're going to come up
+to our Home ribbon,
+
+112
+00:04:54.740 --> 00:04:56.255
+find Data Type Text,
+
+113
+00:04:56.255 --> 00:05:00.160
+and we're going to change
+that to whole number,
+
+114
+00:05:00.320 --> 00:05:02.160
+we're going to click close and
+
+115
+00:05:02.160 --> 00:05:05.520
+load, that's looking better.
+
+116
+00:05:05.520 --> 00:05:07.410
+Back in our evaluation report,
+
+117
+00:05:07.410 --> 00:05:09.600
+we just need to come up
+to Pivot Table Analyze,
+
+118
+00:05:09.600 --> 00:05:13.755
+and hit the Refresh
+button, problem solved.
+
+119
+00:05:13.755 --> 00:05:15.890
+We do need to tidy
+this up a little bit,
+
+120
+00:05:15.890 --> 00:05:19.310
+so let's just right-click
+on one of our ratings,
+
+121
+00:05:19.310 --> 00:05:20.825
+come to number format.
+
+122
+00:05:20.825 --> 00:05:24.385
+I'm going to make that a
+number and click "Okay".
+
+123
+00:05:24.385 --> 00:05:28.010
+We also only want questions
+about the trainer,
+
+124
+00:05:28.010 --> 00:05:29.330
+so let's add a filter.
+
+125
+00:05:29.330 --> 00:05:32.605
+I'm going to come to row
+labels, click the drop-down,
+
+126
+00:05:32.605 --> 00:05:34.679
+come to label filters,
+
+127
+00:05:34.679 --> 00:05:38.280
+and we want everything that
+contains the word trainer.
+
+128
+00:05:38.280 --> 00:05:40.125
+You're going to click contains,
+
+129
+00:05:40.125 --> 00:05:43.725
+type trainer, and press "Enter",
+
+130
+00:05:43.725 --> 00:05:45.720
+and there's our
+finished analysis.
+
+131
+00:05:45.720 --> 00:05:47.975
+But it's always easier to
+
+132
+00:05:47.975 --> 00:05:50.705
+absorb information that's
+represented graphically.
+
+133
+00:05:50.705 --> 00:05:52.775
+Let's convert this to a chart.
+
+134
+00:05:52.775 --> 00:05:54.710
+Clicking in our Pivot Table,
+
+135
+00:05:54.710 --> 00:05:56.650
+we're going to come up
+to our Analyze tab,
+
+136
+00:05:56.650 --> 00:06:00.120
+click Pivot chart,
+and click "Okay".
+
+137
+00:06:00.120 --> 00:06:02.570
+Now we can actually
+move that chart to
+
+138
+00:06:02.570 --> 00:06:04.925
+cover our Pivot Table
+because we don't need both,
+
+139
+00:06:04.925 --> 00:06:07.010
+and we'll make a
+few updates to it;
+
+140
+00:06:07.010 --> 00:06:08.630
+so on the Design ribbon,
+
+141
+00:06:08.630 --> 00:06:11.515
+let's grab a style
+that looks nice.
+
+142
+00:06:11.515 --> 00:06:14.085
+We definitely don't
+need the legend,
+
+143
+00:06:14.085 --> 00:06:15.840
+so click that off.
+
+144
+00:06:15.840 --> 00:06:17.940
+We do need a proper title,
+
+145
+00:06:17.940 --> 00:06:19.880
+so let's triple
+click in there and
+
+146
+00:06:19.880 --> 00:06:22.890
+we're going to call
+this trainer feedback.
+
+147
+00:06:26.540 --> 00:06:28.815
+I'd like to put a border on it,
+
+148
+00:06:28.815 --> 00:06:30.075
+so on the format within
+
+149
+00:06:30.075 --> 00:06:32.160
+let's stick a nice
+blue border on it.
+
+150
+00:06:32.160 --> 00:06:33.810
+Back on the analyze tab,
+
+151
+00:06:33.810 --> 00:06:35.730
+let's switch off
+field buttons off,
+
+152
+00:06:35.730 --> 00:06:37.560
+so that's looking great.
+
+153
+00:06:37.560 --> 00:06:39.615
+One more little finishing touch,
+
+154
+00:06:39.615 --> 00:06:42.855
+let's fix now report heading.
+
+155
+00:06:42.855 --> 00:06:46.360
+Clicking into B1, you'll see
+I've started the formula,
+
+156
+00:06:46.360 --> 00:06:48.265
+but we now need to finish it off.
+
+157
+00:06:48.265 --> 00:06:50.754
+At the end we're going
+to type an ampersand,
+
+158
+00:06:50.754 --> 00:06:55.020
+which is our join or
+concatenate operator.
+
+159
+00:06:55.020 --> 00:06:57.685
+Then back in our
+evaluations ribbon,
+
+160
+00:06:57.685 --> 00:07:00.040
+we're going to click on
+the first course name,
+
+161
+00:07:00.040 --> 00:07:02.030
+and I'm going to press "Enter".
+
+162
+00:07:02.030 --> 00:07:04.210
+That was pretty straightforward,
+
+163
+00:07:04.210 --> 00:07:05.980
+but I still don't
+want to have to do
+
+164
+00:07:05.980 --> 00:07:07.750
+this process every time
+
+165
+00:07:07.750 --> 00:07:09.875
+I need to do an
+evaluation report.
+
+166
+00:07:09.875 --> 00:07:12.230
+The question is, can we
+
+167
+00:07:12.230 --> 00:07:15.380
+reuse this query for
+other evaluations?
+
+168
+00:07:15.380 --> 00:07:18.455
+The answer is, yes, we can.
+
+169
+00:07:18.455 --> 00:07:22.400
+All we need to do is
+change the source data.
+
+170
+00:07:22.400 --> 00:07:24.710
+Again, really easy to do.
+
+171
+00:07:24.710 --> 00:07:25.910
+We're going to come back to
+
+172
+00:07:25.910 --> 00:07:28.650
+our Evals query and double-click.
+
+173
+00:07:28.700 --> 00:07:32.540
+If you come to the first
+step which says source,
+
+174
+00:07:32.540 --> 00:07:33.980
+you can either come into
+
+175
+00:07:33.980 --> 00:07:36.365
+the M code and just
+modify it there.
+
+176
+00:07:36.365 --> 00:07:37.820
+If you've got the new version,
+
+177
+00:07:37.820 --> 00:07:39.755
+you can click Data
+Source Settings,
+
+178
+00:07:39.755 --> 00:07:41.990
+or if you come to
+the applied steps,
+
+179
+00:07:41.990 --> 00:07:44.000
+you'll see a little
+[inaudible] source,
+
+180
+00:07:44.000 --> 00:07:46.080
+you can click on that.
+
+181
+00:07:46.340 --> 00:07:49.985
+Now all I need to do is
+browse to find the new file.
+
+182
+00:07:49.985 --> 00:07:51.740
+I'm going to click
+the Browse button.
+
+183
+00:07:51.740 --> 00:07:55.760
+This time I want to see the
+Excel Advanced feed backs,
+
+184
+00:07:55.760 --> 00:07:59.080
+I'm going to double-click
+on that, click "Okay".
+
+185
+00:07:59.080 --> 00:08:03.580
+Now it's worth double checking
+that everything's worked,
+
+186
+00:08:03.580 --> 00:08:06.565
+because if the data is
+slightly different,
+
+187
+00:08:06.565 --> 00:08:09.385
+the query may actually
+throw out an error.
+
+188
+00:08:09.385 --> 00:08:11.720
+Let's just come and
+check the last step.
+
+189
+00:08:11.720 --> 00:08:13.575
+Yes, we have a problem.
+
+190
+00:08:13.575 --> 00:08:15.220
+Now it's telling you it had
+
+191
+00:08:15.220 --> 00:08:17.980
+a problem doing a
+data conversion.
+
+192
+00:08:17.980 --> 00:08:21.950
+I have a hunch that the
+problem is our Changed Type,
+
+193
+00:08:21.950 --> 00:08:24.460
+and when I come and
+remove that step,
+
+194
+00:08:24.460 --> 00:08:26.880
+that was one of those
+automated steps added for me,
+
+195
+00:08:26.880 --> 00:08:28.120
+and I do want to delete
+
+196
+00:08:28.120 --> 00:08:30.050
+it, so I'm going
+to click "Delete".
+
+197
+00:08:30.050 --> 00:08:32.770
+When I come back to my last step,
+
+198
+00:08:32.770 --> 00:08:34.210
+that has fixed the problem.
+
+199
+00:08:34.210 --> 00:08:36.640
+Do watch out for
+those Changed Types,
+
+200
+00:08:36.640 --> 00:08:38.895
+generally a good
+idea to remove them.
+
+201
+00:08:38.895 --> 00:08:40.805
+That's all nicely fixed,
+
+202
+00:08:40.805 --> 00:08:42.770
+I'm going to click
+close and load,
+
+203
+00:08:42.770 --> 00:08:45.590
+come back to my
+evaluation report,
+
+204
+00:08:45.590 --> 00:08:47.945
+and again you will
+need to refresh,
+
+205
+00:08:47.945 --> 00:08:49.505
+so just click on your chart,
+
+206
+00:08:49.505 --> 00:08:50.780
+come up to pivot chart,
+
+207
+00:08:50.780 --> 00:08:52.825
+analyze, and hit refresh.
+
+208
+00:08:52.825 --> 00:08:54.725
+There is our report for
+
+209
+00:08:54.725 --> 00:08:58.645
+Excel Advanced, really
+powerful stuff.
+
+210
+00:08:58.645 --> 00:09:02.085
+In this video we saw how
+we could unpivot data.
+
+211
+00:09:02.085 --> 00:09:03.350
+In the next video,
+
+212
+00:09:03.350 --> 00:09:05.840
+we're going to do the reverse
+procedure and see how we
+
+213
+00:09:05.840 --> 00:09:09.480
+can use the Query Editor
+to pivot our data.

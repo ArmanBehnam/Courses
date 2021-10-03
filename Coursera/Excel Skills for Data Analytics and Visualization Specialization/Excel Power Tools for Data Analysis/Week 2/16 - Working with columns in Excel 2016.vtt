@@ -1,0 +1,886 @@
+WEBVTT
+
+1
+00:00:04.910 --> 00:00:07.740
+In this video, we're going to
+
+2
+00:00:07.740 --> 00:00:10.110
+look at splitting
+columns and creating
+
+3
+00:00:10.110 --> 00:00:12.090
+custom columns using features
+
+4
+00:00:12.090 --> 00:00:15.300
+available in Power Query 2016.
+
+5
+00:00:15.300 --> 00:00:18.120
+In the previous video, we
+created a query to work
+
+6
+00:00:18.120 --> 00:00:21.075
+out how much we'd spent
+on training in June.
+
+7
+00:00:21.075 --> 00:00:23.415
+We now need to go
+one step further,
+
+8
+00:00:23.415 --> 00:00:26.445
+work out our total spend for Q2,
+
+9
+00:00:26.445 --> 00:00:29.205
+and whether or not
+we are over budget.
+
+10
+00:00:29.205 --> 00:00:31.460
+To do that, we're
+going to need to get
+
+11
+00:00:31.460 --> 00:00:34.885
+the training budget data,
+which looks like this.
+
+12
+00:00:34.885 --> 00:00:38.640
+But let's start off
+in our main workbook,
+
+13
+00:00:38.640 --> 00:00:42.995
+and make sure you're on the
+budget sheet and in A3.
+
+14
+00:00:42.995 --> 00:00:44.925
+Let's go get our data.
+
+15
+00:00:44.925 --> 00:00:46.470
+We come into the Data ribbon,
+
+16
+00:00:46.470 --> 00:00:48.930
+New Query or Get Data,
+
+17
+00:00:48.930 --> 00:00:52.600
+From File, and from Workbook.
+
+18
+00:00:53.720 --> 00:00:56.955
+We're then going to
+get the file Training
+
+19
+00:00:56.955 --> 00:01:00.670
+Budget Alt and double-click.
+
+20
+00:01:02.540 --> 00:01:06.645
+The data is sitting
+in the Budget1 table,
+
+21
+00:01:06.645 --> 00:01:08.730
+so make sure you've
+selected the table,
+
+22
+00:01:08.730 --> 00:01:11.800
+and then transform or edit.
+
+23
+00:01:17.090 --> 00:01:19.355
+Now you've probably guessed
+
+24
+00:01:19.355 --> 00:01:20.630
+that we're going to need to do
+
+25
+00:01:20.630 --> 00:01:24.775
+a merge between this query
+and our June spend query.
+
+26
+00:01:24.775 --> 00:01:27.170
+But at the moment, we can't do it
+
+27
+00:01:27.170 --> 00:01:29.420
+because we need to
+match branch and
+
+28
+00:01:29.420 --> 00:01:31.730
+department and they're
+both sitting in
+
+29
+00:01:31.730 --> 00:01:34.250
+the same column with
+the cost center code.
+
+30
+00:01:34.250 --> 00:01:37.075
+Step one, we're going to
+need to split those out.
+
+31
+00:01:37.075 --> 00:01:39.930
+Fortunately, we have a
+great tool for doing that.
+
+32
+00:01:39.930 --> 00:01:42.690
+Select Cost Center, and then on
+
+33
+00:01:42.690 --> 00:01:45.750
+the Home ribbon or on
+the Transform ribbon,
+
+34
+00:01:45.750 --> 00:01:48.110
+you will find a
+Split Column button
+
+35
+00:01:48.110 --> 00:01:50.070
+and it works the same
+on either ribbon,
+
+36
+00:01:50.070 --> 00:01:51.755
+so it doesn't make
+any difference.
+
+37
+00:01:51.755 --> 00:01:54.340
+Find the split
+column, click on it.
+
+38
+00:01:54.340 --> 00:01:58.670
+We're trying to split
+every time we find a dash.
+
+39
+00:01:58.670 --> 00:02:00.665
+That is called a delimiter.
+
+40
+00:02:00.665 --> 00:02:03.270
+We're going to
+choose By Delimiter.
+
+41
+00:02:03.650 --> 00:02:06.150
+Power Query has
+picked it up for us
+
+42
+00:02:06.150 --> 00:02:08.250
+automatically, but if it doesn't,
+
+43
+00:02:08.250 --> 00:02:10.535
+you can click the
+dropdown and choose
+
+44
+00:02:10.535 --> 00:02:13.700
+your own delimiter or
+typing your own custom.
+
+45
+00:02:13.700 --> 00:02:16.475
+Now we want each occurrence
+of the delimiter.
+
+46
+00:02:16.475 --> 00:02:18.200
+We're going to click "Okay"
+
+47
+00:02:18.200 --> 00:02:20.360
+and all columns are
+beautifully split.
+
+48
+00:02:20.360 --> 00:02:21.890
+One more thing we should do is
+
+49
+00:02:21.890 --> 00:02:23.555
+probably name them properly.
+
+50
+00:02:23.555 --> 00:02:27.140
+Now, sometimes Power Query
+adds additional steps.
+
+51
+00:02:27.140 --> 00:02:29.720
+You can see here it's added
+one to change the type.
+
+52
+00:02:29.720 --> 00:02:32.300
+If yours has done the
+same, please remove that,
+
+53
+00:02:32.300 --> 00:02:34.010
+make sure you're back on the step
+
+54
+00:02:34.010 --> 00:02:36.160
+that splits the
+column by delimiter.
+
+55
+00:02:36.160 --> 00:02:37.970
+We're going to edit that step
+
+56
+00:02:37.970 --> 00:02:40.160
+to give our columns better names.
+
+57
+00:02:40.160 --> 00:02:42.295
+Instead of "Cost Center.1",
+
+58
+00:02:42.295 --> 00:02:44.660
+I'm going to call that "Branch".
+
+59
+00:02:45.470 --> 00:02:49.930
+"Cost center.2" is going
+to be "Department".
+
+60
+00:02:51.320 --> 00:02:55.860
+The last one is going to
+be "Cost Center Code".
+
+61
+00:02:55.860 --> 00:02:58.290
+Then you can just click
+the little tick or
+
+62
+00:02:58.290 --> 00:03:00.645
+press "Enter" to
+complete the step.
+
+63
+00:03:00.645 --> 00:03:04.100
+That data is looking great
+and I'm ready to do my merge.
+
+64
+00:03:04.100 --> 00:03:07.700
+You just click into one
+of the cells in the grid.
+
+65
+00:03:07.700 --> 00:03:09.410
+Come to your Home ribbon
+
+66
+00:03:09.410 --> 00:03:12.230
+and we're going to
+merge with this query,
+
+67
+00:03:12.230 --> 00:03:13.340
+so I'm just going to select the
+
+68
+00:03:13.340 --> 00:03:15.865
+main "Merge Queries" button.
+
+69
+00:03:15.865 --> 00:03:20.370
+You can see this is my table
+on the left is my Budget1.
+
+70
+00:03:20.370 --> 00:03:22.590
+The right-hand side
+is going to be my
+
+71
+00:03:22.590 --> 00:03:25.870
+"Enrollments" query that
+I created previously.
+
+72
+00:03:25.870 --> 00:03:28.590
+I need to match branch
+and department,
+
+73
+00:03:28.590 --> 00:03:30.990
+so I'm going to select
+Branch and Branch,
+
+74
+00:03:30.990 --> 00:03:32.630
+but then to select department,
+
+75
+00:03:32.630 --> 00:03:34.400
+I'm going to hold down my control
+
+76
+00:03:34.400 --> 00:03:37.755
+key and I'll select
+Department and Department.
+
+77
+00:03:37.755 --> 00:03:40.220
+You can match multiple fields.
+
+78
+00:03:40.220 --> 00:03:42.155
+You just have to use control.
+
+79
+00:03:42.155 --> 00:03:44.030
+It is a left outer join,
+
+80
+00:03:44.030 --> 00:03:45.335
+so nothing to change there.
+
+81
+00:03:45.335 --> 00:03:47.425
+I'm going to click "Okay".
+
+82
+00:03:47.425 --> 00:03:49.850
+Now it's done the merge and
+
+83
+00:03:49.850 --> 00:03:51.690
+I need to expand
+enrollments on the right.
+
+84
+00:03:51.690 --> 00:03:54.290
+Coming up to my
+little expand icon,
+
+85
+00:03:54.290 --> 00:03:57.740
+the only column I
+want is June's Spend,
+
+86
+00:03:57.740 --> 00:04:00.860
+and I don't want to
+prefix, so unselect that.
+
+87
+00:04:00.860 --> 00:04:03.250
+I'm going to click "Okay".
+
+88
+00:04:03.250 --> 00:04:07.340
+Now that's curious, it
+hasn't found a single match.
+
+89
+00:04:07.340 --> 00:04:10.325
+The reason for that is that
+
+90
+00:04:10.325 --> 00:04:13.630
+the branch and the
+department case,
+
+91
+00:04:13.630 --> 00:04:15.640
+in other words, the
+uppercase and lowercase,
+
+92
+00:04:15.640 --> 00:04:18.110
+do not match in the two queries.
+
+93
+00:04:18.110 --> 00:04:20.680
+That is something really
+important to be aware of,
+
+94
+00:04:20.680 --> 00:04:23.495
+merge queries are case sensitive.
+
+95
+00:04:23.495 --> 00:04:26.330
+What I need to do
+is adjust the case
+
+96
+00:04:26.330 --> 00:04:29.270
+so the first letter is
+capitalized in each case.
+
+97
+00:04:29.270 --> 00:04:31.325
+Now actually that's
+very easy to do,
+
+98
+00:04:31.325 --> 00:04:34.145
+but we need to do it
+before we do the merge.
+
+99
+00:04:34.145 --> 00:04:35.855
+Can you click on the step
+
+100
+00:04:35.855 --> 00:04:38.990
+before the merge queries
+whichever step it is,
+
+101
+00:04:38.990 --> 00:04:41.270
+and then hold your
+shift key down so you
+
+102
+00:04:41.270 --> 00:04:44.050
+select "Branch" and "Department".
+
+103
+00:04:44.050 --> 00:04:46.760
+Then coming to your
+Transform ribbon,
+
+104
+00:04:46.760 --> 00:04:51.545
+we're going to look
+for the Format button.
+
+105
+00:04:51.545 --> 00:04:53.750
+Now be aware there's
+a format button on
+
+106
+00:04:53.750 --> 00:04:56.285
+Transform and on Add Column.
+
+107
+00:04:56.285 --> 00:04:58.655
+The one on Add Column is
+actually a bit different.
+
+108
+00:04:58.655 --> 00:05:02.410
+That will change the case
+and create a new column.
+
+109
+00:05:02.410 --> 00:05:04.050
+That's not what we want to do.
+
+110
+00:05:04.050 --> 00:05:06.190
+We want to actually alter
+the existing columns.
+
+111
+00:05:06.190 --> 00:05:07.930
+Make sure we're on
+the Transform ribbon,
+
+112
+00:05:07.930 --> 00:05:12.530
+come to format, and we want
+to capitalize each word.
+
+113
+00:05:12.810 --> 00:05:15.695
+It's going to insert a
+step, which is fine.
+
+114
+00:05:15.695 --> 00:05:17.345
+We're going to click "Insert".
+
+115
+00:05:17.345 --> 00:05:19.250
+It has changed the case.
+
+116
+00:05:19.250 --> 00:05:21.290
+Now, check your last step in
+
+117
+00:05:21.290 --> 00:05:23.420
+your applied steps window and
+
+118
+00:05:23.420 --> 00:05:25.610
+you'll see wherever
+it found a match,
+
+119
+00:05:25.610 --> 00:05:28.325
+it has brought the value
+through, so that's great.
+
+120
+00:05:28.325 --> 00:05:30.110
+You'll notice where
+it didn't find
+
+121
+00:05:30.110 --> 00:05:31.790
+a match, it puts a null.
+
+122
+00:05:31.790 --> 00:05:33.605
+Now often we can ignore that.
+
+123
+00:05:33.605 --> 00:05:35.240
+But in the next step,
+I actually want to
+
+124
+00:05:35.240 --> 00:05:37.295
+add up these three columns.
+
+125
+00:05:37.295 --> 00:05:39.740
+Nulls do not work like zeros.
+
+126
+00:05:39.740 --> 00:05:41.270
+If you try and add with a null,
+
+127
+00:05:41.270 --> 00:05:43.190
+you get a null result.
+
+128
+00:05:43.190 --> 00:05:46.015
+We are actually going
+to need to fix that.
+
+129
+00:05:46.015 --> 00:05:48.690
+Start by selecting
+your "April" column,
+
+130
+00:05:48.690 --> 00:05:50.760
+hold shift down
+and select "June",
+
+131
+00:05:50.760 --> 00:05:53.795
+because we're going to adjust
+all of them just in case.
+
+132
+00:05:53.795 --> 00:05:56.345
+Then on the Transform ribbon,
+
+133
+00:05:56.345 --> 00:05:59.785
+we're looking for replace values.
+
+134
+00:05:59.785 --> 00:06:05.400
+We're going to replace null
+with zero and press "Enter".
+
+135
+00:06:05.400 --> 00:06:08.090
+Great. We can now add up
+
+136
+00:06:08.090 --> 00:06:11.585
+our three months spending
+to get our Q2 total.
+
+137
+00:06:11.585 --> 00:06:14.335
+For this, we're going
+to come to Add Column.
+
+138
+00:06:14.335 --> 00:06:17.740
+I'm going to add a custom column.
+
+139
+00:06:17.810 --> 00:06:21.520
+We're going to call it Q2 Spend.
+
+140
+00:06:24.590 --> 00:06:27.125
+Then clicking in the Formula bar,
+
+141
+00:06:27.125 --> 00:06:29.570
+we just need to add up
+those three columns.
+
+142
+00:06:29.570 --> 00:06:33.170
+Double-click "April Spend"
+plus double-click "May"
+
+143
+00:06:33.170 --> 00:06:35.105
+plus double-click "June" and
+
+144
+00:06:35.105 --> 00:06:37.420
+don't put a plus on the
+end because it will error,
+
+145
+00:06:37.420 --> 00:06:39.480
+and then we're going
+to click "Okay".
+
+146
+00:06:39.480 --> 00:06:41.985
+There's our total spending.
+
+147
+00:06:41.985 --> 00:06:47.140
+We are now ready to work out
+if we have gone over budget.
+
+148
+00:06:47.140 --> 00:06:50.075
+For this, we're going to
+use another custom column,
+
+149
+00:06:50.075 --> 00:06:51.920
+but instead of simple arithmetic,
+
+150
+00:06:51.920 --> 00:06:54.440
+we're going to use
+an if statement.
+
+151
+00:06:54.440 --> 00:06:57.260
+It's similar to an if
+function in Excel,
+
+152
+00:06:57.260 --> 00:06:59.950
+but you'll see the awesome
+slight differences.
+
+153
+00:06:59.950 --> 00:07:04.420
+On the Add Column,
+click "Custom Column".
+
+154
+00:07:05.300 --> 00:07:09.070
+This column will be
+called Over Budget.
+
+155
+00:07:10.310 --> 00:07:12.915
+Then click into your Formula bar.
+
+156
+00:07:12.915 --> 00:07:14.750
+I'm going to start with an
+
+157
+00:07:14.750 --> 00:07:18.350
+if and a space rather
+than a bracket.
+
+158
+00:07:18.350 --> 00:07:22.010
+Now we want to check
+if our Q2 Spend,
+
+159
+00:07:22.010 --> 00:07:25.250
+I'm going to double-click
+"Q2 spend" and space,
+
+160
+00:07:25.250 --> 00:07:27.440
+is greater than, and
+
+161
+00:07:27.440 --> 00:07:31.205
+another space and double-click
+"Quarterly budget".
+
+162
+00:07:31.205 --> 00:07:34.355
+That makes sense. But now, again,
+
+163
+00:07:34.355 --> 00:07:36.395
+different to an Excel function,
+
+164
+00:07:36.395 --> 00:07:40.375
+we're going to type
+a then statement.
+
+165
+00:07:40.375 --> 00:07:43.295
+If that is greater than that,
+
+166
+00:07:43.295 --> 00:07:45.920
+then we want to
+see the text over.
+
+167
+00:07:45.920 --> 00:07:47.795
+Open your double-quotes and note
+
+168
+00:07:47.795 --> 00:07:50.700
+it closes them for
+you, which is handy.
+
+169
+00:07:52.520 --> 00:07:55.250
+After that, we can specify what
+
+170
+00:07:55.250 --> 00:07:57.670
+we want it to do
+if it's not true.
+
+171
+00:07:57.670 --> 00:08:01.665
+I'm going to turn my caps
+off and we type an else.
+
+172
+00:08:01.665 --> 00:08:04.700
+If then else, it's not true,
+
+173
+00:08:04.700 --> 00:08:06.100
+we're just going to leave a null.
+
+174
+00:08:06.100 --> 00:08:08.165
+This time it's going to be fine.
+
+175
+00:08:08.165 --> 00:08:10.940
+Now just make sure you've
+got no syntax errors.
+
+176
+00:08:10.940 --> 00:08:12.200
+I'll leave that up
+there for a moment
+
+177
+00:08:12.200 --> 00:08:14.315
+so you can double-check
+your formula.
+
+178
+00:08:14.315 --> 00:08:18.480
+Then when you're done, you're
+going to click "Okay".
+
+179
+00:08:18.620 --> 00:08:21.350
+We can now see which of
+
+180
+00:08:21.350 --> 00:08:24.650
+the department branches
+are overbudget.
+
+181
+00:08:24.650 --> 00:08:26.435
+We're ready to close and load,
+
+182
+00:08:26.435 --> 00:08:27.980
+so back on our Home ribbon,
+
+183
+00:08:27.980 --> 00:08:31.440
+Close and Load,
+Close and Load too.
+
+184
+00:08:32.300 --> 00:08:38.230
+It's going to be existing
+Worksheet A3 and click "Okay".
+
+185
+00:08:39.160 --> 00:08:43.880
+Some amazingly powerful
+business problems we can solve
+
+186
+00:08:43.880 --> 00:08:46.640
+using custom columns and
+
+187
+00:08:46.640 --> 00:08:49.810
+split columns in
+our query editor.
+
+188
+00:08:49.810 --> 00:08:54.425
+That brings us to the end of
+our section on Power Query.
+
+189
+00:08:54.425 --> 00:08:56.300
+But next week, we're
+going to look at
+
+190
+00:08:56.300 --> 00:08:59.090
+some other amazingly
+powerful features
+
+191
+00:08:59.090 --> 00:09:00.505
+called Power Pivot,
+
+192
+00:09:00.505 --> 00:09:03.045
+the Data Model, and DAX.
+
+193
+00:09:03.045 --> 00:09:05.590
+Look forward to seeing you there.

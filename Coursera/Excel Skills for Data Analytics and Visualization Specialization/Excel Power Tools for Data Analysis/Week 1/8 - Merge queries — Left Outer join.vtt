@@ -1,0 +1,451 @@
+WEBVTT
+
+1
+00:00:00.183 --> 00:00:05.826
+[MUSIC]
+
+2
+00:00:05.826 --> 00:00:10.972
+In this video, we're going to have a look
+at different types of merge query.
+
+3
+00:00:10.972 --> 00:00:16.434
+Back in our training schedule, we still
+have to pull the instructor name through.
+
+4
+00:00:16.434 --> 00:00:21.986
+Now typically we would do this using
+an index match or V lookup function, but
+
+5
+00:00:21.986 --> 00:00:27.473
+we can actually create a much more
+efficient solution using a merge query.
+
+6
+00:00:27.473 --> 00:00:30.049
+So what is a merge query?
+
+7
+00:00:30.049 --> 00:00:34.865
+In the previous videos, we saw examples
+of how we could use append queries
+
+8
+00:00:34.865 --> 00:00:37.440
+to stack data sets on top of each other.
+
+9
+00:00:37.440 --> 00:00:42.383
+In this example, we actually want
+to pull data from another table and
+
+10
+00:00:42.383 --> 00:00:44.438
+stack it next to this table.
+
+11
+00:00:44.438 --> 00:00:47.551
+And for that, we use a merge query.
+
+12
+00:00:47.551 --> 00:00:49.550
+Let's have a look at an example.
+
+13
+00:00:49.550 --> 00:00:51.376
+So let's say in table A.
+
+14
+00:00:51.376 --> 00:00:55.229
+I have a list of staff required to
+complete the online training and
+
+15
+00:00:55.229 --> 00:00:56.988
+the names of their managers.
+
+16
+00:00:56.988 --> 00:00:58.284
+In table B.
+
+17
+00:00:58.284 --> 00:01:02.779
+I have the staff who have completed
+the online training and their are results.
+
+18
+00:01:02.779 --> 00:01:08.118
+While the data sets are not identical,
+you can see there is some overlap.
+
+19
+00:01:08.118 --> 00:01:14.774
+When I come to do the merge query, I have
+some choices for how I merge these tables.
+
+20
+00:01:14.774 --> 00:01:19.927
+Let's say for example, that I only
+want to get a list of people who
+
+21
+00:01:19.927 --> 00:01:25.567
+are required to do the training and
+did the training and their results.
+
+22
+00:01:25.567 --> 00:01:30.533
+What I'm looking for is only the data
+where the values appear in both tables.
+
+23
+00:01:30.533 --> 00:01:33.804
+This is called an inner join.
+
+24
+00:01:33.804 --> 00:01:38.217
+Another common scenario is I may wish
+to get a list of all the staff who
+
+25
+00:01:38.217 --> 00:01:43.031
+are required to do the training and
+the results of those who actually did.
+
+26
+00:01:43.031 --> 00:01:47.622
+In other words, everything from
+table A and the values from table B.
+
+27
+00:01:47.622 --> 00:01:49.216
+I have a match.
+
+28
+00:01:49.216 --> 00:01:52.191
+That is called a left outer join.
+
+29
+00:01:52.191 --> 00:01:55.830
+And of course you could do the opposite
+and do a Right Outer Join.
+
+30
+00:01:55.830 --> 00:02:00.410
+So that would be all the staff
+who had done the training and
+
+31
+00:02:00.410 --> 00:02:05.381
+the names of the managers from
+table A where there was a match.
+
+32
+00:02:05.381 --> 00:02:09.730
+Another scenario is I may decide,
+I just need a list of people
+
+33
+00:02:09.730 --> 00:02:14.097
+required to do the training
+who haven't done the training.
+
+34
+00:02:14.097 --> 00:02:20.069
+In other words, all the values in table A,
+where there isn't a match in table B.
+
+35
+00:02:20.069 --> 00:02:22.866
+That is called a left anti join.
+
+36
+00:02:22.866 --> 00:02:25.982
+And very similarly,
+we can have a right anti join.
+
+37
+00:02:25.982 --> 00:02:31.520
+So that's all the values in table B
+that don't have a match in table A.
+
+38
+00:02:31.520 --> 00:02:35.624
+And finally, if you wanted to
+get everything from both tables,
+
+39
+00:02:35.624 --> 00:02:37.682
+you could use a full outer join.
+
+40
+00:02:39.163 --> 00:02:40.990
+Now we have a better idea of the options.
+
+41
+00:02:40.990 --> 00:02:44.418
+Let's go and create a merge query.
+
+42
+00:02:44.418 --> 00:02:47.152
+We could create a brand new query.
+
+43
+00:02:47.152 --> 00:02:48.853
+But for this scenario,
+
+44
+00:02:48.853 --> 00:02:54.139
+we all we really need to do is update
+our existing training shedule query.
+
+45
+00:02:54.139 --> 00:03:00.042
+To update the query, you can either click
+into the table, come to your data tab.
+
+46
+00:03:00.042 --> 00:03:04.967
+Open your queries and connections panel
+come to core shed you'll right-click and
+
+47
+00:03:04.967 --> 00:03:05.749
+press edit.
+
+48
+00:03:05.749 --> 00:03:10.834
+Or if you have the new
+query within just click
+
+49
+00:03:10.834 --> 00:03:17.988
+into the data somewhere come up
+to the query ribbon and click.
+
+50
+00:03:17.988 --> 00:03:19.847
+Here's our core shedule query.
+
+51
+00:03:19.847 --> 00:03:24.955
+But what we want to do now is merge
+it with our instructors all query.
+
+52
+00:03:24.955 --> 00:03:27.869
+To do this, we're going to
+come to the home ribbon, and
+
+53
+00:03:27.869 --> 00:03:30.225
+we're going to find
+the merge queries button.
+
+54
+00:03:30.225 --> 00:03:33.476
+And much like the append queries,
+if you click the drop down.
+
+55
+00:03:33.476 --> 00:03:37.653
+I could create a brand new merge query,
+or I can change this query.
+
+56
+00:03:37.653 --> 00:03:38.749
+We want to change this one.
+
+57
+00:03:38.749 --> 00:03:42.092
+So we're going to click merge queries.
+
+58
+00:03:42.092 --> 00:03:45.205
+And it opens up my merge query window.
+
+59
+00:03:45.205 --> 00:03:47.708
+Now we don't have a left and a right here.
+
+60
+00:03:47.708 --> 00:03:50.314
+What we have instead is a top and
+a bottom, but
+
+61
+00:03:50.314 --> 00:03:54.651
+the top correlates with the left and
+the bottom correlates with the right.
+
+62
+00:03:54.651 --> 00:03:56.644
+So just keep that in mind.
+
+63
+00:03:56.644 --> 00:04:00.448
+So our left Table is going
+to be our course schedule.
+
+64
+00:04:00.448 --> 00:04:01.754
+And we're going to click the drop down.
+
+65
+00:04:01.754 --> 00:04:06.461
+And our right to table is
+going to be instructors all.
+
+66
+00:04:06.461 --> 00:04:10.929
+The column headings do not need
+to match for a merge query.
+
+67
+00:04:10.929 --> 00:04:15.564
+We do need to tell it which values
+we want to match from each table.
+
+68
+00:04:15.564 --> 00:04:19.080
+So in course schedule,
+we're going to click instructor code.
+
+69
+00:04:19.080 --> 00:04:22.393
+Add instructors all,
+we're going to click instructors ID.
+
+70
+00:04:22.393 --> 00:04:27.453
+What is going to try and
+do is match the values in each data set.
+
+71
+00:04:27.453 --> 00:04:31.792
+The default type of query
+is a left outer join.
+
+72
+00:04:31.792 --> 00:04:36.400
+But if I click the drop down, you'll see
+there all the other options I mentioned.
+
+73
+00:04:36.400 --> 00:04:40.797
+If you're in a slightly older version,
+you won't see that drop down but
+
+74
+00:04:40.797 --> 00:04:45.559
+don't worry it's going to do a left
+[INAUDIBLE] join.We're now going to click
+
+75
+00:04:45.559 --> 00:04:48.030
+Ok, and it is now joined the two tables.
+
+76
+00:04:48.030 --> 00:04:51.610
+But you'll see it hasn't pulled
+through any columns yet,
+
+77
+00:04:51.610 --> 00:04:54.403
+it's just connected to
+the table.So the next
+
+78
+00:04:54.403 --> 00:04:58.282
+step is come up to the top [INAUDIBLE] And
+click the expand button.
+
+79
+00:04:58.282 --> 00:05:01.376
+And we can now choose which
+columns we want to pull across.
+
+80
+00:05:01.376 --> 00:05:02.158
+We don't want all of them.
+
+81
+00:05:02.158 --> 00:05:06.448
+So I'm going to uncheck Select All,
+and just choose instructor name.
+
+82
+00:05:06.448 --> 00:05:08.141
+One other thing.
+
+83
+00:05:08.141 --> 00:05:12.429
+It will by default, put the table
+name in front of the column name and
+
+84
+00:05:12.429 --> 00:05:14.472
+that's not something we want.
+
+85
+00:05:14.472 --> 00:05:16.277
+So we're going to uncheck that.
+
+86
+00:05:16.277 --> 00:05:19.120
+And we're going to say okay.
+
+87
+00:05:19.120 --> 00:05:23.210
+And there's an instructor name for
+all the records where it found a match.
+
+88
+00:05:23.210 --> 00:05:27.076
+Because we didn't have a code here,
+it didn't find a match.
+
+89
+00:05:27.076 --> 00:05:28.738
+We're going to quickly resequenced.
+
+90
+00:05:28.738 --> 00:05:34.505
+I'm going to just click on instructor name
+and drag it across to be left of room.
+
+91
+00:05:34.505 --> 00:05:36.935
+And now we're ready to close and load.
+
+92
+00:05:36.935 --> 00:05:42.341
+So back on the home ribbon,
+just click the top, Close and Load.
+
+93
+00:05:42.341 --> 00:05:46.191
+And there is our updated query
+with the instructor names.
+
+94
+00:05:46.191 --> 00:05:51.106
+The benefit of doing it this way is
+it is a far more efficient solution
+
+95
+00:05:51.106 --> 00:05:55.430
+than a lookup, and
+it is typically more automated as well.
+
+96
+00:05:55.430 --> 00:05:56.422
+In the next video,
+
+97
+00:05:56.422 --> 00:05:59.970
+we'll look at how to do merge queries
+with some other join options.
