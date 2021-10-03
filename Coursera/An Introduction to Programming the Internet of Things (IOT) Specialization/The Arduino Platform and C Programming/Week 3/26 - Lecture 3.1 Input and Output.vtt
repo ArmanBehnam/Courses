@@ -1,0 +1,565 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.274
+[MUSIC]
+
+2
+00:00:06.274 --> 00:00:11.254
+[SOUND] So
+we've been talking about pins and
+
+3
+00:00:11.254 --> 00:00:18.600
+how they can be inputs and outputs,
+and be digital and analog.
+
+4
+00:00:18.600 --> 00:00:22.494
+And so now, we're gonna talk about
+how you do that from the code.
+
+5
+00:00:22.494 --> 00:00:24.271
+So what code do you need to write,
+
+6
+00:00:24.271 --> 00:00:28.205
+what function calls do you need to make
+in order to use the pins as inputs and
+
+7
+00:00:28.205 --> 00:00:31.077
+outputs, in order to use
+them as digital and analog?
+
+8
+00:00:31.077 --> 00:00:33.940
+So, this is from the sketch point of view,
+what you have to put in your sketch.
+
+9
+00:00:33.940 --> 00:00:36.880
+Basically, we're gonna go through
+the library function calls,
+
+10
+00:00:36.880 --> 00:00:37.670
+the library functions,
+
+11
+00:00:37.670 --> 00:00:41.059
+the Arduino library functions that you
+have to use in order to use the pins.
+
+12
+00:00:42.870 --> 00:00:46.460
+So, pins can be inputs or outputs.
+
+13
+00:00:47.660 --> 00:00:52.120
+Not all the pins, some of the pins
+can't be inputs, or can't be outputs.
+
+14
+00:00:52.120 --> 00:00:54.170
+For instance, the analog pins, right?
+
+15
+00:00:54.170 --> 00:00:58.640
+Analog pins, they can be inputs but they
+can be outputs, but let's say the digital
+
+16
+00:00:58.640 --> 00:01:01.335
+pins, the standard digital pins,
+they can be input and output.
+
+17
+00:01:01.335 --> 00:01:03.686
+So, before you use the pins,
+
+18
+00:01:03.686 --> 00:01:08.964
+you have to select if the pin is going
+to act as an input or an output.
+
+19
+00:01:08.964 --> 00:01:12.063
+And you should do this for all the pins,
+or any pin that you're going to use.
+
+20
+00:01:12.063 --> 00:01:14.920
+You gotta select it up front.
+
+21
+00:01:14.920 --> 00:01:17.762
+So before you use it,
+before you try to read from it or
+
+22
+00:01:17.762 --> 00:01:21.070
+write to it, you have to assign
+it to be an input or an output.
+
+23
+00:01:21.070 --> 00:01:24.640
+Now if you don't do this,
+something will happen.
+
+24
+00:01:24.640 --> 00:01:26.080
+[LAUGH] It will have a default value.
+
+25
+00:01:26.080 --> 00:01:29.180
+So, by default, the pin will
+either be an input or output, and
+
+26
+00:01:29.180 --> 00:01:32.590
+tell you the truth I can't remember which,
+but you can look up that up.
+
+27
+00:01:32.590 --> 00:01:34.630
+But it will be default to something, but
+
+28
+00:01:34.630 --> 00:01:36.280
+you should never rely
+on the default value.
+
+29
+00:01:36.280 --> 00:01:38.080
+You should always use this.
+
+30
+00:01:38.080 --> 00:01:40.660
+Before you access the pins,
+you should call this function,
+
+31
+00:01:40.660 --> 00:01:45.330
+this pinMode function, in order to assign
+the pin to either an input or output.
+
+32
+00:01:45.330 --> 00:01:50.160
+So, the function's called pinMode, and
+note that the capitalization matters.
+
+33
+00:01:50.160 --> 00:01:53.474
+So lower case pin,
+that M has to be capital.
+
+34
+00:01:53.474 --> 00:01:55.230
+So you call this function pinMode.
+
+35
+00:01:55.230 --> 00:01:56.430
+It's a library function.
+
+36
+00:01:56.430 --> 00:01:59.150
+It takes two arguments, pin and mode.
+
+37
+00:01:59.150 --> 00:02:03.220
+The job of this is to set a pin to
+be either an input or an output.
+
+38
+00:02:04.610 --> 00:02:07.228
+The pin, the first argument
+is the number of the pin, or
+
+39
+00:02:07.228 --> 00:02:08.696
+the reference name of the pin.
+
+40
+00:02:08.696 --> 00:02:12.330
+Now the digital pins, their reference
+names are just their numbers.
+
+41
+00:02:12.330 --> 00:02:15.700
+So pins 0-13 are the digital pins.
+
+42
+00:02:15.700 --> 00:02:20.081
+The analog pins, you have to call
+them A0-A5, those are their names.
+
+43
+00:02:20.081 --> 00:02:27.430
+So the pin has to be 0-13 or A0-A5,
+those are the only valid pin numbers.
+
+44
+00:02:27.430 --> 00:02:30.840
+For an Arduino Uno anyway, and if you
+go to a bigger Arduino with more pins,
+
+45
+00:02:30.840 --> 00:02:35.330
+maybe you get more numbers, but for
+an Arduino Uno, those are the valid pins.
+
+46
+00:02:35.330 --> 00:02:40.380
+Then, the mode, which is the second
+argument, there are three possible modes.
+
+47
+00:02:40.380 --> 00:02:44.330
+The first mode is input, and that means
+you want the pin to be an input pin.
+
+48
+00:02:44.330 --> 00:02:46.756
+The second mode is output, which means
+you want it to be an output pin.
+
+49
+00:02:46.756 --> 00:02:48.700
+You're gonna drive values onto it.
+
+50
+00:02:48.700 --> 00:02:51.040
+The third mode is INPUT_PULLUP.
+
+51
+00:02:51.040 --> 00:02:52.444
+So INPUT_PULLUP.
+
+52
+00:02:52.444 --> 00:02:55.042
+Basically what that does,
+is it makes the pin act like an input, but
+
+53
+00:02:55.042 --> 00:02:56.650
+it reverses the polarity.
+
+54
+00:02:56.650 --> 00:03:01.617
+So, when they drive zero volts on it, when
+they drive it low, you read it as a high.
+
+55
+00:03:01.617 --> 00:03:04.460
+Or when they drive a high,
+you read it as a low.
+
+56
+00:03:04.460 --> 00:03:06.240
+So it's reverse polarity input.
+
+57
+00:03:09.670 --> 00:03:11.500
+So digital inputs.
+
+58
+00:03:11.500 --> 00:03:14.177
+So let's say we're talking
+about the digital pins, and
+
+59
+00:03:14.177 --> 00:03:16.090
+we've assigned this pin to be an input.
+
+60
+00:03:16.090 --> 00:03:19.680
+We used pinMode,
+we made pin zero and input.
+
+61
+00:03:19.680 --> 00:03:23.980
+Now, we wanna, in our code, actually read
+from the pin, read a value from the pin.
+
+62
+00:03:25.250 --> 00:03:28.810
+So, for that,
+use this function called digitalRead.
+
+63
+00:03:28.810 --> 00:03:30.830
+And it takes an an argument,
+one argument, the pin.
+
+64
+00:03:31.830 --> 00:03:35.860
+And it just returns the state of the pin,
+which is either low or high.
+
+65
+00:03:35.860 --> 00:03:37.860
+Now that note that it returns an int, so
+
+66
+00:03:37.860 --> 00:03:41.900
+if you look at the example,
+I say I create an int pinval.
+
+67
+00:03:41.900 --> 00:03:44.160
+I say pinval = digitalRead(3).
+
+68
+00:03:44.160 --> 00:03:49.509
+So what that does, is it reads the state
+of pin 3, assumes it's either 0 volts or
+
+69
+00:03:49.509 --> 00:03:54.680
+5 volts and returns low if it's 0 volts,
+high if it's 5 volts.
+
+70
+00:03:54.680 --> 00:03:59.100
+Now notice that pinval is an int, so
+you can interpret that as a 0 and a 1.
+
+71
+00:03:59.100 --> 00:04:02.073
+0 meaning low, 1 meaning high.
+
+72
+00:04:02.073 --> 00:04:05.090
+So that's what this function is for.
+
+73
+00:04:05.090 --> 00:04:09.170
+Now, one thing to note is that the pinMode
+function that we talked about before,
+
+74
+00:04:09.170 --> 00:04:11.521
+usually you invoke that in the setup,
+right?
+
+75
+00:04:11.521 --> 00:04:13.190
+Where this might be invoked in the loop.
+
+76
+00:04:13.190 --> 00:04:16.764
+You're invoking the setup because
+typically with these pins,
+
+77
+00:04:16.764 --> 00:04:19.474
+when you set the input or
+output state of the pin,
+
+78
+00:04:19.474 --> 00:04:22.735
+you usually do it once in the beginning,
+that's common.
+
+79
+00:04:22.735 --> 00:04:26.767
+Now you can change the pinMode
+while it's running, but usually,
+
+80
+00:04:26.767 --> 00:04:30.040
+you see inside the setup is
+where you set the pinMode.
+
+81
+00:04:30.040 --> 00:04:33.850
+Where the digital reads and digital
+writes usually see those inside the loop.
+
+82
+00:04:35.270 --> 00:04:37.621
+So this is how you read
+the value of a pin.
+
+83
+00:04:37.621 --> 00:04:41.040
+And then if you want to write to a pin,
+you call digitalWrite.
+
+84
+00:04:41.040 --> 00:04:46.380
+That takes two arguments, the pin, and
+the value that you want to write to it.
+
+85
+00:04:46.380 --> 00:04:49.460
+And the value has to be either low or
+high, which would be zero or one.
+
+86
+00:04:50.460 --> 00:04:51.930
+Zero volts, five volts.
+
+87
+00:04:51.930 --> 00:04:52.900
+So, it assigns state of the pin.
+
+88
+00:04:52.900 --> 00:04:57.405
+So if you say digitalWRITE like I do here,
+digitalWrite(3,
+
+89
+00:04:57.405 --> 00:05:01.919
+HIGH) it's gonna set pin 3 to high,
+which would be 5 volts.
+
+90
+00:05:01.919 --> 00:05:05.184
+Now, for the analog pins,
+remember the analog,
+
+91
+00:05:05.184 --> 00:05:08.149
+we can't drive analog output data, right?
+
+92
+00:05:08.149 --> 00:05:11.108
+We can't take a pin and
+make it an analog output, but
+
+93
+00:05:11.108 --> 00:05:15.625
+we can read analog input data off of the
+pins, off of the analog pins in any rate.
+
+94
+00:05:16.770 --> 00:05:21.200
+Now, what actually happens
+is that the analog value,
+
+95
+00:05:21.200 --> 00:05:24.530
+remember our processor,
+it is a digital processor.
+
+96
+00:05:24.530 --> 00:05:27.170
+So, it really needs to see digital values.
+
+97
+00:05:27.170 --> 00:05:30.430
+But we want to be able to read analog
+values, so the processor inside it,
+
+98
+00:05:30.430 --> 00:05:33.760
+the microprocessor inside it,
+has an analog to digital converter.
+
+99
+00:05:33.760 --> 00:05:37.650
+Which, when you call this function
+analogRead, it reads the analog value off
+
+100
+00:05:37.650 --> 00:05:41.920
+of the pin and then converts it to digital
+using the analog to digital converter and
+
+101
+00:05:41.920 --> 00:05:44.360
+then our code gets the result.
+
+102
+00:05:44.360 --> 00:05:49.760
+So, what happens is, analogRead returns
+the state of of the analog input pin,
+
+103
+00:05:49.760 --> 00:05:54.400
+but it returns an integer from 0 to 1023,
+1,023.
+
+104
+00:05:54.400 --> 00:05:56.430
+Now 0 is the bottom of the range,
+
+105
+00:05:56.430 --> 00:06:00.420
+so if you've got 0 volts on this pin,
+it's gonna return you a 0.
+
+106
+00:06:00.420 --> 00:06:02.680
+And the top of the range is 5 volts.
+
+107
+00:06:02.680 --> 00:06:06.489
+So if it sees 5 volts then
+it's gonna return you a 1023.
+
+108
+00:06:06.489 --> 00:06:10.770
+And it'll return you numbers in
+between according to the voltage.
+
+109
+00:06:10.770 --> 00:06:13.160
+So, for instance,
+say your voltage is right between 0 and
+
+110
+00:06:13.160 --> 00:06:14.815
+5 volts, so you get 2.5 volts.
+
+111
+00:06:14.815 --> 00:06:20.047
+Then number this returns is gonna be right
+between 0 and 1023, which is 512, right?
+
+112
+00:06:20.047 --> 00:06:21.955
+Something like that, 511, 512.
+
+113
+00:06:21.955 --> 00:06:26.480
+So it's gonna return you a digital
+number that corresponds to the analog
+
+114
+00:06:26.480 --> 00:06:28.790
+voltage that it reads off of the pin.
+
+115
+00:06:30.020 --> 00:06:31.360
+Again, it returns an integer.
+
+116
+00:06:31.360 --> 00:06:33.930
+So, you can see in the example,
+pinval, again, is an int.
+
+117
+00:06:33.930 --> 00:06:34.896
+I say analogRead(A3).
+
+118
+00:06:34.896 --> 00:06:39.381
+Remember that the pin that you passed as
+argument to this, has to be an analog pin,
+
+119
+00:06:39.381 --> 00:06:42.772
+because it's analog read,
+it won't work for a digital pin.
+
+120
+00:06:42.772 --> 00:06:43.470
+Thank you.
+
+121
+00:06:43.470 --> 00:06:49.035
+[MUSIC]

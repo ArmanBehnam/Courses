@@ -1,0 +1,440 @@
+WEBVTT
+
+1
+00:00:00.680 --> 00:00:01.563
+[MUSIC]
+
+2
+00:00:01.563 --> 00:00:09.307
+[SOUND]
+
+3
+00:00:11.302 --> 00:00:12.030
+In this lecture,
+
+4
+00:00:12.030 --> 00:00:14.950
+we'll talk about the structure of
+a sketch, the standard structure.
+
+5
+00:00:14.950 --> 00:00:17.190
+There are certain
+functions that are defined,
+
+6
+00:00:17.190 --> 00:00:19.630
+that have to be defined,
+inside every sketch, and so
+
+7
+00:00:19.630 --> 00:00:23.729
+we'll talk about those cuz every sketch
+has to sort of follow this template.
+
+8
+00:00:25.720 --> 00:00:27.660
+So, the setup function.
+
+9
+00:00:27.660 --> 00:00:31.450
+Every sketch has to have a setup function.
+
+10
+00:00:31.450 --> 00:00:33.970
+So, a sketch is different than an actual,
+
+11
+00:00:33.970 --> 00:00:37.990
+it looks different than an actual C++
+program, in that it doesn't have a main.
+
+12
+00:00:37.990 --> 00:00:40.050
+A C or
+C++ program always has to have a main,
+
+13
+00:00:40.050 --> 00:00:42.760
+which is the main function
+where execution starts.
+
+14
+00:00:42.760 --> 00:00:46.480
+It's a little different for this,
+because what happens in a sketch.
+
+15
+00:00:46.480 --> 00:00:48.570
+We actually said this a few lectures ago.
+
+16
+00:00:48.570 --> 00:00:52.150
+Is that the main is created but
+it's created behind the scenes.
+
+17
+00:00:52.150 --> 00:00:54.560
+So it happens during the compile.
+
+18
+00:00:54.560 --> 00:00:56.020
+But you don't have to write the main,
+
+19
+00:00:56.020 --> 00:00:58.140
+instead you have to write
+the components of the main.
+
+20
+00:00:58.140 --> 00:00:59.880
+First, starting with this setup.
+
+21
+00:00:59.880 --> 00:01:07.380
+So setup is a program that's executed
+once when the arduino is powered up.
+
+22
+00:01:07.380 --> 00:01:11.660
+So, when you plug it into power, the first
+thing it does, first thing it does is run
+
+23
+00:01:11.660 --> 00:01:15.450
+the boot loader, but as soon as that's
+done, it executes the setup function.
+
+24
+00:01:15.450 --> 00:01:18.170
+And the setup function,
+it happens one time.
+
+25
+00:01:18.170 --> 00:01:20.730
+So it's used for initialization purposes.
+
+26
+00:01:20.730 --> 00:01:24.880
+And there are many, sort of a typical
+thing in embedded systems, and
+
+27
+00:01:24.880 --> 00:01:26.360
+in things, devices,
+
+28
+00:01:26.360 --> 00:01:31.060
+that you have some operations that you
+need to do to initialize your devices is.
+
+29
+00:01:31.060 --> 00:01:34.030
+It depends, completely depends on
+the application and what you're doing.
+
+30
+00:01:34.030 --> 00:01:35.450
+Maybe you need to initialize a memory.
+
+31
+00:01:35.450 --> 00:01:38.230
+Maybe you need to set up your
+communication link with Siri or
+
+32
+00:01:38.230 --> 00:01:39.610
+something like this.
+
+33
+00:01:39.610 --> 00:01:43.230
+If you were to look at our Arduino
+libraries for all the shields and
+
+34
+00:01:43.230 --> 00:01:48.170
+things like this, they all often,
+not all but pretty much all have these,
+
+35
+00:01:48.170 --> 00:01:52.720
+have a begin function which sets up
+the interface and is executed one time.
+
+36
+00:01:52.720 --> 00:01:57.140
+So, Ethernet.begin, right, it sets
+up the Ethernet card the first time.
+
+37
+00:01:57.140 --> 00:01:58.315
+You execute that only once.
+
+38
+00:01:58.315 --> 00:02:02.510
+Serial.begin, it sets up the serial
+communication interface only once.
+
+39
+00:02:02.510 --> 00:02:04.480
+You execute it one time, typically.
+
+40
+00:02:04.480 --> 00:02:07.650
+So there are these setup functions,
+these initialization functions, and
+
+41
+00:02:07.650 --> 00:02:09.630
+you put them into the setup function.
+
+42
+00:02:09.630 --> 00:02:12.130
+So, it always starts off void setup().
+
+43
+00:02:12.130 --> 00:02:16.860
+Setup takes no arguments,
+it returns no values so it's a void, and
+
+44
+00:02:16.860 --> 00:02:21.050
+between the curly brackets you just list
+whatever the setup functions are, or
+
+45
+00:02:21.050 --> 00:02:23.080
+setup operations are that
+you wanna perform.
+
+46
+00:02:23.080 --> 00:02:26.020
+So every Arduino program has
+to have a setup function.
+
+47
+00:02:26.020 --> 00:02:29.510
+In addition to that,
+every Arduino program has to have a loop.
+
+48
+00:02:29.510 --> 00:02:32.900
+Now this is a property of any
+sort of embedded systems.
+
+49
+00:02:32.900 --> 00:02:37.720
+IoT devices, any sort of devices
+that you want to write code for.
+
+50
+00:02:37.720 --> 00:02:41.560
+They're always, the code is always
+written in an infinite loop.
+
+51
+00:02:41.560 --> 00:02:43.590
+Now that seems strange at a glance.
+
+52
+00:02:43.590 --> 00:02:45.210
+If you've ever done any programming,
+
+53
+00:02:45.210 --> 00:02:47.700
+infinite loops are generally
+considered bad, right?
+
+54
+00:02:47.700 --> 00:02:48.800
+If you take a programming class and
+
+55
+00:02:48.800 --> 00:02:52.930
+you want to compute the average between
+some numbers, you write the code to do it.
+
+56
+00:02:52.930 --> 00:02:55.520
+At the end it finishes it,
+it returns, and it's done.
+
+57
+00:02:55.520 --> 00:02:56.910
+It prints out its result.
+
+58
+00:02:56.910 --> 00:02:59.760
+That's how normal desktop and
+laptop code works.
+
+59
+00:02:59.760 --> 00:03:02.310
+That is never how
+an embedded system works.
+
+60
+00:03:02.310 --> 00:03:03.810
+Because and embedded system,
+
+61
+00:03:03.810 --> 00:03:07.760
+or an IoT device which is an embedded
+system those things have to operate.
+
+62
+00:03:07.760 --> 00:03:10.900
+They have to be always operating
+as long as they are powered on.
+
+63
+00:03:10.900 --> 00:03:15.100
+Imagine if I made a digital camera, and
+that digital camera, I press a button and
+
+64
+00:03:15.100 --> 00:03:17.050
+it executes some code to take a picture.
+
+65
+00:03:17.050 --> 00:03:19.300
+I press the button, it executes the code,
+and then it completes.
+
+66
+00:03:19.300 --> 00:03:20.370
+The end.
+
+67
+00:03:20.370 --> 00:03:23.750
+Then my camera's off and
+I can't do anything else.
+
+68
+00:03:23.750 --> 00:03:24.860
+That's not what you want.
+
+69
+00:03:24.860 --> 00:03:28.200
+You want this thing to constantly
+be waiting for input, right?
+
+70
+00:03:28.200 --> 00:03:30.965
+So it takes the picture then it waits for
+the next button press.
+
+71
+00:03:30.965 --> 00:03:33.970
+And maybe press a different button it
+does some different operation, right?
+
+72
+00:03:33.970 --> 00:03:37.710
+But it's always running as long
+as it's powered on it's got to be
+
+73
+00:03:37.710 --> 00:03:40.890
+attending to buttons and
+inputs and waiting for
+
+74
+00:03:40.890 --> 00:03:43.580
+some kind of an input to trigger
+it to do something else.
+
+75
+00:03:43.580 --> 00:03:46.570
+So always this code for
+any kind of embedded system,
+
+76
+00:03:46.570 --> 00:03:50.320
+including Arduino programs,
+it's always written in an infinite loop.
+
+77
+00:03:50.320 --> 00:03:54.170
+Now if it were an arduino you would
+actually write an explicit infinite loop.
+
+78
+00:03:54.170 --> 00:03:56.280
+You'd say while one or
+something like that.
+
+79
+00:03:56.280 --> 00:03:59.080
+While true, and
+that would be an infinite loop.
+
+80
+00:03:59.080 --> 00:04:03.250
+The arduino, it does that automatically
+for you so when it makes it's main,
+
+81
+00:04:03.250 --> 00:04:07.020
+it takes whatever you write into this loop
+function and just executes it infinitely.
+
+82
+00:04:07.020 --> 00:04:08.330
+It sticks it into an infinite loop,
+
+83
+00:04:08.330 --> 00:04:12.650
+so while one loop is
+probably what it looks like.
+
+84
+00:04:12.650 --> 00:04:14.500
+It just executes that over and over.
+
+85
+00:04:14.500 --> 00:04:17.800
+So whatever code you write in this loop,
+that's the main body of your code.
+
+86
+00:04:17.800 --> 00:04:21.000
+Whatever code you write in this loop,
+it happens over and over forever,
+
+87
+00:04:21.000 --> 00:04:23.180
+as long as the Arduino is powered on.
+
+88
+00:04:23.180 --> 00:04:25.310
+So you have to understand
+that about its execution.
+
+89
+00:04:25.310 --> 00:04:27.640
+That's how it's supposed to act,
+and that's how it's gonna act, so
+
+90
+00:04:27.640 --> 00:04:29.770
+you put whatever main
+control flow you want.
+
+91
+00:04:29.770 --> 00:04:33.676
+You write that into the loop function,
+which again takes no arguments,
+
+92
+00:04:33.676 --> 00:04:34.713
+returns no value.
+
+93
+00:04:34.713 --> 00:04:38.730
+And just understand that will get
+executed over and over, thank you.
+
+94
+00:04:38.730 --> 00:04:42.137
+[MUSIC]

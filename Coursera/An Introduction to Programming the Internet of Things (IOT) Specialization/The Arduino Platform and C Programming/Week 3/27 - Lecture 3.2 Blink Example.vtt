@@ -1,0 +1,500 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.274 --> 00:00:14.519
+Hi, in this set of slides,
+we'll talk about the blink example,
+
+3
+00:00:14.519 --> 00:00:17.823
+a piece of code, a very simple piece
+of code that everybody needs to
+
+4
+00:00:17.823 --> 00:00:22.230
+run on their Arduino to sanity check it,
+to make sure everything's working.
+
+5
+00:00:22.230 --> 00:00:23.650
+So we'll just walk through that example.
+
+6
+00:00:23.650 --> 00:00:26.460
+We've learned basically all the pieces
+that we need to know to be able to write
+
+7
+00:00:26.460 --> 00:00:27.180
+that piece of code.
+
+8
+00:00:29.040 --> 00:00:33.320
+So one other function call that we need to
+know to be able to do the blink example,
+
+9
+00:00:33.320 --> 00:00:36.350
+a very useful function, is Delay.
+
+10
+00:00:36.350 --> 00:00:41.450
+To delay, if you look at the function, it
+takes one argument, msec or milliseconds.
+
+11
+00:00:41.450 --> 00:00:45.330
+And it basically pauses the program for
+a certain number of milliseconds.
+
+12
+00:00:45.330 --> 00:00:47.220
+So, a thousand milliseconds
+being a full second.
+
+13
+00:00:47.220 --> 00:00:49.430
+So if you have a delay for
+a thousand, that's a second delay.
+
+14
+00:00:50.710 --> 00:00:52.610
+It's useful for a lot of things.
+
+15
+00:00:52.610 --> 00:00:56.010
+Human interaction is what
+we're using it for a lot.
+
+16
+00:00:56.010 --> 00:01:01.330
+So by that I mean, machines,
+microcontrollers, are fast, right?
+
+17
+00:01:01.330 --> 00:01:04.560
+Even the slow microcontrollers
+run at eight megahertz, right?
+
+18
+00:01:05.630 --> 00:01:09.360
+But that's, you know, eight million
+cycles a second, something like that.
+
+19
+00:01:09.360 --> 00:01:13.380
+But humans are slow, relative to that,
+very slow compared to that.
+
+20
+00:01:13.380 --> 00:01:17.500
+So, there's always this human, computer
+interface going on with these Internet of
+
+21
+00:01:17.500 --> 00:01:20.150
+things devices, because these
+Internet of things devices are always
+
+22
+00:01:20.150 --> 00:01:23.960
+dealing with humans, or most of the time
+are dealing directly with humans.
+
+23
+00:01:23.960 --> 00:01:26.460
+There's some kind of a user interface,
+right?
+
+24
+00:01:26.460 --> 00:01:29.670
+And this user interface has
+to be slowed down, right?
+
+25
+00:01:29.670 --> 00:01:32.590
+It has to be at the speed that
+a human can perceive it, right?
+
+26
+00:01:32.590 --> 00:01:34.510
+So, you can't just output some data and
+
+27
+00:01:34.510 --> 00:01:38.110
+expect the human to read it in one
+clock cycle and then change it.
+
+28
+00:01:38.110 --> 00:01:42.350
+If you want the human to see something, to
+hear something, it has to be present for
+
+29
+00:01:42.350 --> 00:01:45.600
+a certain amount of time, or
+else the human can't even perceive it.
+
+30
+00:01:45.600 --> 00:01:49.700
+So, you get this problem a lot
+where you have to delay things
+
+31
+00:01:49.700 --> 00:01:51.020
+inside your microcontroller, just so
+
+32
+00:01:51.020 --> 00:01:54.180
+the human can properly perceive whatever
+it is you're trying to give to the human.
+
+33
+00:01:55.280 --> 00:01:57.756
+So, here's an example.
+
+34
+00:01:57.756 --> 00:02:01.260
+We've got digitalWrite(3, HIGH).
+
+35
+00:02:01.260 --> 00:02:06.190
+So that sets pin 3 HIGH, then delay(1000),
+so that waits for one second,
+
+36
+00:02:06.190 --> 00:02:08.960
+and then digitalWrite(3, LOW).
+
+37
+00:02:08.960 --> 00:02:13.100
+And what that does is,
+it just sets pin HIGH for one second.
+
+38
+00:02:13.100 --> 00:02:15.640
+For whatever reason,
+it says pin HIGH for one second.
+
+39
+00:02:15.640 --> 00:02:19.240
+So, it's pretty simple what delay does.
+
+40
+00:02:19.240 --> 00:02:25.630
+Just to let you know, it's not
+particularly precise as far as timers go,
+
+41
+00:02:25.630 --> 00:02:29.430
+but certainly for
+what we're using it's good enough, right?
+
+42
+00:02:29.430 --> 00:02:32.710
+You can get better precision
+timers using other functions, but
+
+43
+00:02:32.710 --> 00:02:35.680
+delay is sort of the standard function,
+makes it nice and easy.
+
+44
+00:02:35.680 --> 00:02:40.520
+And for human interaction is much more
+accurate than we actually need for
+
+45
+00:02:40.520 --> 00:02:41.130
+this purpose.
+
+46
+00:02:42.690 --> 00:02:44.250
+Okay, so the blink example.
+
+47
+00:02:44.250 --> 00:02:49.190
+So blink in your generic
+embedded system example.
+
+48
+00:02:50.230 --> 00:02:53.010
+It's like hello world, so
+you know if regular C programs or
+
+49
+00:02:53.010 --> 00:02:54.250
+any kind of program Hello,
+
+50
+00:02:54.250 --> 00:02:58.160
+World is often the first program they
+teach you, just how to print hello, world.
+
+51
+00:02:58.160 --> 00:03:00.780
+Just to make sure you can
+get something running.
+
+52
+00:03:00.780 --> 00:03:02.000
+But you can't use hello, world for
+
+53
+00:03:02.000 --> 00:03:06.000
+embedded systems often because
+we don't have a screen, right.
+
+54
+00:03:06.000 --> 00:03:08.380
+There's no screen on which
+you can print hello, world.
+
+55
+00:03:08.380 --> 00:03:11.160
+But almost every embedded
+system has an LED.
+
+56
+00:03:11.160 --> 00:03:15.760
+So Blink example is sort of a common
+example that you can use on basically
+
+57
+00:03:15.760 --> 00:03:19.700
+any type of embedded device and
+just check it out, see if it works.
+
+58
+00:03:19.700 --> 00:03:20.510
+You just blink the LED.
+
+59
+00:03:20.510 --> 00:03:21.930
+So that's all that it does.
+
+60
+00:03:21.930 --> 00:03:22.930
+It makes the LED blink.
+
+61
+00:03:23.990 --> 00:03:28.540
+You can find this example,
+if you go to the Arduino IDE,
+
+62
+00:03:28.540 --> 00:03:33.070
+go to File under examples,
+under Basics, there's a Blink example.
+
+63
+00:03:33.070 --> 00:03:37.380
+So you select that, and it will pop up
+the window that has the code for Blink.
+
+64
+00:03:37.380 --> 00:03:38.570
+Now notice, when you look at the code for
+
+65
+00:03:38.570 --> 00:03:41.700
+Blink, there are a lot of
+comments inside that code.
+
+66
+00:03:41.700 --> 00:03:44.780
+You can read those, but
+understand they are not executed, right.
+
+67
+00:03:44.780 --> 00:03:48.100
+So in the next slide I show you the Blink
+example without the comments and
+
+68
+00:03:48.100 --> 00:03:48.870
+it is very short.
+
+69
+00:03:49.940 --> 00:03:53.360
+So what happens in the Arduino,
+this Blink example, it blinks and
+
+70
+00:03:53.360 --> 00:03:55.278
+one of the LEDs built into the Arduino.
+
+71
+00:03:55.278 --> 00:03:59.650
+And so there's an LED built into the
+Arduino uno that is connect to pin 13 and
+
+72
+00:03:59.650 --> 00:04:01.510
+actually is right next to pin 13.
+
+73
+00:04:01.510 --> 00:04:04.860
+So you see in the picture,
+we're zooming on digital pin 13 and
+
+74
+00:04:04.860 --> 00:04:07.520
+you see it's circled.
+
+75
+00:04:07.520 --> 00:04:11.240
+Then just to the side of
+it there is this tiny LED.
+
+76
+00:04:11.240 --> 00:04:13.830
+It's a surface mount LED,
+so it's very small.
+
+77
+00:04:13.830 --> 00:04:15.860
+But when it's blinking you can see it.
+
+78
+00:04:15.860 --> 00:04:17.320
+So there's an LED there and
+
+79
+00:04:17.320 --> 00:04:19.420
+that thing is gonna blink as
+a result of running this program.
+
+80
+00:04:21.770 --> 00:04:22.640
+So the sketch.
+
+81
+00:04:23.850 --> 00:04:26.020
+The sketch,
+if we look at the outline of the sketch,
+
+82
+00:04:26.020 --> 00:04:31.040
+we've got two functions,
+void setup, and void loop.
+
+83
+00:04:31.040 --> 00:04:31.700
+So setup and
+
+84
+00:04:31.700 --> 00:04:35.700
+loop, which are the two functions that
+you need in every Arduino sketch.
+
+85
+00:04:35.700 --> 00:04:39.230
+So in the setup,
+all we do is say pinMode(13, OUTPUT).
+
+86
+00:04:39.230 --> 00:04:43.110
+We take pin 13,
+which is the one that we wanna change,
+
+87
+00:04:43.110 --> 00:04:44.720
+because that's connected to the LED.
+
+88
+00:04:44.720 --> 00:04:48.830
+We make it an output cuz we wanna
+assign the voltages on that pin.
+
+89
+00:04:48.830 --> 00:04:51.770
+So we said to be an output, and you do
+that in the setup because you only need
+
+90
+00:04:51.770 --> 00:04:54.275
+to do that once right at
+the beginning of the program.
+
+91
+00:04:54.275 --> 00:04:58.090
+And then in the loop, the thing that will
+happen over and over, if you think about
+
+92
+00:04:58.090 --> 00:05:03.210
+a light that's blinking, this loop
+has to describe how to blink once.
+
+93
+00:05:03.210 --> 00:05:03.850
+Okay?
+
+94
+00:05:03.850 --> 00:05:07.850
+And remember that this loop function
+is automatically executed over and
+
+95
+00:05:07.850 --> 00:05:09.060
+over forever.
+
+96
+00:05:09.060 --> 00:05:12.660
+So if this loop function
+causes it to blink one time,
+
+97
+00:05:12.660 --> 00:05:17.190
+that's sufficient because it will
+automatically be called forever.
+
+98
+00:05:17.190 --> 00:05:19.050
+So, void loop.
+
+99
+00:05:19.050 --> 00:05:19.590
+What's in there?
+
+100
+00:05:19.590 --> 00:05:21.350
+First line, digitalWrite 13 HIGH.
+
+101
+00:05:21.350 --> 00:05:26.020
+So, we turn on pin 13, make it high
+five volts, which will turn on the LED,
+
+102
+00:05:26.020 --> 00:05:30.920
+then delay 1000, so you hold it there for
+a second, then diditalWrite pin 13 LOW,
+
+103
+00:05:30.920 --> 00:05:34.680
+you turn it off, and you hold it there for
+a second, and that's it.
+
+104
+00:05:34.680 --> 00:05:37.675
+And that just gets called over,
+and over, and the light blinks,
+
+105
+00:05:37.675 --> 00:05:39.372
+and you should definitely try this.
+
+106
+00:05:39.372 --> 00:05:39.956
+Thank you.
+
+107
+00:05:39.956 --> 00:05:48.789
+[MUSIC]

@@ -1,0 +1,424 @@
+WEBVTT
+
+1
+00:00:00.010 --> 00:00:10.010
+[MUSIC]
+
+2
+00:00:11.425 --> 00:00:15.945
+In this lecture we'll start talking
+about the Arduino Toolchain,
+
+3
+00:00:15.945 --> 00:00:18.721
+meaning that the sequence of commands and
+
+4
+00:00:18.721 --> 00:00:23.875
+code that has to get executed in order
+to run your code on the Arduino.
+
+5
+00:00:23.875 --> 00:00:26.005
+So that means basically,
+after you've written your code,
+
+6
+00:00:27.545 --> 00:00:32.550
+what happens to get that thing set up to
+go, to actually execute on the Arduino.
+
+7
+00:00:32.550 --> 00:00:35.060
+So there are several steps involved and
+
+8
+00:00:35.060 --> 00:00:37.160
+we'll look under the hood
+a little bit at those steps.
+
+9
+00:00:39.070 --> 00:00:46.492
+So, here's a picture of what happens when
+you do verify and unload upload, rather.
+
+10
+00:00:46.492 --> 00:00:50.730
+So on the IDE you type in your code and
+you click verify to compile that code or
+
+11
+00:00:50.730 --> 00:00:53.845
+you click upload to upload that code.
+
+12
+00:00:53.845 --> 00:00:58.630
+And this is a picture of the steps
+involved inside that process.
+
+13
+00:00:58.630 --> 00:01:02.800
+So you can see at the left
+side you've got code.
+
+14
+00:01:02.800 --> 00:01:05.980
+This can be one code file or
+many code files that you start with.
+
+15
+00:01:07.280 --> 00:01:10.770
+We were just doing one code, but
+you can have as many as you want.
+
+16
+00:01:10.770 --> 00:01:14.220
+Now first those code files
+are all combined and transformed.
+
+17
+00:01:14.220 --> 00:01:17.030
+So there's this pre-processing step
+right there that we're labeling
+
+18
+00:01:17.030 --> 00:01:18.650
+combine and transform.
+
+19
+00:01:18.650 --> 00:01:20.850
+Then the whole thing gets compiled.
+
+20
+00:01:20.850 --> 00:01:23.260
+The image gets linked and
+we'll talk about what linking is,
+
+21
+00:01:23.260 --> 00:01:26.380
+it's where you merge with
+the libraries that we use.
+
+22
+00:01:26.380 --> 00:01:30.380
+Then, the executable is
+converted into a hex file and
+
+23
+00:01:30.380 --> 00:01:32.990
+that hex file is actually
+uploaded to the board.
+
+24
+00:01:32.990 --> 00:01:36.730
+So, those steps if you look at
+those steps that I have in blue,
+
+25
+00:01:36.730 --> 00:01:41.840
+the first steps combine and transform,
+compile, link, hex file creation.
+
+26
+00:01:41.840 --> 00:01:43.990
+Those steps are what
+happen when you verify.
+
+27
+00:01:43.990 --> 00:01:48.030
+When you click the verify button inside
+the IDE, those steps are what occur.
+
+28
+00:01:48.030 --> 00:01:52.790
+You remember verify, it does the compile
+and all the rest of the process, but
+
+29
+00:01:52.790 --> 00:01:54.930
+it does not upload to the board.
+
+30
+00:01:54.930 --> 00:01:57.100
+So, uploading to the board
+happens when you click upload.
+
+31
+00:01:57.100 --> 00:02:00.410
+When you click upload, it does everything,
+it does the compile steps, and
+
+32
+00:02:00.410 --> 00:02:03.360
+then it takes the file and
+actually uploads it to the board.
+
+33
+00:02:03.360 --> 00:02:06.740
+So, remember uploading to the board
+means actually taking that code,
+
+34
+00:02:06.740 --> 00:02:10.220
+the executable code and programming
+into the flash on that RD node so
+
+35
+00:02:10.220 --> 00:02:11.820
+that it can start executing.
+
+36
+00:02:11.820 --> 00:02:14.370
+So, when you click upload
+all these steps happen.
+
+37
+00:02:14.370 --> 00:02:18.270
+The code gets uploaded to the board and
+then as soon as it gets uploaded which
+
+38
+00:02:18.270 --> 00:02:21.660
+might take you know say five seconds,
+whatever it takes, as soon as it gets
+
+39
+00:02:21.660 --> 00:02:24.200
+uploaded to the board, it starts
+executing right there onto your RD node.
+
+40
+00:02:25.920 --> 00:02:27.490
+So let's look at the first step.
+
+41
+00:02:27.490 --> 00:02:30.500
+The combine and transform step
+is really a pre-processing step.
+
+42
+00:02:33.100 --> 00:02:37.490
+So all the files, all the program files,
+are combined into one big file.
+
+43
+00:02:37.490 --> 00:02:40.340
+Now, this is assuming you wrote
+more than one program file,
+
+44
+00:02:40.340 --> 00:02:42.910
+if you have multiple C files,
+or C++ files.
+
+45
+00:02:42.910 --> 00:02:45.850
+Sketches rather that you want
+to combine to one big file
+
+46
+00:02:45.850 --> 00:02:47.420
+you can combine them into one.
+
+47
+00:02:47.420 --> 00:02:49.340
+Also, theoretically if you wanted to,
+
+48
+00:02:49.340 --> 00:02:52.290
+you could write assembly code and
+combine it at this stage too,
+
+49
+00:02:52.290 --> 00:02:55.050
+although we're not doing that but
+that is actually possible to do.
+
+50
+00:02:55.050 --> 00:02:58.230
+So, they can get combined into
+one big source code file.
+
+51
+00:02:59.510 --> 00:03:05.930
+Now a #include is added to
+reference the Arduino libraries.
+
+52
+00:03:05.930 --> 00:03:09.610
+So, what this means is that remember
+that in addition to our code,
+
+53
+00:03:09.610 --> 00:03:12.930
+the code that you write, the user code,
+there are all these libraries,
+
+54
+00:03:12.930 --> 00:03:16.890
+these Arduino libraries that we're using
+inside our code we're referencing.
+
+55
+00:03:16.890 --> 00:03:20.640
+So some of the commands that we use
+like digital right, digital read,
+
+56
+00:03:20.640 --> 00:03:22.830
+these are commands that
+we're going to use,
+
+57
+00:03:22.830 --> 00:03:24.760
+those are actually functions
+that are in a library.
+
+58
+00:03:24.760 --> 00:03:26.470
+Those are not part of native C, C++.
+
+59
+00:03:26.470 --> 00:03:29.020
+Those are Arduino libraries.
+
+60
+00:03:29.020 --> 00:03:33.070
+So those libraries have to be
+included into your big mess of code.
+
+61
+00:03:33.070 --> 00:03:34.910
+So hash includes are added.
+
+62
+00:03:34.910 --> 00:03:37.120
+You don't add those they
+get added automatically.
+
+63
+00:03:37.120 --> 00:03:40.580
+And they include the library functions
+that are used inside your code
+
+64
+00:03:40.580 --> 00:03:43.480
+into the big single source
+file that's going to compile.
+
+65
+00:03:45.270 --> 00:03:46.760
+Also, function prototypes are added.
+
+66
+00:03:46.760 --> 00:03:51.560
+Now, we haven't covered function
+prototypes, but we don't need to because
+
+67
+00:03:51.560 --> 00:03:55.950
+in Arduino programming, the user doesn't
+have to deal with them directly.
+
+68
+00:03:55.950 --> 00:03:58.190
+In traditional C programming though, and
+
+69
+00:03:58.190 --> 00:04:00.820
+behind the scenes here, they have
+to be function prototypes though.
+
+70
+00:04:00.820 --> 00:04:04.880
+Every function that's defined,
+a prototype basically
+
+71
+00:04:04.880 --> 00:04:08.960
+tells you what the return type is for that
+function and also what its arguments are.
+
+72
+00:04:08.960 --> 00:04:13.790
+So maybe it has two arguments which
+are integers and it returns an integer,
+
+73
+00:04:13.790 --> 00:04:16.210
+and that has to be stated
+in the function prototype.
+
+74
+00:04:16.210 --> 00:04:18.300
+So every function needs a prototype.
+
+75
+00:04:18.300 --> 00:04:20.710
+And this happens automatically
+behind the scenes.
+
+76
+00:04:20.710 --> 00:04:24.358
+So when we're writing our code we don't
+have to see it, but this combine and
+
+77
+00:04:24.358 --> 00:04:27.380
+transform step, it actually puts
+in the prototypes for us, so
+
+78
+00:04:27.380 --> 00:04:28.705
+we don't have to see them.
+
+79
+00:04:28.705 --> 00:04:30.003
+Also a main is created.
+
+80
+00:04:30.003 --> 00:04:34.980
+So every C function or
+C++ program has to have a main.
+
+81
+00:04:34.980 --> 00:04:38.610
+The main function is the function
+where all execution starts.
+
+82
+00:04:38.610 --> 00:04:41.510
+Now if you remember,
+in our sketches we don't have a main.
+
+83
+00:04:41.510 --> 00:04:42.749
+We have setup and we have loop.
+
+84
+00:04:43.790 --> 00:04:47.260
+But the compiler, the C compiler,
+actually needs to see a main, so
+
+85
+00:04:47.260 --> 00:04:50.370
+the main is constructed, it is created
+based on the setup in the loops.
+
+86
+00:04:50.370 --> 00:04:53.177
+So the setup and
+the loop are combined to create a main and
+
+87
+00:04:53.177 --> 00:04:56.419
+the main function is defined
+automatically behind the scenes.
+
+88
+00:04:56.419 --> 00:04:56.981
+Thank you.
+
+89
+00:04:56.981 --> 00:05:00.230
+[MUSIC]

@@ -1,0 +1,359 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.125 --> 00:00:12.469
+So in this lecture,
+
+3
+00:00:12.469 --> 00:00:18.239
+we'll continue talking about the different
+steps that happen when you click Verify or
+
+4
+00:00:18.239 --> 00:00:23.473
+click Update that are required to get
+the code onto the Arduino for execution.
+
+5
+00:00:23.473 --> 00:00:27.167
+We'll talk about the rest of the steps,
+Cross-Compilation being one of them,
+
+6
+00:00:27.167 --> 00:00:29.900
+linking, that type of thing,
+so we'll talk about those.
+
+7
+00:00:32.140 --> 00:00:33.640
+So compile a link.
+
+8
+00:00:33.640 --> 00:00:37.774
+So after you've combined the different
+source code files into one, and
+
+9
+00:00:37.774 --> 00:00:41.568
+you transform them adding the main and
+including the libraries and
+
+10
+00:00:41.568 --> 00:00:42.940
+all that type of thing.
+
+11
+00:00:42.940 --> 00:00:46.786
+Then you compile it,
+actually you cross-compile the code.
+
+12
+00:00:46.786 --> 00:00:50.422
+So, avr-gcc is the program
+that is actually
+
+13
+00:00:50.422 --> 00:00:53.879
+invoked to perform cross-compilation.
+
+14
+00:00:53.879 --> 00:00:58.233
+So compilation is taking the C or
+C++ source code and
+
+15
+00:00:58.233 --> 00:01:03.964
+generating the machine code required
+to execute the actual program.
+
+16
+00:01:03.964 --> 00:01:06.357
+Cuz the processor, remember,
+only understands machine code,
+
+17
+00:01:06.357 --> 00:01:08.097
+it only understands its
+own machine language,
+
+18
+00:01:08.097 --> 00:01:11.110
+it doesn't understand the high-level
+language that we are actually coding in.
+
+19
+00:01:11.110 --> 00:01:14.565
+So it has to get transformed into that,
+that's what compilation is.
+
+20
+00:01:14.565 --> 00:01:18.547
+Now, cross-compilation,
+which is what we're doing here,
+
+21
+00:01:18.547 --> 00:01:23.080
+is when you compile code on one
+machine for another machine.
+
+22
+00:01:23.080 --> 00:01:27.970
+So, typically, you're compiling it on
+a desktop machine, laptop machine,
+
+23
+00:01:27.970 --> 00:01:32.950
+which maybe has an Intel x86 type
+processor on it, something like that.
+
+24
+00:01:32.950 --> 00:01:36.110
+And so you're compiling it
+on an x86 processor but
+
+25
+00:01:36.110 --> 00:01:39.640
+the code that you get does not
+execute on an x86 processor.
+
+26
+00:01:39.640 --> 00:01:44.230
+It executes on the Arduino's processor,
+specifically the AVR processor
+
+27
+00:01:44.230 --> 00:01:50.880
+AVR Atmega328 that's running on
+the typical Arduino Uno setting, right?
+
+28
+00:01:50.880 --> 00:01:55.720
+So you're compiling it on an Intel
+processor but you're compiling it for
+
+29
+00:01:55.720 --> 00:02:00.700
+your target, is actually an AVR processor,
+a different processor.
+
+30
+00:02:00.700 --> 00:02:04.720
+So if you take that executable and try to
+run it on your Intel it will not work.
+
+31
+00:02:04.720 --> 00:02:07.300
+So this is called cross-compilation,
+you compile on one machine, but
+
+32
+00:02:07.300 --> 00:02:09.350
+the target is another machine.
+
+33
+00:02:09.350 --> 00:02:13.900
+So, avr-gcc is the tool that is used to,
+
+34
+00:02:13.900 --> 00:02:18.280
+behind the scenes, the tool that is used
+to actually do this cross compilation.
+
+35
+00:02:18.280 --> 00:02:21.800
+Now when I say behind the scenes,
+I mean that you as a user,
+
+36
+00:02:21.800 --> 00:02:24.450
+as a programmer,
+you don't have to see that tool.
+
+37
+00:02:24.450 --> 00:02:27.743
+You just click Verify or
+you click Upload, and
+
+38
+00:02:27.743 --> 00:02:31.042
+the Arduino IDE invokes this program for
+you.
+
+39
+00:02:31.042 --> 00:02:35.402
+And just so you know, GCC is made by
+the GNU corporation, free software.
+
+40
+00:02:35.402 --> 00:02:40.100
+And avr-gcc is the compiler version for
+AVR target processors.
+
+41
+00:02:41.160 --> 00:02:44.440
+So the resulting code executes on the AVR
+processor, not on your standard Intel.
+
+42
+00:02:46.190 --> 00:02:50.330
+So, once you do compilation, you get an
+object file, a .o file, it's compiled but
+
+43
+00:02:50.330 --> 00:02:53.370
+it's not finished yet
+because it still needs to be linked.
+
+44
+00:02:53.370 --> 00:02:57.280
+So linking means taking the object
+files and combining them.
+
+45
+00:02:57.280 --> 00:03:00.070
+So including the object files for
+your libraries, right?
+
+46
+00:03:00.070 --> 00:03:03.800
+So you have these libraries, these
+Arduino libraries that you're using, and
+
+47
+00:03:03.800 --> 00:03:07.630
+they have their own .o files, and
+those have to be linked together.
+
+48
+00:03:07.630 --> 00:03:11.360
+So when we say linked, generally that
+means, it implies several things, but
+
+49
+00:03:11.360 --> 00:03:15.310
+mostly it means, inside your code,
+whenever you make a call to a library
+
+50
+00:03:15.310 --> 00:03:18.670
+function from Arduino,
+you have to insert a branch or
+
+51
+00:03:18.670 --> 00:03:22.350
+a jump statement that jumps
+you to their code, okay?
+
+52
+00:03:22.350 --> 00:03:25.916
+And, so, they have to be, but the question
+is separately when you compile them
+
+53
+00:03:25.916 --> 00:03:28.061
+originally, you don't
+know where to jump to.
+
+54
+00:03:28.061 --> 00:03:32.016
+But once you combine these .o files into
+one then you know where each function is
+
+55
+00:03:32.016 --> 00:03:35.430
+relative to the other functions,
+so you can put the jumps in.
+
+56
+00:03:35.430 --> 00:03:37.310
+So this is a longer story
+which we will not go into, but
+
+57
+00:03:37.310 --> 00:03:40.579
+that's the linking process, you take
+the data files and you join them together.
+
+58
+00:03:42.100 --> 00:03:45.003
+So the object file is linked to
+the Arduino library functions,
+
+59
+00:03:45.003 --> 00:03:46.554
+which we're definitely using.
+
+60
+00:03:48.881 --> 00:03:52.535
+Now, once we get these .o files,
+actually once we link it,
+
+61
+00:03:52.535 --> 00:03:57.610
+once we get actually finish the linking,
+you get what's called a .elf file.
+
+62
+00:03:57.610 --> 00:03:59.300
+That's an executable file.
+
+63
+00:03:59.300 --> 00:04:00.620
+And you can execute that code.
+
+64
+00:04:00.620 --> 00:04:05.350
+But, the Arduino processor
+does not accept ELF files.
+
+65
+00:04:05.350 --> 00:04:09.050
+So we have to take the ELF file and
+change its format to another format.
+
+66
+00:04:10.070 --> 00:04:14.660
+So for that,
+the IDE uses a program called avr-objcopy.
+
+67
+00:04:14.660 --> 00:04:17.940
+And that's invoked to change
+the format of the executable file
+
+68
+00:04:17.940 --> 00:04:21.050
+to the one that the Arduino
+expects to see.
+
+69
+00:04:21.050 --> 00:04:25.830
+So this is a formatting thing, and
+we're not gonna go into details of it, but
+
+70
+00:04:25.830 --> 00:04:30.610
+the .hex file is generated from the .elf
+file that's created after linking.
+
+71
+00:04:30.610 --> 00:04:33.030
+So it changes from one format to another,
+and
+
+72
+00:04:33.030 --> 00:04:36.675
+the hex file can actually be
+executed by the Arduino's processor.
+
+73
+00:04:36.675 --> 00:04:37.839
+Thank you.
+
+74
+00:04:37.839 --> 00:04:45.979
+[MUSIC]

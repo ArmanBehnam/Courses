@@ -1,0 +1,608 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.580 --> 00:00:14.990
+This lecture,
+we'll talk about the pins to the Arduino.
+
+3
+00:00:14.990 --> 00:00:18.220
+The pins [COUGH] are the connections
+to the outside world.
+
+4
+00:00:18.220 --> 00:00:20.580
+The main connections to the outside
+world are through these pins.
+
+5
+00:00:20.580 --> 00:00:23.610
+Pins are basically just pieces of metal
+that come off the leads, pieces of metal
+
+6
+00:00:23.610 --> 00:00:29.580
+that come off the microcontroller that
+you can connect to other devices.
+
+7
+00:00:29.580 --> 00:00:32.720
+And they can be inputs and outputs and so
+on, and these are the main interfaces.
+
+8
+00:00:32.720 --> 00:00:34.564
+So we're gonna talk about these pins and
+
+9
+00:00:34.564 --> 00:00:38.264
+how you control them through the sketch
+and how you observe them through sketch.
+
+10
+00:00:39.868 --> 00:00:43.171
+So we've got a picture
+of the Arduino here.
+
+11
+00:00:43.171 --> 00:00:45.676
+It's got several pins.
+
+12
+00:00:45.676 --> 00:00:49.413
+Actually this isn't the whole picture,
+but this is most of it.
+
+13
+00:00:49.413 --> 00:00:54.820
+The Arduino board itself
+has two rows of pins.
+
+14
+00:00:54.820 --> 00:00:57.730
+The regular Arduino Uno has two
+rows of pins, a row on the top,
+
+15
+00:00:57.730 --> 00:00:58.940
+you can see that row on the top, and
+
+16
+00:00:58.940 --> 00:01:01.930
+then a row on the bottom that you
+actually can't see in this image.
+
+17
+00:01:01.930 --> 00:01:04.180
+So those are the rows
+of pins on the board.
+
+18
+00:01:04.180 --> 00:01:08.520
+Those pins on the board are connected
+to the pins to the leads on the chip.
+
+19
+00:01:08.520 --> 00:01:12.890
+So if you look at the microcontroller
+there, circled in red,
+
+20
+00:01:12.890 --> 00:01:19.740
+you can see a bunch of metal leads of
+the chip that are circled and highlighted.
+
+21
+00:01:19.740 --> 00:01:24.060
+Those are the leads of the chip that
+are connected to those holes in the board.
+
+22
+00:01:24.060 --> 00:01:29.720
+So they are wired directly to those
+holes through traces inside the board.
+
+23
+00:01:29.720 --> 00:01:33.360
+So if you wanna access the outside
+world from the microcontroller,
+
+24
+00:01:33.360 --> 00:01:37.900
+the way you do it is you take a wire and
+you plug it into those holes on the board.
+
+25
+00:01:37.900 --> 00:01:42.356
+Those holes on the board are connected
+directly to the pins, to the leads of
+
+26
+00:01:42.356 --> 00:01:47.257
+the microcontroller and your code can then
+control the pins and observe the pins.
+
+27
+00:01:49.137 --> 00:01:54.580
+So pins are wires that are connected
+to the microcontroller.
+
+28
+00:01:54.580 --> 00:01:55.770
+They're the main interface.
+
+29
+00:01:55.770 --> 00:01:58.790
+Now there are other interfaces,
+right, there's a USB and so forth.
+
+30
+00:01:58.790 --> 00:02:02.570
+But the main interface when you're
+building one of these IoT systems
+
+31
+00:02:02.570 --> 00:02:03.815
+is through the pin.
+
+32
+00:02:03.815 --> 00:02:06.826
+So most of the other components
+in the system will be
+
+33
+00:02:06.826 --> 00:02:09.917
+connected to the Ardiuno
+board through those pins.
+
+34
+00:02:09.917 --> 00:02:12.539
+You will wire them to the pins.
+
+35
+00:02:12.539 --> 00:02:16.529
+The voltages on the pins can be controlled
+by the sketch if it's an output pin,
+
+36
+00:02:16.529 --> 00:02:18.770
+which we'll talk about in a second.
+
+37
+00:02:18.770 --> 00:02:20.920
+So you can control
+the voltages through a sketch.
+
+38
+00:02:20.920 --> 00:02:23.458
+You can call a function
+inside your sketch,
+
+39
+00:02:23.458 --> 00:02:25.456
+it will set the voltage on the pin.
+
+40
+00:02:25.456 --> 00:02:28.017
+And pin voltages can be read by a sketch.
+
+41
+00:02:28.017 --> 00:02:31.029
+That is, if something else is
+controlling the pin's voltage,
+
+42
+00:02:31.029 --> 00:02:33.554
+you can read what that voltage
+is inside your sketch.
+
+43
+00:02:35.899 --> 00:02:40.696
+So pins can be designated as
+output pins or input pins.
+
+44
+00:02:40.696 --> 00:02:42.845
+An output pin is controlled
+by the Arduino, so
+
+45
+00:02:42.845 --> 00:02:45.520
+the voltage is determined by your sketch.
+
+46
+00:02:45.520 --> 00:02:49.120
+So your sketch calls a library
+function which sets the voltage.
+
+47
+00:02:49.120 --> 00:02:51.860
+Other components can be
+controlled through these outputs.
+
+48
+00:02:51.860 --> 00:02:55.420
+So say you wanna take, like here, an LED.
+
+49
+00:02:55.420 --> 00:02:58.934
+Take an LED,
+you wanna connect that to an Arduino,
+
+50
+00:02:58.934 --> 00:03:03.288
+you will wire the two leads of
+the LED to the pins of the Arduino.
+
+51
+00:03:03.288 --> 00:03:05.346
+Actually you'll probably use
+a resistor in between, but
+
+52
+00:03:05.346 --> 00:03:06.810
+I'm not drawing that right now.
+
+53
+00:03:06.810 --> 00:03:10.890
+But you can wire the leads of
+the component to the Arduino's pins.
+
+54
+00:03:10.890 --> 00:03:13.650
+And then you can write
+code inside your Arduino,
+
+55
+00:03:13.650 --> 00:03:18.885
+write a sketch that assigns voltages to
+those pins and does something to the LED,
+
+56
+00:03:18.885 --> 00:03:21.550
+presumably turns it off and on or
+makes it blink or something like that.
+
+57
+00:03:22.620 --> 00:03:24.100
+So that's what output pins are for.
+
+58
+00:03:24.100 --> 00:03:27.790
+Output pins are for controlling
+other devices from your Arduino.
+
+59
+00:03:27.790 --> 00:03:31.310
+Now pins can also be
+designated as input pins.
+
+60
+00:03:31.310 --> 00:03:35.350
+Input pins are controlled by other
+components, so that the outside component
+
+61
+00:03:35.350 --> 00:03:39.830
+controls the voltage on the input pin,
+and the Arduino just reads the voltage.
+
+62
+00:03:39.830 --> 00:03:43.430
+So in this way the Arduino can
+receive input from the outside world.
+
+63
+00:03:43.430 --> 00:03:46.670
+So this is how you connect
+sensors up to the Arduino.
+
+64
+00:03:46.670 --> 00:03:49.950
+You take the sensor,
+you wire it to some of these input pins.
+
+65
+00:03:49.950 --> 00:03:51.980
+The Arduino can then read the voltage and
+
+66
+00:03:51.980 --> 00:03:55.860
+interpret whatever the data is
+that that sensor is producing.
+
+67
+00:03:55.860 --> 00:03:59.140
+So in this case we got a picture
+of a switch, very simple.
+
+68
+00:03:59.140 --> 00:04:02.470
+If we wired this up properly,
+this switch, if it's switched one way,
+
+69
+00:04:02.470 --> 00:04:05.830
+actually it's a three state,
+but say it's a regular switch,
+
+70
+00:04:05.830 --> 00:04:08.140
+it just has two positions, on, off.
+
+71
+00:04:08.140 --> 00:04:11.640
+So we could wire a circuit so
+that if the switch is switched one way,
+
+72
+00:04:11.640 --> 00:04:15.460
+that a voltage, maybe five volts,
+would appear on one of the pins.
+
+73
+00:04:15.460 --> 00:04:18.910
+And if it was switched the other way,
+then zero volts would appear.
+
+74
+00:04:18.910 --> 00:04:22.290
+And then inside your sketch, you can
+detect if five volts is on the pin or
+
+75
+00:04:22.290 --> 00:04:23.200
+if zero volts is on the pin.
+
+76
+00:04:23.200 --> 00:04:26.450
+So you can determine if somebody
+has flicked the switch or
+
+77
+00:04:26.450 --> 00:04:30.530
+not, and write some code to
+do something appropriate.
+
+78
+00:04:30.530 --> 00:04:33.268
+So input pins are for
+reading from sensors,
+
+79
+00:04:33.268 --> 00:04:36.830
+where output pins are generally for
+driving actuators.
+
+80
+00:04:36.830 --> 00:04:41.945
+You can drive a motor with it or
+something like that if it's an output pin.
+
+81
+00:04:41.945 --> 00:04:46.625
+Now pins can either be digital or analog.
+
+82
+00:04:46.625 --> 00:04:50.133
+Now we've mentioned what digital and
+analog are before, but
+
+83
+00:04:50.133 --> 00:04:54.124
+in this case we're talking about
+digital analog in terms of voltage.
+
+84
+00:04:54.124 --> 00:04:57.255
+Now basically the difference
+between digital analog,
+
+85
+00:04:57.255 --> 00:05:00.450
+just to refresh your memory,
+digital is like integers,
+
+86
+00:05:00.450 --> 00:05:04.000
+where analog is like real numbers,
+continuous values.
+
+87
+00:05:04.000 --> 00:05:07.041
+But digital is discrete,
+zero, one, two, so on.
+
+88
+00:05:07.041 --> 00:05:12.783
+So in our machine, if it's a digital pin
+the voltage can either be zero volts or
+
+89
+00:05:12.783 --> 00:05:15.660
+five volts, on an Arduino Uno anyway.
+
+90
+00:05:15.660 --> 00:05:18.910
+And there are other variants of Arduino
+that maybe change that, but for
+
+91
+00:05:18.910 --> 00:05:21.980
+Arduino Uno, it's zero volts,
+five volts on the digital pin.
+
+92
+00:05:21.980 --> 00:05:27.233
+Now an analog pin can receive anywhere,
+usually zero to five volts.
+
+93
+00:05:27.233 --> 00:05:29.889
+Actually you can change that
+range if you want to, but
+
+94
+00:05:29.889 --> 00:05:32.200
+a continuous set of
+values anywhere in there.
+
+95
+00:05:33.540 --> 00:05:36.950
+So some pins on the Arduino
+are digital only,
+
+96
+00:05:36.950 --> 00:05:40.000
+can only act as digital pins,
+and they're labeled.
+
+97
+00:05:40.000 --> 00:05:44.640
+So if you look at the Arduino board,
+one side of them it says digital.
+
+98
+00:05:44.640 --> 00:05:47.702
+So actually I believe it has 14.
+
+99
+00:05:47.702 --> 00:05:51.480
+Yeah, pins 0 through 13 are digital pins.
+
+100
+00:05:52.610 --> 00:05:56.340
+So you can read digital
+inputs off of a digital pin.
+
+101
+00:05:56.340 --> 00:05:58.000
+You can write digital outputs.
+
+102
+00:05:58.000 --> 00:05:59.630
+So you can read input.
+
+103
+00:05:59.630 --> 00:06:04.340
+You can attach it as an input, output,
+as digital one, zero volts to five volts.
+
+104
+00:06:04.340 --> 00:06:06.024
+Some pins can be analog.
+
+105
+00:06:06.024 --> 00:06:12.760
+These analog pins, they're labeled a0
+through a5, and they're on the other side.
+
+106
+00:06:12.760 --> 00:06:15.770
+They're also clearly labeled
+on the Arduino board.
+
+107
+00:06:16.900 --> 00:06:19.625
+These analog pins,
+you can read analog voltages.
+
+108
+00:06:19.625 --> 00:06:24.060
+So whatever the voltage is, the voltage
+can be interpreted as a digital number.
+
+109
+00:06:24.060 --> 00:06:25.520
+We'll talk more about that later.
+
+110
+00:06:25.520 --> 00:06:29.100
+But the voltage can be interpreted and
+read by a sketch.
+
+111
+00:06:29.100 --> 00:06:33.680
+And so your device can respond according
+to whatever the voltage is, and
+
+112
+00:06:33.680 --> 00:06:35.190
+it can be an analog voltage.
+
+113
+00:06:35.190 --> 00:06:36.710
+It's useful to read analog sensors.
+
+114
+00:06:36.710 --> 00:06:38.502
+That's primarily what
+you would use it for.
+
+115
+00:06:38.502 --> 00:06:41.327
+So there are a lot of sensors that
+output analog information, so
+
+116
+00:06:41.327 --> 00:06:42.385
+you need to read those.
+
+117
+00:06:43.635 --> 00:06:45.555
+Analog only pins are clearly labeled.
+
+118
+00:06:45.555 --> 00:06:47.465
+No pins can generate analog output.
+
+119
+00:06:47.465 --> 00:06:51.805
+So the digital pins can read digital
+input and drive digital output.
+
+120
+00:06:51.805 --> 00:06:55.321
+You can drive zeros and ones by
+calling library functions of Arduino.
+
+121
+00:06:55.321 --> 00:06:59.920
+But the analog pins cannot
+create analog outputs.
+
+122
+00:06:59.920 --> 00:07:03.220
+They can read analog inputs and
+convert them to digital.
+
+123
+00:07:03.220 --> 00:07:07.170
+They can read analog inputs but
+they can't drive analog outputs.
+
+124
+00:07:07.170 --> 00:07:11.870
+That's because we don't have a digital
+analog converter inside the device.
+
+125
+00:07:11.870 --> 00:07:16.811
+So now there is a way we can fake it,
+[LAUGH] using pulse with modulation and
+
+126
+00:07:16.811 --> 00:07:19.322
+we'll get to that in a later course.
+
+127
+00:07:19.322 --> 00:07:20.156
+Thank you.
+
+128
+00:07:20.156 --> 00:07:28.769
+[MUSIC]

@@ -1,0 +1,829 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.396 --> 00:00:14.235
+In this lecture,
+we'll talk about what a sketch is.
+
+3
+00:00:14.235 --> 00:00:17.050
+A sketch is basically another name for
+an Arduino program.
+
+4
+00:00:17.050 --> 00:00:19.050
+We'll start looking at
+the structure of the sketch but
+
+5
+00:00:19.050 --> 00:00:22.030
+actually in this particular lecture,
+before we get to that,
+
+6
+00:00:22.030 --> 00:00:25.900
+I wanna define the language
+subset being used in Arduino.
+
+7
+00:00:25.900 --> 00:00:32.880
+So really, an Arduino program is a C++
+program, and we talk about classes in C++.
+
+8
+00:00:32.880 --> 00:00:37.349
+Now we're not covering classes in this
+course, but we need a little bit,
+
+9
+00:00:37.349 --> 00:00:40.521
+just a little bit [LAUGH],
+so you understand how to use
+
+10
+00:00:40.521 --> 00:00:44.221
+them in the context of Arduino Sketches,
+so we'll do that.
+
+11
+00:00:44.221 --> 00:00:49.217
+So an Arduino program, it's called
+a sketch, that's the term you see.
+
+12
+00:00:49.217 --> 00:00:50.390
+C++ program.
+
+13
+00:00:50.390 --> 00:00:54.790
+So, Arduino is really the language
+that you're writing a sketch in,
+
+14
+00:00:54.790 --> 00:00:58.285
+is really C+ using Arduino
+library functions.
+
+15
+00:00:58.285 --> 00:01:00.645
+So, there are a lot of pre-defined
+library functions, and
+
+16
+00:01:00.645 --> 00:01:04.555
+you invoke those, but
+really it's C++ code that you are writing.
+
+17
+00:01:04.555 --> 00:01:08.035
+Now, I would say that
+C++ is a superset of C.
+
+18
+00:01:08.035 --> 00:01:10.225
+So there is C, and there's C++.
+
+19
+00:01:10.225 --> 00:01:13.183
+Anything that is legal C,
+is also legal C++.
+
+20
+00:01:13.183 --> 00:01:16.110
+So C++ has more features than C.
+
+21
+00:01:16.110 --> 00:01:22.066
+And generally, when you look at Arduiono's
+sketches, the code that they are using,
+
+22
+00:01:22.066 --> 00:01:27.302
+that people use, they restrict themselves
+primarily to the features of C.
+
+23
+00:01:27.302 --> 00:01:31.870
+They don't go outside and
+use too many features of C++.
+
+24
+00:01:31.870 --> 00:01:35.040
+Now, you could, but
+generally that's not what I see.
+
+25
+00:01:36.200 --> 00:01:40.660
+But they do use some aspect of classes,
+because they're used with libraries.
+
+26
+00:01:40.660 --> 00:01:42.060
+And we'll get to that.
+
+27
+00:01:42.060 --> 00:01:44.760
+So, we have to know a little
+bit about what a class is,
+
+28
+00:01:44.760 --> 00:01:49.830
+just because you're forced to use them
+a little bit, inside your sketches.
+
+29
+00:01:50.830 --> 00:01:52.100
+You don't have to define a class, but
+
+30
+00:01:52.100 --> 00:01:54.219
+you have to be able to
+use preexisting classes.
+
+31
+00:01:55.270 --> 00:01:59.880
+So C++ includes classes, so let's just
+talk a little bit about what a class is.
+
+32
+00:02:01.080 --> 00:02:05.552
+So, a class is something that's used
+in the context of what we'll call
+
+33
+00:02:05.552 --> 00:02:06.931
+object-oriented programming.
+
+34
+00:02:06.931 --> 00:02:08.290
+So object-oriented programming,
+
+35
+00:02:08.290 --> 00:02:11.510
+the idea is just a way to
+organize your code, really.
+
+36
+00:02:11.510 --> 00:02:13.580
+That's all it's for, as far as I can tell.
+
+37
+00:02:13.580 --> 00:02:17.090
+It's for organizing your code to make it
+easier to understand, which by the way is
+
+38
+00:02:17.090 --> 00:02:21.740
+very important in big pieces of code, cuz
+code can get very difficult to understand.
+
+39
+00:02:21.740 --> 00:02:25.208
+So, object-oriented is a way to
+organize the [COUGH] data and
+
+40
+00:02:25.208 --> 00:02:28.203
+the functions to make it
+more easier to understand.
+
+41
+00:02:28.203 --> 00:02:31.768
+You're using what's called encapsulation,
+so you're grouping things together,
+
+42
+00:02:31.768 --> 00:02:33.389
+encapsulating them into these units.
+
+43
+00:02:35.060 --> 00:02:37.460
+So you group together data and
+functions that are related.
+
+44
+00:02:37.460 --> 00:02:42.198
+So if you see a bunch of information,
+by data, I mean variables, say, arrays,
+
+45
+00:02:42.198 --> 00:02:43.326
+things like that.
+
+46
+00:02:43.326 --> 00:02:47.279
+You have a bunch of data and a bunch
+of functions that act on that data,
+
+47
+00:02:47.279 --> 00:02:51.438
+that operate on that data, and
+they are related in some conceptual way,
+
+48
+00:02:51.438 --> 00:02:54.320
+then you group them together
+into a single class.
+
+49
+00:02:54.320 --> 00:02:55.410
+This is a common way to do it.
+
+50
+00:02:56.610 --> 00:03:02.350
+So, a class you can think of as a type
+that can be defined by the programmer,
+
+51
+00:03:02.350 --> 00:03:04.710
+a user-defined type or
+programmer-defined type.
+
+52
+00:03:04.710 --> 00:03:09.652
+So, think of type like integers, right?
+
+53
+00:03:09.652 --> 00:03:13.684
+The class of integers, we'll call it the
+class of integers, that type, it has data,
+
+54
+00:03:13.684 --> 00:03:15.690
+which is the number, the actual integer.
+
+55
+00:03:15.690 --> 00:03:17.653
+So the integer three,
+it has value three, right?
+
+56
+00:03:17.653 --> 00:03:19.320
+So that's its data.
+
+57
+00:03:19.320 --> 00:03:23.790
+But in addition, the class of integers
+also has a set of functions, right?
+
+58
+00:03:23.790 --> 00:03:25.970
+Plus, minus, times, divide.
+
+59
+00:03:25.970 --> 00:03:28.870
+Different operations that
+you can perform on integers.
+
+60
+00:03:28.870 --> 00:03:33.190
+So every class you can see as having data,
+whatever the data is, and
+
+61
+00:03:33.190 --> 00:03:34.692
+a set of functions associated with it.
+
+62
+00:03:34.692 --> 00:03:39.406
+And types, like an integer, is sort of a
+very simple class, it's got just one data.
+
+63
+00:03:39.406 --> 00:03:42.625
+And it's got a bunch of function
+that apply to integers.
+
+64
+00:03:42.625 --> 00:03:45.634
+So, those types that we have,
+are predefined, right?
+
+65
+00:03:45.634 --> 00:03:46.835
+Integers, floats.
+
+66
+00:03:46.835 --> 00:03:48.725
+Float has a bunch of
+functions that are performed,
+
+67
+00:03:48.725 --> 00:03:51.625
+a bunch of information data
+associated with it too.
+
+68
+00:03:51.625 --> 00:03:53.769
+Those are all predefined,
+they're built into the language.
+
+69
+00:03:54.830 --> 00:03:57.770
+But, classes allow you to define new types
+
+70
+00:03:57.770 --> 00:04:00.720
+based on whatever type of
+program you're defining.
+
+71
+00:04:00.720 --> 00:04:05.220
+So, you can make
+application specific types.
+
+72
+00:04:05.220 --> 00:04:06.600
+So you can think of classes like that.
+
+73
+00:04:06.600 --> 00:04:08.030
+So let's just do an example.
+
+74
+00:04:08.030 --> 00:04:11.260
+So, here's an example of
+the use of classes, and
+
+75
+00:04:11.260 --> 00:04:13.110
+how it helps you to organize
+your code a little bit.
+
+76
+00:04:14.120 --> 00:04:17.970
+So, we get two examples of code
+that do exactly the same thing,
+
+77
+00:04:17.970 --> 00:04:19.250
+the top and the bottom.
+
+78
+00:04:19.250 --> 00:04:21.100
+Top example, we don't use classes.
+
+79
+00:04:21.100 --> 00:04:25.260
+We say look, we want to write some code
+that plots some points on the screen,
+
+80
+00:04:25.260 --> 00:04:28.090
+points of two dimensions,
+x and y dimensions.
+
+81
+00:04:28.090 --> 00:04:31.020
+So, one way to do it,
+say I want to plot three points.
+
+82
+00:04:31.020 --> 00:04:35.837
+So, I say int at top line, and
+I declare a bunch of variables,
+
+83
+00:04:35.837 --> 00:04:38.630
+x1, x2, x3, y1, y2, y3.
+
+84
+00:04:38.630 --> 00:04:42.100
+And these are the x and
+y coordinates of three different points.
+
+85
+00:04:42.100 --> 00:04:45.878
+And you can tell the x1 is related to the
+y1, because they both have a 1 after them.
+
+86
+00:04:45.878 --> 00:04:47.830
+You as a programmer have
+to keep that in your head.
+
+87
+00:04:47.830 --> 00:04:50.330
+x1 is related to y1 because
+of that 1 after them.
+
+88
+00:04:50.330 --> 00:04:52.960
+x2 is related to y2 because
+of the 2 after them.
+
+89
+00:04:52.960 --> 00:04:55.560
+So that's an extra burden
+on me as a programmer.
+
+90
+00:04:55.560 --> 00:04:58.490
+I have to do appropriate naming so
+I can realize, oh,
+
+91
+00:04:58.490 --> 00:05:00.530
+this variable is related to this variable.
+
+92
+00:05:00.530 --> 00:05:02.700
+x2 is related to the y2.
+
+93
+00:05:02.700 --> 00:05:06.690
+And this is what you're trying to
+get away from with classes, right?
+
+94
+00:05:06.690 --> 00:05:10.973
+We don't want to have
+to rely on the coder.
+
+95
+00:05:10.973 --> 00:05:13.315
+If the programmer does
+some bad variable naming,
+
+96
+00:05:13.315 --> 00:05:17.500
+it would be very hard to be able to tell
+which x and which y were related, right?
+
+97
+00:05:17.500 --> 00:05:21.544
+But it's a burden of the programmer
+to name things in such a way that he,
+
+98
+00:05:21.544 --> 00:05:25.620
+she can understand which
+variables are related to what.
+
+99
+00:05:25.620 --> 00:05:27.220
+Okay, so I define these variables.
+
+100
+00:05:27.220 --> 00:05:30.640
+Then the next line, I initialize them to
+0s or whatever I wanna initialize them to.
+
+101
+00:05:30.640 --> 00:05:34.766
+And then I call this function plot and
+it takes the x and
+
+102
+00:05:34.766 --> 00:05:37.898
+y coordinates that I wanna plot, okay?
+
+103
+00:05:37.898 --> 00:05:42.700
+So I would call plot(x1, y1),
+then call plot(x2, y2), and so on.
+
+104
+00:05:42.700 --> 00:05:46.640
+So that's one way that you can represent
+these three points and plot them.
+
+105
+00:05:46.640 --> 00:05:49.200
+Now below, what we're doing is,
+
+106
+00:05:49.200 --> 00:05:51.800
+we're showing how you might
+do this if you have a class.
+
+107
+00:05:51.800 --> 00:05:53.940
+If you have already defined
+a class called point,
+
+108
+00:05:53.940 --> 00:05:55.780
+then you can do it in
+the way show down below.
+
+109
+00:05:55.780 --> 00:05:57.330
+So this class is called point.
+
+110
+00:05:57.330 --> 00:06:00.210
+Every point would have to have an x and
+a y coordinate inside it,
+
+111
+00:06:00.210 --> 00:06:03.150
+so in our class definition,
+which I'm not showing you right here.
+
+112
+00:06:03.150 --> 00:06:07.120
+It would define an int x and an int y,
+so now when I declare my variables,
+
+113
+00:06:07.120 --> 00:06:08.570
+I don't declare the int.
+
+114
+00:06:08.570 --> 00:06:09.460
+I declare the points.
+
+115
+00:06:09.460 --> 00:06:11.767
+I say point p1, p2, p3.
+
+116
+00:06:11.767 --> 00:06:14.203
+So that declares three different points,
+and
+
+117
+00:06:14.203 --> 00:06:18.570
+I don't have to explicitly declare the x
+and the y for each one of these points.
+
+118
+00:06:18.570 --> 00:06:21.167
+I can just say point p1, p2, p3, and
+
+119
+00:06:21.167 --> 00:06:25.907
+because I have defined this class of
+points, the machine will know okay,
+
+120
+00:06:25.907 --> 00:06:30.055
+p1 has gotta have an x and y,
+p2 has its own x y, p3 has its own.
+
+121
+00:06:30.055 --> 00:06:33.910
+So those get defined without me
+having to think about the details.
+
+122
+00:06:33.910 --> 00:06:37.680
+But I just say, make a point,
+and the program says, oh,
+
+123
+00:06:37.680 --> 00:06:39.970
+a point means there's an x and a y.
+
+124
+00:06:41.060 --> 00:06:44.060
+So, I declare my points,
+then I make a new point.
+
+125
+00:06:44.060 --> 00:06:46.636
+So there I say p1 = new point(0,0).
+
+126
+00:06:46.636 --> 00:06:51.040
+new is a function that creates a new
+object of any particular class.
+
+127
+00:06:51.040 --> 00:06:55.150
+So that actually initiallizes the p1 and
+the p2 and p3.
+
+128
+00:06:55.150 --> 00:06:59.140
+You'd make a new point and (0,0) are the
+arguments, those will become the x and
+
+129
+00:06:59.140 --> 00:07:01.080
+the y values for this point.
+
+130
+00:07:01.080 --> 00:07:03.190
+So, I'd initialize that, and
+
+131
+00:07:03.190 --> 00:07:07.810
+then I'd call a function called
+p1.plot in order to plot the point.
+
+132
+00:07:07.810 --> 00:07:11.070
+Now notice how that plot is different
+than the plot above, right.
+
+133
+00:07:11.070 --> 00:07:13.490
+The plot above takes two arguments, x1 and
+
+134
+00:07:13.490 --> 00:07:16.090
+y1, which are the coordinates
+that I want to plot.
+
+135
+00:07:16.090 --> 00:07:18.894
+The bottom plot doesn't
+have any arguments, right?
+
+136
+00:07:18.894 --> 00:07:20.214
+It's just p1.plot.
+
+137
+00:07:21.360 --> 00:07:26.810
+So, the reason why it doesn't need the
+arguments is because it's called from p1.
+
+138
+00:07:26.810 --> 00:07:29.470
+So p1 is the object that we've created,
+the point.
+
+139
+00:07:29.470 --> 00:07:33.154
+And if you say p1.plot,
+it basically tells the plot function look,
+
+140
+00:07:33.154 --> 00:07:35.713
+when you're looking for
+variables like x and y,
+
+141
+00:07:35.713 --> 00:07:38.787
+refer to what is on the left-hand
+side of the dot, right?
+
+142
+00:07:38.787 --> 00:07:42.484
+The left-hand side of the dot is p1,
+so they will use the x and
+
+143
+00:07:42.484 --> 00:07:46.127
+the y values from p1 and
+plot the point accordingly, okay?
+
+144
+00:07:46.127 --> 00:07:50.255
+And actually that notation right there,
+we're gonna be using that.
+
+145
+00:07:50.255 --> 00:07:52.630
+Where we give the name of an object or
+
+146
+00:07:52.630 --> 00:07:55.690
+a class, then you give a dot,
+then you give the name of a function.
+
+147
+00:07:55.690 --> 00:07:56.940
+We're gonna be using that throughout.
+
+148
+00:07:59.450 --> 00:08:03.210
+That's how library functions are often
+invoked, is with that type of syntax.
+
+149
+00:08:03.210 --> 00:08:06.420
+So we'll look at that more later
+when we get to some sketch examples.
+
+150
+00:08:06.420 --> 00:08:08.240
+But this is generally what
+a class is useful for.
+
+151
+00:08:10.570 --> 00:08:13.412
+So yeah,
+all data's contained in one object.
+
+152
+00:08:13.412 --> 00:08:15.543
+So all the data related
+to a point the x and
+
+153
+00:08:15.543 --> 00:08:18.260
+the y in this case are contained
+in this one object.
+
+154
+00:08:18.260 --> 00:08:19.350
+This point object.
+
+155
+00:08:19.350 --> 00:08:24.620
+So p1 has its x and y, p2 has its x and
+y, p3 has its x and y.
+
+156
+00:08:24.620 --> 00:08:28.190
+There are fewer parameters,
+because we have fewer variables, right?
+
+157
+00:08:28.190 --> 00:08:34.640
+We don't have to have x1, y1, x2,
+y2, x3, y3, we just have p1, p2, p3.
+
+158
+00:08:34.640 --> 00:08:37.195
+So we've reduced the number of
+variables that we have to use and
+
+159
+00:08:37.195 --> 00:08:38.810
+reduced number of arguments to function.
+
+160
+00:08:38.810 --> 00:08:41.630
+So our plot function takes
+no arguments now, right?
+
+161
+00:08:41.630 --> 00:08:42.840
+It doesn't have to take x1 or
+
+162
+00:08:42.840 --> 00:08:47.450
+y1 explicitly, you just say p1.plot and
+it knows where to get the data from.
+
+163
+00:08:48.590 --> 00:08:52.131
+And you can define pont-specific,
+when I say point-specific,
+
+164
+00:08:52.131 --> 00:08:53.730
+class-specific functions.
+
+165
+00:08:53.730 --> 00:08:55.460
+So, in this case, point-specific, so
+
+166
+00:08:55.460 --> 00:08:59.470
+the function plot is specific
+to the point class, right?
+
+167
+00:08:59.470 --> 00:09:02.671
+You can only call plot, in this example,
+
+168
+00:09:02.671 --> 00:09:06.426
+on something in the point class,
+so p1.plot.
+
+169
+00:09:06.426 --> 00:09:10.450
+Say you have an integer,
+x, you can't say x.plot.
+
+170
+00:09:10.450 --> 00:09:12.010
+Because plot doesn't work for an x.
+
+171
+00:09:12.010 --> 00:09:14.913
+There's no plot function defined for
+an integer, right?
+
+172
+00:09:14.913 --> 00:09:19.679
+But p1.plot, since p1 is the point,
+and we've defined plot for points,
+
+173
+00:09:19.679 --> 00:09:21.010
+then that will work.
+
+174
+00:09:21.010 --> 00:09:23.814
+So you can make these
+class specific functions.
+
+175
+00:09:23.814 --> 00:09:24.546
+Thank you.
+
+176
+00:09:24.546 --> 00:09:32.210
+[MUSIC]
