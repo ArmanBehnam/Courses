@@ -1,0 +1,1284 @@
+WEBVTT
+
+1
+00:00:03.302 --> 00:00:07.946
+At this point I just want to give a little
+recap before we've kind of gone through so
+
+2
+00:00:07.946 --> 00:00:12.820
+far to lead up to ultimately what you
+see up there, the Server Setup, right?
+
+3
+00:00:12.820 --> 00:00:19.115
+So we took you through the application and
+at very basic level.
+
+4
+00:00:19.115 --> 00:00:19.880
+>> Mm-hm.
+>> Right,
+
+5
+00:00:19.880 --> 00:00:24.780
+we just showed it taking a picture
+>> Using all the libraries you
+
+6
+00:00:24.780 --> 00:00:28.050
+pulled in and a small script, and
+
+7
+00:00:28.050 --> 00:00:31.380
+then we added a bunch of effects
+that were provided by SimpleCV.
+
+8
+00:00:31.380 --> 00:00:32.200
+>> Yeah.
+
+9
+00:00:32.200 --> 00:00:35.800
+>> So we just got to kind of use those
+functions and show that we can, you know,
+
+10
+00:00:35.800 --> 00:00:40.510
+apply a gray scale, put little green boxes
+around faces with facial recognition,
+
+11
+00:00:41.870 --> 00:00:43.290
+and was it the contour, right?
+
+12
+00:00:43.290 --> 00:00:44.950
+>> Yeah.
+>> So really cool stuff.
+
+13
+00:00:45.980 --> 00:00:51.190
+Now, what we want to do is we
+want to provide you remote access
+
+14
+00:00:51.190 --> 00:00:52.690
+to these images, right?
+
+15
+00:00:52.690 --> 00:00:57.160
+Because you might not be home or
+you might not be exactly
+
+16
+00:00:57.160 --> 00:01:02.480
+right by your camera with hard
+access to the Dragon Board 410C.
+
+17
+00:01:02.480 --> 00:01:05.660
+So, in order to do that, we want to
+show you how to build a server, and
+
+18
+00:01:05.660 --> 00:01:10.740
+we did this on Android a couple times,
+but we want to do it on Linux.
+
+19
+00:01:10.740 --> 00:01:11.860
+>> With the help of Python.
+
+20
+00:01:11.860 --> 00:01:13.080
+>> Yeah, with the help of Python.
+
+21
+00:01:13.080 --> 00:01:15.610
+So, Randy's going to kind of walk
+you through all this, right?
+
+22
+00:01:15.610 --> 00:01:16.120
+>> Yeah.
+Right.
+
+23
+00:01:16.120 --> 00:01:16.970
+>> Okay.
+>> Go ahead and
+
+24
+00:01:16.970 --> 00:01:18.820
+take a look at your
+Dragon Board right now.
+
+25
+00:01:18.820 --> 00:01:20.250
+>> Dive right into
+the Dragon Board screen.
+
+26
+00:01:20.250 --> 00:01:23.730
+>> So the first thing I want to
+mention is earlier we had the
+
+27
+00:01:23.730 --> 00:01:24.980
+>> Pictures all in desktop, but
+
+28
+00:01:24.980 --> 00:01:29.760
+I went ahead and moved everything into
+the Pictures folder right here, so
+
+29
+00:01:29.760 --> 00:01:34.020
+let's open up, we have our four
+images just like last time.
+
+30
+00:01:34.020 --> 00:01:36.560
+So, the first thing is pretty simple.
+
+31
+00:01:36.560 --> 00:01:41.610
+What you want to do is CD right into
+the picture directory, so it'll be here,
+
+32
+00:01:42.660 --> 00:01:49.520
+and if we do a quick LS, we can see all of
+our pictures right here, and then python.
+
+33
+00:01:49.520 --> 00:01:54.220
+Since we've already installed everything,
+all the python libraries and stuff,
+
+34
+00:01:54.220 --> 00:01:55.340
+we don't need to do anything extra.
+
+35
+00:01:55.340 --> 00:01:57.760
+We'll just type python -m.
+
+36
+00:01:57.760 --> 00:02:00.920
+The dash m makes it so
+
+37
+00:02:00.920 --> 00:02:05.700
+your website will only show the things
+in this current directory, so
+
+38
+00:02:05.700 --> 00:02:10.790
+it doesn't have to see every
+single file on your dragon board.
+
+39
+00:02:10.790 --> 00:02:14.970
+Python SimpleHTTPServer, and
+
+40
+00:02:16.920 --> 00:02:20.240
+the number following
+this would be a port that
+
+41
+00:02:21.890 --> 00:02:25.580
+will be connected to this
+to see all these files.
+
+42
+00:02:25.580 --> 00:02:27.740
+So just enter, and then there you go.
+
+43
+00:02:27.740 --> 00:02:28.610
+It has, it's serving.
+
+44
+00:02:28.610 --> 00:02:30.770
+So let's just check it out
+on the Dragon Board itself.
+
+45
+00:02:31.870 --> 00:02:32.970
+If we open the web browser.
+
+46
+00:02:36.820 --> 00:02:38.170
+Let's see here.
+
+47
+00:02:39.590 --> 00:02:40.340
+>> Did you click?
+
+48
+00:02:43.860 --> 00:02:44.400
+There you go.
+
+49
+00:02:44.400 --> 00:02:44.960
+>> Yeah.
+So
+
+50
+00:02:44.960 --> 00:02:49.810
+if we typed in, oop, 0.0.0.0, Colon 8080.
+
+51
+00:02:49.810 --> 00:02:51.680
+There we go.
+
+52
+00:02:51.680 --> 00:02:52.660
+>> How about that.
+
+53
+00:02:52.660 --> 00:02:56.380
+>> So we see that all these
+things are kicked in right now.
+
+54
+00:02:56.380 --> 00:02:58.560
+Just going to click on this.
+
+55
+00:02:58.560 --> 00:02:59.170
+There we go.
+
+56
+00:02:59.170 --> 00:02:59.910
+>> That was images.
+
+57
+00:02:59.910 --> 00:03:00.410
+>> That was images.
+>> Nice.
+
+58
+00:03:00.410 --> 00:03:01.631
+>> So we can see them on the Dragon Board.
+
+59
+00:03:03.867 --> 00:03:08.480
+>> So, he's accessing it from
+the Dragon Board, right?
+
+60
+00:03:08.480 --> 00:03:09.950
+>> Yeah.
+>> But as long as you're connected to
+
+61
+00:03:09.950 --> 00:03:10.800
+the network.
+
+62
+00:03:10.800 --> 00:03:11.400
+>> Yeah.
+
+63
+00:03:11.400 --> 00:03:12.440
+You should be able to that too.
+
+64
+00:03:12.440 --> 00:03:14.370
+>> Should be able to see it.
+
+65
+00:03:14.370 --> 00:03:19.040
+So then, yeah, real quick,
+to access it from say a computer, right,
+
+66
+00:03:19.040 --> 00:03:22.010
+or yeah, a computer, so remote.
+
+67
+00:03:22.010 --> 00:03:26.700
+I need to cancel this really quick,
+so Ctrl+C this, and
+
+68
+00:03:26.700 --> 00:03:33.296
+then we're going to need to do
+something called /sbin/ifconfig
+
+69
+00:03:33.296 --> 00:03:37.834
+,and right here we can
+see under your wlan0.
+
+70
+00:03:37.834 --> 00:03:43.520
+>> [LAUGH]
+>> We can see your IP right here.
+
+71
+00:03:43.520 --> 00:03:48.668
+So we're going to save that somewhere,
+so we'll just type it in.
+
+72
+00:03:48.668 --> 00:03:52.045
+172.20.10.7.
+
+73
+00:03:52.045 --> 00:03:53.480
+Cool, and now,
+
+74
+00:03:53.480 --> 00:03:58.670
+we run again the server one more time,
+and we'll take a look at it in my laptop.
+
+75
+00:04:00.140 --> 00:04:02.530
+>> So now, we're going to do is we're
+going to actually access the same thing we
+
+76
+00:04:02.530 --> 00:04:05.440
+just access, but, from a remote
+>> Yeah.
+
+77
+00:04:05.440 --> 00:04:06.510
+>> Location.
+
+78
+00:04:06.510 --> 00:04:09.360
+No longer hardwired into the-
+>> Right.
+
+79
+00:04:09.360 --> 00:04:12.176
+So we just type in 172.20
+>> Remotely.
+
+80
+00:04:12.176 --> 00:04:15.317
+.10.78080.
+
+81
+00:04:15.317 --> 00:04:17.760
+Let's see here.
+
+82
+00:04:17.760 --> 00:04:19.020
+Sweet, there it is.
+
+83
+00:04:19.020 --> 00:04:22.500
+>> All right, so the exact same directory
+that you saw on your Dragon Board.
+
+84
+00:04:22.500 --> 00:04:25.182
+Hey, look at that.
+Look at those good looking guys.
+
+85
+00:04:25.182 --> 00:04:30.719
+>> [LAUGH] Servicing disk crashed.
+
+86
+00:04:32.500 --> 00:04:33.980
+Did it crush on the Dragon board?
+
+87
+00:04:33.980 --> 00:04:35.000
+>> No. There you go. >> All right.
+
+88
+00:04:35.000 --> 00:04:36.000
+Cool.
+>> Sometimes it might lag.
+
+89
+00:04:36.000 --> 00:04:37.290
+Maybe there's a little hiccup.
+
+90
+00:04:37.290 --> 00:04:38.360
+That's pretty normal now.
+
+91
+00:04:38.360 --> 00:04:40.800
+>> I mean, there's a lot of interference.
+
+92
+00:04:40.800 --> 00:04:42.590
+>> Unfortunately.
+
+93
+00:04:42.590 --> 00:04:43.960
+>> There you go.
+All right.
+
+94
+00:04:43.960 --> 00:04:44.760
+Cool.
+>> Yeah.
+
+95
+00:04:44.760 --> 00:04:45.410
+>> That's good.
+
+96
+00:04:45.410 --> 00:04:46.390
+>> Yup.
+
+97
+00:04:46.390 --> 00:04:49.420
+So, that's a pretty cool very,
+extremely simple server.
+
+98
+00:04:49.420 --> 00:04:56.650
+Which just a quick Where
+do they say all your files?
+
+99
+00:04:56.650 --> 00:05:01.250
+So, a cool thing we can do is
+
+100
+00:05:01.250 --> 00:05:05.470
+make your camera continually take shots,
+and that's what exciting, right?
+
+101
+00:05:05.470 --> 00:05:06.320
+>> Yeah, so.
+>> because, I mean,
+
+102
+00:05:06.320 --> 00:05:09.260
+what if you want to monitor what's
+happening around your house.
+
+103
+00:05:09.260 --> 00:05:11.430
+You don't want to use up
+too much storage either,
+
+104
+00:05:11.430 --> 00:05:14.320
+you just want to kind of take a shot
+every three seconds, or something.
+
+105
+00:05:14.320 --> 00:05:16.520
+>> So, maybe
+>> Like this image right now, and
+
+106
+00:05:16.520 --> 00:05:21.110
+then a couple minutes later, it changes
+because the camera just took a new shot.
+
+107
+00:05:21.110 --> 00:05:23.890
+So I'll go a ahead and show you how to
+do that right now on the drawing board.
+
+108
+00:05:23.890 --> 00:05:26.250
+>> Alright, so let's switch over
+back to the Dragon Board screen.
+
+109
+00:05:26.250 --> 00:05:28.880
+See what's the, see how we can do this.
+
+110
+00:05:28.880 --> 00:05:29.990
+>> Yep.
+
+111
+00:05:29.990 --> 00:05:34.790
+Alright, we can go ahead and, oops.
+
+112
+00:05:34.790 --> 00:05:41.550
+We'll go ahead and cancel this server,
+and we'll go back.
+
+113
+00:05:41.550 --> 00:05:42.310
+No.
+We don't need to go back.
+
+114
+00:05:42.310 --> 00:05:46.760
+We'll be using something called cron tab.
+
+115
+00:05:46.760 --> 00:05:48.960
+It's a little tool I've
+shown a while back.
+
+116
+00:05:48.960 --> 00:05:56.020
+So to get it, you do, you'll just
+issue can sudo apt-get install cron.
+
+117
+00:05:56.020 --> 00:05:59.280
+Now, we already have this so
+we won't need to do it, but
+
+118
+00:05:59.280 --> 00:06:00.970
+you guys will need to
+install it really quick.
+
+119
+00:06:00.970 --> 00:06:05.260
+Give it a second to download,
+install, and after it finishes,
+
+120
+00:06:05.260 --> 00:06:09.630
+go ahead and type in crontab -e.
+
+121
+00:06:09.630 --> 00:06:13.190
+This is,
+we're editing your crontab script.
+
+122
+00:06:15.000 --> 00:06:18.680
+Now on your first launch,
+it'll ask you Illifrent Editor,
+
+123
+00:06:18.680 --> 00:06:21.260
+because cointab needs to be edited,
+somehow.
+
+124
+00:06:21.260 --> 00:06:23.680
+So, we're going to just use VMBasic,
+so we'll hit 1 right here.
+
+125
+00:06:24.940 --> 00:06:26.110
+Enter, cool.
+
+126
+00:06:26.110 --> 00:06:26.900
+Everything is right here.
+
+127
+00:06:26.900 --> 00:06:27.890
+Go all the way to the bottom.
+
+128
+00:06:29.510 --> 00:06:32.730
+We'll go ahead and put in our command.
+
+129
+00:06:32.730 --> 00:06:37.360
+So, what cointab basically does,
+is it will continuously repeat.
+
+130
+00:06:37.360 --> 00:06:39.510
+>> A command line command for
+
+131
+00:06:39.510 --> 00:06:43.810
+you, and the syntax is basically
+right here, as you can see.
+
+132
+00:06:43.810 --> 00:06:45.850
+Let me use a mouse right here.
+
+133
+00:06:45.850 --> 00:06:52.530
+It's minute, hour, day of the month,
+the month, and the day of the week.
+
+134
+00:06:52.530 --> 00:06:55.220
+Now, that might be a bit
+confusing at first, but
+
+135
+00:06:55.220 --> 00:07:00.520
+you guys can just Simply look up and check
+out the documentation they have on it.
+
+136
+00:07:00.520 --> 00:07:03.230
+So, for us, we're going to
+need the lowest time setting.
+
+137
+00:07:03.230 --> 00:07:04.562
+>> Maybe that'll be a quiz question.
+
+138
+00:07:04.562 --> 00:07:05.140
+>> Yeah.
+>> [LAUGH]
+
+139
+00:07:05.140 --> 00:07:05.740
+>> It will.
+
+140
+00:07:05.740 --> 00:07:06.960
+Make sure you look it up.
+
+141
+00:07:06.960 --> 00:07:10.180
+So we'll have the camera
+taking shots every minute.
+
+142
+00:07:10.180 --> 00:07:15.600
+So we do just a * * * * and
+* for every minute, every hours.
+
+143
+00:07:15.600 --> 00:07:19.540
+>> Wait, why don't we have it do it
+like every, can you not do seconds?
+
+144
+00:07:19.540 --> 00:07:22.710
+>> Yeah, actually on content we can't
+do anything less than seconds, but
+
+145
+00:07:22.710 --> 00:07:25.960
+I have a pretty neat workaround,
+I'll show you in a sec.
+
+146
+00:07:25.960 --> 00:07:27.930
+>> Do you do like minute divided 60.
+
+147
+00:07:27.930 --> 00:07:30.800
+[LAUGH]
+>> That means if you do a star divided by
+
+148
+00:07:30.800 --> 00:07:33.430
+60, it means every minute
+is divisible by 60, so.
+
+149
+00:07:33.430 --> 00:07:38.350
+>> Gotcha
+>> All right so then too Yeah since
+
+150
+00:07:38.350 --> 00:07:45.246
+Quintab is in a different directly
+you'll have to use the entire file path.
+
+151
+00:07:45.246 --> 00:07:52.877
+So we'll do /user/bin/python to
+run Python and then we have our
+
+152
+00:07:54.755 --> 00:07:59.944
+Our code in the CV Project,
+
+153
+00:07:59.944 --> 00:08:06.490
+so home/linaro/Desktop/CV\
+
+154
+00:08:06.490 --> 00:08:14.183
+Project/ I believe it was Basic CV App?
+
+155
+00:08:14.183 --> 00:08:20.155
+Double check that, like, yep.
+
+156
+00:08:20.155 --> 00:08:25.040
+Okay, BasicCVApp.py.
+
+157
+00:08:25.040 --> 00:08:28.550
+So that'll be a line telling it to
+execute this script every minute.
+
+158
+00:08:28.550 --> 00:08:33.050
+So work around is so if we can do every
+media again, but will do type in say 30 so
+
+159
+00:08:33.050 --> 00:08:37.600
+sleeps for 30 seconds, so
+that makes it run every 30 seconds
+
+160
+00:08:37.600 --> 00:08:38.440
+>> After the first minute.
+
+161
+00:08:38.440 --> 00:08:43.970
+Yeah so after a minute it will run this
+very top line it will run both of this,
+
+162
+00:08:43.970 --> 00:08:45.800
+but it will run this,
+and wait 30 seconds and
+
+163
+00:08:45.800 --> 00:08:50.680
+it will run the next time
+>> So this is the way to get yourself
+
+164
+00:08:50.680 --> 00:08:53.918
+to be able to take pictures say, every 15
+seconds or something if you wanted to.
+
+165
+00:08:53.918 --> 00:09:01.786
+Desktop, CV,
+Project/BasicCVApp.py Awesome,
+
+166
+00:09:01.786 --> 00:09:07.026
+so we just go ahead, save and quit,
+
+167
+00:09:07.026 --> 00:09:13.580
+and now it says installing new crontab.
+
+168
+00:09:13.580 --> 00:09:16.555
+So, every minute now we should
+be able to take new pictures.
+
+169
+00:09:20.047 --> 00:09:25.024
+>> Yeah, so this is just showing you that
+crontab is taking these pictures and
+
+170
+00:09:25.024 --> 00:09:28.658
+we still haven't access them
+through the server, but
+
+171
+00:09:28.658 --> 00:09:31.440
+we showed you that we can access them now.
+
+172
+00:09:32.960 --> 00:09:35.250
+There you go.
+See if we can get a picture.
+
+173
+00:09:35.250 --> 00:09:39.370
+So every minute, and then after that when
+it turns into 30 seconds, 15 seconds.
+
+174
+00:09:39.370 --> 00:09:40.350
+>> Every 30 seconds.
+
+175
+00:09:40.350 --> 00:09:43.060
+>> There you go.
+So now it's just doing this automatically.
+
+176
+00:09:43.060 --> 00:09:44.630
+>> So I'm not going to do anything, and
+
+177
+00:09:44.630 --> 00:09:48.470
+then we go ahead, and actually I'll go
+ahead and run the server again so let's.
+
+178
+00:09:48.470 --> 00:09:51.520
+>> Yeah, so now what we're going to do
+is we're going to run the server, and
+
+179
+00:09:51.520 --> 00:09:58.910
+we're going to access the pictures as they
+are taken, every x amount of seconds.
+
+180
+00:10:00.530 --> 00:10:03.490
+>> Let's look at you.
+
+181
+00:10:03.490 --> 00:10:04.030
+Look at it.
+
+182
+00:10:04.030 --> 00:10:05.970
+[LAUGH]
+>> [LAUGH] The camera taking a picture of
+
+183
+00:10:05.970 --> 00:10:06.673
+the camera.
+
+184
+00:10:06.673 --> 00:10:10.730
+>> [LAUGH]
+>> With the TV in the background.
+
+185
+00:10:10.730 --> 00:10:14.860
+>> So yeah, as you can see, so
+this is the browser with the IP,
+
+186
+00:10:14.860 --> 00:10:19.635
+and then you can obviously check it
+out on your laptop again as well.
+
+187
+00:10:19.635 --> 00:10:24.583
+[LAUGH] All you need to do
+is refresh the page, and
+
+188
+00:10:24.583 --> 00:10:28.314
+then it'll upload the new images.
+
+189
+00:10:30.717 --> 00:10:32.810
+Cool.
+>> That's it, yeah.
+
+190
+00:10:32.810 --> 00:10:33.500
+>> That's about it?
+
+191
+00:10:33.500 --> 00:10:34.480
+>> Yeah, that's about it.
+
+192
+00:10:34.480 --> 00:10:35.630
+>> Let's show them one more time though.
+
+193
+00:10:35.630 --> 00:10:40.440
+Let's access them through
+the browser on the Mac.
+
+194
+00:10:40.440 --> 00:10:42.370
+So we're going to switch over to the Mac,
+and
+
+195
+00:10:42.370 --> 00:10:44.380
+we just want to access these
+pictures one more time.
+
+196
+00:10:44.380 --> 00:10:46.580
+So it's going to still be running, right?
+
+197
+00:10:46.580 --> 00:10:47.080
+>> All right.
+
+198
+00:10:49.500 --> 00:10:50.580
+That's an old one.
+
+199
+00:10:50.580 --> 00:10:52.740
+So this is a problem
+you might have as well.
+
+200
+00:10:54.420 --> 00:10:59.020
+So, we have the webpage running
+on the Dragon Board, but
+
+201
+00:10:59.020 --> 00:11:00.190
+for some reason it's not working.
+
+202
+00:11:00.190 --> 00:11:03.730
+So, this is easily solved
+by going ahead and
+
+203
+00:11:03.730 --> 00:11:07.040
+launching another instance of your
+terminal in the Dragon Board, Well,
+
+204
+00:11:07.040 --> 00:11:10.870
+looks like we're switching
+back to the Dragon Board.
+
+205
+00:11:10.870 --> 00:11:13.120
+>> Yeah.
+And then we'll type in sudo ping, and
+
+206
+00:11:13.120 --> 00:11:18.240
+then you'll need to find out
+the IP address of your system,
+
+207
+00:11:18.240 --> 00:11:22.960
+so that could be through
+your wireless settings or
+
+208
+00:11:22.960 --> 00:11:25.770
+anything like that, but mine is 172.20.10.
+
+209
+00:11:25.770 --> 00:11:32.110
+Put 4 and we just give it a sec and
+this is initiating
+
+210
+00:11:32.110 --> 00:11:38.050
+issue in it by pinging your
+laptop to the drawing board.
+
+211
+00:11:38.050 --> 00:11:43.290
+Your laptop will be able to recognize
+that the Dragon Board's actual server.
+
+212
+00:11:43.290 --> 00:11:45.750
+So there we go.
+So it's pinging, which we cancel this.
+
+213
+00:11:45.750 --> 00:11:46.480
+>> So now we cancel it and
+
+214
+00:11:46.480 --> 00:11:47.500
+we switch back to the
+>> Yeah,
+
+215
+00:11:47.500 --> 00:11:48.760
+switch back to the
+>> To the Mac
+
+216
+00:11:48.760 --> 00:11:50.810
+>> To the computer.
+
+217
+00:11:50.810 --> 00:11:51.780
+Let's refresh this.
+
+218
+00:11:51.780 --> 00:11:53.290
+Everything is there.
+
+219
+00:11:55.260 --> 00:11:57.120
+So let's check it out.
+
+220
+00:11:57.120 --> 00:11:57.710
+It's you.
+
+221
+00:11:57.710 --> 00:11:58.490
+>> Man.
+>> [LAUGH] It's you.
+
+222
+00:11:58.490 --> 00:12:00.410
+You forgot it takes pictures
+every 30 seconds, right?
+
+223
+00:12:00.410 --> 00:12:01.150
+>> Yeah.
+
+224
+00:12:01.150 --> 00:12:03.390
+So there we are.
+>> All right, so it's just.
+
+225
+00:12:03.390 --> 00:12:03.970
+>> What's going on?
+
+226
+00:12:05.190 --> 00:12:06.660
+What happened?
+
+227
+00:12:06.660 --> 00:12:07.910
+>> So only that one got refreshed.
+
+228
+00:12:09.380 --> 00:12:11.310
+>> All right, so
+you can see we PNGed the server.
+
+229
+00:12:11.310 --> 00:12:13.450
+We were having a little glitch there.
+
+230
+00:12:13.450 --> 00:12:18.640
+Sometimes it stops recognizing it and
+thinks that it's unreachable, but.
+
+231
+00:12:18.640 --> 00:12:23.190
+So once you PNG it, and
+then you You kind of re-activate it, so
+
+232
+00:12:23.190 --> 00:12:27.080
+to say, and
+now we can go back to the Mac, and
+
+233
+00:12:27.080 --> 00:12:31.970
+what we're going to do is we're going
+to show that what we're doing is,
+
+234
+00:12:31.970 --> 00:12:38.250
+the whole plan is to take a picture
+every X amount of seconds,
+
+235
+00:12:38.250 --> 00:12:43.940
+and then have access to those pictures
+that are being taken on a remote computer.
+
+236
+00:12:43.940 --> 00:12:46.260
+So, let's go back to the remote
+computer and just show kind of,
+
+237
+00:12:46.260 --> 00:12:47.470
+like I think one was taken
+>> Yeah.
+
+238
+00:12:47.470 --> 00:12:49.670
+>> right beside a green light flash.
+
+239
+00:12:49.670 --> 00:12:50.610
+So, there you go.
+
+240
+00:12:50.610 --> 00:12:52.130
+While I was talking to you
+>> Yeah.
+
+241
+00:12:52.130 --> 00:12:55.950
+>> That was taken, and now, let's just
+show one more is going to be taken,
+
+242
+00:12:57.260 --> 00:13:00.220
+and let's just show a pop up on the.
+
+243
+00:13:00.220 --> 00:13:01.670
+I'll tell you when the green
+light flashes here.
+
+244
+00:13:01.670 --> 00:13:02.170
+>> Yeah.
+
+245
+00:13:02.170 --> 00:13:04.480
+So remember,
+we talked about facial recognition.
+
+246
+00:13:04.480 --> 00:13:06.857
+This is the facial recognition picture.
+
+247
+00:13:06.857 --> 00:13:11.070
+It isn't always, it depends on
+what kind of XML value you use.
+
+248
+00:13:11.070 --> 00:13:14.490
+So, ours is,
+we're using the parental phase one.
+
+249
+00:13:14.490 --> 00:13:17.560
+So as you see, we're missing
+bunch of No facial features so
+
+250
+00:13:17.560 --> 00:13:18.970
+it won't be able to see us.
+
+251
+00:13:18.970 --> 00:13:20.310
+>> So just took another picture right now,
+
+252
+00:13:20.310 --> 00:13:24.570
+so, give it a second it should send it
+over and we should be able to access.
+
+253
+00:13:24.570 --> 00:13:25.810
+So there you go, the picture changes.
+
+254
+00:13:25.810 --> 00:13:29.070
+>> There you go [LAUGH]
+>> Now I just want to, you know for fun,
+
+255
+00:13:29.070 --> 00:13:30.258
+show you one more here.
+
+256
+00:13:30.258 --> 00:13:34.480
+Let's see if we can get a little picture
+of you guys looking at the camera here.
+
+257
+00:13:34.480 --> 00:13:37.640
+So, one last One last picture.
+
+258
+00:13:37.640 --> 00:13:43.700
+Should show up, maybe, in like five
+more seconds, ten more seconds.
+
+259
+00:13:43.700 --> 00:13:45.310
+Let's see, it's every thirty seconds.
+
+260
+00:13:45.310 --> 00:13:46.960
+>> I wasn't counting.
+
+261
+00:13:46.960 --> 00:13:49.740
+>> Yeah, so, anyways, hopefully,
+
+262
+00:13:49.740 --> 00:13:53.820
+you all had fun building this thing, and
+as you can imagine, we're just going to
+
+263
+00:13:53.820 --> 00:13:57.040
+keep refreshing this because we can't see
+the green light, it's pointed at you guys.
+
+264
+00:13:57.040 --> 00:14:00.910
+Point it at the camera, but
+hopefully you had fun building this,
+
+265
+00:14:00.910 --> 00:14:04.780
+and I hope you understand how
+powerful all of this stuff is.
+
+266
+00:14:04.780 --> 00:14:08.330
+All the way from the characteristics
+that we were talking about,
+
+267
+00:14:10.170 --> 00:14:11.980
+the characteristics that we
+talked about in lesson 1,
+
+268
+00:14:11.980 --> 00:14:16.110
+when we were talking about supplementals,
+and concepts, and all of that stuff.
+
+269
+00:14:16.110 --> 00:14:21.740
+All the way until Getting to, there you
+go, all right, so the picture changed.
+
+270
+00:14:21.740 --> 00:14:26.410
+All the way to showing you actually
+executing these very powerful libraries
+
+271
+00:14:26.410 --> 00:14:31.660
+and using just a USB camera
+on your DragonBoard 410c
+
+272
+00:14:31.660 --> 00:14:38.570
+to create very cool applications,
+and I hope that you use this for.
+
+273
+00:14:38.570 --> 00:14:40.620
+For some really cool stuff.
+
+274
+00:14:40.620 --> 00:14:42.330
+Yeah, absolutely.
+
+275
+00:14:42.330 --> 00:14:43.744
+>> That about wraps it up right?
+
+276
+00:14:43.744 --> 00:14:47.970
+>> Yeah, that about wraps it up so
+we'll see you in the next video.
+
+277
+00:14:47.970 --> 00:14:53.160
+Please check out the discretions and
+what all of your fellow students and
+
+278
+00:14:53.160 --> 00:14:56.780
+classmates are doing for cool stuff.
+
+279
+00:14:56.780 --> 00:15:02.090
+I'm with multimedia projects like this,
+but see you in the next summary video.

@@ -1,0 +1,379 @@
+WEBVTT
+
+1
+00:00:05.356 --> 00:00:10.700
+By image processing,
+we normally mean, still images.
+
+2
+00:00:10.700 --> 00:00:15.740
+And the one that most people
+are familiar with is JPEG.
+
+3
+00:00:15.740 --> 00:00:19.737
+And it's developed by
+Joint Photographic Experts Group,
+
+4
+00:00:19.737 --> 00:00:26.830
+at ISO and IEC, those
+are the international standards for this.
+
+5
+00:00:26.830 --> 00:00:29.890
+There is a good review on the Wiki here.
+
+6
+00:00:29.890 --> 00:00:35.060
+I just want to map the JPEG algorithms
+
+7
+00:00:35.060 --> 00:00:41.290
+in the general scheme that we
+have been working on so far.
+
+8
+00:00:41.290 --> 00:00:43.760
+[COUGH] So, before we jump into JPEG,
+
+9
+00:00:43.760 --> 00:00:48.870
+I would like to talk briefly
+about the color representation.
+
+10
+00:00:48.870 --> 00:00:55.370
+Most camera sensors,
+they detect R, G, and B.
+
+11
+00:00:55.370 --> 00:00:56.470
+Red, green, and blue.
+
+12
+00:00:56.470 --> 00:00:58.270
+And we need eight bits per pixel.
+
+13
+00:00:59.378 --> 00:01:06.450
+Now, there are new sensors that have 10
+and 12 bits for very high dynamic range.
+
+14
+00:01:08.480 --> 00:01:10.980
+It's very advantageous to work
+
+15
+00:01:10.980 --> 00:01:15.700
+in a different representation
+than in the RGB space.
+
+16
+00:01:15.700 --> 00:01:18.640
+And this representation is called YUV.
+
+17
+00:01:20.300 --> 00:01:22.260
+Y stands for luminance.
+
+18
+00:01:22.260 --> 00:01:25.210
+U and V are the chrominans.
+
+19
+00:01:25.210 --> 00:01:30.630
+This is also called CR and CB, YCR, YCB.
+
+20
+00:01:32.190 --> 00:01:37.250
+You can go from RGB to YUV space,
+back and forth, and
+
+21
+00:01:37.250 --> 00:01:44.230
+the only loss is the rounding off errors.
+
+22
+00:01:44.230 --> 00:01:49.830
+The brightness is represented by Y,
+the luminance component.
+
+23
+00:01:51.540 --> 00:01:56.259
+It has two main advantages.
+
+24
+00:01:56.259 --> 00:02:02.340
+One is you get comparability
+with black and white TV.
+
+25
+00:02:02.340 --> 00:02:07.730
+We basically process Y,
+U and V separately, and
+
+26
+00:02:07.730 --> 00:02:11.750
+colored TVs,
+used the additional chrominance data.
+
+27
+00:02:11.750 --> 00:02:13.660
+Black and
+whites just used the dominance data.
+
+28
+00:02:14.870 --> 00:02:18.470
+The second advantage is, human perception.
+
+29
+00:02:18.470 --> 00:02:22.129
+We are very sensitive to brightness.
+
+30
+00:02:22.129 --> 00:02:28.216
+So this gives us an opportunity to
+work on the luma a lot more carefully,
+
+31
+00:02:28.216 --> 00:02:33.186
+and in fact the U and
+V can also be down-sampled with very,
+
+32
+00:02:33.186 --> 00:02:37.557
+very little loss in
+the visual representation..
+
+33
+00:02:37.557 --> 00:02:43.083
+The YUV444 is the unsampled domain,
+YUV422,
+
+34
+00:02:43.083 --> 00:02:48.133
+the U and V,
+are down-sampled by a factor of 2.
+
+35
+00:02:48.133 --> 00:02:53.078
+So, this gives us right off
+the bat about 30% data savings.
+
+36
+00:02:53.078 --> 00:02:58.762
+There is also YUV420 that gives
+
+37
+00:02:58.762 --> 00:03:03.861
+about 50% data reduction.
+
+38
+00:03:03.861 --> 00:03:10.156
+So, the picture on
+the left that you see has,
+
+39
+00:03:10.156 --> 00:03:17.295
+the color picture followed by the Y,
+C, U, and V.
+
+40
+00:03:17.295 --> 00:03:23.741
+And the Y component always has this
+prime that is gamma corrected luminance,
+
+41
+00:03:23.741 --> 00:03:28.501
+that's called a luma, but
+even if we dropped the prime,
+
+42
+00:03:28.501 --> 00:03:34.050
+it still is understood that it
+is the luma representation.
+
+43
+00:03:34.050 --> 00:03:37.538
+The table here gives some values and
+
+44
+00:03:37.538 --> 00:03:43.370
+correlation between the YUV values and
+the RGB values.
+
+45
+00:03:43.370 --> 00:03:48.976
+I put in a very nice Wiki link that
+explains this in very nice detail.
+
+46
+00:03:48.976 --> 00:03:53.010
+So in JPEG,
+
+47
+00:03:53.010 --> 00:03:56.830
+what we normally do is
+we take the image and
+
+48
+00:03:56.830 --> 00:04:02.550
+break it into eight by
+eight blocks of pixels, and
+
+49
+00:04:02.550 --> 00:04:08.030
+in each eight by eight block we
+do discrete cosine transport.
+
+50
+00:04:09.270 --> 00:04:13.680
+That's the time frequency decomposition
+that we've talked about here.
+
+51
+00:04:13.680 --> 00:04:18.654
+It's just a spatial to
+frequency decomposition.
+
+52
+00:04:18.654 --> 00:04:22.300
+So visually, the picture on the left is
+
+53
+00:04:22.300 --> 00:04:26.618
+what the DCT basis
+functions would look like.
+
+54
+00:04:26.618 --> 00:04:32.387
+The cell in the top-left corner is just
+the DCT component, and the cell on
+
+55
+00:04:32.387 --> 00:04:38.159
+the right-hand bottom component is
+the very high frequency component,
+
+56
+00:04:38.159 --> 00:04:45.190
+including the horizontal frequency
+terms and the vertical frequency terms.
+
+57
+00:04:45.190 --> 00:04:52.214
+And the picture on the right-hand side
+is once we do the DCT transform for
+
+58
+00:04:52.214 --> 00:04:58.914
+each of the blocks, we scan all
+the DCT terms to make a linear vector.
+
+59
+00:04:58.914 --> 00:05:05.379
+And when we do this, there's lots
+of terms that are typically zero,
+
+60
+00:05:05.379 --> 00:05:11.288
+so we look at only the components
+that have significant value,
+
+61
+00:05:11.288 --> 00:05:15.647
+and record only them,
+using Huffman coding.
+
+62
+00:05:15.647 --> 00:05:23.600
+So here is the block diagram of
+the complete JPEG encoder and decoder.
+
+63
+00:05:23.600 --> 00:05:28.570
+You can see the similarity between
+this and the generic block diagram
+
+64
+00:05:28.570 --> 00:05:34.080
+that we have been looking at before with
+a lot of the optional components removed.
+
+65
+00:05:34.080 --> 00:05:40.470
+After the entropy coding, as I said,
+there are lots of terms that
+
+66
+00:05:40.470 --> 00:05:45.710
+are usually zero for
+most of the natural images.
+
+67
+00:05:45.710 --> 00:05:49.906
+So we use what is called
+run-length encoding, RLE,
+
+68
+00:05:49.906 --> 00:05:55.210
+to represent a large sequence of zeros.
+
+69
+00:05:55.210 --> 00:05:59.440
+So, other than that, we have
+basically looked at all the blocks on
+
+70
+00:05:59.440 --> 00:06:04.330
+the encoder and the decoder.
+
+71
+00:06:04.330 --> 00:06:11.170
+Just like what we did with the Miracle 13
+DV demo, it is very instructive to see
+
+72
+00:06:11.170 --> 00:06:18.700
+the noise that we are introducing during
+the encoding and reconstruction process.
+
+73
+00:06:19.700 --> 00:06:25.790
+Depending on the encoder settings, we can
+get different reconstruction quality.
+
+74
+00:06:25.790 --> 00:06:30.380
+And in this particular one, the image
+on the right-hand side is the one,
+
+75
+00:06:30.380 --> 00:06:34.940
+the delta, the difference with
+a quality setting setting of about 50.
+
+76
+00:06:34.940 --> 00:06:41.683
+This, for most images, roughly gives
+about 15 to 1 compression ratio and
+
+77
+00:06:41.683 --> 00:06:46.362
+you can see the kind of
+distortion that we introduce.
+
+78
+00:06:46.362 --> 00:06:51.228
+But when you put it on top of
+the real image, most of the times,
+
+79
+00:06:51.228 --> 00:06:54.300
+they are not very objectionable.
+
+80
+00:06:54.300 --> 00:06:58.940
+This is the psycho-visual
+aspects of human perception.

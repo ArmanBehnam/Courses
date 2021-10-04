@@ -1,0 +1,740 @@
+WEBVTT
+
+1
+00:00:01.050 --> 00:00:06.828
+So I will start with a generic model for
+multimedia processing.
+
+2
+00:00:06.828 --> 00:00:08.890
+[COUGH] Before we get to that,
+
+3
+00:00:10.770 --> 00:00:16.510
+you would have already realized that
+communication of data is very expensive.
+
+4
+00:00:16.510 --> 00:00:21.110
+Either we use a dedicated circuit
+switch network or on the internet.
+
+5
+00:00:21.110 --> 00:00:27.890
+We saw in the previous course that
+wideband speech can take up to 224 kbps.
+
+6
+00:00:29.020 --> 00:00:34.170
+In the CD quality audio, the sampling
+rate and the bits per sample for
+
+7
+00:00:34.170 --> 00:00:38.500
+the increased dynamic range
+we have in CD quality audio,
+
+8
+00:00:38.500 --> 00:00:42.040
+we need about 1.4 megabits per second.
+
+9
+00:00:43.200 --> 00:00:49.120
+Usually the payload rates
+are higher when you increase the,
+
+10
+00:00:49.120 --> 00:00:54.490
+include the overhead, like [COUGH]
+forward data correction, markers for
+
+11
+00:00:54.490 --> 00:00:57.700
+random access in the media,
+so on and so forth.
+
+12
+00:00:57.700 --> 00:01:02.540
+So let's just look at the content
+itself in the payload just so
+
+13
+00:01:02.540 --> 00:01:05.450
+that we can keep things apples to apples.
+
+14
+00:01:05.450 --> 00:01:08.930
+For still images,
+there are three components.
+
+15
+00:01:08.930 --> 00:01:14.390
+Red, blue, and green streams that
+come from typical camera sensors.
+
+16
+00:01:14.390 --> 00:01:17.810
+Each of them requires
+eight bits per pixel.
+
+17
+00:01:17.810 --> 00:01:22.503
+So, if you have a 1024 by 1024 image,
+we need
+
+18
+00:01:22.503 --> 00:01:27.520
+3.14 megabytes for each image.
+
+19
+00:01:28.570 --> 00:01:33.275
+In the case of video, we have similar
+images coming from the sensor
+
+20
+00:01:33.275 --> 00:01:37.780
+attached at 24 frames per second,
+30 frames per second, or
+
+21
+00:01:37.780 --> 00:01:42.590
+even 60 frames per second in
+some of the new handsets.
+
+22
+00:01:42.590 --> 00:01:48.080
+So you can see that the data rates will
+very quickly reach gigabits per second.
+
+23
+00:01:49.620 --> 00:01:55.280
+So these rates are not really
+compatible with the Internet services.
+
+24
+00:01:55.280 --> 00:02:01.360
+And we need to compress the data either
+for transmissions, storage and retrieval.
+
+25
+00:02:01.360 --> 00:02:08.090
+So a generate block diagram that
+does this, [COUGH] is this.
+
+26
+00:02:08.090 --> 00:02:14.700
+It leverages some of the tools we already
+discussed in the previous course.
+
+27
+00:02:14.700 --> 00:02:17.770
+So for now, ignore the yellow blocks and
+
+28
+00:02:17.770 --> 00:02:22.360
+follow the signal from
+source to destination.
+
+29
+00:02:22.360 --> 00:02:27.230
+The time frequency decomposition
+block push the signals in a space
+
+30
+00:02:27.230 --> 00:02:31.440
+where we can take advantage of
+known properties of the signal.
+
+31
+00:02:32.460 --> 00:02:37.810
+The inverse time frequency decomposition
+typically results, if you do things
+
+32
+00:02:37.810 --> 00:02:43.000
+correctly, in perfect reconstruction
+of the original signal, if we do
+
+33
+00:02:43.000 --> 00:02:47.640
+not have any of the intermediate processes
+that are shown in the block diagram.
+
+34
+00:02:48.890 --> 00:02:54.370
+In the case of voice, this was LPC
+analysis where we took advantage
+
+35
+00:02:54.370 --> 00:03:00.540
+of the known properties of the source that
+is the human speech production system.
+
+36
+00:03:00.540 --> 00:03:03.619
+This is not so in the case of image and
+
+37
+00:03:03.619 --> 00:03:07.950
+video processing systems
+as we will see shortly.
+
+38
+00:03:07.950 --> 00:03:12.310
+So in the case of audio,
+we actually take advantage of
+
+39
+00:03:12.310 --> 00:03:17.350
+known properties of the sync,
+that is the human auditory system.
+
+40
+00:03:17.350 --> 00:03:22.040
+What exactly do we listen to
+when we are listening to a CD?
+
+41
+00:03:22.040 --> 00:03:28.600
+So the time frequency block itself does
+not give us any data rate reduction.
+
+42
+00:03:28.600 --> 00:03:35.270
+It is the quantization block that gives us
+more steady reduction in the data read.
+
+43
+00:03:35.270 --> 00:03:39.670
+The dotted feedback path
+in the receiver represents
+
+44
+00:03:39.670 --> 00:03:44.870
+techniques such as backward adaptation
+we saw in the waveform coding,
+
+45
+00:03:44.870 --> 00:03:48.680
+such as g.726 in course four.
+
+46
+00:03:50.150 --> 00:03:55.540
+We also saw in the previous course
+that not all patterns that are current
+
+47
+00:03:55.540 --> 00:04:00.310
+there in the text are the process
+data that comes with the Quantizer.
+
+48
+00:04:00.310 --> 00:04:04.910
+They all have uniform distributions
+just like the English text.
+
+49
+00:04:04.910 --> 00:04:09.960
+So Entropy Coding provides additional
+reductions in the data rate
+
+50
+00:04:09.960 --> 00:04:14.100
+by taking advantage of this
+non-uniform distributions.
+
+51
+00:04:15.340 --> 00:04:19.830
+The RTP block provides for
+real time transmission or
+
+52
+00:04:19.830 --> 00:04:22.830
+the internet for storage and retrieval.
+
+53
+00:04:22.830 --> 00:04:29.329
+There are similar protocols such
+as TCP/IP, HTML streaming, etc.
+
+54
+00:04:30.510 --> 00:04:36.070
+The feedback path provided by RTCP
+around the communication block,
+
+55
+00:04:36.070 --> 00:04:39.860
+it's very,
+very useful as we saw in the voice case.
+
+56
+00:04:39.860 --> 00:04:44.130
+This becomes even more important for
+the video streaming case,
+
+57
+00:04:44.130 --> 00:04:51.700
+because every short channeler has
+significant impact on the video quality.
+
+58
+00:04:51.700 --> 00:04:55.830
+Now, let's take a look at the yellow
+blocks on the sender side.
+
+59
+00:04:57.200 --> 00:05:01.350
+When there is temporal or spacial or
+
+60
+00:05:01.350 --> 00:05:06.600
+spectral redundancy in the signals,
+we can actually
+
+61
+00:05:06.600 --> 00:05:12.180
+predict what the next frame or
+the next sample is going to be.
+
+62
+00:05:12.180 --> 00:05:15.350
+And then we can subtract
+this from the incoming data
+
+63
+00:05:15.350 --> 00:05:17.480
+to reduce the bit rate further.
+
+64
+00:05:17.480 --> 00:05:25.160
+This is what we did in the CELP case, that
+is the Code-excited linear prediction.
+
+65
+00:05:25.160 --> 00:05:29.790
+And there are similar things that we
+can do for the other types of signals.
+
+66
+00:05:29.790 --> 00:05:37.732
+So just to recap, here is the spirit
+of processing we do at the end quarter.
+
+67
+00:05:37.732 --> 00:05:43.570
+The time-frequency decomposition puts
+the signal in a different space,
+
+68
+00:05:43.570 --> 00:05:49.000
+so that we can take advantage of
+the redundancy in the signals and
+
+69
+00:05:49.000 --> 00:05:51.510
+ignore the irrelevant parts.
+
+70
+00:05:51.510 --> 00:05:53.220
+These are the two operative words.
+
+71
+00:05:53.220 --> 00:05:59.290
+Redundancy and irrelevancy using
+our prior knowledge of the signals.
+
+72
+00:05:59.290 --> 00:06:02.720
+For redundancy, think of a pure tone.
+
+73
+00:06:02.720 --> 00:06:07.840
+It has all the samples in
+the time domain but you need only
+
+74
+00:06:07.840 --> 00:06:12.830
+two samples to represent it very
+compactly in the frequency domain.
+
+75
+00:06:12.830 --> 00:06:16.850
+Similarly if you have short
+transients in the time domain
+
+76
+00:06:16.850 --> 00:06:20.377
+you get to have very wide
+spectral distribution.
+
+77
+00:06:20.377 --> 00:06:26.264
+[COUGH] So you can have very compact
+representation in the time domain or
+
+78
+00:06:26.264 --> 00:06:32.254
+transient and very compact representation
+in the frequency domain for
+
+79
+00:06:32.254 --> 00:06:34.080
+tonal sounds [COUGH].
+
+80
+00:06:34.080 --> 00:06:39.540
+For the irrelevancy part,
+the more you know about the signals,
+
+81
+00:06:39.540 --> 00:06:45.350
+the source and the sync,
+the more irrelevant parts that we can
+
+82
+00:06:45.350 --> 00:06:50.030
+identify and take advantage of
+them as we do this process.
+
+83
+00:06:50.030 --> 00:06:55.100
+And as we discussed before,
+the quantization step implements
+
+84
+00:06:55.100 --> 00:06:58.990
+a lossy bitrate reduction scheme.
+
+85
+00:06:58.990 --> 00:07:03.768
+We simply assign fewer bits
+to the parts that are less
+
+86
+00:07:03.768 --> 00:07:07.470
+relevant based on what we already know.
+
+87
+00:07:07.470 --> 00:07:09.970
+Then comes the Entropy Coding.
+
+88
+00:07:09.970 --> 00:07:14.500
+There are many types of entropy
+coding systems that we can leverage
+
+89
+00:07:14.500 --> 00:07:16.280
+in the pipeline.
+
+90
+00:07:16.280 --> 00:07:22.460
+But, for now, I want you to realize,
+recognize, that the entropy coding
+
+91
+00:07:22.460 --> 00:07:28.045
+is a loss-less compression and
+quantization is a lossy compression.
+
+92
+00:07:28.045 --> 00:07:33.490
+[COUGH] So let's look at some
+of the options we have for
+
+93
+00:07:33.490 --> 00:07:36.560
+the time frequency decomposition.
+
+94
+00:07:36.560 --> 00:07:40.340
+We already saw LPC in the previous course.
+
+95
+00:07:40.340 --> 00:07:46.200
+Other than that, the short-time fourier
+transform is the basic work hours
+
+96
+00:07:46.200 --> 00:07:51.650
+because it doesn't make any assumption
+about the source or the sync.
+
+97
+00:07:51.650 --> 00:07:57.200
+The picture at the bottom left shows
+the tiling of components in the STFT.
+
+98
+00:07:58.210 --> 00:08:03.140
+The resolution in the time domain
+along the x axis [COUGH] and
+
+99
+00:08:03.140 --> 00:08:05.470
+the frequency domain on the y axis.
+
+100
+00:08:06.650 --> 00:08:10.800
+The magnitude in each of
+the ties in this representation
+
+101
+00:08:11.990 --> 00:08:17.409
+is the intensity which is same as this
+pictogram pictures we saw before.
+
+102
+00:08:19.180 --> 00:08:24.250
+The other common technique that is
+used a lot in the visual processing
+
+103
+00:08:24.250 --> 00:08:30.370
+is the Gabor Transform proposed
+by Dennis Gabor in the late 40s.
+
+104
+00:08:30.370 --> 00:08:35.780
+This is very much similar to
+STFT except it uses Gaussian
+
+105
+00:08:35.780 --> 00:08:41.930
+window in the time domain before taking
+FFT on each of the sharp segments.
+
+106
+00:08:41.930 --> 00:08:47.960
+We call that, if you use short
+windows in the STFT, we have very good
+
+107
+00:08:47.960 --> 00:08:53.300
+temporal resolution, but this results
+in a very poor spectral resolution.
+
+108
+00:08:53.300 --> 00:08:58.340
+On the other hand,
+if we want very fine spectral resolution,
+
+109
+00:08:58.340 --> 00:09:02.040
+we need to have very long
+time domain segments.
+
+110
+00:09:02.040 --> 00:09:05.855
+And this will end up at very
+poor temporal resolution.
+
+111
+00:09:05.855 --> 00:09:10.107
+This is actually related
+to Heisenberg's uncertainty
+
+112
+00:09:10.107 --> 00:09:13.550
+principle as applied to signal processing.
+
+113
+00:09:14.910 --> 00:09:20.220
+In the Gabor transform, because we use
+a Gaussian window in the time domain,
+
+114
+00:09:20.220 --> 00:09:23.710
+it is also a Gaussian window
+in the frequency domain.
+
+115
+00:09:23.710 --> 00:09:27.920
+So, we have the most
+compact representation
+
+116
+00:09:27.920 --> 00:09:31.788
+in this class of time-frequency
+representations.
+
+117
+00:09:32.930 --> 00:09:36.740
+The next one that you'll come
+across a lot in JPEG, JPEG 2000,
+
+118
+00:09:36.740 --> 00:09:41.670
+and other video processing
+is the Wavelet Transform.
+
+119
+00:09:41.670 --> 00:09:49.730
+It uses a different basis functions, as
+opposed to Short-time Fourier, or Gabor.
+
+120
+00:09:49.730 --> 00:09:54.650
+Instead of the exponential functions
+with constant window length anywhere in
+
+121
+00:09:54.650 --> 00:09:59.610
+the tiling, we use much shorter windows
+
+122
+00:09:59.610 --> 00:10:04.730
+in the time domain for higher frequencies.
+
+123
+00:10:04.730 --> 00:10:10.970
+This results in very fine spectral
+resolution in the lower frequencies and
+
+124
+00:10:10.970 --> 00:10:15.690
+very fine temporal resolution
+in the higher frequencies.
+
+125
+00:10:15.690 --> 00:10:20.630
+In terms of that disease very
+similar to the human perception
+
+126
+00:10:20.630 --> 00:10:23.760
+of audio and video signals.
+
+127
+00:10:23.760 --> 00:10:27.450
+I just realized that
+the figure on the bottom right
+
+128
+00:10:27.450 --> 00:10:32.740
+does not quite show the varying
+frequency resolution in the Y axis.
+
+129
+00:10:32.740 --> 00:10:35.430
+I should remember to
+re-draw this in future.
+
+130
+00:10:35.430 --> 00:10:40.170
+I do encourage you to take a look at the
+links here, at least even very briefly,
+
+131
+00:10:40.170 --> 00:10:44.690
+to see if these are the topics
+you want to explore in future,
+
+132
+00:10:44.690 --> 00:10:47.860
+because each one of them is very big.
+
+133
+00:10:47.860 --> 00:10:50.779
+It can be a complete course or
+a lesson by itself.
+
+134
+00:10:52.570 --> 00:10:55.840
+So, I put, for
+
+135
+00:10:55.840 --> 00:11:00.745
+the entropy coding, two links up here for
+you to do some further digging.
+
+136
+00:11:00.745 --> 00:11:05.310
+[COUGH]
+The Huffman coding,
+
+137
+00:11:05.310 --> 00:11:09.810
+we talked about it in course four
+with respect to the English text.
+
+138
+00:11:09.810 --> 00:11:13.960
+It is essentially
+a variable length code and
+
+139
+00:11:13.960 --> 00:11:17.680
+it is computationally extremely simple.
+
+140
+00:11:17.680 --> 00:11:22.398
+So it has been used in many,
+many practical implementations when
+
+141
+00:11:22.398 --> 00:11:28.190
+the processing in the mobile
+platforms was still at very premium.
+
+142
+00:11:28.190 --> 00:11:30.080
+So, simple example.
+
+143
+00:11:30.080 --> 00:11:36.450
+Let's say we have four symbols, a1 through
+a4, with probabilities of occurrence and
+
+144
+00:11:36.450 --> 00:11:43.800
+given some corpus,
+sorted in the descending order.
+
+145
+00:11:43.800 --> 00:11:48.250
+So, you need a large representative
+database to generate these
+
+146
+00:11:48.250 --> 00:11:52.940
+probabilities for all the symbols and real
+systems but let's just look at this form.
+
+147
+00:11:54.210 --> 00:11:57.681
+In the process of building
+the Huffman tables,
+
+148
+00:11:57.681 --> 00:12:03.514
+what happens is a1 gets assigned the
+shortest code word, it is 0 in this case.
+
+149
+00:12:03.514 --> 00:12:07.540
+[COUGH] The Huffman is also a prefix code.
+
+150
+00:12:07.540 --> 00:12:11.692
+This means that a2, a3 and
+all rest of the code works.
+
+151
+00:12:11.692 --> 00:12:15.656
+They shall not start with
+the code word for a1.
+
+152
+00:12:15.656 --> 00:12:18.290
+They all have unique prefix.
+
+153
+00:12:18.290 --> 00:12:23.790
+So as you go to lower probability symbols,
+we have to find longer code words
+
+154
+00:12:23.790 --> 00:12:28.330
+that do not have the earlier
+code words as the prefix.
