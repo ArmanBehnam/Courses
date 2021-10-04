@@ -1,0 +1,376 @@
+WEBVTT
+
+1
+00:00:04.056 --> 00:00:09.221
+We look at the codecs that are used,
+mostly, in the wireless networks.
+
+2
+00:00:09.221 --> 00:00:14.072
+These are all based on LPC principles.
+
+3
+00:00:14.072 --> 00:00:20.277
+In the 2G networks,
+GSM enhanced full rate EFR,
+
+4
+00:00:20.277 --> 00:00:25.005
+or the CDMA they typically had
+
+5
+00:00:25.005 --> 00:00:29.438
+12 to 13 kilobits per second and
+
+6
+00:00:29.438 --> 00:00:36.710
+the voice quality is fairly
+close to the quality.
+
+7
+00:00:36.710 --> 00:00:42.519
+As the computation
+capabilities of the DSP chips
+
+8
+00:00:42.519 --> 00:00:48.470
+used in cellphones became
+much more capable.
+
+9
+00:00:48.470 --> 00:00:52.640
+It became possible to use very,
+very complex algorithms
+
+10
+00:00:52.640 --> 00:00:57.320
+to reduce the bitrate further and
+also improve the quality.
+
+11
+00:00:58.550 --> 00:01:04.030
+The main concept is CELP,
+code excited linear prediction.
+
+12
+00:01:04.030 --> 00:01:10.600
+This is the work horse of AMR, EVRC and
+a whole bunch of other codecs.
+
+13
+00:01:10.600 --> 00:01:15.470
+As we saw before,
+we are dealing with the innovation, or
+
+14
+00:01:15.470 --> 00:01:19.838
+the ignorance,
+that is not captured by the model.
+
+15
+00:01:19.838 --> 00:01:21.801
+That's really the name of the game.
+
+16
+00:01:21.801 --> 00:01:25.303
+So what we missed in the model,
+
+17
+00:01:25.303 --> 00:01:29.614
+if we get to represent it much better,
+
+18
+00:01:29.614 --> 00:01:35.996
+we will have much better quality or
+much lower bitrate.
+
+19
+00:01:35.996 --> 00:01:42.000
+So, this block diagram is
+the CELP-based predictors.
+
+20
+00:01:42.000 --> 00:01:47.936
+The block 1/A(z) is the LPC Filter
+that we have seen before.
+
+21
+00:01:47.936 --> 00:01:52.456
+So, we use e(n), the difference
+
+22
+00:01:52.456 --> 00:01:56.827
+between the predictive signal and
+
+23
+00:01:56.827 --> 00:02:01.197
+the input signal to pass it through
+
+24
+00:02:01.197 --> 00:02:06.070
+a perceptually weighted filter.
+
+25
+00:02:06.070 --> 00:02:11.440
+So, this filter tries to put
+more quantization noise under,
+
+26
+00:02:11.440 --> 00:02:16.470
+let's say, the formants, as the ear
+will not perceive as much noise as it
+
+27
+00:02:16.470 --> 00:02:22.490
+gets masked by the strong
+formants in that spectral region.
+
+28
+00:02:22.490 --> 00:02:28.950
+So, as you can appreciate,
+the impulse trains at the pitch
+
+29
+00:02:28.950 --> 00:02:33.550
+locations and
+the random noise that we saw in the LPC
+
+30
+00:02:33.550 --> 00:02:38.980
+formulation is a very,
+very rigid structure.
+
+31
+00:02:38.980 --> 00:02:43.976
+So, to overcome that, we have a codebook
+
+32
+00:02:43.976 --> 00:02:49.340
+that has a very rich variety of
+
+33
+00:02:49.340 --> 00:02:54.690
+excitation signals that we can
+use to excite the vocal tract.
+
+34
+00:02:55.850 --> 00:02:59.950
+We also have this pitch prediction filter,
+
+35
+00:02:59.950 --> 00:03:03.490
+which is also called
+the logdone predictor,
+
+36
+00:03:03.490 --> 00:03:08.270
+represented by 1/P(z).
+
+37
+00:03:08.270 --> 00:03:13.415
+The main idea here is we
+have an embedded synthesis
+
+38
+00:03:13.415 --> 00:03:19.410
+structure similar to what
+happens at the receiver.
+
+39
+00:03:19.410 --> 00:03:23.630
+We saw an idea similar to
+this in the ADPCM where
+
+40
+00:03:23.630 --> 00:03:28.250
+the decoder is embedded in the encoder.
+
+41
+00:03:29.310 --> 00:03:33.240
+So, this is called analysis by synthesis.
+
+42
+00:03:33.240 --> 00:03:38.770
+We search the codebook using
+analysis by synthesis method to find
+
+43
+00:03:38.770 --> 00:03:44.640
+the best code word X(k)
+that minimizes the error.
+
+44
+00:03:44.640 --> 00:03:49.820
+So, there area lot of
+variations on this scheme and
+
+45
+00:03:49.820 --> 00:03:54.840
+that's why there are so
+many different versions of codecs for
+
+46
+00:03:54.840 --> 00:03:59.310
+different networks with different
+error resolution properties.
+
+47
+00:04:00.870 --> 00:04:07.750
+It is beyond the scope of this lecture
+to cover CELP codecs exhaustively,
+
+48
+00:04:07.750 --> 00:04:12.810
+but I really would like to
+give you some kind of a feel,
+
+49
+00:04:12.810 --> 00:04:16.280
+a flavor of how this actually works.
+
+50
+00:04:17.500 --> 00:04:21.210
+So, here is the same signal
+that we have seen before.
+
+51
+00:04:21.210 --> 00:04:26.467
+And I have this region of
+highlighted the cursor that
+
+52
+00:04:26.467 --> 00:04:31.256
+corresponds to the sound
+[SOUND] in the word ask.
+
+53
+00:04:31.256 --> 00:04:37.270
+So, the carrier sentence is, don't ask
+me to carry an oily rag like that.
+
+54
+00:04:37.270 --> 00:04:43.390
+So, you can see the formants that would be
+captured by the filter A(z) in the colored
+
+55
+00:04:45.160 --> 00:04:50.160
+lines that you see on the spectrogram.
+
+56
+00:04:50.160 --> 00:04:53.040
+So, here is the spectrum of
+
+57
+00:04:53.040 --> 00:04:56.730
+that particular segment that
+you were seeing before.
+
+58
+00:04:56.730 --> 00:04:59.713
+The peaks that you see
+here very frequently,
+
+59
+00:04:59.713 --> 00:05:02.850
+these are actually the pitch pulses.
+
+60
+00:05:02.850 --> 00:05:06.844
+These are what are captured
+by the pitch predictor or
+
+61
+00:05:06.844 --> 00:05:11.767
+long term predictor P(z) that
+we saw in the CELP plot diagram.
+
+62
+00:05:11.767 --> 00:05:17.693
+And the formulation is pretty much
+similar to what we use to compute for
+
+63
+00:05:17.693 --> 00:05:24.130
+the filter A(z), that's the linear filter,
+the short term predictor.
+
+64
+00:05:25.830 --> 00:05:30.971
+The remaining signal after
+what P(z) has captured is
+
+65
+00:05:30.971 --> 00:05:38.190
+the LPC smoothed spectrum that
+the A(z) would actually be capturing.
+
+66
+00:05:38.190 --> 00:05:41.880
+So, you can see the nice
+formant structure,
+
+67
+00:05:41.880 --> 00:05:47.380
+this is the slow varying
+filter that the LPC filters,
+
+68
+00:05:47.380 --> 00:05:52.610
+AI or A(z),
+capture once every 20 milliseconds.
+
+69
+00:05:56.340 --> 00:06:01.477
+So, if you look at the segment
+right next to the r
+
+70
+00:06:01.477 --> 00:06:09.194
+in the spectrogram in the word ask
+that corresponds to the sound [SOUND].
+
+71
+00:06:09.194 --> 00:06:15.280
+You do not see the periodicity of
+the pitch pulses, as you can see here.
+
+72
+00:06:15.280 --> 00:06:20.600
+There is also more energy in the high
+frequencies, compared to low frequencies.
+
+73
+00:06:20.600 --> 00:06:25.307
+This is the region between 0.43 and
+0.49 seconds in this
+
+74
+00:06:25.307 --> 00:06:30.111
+spectrogram waveform that you can
+see a couple of slides before.
+
+75
+00:06:30.111 --> 00:06:38.237
+So, the pitch predictor that we are using
+would fail to find any periodicity here.
+
+76
+00:06:38.237 --> 00:06:44.963
+So, we would classify this
+as an invoiced segment and
+
+77
+00:06:44.963 --> 00:06:51.094
+this is the LPC smoothed
+spectrum of this own as.
+
+78
+00:06:51.094 --> 00:06:57.129
+Even though the peaks are not formants,
+you can clearly see that the high order
+
+79
+00:06:57.129 --> 00:07:03.090
+filter that we are using does capture
+the smooth spectrum of the vocal track.

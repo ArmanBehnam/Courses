@@ -1,0 +1,365 @@
+WEBVTT
+
+1
+00:00:01.340 --> 00:00:06.120
+So Linear Predictive Coding,
+or LPC, is the model that
+
+2
+00:00:06.120 --> 00:00:11.410
+is most commonly used in speech coding.
+
+3
+00:00:11.410 --> 00:00:17.730
+So let's see how we can compute all of
+these parameters using the LPC model.
+
+4
+00:00:17.730 --> 00:00:23.179
+[COUGH] The current sample x(n) is related
+
+5
+00:00:23.179 --> 00:00:30.010
+to the past samples,
+x(n-i) and some input.
+
+6
+00:00:30.010 --> 00:00:35.550
+So the value we use,
+typically p past samples,
+
+7
+00:00:35.550 --> 00:00:38.166
+and p is the order of the LPC.
+
+8
+00:00:38.166 --> 00:00:43.670
+In practice we use 8 to 16 samples,
+
+9
+00:00:43.670 --> 00:00:50.920
+so the LPC order is anywhere
+from 8 to 16 [COUGH].
+
+10
+00:00:50.920 --> 00:00:56.728
+Given a speech segment
+of length n [COUGH],
+
+11
+00:00:56.728 --> 00:01:02.145
+we want to compute all these parameters.
+
+12
+00:01:02.145 --> 00:01:08.961
+a(i), G, the gain factor, and the input.
+
+13
+00:01:08.961 --> 00:01:13.744
+So typically we choose
+N as corresponding to
+
+14
+00:01:13.744 --> 00:01:17.761
+about 20 milliseconds of speech.
+
+15
+00:01:17.761 --> 00:01:22.344
+The duration over which
+it is reasonable to
+
+16
+00:01:22.344 --> 00:01:27.437
+assume that speech is
+short term stationary and
+
+17
+00:01:27.437 --> 00:01:31.019
+wide band signals, n is 320.
+
+18
+00:01:31.019 --> 00:01:35.602
+[COUGH] So
+the LPC filter itself is a(i) and
+
+19
+00:01:35.602 --> 00:01:40.957
+I think that's all I need
+to say about this slide.
+
+20
+00:01:40.957 --> 00:01:43.209
+Let's move to the next one.
+
+21
+00:01:43.209 --> 00:01:48.374
+So in the LPC formulation,
+since we assume that
+
+22
+00:01:48.374 --> 00:01:53.928
+we can fairly faithfully
+represent the past sample
+
+23
+00:01:53.928 --> 00:01:59.094
+using the current sample
+using P past samples,
+
+24
+00:01:59.094 --> 00:02:03.160
+there is an error that we make.
+
+25
+00:02:03.160 --> 00:02:11.460
+And this is really
+the ignorance of the model.
+
+26
+00:02:11.460 --> 00:02:20.070
+Whatever is not captured by this linear
+predictive model is captured by the error.
+
+27
+00:02:20.070 --> 00:02:25.270
+So the trick is to use
+arithmetic on the error to
+
+28
+00:02:25.270 --> 00:02:28.640
+help us compute the best
+possible set of filters.
+
+29
+00:02:28.640 --> 00:02:32.530
+The capital En is the total error
+
+30
+00:02:33.860 --> 00:02:39.510
+in the current 20 millisecond
+frame that we are operating on.
+
+31
+00:02:39.510 --> 00:02:46.500
+So if we differentiate En with respect to
+each of the filter parameters a(i) and
+
+32
+00:02:46.500 --> 00:02:51.660
+then set the result to 0,
+this will give us a set of linear
+
+33
+00:02:51.660 --> 00:02:57.059
+equations for p unknown a(i),
+a set of p equations.
+
+34
+00:02:58.750 --> 00:03:03.600
+And these set of equations
+we can solve using
+
+35
+00:03:03.600 --> 00:03:08.680
+linear algebra to get
+the filter parameters.
+
+36
+00:03:08.680 --> 00:03:14.834
+So in the equation that I show here,
+R(i) is the auto-correlation
+
+37
+00:03:14.834 --> 00:03:19.940
+function of the n samples
+that we are working with.
+
+38
+00:03:19.940 --> 00:03:25.020
+Essentially, if you take this signal
+accent and multiply with the shifted
+
+39
+00:03:25.020 --> 00:03:30.620
+version and add them all up,
+you get the auto-correlation function.
+
+40
+00:03:30.620 --> 00:03:35.432
+And R0 is the maximum
+value of the sequence of
+
+41
+00:03:35.432 --> 00:03:39.359
+the auto-correlation function and
+
+42
+00:03:39.359 --> 00:03:44.432
+it has the same periodicity
+as the signal x of m.
+
+43
+00:03:44.432 --> 00:03:48.957
+So if xm,
+the periodicity is the pitch period,
+
+44
+00:03:48.957 --> 00:03:54.741
+that is also reflected in
+the auto-correlation function.
+
+45
+00:03:54.741 --> 00:04:03.028
+So using R(i),
+we built this matrix R(|i- k|), and
+
+46
+00:04:03.028 --> 00:04:08.347
+this matrix has a special structure.
+
+47
+00:04:08.347 --> 00:04:13.484
+It's called Toeplitz matrix, in which each
+
+48
+00:04:13.484 --> 00:04:20.980
+descending diagonal has the same value and
+it is symmetric.
+
+49
+00:04:20.980 --> 00:04:25.868
+So they are efficient
+recursive solutions called
+
+50
+00:04:25.868 --> 00:04:30.523
+Levinson-Durbin equations to solve for a1,
+
+51
+00:04:30.523 --> 00:04:34.940
+then a2, then a3, so on, up to ap.
+
+52
+00:04:34.940 --> 00:04:38.212
+And that is how we get
+the filter parameters.
+
+53
+00:04:38.212 --> 00:04:44.230
+[COUGH] Then we are left with
+the gain of the filter G and
+
+54
+00:04:44.230 --> 00:04:47.790
+the actual input that we
+provide to the filter.
+
+55
+00:04:49.250 --> 00:04:54.590
+Since we have already computed
+the parameters a(i) and
+
+56
+00:04:54.590 --> 00:05:01.120
+R we can use the equation here
+to estimate the value of g.
+
+57
+00:05:02.320 --> 00:05:07.120
+If we first estimate the pitch
+period then the voiced,
+
+58
+00:05:07.120 --> 00:05:11.720
+unvoiced decision comes as a by-product.
+
+59
+00:05:11.720 --> 00:05:16.903
+So as I said before,
+the auto-correlation function R(i)
+
+60
+00:05:16.903 --> 00:05:23.180
+is itself periodic, with the same
+period as the input signal x.
+
+61
+00:05:23.180 --> 00:05:28.177
+So instead of operating on
+the auto-correlation function,
+
+62
+00:05:28.177 --> 00:05:33.268
+which tends to be quite expensive
+from the processing period,
+
+63
+00:05:33.268 --> 00:05:38.552
+we can actually low pass filter x of m and
+down-sample [COUGH] maybe
+
+64
+00:05:38.552 --> 00:05:43.375
+to one kilohertz and
+then find auto-correlation of this.
+
+65
+00:05:43.375 --> 00:05:47.717
+And then we can use the periodicity
+to estimate the pitch.
+
+66
+00:05:47.717 --> 00:05:53.846
+That is another really clever solution,
+in which it's called center clipping.
+
+67
+00:05:53.846 --> 00:05:59.583
+If the signal is peak-to-peak,
+point, peak-to-peak towards,
+
+68
+00:05:59.583 --> 00:06:06.330
+then everything in the middle, lets say
+half of the maximum, which I set it to 0.
+
+69
+00:06:06.330 --> 00:06:09.000
+So you just see some of the bumps.
+
+70
+00:06:09.000 --> 00:06:12.140
+And then we can compute
+the auto-correlation
+
+71
+00:06:12.140 --> 00:06:16.190
+on the center clip signal, and
+then look for the pitch barrier.
+
+72
+00:06:17.960 --> 00:06:23.465
+If we see a very strong peak
+compared to the initial value or
+
+73
+00:06:23.465 --> 00:06:26.190
+0, we have voiced signal.
+
+74
+00:06:26.190 --> 00:06:29.920
+Un is a chain of impulses.
+
+75
+00:06:29.920 --> 00:06:33.630
+Otherwise, we just use random signal.
+
+76
+00:06:33.630 --> 00:06:38.257
+And using these values, a(i),
+G, the pitch period, and
+
+77
+00:06:38.257 --> 00:06:43.820
+the voice unvoiced decision,
+the decoder can reconstruct the signal.

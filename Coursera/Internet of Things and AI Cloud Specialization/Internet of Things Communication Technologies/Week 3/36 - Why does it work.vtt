@@ -1,0 +1,320 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:02.410
+So, why does it work?
+
+2
+00:00:02.410 --> 00:00:07.176
+What makes you think that we can
+actually compress any given signal?
+
+3
+00:00:07.176 --> 00:00:11.110
+You see all real-world signals, or
+
+4
+00:00:11.110 --> 00:00:16.710
+at least the ones that we interested in,
+have some structure.
+
+5
+00:00:16.710 --> 00:00:20.690
+We are really not that much
+interested in random signals.
+
+6
+00:00:20.690 --> 00:00:25.670
+When there is structure in the signal,
+there is redundancy.
+
+7
+00:00:25.670 --> 00:00:28.780
+There is correlation or coherence, or
+
+8
+00:00:28.780 --> 00:00:34.890
+any other terms that people
+use in different contexts.
+
+9
+00:00:34.890 --> 00:00:41.750
+So, to drive this point home let us
+look at simple, plain English text.
+
+10
+00:00:41.750 --> 00:00:47.670
+About 50 years ago, in 1965,
+a psychologist named Mark Mayzner,
+
+11
+00:00:47.670 --> 00:00:49.500
+he was actually working at He
+
+12
+00:00:50.870 --> 00:00:56.130
+analyzed text corpus with
+about 20,000 English works.
+
+13
+00:00:56.130 --> 00:01:01.030
+Some books, newspaper articles,
+memos, so on and so forth and
+
+14
+00:01:01.030 --> 00:01:04.360
+we found some really interesting patterns.
+
+15
+00:01:04.360 --> 00:01:10.530
+And couple of years ago a researcher
+at Google by name Peter Norvig,
+
+16
+00:01:10.530 --> 00:01:15.780
+he repeated Mayzner's work, but
+
+17
+00:01:15.780 --> 00:01:21.470
+this time he used 743 billion
+votes in all of Google's books.
+
+18
+00:01:21.470 --> 00:01:29.260
+And in this graph you see the top
+ten words ranked by the frequency.
+
+19
+00:01:29.260 --> 00:01:36.280
+And we call them function words, because
+they carry very, very little information.
+
+20
+00:01:36.280 --> 00:01:41.470
+We discard them in speech recognition,
+in running text even if you discard
+
+21
+00:01:41.470 --> 00:01:47.970
+You really will not lose the meaning
+of the context of what's being written.
+
+22
+00:01:49.750 --> 00:01:54.680
+In this particular graph,
+you can see that the average length
+
+23
+00:01:56.010 --> 00:02:00.075
+of an English word is 4.79 characters.
+
+24
+00:02:00.075 --> 00:02:06.890
+80% of the 743 Billion words,
+were between two and seven letters.
+
+25
+00:02:08.210 --> 00:02:15.940
+And, here are the most frequent letters,
+sorted by unigram probability.
+
+26
+00:02:15.940 --> 00:02:22.479
+That is, how often each letter occurred
+in this billions of bytes of text.
+
+27
+00:02:23.630 --> 00:02:27.720
+The sequence A, T, E, T, A, O, I, N, S,
+
+28
+00:02:27.720 --> 00:02:32.840
+R, H, L, D, C,
+U was actually the same sequence.
+
+29
+00:02:32.840 --> 00:02:39.480
+What Messner found in his
+earlier research 50 years ago.
+
+30
+00:02:40.550 --> 00:02:44.820
+So, for those of you who play Scrabble,
+
+31
+00:02:44.820 --> 00:02:49.440
+the point that I'm making is very,
+very Easy to appreciate.
+
+32
+00:02:49.440 --> 00:02:55.880
+The tenet of coding information
+is to use shortest code words to
+
+33
+00:02:55.880 --> 00:03:01.690
+represent very frequent events
+because they carry less information.
+
+34
+00:03:01.690 --> 00:03:04.810
+Like, it is sunny in San Diego today
+
+35
+00:03:04.810 --> 00:03:09.870
+has very little information because
+it's always sunny here in San Diego.
+
+36
+00:03:09.870 --> 00:03:17.860
+And then we use long code words for
+events that contain lot more information.
+
+37
+00:03:17.860 --> 00:03:22.960
+The value of the letter E, T,
+A, O, I, N in Scrabble is one.
+
+38
+00:03:22.960 --> 00:03:26.520
+And the letters Q and Z have ten points.
+
+39
+00:03:27.630 --> 00:03:31.300
+So, that is essentially
+the name of the game.
+
+40
+00:03:31.300 --> 00:03:37.290
+In source compression, we look for
+patterns to exploit the redundancy.
+
+41
+00:03:37.290 --> 00:03:42.270
+Once we find that structure,
+we assign more value to
+
+42
+00:03:42.270 --> 00:03:47.480
+less frequent patterns and
+design to send across.
+
+43
+00:03:47.480 --> 00:03:52.830
+So, most of the game is actually
+finding that structure And
+
+44
+00:03:52.830 --> 00:03:56.490
+figuring out ways how to exploit it.
+
+45
+00:03:56.490 --> 00:04:01.250
+For speech signals, we look at
+taking advantage of the redundancy
+
+46
+00:04:01.250 --> 00:04:06.170
+in the amplitude domain,
+time and frequency.
+
+47
+00:04:06.170 --> 00:04:14.240
+Just to remind you, this is the
+spectrogram you saw before In Course 1.
+
+48
+00:04:14.240 --> 00:04:19.090
+The top pane here that you see,
+
+49
+00:04:20.300 --> 00:04:25.840
+it has time on the x axis,
+frequency on the y axis,
+
+50
+00:04:25.840 --> 00:04:30.560
+and the energy and
+the signal is coded in gray scale.
+
+51
+00:04:30.560 --> 00:04:34.740
+Contained below that Is
+the pitch period and
+
+52
+00:04:34.740 --> 00:04:43.520
+the one below that is the short
+term energy going over time.
+
+53
+00:04:43.520 --> 00:04:48.750
+So, we can take advantage of the
+redundancies in all these three domains.
+
+54
+00:04:48.750 --> 00:04:50.620
+Actually there is more.
+
+55
+00:04:50.620 --> 00:04:55.520
+By knowing about how we
+produce speech that is how
+
+56
+00:04:55.520 --> 00:05:00.670
+the vocal tract system works,
+we can much better than
+
+57
+00:05:00.670 --> 00:05:05.800
+just by looking at the waveform in time,
+frequency and amplitude.
+
+58
+00:05:05.800 --> 00:05:12.330
+And these are called recorders or
+because the make and
+
+59
+00:05:12.330 --> 00:05:18.080
+model of the speech production and
+we estimate its parameters.
+
+60
+00:05:18.080 --> 00:05:21.080
+Then we get to send only
+the parameters to the receiver and
+
+61
+00:05:21.080 --> 00:05:24.468
+the receiver knowing the same module,
+can do reconstruction.
+
+62
+00:05:26.151 --> 00:05:29.067
+We won't talk much about hearing here.
+
+63
+00:05:29.067 --> 00:05:32.480
+Of how to use the sink properties.
+
+64
+00:05:32.480 --> 00:05:37.210
+But their a class of coders,
+called perceptual coders.
+
+65
+00:05:37.210 --> 00:05:42.550
+These are the ones that are used in MP3,
+AEC, and
+
+66
+00:05:42.550 --> 00:05:49.400
+all music comparison schemes in your iPod,
+and RealNetworks, and so on, and so forth.
+
+67
+00:05:49.400 --> 00:05:54.000
+We will see them in the next course,
+multimedia technologies.

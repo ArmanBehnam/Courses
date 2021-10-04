@@ -1,0 +1,416 @@
+WEBVTT
+
+1
+00:00:03.630 --> 00:00:08.830
+Voice over IP brings some
+twists into the game for
+
+2
+00:00:08.830 --> 00:00:13.820
+the codecs that have been developed for
+circuit switched technologies.
+
+3
+00:00:13.820 --> 00:00:15.710
+So we will look at some of them now.
+
+4
+00:00:16.890 --> 00:00:19.760
+So if you have seen this
+protocol stack before.
+
+5
+00:00:19.760 --> 00:00:24.420
+The circuit switched stack is
+on the left hand side, and
+
+6
+00:00:24.420 --> 00:00:28.200
+the packet switched protocol
+stack is on the right hand side.
+
+7
+00:00:28.200 --> 00:00:29.921
+These are four calls.
+
+8
+00:00:29.921 --> 00:00:34.522
+The takeaway is,
+if you look at the right hand side,
+
+9
+00:00:34.522 --> 00:00:38.601
+there are a lot of overheads,
+RTP, UDP, IP,
+
+10
+00:00:38.601 --> 00:00:44.560
+in the transport, that are not
+there in the circuit switched.
+
+11
+00:00:44.560 --> 00:00:49.980
+So, this is a shared channel, we also have
+
+12
+00:00:49.980 --> 00:00:56.190
+a lot more latency and
+definitely jitter in the packet arrival.
+
+13
+00:00:56.190 --> 00:01:01.810
+So, the decoder in VoIP
+has to do a lot more than
+
+14
+00:01:01.810 --> 00:01:08.000
+just the codec payload and render as it
+was if it could in this circuit switch.
+
+15
+00:01:09.060 --> 00:01:14.730
+It has to maintain a buffer to smooth
+out the jitter the arrival and
+
+16
+00:01:14.730 --> 00:01:20.420
+if some packets are too late,
+just drop them on the floor and proceed.
+
+17
+00:01:20.420 --> 00:01:23.846
+And try to do some
+packet loss concealment,
+
+18
+00:01:23.846 --> 00:01:27.000
+just like you would do for lost packets.
+
+19
+00:01:27.000 --> 00:01:32.421
+And you can do this by looking at
+information in the neighboring packets,
+
+20
+00:01:32.421 --> 00:01:38.640
+and interpolating some of the LPC and gain
+and pitch parameters, so on and so forth.
+
+21
+00:01:40.320 --> 00:01:45.640
+So the standards body that specifies how
+
+22
+00:01:45.640 --> 00:01:51.650
+you actually go about implementing
+Voice over IP is IETF.
+
+23
+00:01:51.650 --> 00:01:57.920
+The request for
+comments RFC specify the RTP protocol,
+
+24
+00:01:57.920 --> 00:02:06.580
+RFC 3550 and the RFC 3550 one and
+other RFC's.
+
+25
+00:02:06.580 --> 00:02:12.388
+They specify how you use
+the payload from a circuit
+
+26
+00:02:12.388 --> 00:02:19.587
+switched codec inside an RTP
+payload scheme for voice calls.
+
+27
+00:02:19.587 --> 00:02:24.980
+So obviously,
+3551 already has payload definitions for
+
+28
+00:02:24.980 --> 00:02:30.892
+G.711 and other ITU codecs that
+you would see in Bitstreamer and
+
+29
+00:02:30.892 --> 00:02:33.910
+other VoIP implementations.
+
+30
+00:02:33.910 --> 00:02:39.739
+The AMR payload is 51, 4867 and
+
+31
+00:02:39.739 --> 00:02:46.760
+EVRC is We have it on
+here this thing here.
+
+32
+00:02:46.760 --> 00:02:49.590
+EVRC would be 5188.
+
+33
+00:02:49.590 --> 00:02:56.230
+So leaving this topic I want to bring yet
+
+34
+00:02:56.230 --> 00:03:01.600
+another really important
+concept to your notice.
+
+35
+00:03:01.600 --> 00:03:10.500
+The RFC 4995 and
+5225 they define a protocol called ROHC.
+
+36
+00:03:10.500 --> 00:03:12.776
+RObust Header Compression.
+
+37
+00:03:12.776 --> 00:03:20.270
+So we talked about the payload
+increase in the IP protocol, right.
+
+38
+00:03:20.270 --> 00:03:25.190
+So with the latest set of
+codecs you can essentially do 4
+
+39
+00:03:25.190 --> 00:03:30.330
+to 12 bits per sample
+in the pillar traffic.
+
+40
+00:03:30.330 --> 00:03:36.150
+And this gives you about 500
+to 1500 bytes per second.
+
+41
+00:03:38.170 --> 00:03:44.665
+If we transmit the data at 20 frames
+per second, which is very nominal,
+
+42
+00:03:44.665 --> 00:03:50.090
+you will have about 50 frames per second.
+
+43
+00:03:50.090 --> 00:03:55.090
+So for
+each frame we have about 10 to 30 bytes
+
+44
+00:03:55.090 --> 00:03:59.350
+of payload in which in each wired packet.
+
+45
+00:04:01.010 --> 00:04:07.880
+In IPv4 the overhead is
+40 bytes per packet.
+
+46
+00:04:07.880 --> 00:04:12.020
+That includes the 20 bytes for
+IP header, eight bytes for
+
+47
+00:04:12.020 --> 00:04:16.110
+the UDP header, and
+12 bytes for the RTP header.
+
+48
+00:04:16.110 --> 00:04:20.540
+So for a 20 byte payload it doesn't make
+
+49
+00:04:20.540 --> 00:04:25.102
+sense to use 40 bytes for
+the header itself.
+
+50
+00:04:25.102 --> 00:04:34.660
+[COUGH] And when you go to IP V6 the
+packet header size is actually 60 bytes,
+
+51
+00:04:34.660 --> 00:04:38.620
+so If you have a really
+efficient CODEC running it,
+
+52
+00:04:38.620 --> 00:04:43.950
+10 to 20 bytes per packet, per frame, for
+
+53
+00:04:43.950 --> 00:04:49.737
+the payload, you're spending 60 bytes for
+the overhead.
+
+54
+00:04:49.737 --> 00:04:57.000
+So the standards ideas
+came that ROHC protocol,
+
+55
+00:04:57.000 --> 00:05:03.420
+it compresses the headers in RTP or
+any real time traffic.
+
+56
+00:05:03.420 --> 00:05:10.460
+And it can actually get it down to one
+to three bytes for most VoIP codecs,
+
+57
+00:05:10.460 --> 00:05:15.280
+it depends on the packet losses,
+and condition, and round trip time.
+
+58
+00:05:16.280 --> 00:05:19.690
+Many things, but
+one to three is a good approximation.
+
+59
+00:05:21.000 --> 00:05:26.630
+This is very robust to IC channels even
+when you have packet losses the coder and
+
+60
+00:05:26.630 --> 00:05:30.400
+decoder are able to synchronize
+themselves very, very fast.
+
+61
+00:05:32.160 --> 00:05:38.360
+On the networks, on the links that
+have very long round trip delays And
+
+62
+00:05:38.360 --> 00:05:43.340
+an even out of sequence
+arrivals from the lower layers.
+
+63
+00:05:44.630 --> 00:05:48.080
+The rock is able to
+recover from all of that.
+
+64
+00:05:48.080 --> 00:05:55.480
+So it takes advantage of the header
+information in two different classes.
+
+65
+00:05:55.480 --> 00:05:58.770
+There is one class that
+is completely static.
+
+66
+00:05:58.770 --> 00:06:03.700
+And then the other one,
+like the time stamp, and your RTP
+
+67
+00:06:05.200 --> 00:06:11.450
+rendering the hardware information for
+entering the codec to the speaker.
+
+68
+00:06:11.450 --> 00:06:14.060
+That changes from packet to packer.
+
+69
+00:06:15.460 --> 00:06:18.190
+It keeps the science a smaller code.
+
+70
+00:06:18.190 --> 00:06:19.540
+For the timestamp.
+
+71
+00:06:21.080 --> 00:06:27.270
+The thing is a rock is applicable
+only at the link level and so
+
+72
+00:06:28.410 --> 00:06:33.110
+the benefits of the ip, so
+that you have the sender's information,
+
+73
+00:06:33.110 --> 00:06:37.160
+the receiver's information,
+all embedded inside the packet For
+
+74
+00:06:37.160 --> 00:06:42.240
+a true packet switched
+operation is still possible.
+
+75
+00:06:42.240 --> 00:06:46.580
+Then you have a link, in the olden
+days it used to be the dial-up,
+
+76
+00:06:46.580 --> 00:06:48.260
+now it's the cellular link.
+
+77
+00:06:48.260 --> 00:06:52.300
+So on a link base you can use Rock for
+header completion.
+
+78
+00:06:54.090 --> 00:06:58.890
+So that about brings me to
+the closure of this module.
+
+79
+00:07:00.290 --> 00:07:05.760
+There a lots of details
+that I really glossed over.
+
+80
+00:07:05.760 --> 00:07:12.630
+I will try to put together a list
+of references for you to look at.
+
+81
+00:07:12.630 --> 00:07:17.880
+But the first one here,
+the G.191 is a very useful tool.
+
+82
+00:07:17.880 --> 00:07:20.250
+I remember having to
+buy it a few years ago
+
+83
+00:07:22.070 --> 00:07:25.680
+I just notice that it can
+be downloaded for free.
+
+84
+00:07:25.680 --> 00:07:29.960
+It has many speech tools that
+I have used many, many times.
+
+85
+00:07:29.960 --> 00:07:32.480
+And also reference implementations for
+
+86
+00:07:32.480 --> 00:07:38.050
+some of the G Dart seven series that
+didn't even exist when I paid for it.
+
+87
+00:07:38.050 --> 00:07:39.180
+So, thank you.

@@ -1,0 +1,271 @@
+WEBVTT
+
+1
+00:00:00.930 --> 00:00:06.590
+So, a good example of playing the source
+compression game in the time domain
+
+2
+00:00:06.590 --> 00:00:07.770
+is ADPCM.
+
+3
+00:00:07.770 --> 00:00:12.610
+It stands for
+adaptive delta pulse code modulation.
+
+4
+00:00:14.140 --> 00:00:19.130
+So, when you consider
+sampling signals critically,
+
+5
+00:00:19.130 --> 00:00:24.370
+that is exactly at the Nyquist
+rate of Two times FSphere,
+
+6
+00:00:24.370 --> 00:00:27.130
+F, as is the maximum frequency component.
+
+7
+00:00:28.290 --> 00:00:33.770
+It is possible that when
+xn is at its positive peak,
+
+8
+00:00:33.770 --> 00:00:37.480
+and immediately the next
+sample is a negative p,
+
+9
+00:00:37.480 --> 00:00:41.580
+because you're sampling
+at the maximum frequency.
+
+10
+00:00:41.580 --> 00:00:46.980
+And, if you take the difference of these
+two neighboring samples, you will have
+
+11
+00:00:46.980 --> 00:00:53.070
+twice the value of peak to peak
+variation compared to Excel itself.
+
+12
+00:00:53.070 --> 00:00:56.300
+But we rarely use critical sampling.
+
+13
+00:00:56.300 --> 00:01:01.140
+There is always some over
+sampling because of the cost of
+
+14
+00:01:01.140 --> 00:01:03.259
+really sharp low pass filters.
+
+15
+00:01:04.450 --> 00:01:08.170
+And also, there is a lot of energy.
+
+16
+00:01:08.170 --> 00:01:14.340
+Perceptually important information
+in the low frequencies.
+
+17
+00:01:15.780 --> 00:01:19.230
+Given this, we can use delta PCL.
+
+18
+00:01:21.700 --> 00:01:25.990
+That is the just look at the difference
+between neighboring samples.
+
+19
+00:01:25.990 --> 00:01:31.220
+And we code them using instead
+of just on signal exit.
+
+20
+00:01:32.690 --> 00:01:36.820
+An extension of the DPCM,
+that works really well in practice,
+
+21
+00:01:36.820 --> 00:01:41.600
+is to actually adapt the quantization
+levels based on the signal.
+
+22
+00:01:42.700 --> 00:01:46.003
+This is what is shown in the figure here.
+
+23
+00:01:46.003 --> 00:01:49.110
+It is used in like
+
+24
+00:01:50.480 --> 00:01:54.637
+which is part of etc.
+
+25
+00:01:54.637 --> 00:01:59.520
+The adaptation scheme
+here is quite clever.
+
+26
+00:01:59.520 --> 00:02:02.330
+So, I want you to follow
+me very closely here.
+
+27
+00:02:03.970 --> 00:02:11.370
+Looking at the encoder blocks clockwise,
+first we predict the current sample.
+
+28
+00:02:12.740 --> 00:02:18.000
+Instead of using the real pass sample,
+we predict
+
+29
+00:02:18.000 --> 00:02:23.050
+x of n minus 1 using
+signals before x of n.
+
+30
+00:02:24.260 --> 00:02:30.400
+To predict the signal and
+compute the error, that uses the error EN.
+
+31
+00:02:30.400 --> 00:02:35.500
+So, we quantize EN using
+an adaptive quantizer than actually
+
+32
+00:02:35.500 --> 00:02:41.340
+uses the range of EN to control
+it's rate of adaptation.
+
+33
+00:02:41.340 --> 00:02:44.130
+This is actually what we
+sent to the receiver.
+
+34
+00:02:44.130 --> 00:02:52.630
+Now, we use the decoder structure inside
+the encoder to predict the next sample.
+
+35
+00:02:52.630 --> 00:02:56.700
+So, we do not use the actual error for
+this but
+
+36
+00:02:56.700 --> 00:03:01.560
+we a quantized version e hat n.
+
+37
+00:03:01.560 --> 00:03:07.150
+So, the adaptive predictor
+has A buffer inside,
+
+38
+00:03:07.150 --> 00:03:12.830
+which has actually stored the samples
+that we have previously predicted.
+
+39
+00:03:12.830 --> 00:03:16.320
+So, so far,
+everything in this feedback loop
+
+40
+00:03:16.320 --> 00:03:20.110
+is actually what is
+available at the receiver.
+
+41
+00:03:20.110 --> 00:03:26.294
+So, using this information,
+we predict the next sample for
+
+42
+00:03:26.294 --> 00:03:30.070
+computing the next error to e(n).
+
+43
+00:03:30.070 --> 00:03:34.450
+The nice thing here is that
+the decoder shown below
+
+44
+00:03:36.450 --> 00:03:43.300
+does exactly the same thing at the
+receiver and as part of the encoder here.
+
+45
+00:03:43.300 --> 00:03:46.130
+The encoder has an embedded decoder.
+
+46
+00:03:46.130 --> 00:03:51.520
+This structure gives us the ability
+to do backward adaptation.
+
+47
+00:03:51.520 --> 00:03:57.270
+There is no need to send any site
+information to the receiver and
+
+48
+00:03:57.270 --> 00:04:02.830
+this can operate at 16
+kilobits per sample.
+
+49
+00:04:02.830 --> 00:04:08.770
+24, 32 and 40 kilobits per second,
+
+50
+00:04:08.770 --> 00:04:11.280
+compared to 8 bits per sample.
+
+51
+00:04:11.280 --> 00:04:16.421
+So, we are saving significant
+channel bandwidth.
+
+52
+00:04:16.421 --> 00:04:20.340
+The only issue about this
+that we will see later is
+
+53
+00:04:21.820 --> 00:04:25.430
+because it is based on prediction.
+
+54
+00:04:25.430 --> 00:04:29.880
+If there is an error in the channel
+there is no synchronization
+
+55
+00:04:29.880 --> 00:04:34.420
+between the decoder and
+the encoder that has the decoder.
+
+56
+00:04:34.420 --> 00:04:38.620
+Because the decoder here does not
+know what information was lost.
+
+57
+00:04:38.620 --> 00:04:44.420
+So, it's little bit fragile to channel
+errors but still it's a great coder.
