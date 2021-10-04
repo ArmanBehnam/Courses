@@ -1,0 +1,969 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.357
+We're going to cover RDS services next.
+
+2
+00:00:03.357 --> 00:00:05.730
+It stands for Relational Data Services at Amazon.
+
+3
+00:00:05.730 --> 00:00:09.420
+All it is, is hosted MySQL server.
+
+4
+00:00:09.420 --> 00:00:11.910
+You can do a database in two ways,
+
+5
+00:00:11.910 --> 00:00:14.376
+you can spin off a virtual machine,
+
+6
+00:00:14.376 --> 00:00:16.860
+run your own database in the virtual machine by installing
+
+7
+00:00:16.860 --> 00:00:19.650
+MySQL or cloud whatever you want.
+
+8
+00:00:19.650 --> 00:00:22.290
+Or Amazon has made it easier for you.
+
+9
+00:00:22.290 --> 00:00:24.250
+They host database as a service,
+
+10
+00:00:24.250 --> 00:00:25.990
+you don't have to worry about that.
+
+11
+00:00:25.990 --> 00:00:30.750
+You use their service and run it and it's all patched up,
+
+12
+00:00:30.750 --> 00:00:33.915
+everything, but only thing is you got to pay a fee for it.
+
+13
+00:00:33.915 --> 00:00:35.635
+So we'll start off with RDS.
+
+14
+00:00:35.635 --> 00:00:36.938
+How to set up an RDS instance.
+
+15
+00:00:36.938 --> 00:00:39.190
+Sergio will cover that now.
+
+16
+00:00:39.190 --> 00:00:42.555
+If you go and log in onto your AWS console so you can follow along.
+
+17
+00:00:42.555 --> 00:00:44.205
+On this tab we go to Services.
+
+18
+00:00:44.205 --> 00:00:48.810
+And we want to go to Database RDS, click on that.
+
+19
+00:00:48.810 --> 00:00:51.355
+And from here you're going to want to click Get Started,
+
+20
+00:00:51.355 --> 00:00:53.750
+assuming you haven't created anything before.
+
+21
+00:00:53.750 --> 00:00:57.985
+And here's where you get to choose what type of database you want to use.
+
+22
+00:00:57.985 --> 00:00:59.660
+For our purpose we choose to use MySQL,
+
+23
+00:00:59.660 --> 00:01:02.543
+you could use anything like Postgre or Oracle,
+
+24
+00:01:02.543 --> 00:01:07.185
+but we're going to go and use MySQL. Select right there.
+
+25
+00:01:07.185 --> 00:01:08.955
+And if you want to use the free tier,
+
+26
+00:01:08.955 --> 00:01:11.885
+you're going to have to use this Dev/Test.
+
+27
+00:01:11.885 --> 00:01:13.550
+You don't want to use production because
+
+28
+00:01:13.550 --> 00:01:16.034
+that's something you're going to have to pay for,
+
+29
+00:01:16.034 --> 00:01:17.460
+so you do this Dev/Test.
+
+30
+00:01:17.460 --> 00:01:19.340
+Then it says, "This instance is intended for
+
+31
+00:01:19.340 --> 00:01:22.400
+outside use of production or under RDS free tier usage."
+
+32
+00:01:22.400 --> 00:01:27.036
+This is mostly just for testing and making sure you understand how RDS works.
+
+33
+00:01:27.036 --> 00:01:28.305
+Go ahead and click Next Step.
+
+34
+00:01:28.305 --> 00:01:31.040
+And we're just going to follow along through right here.
+
+35
+00:01:31.040 --> 00:01:34.460
+If you look at all these DB Instance Class.
+
+36
+00:01:34.460 --> 00:01:36.950
+For free tier you probably want to use micro,
+
+37
+00:01:36.950 --> 00:01:42.200
+assuming you're not going to have that big of a database anyways.
+
+38
+00:01:42.200 --> 00:01:49.020
+You can do Multi-AZ Deployment but we don't have to do that for our purposes.
+
+39
+00:01:49.020 --> 00:01:52.410
+And these default configurations are good for us.
+
+40
+00:01:52.410 --> 00:01:54.076
+Now a database identifier,
+
+41
+00:01:54.076 --> 00:01:58.080
+this is just going to be what you're going to refer to your database on AWS.
+
+42
+00:01:58.080 --> 00:01:59.710
+This isn't what your database is called,
+
+43
+00:01:59.710 --> 00:02:02.965
+it's just how you're going to refer to it through the AWS console.
+
+44
+00:02:02.965 --> 00:02:06.970
+So we'll call it myapplicationdb.
+
+45
+00:02:06.970 --> 00:02:08.655
+And you want Master Username.
+
+46
+00:02:08.655 --> 00:02:10.765
+Typically, on MySQL creates
+
+47
+00:02:10.765 --> 00:02:13.295
+the username is root, so we're going to go ahead and use root.
+
+48
+00:02:13.295 --> 00:02:21.430
+And you type in your password.
+
+49
+00:02:21.430 --> 00:02:25.850
+And you go ahead and click Next Step.
+
+50
+00:02:25.850 --> 00:02:28.400
+From here, we can follow along through here.
+
+51
+00:02:28.400 --> 00:02:31.186
+It's going to use the default VPC you should already have one set up,
+
+52
+00:02:31.186 --> 00:02:33.535
+Amazon does this for you, you don't have to worry about this.
+
+53
+00:02:33.535 --> 00:02:35.840
+Availability zone if you prefer to
+
+54
+00:02:35.840 --> 00:02:38.270
+use it somewhere close to where you are you can go and do that,
+
+55
+00:02:38.270 --> 00:02:40.215
+but we're going to choose No Preference.
+
+56
+00:02:40.215 --> 00:02:43.390
+And create New Security Group is the option you're going to want to
+
+57
+00:02:43.390 --> 00:02:46.545
+choose so that Amazon takes care of all of this for you.
+
+58
+00:02:46.545 --> 00:02:51.475
+If you use your own security group you might have issues where you can read the database,
+
+59
+00:02:51.475 --> 00:02:54.655
+but you can't change the database remotely on your own machine,
+
+60
+00:02:54.655 --> 00:02:58.635
+because you don't have the correct connection request types.
+
+61
+00:02:58.635 --> 00:03:01.315
+So Database Name, if you leave this empty,
+
+62
+00:03:01.315 --> 00:03:07.990
+it will just not create an actual database in your MySQL Service.
+
+63
+00:03:07.990 --> 00:03:12.490
+You can just leave this empty but I'm going to go ahead and create one called mydatabase,
+
+64
+00:03:12.490 --> 00:03:17.185
+just so that it will be ready for when we're ready to use it.
+
+65
+00:03:17.185 --> 00:03:23.435
+Database port default 3306 is perfect.
+
+66
+00:03:23.435 --> 00:03:29.955
+And we're going to go and put No for this Enable IAM DB Authentication,
+
+67
+00:03:29.955 --> 00:03:33.975
+so that we don't have to do anything beyond just connecting to the database,
+
+68
+00:03:33.975 --> 00:03:36.432
+and providing the password that we created,
+
+69
+00:03:36.432 --> 00:03:38.130
+the root and our password.
+
+70
+00:03:38.130 --> 00:03:42.420
+That's all we're going to need to act as if this is just the regular database.
+
+71
+00:03:42.420 --> 00:03:47.355
+What's cool about RDS is that you can backup as often as you'd like.
+
+72
+00:03:47.355 --> 00:03:52.110
+You can go from zero days to 35 days.
+
+73
+00:03:52.110 --> 00:03:53.505
+Every zero days, every 35 days.
+
+74
+00:03:53.505 --> 00:03:55.340
+Zero meaning it doesn't backup at all.
+
+75
+00:03:55.340 --> 00:03:57.000
+You could do it daily.
+
+76
+00:03:57.000 --> 00:03:58.240
+The default right here is set to weekly,
+
+77
+00:03:58.240 --> 00:03:59.415
+so we're going to go ahead and do that.
+
+78
+00:03:59.415 --> 00:04:02.850
+And you can also specify when you'd like your database to be backed up.
+
+79
+00:04:02.850 --> 00:04:04.487
+If you have no preference,
+
+80
+00:04:04.487 --> 00:04:06.190
+it would do it probably around midnight.
+
+81
+00:04:06.190 --> 00:04:08.040
+Or you could select your Window you say,
+
+82
+00:04:08.040 --> 00:04:10.920
+you want to do it at 5:00 pm every seven days.
+
+83
+00:04:10.920 --> 00:04:14.280
+So we're going to go and put No Preference.
+
+84
+00:04:14.280 --> 00:04:18.160
+And that will be it.
+
+85
+00:04:18.160 --> 00:04:22.430
+We can just go ahead and click Launch DB Instance.
+
+86
+00:04:24.330 --> 00:04:27.928
+Okay. It's being created.
+
+87
+00:04:27.928 --> 00:04:30.550
+So we're going to click view database Instance,
+
+88
+00:04:30.550 --> 00:04:32.850
+and you'll see right here it's creating.
+
+89
+00:04:32.850 --> 00:04:34.018
+Now this process takes awhile,
+
+90
+00:04:34.018 --> 00:04:36.590
+so it can take up to five to 10 minutes.
+
+91
+00:04:36.590 --> 00:04:40.160
+When it's done, you're going to want to be able to click here.
+
+92
+00:04:40.160 --> 00:04:43.555
+And on these tabs right here,
+
+93
+00:04:43.555 --> 00:04:45.175
+you want to click on the third one,
+
+94
+00:04:45.175 --> 00:04:48.580
+right here the Endpoint is going to be where you connect to,
+
+95
+00:04:48.580 --> 00:04:51.355
+but it's not available yet because it's currently being created.
+
+96
+00:04:51.355 --> 00:04:53.770
+And this takes about five minutes so we're going to go ahead and pause
+
+97
+00:04:53.770 --> 00:04:56.685
+real quick and we'll get back to you as soon as it's ready.
+
+98
+00:04:56.685 --> 00:04:58.325
+Okay. So at this point,
+
+99
+00:04:58.325 --> 00:05:00.545
+our RDS instance has been created.
+
+100
+00:05:00.545 --> 00:05:03.865
+And if you go ahead and look on your instance,
+
+101
+00:05:03.865 --> 00:05:05.905
+at this point hopefully yours is also created.
+
+102
+00:05:05.905 --> 00:05:10.465
+And you can see right here as Endpoint.
+
+103
+00:05:10.465 --> 00:05:14.910
+That's the host that you're going to use to connect to your MySQL instance.
+
+104
+00:05:14.910 --> 00:05:18.600
+So go ahead and copy this and to log on,
+
+105
+00:05:18.600 --> 00:05:23.120
+just go on to any server or any computer that has MySQL installed.
+
+106
+00:05:23.120 --> 00:05:27.365
+Type in mysql, you're going to specify the host.
+
+107
+00:05:27.365 --> 00:05:33.715
+And as you can see right now its attached port 3306 right here.
+
+108
+00:05:33.715 --> 00:05:37.293
+I would remove that and declare it explicitly in MySQL,
+
+109
+00:05:37.293 --> 00:05:39.385
+so remove that so all you have is the link.
+
+110
+00:05:39.385 --> 00:05:42.460
+And then do dash P for port
+
+111
+00:05:42.460 --> 00:05:49.680
+3306 and then you can log in using regular user root and password.
+
+112
+00:05:49.680 --> 00:05:52.750
+Go ahead and type in your password.
+
+113
+00:05:52.750 --> 00:05:55.175
+And let it load.
+
+114
+00:05:55.175 --> 00:05:56.665
+There you go.
+
+115
+00:05:56.665 --> 00:06:01.720
+You're connected to the MySQL instance that's on your RDS.
+
+116
+00:06:01.720 --> 00:06:05.155
+And to show that we can say, show databases.
+
+117
+00:06:05.155 --> 00:06:08.615
+You can see that this mydatabase which we just created,
+
+118
+00:06:08.615 --> 00:06:12.415
+that's what I called is already installed and it's ready to go.
+
+119
+00:06:12.415 --> 00:06:15.730
+So that wraps up using RDS.
+
+120
+00:06:15.730 --> 00:06:20.680
+At this point for PHP if you wanted to write explicit code,
+
+121
+00:06:20.680 --> 00:06:26.260
+you can use something like MySQLi which is a PHP extension for MySQL.
+
+122
+00:06:26.260 --> 00:06:28.100
+And connect to it like that.
+
+123
+00:06:28.100 --> 00:06:29.920
+You can also use Workbench to connect to this instance, yes?
+
+124
+00:06:29.920 --> 00:06:31.340
+Workbench will also work. Yes.
+
+125
+00:06:31.340 --> 00:06:35.530
+If you want a visual GUI to connect to this database you can use Workbench,
+
+126
+00:06:35.530 --> 00:06:40.450
+just point to this URL which he showed to have a GUI interface,
+
+127
+00:06:40.450 --> 00:06:42.474
+if you don't like command line,
+
+128
+00:06:42.474 --> 00:06:44.680
+that's one way to go.
+
+129
+00:06:44.680 --> 00:06:48.430
+So that covers RDS. We want to switch to S3 next.
+
+130
+00:06:48.430 --> 00:06:49.050
+Yeah.
+
+131
+00:06:49.050 --> 00:06:53.420
+So that finishes up one of the Services which is RDS.
+
+132
+00:06:53.420 --> 00:06:57.605
+We'd like to cover another frequently used Service which is S3.
+
+133
+00:06:57.605 --> 00:06:59.760
+I think it's Secure Server Storage, what does it stand, yeah?
+
+134
+00:06:59.760 --> 00:06:59.908
+Yeah. Secure Server Storage.
+
+135
+00:06:59.908 --> 00:07:03.865
+It's nothing but a really big hard drive.
+
+136
+00:07:03.865 --> 00:07:07.100
+So you can use it for storage of your files,
+
+137
+00:07:07.100 --> 00:07:09.525
+images, videos, whatever you want.
+
+138
+00:07:09.525 --> 00:07:10.990
+There are two ways to access it.
+
+139
+00:07:10.990 --> 00:07:14.740
+One, is command line another one is programmatically through its API.
+
+140
+00:07:14.740 --> 00:07:18.005
+So we'll touch upon each of those subjects next.
+
+141
+00:07:18.005 --> 00:07:21.580
+Okay. So this is the S3 page.
+
+142
+00:07:21.580 --> 00:07:23.290
+And if you wish to get to here,
+
+143
+00:07:23.290 --> 00:07:29.065
+you just click on Services and where it says Storage click on S3, and there you are.
+
+144
+00:07:29.065 --> 00:07:33.915
+Now to do something like work with a bucket,
+
+145
+00:07:33.915 --> 00:07:35.785
+everything is stored in what's called buckets.
+
+146
+00:07:35.785 --> 00:07:37.725
+And it's basically a directory tree.
+
+147
+00:07:37.725 --> 00:07:43.630
+A bucket can have buckets inside of them which each bucket is basically a directory.
+
+148
+00:07:43.630 --> 00:07:46.400
+So let's say you want to create a bucket on your AWS console.
+
+149
+00:07:46.400 --> 00:07:50.442
+You want to name it myapplication123,
+
+150
+00:07:50.442 --> 00:07:55.045
+this name has to be unique. Click Next.
+
+151
+00:07:55.045 --> 00:07:57.180
+Everything default is perfect.
+
+152
+00:07:57.180 --> 00:08:03.870
+Next and Next. Create bucket.
+
+153
+00:08:03.870 --> 00:08:07.185
+Creating a bucket is as simple as that. Now you have it here.
+
+154
+00:08:07.185 --> 00:08:10.475
+You can upload files through database console as well as if you'd like.
+
+155
+00:08:10.475 --> 00:08:15.030
+But we're going to show you what it's like to upload it through the terminal.
+
+156
+00:08:15.030 --> 00:08:18.990
+Since we've already installed the AWS client on our machines,
+
+157
+00:08:18.990 --> 00:08:26.235
+we can go ahead and come in here and type in AWS S3 help,
+
+158
+00:08:26.235 --> 00:08:29.220
+to look at some of the commands that you can use.
+
+159
+00:08:29.220 --> 00:08:33.555
+The most common one is copy or sync.
+
+160
+00:08:33.555 --> 00:08:38.795
+And an easy way to view your buckets is to do AWS S3 ls.
+
+161
+00:08:38.795 --> 00:08:40.668
+If you want to do that, AWS S3 ls,
+
+162
+00:08:40.668 --> 00:08:43.970
+just like in a shell script.
+
+163
+00:08:43.970 --> 00:08:46.365
+And it will show you the buckets.
+
+164
+00:08:46.365 --> 00:08:52.695
+Here you can see the bucket that we just created named, myapplication123.
+
+165
+00:08:52.695 --> 00:08:57.270
+So if I wanted to upload a file from my directory, let's say,
+
+166
+00:08:57.270 --> 00:09:05.460
+I create a file called myfile.text and say, this is my file.
+
+167
+00:09:06.790 --> 00:09:13.670
+And I want to upload this file to S3 without having to use the console,
+
+168
+00:09:13.670 --> 00:09:15.600
+I'm sorry, that the AWS, yeah,
+
+169
+00:09:15.600 --> 00:09:18.165
+the console over the browser.
+
+170
+00:09:18.165 --> 00:09:24.404
+You can run AWS S3 sync this directory,
+
+171
+00:09:24.404 --> 00:09:26.445
+well, I'm going to specify myfile,
+
+172
+00:09:26.445 --> 00:09:31.625
+you can sync an entire directory and it will recursively sync everything below it.
+
+173
+00:09:31.625 --> 00:09:34.986
+But, we're just going to choose to sync this file into S3,
+
+174
+00:09:34.986 --> 00:09:41.105
+this is how you denote an S3 bucket and I called it myapplication123.
+
+175
+00:09:41.105 --> 00:09:46.045
+So, you run this command and it said skipping file because it does not exist.
+
+176
+00:09:46.045 --> 00:09:49.050
+Okay, so we had a slight error with our file and we're just going to
+
+177
+00:09:49.050 --> 00:09:52.220
+show you what it's like to sync the entire directory up to S3.
+
+178
+00:09:52.220 --> 00:09:54.311
+So, if you look at the command line,
+
+179
+00:09:54.311 --> 00:10:03.157
+you want to type in AWS S3 sync this directory to the correct bucket,
+
+180
+00:10:03.157 --> 00:10:07.290
+and it uploads the files that you currently have in there.
+
+181
+00:10:07.290 --> 00:10:10.580
+If you go into your bucket,
+
+182
+00:10:10.580 --> 00:10:17.500
+myapplication123 and refresh, you will see that all of these files have been uploaded.
+
+183
+00:10:17.500 --> 00:10:21.675
+This is the default home directory in our instance.
+
+184
+00:10:21.675 --> 00:10:26.785
+And, that's how you would upload to S3 through the terminal.
+
+185
+00:10:26.785 --> 00:10:30.010
+You can also upload to S3 programmatically.
+
+186
+00:10:30.010 --> 00:10:32.650
+If you wanted to use something like PHP,
+
+187
+00:10:32.650 --> 00:10:39.468
+you'd have to install the SDK for PHP for AWS onto your machine.
+
+188
+00:10:39.468 --> 00:10:45.830
+The way you do that is first you'd have to install composer and then,
+
+189
+00:10:45.830 --> 00:10:51.695
+through composer you require the PHP SDK as this.
+
+190
+00:10:51.695 --> 00:10:54.480
+This curling composer will install it.
+
+191
+00:10:54.480 --> 00:10:57.235
+And then, you would have to type of file composer.json
+
+192
+00:10:57.235 --> 00:11:04.205
+because composer is a PHP dependency.
+
+193
+00:11:04.205 --> 00:11:07.740
+It allows you to install PHP dependencies just
+
+194
+00:11:07.740 --> 00:11:10.715
+by typing in require and then the name of the dependency.
+
+195
+00:11:10.715 --> 00:11:14.130
+So, you create a file name composer.json and in that file,
+
+196
+00:11:14.130 --> 00:11:15.795
+you type up something like this,
+
+197
+00:11:15.795 --> 00:11:21.898
+require and this is the exact SDK that you would need to program with AWS,
+
+198
+00:11:21.898 --> 00:11:24.437
+it's AWS SDK 2 point,
+
+199
+00:11:24.437 --> 00:11:27.720
+whatever version the current version is,
+
+200
+00:11:27.720 --> 00:11:30.885
+and you run PHP composer.phar install,
+
+201
+00:11:30.885 --> 00:11:33.150
+and that will install all the dependencies,
+
+202
+00:11:33.150 --> 00:11:38.430
+it will create a vendor file for you which when you create a PHP function,
+
+203
+00:11:38.430 --> 00:11:40.800
+you use require and then,
+
+204
+00:11:40.800 --> 00:11:43.670
+the name of the path to this SDK.
+
+205
+00:11:43.670 --> 00:11:47.707
+So, you would have an array of functions that you can use and they are
+
+206
+00:11:47.707 --> 00:11:54.745
+all denoted in this AWS SDK on their website.
+
+207
+00:11:54.745 --> 00:11:56.190
+You can look at everything they have.
+
+208
+00:11:56.190 --> 00:12:01.380
+Just go ahead and look up AWS SDK for PHP and it has every function you can create.
+
+209
+00:12:01.380 --> 00:12:03.075
+You can upload to S3,
+
+210
+00:12:03.075 --> 00:12:04.254
+you can manage your RDS,
+
+211
+00:12:04.254 --> 00:12:10.265
+you can manage your EC2 instances just as you would with the AWS client on the terminal.
+
+212
+00:12:10.265 --> 00:12:13.230
+Anything you could do there, you could also do it programmatically,
+
+213
+00:12:13.230 --> 00:12:17.345
+in this case of PHP using the AWS SDK for PHP.
+
+214
+00:12:17.345 --> 00:12:21.085
+And, that kind of covers what you can do with S3.
+
+215
+00:12:21.085 --> 00:12:24.485
+Moving on would be to CodeCommit.
+
+216
+00:12:24.485 --> 00:12:30.940
+CodeCommit is basically AWS's version controlling.
+
+217
+00:12:30.940 --> 00:12:34.820
+It's like GitHub or Bitbucket but managed through AWS.
+
+218
+00:12:34.820 --> 00:12:36.945
+To do that, on the top again,
+
+219
+00:12:36.945 --> 00:12:41.520
+you go to Services where it says Developer Tools, you find CodeCommit.
+
+220
+00:12:41.520 --> 00:12:44.965
+And, just like every other version and control,
+
+221
+00:12:44.965 --> 00:12:48.050
+you create repositories with GIT.
+
+222
+00:12:48.050 --> 00:12:51.870
+So let's say, we want to create a repository called myapplication,
+
+223
+00:12:51.870 --> 00:12:56.840
+description, this is my app and go ahead and create the repository.
+
+224
+00:12:56.840 --> 00:13:01.202
+And then, you have the option of connecting with HTTPS or SSH.
+
+225
+00:13:01.202 --> 00:13:03.265
+You can go and close that.
+
+226
+00:13:03.265 --> 00:13:04.956
+If you want to clone the URL,
+
+227
+00:13:04.956 --> 00:13:07.610
+you click here HTTPS,
+
+228
+00:13:07.610 --> 00:13:13.935
+you grab this, and you connect to it like you would any GIT version control system.
+
+229
+00:13:13.935 --> 00:13:18.050
+Except the upside of using CodeCommit
+
+230
+00:13:18.050 --> 00:13:22.908
+would be instead of having to invite users through email like you would on GitHub,
+
+231
+00:13:22.908 --> 00:13:24.340
+Bitbucket or anything like that,
+
+232
+00:13:24.340 --> 00:13:30.410
+you can directly use your AWS's IAM users,
+
+233
+00:13:30.410 --> 00:13:33.700
+and you give them the role to use CodeCommit,
+
+234
+00:13:33.700 --> 00:13:37.680
+and it's all within the same ecosystem.
+
+235
+00:13:37.680 --> 00:13:40.230
+The beauty of it is that it's on Amazon.
+
+236
+00:13:40.230 --> 00:13:44.110
+You don't have to rely on anything other than Amazon to manage your code,
+
+237
+00:13:44.110 --> 00:13:45.985
+deploy it, and do everything.
+
+238
+00:13:45.985 --> 00:13:54.020
+So, AWS CodeCommit, basically streamlines GIT for AWS resources.
+
+239
+00:13:54.020 --> 00:13:55.465
+And other than that,
+
+240
+00:13:55.465 --> 00:14:00.245
+it's just the same as any other GIT version and control system that you can use.
+
+241
+00:14:00.245 --> 00:14:04.410
+And, that about covers it for this lesson I think, right?
+
+242
+00:14:04.410 --> 00:14:05.000
+Yeah, sure.

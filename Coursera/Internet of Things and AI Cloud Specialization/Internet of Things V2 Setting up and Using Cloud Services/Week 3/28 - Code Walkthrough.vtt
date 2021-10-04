@@ -1,0 +1,537 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.460
+Hello, everyone. We're in the second video for the Amazon Lex Facebook Chatbot.
+
+2
+00:00:05.460 --> 00:00:09.095
+And we'll be going over just some basic setup
+
+3
+00:00:09.095 --> 00:00:12.900
+and some pointers to where you should look out for certain things,
+
+4
+00:00:12.900 --> 00:00:15.435
+that I personally, had some trouble looking for,
+
+5
+00:00:15.435 --> 00:00:20.640
+such as the security keys you need to integrate Facebook into the Chatbot.
+
+6
+00:00:20.640 --> 00:00:24.350
+So first thing off, we're just going to start with a Facebook page and jump into there.
+
+7
+00:00:24.350 --> 00:00:26.060
+So this is just a basic Facebook page,
+
+8
+00:00:26.060 --> 00:00:29.740
+I called it FoodBot because it's something that you can use to order food with.
+
+9
+00:00:29.740 --> 00:00:34.980
+And you can just use Facebook to create a page,
+
+10
+00:00:34.980 --> 00:00:36.825
+you just need a Facebook account to do it.
+
+11
+00:00:36.825 --> 00:00:42.260
+And then you can just have a page there set up for your application.
+
+12
+00:00:42.260 --> 00:00:44.270
+The next part is, you need a Facebook application
+
+13
+00:00:44.270 --> 00:00:46.700
+to actually integrate it with some kind of Chatbot.
+
+14
+00:00:46.700 --> 00:00:49.640
+And you can just look up developers at Facebook.
+
+15
+00:00:49.640 --> 00:00:53.120
+I will provide links directly to what you need to go through and
+
+16
+00:00:53.120 --> 00:00:57.550
+some more defined instructions where I need you to create the Chatbot.
+
+17
+00:00:57.550 --> 00:01:01.790
+But some notes is that you need two things from
+
+18
+00:01:01.790 --> 00:01:07.965
+the Facebook application is the App Secret and the page ID.
+
+19
+00:01:07.965 --> 00:01:10.730
+The App Secret is located on the main part of
+
+20
+00:01:10.730 --> 00:01:14.120
+the Facebook app that you'll be creating, and it's at the dashboard.
+
+21
+00:01:14.120 --> 00:01:15.370
+And you can click here,
+
+22
+00:01:15.370 --> 00:01:16.805
+App Secret and show.
+
+23
+00:01:16.805 --> 00:01:19.000
+I'm not going to show it because I want to keep it secret,
+
+24
+00:01:19.000 --> 00:01:23.010
+and I don't want anyone else to see it so that they can access my Chatbot.
+
+25
+00:01:23.010 --> 00:01:26.580
+The next part we need is the Facebook,
+
+26
+00:01:26.580 --> 00:01:30.125
+I think ID, access token there you go.
+
+27
+00:01:30.125 --> 00:01:34.650
+And you might want to choose this and this is the access token for that.
+
+28
+00:01:34.650 --> 00:01:38.110
+Just quickly go away from it unless you want to pause there and copy that down.
+
+29
+00:01:38.110 --> 00:01:41.565
+But just click that and you get the access token for that.
+
+30
+00:01:41.565 --> 00:01:43.760
+And the next part we want to do, is actually,
+
+31
+00:01:43.760 --> 00:01:50.180
+create an Amazon Lex Bot so that you'll process all the messages that we send to it.
+
+32
+00:01:50.180 --> 00:01:53.955
+So you can see here we created OrderFoodBot.
+
+33
+00:01:53.955 --> 00:01:58.790
+And we gave some sample utterances such as "I want food," and "I would like to buy food."
+
+34
+00:01:58.790 --> 00:02:01.490
+Note here, I only gave it these to sample things,
+
+35
+00:02:01.490 --> 00:02:03.830
+and it still understood that when I misspelled want,
+
+36
+00:02:03.830 --> 00:02:06.785
+that it still understood that that was supposed to be wants.
+
+37
+00:02:06.785 --> 00:02:10.975
+So something like quick autocorrection.
+
+38
+00:02:10.975 --> 00:02:17.680
+And then here, we only have one intent for this bot which is to make an order.
+
+39
+00:02:17.680 --> 00:02:21.610
+And that order comprises of a restaurant,
+
+40
+00:02:21.610 --> 00:02:23.695
+food and a client location,
+
+41
+00:02:23.695 --> 00:02:25.520
+basically where to deliver it to.
+
+42
+00:02:25.520 --> 00:02:29.860
+We just set it up as Amazon FoodEstablishment for the restaurant and
+
+43
+00:02:29.860 --> 00:02:34.698
+then we chose what we wanted to do with it. So we did what city?
+
+44
+00:02:34.698 --> 00:02:41.542
+Not what city, but we did these three questions that we just wrote ourselves.
+
+45
+00:02:41.542 --> 00:02:43.260
+You can customize it to whatever you want.
+
+46
+00:02:43.260 --> 00:02:46.120
+Or you can even create your own slot types which is basically,
+
+47
+00:02:46.120 --> 00:02:49.570
+you don't have to use one of these Amazon provided ones, you can create your own.
+
+48
+00:02:49.570 --> 00:02:52.745
+And click that again to get out of that.
+
+49
+00:02:52.745 --> 00:02:54.715
+And the section just a confirmation prompt.
+
+50
+00:02:54.715 --> 00:02:57.706
+As you can see before I ordered,
+
+51
+00:02:57.706 --> 00:02:59.500
+I did answer the three questions and then it
+
+52
+00:02:59.500 --> 00:03:02.125
+confirms again with the answers to those three questions,
+
+53
+00:03:02.125 --> 00:03:04.585
+whether or not I want to continue with the order.
+
+54
+00:03:04.585 --> 00:03:06.535
+And are you sure you want to order the food?
+
+55
+00:03:06.535 --> 00:03:08.565
+As you can see here, you can just insert the food things.
+
+56
+00:03:08.565 --> 00:03:12.303
+That should have mostly been covered with the Lex Bot "Hello World",
+
+57
+00:03:12.303 --> 00:03:14.455
+but we're just going to go over it again real quick.
+
+58
+00:03:14.455 --> 00:03:18.235
+Here we have the fulfillment section which is basically,
+
+59
+00:03:18.235 --> 00:03:21.695
+after they get the order set up,
+
+60
+00:03:21.695 --> 00:03:23.290
+what to do with that message,
+
+61
+00:03:23.290 --> 00:03:25.180
+and how to get it to the owner,
+
+62
+00:03:25.180 --> 00:03:26.590
+let's say the McDonald's.
+
+63
+00:03:26.590 --> 00:03:28.590
+So here we have a lambda function called
+
+64
+00:03:28.590 --> 00:03:32.855
+fulfillFoodOrder and then we have a goodbye message here,
+
+65
+00:03:32.855 --> 00:03:34.795
+that's not as relevant for now,
+
+66
+00:03:34.795 --> 00:03:38.260
+but that's just like the last message that the user will see.
+
+67
+00:03:38.260 --> 00:03:40.145
+And here the fulfillment we can't,
+
+68
+00:03:40.145 --> 00:03:43.960
+it's fulfillFoodOrder so we just jump to the lambda function.
+
+69
+00:03:43.960 --> 00:03:46.960
+And then here is the lambda function.
+
+70
+00:03:46.960 --> 00:03:53.790
+Essentially, it's almost the same as just running the same Python script on for example,
+
+71
+00:03:53.790 --> 00:03:56.320
+the DragonBoard or my laptop,
+
+72
+00:03:56.320 --> 00:04:00.130
+with the Amazon Web Services SDK installed.
+
+73
+00:04:00.130 --> 00:04:02.655
+But this is just running on Amazon Web Services
+
+74
+00:04:02.655 --> 00:04:05.430
+and it's great for just sending in a message,
+
+75
+00:04:05.430 --> 00:04:07.850
+and processing something, and responding back.
+
+76
+00:04:07.850 --> 00:04:12.885
+So here we just import the Python library
+
+77
+00:04:12.885 --> 00:04:19.030
+or the AWS Python SDK which is Boto3.
+
+78
+00:04:19.030 --> 00:04:21.340
+We set up an SNS client.
+
+79
+00:04:21.340 --> 00:04:24.405
+And then we have a lambda function that handles everything coming in.
+
+80
+00:04:24.405 --> 00:04:27.585
+So you just define the function and we have an event and a context.
+
+81
+00:04:27.585 --> 00:04:29.910
+So the main part we want is an event.
+
+82
+00:04:29.910 --> 00:04:31.560
+And basically, the event is
+
+83
+00:04:31.560 --> 00:04:35.190
+a js node-structured message and it has all these parts to it.
+
+84
+00:04:35.190 --> 00:04:37.440
+So we just extract the ones that we want for example,
+
+85
+00:04:37.440 --> 00:04:39.047
+restaurant, food and address,
+
+86
+00:04:39.047 --> 00:04:40.575
+extract those out here.
+
+87
+00:04:40.575 --> 00:04:43.590
+And then we publish it to SNS topic which
+
+88
+00:04:43.590 --> 00:04:46.710
+is the text message and the email service again.
+
+89
+00:04:46.710 --> 00:04:51.480
+And then we also return a message to the Chatbot so that it can
+
+90
+00:04:51.480 --> 00:04:57.002
+respond with a thank you message or a confirmation.
+
+91
+00:04:57.002 --> 00:04:59.610
+And then after we have that lambda function set up,
+
+92
+00:04:59.610 --> 00:05:03.769
+we want to set up with Facebook.
+
+93
+00:05:03.769 --> 00:05:05.945
+We click here on channels.
+
+94
+00:05:05.945 --> 00:05:07.605
+As you see here we can also integrate with Kik,
+
+95
+00:05:07.605 --> 00:05:09.990
+Slack and Twilio SMS, as mentioned earlier.
+
+96
+00:05:09.990 --> 00:05:13.860
+And basically, you want to choose the channel name.
+
+97
+00:05:13.860 --> 00:05:18.400
+You don't need a description and the IAM roles are already created.
+
+98
+00:05:18.400 --> 00:05:22.840
+You want to choose AWS Lex for the KMS key.
+
+99
+00:05:22.840 --> 00:05:26.315
+And you want to choose whatever version of your bot that you have.
+
+100
+00:05:26.315 --> 00:05:27.925
+So in this case, I only have one version which is
+
+101
+00:05:27.925 --> 00:05:30.685
+production version and a verified token.
+
+102
+00:05:30.685 --> 00:05:31.985
+Now this can be anything you want,
+
+103
+00:05:31.985 --> 00:05:34.575
+so I use Simon to verify and it
+
+104
+00:05:34.575 --> 00:05:39.005
+has to be the same when you intergrate it on the Facebook app.
+
+105
+00:05:39.005 --> 00:05:45.595
+And then we need those two things you needed from the Facebook application slash project.
+
+106
+00:05:45.595 --> 00:05:46.855
+You need to put a lot here.
+
+107
+00:05:46.855 --> 00:05:48.810
+Here's the page access token that we got
+
+108
+00:05:48.810 --> 00:05:51.515
+last and the App Secret that I mentioned earlier.
+
+109
+00:05:51.515 --> 00:05:56.730
+And basically, you just need to activate it and copy this URL and head
+
+110
+00:05:56.730 --> 00:06:02.300
+over to Messenger, the app platform.
+
+111
+00:06:02.300 --> 00:06:05.810
+Go to Messengers, and go into Webhooks.
+
+112
+00:06:05.810 --> 00:06:07.965
+So here, if you didn't already have a Webhook,
+
+113
+00:06:07.965 --> 00:06:09.735
+but since I already have one I don't need to do it.
+
+114
+00:06:09.735 --> 00:06:12.330
+You can just click here, add a webhook and then
+
+115
+00:06:12.330 --> 00:06:15.925
+select messages and message postbacks options.
+
+116
+00:06:15.925 --> 00:06:21.450
+And once that's done, you want to subscribe your Facebook page to that using this,
+
+117
+00:06:21.450 --> 00:06:23.445
+and you use Facebookbot.
+
+118
+00:06:23.445 --> 00:06:25.770
+And here it says unsubscribe,
+
+119
+00:06:25.770 --> 00:06:28.995
+but if you haven't subscribed already it will just let you subscribe to it.
+
+120
+00:06:28.995 --> 00:06:31.195
+And then you can just interact with it.
+
+121
+00:06:31.195 --> 00:06:37.410
+Again, for example, clicking this I want food.
+
+122
+00:06:37.410 --> 00:06:40.275
+And that's basically all you need to do.
+
+123
+00:06:40.275 --> 00:06:43.925
+We'll be providing more resources on how to do this,
+
+124
+00:06:43.925 --> 00:06:51.052
+and some clarifications, more on the Github and on the readings that we provide.
+
+125
+00:06:51.052 --> 00:06:54.185
+So that is just some quick tips and tricks and a brief
+
+126
+00:06:54.185 --> 00:06:59.890
+walk-through of what we had to do to set up this Chatbot on Facebook.
+
+127
+00:06:59.890 --> 00:07:02.260
+If you like to learn how to do on other services,
+
+128
+00:07:02.260 --> 00:07:04.375
+we recommend using your favorite search engine
+
+129
+00:07:04.375 --> 00:07:09.265
+and looking out for examples of other people doing it,
+
+130
+00:07:09.265 --> 00:07:15.200
+or using Amazon's documentation to integrate it would say, Slack or Kik.
+
+131
+00:07:15.200 --> 00:07:19.485
+So, thank you for keeping up with us for this video.
+
+132
+00:07:19.485 --> 00:07:22.210
+We'll be going over a signholic after this.
+
+133
+00:07:22.210 --> 00:07:24.355
+Just going over some topics about
+
+134
+00:07:24.355 --> 00:07:29.000
+all the stuff that we covered in the last two videos. And stay tuned.

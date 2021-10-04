@@ -1,0 +1,513 @@
+WEBVTT
+
+1
+00:00:00.290 --> 00:00:03.795
+Welcome everyone. In this video we'll be going over
+
+2
+00:00:03.795 --> 00:00:06.780
+AWS Greengrass and just telling you what it is,
+
+3
+00:00:06.780 --> 00:00:09.270
+and a quick demo of what we're going to do.
+
+4
+00:00:09.270 --> 00:00:12.795
+So, just an overview again.
+
+5
+00:00:12.795 --> 00:00:14.645
+We're going to talk about AWS Greengrass,
+
+6
+00:00:14.645 --> 00:00:19.935
+do a description of the demo that we're going to do and then actually execute that demo.
+
+7
+00:00:19.935 --> 00:00:22.820
+So yeah. So what is AWS Greengrass?
+
+8
+00:00:22.820 --> 00:00:25.755
+Basically, in my description of best description,
+
+9
+00:00:25.755 --> 00:00:28.100
+it's basically a local AWS.
+
+10
+00:00:28.100 --> 00:00:32.360
+So, you know how normally you would have your devices all connected to AWS,
+
+11
+00:00:32.360 --> 00:00:33.465
+they need an internet connection,
+
+12
+00:00:33.465 --> 00:00:36.800
+and they all talk to the AWS server?
+
+13
+00:00:36.800 --> 00:00:42.995
+So in this, instead of the server being way out there connected to the massive Internet,
+
+14
+00:00:42.995 --> 00:00:47.585
+like let's say in Oregon and I'm in California and I have to connect to that server,
+
+15
+00:00:47.585 --> 00:00:53.750
+we can have that server run locally on our own network and do some functions there.
+
+16
+00:00:53.750 --> 00:00:55.730
+So basically, it doesn't have
+
+17
+00:00:55.730 --> 00:00:58.865
+all the same functionality as full AWS connected to the Internet,
+
+18
+00:00:58.865 --> 00:01:04.215
+but you could have some of the important ones for IoT such as ability to use AWS Lambda,
+
+19
+00:01:04.215 --> 00:01:07.430
+AWS IoT and other services offline.
+
+20
+00:01:07.430 --> 00:01:13.905
+And how it does this is it runs a Greengrass core device which could be any computer
+
+21
+00:01:13.905 --> 00:01:20.400
+that you have such as my laptop or a big server or even a dragon board can run AWS core?
+
+22
+00:01:20.400 --> 00:01:24.215
+And what, what this means is that it'll act as that server,
+
+23
+00:01:24.215 --> 00:01:26.530
+that we used before on AWS.
+
+24
+00:01:26.530 --> 00:01:32.015
+It will do the process the lambda functions and be the message broker between devices.
+
+25
+00:01:32.015 --> 00:01:35.025
+So, for example, we can have two devices there,
+
+26
+00:01:35.025 --> 00:01:38.375
+you can see Greengrass device 1 and Greengrass device 2.
+
+27
+00:01:38.375 --> 00:01:42.320
+They can each send messages to the message broker and the message broker will
+
+28
+00:01:42.320 --> 00:01:46.780
+send the messages back out to the corresponding topics or whoever's listening to what.
+
+29
+00:01:46.780 --> 00:01:51.045
+And this is nicer in the fact that you don't always need internet connection,
+
+30
+00:01:51.045 --> 00:01:54.590
+but there is a caveat in the sense that,
+
+31
+00:01:54.590 --> 00:02:00.455
+you do have to initialize the core and the devices at least once to the internet,
+
+32
+00:02:00.455 --> 00:02:03.480
+so that AWS knows about it and knows how to assign it.
+
+33
+00:02:03.480 --> 00:02:07.720
+So yes, will be going over a description of what we are going to do in the demo.
+
+34
+00:02:07.720 --> 00:02:11.875
+And here is the three parts of our demo.
+
+35
+00:02:11.875 --> 00:02:14.800
+We have, the Greengrass Core which will run on my laptop,
+
+36
+00:02:14.800 --> 00:02:17.365
+which will be the center point of all that processing,
+
+37
+00:02:17.365 --> 00:02:19.420
+and then we get the Greengrass Publisher,
+
+38
+00:02:19.420 --> 00:02:21.460
+which will be running also on my laptop.
+
+39
+00:02:21.460 --> 00:02:24.250
+That mean these can be running just programs that we run,
+
+40
+00:02:24.250 --> 00:02:27.885
+so they can have multiple running on the same machine.
+
+41
+00:02:27.885 --> 00:02:30.470
+And the third part is a Greengrass Subscriber,
+
+42
+00:02:30.470 --> 00:02:32.080
+which will be our Dragon board,
+
+43
+00:02:32.080 --> 00:02:34.450
+and I'll also be running a Greengrass device,
+
+44
+00:02:34.450 --> 00:02:37.845
+SDK and program to listen on a certain topic.
+
+45
+00:02:37.845 --> 00:02:41.755
+So what the laptop will be doing again is acting as a message broker,
+
+46
+00:02:41.755 --> 00:02:48.070
+and publisher will just send a simple message to the subscriber on a specific topic,
+
+47
+00:02:48.070 --> 00:02:50.650
+and then the subscriber when it hears that message,
+
+48
+00:02:50.650 --> 00:02:54.905
+it will blink an LED showing that it received a message.
+
+49
+00:02:54.905 --> 00:02:59.485
+So we are just going over to the simple demo on their computer and get everything set up.
+
+50
+00:02:59.485 --> 00:03:03.460
+So here we are on my computer,
+
+51
+00:03:03.460 --> 00:03:08.570
+and we can see that we have Greengrass Groups.
+
+52
+00:03:08.570 --> 00:03:10.340
+This is the group that we'll be using.
+
+53
+00:03:10.340 --> 00:03:14.150
+We called it fristGroup because we don't want to call it first group.
+
+54
+00:03:14.150 --> 00:03:18.585
+So we'll just go to the terminal so that we can run everything.
+
+55
+00:03:18.585 --> 00:03:22.425
+So, this computer is running Ubuntu 16.04.
+
+56
+00:03:22.425 --> 00:03:25.460
+We like it a lot just because it's a great development environment,
+
+57
+00:03:25.460 --> 00:03:28.775
+it's Linux on your computer and it's a nicer interface.
+
+58
+00:03:28.775 --> 00:03:32.715
+If you have Linux or your own type of OS you can also run it different ways,
+
+59
+00:03:32.715 --> 00:03:35.225
+but we'll be using Ubuntu for this one.
+
+60
+00:03:35.225 --> 00:03:40.120
+So first, the thing that we need to do on this is start up the Greengrass Core,
+
+61
+00:03:40.120 --> 00:03:41.900
+and we can do that by running
+
+62
+00:03:41.900 --> 00:03:48.215
+sudo./greengrassD start and this command
+
+63
+00:03:48.215 --> 00:03:50.470
+and other instruction will be provided in the readings.
+
+64
+00:03:50.470 --> 00:03:53.100
+But just a note, we have to run this in the,
+
+65
+00:03:53.100 --> 00:03:56.585
+in the specific directory because this is where the executable is.
+
+66
+00:03:56.585 --> 00:03:59.803
+Greengrass, greengrassD right there.
+
+67
+00:03:59.803 --> 00:04:01.458
+So, we are just going to run it.
+
+68
+00:04:01.458 --> 00:04:04.013
+It's taken six a bit to wait,
+
+69
+00:04:04.013 --> 00:04:05.151
+and here we go,
+
+70
+00:04:05.151 --> 00:04:09.985
+stopped letting greengrass, updating and starting the greengrass demo.
+
+71
+00:04:09.985 --> 00:04:11.230
+The next part is, we want to run
+
+72
+00:04:11.230 --> 00:04:16.200
+our publisher which will be just spitting out Hello World messages.
+
+73
+00:04:16.200 --> 00:04:20.005
+But before we do that, we have our directory here in that has all the files we need.
+
+74
+00:04:20.005 --> 00:04:22.930
+So these are the certificates and the private and
+
+75
+00:04:22.930 --> 00:04:28.660
+the public keys for the secure connections between the device and the IoT core,
+
+76
+00:04:28.660 --> 00:04:31.120
+or the Greengrass core.
+
+77
+00:04:31.120 --> 00:04:33.445
+So here it is for one device,
+
+78
+00:04:33.445 --> 00:04:35.230
+and here it is for the other device.
+
+79
+00:04:35.230 --> 00:04:37.605
+And these are the two programs we're going to running,
+
+80
+00:04:37.605 --> 00:04:40.305
+publisher.py and sub.py, which is
+
+81
+00:04:40.305 --> 00:04:43.793
+subscriber and our computer will be the publisher for this one.
+
+82
+00:04:43.793 --> 00:04:48.604
+So it's to python publisher.
+
+83
+00:04:48.604 --> 00:04:50.790
+Now there's a bunch of messages going on here,
+
+84
+00:04:50.790 --> 00:04:53.420
+but the main thing you want to care about is this.
+
+85
+00:04:53.420 --> 00:04:56.010
+So it just says publics, publish topic,
+
+86
+00:04:56.010 --> 00:04:58.923
+hello world, on this topic hello world.
+
+87
+00:04:58.923 --> 00:05:04.725
+And then, this is the message that publishes all this,
+
+88
+00:05:04.725 --> 00:05:07.343
+hello world sent from hello world publisher
+
+89
+00:05:07.343 --> 00:05:10.600
+and what number on the sequence that is publishing.
+
+90
+00:05:10.600 --> 00:05:16.145
+So yes, let's jump to the dragonboard to run its own greengrass device.
+
+91
+00:05:16.145 --> 00:05:18.305
+So here we are in the dragonboard,
+
+92
+00:05:18.305 --> 00:05:20.775
+and let's just LS to see all the files,
+
+93
+00:05:20.775 --> 00:05:22.765
+and you can see all the files there.
+
+94
+00:05:22.765 --> 00:05:26.090
+The same permission task that we had on my laptop also.
+
+95
+00:05:26.090 --> 00:05:29.680
+So the main program that we're going to run is sub.py.
+
+96
+00:05:29.680 --> 00:05:32.030
+But note here, don't run it just with python,
+
+97
+00:05:32.030 --> 00:05:33.130
+you want to run it with sudo,
+
+98
+00:05:33.130 --> 00:05:37.440
+considering we're using a GPIO pin, and that requires sudo.
+
+99
+00:05:37.440 --> 00:05:45.320
+So it is running sudo and then you can see here,
+
+100
+00:05:45.320 --> 00:05:49.740
+we're getting the messages from the broker,
+
+101
+00:05:49.740 --> 00:05:54.595
+from not the broker but from the publisher here at 289290.
+
+102
+00:05:54.595 --> 00:06:00.845
+And then, let's jump to my computer to see a similar number on my computer.
+
+103
+00:06:00.845 --> 00:06:05.035
+That's about 309.
+
+104
+00:06:05.035 --> 00:06:07.470
+It's a bit delayed considering the switch and stuff,
+
+105
+00:06:07.470 --> 00:06:09.420
+and that your, the screen wasn't scrolling.
+
+106
+00:06:09.420 --> 00:06:14.400
+But let's go back to the dragonboard and let's show that,
+
+107
+00:06:14.400 --> 00:06:18.240
+so the initial thing that we're doing on this dragonboard is switching LED,
+
+108
+00:06:18.240 --> 00:06:19.755
+so interacting with the sensor.
+
+109
+00:06:19.755 --> 00:06:22.710
+So we can see that LED blinking on and off and then I'm going to
+
+110
+00:06:22.710 --> 00:06:26.250
+stop running the program and you're going to see the LED not blinking.
+
+111
+00:06:26.250 --> 00:06:29.820
+So yes, the LED is not blinking and it is because it's not
+
+112
+00:06:29.820 --> 00:06:34.015
+listening anymore but let's run this again and show the LED blinking.
+
+113
+00:06:34.015 --> 00:06:36.610
+That's blinking and then I'm going to go on my computer,
+
+114
+00:06:36.610 --> 00:06:38.330
+and I'm going to stop the publisher there
+
+115
+00:06:38.330 --> 00:06:41.670
+just so you see that there is a connection between the two.
+
+116
+00:06:41.670 --> 00:06:44.687
+So it's stopping their.
+
+117
+00:06:44.687 --> 00:06:46.935
+And there, you can see it's not running.
+
+118
+00:06:46.935 --> 00:06:49.870
+It's not getting a message anymore but still listening.
+
+119
+00:06:49.870 --> 00:06:52.595
+Because it's not getting the message it's not blinking the LED.
+
+120
+00:06:52.595 --> 00:06:55.520
+Now this is all just a basic IoT,
+
+121
+00:06:55.520 --> 00:06:59.310
+how to activate a sensor from like a distance or through a connection.
+
+122
+00:06:59.310 --> 00:07:02.475
+But, the important part about this process is that,
+
+123
+00:07:02.475 --> 00:07:03.780
+it's all run locally,
+
+124
+00:07:03.780 --> 00:07:08.380
+so that even if you do get a disconnect from AWS you can still use,
+
+125
+00:07:08.380 --> 00:07:10.530
+as long as you're all connected to the same Wi-Fi network or
+
+126
+00:07:10.530 --> 00:07:12.720
+just the same internet network,
+
+127
+00:07:12.720 --> 00:07:17.070
+you can still talk to each other without having to worry about an internet connection.
+
+128
+00:07:17.070 --> 00:07:20.000
+So that's the benefit of doing AWS Greengrass.

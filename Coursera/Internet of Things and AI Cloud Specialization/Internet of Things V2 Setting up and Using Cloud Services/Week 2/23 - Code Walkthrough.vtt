@@ -1,0 +1,609 @@
+WEBVTT
+
+1
+00:00:00.130 --> 00:00:02.845
+So, we're here again and we're just going to
+
+2
+00:00:02.845 --> 00:00:04.920
+go to the DragonBoard and the terminal and walk
+
+3
+00:00:04.920 --> 00:00:09.675
+through that two code files that we use to create our Emotion Booth Project.
+
+4
+00:00:09.675 --> 00:00:14.838
+So, we are here in the project directory again, and here are the four,
+
+5
+00:00:14.838 --> 00:00:16.450
+same four files before,
+
+6
+00:00:16.450 --> 00:00:22.410
+and we just open the main file emotion_booth.
+
+7
+00:00:22.410 --> 00:00:26.206
+So, the first couple of lines are just imports.
+
+8
+00:00:26.206 --> 00:00:30.090
+So boto3 is the Amazon web service SDK.
+
+9
+00:00:30.090 --> 00:00:34.200
+And then, cv2 is open CV, numpy is numpy,
+
+10
+00:00:34.200 --> 00:00:42.343
+it's a sigMatrix in like manipulations for let's say the images,
+
+11
+00:00:42.343 --> 00:00:49.590
+and then, Json for like the Json response because that's how it's stored.
+
+12
+00:00:49.590 --> 00:00:52.125
+And then, import time, and import serial.
+
+13
+00:00:52.125 --> 00:00:55.275
+So, serial is necessary for communicating with arduino
+
+14
+00:00:55.275 --> 00:00:59.550
+because that's the channel or the method of communication we chose.
+
+15
+00:00:59.550 --> 00:01:01.745
+So, just a simple print statement since we started,
+
+16
+00:01:01.745 --> 00:01:04.650
+and here's the BAUD_RATE and the PORT.
+
+17
+00:01:04.650 --> 00:01:08.745
+So the BAUD_RATE, just like whatever speed
+
+18
+00:01:08.745 --> 00:01:14.925
+or frequency that arduino has been listening on and the PORT is whatever,
+
+19
+00:01:14.925 --> 00:01:17.780
+how are we to know it's connected to the DragonBoard.
+
+20
+00:01:17.780 --> 00:01:19.130
+So, with the mezzanine,
+
+21
+00:01:19.130 --> 00:01:23.235
+it's connected it over /dev/tty/96B0.
+
+22
+00:01:23.235 --> 00:01:27.660
+And then, we just initialize the Arduino object right to it.
+
+23
+00:01:27.660 --> 00:01:29.595
+Here's just a simple class.
+
+24
+00:01:29.595 --> 00:01:34.220
+We call it Arm, just for like Servo as an arm.
+
+25
+00:01:34.220 --> 00:01:38.550
+But in this case, we just use it for one Servo and we initialize that object.
+
+26
+00:01:38.550 --> 00:01:42.170
+Basically, it takes in an angle.
+
+27
+00:01:42.170 --> 00:01:44.525
+They can write and it takes in an angle and
+
+28
+00:01:44.525 --> 00:01:48.326
+just sends a message to Arduino here, over serial,
+
+29
+00:01:48.326 --> 00:01:54.745
+and we are going to use this method called Update and to actually right start,
+
+30
+00:01:54.745 --> 00:01:57.465
+to tell the, or do we know which server to move.
+
+31
+00:01:57.465 --> 00:01:59.693
+In this case, it's it's just one Servo.
+
+32
+00:01:59.693 --> 00:02:02.975
+The next part, a lot of this is, like Initializations.
+
+33
+00:02:02.975 --> 00:02:06.845
+We initialize the connection to 's3', which is again,
+
+34
+00:02:06.845 --> 00:02:09.350
+if you don't know is basically
+
+35
+00:02:09.350 --> 00:02:13.615
+a simple hard drive on Amazon that you can use to upload files and store stuff.
+
+36
+00:02:13.615 --> 00:02:16.265
+And here is the connection to recognition,
+
+37
+00:02:16.265 --> 00:02:18.488
+which is the image,
+
+38
+00:02:18.488 --> 00:02:22.385
+machine learning like computer vision service that they have.
+
+39
+00:02:22.385 --> 00:02:26.130
+And here we initialize our webcam and just set it up.
+
+40
+00:02:26.130 --> 00:02:31.880
+Let it feed for a bit so that it can initialize a good picture.
+
+41
+00:02:31.880 --> 00:02:39.065
+And here, we actually want to capture the image from the webcam.
+
+42
+00:02:39.065 --> 00:02:42.785
+In this case, we capture it twice because for some reason,
+
+43
+00:02:42.785 --> 00:02:49.195
+our webcam was having a problem where it always gave back the frame it captured before.
+
+44
+00:02:49.195 --> 00:02:54.510
+So in this case, we read the the old frame and then,we read the new frame.
+
+45
+00:02:54.510 --> 00:02:58.395
+And then, the new frame is the one we want. It's actually the current frame.
+
+46
+00:02:58.395 --> 00:03:01.215
+For your case, for example,
+
+47
+00:03:01.215 --> 00:03:03.110
+I ran this on my computer and it was fine.
+
+48
+00:03:03.110 --> 00:03:07.895
+It just captured the current frame which is just using one line.
+
+49
+00:03:07.895 --> 00:03:11.525
+For your case, depending on if it captures the old frame and the new frame.
+
+50
+00:03:11.525 --> 00:03:14.405
+You can comment on one of these lines and it should work the same.
+
+51
+00:03:14.405 --> 00:03:17.015
+In here, we're going to use the cameras because we don't do it
+
+52
+00:03:17.015 --> 00:03:21.830
+anymore and this part we choose what bucket we need.
+
+53
+00:03:21.830 --> 00:03:27.670
+So, replace this bucket name with whatever bucket name you chose to create.
+
+54
+00:03:27.670 --> 00:03:30.230
+This is the image name that we're saving it locally,
+
+55
+00:03:30.230 --> 00:03:35.610
+and this is the image path that we're going to save it on Amazon S3.
+
+56
+00:03:35.610 --> 00:03:39.045
+So in this case, we save it in the emotion_booth directory and then,
+
+57
+00:03:39.045 --> 00:03:41.360
+save it as face.jpg.
+
+58
+00:03:41.360 --> 00:03:46.245
+And here, we actually save the image locally in the same directory.
+
+59
+00:03:46.245 --> 00:03:50.965
+And then next, we open that same image using open and as data,
+
+60
+00:03:50.965 --> 00:03:57.365
+and then, we use the S3 client that we initialized before and upload it to our bucket.
+
+61
+00:03:57.365 --> 00:03:59.225
+So, here's the image file.
+
+62
+00:03:59.225 --> 00:04:01.940
+Here's the bucket we chose and choose what we're going to save it as.
+
+63
+00:04:01.940 --> 00:04:06.155
+And then, the next part is actually using Amazon recognition.
+
+64
+00:04:06.155 --> 00:04:08.670
+So, here we use client.detect_faces.
+
+65
+00:04:08.670 --> 00:04:10.060
+So, that's one of the methods.
+
+66
+00:04:10.060 --> 00:04:14.660
+It's just detect_faces and we have to specify
+
+67
+00:04:14.660 --> 00:04:20.135
+an image and the way we can do that is we specify S3object.
+
+68
+00:04:20.135 --> 00:04:23.250
+This is going to be the same image that we just uploaded.
+
+69
+00:04:23.250 --> 00:04:26.545
+So how to decide what bucket it's in and how do you get to that image.
+
+70
+00:04:26.545 --> 00:04:28.750
+And then here, the attributes.
+
+71
+00:04:28.750 --> 00:04:30.140
+In this case, we want all the attributes,
+
+72
+00:04:30.140 --> 00:04:31.381
+you can choose to get less,
+
+73
+00:04:31.381 --> 00:04:37.675
+depending on what the specific options for this method are.
+
+74
+00:04:37.675 --> 00:04:41.330
+So, one thing with the response to know is that,
+
+75
+00:04:41.330 --> 00:04:44.735
+it will detect it for every face in the image.
+
+76
+00:04:44.735 --> 00:04:48.294
+For example, if me and Andrew are both in the camera,
+
+77
+00:04:48.294 --> 00:04:49.370
+it would check two faces.
+
+78
+00:04:49.370 --> 00:04:52.970
+So, it gives a list or an array of face details.
+
+79
+00:04:52.970 --> 00:04:56.441
+Inside face details is a bunch of Json
+
+80
+00:04:56.441 --> 00:05:00.410
+that tells you information about the image or information about that face.
+
+81
+00:05:00.410 --> 00:05:04.970
+For example, it can tell if you have a beard or if you are wearing glasses,
+
+82
+00:05:04.970 --> 00:05:06.960
+and even emotions as you can see here.
+
+83
+00:05:06.960 --> 00:05:08.903
+So, you want to access face details
+
+84
+00:05:08.903 --> 00:05:11.895
+and access the first entry because it's only going to be
+
+85
+00:05:11.895 --> 00:05:18.680
+one face when we run it and we want to access the emotions, information that we get.
+
+86
+00:05:18.680 --> 00:05:22.190
+Now, inside Emotions, it is also
+
+87
+00:05:22.190 --> 00:05:25.760
+another array that contains different emotions and confidence levels.
+
+88
+00:05:25.760 --> 00:05:30.725
+But the first entry is always the emotion with the highest probability or confidence.
+
+89
+00:05:30.725 --> 00:05:32.950
+So, what it thinks is best.
+
+90
+00:05:32.950 --> 00:05:37.040
+So, we just get the top emotion using the first entry and then,
+
+91
+00:05:37.040 --> 00:05:40.880
+when we get that emotion, we just keep it.
+
+92
+00:05:40.880 --> 00:05:44.330
+But then, we also want the type,
+
+93
+00:05:44.330 --> 00:05:47.480
+the type of emotion to see what it is.
+
+94
+00:05:47.480 --> 00:05:49.225
+So in this case, if it was happy,
+
+95
+00:05:49.225 --> 00:05:53.855
+it would just give me happy string and we want to see how confident it is.
+
+96
+00:05:53.855 --> 00:05:56.810
+In this case, we don't use the confidence for anything.
+
+97
+00:05:56.810 --> 00:05:59.660
+But you could print it out and just give feedback on like
+
+98
+00:05:59.660 --> 00:06:04.710
+how much it thinks that you're happy or sad or have like a special day.
+
+99
+00:06:04.710 --> 00:06:06.335
+If it's not this confident,
+
+100
+00:06:06.335 --> 00:06:09.970
+then just give an error or redo the image.
+
+101
+00:06:09.970 --> 00:06:15.180
+Here's actually where we tell the Arduino what direction to move.
+
+102
+00:06:15.180 --> 00:06:17.303
+So if it's happy,
+
+103
+00:06:17.303 --> 00:06:20.630
+we want to print that it's happy and then we want to update
+
+104
+00:06:20.630 --> 00:06:24.135
+the Arduino Servo and set it to a 45-degree.
+
+105
+00:06:24.135 --> 00:06:30.410
+So 45 degrees is right on in this instance and if it's sad,
+
+106
+00:06:30.410 --> 00:06:33.580
+make it 135 degrees and that's left on this instance.
+
+107
+00:06:33.580 --> 00:06:37.335
+And then, 90 degrees is right in the middle between that and they'll will be upright,
+
+108
+00:06:37.335 --> 00:06:40.665
+and the last part is just for like niceness.
+
+109
+00:06:40.665 --> 00:06:44.580
+We want to show the image to ourselves to see what it looks like.
+
+110
+00:06:44.580 --> 00:06:48.450
+And finally, this cv2.waitkey
+
+111
+00:06:48.450 --> 00:06:53.880
+allows us to see the image until we want to close it by just pressing any key.
+
+112
+00:06:53.880 --> 00:06:59.135
+And the last part is just closing all the windows once that's done. So, yeah.
+
+113
+00:06:59.135 --> 00:07:02.820
+That was basically the neat part of how all of this kind of work.
+
+114
+00:07:02.820 --> 00:07:04.365
+It's pretty simple file.
+
+115
+00:07:04.365 --> 00:07:10.140
+You can edit and take this and change it to whatever you wanted to use.
+
+116
+00:07:10.140 --> 00:07:12.205
+That's the most part. Well, real quick,
+
+117
+00:07:12.205 --> 00:07:15.045
+we're going to jump into Terminal again and then,
+
+118
+00:07:15.045 --> 00:07:16.670
+go over the Arduino file.
+
+119
+00:07:16.670 --> 00:07:20.685
+It's going to be pretty short and Andrew will take care of that.
+
+120
+00:07:20.685 --> 00:07:24.994
+So, let's exit out of this Vim file, not Vim file, the Python file,
+
+121
+00:07:24.994 --> 00:07:29.669
+access through them and then let's go to Servo_control,
+
+122
+00:07:29.669 --> 00:07:36.835
+and this file is a lot easier than the one before.
+
+123
+00:07:36.835 --> 00:07:42.685
+But basically, we want to initialize the PIN over here.
+
+124
+00:07:42.685 --> 00:07:45.685
+As I said in the previous video,
+
+125
+00:07:45.685 --> 00:07:51.070
+the Servo connected on d3 so the PIN numbers is 3.
+
+126
+00:07:51.070 --> 00:07:55.390
+And then, we initialize Servo as Servo_0.
+
+127
+00:07:55.390 --> 00:07:57.160
+So in the beginning,
+
+128
+00:07:57.160 --> 00:08:06.590
+we want to initialize the Servos so that it listens on PIN 3 and you also want to
+
+129
+00:08:06.590 --> 00:08:08.655
+initialize serial so that
+
+130
+00:08:08.655 --> 00:08:19.040
+the python file knows where it needs to send to and the Arduino file and return,
+
+131
+00:08:19.040 --> 00:08:23.120
+listens on that same exact port.
+
+132
+00:08:23.120 --> 00:08:26.169
+And here's the void loop part,
+
+133
+00:08:26.169 --> 00:08:33.980
+and this is the part where it actually reads from serial what string to output.
+
+134
+00:08:33.980 --> 00:08:37.535
+So, the first part is actually listening to it.
+
+135
+00:08:37.535 --> 00:08:44.540
+First, you want to check if the serial is available and if it isn't,
+
+136
+00:08:44.540 --> 00:08:47.125
+then you just break out of the loop.
+
+137
+00:08:47.125 --> 00:08:49.850
+If it is, well,
+
+138
+00:08:49.850 --> 00:08:52.420
+you don't break out of the loop but it will
+
+139
+00:08:52.420 --> 00:08:54.935
+like continuously loop but it won't do anything.
+
+140
+00:08:54.935 --> 00:08:57.055
+But if it is there,
+
+141
+00:08:57.055 --> 00:09:05.870
+then it would read from serial and then it would then check the angle of the string.
+
+142
+00:09:05.870 --> 00:09:10.320
+So, it converts the string to an integer and then afterwards,
+
+143
+00:09:10.320 --> 00:09:17.695
+it will write the Servo to that angle and that's pretty much it.
+
+144
+00:09:17.695 --> 00:09:21.440
+Yeah. So, that was all the files.
+
+145
+00:09:21.440 --> 00:09:23.330
+We just did this simple project.
+
+146
+00:09:23.330 --> 00:09:26.815
+You could integrate other sensors from the sensors mezzanine
+
+147
+00:09:26.815 --> 00:09:30.610
+and just made this a lot more complicated and fit your needs,
+
+148
+00:09:30.610 --> 00:09:32.980
+or make it more interesting for you.
+
+149
+00:09:32.980 --> 00:09:35.905
+In this case, we just made a simple thing to move to Servo
+
+150
+00:09:35.905 --> 00:09:39.360
+and interact with the real world a little bit. So, yeah.
+
+151
+00:09:39.360 --> 00:09:42.640
+Be sure to buildup this project. Download the code.
+
+152
+00:09:42.640 --> 00:09:48.440
+Play around with it and see what you can build using it. See you on the next videos.

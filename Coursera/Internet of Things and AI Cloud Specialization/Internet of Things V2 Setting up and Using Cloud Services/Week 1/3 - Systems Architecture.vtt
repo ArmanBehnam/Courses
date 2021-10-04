@@ -1,0 +1,609 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.307
+Hi everyone. In the last lesson,
+
+2
+00:00:02.307 --> 00:00:05.355
+we did a quick overview of the AWS services.
+
+3
+00:00:05.355 --> 00:00:08.745
+Now, we want to showcase how we can take those separate services
+
+4
+00:00:08.745 --> 00:00:13.350
+and create these large-scale applications for scale.
+
+5
+00:00:13.350 --> 00:00:18.480
+So, what we want to go over is just some basic architecture,
+
+6
+00:00:18.480 --> 00:00:24.540
+so very basic starter apps that were typically used 20 years ago maybe.
+
+7
+00:00:24.540 --> 00:00:30.045
+And now, the evolution of the architecture into the IOT world.
+
+8
+00:00:30.045 --> 00:00:34.810
+So, the image you see here is a typical Web Architecture.
+
+9
+00:00:34.810 --> 00:00:38.883
+So, what you have is a user connecting to some website,
+
+10
+00:00:38.883 --> 00:00:42.115
+and getting some feedback from it.
+
+11
+00:00:42.115 --> 00:00:45.260
+So, the original model used to be,
+
+12
+00:00:45.260 --> 00:00:49.565
+you have one web server connected to one database and you have a user typing
+
+13
+00:00:49.565 --> 00:00:54.310
+the URL and it connects to that one server and does all the computation.
+
+14
+00:00:54.310 --> 00:00:57.190
+When you have the large scale that we do have
+
+15
+00:00:57.190 --> 00:01:01.511
+now with a bunch of users trying to access the same website at once,
+
+16
+00:01:01.511 --> 00:01:05.720
+you need to have your scale built into your architecture.
+
+17
+00:01:05.720 --> 00:01:07.150
+So, in the image here,
+
+18
+00:01:07.150 --> 00:01:09.010
+we have, when the user sends a request,
+
+19
+00:01:09.010 --> 00:01:10.660
+it goes through a load balancer,
+
+20
+00:01:10.660 --> 00:01:14.174
+which will choose which web server to send that request to.
+
+21
+00:01:14.174 --> 00:01:18.340
+So, it'll keep track of which web servers are overloaded,
+
+22
+00:01:18.340 --> 00:01:22.318
+which ones are not doing any work at all and it will send to those.
+
+23
+00:01:22.318 --> 00:01:23.830
+Then from those web servers,
+
+24
+00:01:23.830 --> 00:01:26.185
+it will go through another elastic load balancer,
+
+25
+00:01:26.185 --> 00:01:29.115
+which will choose which database is overloaded right now.
+
+26
+00:01:29.115 --> 00:01:35.260
+And typically, those databases will be following a master-slave model,
+
+27
+00:01:35.260 --> 00:01:38.375
+where the master holds to ground truth.
+
+28
+00:01:38.375 --> 00:01:42.205
+And just in case that master database goes down,
+
+29
+00:01:42.205 --> 00:01:50.838
+its secondary databases can go ahead and take over the traffic.
+
+30
+00:01:50.838 --> 00:01:56.365
+Now, recently, because of the more big data-centric explosion that happened,
+
+31
+00:01:56.365 --> 00:02:01.360
+servers don't really do what we want to do now because let's say,
+
+32
+00:02:01.360 --> 00:02:05.292
+you have just one virtual machine online for 24 hours,
+
+33
+00:02:05.292 --> 00:02:08.395
+you're not going to see the same traffic throughout the entire day.
+
+34
+00:02:08.395 --> 00:02:11.230
+So, what if instead every single time a request is made,
+
+35
+00:02:11.230 --> 00:02:14.125
+we create a resource that does the computation,
+
+36
+00:02:14.125 --> 00:02:16.990
+and after it is finished, we tear it down. That is kind of what AWS lambda tried to do.
+
+37
+00:02:16.990 --> 00:02:24.325
+It was these basic small simple little functions
+
+38
+00:02:24.325 --> 00:02:30.678
+that do these little different things that when you access it,
+
+39
+00:02:30.678 --> 00:02:32.500
+when you connect to the endpoint,
+
+40
+00:02:32.500 --> 00:02:34.196
+it will create resources,
+
+41
+00:02:34.196 --> 00:02:35.800
+the quick little compute server,
+
+42
+00:02:35.800 --> 00:02:39.575
+do the computation, do whatever it is and it will break down.
+
+43
+00:02:39.575 --> 00:02:44.860
+So, this actually proves to be pretty cool for the initial stages for the IoT world.
+
+44
+00:02:44.860 --> 00:02:48.070
+So, any time you had these IoT devices that would send data,
+
+45
+00:02:48.070 --> 00:02:52.195
+not consistently, you would just connect to a lambda service.
+
+46
+00:02:52.195 --> 00:02:54.190
+It will create the resources and then turn up.
+
+47
+00:02:54.190 --> 00:02:55.770
+It is stateless though, alright?
+
+48
+00:02:55.770 --> 00:03:01.470
+Exactly. So, there are pros and cons using this different stuff.
+
+49
+00:03:01.470 --> 00:03:03.655
+The server you have as you said,
+
+50
+00:03:03.655 --> 00:03:05.695
+a state full service,
+
+51
+00:03:05.695 --> 00:03:08.480
+where you can keep track of everything.
+
+52
+00:03:08.480 --> 00:03:09.940
+Whereas, the Lambda services,
+
+53
+00:03:09.940 --> 00:03:12.025
+once you use it,
+
+54
+00:03:12.025 --> 00:03:14.800
+you can't access any of the previous data before.
+
+55
+00:03:14.800 --> 00:03:17.865
+It has to be stored elsewhere and you have to access it.
+
+56
+00:03:17.865 --> 00:03:21.015
+Also, if you are having a continuous stream of data,
+
+57
+00:03:21.015 --> 00:03:23.860
+Lambda might not be the best option because that tear
+
+58
+00:03:23.860 --> 00:03:27.115
+down and bring up of resources takes some time.
+
+59
+00:03:27.115 --> 00:03:30.060
+So, if you do enough requests,
+
+60
+00:03:30.060 --> 00:03:33.160
+there will be a latency factor that gets put into play.
+
+61
+00:03:33.160 --> 00:03:37.120
+Whereas, if you have a regular EC2 service or let's say a bunch of
+
+62
+00:03:37.120 --> 00:03:41.175
+EC2 servers behind an elastic load balancer,
+
+63
+00:03:41.175 --> 00:03:46.210
+the latency won't be in much of an issue because the resources are already there.
+
+64
+00:03:46.210 --> 00:03:48.580
+I guess to simplify these Lambda services,
+
+65
+00:03:48.580 --> 00:03:50.620
+what [inaudible] is saying is imagine,
+
+66
+00:03:50.620 --> 00:03:52.805
+you have a little piece of code.
+
+67
+00:03:52.805 --> 00:03:54.820
+I think of a better one is like imagine you want
+
+68
+00:03:54.820 --> 00:03:57.525
+to write a function which adds two numbers sum.
+
+69
+00:03:57.525 --> 00:03:59.554
+Right now, you've got to figured it out,
+
+70
+00:03:59.554 --> 00:04:01.225
+I want a server to run this on,
+
+71
+00:04:01.225 --> 00:04:02.980
+set up the environment, blah, blah,
+
+72
+00:04:02.980 --> 00:04:05.100
+blah but what Lambda offers is,
+
+73
+00:04:05.100 --> 00:04:06.545
+you don't have to set up anything,
+
+74
+00:04:06.545 --> 00:04:10.510
+just imagine you type in this function into your Word doc and
+
+75
+00:04:10.510 --> 00:04:14.945
+you get an identifier to that code and function and it runs.
+
+76
+00:04:14.945 --> 00:04:17.683
+Lambda is like that. You don't worry about servers, environment,
+
+77
+00:04:17.683 --> 00:04:21.490
+it has certain language supports,
+
+78
+00:04:21.490 --> 00:04:23.530
+just typing your piece of little snippet of
+
+79
+00:04:23.530 --> 00:04:27.710
+function and you get an Amazon Resource Identifier for it ARI,
+
+80
+00:04:27.710 --> 00:04:30.050
+I should say and you call that,
+
+81
+00:04:30.050 --> 00:04:31.180
+you're passing the parameters,
+
+82
+00:04:31.180 --> 00:04:35.950
+it runs, gives you an output and then there is no state maintaining.
+
+83
+00:04:35.950 --> 00:04:41.620
+Classic example, the Sum, Sum A, B it adds the input returns the output.
+
+84
+00:04:41.620 --> 00:04:44.920
+It doesn't store what was sent last time so it is kind of stateless,
+
+85
+00:04:44.920 --> 00:04:48.845
+it is used a lot in the Amazon Echo world,
+
+86
+00:04:48.845 --> 00:04:50.870
+where you are asking Amazon and Kohei,
+
+87
+00:04:50.870 --> 00:04:53.450
+Amazon what's the capital of something?
+
+88
+00:04:53.450 --> 00:04:55.770
+And this you call triggers the Lamba function,
+
+89
+00:04:55.770 --> 00:04:58.060
+it looks up to capital returns you and that is it.
+
+90
+00:04:58.060 --> 00:04:59.835
+It does not remember anything else.
+
+91
+00:04:59.835 --> 00:05:03.190
+So, we would do Amazon Echo App in
+
+92
+00:05:03.190 --> 00:05:07.555
+this course one of the things and you would get to use lambda functions in there.
+
+93
+00:05:07.555 --> 00:05:09.562
+So it is kind of stateless.
+
+94
+00:05:09.562 --> 00:05:10.912
+Yeah.
+
+95
+00:05:10.912 --> 00:05:12.330
+Great.
+
+96
+00:05:12.330 --> 00:05:17.320
+So, Lambda was kind of the introduction into the IoT world but since then,
+
+97
+00:05:17.320 --> 00:05:21.760
+our needs have changed and we need a better architecture to control that.
+
+98
+00:05:21.760 --> 00:05:25.360
+So, Amazon actually introduced IoT module,
+
+99
+00:05:25.360 --> 00:05:28.515
+I think a few years ago and essentially,
+
+100
+00:05:28.515 --> 00:05:33.300
+we'll go more into depth in a later lesson or later module, rather.
+
+101
+00:05:33.300 --> 00:05:34.690
+But essentially what it is,
+
+102
+00:05:34.690 --> 00:05:39.600
+is its own message broker or basically this channel where you can have
+
+103
+00:05:39.600 --> 00:05:44.910
+a bunch of devices connect to the cloud and then behind the cloud,
+
+104
+00:05:44.910 --> 00:05:46.680
+you can have different services connect to
+
+105
+00:05:46.680 --> 00:05:50.490
+that channel and whenever they see some sort of update, like let's say,
+
+106
+00:05:50.490 --> 00:05:54.165
+there's a temperature sensor over there sending temperature data to the cloud,
+
+107
+00:05:54.165 --> 00:05:56.100
+you could have one web server be like,
+
+108
+00:05:56.100 --> 00:05:58.950
+"Hey, we have new temperature data,
+
+109
+00:05:58.950 --> 00:06:02.720
+let's go ahead and take that data and start doing some stuff."
+
+110
+00:06:02.720 --> 00:06:05.480
+So, this is a lot different from the previous model where
+
+111
+00:06:05.480 --> 00:06:08.000
+every single time we try to connect to the cloud,
+
+112
+00:06:08.000 --> 00:06:09.725
+we have to create something,
+
+113
+00:06:09.725 --> 00:06:12.530
+do an operation, and then break down.
+
+114
+00:06:12.530 --> 00:06:16.640
+Here, we have this channel that's constantly listening for these requests but it's
+
+115
+00:06:16.640 --> 00:06:21.075
+not quite as similar to a regular EC2 which is an operating system.
+
+116
+00:06:21.075 --> 00:06:24.265
+This one's simply just a message queue.
+
+117
+00:06:24.265 --> 00:06:32.415
+So, the IoT was a cloud-centric worldview.
+
+118
+00:06:32.415 --> 00:06:35.355
+However, we do not want to do all of our computations on a cloud
+
+119
+00:06:35.355 --> 00:06:38.960
+because when you have now a bunch of devices like millions of devices,
+
+120
+00:06:38.960 --> 00:06:41.840
+trying to connect to the cloud at the same time to do these small,
+
+121
+00:06:41.840 --> 00:06:45.635
+little operations, even the cloud is going to get a little overworked.
+
+122
+00:06:45.635 --> 00:06:49.565
+So, now that there's this new concept of Edge Computing.
+
+123
+00:06:49.565 --> 00:06:50.885
+So, what that does is,
+
+124
+00:06:50.885 --> 00:06:56.300
+you have these mini clouds at the edge of your system.
+
+125
+00:06:56.300 --> 00:06:59.450
+So, let's say you have a bunch of Bluetooth devices and send them
+
+126
+00:06:59.450 --> 00:07:03.030
+directly connecting to some cloud,
+
+127
+00:07:03.030 --> 00:07:05.330
+you'll have these servers or these mini like
+
+128
+00:07:05.330 --> 00:07:10.745
+beacon masters that the Bluetooth devices will connect to,
+
+129
+00:07:10.745 --> 00:07:14.585
+where that master will do the computation there,
+
+130
+00:07:14.585 --> 00:07:19.055
+if needed and then either send that data back to
+
+131
+00:07:19.055 --> 00:07:22.790
+its individual Bluetooth devices or maybe even send it
+
+132
+00:07:22.790 --> 00:07:27.260
+up through a cloud to do some more heavy work computation.
+
+133
+00:07:27.260 --> 00:07:31.880
+But the point of this is that you are offloading the computation onto the edge.
+
+134
+00:07:31.880 --> 00:07:33.375
+Instead of you doing all the work,
+
+135
+00:07:33.375 --> 00:07:35.485
+you are letting everyone else do the work because
+
+136
+00:07:35.485 --> 00:07:38.895
+they do have the resources necessary to do the work.
+
+137
+00:07:38.895 --> 00:07:42.410
+So, Amazon released a new resource.
+
+138
+00:07:42.410 --> 00:07:47.735
+I believe it's still in the Beta or it's still pretty new,
+
+139
+00:07:47.735 --> 00:07:50.640
+called GreenGrass which essentially does this.
+
+140
+00:07:50.640 --> 00:07:55.160
+You have local server or local hardware,
+
+141
+00:07:55.160 --> 00:08:00.080
+where you are able to upload your code or a specific operation that you want to
+
+142
+00:08:00.080 --> 00:08:05.225
+do on the Edge and their devices will connect to that server and if needed,
+
+143
+00:08:05.225 --> 00:08:06.470
+communicate with the cloud,
+
+144
+00:08:06.470 --> 00:08:08.940
+at the same time.
+
+145
+00:08:08.940 --> 00:08:11.670
+So, that's kind of the basic gist of the evolution that
+
+146
+00:08:11.670 --> 00:08:15.955
+the architecture for different applications have gone through.
+
+147
+00:08:15.955 --> 00:08:19.160
+We started off with a very server-client model with
+
+148
+00:08:19.160 --> 00:08:22.880
+a typical Web server database architecture.
+
+149
+00:08:22.880 --> 00:08:25.645
+Then we moved over to a stateless Lambda functions.
+
+150
+00:08:25.645 --> 00:08:29.340
+Now, we are moving over to a message queue centric where we have
+
+151
+00:08:29.340 --> 00:08:33.300
+just- we are just listening to messages and we have different services sniffing on that,
+
+152
+00:08:33.300 --> 00:08:38.580
+to doing a lot of computation away from the cloud but onto the Edge.

@@ -1,0 +1,633 @@
+WEBVTT
+
+1
+00:00:00.130 --> 00:00:02.420
+Welcome, everyone. In this video,
+
+2
+00:00:02.420 --> 00:00:06.410
+we'll be going over how to set up and use a GPU instance on
+
+3
+00:00:06.410 --> 00:00:09.560
+Amazon Web Services and
+
+4
+00:00:09.560 --> 00:00:13.655
+we're just going to give you some reasoning for why would you even use a GPU.
+
+5
+00:00:13.655 --> 00:00:17.285
+In general, GPU's are much faster than
+
+6
+00:00:17.285 --> 00:00:21.205
+CPU's for processing certain types of data like matrices.
+
+7
+00:00:21.205 --> 00:00:22.850
+So, as you know,
+
+8
+00:00:22.850 --> 00:00:25.825
+GPU stands for graphical processing unit.
+
+9
+00:00:25.825 --> 00:00:29.300
+So, the graphical part in graphics such as video games,
+
+10
+00:00:29.300 --> 00:00:30.485
+we use a lot of matrices,
+
+11
+00:00:30.485 --> 00:00:34.460
+and they're very optimized for doing matrix calculations really fast,
+
+12
+00:00:34.460 --> 00:00:37.930
+and so that doesn't slow down your CPU.
+
+13
+00:00:37.930 --> 00:00:41.000
+Now, you might be wondering how this relates to machine learning if you're not
+
+14
+00:00:41.000 --> 00:00:44.776
+familiar with some core concepts machine learning.
+
+15
+00:00:44.776 --> 00:00:48.810
+So, machine learning, we like to use matrices a lot to speed up computation,
+
+16
+00:00:48.810 --> 00:00:54.245
+and doing it over very large data sets.
+
+17
+00:00:54.245 --> 00:00:57.290
+So, we want to use GPU just so that
+
+18
+00:00:57.290 --> 00:01:00.890
+our training of machine learning model is quicker than running on just a CPU,
+
+19
+00:01:00.890 --> 00:01:05.745
+just because time is valuable and we don't want to waste time.
+
+20
+00:01:05.745 --> 00:01:08.420
+So, knowing how to set up a GPU on
+
+21
+00:01:08.420 --> 00:01:14.420
+Amazon Web Services and running a machine learning model to train on some data set
+
+22
+00:01:14.420 --> 00:01:19.385
+is very useful and if you're asking why use
+
+23
+00:01:19.385 --> 00:01:24.660
+an AWS instance like a home computer with a GPU installed.
+
+24
+00:01:24.660 --> 00:01:28.585
+Well, because, as I said before, machine learning,
+
+25
+00:01:28.585 --> 00:01:31.860
+right now has been training on very large data sets,
+
+26
+00:01:31.860 --> 00:01:34.515
+so maybe your computer is also very not,
+
+27
+00:01:34.515 --> 00:01:38.395
+not as powerful as a huge Amazon Web Services server.
+
+28
+00:01:38.395 --> 00:01:41.290
+So, it will take longer than running on
+
+29
+00:01:41.290 --> 00:01:45.940
+the server and you also can't really use a computer
+
+30
+00:01:45.940 --> 00:01:54.250
+for much of anything else if it's taking all its processing power training on that model.
+
+31
+00:01:54.250 --> 00:01:55.810
+So, the benefit of using
+
+32
+00:01:55.810 --> 00:01:59.435
+an Amazon Web Services instance is that you can just train the model,
+
+33
+00:01:59.435 --> 00:02:04.060
+exit out of it, and then don't worry about,
+
+34
+00:02:04.060 --> 00:02:06.400
+and wait for it to finish training and just leave it.
+
+35
+00:02:06.400 --> 00:02:10.045
+And then, come back to the instance and see your trained model saved,
+
+36
+00:02:10.045 --> 00:02:14.455
+and you don't have to stare at the screen the whole time.
+
+37
+00:02:14.455 --> 00:02:17.140
+So, what we'll be doing in this video is creating
+
+38
+00:02:17.140 --> 00:02:20.820
+a GPU instance with deep learning libraries pre-installed.
+
+39
+00:02:20.820 --> 00:02:23.845
+So, this would be like an Amazon machine image.
+
+40
+00:02:23.845 --> 00:02:25.890
+It's really helpful, because personally,
+
+41
+00:02:25.890 --> 00:02:29.395
+I've tried to install TensorFlow and Keras and all these frameworks,
+
+42
+00:02:29.395 --> 00:02:32.410
+and it's been kind of a headache on my own computer but
+
+43
+00:02:32.410 --> 00:02:35.165
+having Amazon server that
+
+44
+00:02:35.165 --> 00:02:38.585
+just has it all pre-installed and ready to run, is just really nice.
+
+45
+00:02:38.585 --> 00:02:41.888
+So after that, after creating the instance,
+
+46
+00:02:41.888 --> 00:02:44.440
+we're going to clone a TensorFlow repository,
+
+47
+00:02:44.440 --> 00:02:51.615
+and then run one of their programs which trains a simple model for recognizing digits.
+
+48
+00:02:51.615 --> 00:02:55.650
+So, we'll be jumping on to my computer and show you guys just how to
+
+49
+00:02:55.650 --> 00:02:59.720
+launch a GPU instance versus a normal EC2 instance.
+
+50
+00:02:59.720 --> 00:03:03.176
+So, it might look a little smaller and moved over here a bit.
+
+51
+00:03:03.176 --> 00:03:04.945
+So, I'll just make it a little bigger.
+
+52
+00:03:04.945 --> 00:03:12.130
+So, we are on the Amazon Web Services console.
+
+53
+00:03:12.130 --> 00:03:17.575
+So, you just want to head to EC2 and then here you want to launch a new instance.
+
+54
+00:03:17.575 --> 00:03:19.635
+This is kind of familiar from before when we
+
+55
+00:03:19.635 --> 00:03:21.890
+already launched one of these before but in this case,
+
+56
+00:03:21.890 --> 00:03:26.150
+we want to choose Deep Learning AMI with CUDA.
+
+57
+00:03:26.150 --> 00:03:27.552
+If you don't know what CUDA is,
+
+58
+00:03:27.552 --> 00:03:30.395
+it's basically the language that
+
+59
+00:03:30.395 --> 00:03:34.160
+the GPU uses to run things and if you have a GPU enabled,
+
+60
+00:03:34.160 --> 00:03:39.050
+you can translate some of the code written for the CPU and translate it,
+
+61
+00:03:39.050 --> 00:03:41.925
+so that the GPU can run it.
+
+62
+00:03:41.925 --> 00:03:44.700
+So, we're just going to use this and
+
+63
+00:03:44.700 --> 00:03:48.950
+that has all Tensorflow and Keras installed, so you don't need to worry about it.
+
+64
+00:03:48.950 --> 00:03:52.080
+So normally, I've using the t2.micro which is
+
+65
+00:03:52.080 --> 00:03:55.425
+just a really weak computer and it's free to eligible.
+
+66
+00:03:55.425 --> 00:03:56.891
+For machine learning purposes,
+
+67
+00:03:56.891 --> 00:03:59.449
+we want to run fairly fast, not take too long.
+
+68
+00:03:59.449 --> 00:04:05.965
+So, we want to use a GPU and this case we want to use the g2.2xlarge.
+
+69
+00:04:05.965 --> 00:04:07.957
+Nothing very specific about this,
+
+70
+00:04:07.957 --> 00:04:09.253
+it's just it has a GPU and well,
+
+71
+00:04:09.253 --> 00:04:11.262
+it's just that we like to use.
+
+72
+00:04:11.262 --> 00:04:14.725
+One note about this,
+
+73
+00:04:14.725 --> 00:04:19.305
+is this does cost more money than the free tier micro just because it takes up
+
+74
+00:04:19.305 --> 00:04:21.810
+more resources for Amazon so they want to make
+
+75
+00:04:21.810 --> 00:04:25.110
+sure that they get their money's worth for selling this.
+
+76
+00:04:25.110 --> 00:04:30.034
+So next, we want to just configure the instance details.
+
+77
+00:04:30.034 --> 00:04:32.550
+You can pretty much go through all of this,
+
+78
+00:04:32.550 --> 00:04:35.070
+not worry about too much.
+
+79
+00:04:35.070 --> 00:04:37.843
+I give you a little warning about how everybody can SSH
+
+80
+00:04:37.843 --> 00:04:39.728
+into things if they have
+
+81
+00:04:39.728 --> 00:04:43.350
+the key but that shouldn't matter too much because we're going to create our own.
+
+82
+00:04:43.350 --> 00:04:44.960
+So, we will create a new key pair.
+
+83
+00:04:44.960 --> 00:04:48.523
+You could use your own, if you have existing one should you want but I'm just
+
+84
+00:04:48.523 --> 00:04:53.060
+going to create new one just for showing how to do this.
+
+85
+00:04:53.060 --> 00:04:57.771
+So, we'll call it GPU2 and download the key pair.
+
+86
+00:04:57.771 --> 00:04:58.930
+As you can see here,
+
+87
+00:04:58.930 --> 00:05:04.595
+I already have a GPU.pem from previously testing this,
+
+88
+00:05:04.595 --> 00:05:10.135
+and now I have that pem file and I want to go to launch instances.
+
+89
+00:05:10.135 --> 00:05:15.083
+So now, it's launching right now and we want to view instances.
+
+90
+00:05:15.083 --> 00:05:17.450
+So, as you can see here,
+
+91
+00:05:17.450 --> 00:05:20.160
+a little bit, there we go.
+
+92
+00:05:20.160 --> 00:05:22.905
+I zoomed up and here it is initializing.
+
+93
+00:05:22.905 --> 00:05:26.370
+So, one thing before we want to, while it's loading,
+
+94
+00:05:26.370 --> 00:05:32.900
+is to change the permissions on that file and currently it's in my downloads and GPU.
+
+95
+00:05:32.900 --> 00:05:36.294
+So, that's the file.
+
+96
+00:05:36.294 --> 00:05:40.260
+This will be different for you if you're running
+
+97
+00:05:40.260 --> 00:05:44.570
+Windows or MAC but I'm running Ubuntu which is a flavor of Linux.
+
+98
+00:05:44.570 --> 00:05:50.190
+And, here we can just go into terminal and change the permission on a file.
+
+99
+00:05:50.190 --> 00:05:54.870
+So, chmod 400 and then GPU.
+
+100
+00:05:54.870 --> 00:05:59.483
+If you're a little confuse on where I'm getting these commands from,
+
+101
+00:05:59.483 --> 00:06:04.330
+it will make more sense once the instance is done running.
+
+102
+00:06:04.330 --> 00:06:06.540
+So, here if I actually go into connect,
+
+103
+00:06:06.540 --> 00:06:09.748
+you can see here that it has a bunch of instructions,
+
+104
+00:06:09.748 --> 00:06:11.732
+one for using is in PuTTY if you're on Windows,
+
+105
+00:06:11.732 --> 00:06:17.790
+finding the key file and then what you have to change your permissions on that key file.
+
+106
+00:06:17.790 --> 00:06:21.220
+So, as you can see here our chmod 400 GPU2, did that.
+
+107
+00:06:21.220 --> 00:06:24.595
+So now, we actually want to connect to the server itself.
+
+108
+00:06:24.595 --> 00:06:29.140
+We just run copy this and just run it.
+
+109
+00:06:29.140 --> 00:06:33.255
+It may or may not fail the first or second time,
+
+110
+00:06:33.255 --> 00:06:39.185
+but that's dependent on how fast this load sets of.
+
+111
+00:06:39.185 --> 00:06:44.445
+Taking a while, so we're going to cancel that, connection refused.
+
+112
+00:06:44.445 --> 00:06:46.010
+Don't be afraid about this.
+
+113
+00:06:46.010 --> 00:06:50.585
+Just give it a couple tries and it should eventually work.
+
+114
+00:06:50.585 --> 00:06:55.650
+There you go, so it is just asking if you want to remember
+
+115
+00:06:55.650 --> 00:06:59.710
+this connection to the server, just type yes.
+
+116
+00:06:59.710 --> 00:07:08.680
+Still waiting, so this is just for home directory.
+
+117
+00:07:08.680 --> 00:07:11.320
+So now, we have all set up.
+
+118
+00:07:11.320 --> 00:07:14.475
+It's easy to instance with a GPU enable.
+
+119
+00:07:14.475 --> 00:07:17.595
+So, now we want to actually use this and see it in action.
+
+120
+00:07:17.595 --> 00:07:23.129
+So, what we're going to do is run this file called mnist_deep.py.
+
+121
+00:07:23.129 --> 00:07:26.776
+This is basically, if you don't know what mnist is, it's a bunch,
+
+122
+00:07:26.776 --> 00:07:34.180
+it's a huge data set created by machine learning researchers to help recognize
+
+123
+00:07:34.180 --> 00:07:38.170
+handwritten digits and then this is
+
+124
+00:07:38.170 --> 00:07:40.190
+located in the TensorFlow repository just because it's
+
+125
+00:07:40.190 --> 00:07:43.130
+a very common hello world for machine learning.
+
+126
+00:07:43.130 --> 00:07:45.440
+So, what we're going to do is clone this repository,
+
+127
+00:07:45.440 --> 00:07:48.610
+TensorFlow and then CD into that directory.
+
+128
+00:07:48.610 --> 00:07:50.140
+So, if we go into my computer,
+
+129
+00:07:50.140 --> 00:07:53.465
+and see whether it's connected to the Amazon Web server,
+
+130
+00:07:53.465 --> 00:07:58.190
+here we can just run again and,
+
+131
+00:07:58.190 --> 00:08:00.755
+this is some bunch of set messages,
+
+132
+00:08:00.755 --> 00:08:02.210
+and then you can see here,
+
+133
+00:08:02.210 --> 00:08:08.640
+it's step zero training accuracy point eight and just rapidly jumps up to 94 percent,
+
+134
+00:08:08.640 --> 00:08:11.145
+88 percent, config jumping around,
+
+135
+00:08:11.145 --> 00:08:14.650
+it seems like it's stabilizing more, 100 percent.
+
+136
+00:08:14.650 --> 00:08:19.880
+Yeah, this is, it's on like step
+
+137
+00:08:19.880 --> 00:08:23.560
+1,200 and this data set has about
+
+138
+00:08:23.560 --> 00:08:28.105
+70,000 images so you can imagine this would take a while.
+
+139
+00:08:28.105 --> 00:08:33.100
+Now, this is running on GPU so it's even faster than normal,
+
+140
+00:08:33.100 --> 00:08:35.465
+and it's still going to take a decent amount of time.
+
+141
+00:08:35.465 --> 00:08:38.290
+If you're going to run this on your own computer and I've tried it on
+
+142
+00:08:38.290 --> 00:08:42.082
+my own Ubuntu computer without the GPU,
+
+143
+00:08:42.082 --> 00:08:48.305
+it just immediately takes up all the CPU and just makes it loud and hyped up the fan,
+
+144
+00:08:48.305 --> 00:08:51.550
+and basically I can't really click my computer for anything else if I'm training
+
+145
+00:08:51.550 --> 00:08:55.850
+this and to make sure it's constantly powered because it's going to kill my computer.
+
+146
+00:08:55.850 --> 00:09:01.330
+But the benefit of running it on Amazon Web Services is that you can just let it run,
+
+147
+00:09:01.330 --> 00:09:04.225
+estimate when it's going to finish and just
+
+148
+00:09:04.225 --> 00:09:07.288
+come back when it's finished and just have a saved model there.
+
+149
+00:09:07.288 --> 00:09:09.345
+So, you don't have to waste time just staring at
+
+150
+00:09:09.345 --> 00:09:11.615
+your computer or tiptoeing around your computer,
+
+151
+00:09:11.615 --> 00:09:14.285
+making sure it doesn't turn off.
+
+152
+00:09:14.285 --> 00:09:17.770
+So yeah, that's the use for GPU on Amazon Web Services.
+
+153
+00:09:17.770 --> 00:09:21.345
+It's really popular use for machine learning just so,
+
+154
+00:09:21.345 --> 00:09:23.500
+we can train things a lot faster and
+
+155
+00:09:23.500 --> 00:09:25.390
+we don't have to worry about it running on our own computer,
+
+156
+00:09:25.390 --> 00:09:26.730
+and setting up environments.
+
+157
+00:09:26.730 --> 00:09:30.010
+It saves a lot of time.
+
+158
+00:09:30.010 --> 00:09:33.000
+Stay tuned for some more videos in the future and thank you.

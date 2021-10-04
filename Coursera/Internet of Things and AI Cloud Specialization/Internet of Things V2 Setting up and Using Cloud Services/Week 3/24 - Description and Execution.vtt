@@ -1,0 +1,325 @@
+WEBVTT
+
+1
+00:00:01.380 --> 00:00:06.010
+Hello, everyone. In this video we're going over the Environment Alert System.
+
+2
+00:00:06.010 --> 00:00:08.360
+It actually uses the DragonBoard sensors,
+
+3
+00:00:08.360 --> 00:00:12.965
+and sends us a notification whenever one of the sensors reads over,
+
+4
+00:00:12.965 --> 00:00:15.245
+or below us in the threshold.
+
+5
+00:00:15.245 --> 00:00:19.370
+So here are some of the hardware requirements that we need for this project.
+
+6
+00:00:19.370 --> 00:00:21.160
+First, you would need the Sensors Mezzanine,
+
+7
+00:00:21.160 --> 00:00:23.820
+and then the three Grove Connectors.
+
+8
+00:00:23.820 --> 00:00:28.205
+And then here we specified where you need to connect your temperature, light,
+
+9
+00:00:28.205 --> 00:00:33.600
+and sound sensors which is A0, A1, A2, respectively.
+
+10
+00:00:33.600 --> 00:00:42.885
+And then this uses the same parts that we showed on the sensor stream demo.
+
+11
+00:00:42.885 --> 00:00:47.525
+And this time we're going to use AWS's SNS or
+
+12
+00:00:47.525 --> 00:00:52.490
+Simple Notification Service to trigger not really text,
+
+13
+00:00:52.490 --> 00:00:54.685
+but email under certain conditions.
+
+14
+00:00:54.685 --> 00:00:58.700
+And these conditions are defined by the light, temperature, and sound.
+
+15
+00:00:58.700 --> 00:01:02.345
+So basically, if it's really dark in the room
+
+16
+00:01:02.345 --> 00:01:07.040
+below 100 then it will send us a notification saying that the light is too low.
+
+17
+00:01:07.040 --> 00:01:09.110
+And then for temperature and sound,
+
+18
+00:01:09.110 --> 00:01:15.425
+the thing needs to be above threshold in order for us to get the notification.
+
+19
+00:01:15.425 --> 00:01:22.015
+So, let's go to the DragonBoard to see how everything is connected.
+
+20
+00:01:22.015 --> 00:01:25.355
+So, here we are at the camera shot of our DragonBoard.
+
+21
+00:01:25.355 --> 00:01:30.341
+And the first sensor which is connected to this one over here,
+
+22
+00:01:30.341 --> 00:01:32.835
+is the temperature sensor.
+
+23
+00:01:32.835 --> 00:01:35.559
+And the one connected to this one over here,
+
+24
+00:01:35.559 --> 00:01:37.685
+this would be the light sensor.
+
+25
+00:01:37.685 --> 00:01:42.025
+And then the one connected to A2 over here is the sound sensor.
+
+26
+00:01:42.025 --> 00:01:45.974
+So, let's check out how this thing works.
+
+27
+00:01:45.974 --> 00:01:52.520
+Here we are at our directory for module two of course three.
+
+28
+00:01:52.520 --> 00:01:54.650
+And then let's look for alert system.
+
+29
+00:01:54.650 --> 00:02:02.300
+And then let's move into our DragonBoard Directory. And then here we are.
+
+30
+00:02:02.300 --> 00:02:06.695
+And if you ls, you see a bunch of security stuff that we're not going to cover.
+
+31
+00:02:06.695 --> 00:02:12.153
+But what we're really worried about is the setAlert.py script.
+
+32
+00:02:12.153 --> 00:02:17.735
+So, let's just run this and see what it does.
+
+33
+00:02:17.735 --> 00:02:23.467
+And then if we run this it should display streaming to AWS as it does right now,
+
+34
+00:02:23.467 --> 00:02:26.330
+this means that everything is going into AWS.
+
+35
+00:02:26.330 --> 00:02:28.291
+If we jump to my computer,
+
+36
+00:02:28.291 --> 00:02:32.930
+we can see here that on the IoT Testing,
+
+37
+00:02:32.930 --> 00:02:35.540
+we have subscribed to the environment topic which is
+
+38
+00:02:35.540 --> 00:02:39.005
+the same topic that the DragonBoard is set on.
+
+39
+00:02:39.005 --> 00:02:44.980
+So you can see all the streaming data here.
+
+40
+00:02:44.980 --> 00:02:47.155
+We can see sounds changing relevant.
+
+41
+00:02:47.155 --> 00:02:49.730
+So if you just clap will make it louder.
+
+42
+00:02:49.730 --> 00:02:56.855
+Yeah. So let me just do a really embarrassing yell into the sound sensor.
+
+43
+00:02:56.855 --> 00:03:00.270
+Yeah. So it went to 800 and it hurt my ears.
+
+44
+00:03:00.270 --> 00:03:02.330
+Let's see.
+
+45
+00:03:02.330 --> 00:03:04.820
+Now, we set an alert for this,
+
+46
+00:03:04.820 --> 00:03:08.855
+so that on this one it changes it too.
+
+47
+00:03:08.855 --> 00:03:11.283
+So this one's for the light,
+
+48
+00:03:11.283 --> 00:03:12.370
+it takes the light, temperature,
+
+49
+00:03:12.370 --> 00:03:15.635
+and sound and sets it to the environment topic.
+
+50
+00:03:15.635 --> 00:03:18.605
+And if the light goes under 100 it will send me an email.
+
+51
+00:03:18.605 --> 00:03:21.185
+So let's just try that right now.
+
+52
+00:03:21.185 --> 00:03:25.500
+So let's just cover the light sensor with [inaudible].
+
+53
+00:03:25.500 --> 00:03:27.735
+195.
+
+54
+00:03:27.735 --> 00:03:29.964
+So if you jump over here and we refresh,
+
+55
+00:03:29.964 --> 00:03:31.280
+it should send me an email.
+
+56
+00:03:31.280 --> 00:03:35.160
+It might take a sec.
+
+57
+00:03:35.160 --> 00:03:37.115
+Wait light is it under 280?
+
+58
+00:03:37.115 --> 00:03:41.530
+It's 295 actually. Try to make it lower.
+
+59
+00:03:41.530 --> 00:03:49.905
+512. Let me see.
+
+60
+00:03:49.905 --> 00:03:52.930
+So if you cover it well
+
+61
+00:03:52.930 --> 00:04:00.160
+with no light getting in, that should trigger an email.
+
+62
+00:04:00.160 --> 00:04:03.850
+And then you can see here we got this email,
+
+63
+00:04:03.850 --> 00:04:06.315
+it wasn't the one we wanted.
+
+64
+00:04:06.315 --> 00:04:08.120
+Okay. These are some old ones.
+
+65
+00:04:08.120 --> 00:04:10.319
+This the new email right here,
+
+66
+00:04:10.319 --> 00:04:12.135
+the light under 73,
+
+67
+00:04:12.135 --> 00:04:16.110
+and we've got some other ones under 89, under 78.
+
+68
+00:04:16.110 --> 00:04:19.060
+So, we can use this on some of the other sensors
+
+69
+00:04:19.060 --> 00:04:22.090
+too to trigger certain things about your environment.
+
+70
+00:04:22.090 --> 00:04:24.770
+Let's say you're monitoring your lizard or
+
+71
+00:04:24.770 --> 00:04:27.264
+something and you want to keep the temperature at the exact temperature,
+
+72
+00:04:27.264 --> 00:04:30.590
+and if it ever went too hot or too cold for it might die.
+
+73
+00:04:30.590 --> 00:04:33.590
+So, you want to alert yourself if that ever happens,
+
+74
+00:04:33.590 --> 00:04:37.825
+so you can come back home and make sure your lizard doesn't die.
+
+75
+00:04:37.825 --> 00:04:45.435
+So that was an example of how to use sensors with SNS integration.
+
+76
+00:04:45.435 --> 00:04:48.125
+You can also include text.
+
+77
+00:04:48.125 --> 00:04:49.700
+Make sure not to hit the limit on that,
+
+78
+00:04:49.700 --> 00:04:51.350
+because it's actually much lower than email limit.
+
+79
+00:04:51.350 --> 00:04:55.120
+You can use text to notify you or email.
+
+80
+00:04:55.120 --> 00:04:57.080
+And you can integrate this to any of
+
+81
+00:04:57.080 --> 00:05:00.000
+your projects and make it a little bit more exciting.

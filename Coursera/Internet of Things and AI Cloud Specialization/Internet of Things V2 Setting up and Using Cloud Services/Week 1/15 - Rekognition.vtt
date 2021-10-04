@@ -1,0 +1,537 @@
+WEBVTT
+
+1
+00:00:01.252 --> 00:00:07.200
+Hello, in this video, we'll be going
+over the Amazon web service Rekognition.
+
+2
+00:00:09.650 --> 00:00:13.837
+>> And first, we're going to
+describe what Rekognition is, and
+
+3
+00:00:13.837 --> 00:00:19.260
+then we're going to upload the image
+through S3, which is another service.
+
+4
+00:00:19.260 --> 00:00:22.380
+And then we're going to
+detect labels using AWS CLI.
+
+5
+00:00:22.380 --> 00:00:28.836
+And then we're going to also show how to
+detect labels using AWS SDK for Python.
+
+6
+00:00:28.836 --> 00:00:32.780
+>> Yeah, so [COUGH] we're just
+going to jump to my laptop.
+
+7
+00:00:32.780 --> 00:00:38.480
+And then we can see here, and
+we're going to go the Rekognition.
+
+8
+00:00:38.480 --> 00:00:43.002
+So you can see here on the console that-
+>> You might want to make it bigger.
+
+9
+00:00:43.002 --> 00:00:45.193
+>> Yeah, it's a little small, so
+
+10
+00:00:45.193 --> 00:00:51.290
+you can see here that Rekognition's all
+the way under Artificial Intelligence.
+
+11
+00:00:51.290 --> 00:00:56.820
+So if you click it, you'll head to this,
+just a brief description of what it is.
+
+12
+00:00:56.820 --> 00:01:01.110
+Essentially, you can give Amazon an image,
+and it can detect some labels in it,
+
+13
+00:01:01.110 --> 00:01:03.078
+like what objects it sees inside it.
+
+14
+00:01:03.078 --> 00:01:06.290
+And then whatever services
+like detecting faces and
+
+15
+00:01:06.290 --> 00:01:09.670
+seeing whether or
+not there's a face inside.
+
+16
+00:01:09.670 --> 00:01:15.470
+So we're just going to try it out with
+our own image that we find off Google.
+
+17
+00:01:15.470 --> 00:01:19.282
+So here you can see just a description,
+
+18
+00:01:19.282 --> 00:01:23.710
+all those nice graphics to make you
+think it's a brain looking thing.
+
+19
+00:01:25.160 --> 00:01:27.440
+I'm just going to go to
+the Get Started guide.
+
+20
+00:01:27.440 --> 00:01:32.960
+Now here, you can go to
+getting started using the API,
+
+21
+00:01:32.960 --> 00:01:35.720
+and detecting labels API.
+
+22
+00:01:35.720 --> 00:01:38.727
+So here is the code you guys can use for
+
+23
+00:01:38.727 --> 00:01:43.830
+running this,
+I'll just close out some of these.
+
+24
+00:01:43.830 --> 00:01:48.945
+And [COUGH] so here is a command
+line version, where if you have
+
+25
+00:01:48.945 --> 00:01:55.150
+an image in an S3, bucket which
+is basically just a hard drive.
+
+26
+00:01:55.150 --> 00:01:58.660
+You can run the detect
+labels on it through this,
+
+27
+00:01:58.660 --> 00:02:02.500
+or you can do it through Java,
+or you can do it through Python.
+
+28
+00:02:02.500 --> 00:02:06.410
+As said before, we're going to do it
+through the command line version and
+
+29
+00:02:06.410 --> 00:02:10.150
+through the SDK for Python.
+
+30
+00:02:12.500 --> 00:02:17.640
+So first thing first, as you see here,
+we need an image inside an S3 bucket.
+
+31
+00:02:17.640 --> 00:02:20.503
+So we're just going to go to the S3,
+create a new bucket, and
+
+32
+00:02:20.503 --> 00:02:22.986
+try to figure out a new
+name that's not been taken.
+
+33
+00:02:22.986 --> 00:02:28.290
+courserademo, all right,
+courserademo, that works,
+
+34
+00:02:28.290 --> 00:02:33.604
+and no it does not, okay,
+courserademo0, there we go.
+
+35
+00:02:33.604 --> 00:02:37.254
+And you can set that one up,
+let's click Next,
+
+36
+00:02:37.254 --> 00:02:42.170
+click through everything, and
+you can see I click into this.
+
+37
+00:02:42.170 --> 00:02:43.700
+And I'm going to upload a new image, so
+
+38
+00:02:43.700 --> 00:02:45.950
+we're just going to grab
+that off Google Images.
+
+39
+00:02:45.950 --> 00:02:50.036
+So for this, we'll just try a hot dog or
+
+40
+00:02:50.036 --> 00:02:55.460
+something, so hot dog, and Google Images.
+
+41
+00:02:56.780 --> 00:02:59.250
+Yeah, that one looks good and
+delicious, so
+
+42
+00:02:59.250 --> 00:03:01.850
+we're just going to grab that,
+download it here.
+
+43
+00:03:01.850 --> 00:03:05.108
+As you can see here, we've tried it before
+with banana, but you can just ignore that.
+
+44
+00:03:05.108 --> 00:03:10.880
+Hot dog, [COUGH]
+and now we have a hot dog,
+
+45
+00:03:10.880 --> 00:03:14.780
+so just jump back to the S3 and
+upload that hot dog.
+
+46
+00:03:16.310 --> 00:03:22.087
+That is somewhere else, so we wanted
+this one, and here's our hot dog.
+
+47
+00:03:22.087 --> 00:03:28.510
+And this is a quick part of S3 demo,
+and just uploading to it.
+
+48
+00:03:28.510 --> 00:03:31.915
+So now we have a hot dog and
+a bucket that we can access.
+
+49
+00:03:31.915 --> 00:03:35.350
+So if we just go back to
+the instructions that they give us,
+
+50
+00:03:36.720 --> 00:03:38.560
+we can just copy this command.
+
+51
+00:03:38.560 --> 00:03:43.630
+We do want to edit some parts of this, for
+example, the region and the profile user.
+
+52
+00:03:44.900 --> 00:03:49.070
+So we want to just go into a text editor,
+and just any general one.
+
+53
+00:03:49.070 --> 00:03:53.454
+I'm on Ubuntu, so this one is GEdit,
+but if you're on any other system,
+
+54
+00:03:53.454 --> 00:03:54.960
+just use the native one.
+
+55
+00:03:54.960 --> 00:03:58.058
+I know Windows has Notepad, and
+
+56
+00:03:58.058 --> 00:04:03.012
+I think Apple has Codex or something,
+>> I'm not too sure myself.
+
+57
+00:04:03.012 --> 00:04:06.670
+>> Xcode, but I'm sure they have
+their own basic text editor.
+
+58
+00:04:06.670 --> 00:04:10.850
+So you can just copy this
+to change the command, and
+
+59
+00:04:10.850 --> 00:04:16.180
+you want to change the bucket
+name to whatever bucket we set.
+
+60
+00:04:16.180 --> 00:04:20.851
+So if we go here,
+you can see that our bucket name is
+
+61
+00:04:20.851 --> 00:04:25.203
+couserademo0, so
+we just change it to that.
+
+62
+00:04:25.203 --> 00:04:28.460
+And then we want to change
+whatever image we're going to do.
+
+63
+00:04:28.460 --> 00:04:34.260
+So this time, we want to do hot dog,
+and the next part is, what region?
+
+64
+00:04:34.260 --> 00:04:37.956
+So we are currently in US region west,
+
+65
+00:04:37.956 --> 00:04:43.800
+I think you can check through,
+we can check up here.
+
+66
+00:04:43.800 --> 00:04:46.930
+Region US west two, so
+you can change it from there.
+
+67
+00:04:46.930 --> 00:04:49.810
+So we just want to change
+this to US west two,
+
+68
+00:04:49.810 --> 00:04:52.190
+to reflect where we actually
+are adding the bucket.
+
+69
+00:04:53.610 --> 00:04:58.117
+And then we are going to use the default
+one we just used to configure our
+
+70
+00:04:58.117 --> 00:05:01.770
+credentials, we just used
+AWS configure for the CLI.
+
+71
+00:05:01.770 --> 00:05:07.370
+And you use the default one, and
+I did not spell default right, my.
+
+72
+00:05:09.580 --> 00:05:15.613
+Yeah, so just Ctrl+A and
+copy all that, go into command line,
+
+73
+00:05:15.613 --> 00:05:22.094
+and then I used a virtual environment for
+installing the Python SDK,
+
+74
+00:05:22.094 --> 00:05:27.260
+so in this instance,
+I'm going to go and activate that.
+
+75
+00:05:29.410 --> 00:05:35.142
+And let's go to this and go to Coursera,
+
+76
+00:05:35.142 --> 00:05:38.857
+and I'm going to do source.
+
+77
+00:05:38.857 --> 00:05:45.350
+If this is strange, you can look up more
+about virtual environments and Python.
+
+78
+00:05:45.350 --> 00:05:51.581
+This is useful for having some
+certain packages in one place only.
+
+79
+00:05:51.581 --> 00:05:56.580
+So yeah, if we run this,
+it should work, crossing my fingers.
+
+80
+00:05:58.390 --> 00:06:04.040
+Yeah, and then it returned
+a JSON data about what it sees.
+
+81
+00:06:04.040 --> 00:06:08.557
+[COUGH] So the first thing it thinks is
+that it's 99% confident that it's food,
+
+82
+00:06:08.557 --> 00:06:12.000
+and also 99% confident
+that it's a hot dog.
+
+83
+00:06:12.000 --> 00:06:14.960
+And something about rotation,
+and that it's rotated, 0.
+
+84
+00:06:14.960 --> 00:06:18.275
+You can look more into that, but yeah,
+
+85
+00:06:18.275 --> 00:06:22.800
+this gives you the ability
+just to see basic objects.
+
+86
+00:06:22.800 --> 00:06:27.108
+So next we're going to try it more
+programmatically through Python.
+
+87
+00:06:27.108 --> 00:06:32.510
+because command line might not be as
+useful for most people in applications.
+
+88
+00:06:32.510 --> 00:06:39.100
+So for Python, we can easily just go
+back here, and ignore the Java one.
+
+89
+00:06:39.100 --> 00:06:41.814
+If you want to do the Java one,
+you can, it's here, so
+
+90
+00:06:41.814 --> 00:06:44.064
+you can see here the many
+packages involved.
+
+91
+00:06:44.064 --> 00:06:48.672
+The Python one's a little smaller, and so
+
+92
+00:06:48.672 --> 00:06:54.826
+we're going to just go in here and
+make a new file, whoops,
+
+93
+00:06:57.030 --> 00:07:01.815
+And just copy all that, and
+we're going to save this as rekog.py,
+
+94
+00:07:01.815 --> 00:07:06.169
+and we're saving it in this
+folder that we've been using.
+
+95
+00:07:07.850 --> 00:07:15.240
+So as you can see here, here's the basic
+file, this file name's used, where is it?
+
+96
+00:07:17.080 --> 00:07:20.910
+Yeah, it's just used here
+in the s3bucket object, so
+
+97
+00:07:20.910 --> 00:07:23.964
+we just want to change this and
+put hot dog.
+
+98
+00:07:23.964 --> 00:07:27.845
+And our Coursera thing, couserademo0,
+
+99
+00:07:27.845 --> 00:07:32.490
+so just save that,
+now if we actually go into that,
+
+100
+00:07:36.180 --> 00:07:43.235
+And we do python rekognition, Yeah,
+
+101
+00:07:43.235 --> 00:07:49.160
+there we go, [COUGH] it did the same
+thing, but it did a smaller thing.
+
+102
+00:07:49.160 --> 00:07:51.330
+And from here,
+you can actually use it in other,
+
+103
+00:07:51.330 --> 00:07:57.510
+you just stick it in other Python scripts
+and programs, and do other things with it.
+
+104
+00:07:57.510 --> 00:08:01.990
+Maybe just if you really don't
+want hotdogs in your food or
+
+105
+00:08:01.990 --> 00:08:07.130
+near you, just have a camera that checks
+constantly whether it sees a hot dog or
+
+106
+00:08:07.130 --> 00:08:11.670
+not, and roast that hot dog if you see it,
+or something.
+
+107
+00:08:12.850 --> 00:08:17.380
+So one thing to note is that
+I am using the Amazon SDK,
+
+108
+00:08:17.380 --> 00:08:21.530
+you can follow their instructions for
+installing that.
+
+109
+00:08:21.530 --> 00:08:27.442
+It's a pretty simple PIP
+command [INAUDIBLE].
+
+110
+00:08:27.442 --> 00:08:35.500
+So yeah, that's the demo of Amazon
+Rekognition, and letting you see images.
+
+111
+00:08:35.500 --> 00:08:39.261
+So stay tuned while we do the rest
+of our [COUGH] AI services

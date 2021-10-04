@@ -1,0 +1,405 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.315
+Hello everyone. Now that we've finished The Greengrass demo.
+
+2
+00:00:03.315 --> 00:00:08.370
+Now, we want to show you just kind of a quick walkthrough generally how to get it set up.
+
+3
+00:00:08.370 --> 00:00:11.995
+So if you go here and let's go to just services.
+
+4
+00:00:11.995 --> 00:00:16.325
+We can go to Internet Of Things and AWS Greengrass.
+
+5
+00:00:16.325 --> 00:00:17.880
+Now here, we are at Greengrass.
+
+6
+00:00:17.880 --> 00:00:20.840
+Now, the first thing they want you to do is to find a group and then add
+
+7
+00:00:20.840 --> 00:00:24.395
+a Greengrass Core and then add devices to that.
+
+8
+00:00:24.395 --> 00:00:26.395
+So in order to make a group, you just go to a group,
+
+9
+00:00:26.395 --> 00:00:29.128
+create a group and use easy creation,
+
+10
+00:00:29.128 --> 00:00:31.375
+we're not doing anything too fancy here,
+
+11
+00:00:31.375 --> 00:00:36.660
+and just NewGroup and
+
+12
+00:00:36.660 --> 00:00:40.110
+just keep pressing next use all the default settings that they have.
+
+13
+00:00:40.110 --> 00:00:45.055
+So it sets up all that.
+
+14
+00:00:45.055 --> 00:00:48.275
+Now, here is the all the keys
+
+15
+00:00:48.275 --> 00:00:50.960
+and the permission files for your Greengrass Cores so you just want to
+
+16
+00:00:50.960 --> 00:00:58.990
+download this and you also want to download these.
+
+17
+00:00:58.990 --> 00:01:01.405
+Now, you won't be unpacking and installing it but
+
+18
+00:01:01.405 --> 00:01:04.180
+this is just all the files that you'll need for it.
+
+19
+00:01:04.180 --> 00:01:06.110
+So just finish up.
+
+20
+00:01:06.110 --> 00:01:09.050
+And now, you have a new group but now,
+
+21
+00:01:09.050 --> 00:01:13.480
+you also want to add a core and you have that core there.
+
+22
+00:01:13.480 --> 00:01:17.660
+So in the previous part you download the core files,
+
+23
+00:01:17.660 --> 00:01:21.445
+all information files for that and then now let's go
+
+24
+00:01:21.445 --> 00:01:28.425
+to devices and let's add a new device to group.
+
+25
+00:01:28.425 --> 00:01:34.390
+And we'll let's just use easy creation and we'll use
+
+26
+00:01:34.390 --> 00:01:45.315
+the same group name.
+
+27
+00:01:45.315 --> 00:01:47.790
+There we go. So we didn't have to specify new name we could just go back.
+
+28
+00:01:47.790 --> 00:01:51.030
+It just took a bit to load to get the actual core and then now
+
+29
+00:01:51.030 --> 00:01:54.600
+we have a core group here and the core here.
+
+30
+00:01:54.600 --> 00:01:58.857
+So now, we want the devices and we want a device such as for the dragon board,
+
+31
+00:01:58.857 --> 00:02:00.635
+so just to add your first device,
+
+32
+00:02:00.635 --> 00:02:02.435
+create a new device, name it,
+
+33
+00:02:02.435 --> 00:02:09.125
+it's called dragonboard and then press next, took further to load,
+
+34
+00:02:09.125 --> 00:02:13.720
+use defaults, download all the keys that you need,
+
+35
+00:02:13.720 --> 00:02:18.490
+you are going to need these on the dragonboard itself and then finish.
+
+36
+00:02:18.490 --> 00:02:22.540
+So now you have a new device you just have to attach it by
+
+37
+00:02:22.540 --> 00:02:27.155
+going through some subscriptions and setting up some services here.
+
+38
+00:02:27.155 --> 00:02:30.940
+But we'll be going through that in-depth through some instructions.
+
+39
+00:02:30.940 --> 00:02:32.980
+The next part, we just want to go through some of the code that we
+
+40
+00:02:32.980 --> 00:02:36.575
+used to demonstrate how this works.
+
+41
+00:02:36.575 --> 00:02:38.680
+So we'll be jumping to this.
+
+42
+00:02:38.680 --> 00:02:40.750
+So the two main files that we all care about
+
+43
+00:02:40.750 --> 00:02:44.045
+are the publisher file and the subscription file.
+
+44
+00:02:44.045 --> 00:02:46.240
+Now, both these files are based off of one of
+
+45
+00:02:46.240 --> 00:02:49.355
+the HelloWorld programs that AWS have provided,
+
+46
+00:02:49.355 --> 00:02:52.683
+and we just modified a bit to do one specific thing.
+
+47
+00:02:52.683 --> 00:02:54.765
+So here's a bunch of libraries that they want
+
+48
+00:02:54.765 --> 00:02:57.430
+to order for all of us to run, segments here,
+
+49
+00:02:57.430 --> 00:02:59.710
+just some Python, libraries,
+
+50
+00:02:59.710 --> 00:03:04.175
+and then here is the IoT SDK libraries.
+
+51
+00:03:04.175 --> 00:03:08.130
+And then, here's how we access all those permissions files,
+
+52
+00:03:08.130 --> 00:03:09.725
+so if you go here,
+
+53
+00:03:09.725 --> 00:03:13.220
+and let me go to downloads, testing,
+
+54
+00:03:13.220 --> 00:03:18.760
+you'll note that we have a bunch of these files ending in.pem and.key.
+
+55
+00:03:18.760 --> 00:03:24.605
+So you have to specify where they are through this, through these variables here.
+
+56
+00:03:24.605 --> 00:03:27.860
+We also specify our endpoint so we have that initial connection to AWS
+
+57
+00:03:27.860 --> 00:03:31.950
+but here we have our root file, certificate,
+
+58
+00:03:31.950 --> 00:03:38.470
+privatekey, and then the name of the node itself or another node device,
+
+59
+00:03:38.470 --> 00:03:42.620
+thing name and then what topic we want to publish or subscribe to.
+
+60
+00:03:42.620 --> 00:03:46.145
+So this case helloworld/pubsub
+
+61
+00:03:46.145 --> 00:03:51.530
+and then just some configurations that they want for logging,
+
+62
+00:03:51.530 --> 00:03:55.315
+and here it's just a lot of set up for the core,
+
+63
+00:03:55.315 --> 00:04:03.015
+Greengrass Core and here is try and connect to the core at AWS and is how many tries.
+
+64
+00:04:03.015 --> 00:04:07.735
+So we had to try like 10 times before it quits and says it wasn't able to connect,
+
+65
+00:04:07.735 --> 00:04:11.400
+as too messages that they have there.
+
+66
+00:04:11.400 --> 00:04:15.080
+So here is connected to false and check for
+
+67
+00:04:15.080 --> 00:04:19.245
+connectivity and if it's not connected so you can't connect.
+
+68
+00:04:19.245 --> 00:04:23.480
+And here's actually where it publishes,
+
+69
+00:04:23.480 --> 00:04:26.052
+we have while true just continue,
+
+70
+00:04:26.052 --> 00:04:28.806
+keep doing it and instead of our message here,
+
+71
+00:04:28.806 --> 00:04:32.100
+with our message and how many messages in we are at
+
+72
+00:04:32.100 --> 00:04:37.230
+and converting that into JSON and publishing it on that topic.
+
+73
+00:04:37.230 --> 00:04:38.790
+So that's just a simple way how to publish.
+
+74
+00:04:38.790 --> 00:04:44.655
+It's very similar to how you publish on the normal AWS IoT SDK.
+
+75
+00:04:44.655 --> 00:04:46.480
+So next up, let's go to a sub.
+
+76
+00:04:46.480 --> 00:04:48.895
+It's going to be all the similar files.
+
+77
+00:04:48.895 --> 00:04:51.680
+So this is exactly the same as top part.
+
+78
+00:04:51.680 --> 00:04:54.100
+It does have this extra part here for
+
+79
+00:04:54.100 --> 00:04:58.330
+a custom on message which means when you get a message, what do you do?
+
+80
+00:04:58.330 --> 00:05:01.320
+So in this case we have it just simply writing to the LED
+
+81
+00:05:01.320 --> 00:05:05.570
+telling it to turn on and then turn off,
+
+82
+00:05:05.570 --> 00:05:08.765
+just a blink to show that we have message.
+
+83
+00:05:08.765 --> 00:05:13.270
+And here again is how many times that you've to try and here's
+
+84
+00:05:13.270 --> 00:05:16.030
+all the certificates that we had to connect to and
+
+85
+00:05:16.030 --> 00:05:19.795
+the topics and everything just need to have it working.
+
+86
+00:05:19.795 --> 00:05:26.340
+This is us using LED MRAA to control the LED and again,
+
+87
+00:05:26.340 --> 00:05:29.673
+these is our repeated set from before.
+
+88
+00:05:29.673 --> 00:05:34.425
+And here, we haven't figured it connected,
+
+89
+00:05:34.425 --> 00:05:36.516
+and then here we actually have the subscribing to it,
+
+90
+00:05:36.516 --> 00:05:43.480
+subscribing to the topic and it would just do that thing that we set up before.
+
+91
+00:05:43.480 --> 00:05:45.920
+That's pretty much all the code. It's pretty simple,
+
+92
+00:05:45.920 --> 00:05:50.090
+you can just adapt this to use other data if you want, maybe images,
+
+93
+00:05:50.090 --> 00:05:53.180
+setting it as image as a string or
+
+94
+00:05:53.180 --> 00:05:57.380
+other more interesting data such as humidity or temperature,
+
+95
+00:05:57.380 --> 00:05:58.593
+just anything you need.
+
+96
+00:05:58.593 --> 00:06:01.490
+So yeah, it's just a quick walkthrough of it.
+
+97
+00:06:01.490 --> 00:06:03.890
+It's better to understand it when you download the code and run it
+
+98
+00:06:03.890 --> 00:06:06.410
+for yourself and just kind of play around with it,
+
+99
+00:06:06.410 --> 00:06:08.825
+see what you can do and what you can't do.
+
+100
+00:06:08.825 --> 00:06:13.228
+Stay tuned for the San Horack video for this lesson,
+
+101
+00:06:13.228 --> 00:06:15.000
+and have a good day.

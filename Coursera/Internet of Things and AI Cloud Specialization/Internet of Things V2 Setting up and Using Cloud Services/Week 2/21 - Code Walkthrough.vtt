@@ -1,0 +1,489 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.490
+Welcome. So, in this video,
+
+2
+00:00:02.490 --> 00:00:07.723
+we'll be going over all the code that allowed us to do the sensor stream before,
+
+3
+00:00:07.723 --> 00:00:09.515
+and taking in the data,
+
+4
+00:00:09.515 --> 00:00:10.670
+and sending it to AWS,
+
+5
+00:00:10.670 --> 00:00:12.410
+and then displaying it on the website.
+
+6
+00:00:12.410 --> 00:00:15.820
+Andrew will be going over the Arduino and DragonBoard code.
+
+7
+00:00:15.820 --> 00:00:20.840
+And I'll be going over the code that's on the EC2 server.
+
+8
+00:00:20.840 --> 00:00:22.188
+So lets gets started.
+
+9
+00:00:22.188 --> 00:00:24.680
+So, as you can see,
+
+10
+00:00:24.680 --> 00:00:29.866
+we have three directories and I just CD into the Arduino directory.
+
+11
+00:00:29.866 --> 00:00:33.626
+Sorry about that.
+
+12
+00:00:33.626 --> 00:00:43.760
+And then, let's look at the readALL.ino file.
+
+13
+00:00:43.760 --> 00:00:46.020
+We need a control plus.
+
+14
+00:00:46.020 --> 00:00:56.499
+So let's get out of that, let's go to VIM instead.
+
+15
+00:00:56.499 --> 00:01:00.330
+And here we are.
+
+16
+00:01:00.330 --> 00:01:02.990
+So this should look familiar to you guys,
+
+17
+00:01:02.990 --> 00:01:10.430
+since this is code that you guys have seen in the basic projects for course two.
+
+18
+00:01:10.430 --> 00:01:14.450
+But there are a lot of math going on as well.
+
+19
+00:01:14.450 --> 00:01:17.690
+And this is to format the temperature
+
+20
+00:01:17.690 --> 00:01:21.685
+in a way so that temperature and other data in a way,
+
+21
+00:01:21.685 --> 00:01:23.895
+so that it makes it more readable.
+
+22
+00:01:23.895 --> 00:01:27.075
+This can also be important for parsing data information as
+
+23
+00:01:27.075 --> 00:01:30.945
+well in the future parts of the program.
+
+24
+00:01:30.945 --> 00:01:36.995
+So yeah, this is printing the information that we get from the sensors to Serial.
+
+25
+00:01:36.995 --> 00:01:39.680
+And from Serial, if we want to use that data,
+
+26
+00:01:39.680 --> 00:01:44.320
+we have to go to the next file which I'm going to go over right now.
+
+27
+00:01:44.320 --> 00:01:46.490
+So, let's go to VIM,
+
+28
+00:01:46.490 --> 00:01:51.720
+readSerial.py, and this is a python file.
+
+29
+00:01:51.720 --> 00:01:54.740
+And this one's relatively short.
+
+30
+00:01:54.740 --> 00:02:01.025
+It just gets that data from Serial and print it out.
+
+31
+00:02:01.025 --> 00:02:07.560
+And then, let's go to DragonBoard,
+
+32
+00:02:07.560 --> 00:02:09.210
+the DragonBoard directory now,
+
+33
+00:02:09.210 --> 00:02:20.745
+to see the send-data-aws.py file.
+
+34
+00:02:20.745 --> 00:02:23.355
+As we mentioned in the previous videos,
+
+35
+00:02:23.355 --> 00:02:28.805
+the other five files are just setup.
+
+36
+00:02:28.805 --> 00:02:34.735
+They like contain keys for making sure your data gets to other site correctly,
+
+37
+00:02:34.735 --> 00:02:36.750
+so we're not going to go over that.
+
+38
+00:02:36.750 --> 00:02:39.210
+If you guys want to learn more about keys then,
+
+39
+00:02:39.210 --> 00:02:41.535
+you guys can use your favorite search engine.
+
+40
+00:02:41.535 --> 00:02:44.665
+Cryptography and security's a huge field,
+
+41
+00:02:44.665 --> 00:02:47.840
+you guys can go check it out.
+
+42
+00:02:47.840 --> 00:02:53.850
+And then, let's just go into the send-data-aws.py.
+
+43
+00:02:53.850 --> 00:02:56.025
+So here we are at the file,
+
+44
+00:02:56.025 --> 00:02:57.660
+and before we begin,
+
+45
+00:02:57.660 --> 00:03:03.461
+we need to import some libraries where the information.
+
+46
+00:03:03.461 --> 00:03:06.780
+And this is important because we need some JSON capabilities,
+
+47
+00:03:06.780 --> 00:03:08.455
+I'm like reading from Serial,
+
+48
+00:03:08.455 --> 00:03:11.130
+and this is the part where we do it.
+
+49
+00:03:11.130 --> 00:03:14.775
+And then, the next part is where we start listening on the Serial port,
+
+50
+00:03:14.775 --> 00:03:18.410
+and this is the same one that we initialized earlier.
+
+51
+00:03:18.410 --> 00:03:23.705
+And after that, we want to create an AWS client,
+
+52
+00:03:23.705 --> 00:03:28.140
+and then we can set the URL to the place that is receiving the data.
+
+53
+00:03:28.140 --> 00:03:32.850
+Then after that, we want to initialize some keys,
+
+54
+00:03:32.850 --> 00:03:34.860
+so that the data gets there correctly.
+
+55
+00:03:34.860 --> 00:03:40.205
+This is important because of attacks that might happen.
+
+56
+00:03:40.205 --> 00:03:44.730
+And here's the part where we actually parse the information,
+
+57
+00:03:44.730 --> 00:03:48.900
+so the information is nice and organized pretty,
+
+58
+00:03:48.900 --> 00:03:52.140
+so you guys can mess around with it.
+
+59
+00:03:52.140 --> 00:03:55.081
+So that's the part that does that.
+
+60
+00:03:55.081 --> 00:04:03.230
+And then, this the part where we convert what we parsed into JSON,
+
+61
+00:04:03.230 --> 00:04:05.390
+and this makes it,
+
+62
+00:04:05.390 --> 00:04:08.345
+so that we can get the data later,
+
+63
+00:04:08.345 --> 00:04:10.550
+and then we put it on the client.
+
+64
+00:04:10.550 --> 00:04:13.850
+So that we can see the data posted.
+
+65
+00:04:13.850 --> 00:04:19.390
+That's pretty much it for this file.
+
+66
+00:04:19.390 --> 00:04:26.120
+Now, let's go to the EC2 server section for Simon.
+
+67
+00:04:26.120 --> 00:04:34.895
+For this code, we have the server and just the front-end, the index, the HTML.
+
+68
+00:04:34.895 --> 00:04:38.530
+So the first thing is log into the server.
+
+69
+00:04:38.530 --> 00:04:41.300
+So the first part is just some,
+
+70
+00:04:41.300 --> 00:04:45.080
+what I need for setting up the server,
+
+71
+00:04:45.080 --> 00:04:53.410
+Window JS Express is a good server package.
+
+72
+00:04:53.410 --> 00:04:55.205
+The next part is just,
+
+73
+00:04:55.205 --> 00:04:57.060
+this is for the index file.
+
+74
+00:04:57.060 --> 00:04:59.120
+So basically, when I go to a URL,
+
+75
+00:04:59.120 --> 00:05:04.285
+and then go to like this the base URL like google.com,
+
+76
+00:05:04.285 --> 00:05:07.930
+they will automatically send me to like google.com/.
+
+77
+00:05:07.930 --> 00:05:10.272
+And then they will just,
+
+78
+00:05:10.272 --> 00:05:15.625
+whatever I set in this function,
+
+79
+00:05:15.625 --> 00:05:16.890
+it will send whatever is in there.
+
+80
+00:05:16.890 --> 00:05:21.259
+So for example, res.sendfile just send the index,
+
+81
+00:05:21.259 --> 00:05:23.855
+the HTML file that we have in this directory,
+
+82
+00:05:23.855 --> 00:05:25.525
+and so I'm printing the screen.
+
+83
+00:05:25.525 --> 00:05:29.720
+And the next part, next one is another URL to
+
+84
+00:05:29.720 --> 00:05:35.560
+this like google.com/data would be like the equivalent.
+
+85
+00:05:35.560 --> 00:05:38.460
+And then for this one, it's just getting data for the sensors
+
+86
+00:05:38.460 --> 00:05:41.725
+like light, temperature, and sound.
+
+87
+00:05:41.725 --> 00:05:45.485
+The reason why we can't do a request on the front-end is because we can't do,
+
+88
+00:05:45.485 --> 00:05:51.075
+cross-origin requests are not allowed,
+
+89
+00:05:51.075 --> 00:05:56.565
+basically from a client from the front-end to another server on the backend.
+
+90
+00:05:56.565 --> 00:05:59.640
+It has to go to its own backend.
+
+91
+00:05:59.640 --> 00:06:03.630
+So, we just have it sent to the backend and the backend which,
+
+92
+00:06:03.630 --> 00:06:05.075
+there's no data server,
+
+93
+00:06:05.075 --> 00:06:08.910
+sends the request to the API on Amazon Web Services,
+
+94
+00:06:08.910 --> 00:06:12.360
+and then gets the data, and then heads it back to the front-end.
+
+95
+00:06:12.360 --> 00:06:15.065
+And the last part is just setting the port,
+
+96
+00:06:15.065 --> 00:06:16.610
+we set it to 80.
+
+97
+00:06:16.610 --> 00:06:21.665
+It's just the normal HTTP port for white brothers.
+
+98
+00:06:21.665 --> 00:06:25.435
+And then just starting the server.
+
+99
+00:06:25.435 --> 00:06:29.200
+So that's like that's from simple like no JS code.
+
+100
+00:06:29.200 --> 00:06:32.710
+And then for the front-end,
+
+101
+00:06:32.710 --> 00:06:35.855
+we have this area.
+
+102
+00:06:35.855 --> 00:06:44.955
+I used Angular One just because it's simple and charts.JS to show the nice pretty chart.
+
+103
+00:06:44.955 --> 00:06:48.470
+This is just some Angular code sorting where the temperature,
+
+104
+00:06:48.470 --> 00:06:51.250
+light, and sound values will be.
+
+105
+00:06:51.250 --> 00:06:54.925
+And then, here's the bunch of JavaScript.
+
+106
+00:06:54.925 --> 00:06:57.050
+This is basically where you write Angular code,
+
+107
+00:06:57.050 --> 00:06:59.300
+its like inside app.controller.
+
+108
+00:06:59.300 --> 00:07:05.660
+And this is like saying every second get data from the backend, from AWS.
+
+109
+00:07:05.660 --> 00:07:09.800
+And then once you get the data,
+
+110
+00:07:09.800 --> 00:07:12.990
+format the dates and the time,
+
+111
+00:07:12.990 --> 00:07:16.370
+and then put it into the variables.
+
+112
+00:07:16.370 --> 00:07:18.305
+So that shows up on website.
+
+113
+00:07:18.305 --> 00:07:23.590
+And then update the chart. It's not too much.
+
+114
+00:07:23.590 --> 00:07:27.005
+I will be explaining Angular charts.JS but I
+
+115
+00:07:27.005 --> 00:07:30.925
+personally like using it a lot because it looks nice and it's easy to manage.
+
+116
+00:07:30.925 --> 00:07:35.975
+This is not, Angular One is not nearly as like complex as Angular Two.
+
+117
+00:07:35.975 --> 00:07:39.730
+But there's a quick library for using it.
+
+118
+00:07:39.730 --> 00:07:46.130
+Yeah. So that's all our code that you need for this.
+
+119
+00:07:46.130 --> 00:07:49.895
+You always free, we went over a lot of different topics and languages,
+
+120
+00:07:49.895 --> 00:07:52.895
+so you always feel free to just like look up
+
+121
+00:07:52.895 --> 00:07:57.390
+and research more on the different topics so that you understand the code more.
+
+122
+00:07:57.390 --> 00:08:00.930
+Thank you for watching.

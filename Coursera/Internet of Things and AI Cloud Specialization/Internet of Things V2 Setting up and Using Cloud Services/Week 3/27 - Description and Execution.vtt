@@ -1,0 +1,341 @@
+WEBVTT
+
+1
+00:00:01.620 --> 00:00:07.928
+Hello everyone. In this video we'll be going over the Facebook chatbot project.
+
+2
+00:00:07.928 --> 00:00:13.555
+Essentially, it's an automated chatbot that you can interact with on Facebook.
+
+3
+00:00:13.555 --> 00:00:17.265
+We're just going to give a brief overview first.
+
+4
+00:00:17.265 --> 00:00:22.070
+And the first thing we're going to go over is a chatbot structure;
+
+5
+00:00:22.070 --> 00:00:25.905
+the structure using Facebook and the structure using AWS.
+
+6
+00:00:25.905 --> 00:00:28.175
+After that, we're going to go over a description of what the project
+
+7
+00:00:28.175 --> 00:00:32.235
+is and then, execution.
+
+8
+00:00:32.235 --> 00:00:37.615
+So, first off, the chatbot structure has two parts: Facebook and AWS.
+
+9
+00:00:37.615 --> 00:00:38.880
+The first part is Facebook.
+
+10
+00:00:38.880 --> 00:00:42.820
+You need a Facebook page to message something to message to.
+
+11
+00:00:42.820 --> 00:00:45.640
+And then a Facebook app so that
+
+12
+00:00:45.640 --> 00:00:49.375
+it can take in the messages from the page and send it to AWS.
+
+13
+00:00:49.375 --> 00:00:51.135
+Just a quick note, if you don't have Facebook
+
+14
+00:00:51.135 --> 00:00:53.620
+available you can use it with other services such as Slack or
+
+15
+00:00:53.620 --> 00:00:58.920
+Kik or even some other services that just have a chat integration.
+
+16
+00:00:58.920 --> 00:01:01.000
+And then the second part that we need,
+
+17
+00:01:01.000 --> 00:01:03.190
+as you've been using alot, is AWS.
+
+18
+00:01:03.190 --> 00:01:05.455
+We need to first create a Lex Bot,
+
+19
+00:01:05.455 --> 00:01:11.860
+which will process the messages and create intents from Facebook and then you need
+
+20
+00:01:11.860 --> 00:01:18.755
+a Lambda function to process those intents and that will trigger an SNS topic.
+
+21
+00:01:18.755 --> 00:01:23.405
+And then that SNS topic or Simple Notification Service,
+
+22
+00:01:23.405 --> 00:01:26.990
+sends that invoice to owner through text message and email.
+
+23
+00:01:26.990 --> 00:01:29.980
+And, just to note, all services for this bot should be in
+
+24
+00:01:29.980 --> 00:01:34.360
+US East one that's north Virginia.
+
+25
+00:01:34.360 --> 00:01:40.790
+I tried using SNS on Oregon region and then Lex Bot on the US East region.
+
+26
+00:01:40.790 --> 00:01:43.610
+It couldn't actually access it.
+
+27
+00:01:43.610 --> 00:01:45.835
+So we have to keep them all in the same region and
+
+28
+00:01:45.835 --> 00:01:48.310
+Lex Bot is only offered in two regions: I think
+
+29
+00:01:48.310 --> 00:01:53.685
+Ireland for EU and US East One which is north Virginia on the US side,
+
+30
+00:01:53.685 --> 00:01:55.750
+those are the only two endpoints that we have.
+
+31
+00:01:55.750 --> 00:01:58.090
+So we just go on to the description.
+
+32
+00:01:58.090 --> 00:02:00.850
+Basically, it's an easy chatbot to allow users
+
+33
+00:02:00.850 --> 00:02:04.380
+to use their favorite messaging platforms to access certain services.
+
+34
+00:02:04.380 --> 00:02:06.415
+It makes it a lot better user interaction.
+
+35
+00:02:06.415 --> 00:02:07.630
+So, in this specific demo,
+
+36
+00:02:07.630 --> 00:02:09.730
+we'll be ordering just food from
+
+37
+00:02:09.730 --> 00:02:13.680
+a restaurant and sending it to a specific location for delivery.
+
+38
+00:02:13.680 --> 00:02:18.650
+And we'll just go to the execution right now on my computer.
+
+39
+00:02:18.650 --> 00:02:22.550
+As you can see here, we are just on Facebook.
+
+40
+00:02:22.550 --> 00:02:26.310
+This is a Facebook page I created specifically for this project.
+
+41
+00:02:26.310 --> 00:02:31.260
+You can just easily create one as long as you have Facebook account and it's
+
+42
+00:02:31.260 --> 00:02:33.720
+important that if you're doing this with Facebook you don't click
+
+43
+00:02:33.720 --> 00:02:37.170
+the send message button because that does something different.
+
+44
+00:02:37.170 --> 00:02:39.780
+You want to do test button because you are an admin,
+
+45
+00:02:39.780 --> 00:02:41.200
+so you actually have permit.
+
+46
+00:02:41.200 --> 00:02:47.310
+And then here, we have a nice, just a chat interface to talk with the Facebook page.
+
+47
+00:02:47.310 --> 00:02:49.535
+So, let's say I want food,
+
+48
+00:02:49.535 --> 00:02:52.540
+I'll even misspell it and you can see it'll work fine.
+
+49
+00:02:52.540 --> 00:02:55.009
+And it will understands with
+
+50
+00:02:55.009 --> 00:02:58.945
+Amazon's Natural Language Processing that it means I want food,
+
+51
+00:02:58.945 --> 00:03:03.030
+because it's one of the sample utterances as we will see in the future.
+
+52
+00:03:03.030 --> 00:03:05.350
+Basically asks, "What do I want the food from?"
+
+53
+00:03:05.350 --> 00:03:08.665
+So let's say, " McDonald's",
+
+54
+00:03:08.665 --> 00:03:12.620
+and then it asks, "What would I like to order?"
+
+55
+00:03:12.620 --> 00:03:15.905
+So let's say, "Just fries."
+
+56
+00:03:15.905 --> 00:03:19.805
+And, where would I like to have the order delivered to?
+
+57
+00:03:19.805 --> 00:03:21.455
+So, since I'm at UCSD right now,
+
+58
+00:03:21.455 --> 00:03:25.380
+we'll just send it to UCSD.
+
+59
+00:03:25.490 --> 00:03:29.796
+And just confirming everything that I've said,
+
+60
+00:03:29.796 --> 00:03:34.345
+so do I want to order fries from McDonald's and have it all delivered to UCSD?
+
+61
+00:03:34.345 --> 00:03:38.290
+Yes. And it's processed it.
+
+62
+00:03:38.290 --> 00:03:40.560
+And it says "Your order has been placed. "
+
+63
+00:03:40.560 --> 00:03:46.806
+Now just a quick note, it also sends an email and a text to the owner per se,
+
+64
+00:03:46.806 --> 00:03:48.430
+like owner of this Facebook page.
+
+65
+00:03:48.430 --> 00:03:52.705
+For example, if I own a McDonald's and I wanted to deliver food to people,
+
+66
+00:03:52.705 --> 00:03:56.390
+I can just have an email service set up so that I can check it every now and then.
+
+67
+00:03:56.390 --> 00:03:59.140
+And if there's a new message that tells me an order,
+
+68
+00:03:59.140 --> 00:04:02.245
+then I can actually see it and then place the order.
+
+69
+00:04:02.245 --> 00:04:07.360
+So we can see here, here is the e-mail and it says order placed and restaurant that it
+
+70
+00:04:07.360 --> 00:04:10.020
+wants is McDonald's and the food that they want to order
+
+71
+00:04:10.020 --> 00:04:13.855
+is fries and where I send it to is UC, San Diego.
+
+72
+00:04:13.855 --> 00:04:16.820
+That says address but it's just working on a general thing.
+
+73
+00:04:16.820 --> 00:04:18.745
+You can make it all more complex to accept
+
+74
+00:04:18.745 --> 00:04:22.300
+only certain user inputs and just ask, basically,
+
+75
+00:04:22.300 --> 00:04:24.160
+if I said UCSD, you'd say "Oh,
+
+76
+00:04:24.160 --> 00:04:28.620
+what specific location that you want it to?"
+
+77
+00:04:28.620 --> 00:04:31.420
+Another thing is, it also sends it to my phone.
+
+78
+00:04:31.420 --> 00:04:33.050
+You cant really see it well but it does send
+
+79
+00:04:33.050 --> 00:04:37.390
+a text using the Simple Notification Service.
+
+80
+00:04:37.390 --> 00:04:42.190
+So again, this is just a quick demonstration of how you could integrate
+
+81
+00:04:42.190 --> 00:04:44.170
+natural language processing offered through
+
+82
+00:04:44.170 --> 00:04:48.595
+Amazon Lex into platforms that you may use everyday such as Facebook.
+
+83
+00:04:48.595 --> 00:04:53.470
+And how it can be, used for a business or some kind of other applications.
+
+84
+00:04:53.470 --> 00:04:56.435
+And the video after this we'll be going over
+
+85
+00:04:56.435 --> 00:05:01.000
+just general setup and like tips and tricks about creating this chatbot.

@@ -1,0 +1,1209 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.875
+Hey, everyone. I'm Mara and this is Gans.
+
+2
+00:00:02.875 --> 00:00:04.505
+In a last lesson,
+
+3
+00:00:04.505 --> 00:00:07.290
+Gans went over the different types of services
+
+4
+00:00:07.290 --> 00:00:11.490
+and cloud options that you have and we kind of came to a consensus that we're
+
+5
+00:00:11.490 --> 00:00:13.020
+going to use AWS for this course
+
+6
+00:00:13.020 --> 00:00:19.795
+because of its simplicity and also it's easy to access resources.
+
+7
+00:00:19.795 --> 00:00:22.140
+But again, we also want you guys to use
+
+8
+00:00:22.140 --> 00:00:25.230
+whatever platform you guys feel is best fit for you.
+
+9
+00:00:25.230 --> 00:00:29.020
+So let's go on and dive in straight to AWS services.
+
+10
+00:00:29.020 --> 00:00:34.020
+So AWS is basically a bunch of different services that do a bunch of different functions.
+
+11
+00:00:34.020 --> 00:00:36.660
+So if you log into your AWS console for the first time,
+
+12
+00:00:36.660 --> 00:00:38.730
+you'll see this huge list of
+
+13
+00:00:38.730 --> 00:00:43.070
+services and we don't even capture the whole thing because this is just a screenshot.
+
+14
+00:00:43.070 --> 00:00:45.030
+So you might be overwhelmed right off the bat,
+
+15
+00:00:45.030 --> 00:00:46.780
+because what are these,
+
+16
+00:00:46.780 --> 00:00:48.939
+what are these different services even do?
+
+17
+00:00:48.939 --> 00:00:52.320
+And a lot of the services have the best names in
+
+18
+00:00:52.320 --> 00:00:57.015
+the world so we're going to hopefully try and uncover the magic behind that.
+
+19
+00:00:57.015 --> 00:01:05.623
+What we feel like is the most important services to use are the EC2, S3, and RDS.
+
+20
+00:01:05.623 --> 00:01:08.275
+EC2 stands for Elastic Cloud Compute,
+
+21
+00:01:08.275 --> 00:01:11.775
+and essentially it's just your virtual machine or your server that you use to
+
+22
+00:01:11.775 --> 00:01:15.540
+run your code or business logic, all that stuff.
+
+23
+00:01:15.540 --> 00:01:17.430
+S3 stands for Simple Storage Service,
+
+24
+00:01:17.430 --> 00:01:20.425
+and that is basically your regular file service,
+
+25
+00:01:20.425 --> 00:01:25.185
+so any time you want to store files onto a hard drive or something like that,
+
+26
+00:01:25.185 --> 00:01:32.107
+you'll typically use S3 to connect over FTP, your file server.
+
+27
+00:01:32.107 --> 00:01:35.250
+The last one is the Relational Data Service,
+
+28
+00:01:35.250 --> 00:01:37.890
+so this is essentially,
+
+29
+00:01:37.890 --> 00:01:41.235
+if you come from a standard let's say a web application standpoint,
+
+30
+00:01:41.235 --> 00:01:43.255
+this would be your database service,
+
+31
+00:01:43.255 --> 00:01:46.530
+and you typically, this is going to be your relational database services.
+
+32
+00:01:46.530 --> 00:01:49.510
+So MySQL, Aurora Postgres,
+
+33
+00:01:49.510 --> 00:01:52.470
+bunch of different options you have for creating
+
+34
+00:01:52.470 --> 00:01:56.195
+different types of databases that Amazon offers.
+
+35
+00:01:56.195 --> 00:01:59.450
+These are probably the most three important ones,
+
+36
+00:01:59.450 --> 00:02:01.400
+we're going to go and do a deep dive in a sec,
+
+37
+00:02:01.400 --> 00:02:02.480
+on how do you like?
+
+38
+00:02:02.480 --> 00:02:05.180
+Let's say initialize your first virtual machine
+
+39
+00:02:05.180 --> 00:02:08.275
+and how to just store some EC files onto S3.
+
+40
+00:02:08.275 --> 00:02:12.560
+Before that, we kind of want to do a quick dive of some other services that are possible,
+
+41
+00:02:12.560 --> 00:02:16.114
+that you're able to use on Amazon.
+
+42
+00:02:16.114 --> 00:02:21.280
+There's different categories so if you recall from here.
+
+43
+00:02:21.280 --> 00:02:24.410
+Every group of services has kind of a group name so Compute,
+
+44
+00:02:24.410 --> 00:02:28.965
+Storage, Management Tools, Mobile Services, Application Services.
+
+45
+00:02:28.965 --> 00:02:31.470
+For, let's say the Computer Resources,
+
+46
+00:02:31.470 --> 00:02:34.220
+this will probably be the most important parts Virtual Machines,
+
+47
+00:02:34.220 --> 00:02:35.885
+where you do your computation,
+
+48
+00:02:35.885 --> 00:02:39.455
+Load Balancer, which helps you scale let's say,
+
+49
+00:02:39.455 --> 00:02:41.400
+as Gans was saying in the last lesson,
+
+50
+00:02:41.400 --> 00:02:44.750
+where in the daytime you have more traffic,
+
+51
+00:02:44.750 --> 00:02:47.095
+more people requesting your services,
+
+52
+00:02:47.095 --> 00:02:48.665
+you want to kind of scale up,
+
+53
+00:02:48.665 --> 00:02:50.765
+and build more virtual machines.
+
+54
+00:02:50.765 --> 00:02:53.750
+Over time, if you want to scale down,
+
+55
+00:02:53.750 --> 00:02:56.210
+you just start cutting virtual machines left and right,
+
+56
+00:02:56.210 --> 00:02:59.120
+and that's what the Elastic Load Balancer will do.
+
+57
+00:02:59.120 --> 00:03:02.480
+There is also some new cool services such as Docker or even Lambda,
+
+58
+00:03:02.480 --> 00:03:06.635
+which are basically small snippets of code or in Docker's case,
+
+59
+00:03:06.635 --> 00:03:08.090
+it's little containers that do
+
+60
+00:03:08.090 --> 00:03:12.345
+one function and you can easily scale up and down, based off of that.
+
+61
+00:03:12.345 --> 00:03:15.616
+For databases, there's a bunch of different ones so RDS,
+
+62
+00:03:15.616 --> 00:03:17.670
+which is what we mentioned earlier.
+
+63
+00:03:17.670 --> 00:03:20.810
+That's your typical traditional relational database that you'll
+
+64
+00:03:20.810 --> 00:03:24.410
+find mostly on almost all web applications.
+
+65
+00:03:24.410 --> 00:03:31.040
+Recently, with the huge burst or the explosion that big data came onto the scene,
+
+66
+00:03:31.040 --> 00:03:38.950
+NoSQL databases have been the new database to use nowadays due to its fast inserts.
+
+67
+00:03:38.950 --> 00:03:40.090
+You also have some other options,
+
+68
+00:03:40.090 --> 00:03:43.010
+S3 which is your file server and then also ElastiCache,
+
+69
+00:03:43.010 --> 00:03:46.220
+which will help you cache data and have
+
+70
+00:03:46.220 --> 00:03:51.440
+easier search queries instead of a slow one of all like N operations and stuff,
+
+71
+00:03:51.440 --> 00:03:56.120
+like you would have 0 1 operations instead of 0 1 N, let's say.
+
+72
+00:03:56.120 --> 00:04:00.297
+Then, of course, there is also another explosion with DevOps where
+
+73
+00:04:00.297 --> 00:04:04.475
+instead of you having to write code that works only on your machine,
+
+74
+00:04:04.475 --> 00:04:08.480
+DevOps kind of help abstract this entire process out so your code,
+
+75
+00:04:08.480 --> 00:04:11.360
+that works on your machine should work on all machines and you'll
+
+76
+00:04:11.360 --> 00:04:15.650
+have unit testing and integration testing all built into the same system.
+
+77
+00:04:15.650 --> 00:04:17.450
+So the DevOps suite here,
+
+78
+00:04:17.450 --> 00:04:24.100
+which you see on a screen is geared toward helping you get that pipeline up and running.
+
+79
+00:04:24.100 --> 00:04:25.325
+And lastly, of course,
+
+80
+00:04:25.325 --> 00:04:29.360
+we can't talk about cloud computing class without some Big Data resources.
+
+81
+00:04:29.360 --> 00:04:31.490
+So Big Data is a huge explosion that,
+
+82
+00:04:31.490 --> 00:04:34.272
+explosion that happened within the last probably decade,
+
+83
+00:04:34.272 --> 00:04:37.330
+and Amazon actually offers some great resources.
+
+84
+00:04:37.330 --> 00:04:40.310
+So Elastic MapReduce, Data Pipeline, and Kinesis,
+
+85
+00:04:40.310 --> 00:04:43.010
+which correlate to MapReduce,
+
+86
+00:04:43.010 --> 00:04:45.940
+Spark, Kafka, which are Apache products.
+
+87
+00:04:45.940 --> 00:04:49.295
+It's probably any time like you wanted to upload data,
+
+88
+00:04:49.295 --> 00:04:50.714
+do some processing on it,
+
+89
+00:04:50.714 --> 00:04:55.335
+Amazon kind of abstracts that and makes it really easy for you to use.
+
+90
+00:04:55.335 --> 00:04:57.910
+So I think that's kind of
+
+91
+00:04:57.910 --> 00:05:00.910
+a good cover of all the different services that Amazon has to offer.
+
+92
+00:05:00.910 --> 00:05:06.505
+Let's go in and deep dive down into Amazon servers itself.
+
+93
+00:05:06.505 --> 00:05:09.280
+All right, so you'll know.
+
+94
+00:05:09.280 --> 00:05:12.943
+So the one thing I want to add to that is all these services,
+
+95
+00:05:12.943 --> 00:05:17.192
+if you're probably wondering how you're going to use them from say your drag board,
+
+96
+00:05:17.192 --> 00:05:19.170
+these are two ways accessing,
+
+97
+00:05:19.170 --> 00:05:20.490
+one of their API's,
+
+98
+00:05:20.490 --> 00:05:22.930
+for example the S3, It's a storage.
+
+99
+00:05:22.930 --> 00:05:24.920
+Think of it as a really big hard drive,
+
+100
+00:05:24.920 --> 00:05:29.830
+and you're taking let's say pictures from your drag board periodically,
+
+101
+00:05:29.830 --> 00:05:31.846
+and via the API for S3,
+
+102
+00:05:31.846 --> 00:05:36.085
+you can upload images or whatever file you have but it's stored in there,
+
+103
+00:05:36.085 --> 00:05:39.415
+and there's another way to access these services through the Web Panel,
+
+104
+00:05:39.415 --> 00:05:42.470
+so S3 you can log into the console, it's going to show you now,
+
+105
+00:05:42.470 --> 00:05:44.185
+collect the files there,
+
+106
+00:05:44.185 --> 00:05:47.175
+but typically you'll use them via these API's.
+
+107
+00:05:47.175 --> 00:05:50.165
+Each of these services are programmatic API's,
+
+108
+00:05:50.165 --> 00:05:55.480
+you can access either from the client side or on your virtual machine running,
+
+109
+00:05:55.480 --> 00:05:56.815
+which is the EC2.
+
+110
+00:05:56.815 --> 00:05:59.620
+If there is really one server you need to learn here,
+
+111
+00:05:59.620 --> 00:06:01.110
+this should be the EC2,
+
+112
+00:06:01.110 --> 00:06:03.695
+all it is, is think of it as your server.
+
+113
+00:06:03.695 --> 00:06:06.085
+With the operating system of your choice
+
+114
+00:06:06.085 --> 00:06:08.755
+and all the middleware and things of your choice.
+
+115
+00:06:08.755 --> 00:06:11.115
+So that is your go to thing,
+
+116
+00:06:11.115 --> 00:06:13.450
+first, if you're comfortable with that,
+
+117
+00:06:13.450 --> 00:06:17.330
+you can probably do most of the projects you want to do for this course just with EC2,
+
+118
+00:06:17.330 --> 00:06:18.970
+and the other things, S3,
+
+119
+00:06:18.970 --> 00:06:24.325
+or the next levels, so anyway.
+
+120
+00:06:24.325 --> 00:06:26.440
+Yeah just as Gans said,
+
+121
+00:06:26.440 --> 00:06:31.331
+EC2 is probably the most important service that you should figure out how to use.
+
+122
+00:06:31.331 --> 00:06:34.770
+So this is the page they land in when they log into.
+
+123
+00:06:34.770 --> 00:06:36.070
+Well prior to this,
+
+124
+00:06:36.070 --> 00:06:37.375
+you'll have to sign up for an account,
+
+125
+00:06:37.375 --> 00:06:39.265
+which we'll go into more detail later,
+
+126
+00:06:39.265 --> 00:06:44.230
+but he's logged into the free Amazon AWS account and when you log in,
+
+127
+00:06:44.230 --> 00:06:45.750
+this is what you're going to see.
+
+128
+00:06:45.750 --> 00:06:49.955
+Yes, we're at about on EC2 dashboard you'll see a bunch of different resources,
+
+129
+00:06:49.955 --> 00:06:51.475
+what you have in use right now.
+
+130
+00:06:51.475 --> 00:06:54.010
+We're going to go ahead and click that "Launch Instance" button
+
+131
+00:06:54.010 --> 00:06:56.360
+that you find here. Let's go and to click that.
+
+132
+00:06:56.360 --> 00:06:58.590
+So you're trying to launch a new EC2 instance.
+
+133
+00:06:58.590 --> 00:06:58.970
+Yes.
+
+134
+00:06:58.970 --> 00:06:59.330
+Okay.
+
+135
+00:06:59.330 --> 00:07:05.495
+Right after that, you can have any type of image that you want right off
+
+136
+00:07:05.495 --> 00:07:06.855
+What is an AMI?
+
+137
+00:07:06.855 --> 00:07:08.750
+You should say what is an AMI or is an image.
+
+138
+00:07:08.750 --> 00:07:11.380
+AMI is an Amazon machine image,
+
+139
+00:07:11.380 --> 00:07:15.370
+where an image is basically some sort of snapshot of a server.
+
+140
+00:07:15.370 --> 00:07:17.350
+So let's say you created,
+
+141
+00:07:17.350 --> 00:07:21.190
+you boot up your computer and saw
+
+142
+00:07:21.190 --> 00:07:22.690
+an operating system install
+
+143
+00:07:22.690 --> 00:07:26.495
+some packages and you decide to take a snapshot at that moment in time.
+
+144
+00:07:26.495 --> 00:07:28.900
+What I can do later is when I create a new machine,
+
+145
+00:07:28.900 --> 00:07:30.490
+I can just take that image,
+
+146
+00:07:30.490 --> 00:07:32.590
+just do a straight copy and I'll have
+
+147
+00:07:32.590 --> 00:07:36.900
+the resources all available for me without all the heavy lifting installation.
+
+148
+00:07:36.900 --> 00:07:38.580
+What you are saying is,
+
+149
+00:07:38.580 --> 00:07:41.035
+let's say you want to spin off a server,
+
+150
+00:07:41.035 --> 00:07:43.550
+with Linux, Apache, MySQL,
+
+151
+00:07:43.550 --> 00:07:45.565
+PHP, LAMP Instance right?
+
+152
+00:07:45.565 --> 00:07:52.570
+Typically, what we'll do right now install Linux to get all these packages installed.
+
+153
+00:07:52.570 --> 00:07:59.150
+In here, Amazon has all these packages premade and you can just spin up,
+
+154
+00:07:59.150 --> 00:08:01.230
+"Hey, I want a LAMP Instance," so you
+
+155
+00:08:01.230 --> 00:08:03.760
+selecting Do you have a LAMP Instance here for example?
+
+156
+00:08:03.760 --> 00:08:04.720
+You can definitely find it.
+
+157
+00:08:04.720 --> 00:08:06.375
+Okay, but anyway, it's got one.
+
+158
+00:08:06.375 --> 00:08:10.700
+It's just prepackaged or is combined with middleware available.
+
+159
+00:08:10.700 --> 00:08:12.935
+You just select it and you start it.
+
+160
+00:08:12.935 --> 00:08:16.270
+For us, we're going to go ahead and start a Ubuntu Server,
+
+161
+00:08:16.270 --> 00:08:18.550
+so we personally love using Ubuntu more
+
+162
+00:08:18.550 --> 00:08:23.240
+than the CentOS but you can choose whichever type of service you want.
+
+163
+00:08:23.240 --> 00:08:24.890
+You started a war out there.
+
+164
+00:08:24.890 --> 00:08:27.551
+I know, right?
+
+165
+00:08:27.551 --> 00:08:30.140
+All right here,
+
+166
+00:08:30.140 --> 00:08:32.615
+you'll have your different types of compute powers.
+
+167
+00:08:32.615 --> 00:08:34.405
+So right off the bat,
+
+168
+00:08:34.405 --> 00:08:38.350
+Amazon will tell you which services are free to you're eligible.
+
+169
+00:08:38.350 --> 00:08:41.090
+In other words this is the power of the server,
+
+170
+00:08:41.090 --> 00:08:45.055
+it's how much memory a server is going to have or the virtual machine is going to have.
+
+171
+00:08:45.055 --> 00:08:49.170
+So the free tier is the lowest possible one,
+
+172
+00:08:49.170 --> 00:08:51.415
+but if you think you need more you expand later,
+
+173
+00:08:51.415 --> 00:08:55.470
+but for project purposes a free tier is good enough.
+
+174
+00:08:55.470 --> 00:08:56.866
+What are the other things? Memory?
+
+175
+00:08:56.866 --> 00:08:59.535
+Okay, you can increase the amount of memory you need,
+
+176
+00:08:59.535 --> 00:09:03.310
+so if you need to do a lot of M Memory Processing or something like that,
+
+177
+00:09:03.310 --> 00:09:06.160
+or parallelization you want to increase your number of course you have,
+
+178
+00:09:06.160 --> 00:09:07.910
+you definitely have those options.
+
+179
+00:09:07.910 --> 00:09:14.830
+Also, you have options to change how much storage device you have on your hard drive so,
+
+180
+00:09:14.830 --> 00:09:18.960
+which I think is an option later on and it can also choose between like SSD's,
+
+181
+00:09:18.960 --> 00:09:20.410
+which are Solid-State Drives,
+
+182
+00:09:20.410 --> 00:09:25.010
+which are typically faster than your traditional hard drives.
+
+183
+00:09:25.010 --> 00:09:30.123
+For this demo, we're just going to pick the free tier
+
+184
+00:09:30.123 --> 00:09:34.895
+and here we'll have some very specific instance,
+
+185
+00:09:34.895 --> 00:09:39.170
+Instance Specific Settings, for the most part we don't have to worry too much about it.
+
+186
+00:09:39.170 --> 00:09:42.110
+You could do some cool stuff with the networking subnetting,
+
+187
+00:09:42.110 --> 00:09:47.036
+but for the purposes of this demo we're not really interested in that.
+
+188
+00:09:47.036 --> 00:09:52.295
+Now all EC2 images typically come with an eight gigabyte storage device,
+
+189
+00:09:52.295 --> 00:09:56.995
+which is pretty much all you need typically for most of your applications.
+
+190
+00:09:56.995 --> 00:09:59.455
+It would be surprising if you even reached one gigabyte,
+
+191
+00:09:59.455 --> 00:10:03.255
+unless you have a service that logs a lot of files,
+
+192
+00:10:03.255 --> 00:10:05.600
+but if you need it,
+
+193
+00:10:05.600 --> 00:10:08.975
+definitely have the option of increasing the size.
+
+194
+00:10:08.975 --> 00:10:11.590
+One option we might suggest instead of increasing the size of
+
+195
+00:10:11.590 --> 00:10:14.870
+your hard drive is maybe offloading a bunch of that data into S3,
+
+196
+00:10:14.870 --> 00:10:18.805
+or one of the other storage devices if available.
+
+197
+00:10:18.805 --> 00:10:22.907
+Here, we can go ahead and tag it,
+
+198
+00:10:22.907 --> 00:10:29.465
+so let's say we want to give it a name, EC2 Demo.
+
+199
+00:10:29.465 --> 00:10:36.060
+Right, and here is probably the most important part of the configuration.
+
+200
+00:10:36.060 --> 00:10:38.160
+Your virtual machines that you create are kind
+
+201
+00:10:38.160 --> 00:10:41.575
+of machines that have everything blocked off.
+
+202
+00:10:41.575 --> 00:10:44.715
+What we mean by that is, let's say if we create a web service on
+
+203
+00:10:44.715 --> 00:10:48.985
+that EC2 device or EC2 image,
+
+204
+00:10:48.985 --> 00:10:50.700
+if we want to view a web page on it,
+
+205
+00:10:50.700 --> 00:10:52.530
+we have to open up specific rules,
+
+206
+00:10:52.530 --> 00:10:55.740
+or specific ports in order to access it.
+
+207
+00:10:55.740 --> 00:10:58.830
+We're going to go ahead and add that rule right now.
+
+208
+00:10:58.830 --> 00:11:01.625
+We're going to go and search for HTTP,
+
+209
+00:11:01.625 --> 00:11:04.230
+which will automatically make it port 80,
+
+210
+00:11:04.230 --> 00:11:10.380
+and you might have some complex services so maybe a MySQL or PostgreSQL,
+
+211
+00:11:10.380 --> 00:11:17.185
+open up that port if you want your PostgreSQL to connect to that EC2 instance.
+
+212
+00:11:17.185 --> 00:11:20.430
+We also has some options of making it,
+
+213
+00:11:20.430 --> 00:11:25.101
+so only certain IP's can access it but we're not too worried about that.
+
+214
+00:11:25.101 --> 00:11:27.367
+Then we'll just do,
+
+215
+00:11:27.367 --> 00:11:35.295
+just to make it available for everywhere.
+
+216
+00:11:35.295 --> 00:11:38.710
+All right. Now we're ready to launch.
+
+217
+00:11:38.710 --> 00:11:43.285
+This a quick review of everything that we've done and I'm just going to click a button.
+
+218
+00:11:43.285 --> 00:11:50.665
+This page is to essentially allow you to access your EC2 instance.
+
+219
+00:11:50.665 --> 00:11:54.465
+So typically, when you access any sort of machine,
+
+220
+00:11:54.465 --> 00:11:56.921
+you need to give a username and password.
+
+221
+00:11:56.921 --> 00:11:58.577
+AWS does one step further,
+
+222
+00:11:58.577 --> 00:12:01.640
+it makes you install something called the key pair.
+
+223
+00:12:01.640 --> 00:12:03.255
+So what happens is,
+
+224
+00:12:03.255 --> 00:12:04.740
+there's a pair of keys,
+
+225
+00:12:04.740 --> 00:12:07.755
+one that starts on the EC2 instance and one that you download.
+
+226
+00:12:07.755 --> 00:12:09.960
+You can only download that pair once in
+
+227
+00:12:09.960 --> 00:12:12.940
+your lifetime and you will not be able to download it ever again.
+
+228
+00:12:12.940 --> 00:12:15.370
+And that's a way to keep it secure.
+
+229
+00:12:15.370 --> 00:12:17.345
+So we're going to go and create a new pair,
+
+230
+00:12:17.345 --> 00:12:23.055
+call this EC2 Demo and download.
+
+231
+00:12:23.055 --> 00:12:25.990
+So now, I have it downloaded to my downloads,
+
+232
+00:12:25.990 --> 00:12:31.300
+and we're ready to install the instance.
+
+233
+00:12:31.300 --> 00:12:37.710
+So now, let's go ahead and go to the instance page to see its status.
+
+234
+00:12:37.710 --> 00:12:41.520
+So after that, because it's a new virtual machine,
+
+235
+00:12:41.520 --> 00:12:44.725
+it's going to take some time to allocate the resources on the cloud,
+
+236
+00:12:44.725 --> 00:12:50.230
+just get the image installed and get it up and ready for you to use.
+
+237
+00:12:50.230 --> 00:12:55.118
+And by the way we're going to go into more detail how to sign up for these services.
+
+238
+00:12:55.118 --> 00:12:57.060
+It's kind of just to give you a flavor of the service,
+
+239
+00:12:57.060 --> 00:13:01.150
+so don't worry if you can't follow along yet.
+
+240
+00:13:01.150 --> 00:13:03.415
+The next lesson will give you more detail,
+
+241
+00:13:03.415 --> 00:13:07.310
+a step by step how to get the keys in extra.
+
+242
+00:13:07.310 --> 00:13:16.281
+All right. So I just got the EC2 Demo.
+
+243
+00:13:16.281 --> 00:13:22.510
+So right now, I'm going to go ahead and move my file that I just downloaded,
+
+244
+00:13:22.510 --> 00:13:29.245
+which is my private key.
+
+245
+00:13:29.245 --> 00:13:36.745
+And then, we're going to go ahead and apply the necessary permissions on it,
+
+246
+00:13:36.745 --> 00:13:47.430
+so that will be a chmod 600 onto that specific private key file.
+
+247
+00:13:47.430 --> 00:13:50.785
+Now, I'm going to go here, I'm going to right click Connect.
+
+248
+00:13:50.785 --> 00:13:55.822
+And it's going to tell you exactly how you can connect to that virtual machine.
+
+249
+00:13:55.822 --> 00:14:01.415
+So for us, they already give us a link to do it.
+
+250
+00:14:01.415 --> 00:14:06.041
+I'm just going to go ahead and copy that.
+
+251
+00:14:06.041 --> 00:14:09.305
+And also, I made a mistake just now,
+
+252
+00:14:09.305 --> 00:14:16.563
+it needs to be chmode 400 which stands for readonly.
+
+253
+00:14:16.563 --> 00:14:20.350
+Now if I go ahead and paste that line in,
+
+254
+00:14:20.350 --> 00:14:22.441
+it's going to ask you about authentication,
+
+255
+00:14:22.441 --> 00:14:24.490
+just go ahead and say yes.
+
+256
+00:14:24.490 --> 00:14:33.590
+And just a slight error.
+
+257
+00:14:33.590 --> 00:14:35.730
+Now we're able to access our virtual machine.
+
+258
+00:14:35.730 --> 00:14:43.550
+So I can go ahead and do typical commands that I would do on a typical Ubuntu server.
+
+259
+00:14:43.550 --> 00:14:45.960
+So let's say pseudo got app update.
+
+260
+00:14:45.960 --> 00:14:47.260
+So you're inside the virtual machine now, right?
+
+261
+00:14:47.260 --> 00:14:47.394
+Right now.
+
+262
+00:14:47.394 --> 00:14:48.930
+You're administrating the remote machine.
+
+263
+00:14:48.930 --> 00:14:56.140
+Yeah. So it took us maybe five minutes to just get an EC2 instance up and running.
+
+264
+00:14:56.140 --> 00:14:58.287
+And we already have the necessary resources to run
+
+265
+00:14:58.287 --> 00:15:04.730
+just a typical web application or an IoT application that we want.
+
+266
+00:15:04.730 --> 00:15:05.165
+Great.
+
+267
+00:15:05.165 --> 00:15:13.306
+Right now, I'm going to do one more demo for S3.
+
+268
+00:15:13.306 --> 00:15:17.930
+So here in S3,
+
+269
+00:15:17.930 --> 00:15:21.150
+it's basically kind of like a file server.
+
+270
+00:15:21.150 --> 00:15:24.090
+So some terminology that S3 uses is buckets,
+
+271
+00:15:24.090 --> 00:15:26.005
+which is basically projects or
+
+272
+00:15:26.005 --> 00:15:30.570
+these high-level folders that you can classify your data against.
+
+273
+00:15:30.570 --> 00:15:32.550
+So for instance here,
+
+274
+00:15:32.550 --> 00:15:35.890
+we see something called Jiraconfluence.
+
+275
+00:15:35.890 --> 00:15:38.460
+So if you go into that, we see that in
+
+276
+00:15:38.460 --> 00:15:42.070
+this project we have two folders Confluence and Jira.
+
+277
+00:15:42.070 --> 00:15:45.590
+And then here, we have a tar file which is a backup of
+
+278
+00:15:45.590 --> 00:15:49.140
+one of our confluence servers that we have.
+
+279
+00:15:49.140 --> 00:15:51.960
+If I want to upload a file on here,
+
+280
+00:15:51.960 --> 00:15:58.230
+using the GUI I can easily do that. Just upload a file.
+
+281
+00:15:58.230 --> 00:16:04.860
+And I'm just going to go ahead and go through the pages.
+
+282
+00:16:04.860 --> 00:16:07.785
+And now, my file's uploaded onto the servers.
+
+283
+00:16:07.785 --> 00:16:09.595
+And a cool thing now is,
+
+284
+00:16:09.595 --> 00:16:10.990
+as Gans said earlier,
+
+285
+00:16:10.990 --> 00:16:17.000
+right now we're using the GUI or we're using the console-based commands to do our work.
+
+286
+00:16:17.000 --> 00:16:21.035
+If, instead, we want to connect using some sort of device with the rest API,
+
+287
+00:16:21.035 --> 00:16:23.675
+we can easily access this example dot text file that I just
+
+288
+00:16:23.675 --> 00:16:27.380
+uploaded or any of the files that are on S3.
+
+289
+00:16:27.380 --> 00:16:31.830
+So that's kind of a quick demo of the different services that you can use on AWS.
+
+290
+00:16:31.830 --> 00:16:35.760
+Where is the list of APIs for all these services like the demo pages?
+
+291
+00:16:35.760 --> 00:16:36.970
+The list of APIs?
+
+292
+00:16:36.970 --> 00:16:38.805
+Yeah. Or S3, let's say.
+
+293
+00:16:38.805 --> 00:16:43.135
+So listen, if you want to see more of how to use API-centric programming,
+
+294
+00:16:43.135 --> 00:16:45.540
+those will be on this Amazon documents.
+
+295
+00:16:45.540 --> 00:16:48.390
+So that's a quick search on the internet.
+
+296
+00:16:48.390 --> 00:16:53.100
+Just search AWS S3 documentation and you'll have
+
+297
+00:16:53.100 --> 00:16:58.350
+a console-specific and even a rest API-centric thing that you can go ahead and look at.
+
+298
+00:16:58.350 --> 00:17:01.230
+It's all there. And Amazon does a great job of
+
+299
+00:17:01.230 --> 00:17:04.807
+having those documentation available and very detail-oriented.
+
+300
+00:17:04.807 --> 00:17:07.605
+So, it's all on there.
+
+301
+00:17:07.605 --> 00:17:10.335
+So I think that's a good overview of some of the services.
+
+302
+00:17:10.335 --> 00:17:15.580
+And we'll go ahead and do architecture of different AWS applications next.

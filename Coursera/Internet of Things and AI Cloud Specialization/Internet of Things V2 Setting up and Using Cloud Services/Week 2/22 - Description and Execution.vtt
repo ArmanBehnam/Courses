@@ -1,0 +1,449 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.429
+Hello everyone. In this video we'll be going over the Emotion Booth.
+
+2
+00:00:03.429 --> 00:00:05.590
+Actually what it does is,
+
+3
+00:00:05.590 --> 00:00:08.603
+it will take an image here,
+
+4
+00:00:08.603 --> 00:00:11.880
+and then send that image to Amazon recognition.
+
+5
+00:00:11.880 --> 00:00:13.838
+And ideally it will be of our face,
+
+6
+00:00:13.838 --> 00:00:16.680
+and then it will return back an emotion and then we
+
+7
+00:00:16.680 --> 00:00:21.070
+actually emoter according to whatever emotion it tells us it is.
+
+8
+00:00:21.070 --> 00:00:25.575
+So we'll start off with harbor requirements first.
+
+9
+00:00:25.575 --> 00:00:28.120
+So, first you would need the Sensors Mezzanine,
+
+10
+00:00:28.120 --> 00:00:31.905
+and then you would need to connect the Servo to D3,
+
+11
+00:00:31.905 --> 00:00:34.785
+so you would need the cable as well.
+
+12
+00:00:34.785 --> 00:00:39.577
+And then you also need a USB Webcam.
+
+13
+00:00:39.577 --> 00:00:40.890
+Okay.
+
+14
+00:00:40.890 --> 00:00:45.285
+And here are some of the software requirements that you might need for this project.
+
+15
+00:00:45.285 --> 00:00:48.350
+The first one is AWS CLI,
+
+16
+00:00:48.350 --> 00:00:50.660
+this is the command line interface and you can install it
+
+17
+00:00:50.660 --> 00:00:53.270
+using the command that we gave you here.
+
+18
+00:00:53.270 --> 00:00:56.790
+And then you also need the Python SDK.
+
+19
+00:00:56.790 --> 00:01:06.840
+And also you need to enable the recognition permissions for your IAM user on AWS.
+
+20
+00:01:06.840 --> 00:01:16.554
+So again, the description of the project is it takes an image here of one of our faces,
+
+21
+00:01:16.554 --> 00:01:21.635
+either me or Andrew, and then sends that image to Amazon S3,
+
+22
+00:01:21.635 --> 00:01:23.045
+and there it stores the image.
+
+23
+00:01:23.045 --> 00:01:28.460
+And then we can use Amazon recognition on that image on Amazon S3.
+
+24
+00:01:28.460 --> 00:01:31.250
+And it can detect a face.
+
+25
+00:01:31.250 --> 00:01:33.590
+And it can detect a whole bunch of other things,
+
+26
+00:01:33.590 --> 00:01:38.085
+such as where the eyes are and stuff like that.
+
+27
+00:01:38.085 --> 00:01:41.640
+But for now, we're just using it on the emotion part of it.
+
+28
+00:01:41.640 --> 00:01:47.165
+So when we get the message back and it tells us what emotion we have,
+
+29
+00:01:47.165 --> 00:01:49.250
+it can either be sad,
+
+30
+00:01:49.250 --> 00:01:52.625
+happy, or in this case we have neutral for center.
+
+31
+00:01:52.625 --> 00:01:55.970
+Neutral just means that it's neither sad or happy.
+
+32
+00:01:55.970 --> 00:01:57.980
+There's a bunch of other emotions that aren't sad or
+
+33
+00:01:57.980 --> 00:02:01.035
+happy that Amazon recognition will detect.
+
+34
+00:02:01.035 --> 00:02:04.475
+But for now we'll just count them as neutral.
+
+35
+00:02:04.475 --> 00:02:07.190
+And basically if we get sad,
+
+36
+00:02:07.190 --> 00:02:09.048
+we move the Servo to the left,
+
+37
+00:02:09.048 --> 00:02:12.830
+and if we get neither sad or happy,
+
+38
+00:02:12.830 --> 00:02:14.615
+we move to Servo to the middle,
+
+39
+00:02:14.615 --> 00:02:20.375
+and if we get happy we move the the Servo to the right.
+
+40
+00:02:20.375 --> 00:02:24.995
+So yeah, now we're going to jump into the DragonBoard and run the program,
+
+41
+00:02:24.995 --> 00:02:27.270
+and show you guys how it works.
+
+42
+00:02:27.270 --> 00:02:30.665
+Here we are in the terminal and we just ls.
+
+43
+00:02:30.665 --> 00:02:32.109
+So there's four files here.
+
+44
+00:02:32.109 --> 00:02:33.800
+The first file is the Makefile.
+
+45
+00:02:33.800 --> 00:02:36.703
+And if you went through the course too,
+
+46
+00:02:36.703 --> 00:02:37.890
+and went through all the DragonBoard stuff,
+
+47
+00:02:37.890 --> 00:02:42.170
+you would know that this file is just for uploading Arduino sketch to
+
+48
+00:02:42.170 --> 00:02:47.460
+the DragonBoard's Arduino Microcontroller.
+
+49
+00:02:47.460 --> 00:02:50.565
+And then the second one is Emotion Booth.
+
+50
+00:02:50.565 --> 00:02:53.880
+That's the Python file, that's the main file of this project.
+
+51
+00:02:53.880 --> 00:02:57.215
+It captures images, it sends images to AWS,
+
+52
+00:02:57.215 --> 00:03:01.090
+and runs everything, and even tells the Arduino what to do.
+
+53
+00:03:01.090 --> 00:03:05.918
+The third file is face.jpg, that's just that.
+
+54
+00:03:05.918 --> 00:03:08.577
+We're using it as a temporary file.
+
+55
+00:03:08.577 --> 00:03:10.285
+So Emotion Booth takes the image,
+
+56
+00:03:10.285 --> 00:03:13.546
+saves the file, and then sends that file to AWS.
+
+57
+00:03:13.546 --> 00:03:15.833
+And the fourth one is servo_control.ino.
+
+58
+00:03:15.833 --> 00:03:19.010
+This is the actual Arduino sketch.
+
+59
+00:03:19.010 --> 00:03:21.270
+This purely just controls the Servo and listens for
+
+60
+00:03:21.270 --> 00:03:23.905
+a message from Emotion Booth over serial.
+
+61
+00:03:23.905 --> 00:03:25.560
+So when it sees a certain message,
+
+62
+00:03:25.560 --> 00:03:28.310
+it will then react accordingly.
+
+63
+00:03:28.310 --> 00:03:31.695
+We'll now just run into Emotion Booth.
+
+64
+00:03:31.695 --> 00:03:35.160
+And again, the Servo should go left for sad,
+
+65
+00:03:35.160 --> 00:03:38.300
+middle for neutral, and right for happy.
+
+66
+00:03:38.300 --> 00:03:41.985
+So we're just going to run it on Andrew, who's really good looking sad,
+
+67
+00:03:41.985 --> 00:03:47.607
+and just see if that works.
+
+68
+00:03:47.607 --> 00:03:51.795
+And we'll see what the output is,
+
+69
+00:03:51.795 --> 00:03:53.933
+because I'll put it on the Kremlin.
+
+70
+00:03:53.933 --> 00:03:57.050
+And we can see that he is sad.
+
+71
+00:03:57.050 --> 00:03:59.000
+He's really good at being sad.
+
+72
+00:03:59.000 --> 00:04:01.175
+And if we look at the Servo,
+
+73
+00:04:01.175 --> 00:04:06.060
+if you look at it's the far left, and it's correct.
+
+74
+00:04:06.060 --> 00:04:11.290
+So next we just go to me and we're going to see if I can make a neutral face.
+
+75
+00:04:11.290 --> 00:04:16.290
+For that, whenever you just press any key and it should exit.
+
+76
+00:04:16.290 --> 00:04:18.132
+And then I'm just going to run on me.
+
+77
+00:04:18.132 --> 00:04:22.640
+I'm trying my best to make a really neutral face.
+
+78
+00:04:28.690 --> 00:04:34.358
+And my eyes are closed and I can still detect my face fairly okay.
+
+79
+00:04:34.358 --> 00:04:36.285
+And see that's fairly neutral.
+
+80
+00:04:36.285 --> 00:04:40.635
+And the Servo is pointing in the upright direction right in the center,
+
+81
+00:04:40.635 --> 00:04:45.185
+not perfectly center, but that's the best it can do.
+
+82
+00:04:45.185 --> 00:04:48.705
+So, in this studio right now we have a bunch of lights.
+
+83
+00:04:48.705 --> 00:04:50.533
+So the lighting addition is a little worse.
+
+84
+00:04:50.533 --> 00:04:54.105
+But when you run it on your home it should be a little bit better.
+
+85
+00:04:54.105 --> 00:04:57.750
+And that really white color should go away,
+
+86
+00:04:57.750 --> 00:04:59.830
+and it should be like a good image.
+
+87
+00:04:59.830 --> 00:05:01.575
+Finally we're going to run it on happy,
+
+88
+00:05:01.575 --> 00:05:05.235
+and you can see the Servo in all three states.
+
+89
+00:05:05.235 --> 00:05:11.490
+So, we're just going to press any key and it should exit and then Python.
+
+90
+00:05:11.490 --> 00:05:15.060
+So I'm going to try my best to look happy and see how it goes.
+
+91
+00:05:15.060 --> 00:05:26.753
+It captured the image and let's see.
+
+92
+00:05:26.753 --> 00:05:29.065
+It looks kind of creepy and disturbing,
+
+93
+00:05:29.065 --> 00:05:34.870
+but it captured happy and you can see here the Servo moved to the far right.
+
+94
+00:05:34.870 --> 00:05:41.548
+There are many other images or types of emotions on AWS even other data points,
+
+95
+00:05:41.548 --> 00:05:44.065
+such as like where the face is.
+
+96
+00:05:44.065 --> 00:05:47.790
+You can use those, integrate into your projects.
+
+97
+00:05:47.790 --> 00:05:49.675
+You can even build on this project.
+
+98
+00:05:49.675 --> 00:05:52.150
+And instead of just using sad, neutral, and happy,
+
+99
+00:05:52.150 --> 00:05:55.528
+you can integrate some other emotions such as disgusting,
+
+100
+00:05:55.528 --> 00:05:59.556
+calm, and just make a wider spectrum of where the Servo can go.
+
+101
+00:05:59.556 --> 00:06:05.320
+So this is just an example of using a cloud service to do some heavy processing,
+
+102
+00:06:05.320 --> 00:06:10.075
+such as facial recognition and then just get a quick data point back,
+
+103
+00:06:10.075 --> 00:06:15.815
+and then make an IoT device that reacts to it such as a Servo.
+
+104
+00:06:15.815 --> 00:06:20.105
+Ideally, this is just a Servo for just doing pointing,
+
+105
+00:06:20.105 --> 00:06:22.385
+but you could attach it just like potentially to a door.
+
+106
+00:06:22.385 --> 00:06:24.090
+If it recognizes the happy person,
+
+107
+00:06:24.090 --> 00:06:25.473
+it will open the door,
+
+108
+00:06:25.473 --> 00:06:27.290
+and a sad person it would close the door.
+
+109
+00:06:27.290 --> 00:06:30.740
+But this case, this is just a small project to show you that you can interact with
+
+110
+00:06:30.740 --> 00:06:34.892
+the real world using this service and a camera.
+
+111
+00:06:34.892 --> 00:06:40.355
+In the next video we'll be going over the code and exactly how this all works.
+
+112
+00:06:40.355 --> 00:06:44.000
+But for now, have a nice day and we'll see you next time.

@@ -1,0 +1,377 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.330
+In this section, we're going to cover REST APIs.
+
+2
+00:00:03.330 --> 00:00:05.820
+We alluded to in the introduction.
+
+3
+00:00:05.820 --> 00:00:10.515
+So we're going to show how to create a REST API using PHP.
+
+4
+00:00:10.515 --> 00:00:13.325
+In particular, we're going to write some PHP code,
+
+5
+00:00:13.325 --> 00:00:14.670
+dive into the database,
+
+6
+00:00:14.670 --> 00:00:18.060
+pull some data, and then format it as JSON,
+
+7
+00:00:18.060 --> 00:00:21.545
+and return that as a JSON structure.
+
+8
+00:00:21.545 --> 00:00:24.540
+Admittedly, we're not going to cover this in too much detail,
+
+9
+00:00:24.540 --> 00:00:26.768
+we're just going to give you the framework PHP code.
+
+10
+00:00:26.768 --> 00:00:31.095
+But you can build upon this to do fancier stuff.
+
+11
+00:00:31.095 --> 00:00:34.075
+So Sergio will show you how to do that.
+
+12
+00:00:34.075 --> 00:00:37.830
+So we're logged back in to the EC2 instance that we had.
+
+13
+00:00:37.830 --> 00:00:40.816
+And I've created a database if we log
+
+14
+00:00:40.816 --> 00:00:48.314
+in here called "myapplication."
+
+15
+00:00:48.314 --> 00:00:55.785
+So we're going to use that one. And we have a table called "MyGuests".
+
+16
+00:00:55.785 --> 00:01:01.149
+So, if I show what's in here,
+
+17
+00:01:01.149 --> 00:01:06.493
+you can see that there's a table with user ID,
+
+18
+00:01:06.493 --> 00:01:08.913
+first name last name,
+
+19
+00:01:08.913 --> 00:01:11.285
+email, and the date it was created.
+
+20
+00:01:11.285 --> 00:01:14.060
+And there's three entries for now.
+
+21
+00:01:14.060 --> 00:01:20.089
+So that's what we're going to try to return in our JSON request.
+
+22
+00:01:20.089 --> 00:01:25.280
+Sorry, the request it's going to be returning this in JSON through the browser.
+
+23
+00:01:25.280 --> 00:01:27.813
+And it could be through anywhere. As long as you have this link,
+
+24
+00:01:27.813 --> 00:01:30.730
+it's going to return exactly this as a text.
+
+25
+00:01:30.730 --> 00:01:39.375
+I've created the file "show-all.php",
+
+26
+00:01:39.375 --> 00:01:43.835
+and what this is is the actual PHP that's going to return it.
+
+27
+00:01:43.835 --> 00:01:53.160
+It uses MySQLi, which is just basically MySQL for PHP.
+
+28
+00:01:53.160 --> 00:01:56.160
+And up here I've said what it needs,
+
+29
+00:01:56.160 --> 00:01:57.975
+the server name-we're on localhost.
+
+30
+00:01:57.975 --> 00:02:00.735
+I could have put the IP address that we use here earlier,
+
+31
+00:02:00.735 --> 00:02:04.820
+but it's just easier to write localhost because it's on the same machine.
+
+32
+00:02:04.820 --> 00:02:07.915
+The username is root. The past is the past with that I had denoted.
+
+33
+00:02:07.915 --> 00:02:14.305
+Now, it's important to also state here that you're explicitly writing a password here,
+
+34
+00:02:14.305 --> 00:02:18.070
+so it'd be important to make
+
+35
+00:02:18.070 --> 00:02:21.910
+sure that this user does not have write access to the database.
+
+36
+00:02:21.910 --> 00:02:29.110
+It's something that would be simple as going into it and removing the write access.
+
+37
+00:02:29.110 --> 00:02:30.340
+So you're only able to read,
+
+38
+00:02:30.340 --> 00:02:33.280
+so anyone who might somehow stumble upon
+
+39
+00:02:33.280 --> 00:02:36.680
+this PHP code won't be able to edit your database.
+
+40
+00:02:36.680 --> 00:02:38.740
+Or, another thing you could do is embed
+
+41
+00:02:38.740 --> 00:02:41.710
+this PHP somewhere so the code is not viewable at all.
+
+42
+00:02:41.710 --> 00:02:47.395
+And all it is is a button you click and it returns your JSON.
+
+43
+00:02:47.395 --> 00:02:48.760
+And the database name,
+
+44
+00:02:48.760 --> 00:02:51.910
+as I showed earlier, was "myapplication".
+
+45
+00:02:51.910 --> 00:02:56.260
+Right here, it creates the connection using the MySQLi that I was talking about.
+
+46
+00:02:56.260 --> 00:02:57.715
+You just input server name,
+
+47
+00:02:57.715 --> 00:03:00.145
+username, password, and the database name.
+
+48
+00:03:00.145 --> 00:03:04.100
+It does a quick check to make sure that it works and that it doesn't fail.
+
+49
+00:03:04.100 --> 00:03:06.415
+In case it does fail, it'll tell you why.
+
+50
+00:03:06.415 --> 00:03:09.310
+And here's the actual SQL statement.
+
+51
+00:03:09.310 --> 00:03:10.835
+It's the same one that I did earlier.
+
+52
+00:03:10.835 --> 00:03:13.240
+It's select all from "MyGuests",
+
+53
+00:03:13.240 --> 00:03:16.860
+and it's just going to return every entry in that "MyGuest" table.
+
+54
+00:03:16.860 --> 00:03:23.545
+The way you actually query it is you get your instance,
+
+55
+00:03:23.545 --> 00:03:25.840
+which I called "conn" for "connection",
+
+56
+00:03:25.840 --> 00:03:27.970
+and you say "conn - >query",
+
+57
+00:03:27.970 --> 00:03:30.825
+and then you write in here your SQL query.
+
+58
+00:03:30.825 --> 00:03:34.648
+I called it "SQL". So, you store that in something,
+
+59
+00:03:34.648 --> 00:03:37.117
+I'm calling that something "result."
+
+60
+00:03:37.117 --> 00:03:39.520
+I'm storing this query into "result".
+
+61
+00:03:39.520 --> 00:03:42.625
+And the way you work with it from here,
+
+62
+00:03:42.625 --> 00:03:45.100
+you can massage it into whatever you want it to be.
+
+63
+00:03:45.100 --> 00:03:48.685
+You can edit the table for whatever reason, you can add to it,
+
+64
+00:03:48.685 --> 00:03:51.810
+but I strictly just grabbed everything that it
+
+65
+00:03:51.810 --> 00:03:56.000
+returned and entered it into an array called "data".
+
+66
+00:03:56.000 --> 00:03:57.585
+That's what this while loop does here.
+
+67
+00:03:57.585 --> 00:04:00.265
+It just inserts all that data into the array.
+
+68
+00:04:00.265 --> 00:04:05.785
+And to create JSON from an array in PHP is as a simple as saying JSON in code,
+
+69
+00:04:05.785 --> 00:04:07.980
+and that's what we're going to return.
+
+70
+00:04:07.980 --> 00:04:10.015
+So if we run this function,
+
+71
+00:04:10.015 --> 00:04:15.105
+you'll notice that I put it in "users/show-all.php".
+
+72
+00:04:15.105 --> 00:04:17.785
+So if I type that in, /show-all.php it
+
+73
+00:04:17.785 --> 00:04:27.125
+returns this JSON object where it is the three entries that were in my database.
+
+74
+00:04:27.125 --> 00:04:29.346
+You could see this as user one,
+
+75
+00:04:29.346 --> 00:04:33.113
+this would be user two over here,
+
+76
+00:04:33.113 --> 00:04:35.370
+and then this would be user three on the bottom.
+
+77
+00:04:35.370 --> 00:04:39.883
+And that's how you do a very basic JSON.
+
+78
+00:04:39.883 --> 00:04:42.225
+To grab from the database,
+
+79
+00:04:42.225 --> 00:04:46.810
+turn that information into JSON and return it through your app.
+
+80
+00:04:46.810 --> 00:04:51.495
+In doing so what you have created is you have created your first REST API,
+
+81
+00:04:51.495 --> 00:04:53.447
+so if you highlight the URL there,
+
+82
+00:04:53.447 --> 00:04:56.850
+this is what you call to get back the JSON.
+
+83
+00:04:56.850 --> 00:04:58.905
+Admittedly, in this case,
+
+84
+00:04:58.905 --> 00:05:01.751
+we're not taking any parameters as input.
+
+85
+00:05:01.751 --> 00:05:04.990
+It'll return the same thing every time you call it.
+
+86
+00:05:04.990 --> 00:05:08.012
+However, you can modify it so it takes in some parameters,
+
+87
+00:05:08.012 --> 00:05:13.170
+GET POST parameters and based on the input it returns a different JSON.
+
+88
+00:05:13.170 --> 00:05:16.098
+But, bottom line, this how you'll create REST APIs,
+
+89
+00:05:16.098 --> 00:05:20.980
+and you would consume these APIs in your DragonBoard code,
+
+90
+00:05:20.980 --> 00:05:24.801
+you'll call this URL here, and you're going to get back this JSON,
+
+91
+00:05:24.801 --> 00:05:28.095
+and you process this JSON using a framework of your choice,
+
+92
+00:05:28.095 --> 00:05:29.640
+and you run with it.
+
+93
+00:05:29.640 --> 00:05:32.358
+So that's REST API,
+
+94
+00:05:32.358 --> 00:05:35.000
+how to create a REST API in a nutshell.
