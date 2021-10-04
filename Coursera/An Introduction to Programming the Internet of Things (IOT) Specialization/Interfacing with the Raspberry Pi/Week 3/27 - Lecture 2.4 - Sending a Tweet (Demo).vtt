@@ -1,0 +1,543 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.324 --> 00:00:15.292
+Today we are going to get the Raspberry Pi
+to send a tweet on Twitter or
+
+3
+00:00:15.292 --> 00:00:19.050
+update status on Twitter
+which is the same thing.
+
+4
+00:00:19.050 --> 00:00:23.700
+So let's start out by
+making our connection.
+
+5
+00:00:23.700 --> 00:00:26.630
+So I'm sitting at my windows machine,
+that's what you see here.
+
+6
+00:00:26.630 --> 00:00:31.270
+Let me get my terminal emulator putty,
+P-U-T-T-Y,
+
+7
+00:00:31.270 --> 00:00:36.940
+and connect it to my Raspberry Pi.
+
+8
+00:00:36.940 --> 00:00:38.560
+Here's the ip address at the moment.
+
+9
+00:00:38.560 --> 00:00:45.050
+See if I remember it I think that's it.
+
+10
+00:00:45.050 --> 00:00:47.070
+Okay, so I'm using Secure Shell.
+
+11
+00:00:47.070 --> 00:00:49.720
+To connect, click open.
+
+12
+00:00:49.720 --> 00:00:50.700
+So I get the prompt, Pi.
+
+13
+00:00:52.440 --> 00:00:54.016
+And give it the password.
+
+14
+00:00:54.016 --> 00:00:57.506
+[NOISE] Here we go.
+
+15
+00:00:57.506 --> 00:01:01.822
+Now let's change the size of the text,
+just so
+
+16
+00:01:01.822 --> 00:01:06.469
+we can see a little bit better,
+change settings,
+
+17
+00:01:06.469 --> 00:01:11.580
+go to appearance and
+make it 20 point, sounds good.
+
+18
+00:01:13.310 --> 00:01:17.220
+All right,
+
+19
+00:01:18.510 --> 00:01:22.150
+now let's shrink the window a little bit
+so I can get other things on the screen.
+
+20
+00:01:22.150 --> 00:01:27.320
+There we go, okay, so now we have
+our connection to the Raspberry Pi.
+
+21
+00:01:27.320 --> 00:01:33.710
+So we want to use Twitter,
+so first, we have to
+
+22
+00:01:33.710 --> 00:01:41.055
+use the Twython T W Y T H O N package
+that I've already talked about in class.
+
+23
+00:01:41.055 --> 00:01:46.065
+So right now I'm going to assume that
+you have already installed that package
+
+24
+00:01:46.065 --> 00:01:48.065
+using a pseudo app to get install.
+
+25
+00:01:49.717 --> 00:01:54.097
+So, do an update first and
+then install the packet, install PIP and
+
+26
+00:01:54.097 --> 00:01:55.297
+then use PIP to do that.
+
+27
+00:01:55.297 --> 00:02:00.397
+We've done this before, but go ahead and
+install the Twython packet, T-W-Y-T-H-O-N.
+
+28
+00:02:00.397 --> 00:02:05.647
+So I've already done that in my Raspberry
+Pi and actually be forewarned a little
+
+29
+00:02:05.647 --> 00:02:11.070
+bit, it takes a long time, the upgrade
+step took me over five minutes, say.
+
+30
+00:02:12.170 --> 00:02:14.230
+So go ahead and do that.
+
+31
+00:02:14.230 --> 00:02:15.470
+So once that's installed,
+
+32
+00:02:17.010 --> 00:02:21.470
+then I'm also assuming that you have
+a Twitter account, and that's easy to get.
+
+33
+00:02:21.470 --> 00:02:24.845
+Just go to Twitter.com,
+get an account for free.
+
+34
+00:02:24.845 --> 00:02:28.005
+and I'm assuming that you have
+already registered your app.
+
+35
+00:02:28.005 --> 00:02:29.795
+So you go to apps.twitter.com and
+
+36
+00:02:29.795 --> 00:02:34.705
+you, actually I already outlined
+this is the class in the lecture.
+
+37
+00:02:34.705 --> 00:02:39.700
+Just look at that lecture and follow
+it step by step to register your app.
+
+38
+00:02:39.700 --> 00:02:42.370
+Now when you register your app, remember
+you're going to get these four keys,
+
+39
+00:02:42.370 --> 00:02:46.870
+the consumer keys and the authentication
+keys, jot these down somewhere.
+
+40
+00:02:46.870 --> 00:02:50.460
+You're going to need them in order to have
+your application communicate with Twitter.
+
+41
+00:02:51.700 --> 00:02:57.010
+So, now that we have that,
+let us go and start typing,
+
+42
+00:02:57.010 --> 00:03:01.010
+so we'll start Python and so
+now I've got my Python prompt.
+
+43
+00:03:01.010 --> 00:03:05.160
+I'm doing this in command line, but you
+could do it in a script if you wanted to.
+
+44
+00:03:06.310 --> 00:03:10.040
+So let's start off with the import and
+from Twython,
+
+45
+00:03:10.040 --> 00:03:16.050
+from the Twython package, I'll just
+import the Twython class in this.
+
+46
+00:03:18.230 --> 00:03:18.730
+Import.
+
+47
+00:03:20.820 --> 00:03:23.780
+That's all I need in
+order to send a tweet.
+
+48
+00:03:23.780 --> 00:03:26.460
+So I'll import that.
+
+49
+00:03:27.710 --> 00:03:28.370
+Okay.
+
+50
+00:03:28.370 --> 00:03:31.995
+Now that I've imported that,
+what I'm I'm going to want to do
+
+51
+00:03:31.995 --> 00:03:35.785
+is I'm going to make an object
+of the Twython class.
+
+52
+00:03:35.785 --> 00:03:37.825
+Now, when I call the constructor for that,
+
+53
+00:03:37.825 --> 00:03:41.015
+I'll do that in a second but when I
+call the constructor I need to pass in
+
+54
+00:03:41.015 --> 00:03:44.425
+four arguments which are the four keys
+that we got when we registered our app.
+
+55
+00:03:45.440 --> 00:03:48.160
+So I don't want you to see my keys.
+
+56
+00:03:48.160 --> 00:03:52.160
+So in order to hide my keys, what I'm
+going to do is I have actually made
+
+57
+00:03:52.160 --> 00:03:56.910
+a little script that just sets the keys,
+CK = cs = at = as =.
+
+58
+00:03:56.910 --> 00:04:00.710
+I said define four variables and
+I set them equal to the keys.
+
+59
+00:04:00.710 --> 00:04:04.990
+I've done that but I don't want you to see
+exactly what the definition of the keys
+
+60
+00:04:04.990 --> 00:04:07.870
+are so what I'll do is I'll,
+since I have that in a file,
+
+61
+00:04:07.870 --> 00:04:11.770
+I have those four assignment instructions
+in a file that I will not show you but
+
+62
+00:04:11.770 --> 00:04:12.730
+they are very simple.
+
+63
+00:04:13.800 --> 00:04:17.470
+You, I'll just actually execute that file.
+
+64
+00:04:17.470 --> 00:04:19.560
+So there's a command to do that.
+
+65
+00:04:19.560 --> 00:04:23.870
+So I'll type Execfile.
+
+66
+00:04:23.870 --> 00:04:26.710
+So execfile will execute a Python script.
+
+67
+00:04:26.710 --> 00:04:29.370
+And I just give the file name in quotes.
+
+68
+00:04:29.370 --> 00:04:34.380
+So I've called that file "initkeys.py".
+
+69
+00:04:34.380 --> 00:04:36.555
+Bam, and it has initialized the keys.
+
+70
+00:04:36.555 --> 00:04:40.845
+Now, note that all that that does,
+I hate to not have you see something, but
+
+71
+00:04:40.845 --> 00:04:44.420
+I don't want you to see the keys, but all
+that does is it defines four variables.
+
+72
+00:04:44.420 --> 00:04:49.690
+c_k= and then it's the string,
+blah, blah, blah, blah, blah.
+
+73
+00:04:49.690 --> 00:04:52.470
+I'm not going to override it,
+but that's what I had in there.
+
+74
+00:04:52.470 --> 00:04:57.660
+So CK, CS, AT, AS,
+I define all four of those.
+
+75
+00:04:57.660 --> 00:05:01.730
+So that's all, so you would type that
+command line yourself, or cut and
+
+76
+00:05:01.730 --> 00:05:04.480
+paste it, but I just did that.
+
+77
+00:05:04.480 --> 00:05:08.594
+So by executing that file I've
+actually assigned all four of those.
+
+78
+00:05:08.594 --> 00:05:12.925
+So now I need to make the object,
+the Twython object, the API object.
+
+79
+00:05:12.925 --> 00:05:17.670
+So let's make API equals Twython, so
+
+80
+00:05:17.670 --> 00:05:22.340
+I'm calling the Twython constructor to
+make the object and I pass in my keys.
+
+81
+00:05:22.340 --> 00:05:25.989
+They are called c_k, c_s,
+
+82
+00:05:25.989 --> 00:05:31.034
+a_t, and a_s.
+
+83
+00:05:31.034 --> 00:05:36.480
+Okay, so,
+that should make my API my Twython object.
+
+84
+00:05:36.480 --> 00:05:37.570
+So, there it is.
+
+85
+00:05:37.570 --> 00:05:39.400
+So, now, I can send a tweet.
+
+86
+00:05:40.600 --> 00:05:44.540
+Now before I send the tweet, I'm going to
+send the tweet, but I want you to see, I'm
+
+87
+00:05:44.540 --> 00:05:48.250
+going to show you Twitter at the same time
+so you can see when the tweet arrives.
+
+88
+00:05:48.250 --> 00:05:52.070
+So now, I'll pop up my browser.
+
+89
+00:05:52.070 --> 00:05:55.840
+Now this is, when I log into Twitter,
+type in my username and password,
+
+90
+00:05:55.840 --> 00:05:56.920
+this is what I get.
+
+91
+00:05:56.920 --> 00:05:59.050
+There's nothing much interesting in here.
+
+92
+00:05:59.050 --> 00:06:02.010
+I made this Twitter account just so
+I could just for
+
+93
+00:06:02.010 --> 00:06:04.760
+the purposes of this class, so
+I don't have a lot of tweets.
+
+94
+00:06:04.760 --> 00:06:07.940
+But you can see I have some silly tweets
+in here just for testing purposes.
+
+95
+00:06:07.940 --> 00:06:12.490
+You see I have test, test2, and I scroll
+down, hi world, testing, and so on.
+
+96
+00:06:12.490 --> 00:06:16.700
+So I did a few test tweets but
+there's really not much going on in here.
+
+97
+00:06:16.700 --> 00:06:21.110
+But the point is that once I go
+down to the bottom window, and
+
+98
+00:06:21.110 --> 00:06:25.730
+I update status, so I call update
+status method to send the tweet,
+
+99
+00:06:25.730 --> 00:06:30.630
+it should appear in the browser on
+the top, once I refresh it anyway.
+
+100
+00:06:30.630 --> 00:06:32.850
+So just as evidence that
+it actually worked.
+
+101
+00:06:32.850 --> 00:06:37.670
+Okay, so let's go to the bottom window,
+and send the tweet.
+
+102
+00:06:37.670 --> 00:06:44.980
+So api.update_status, there it is,
+and then I give it a status.
+
+103
+00:06:44.980 --> 00:06:49.120
+Which is a string status equals I'll make
+it string any string I want to send, so
+
+104
+00:06:49.120 --> 00:06:51.982
+let's say RPi is good.
+
+105
+00:06:53.540 --> 00:06:54.810
+Sounds great.
+
+106
+00:06:54.810 --> 00:06:55.750
+Exclamation there.
+
+107
+00:06:55.750 --> 00:06:59.120
+Okay, so we'll send that and bam.
+
+108
+00:06:59.120 --> 00:07:02.260
+Now there's a bunch of garbage that prints
+on the screen but it sent that tweet.
+
+109
+00:07:02.260 --> 00:07:07.450
+Now if we look at my browser up top,
+nothing has actually changed yet, but
+
+110
+00:07:07.450 --> 00:07:10.280
+it will as soon as I refresh, so
+I'm going to click the refresh button and
+
+111
+00:07:10.280 --> 00:07:11.940
+I should have a new tweet on top.
+
+112
+00:07:12.940 --> 00:07:13.750
+There it is.
+
+113
+00:07:13.750 --> 00:07:14.390
+RPi is good.
+
+114
+00:07:14.390 --> 00:07:15.300
+It worked out.
+
+115
+00:07:15.300 --> 00:07:17.160
+You see it right there.
+
+116
+00:07:17.160 --> 00:07:20.558
+Evidence that it was successful,
+and it was very easy.
+
+117
+00:07:20.558 --> 00:07:21.863
+Thank you.
+
+118
+00:07:21.863 --> 00:07:30.789
+[MUSIC]

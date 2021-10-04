@@ -1,0 +1,383 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.811 --> 00:00:14.386
+In this lecture we'll talk
+about how to send a tweet,
+
+3
+00:00:14.386 --> 00:00:18.337
+but also we'll start talking about how
+to receive tweets, how to filter tweets,
+
+4
+00:00:18.337 --> 00:00:20.700
+which is a little bit
+more complicated process.
+
+5
+00:00:20.700 --> 00:00:23.870
+So sending a tweet,
+that is actually not a hard process.
+
+6
+00:00:23.870 --> 00:00:25.890
+Once we have these four keys that we need,
+
+7
+00:00:25.890 --> 00:00:28.170
+the code that that you use
+in the RCK is pretty simple.
+
+8
+00:00:29.330 --> 00:00:33.840
+So, we're going to use those four
+keys to create a twython object.
+
+9
+00:00:33.840 --> 00:00:36.680
+And then that twython object will have
+several methods associated with it, and
+
+10
+00:00:36.680 --> 00:00:39.080
+we'll use one of those
+methods to update status.
+
+11
+00:00:40.250 --> 00:00:43.650
+So, here's the code, so
+first you start off, you import.
+
+12
+00:00:43.650 --> 00:00:47.720
+You say from twython for twython,
+you get the twython class.
+
+13
+00:00:47.720 --> 00:00:51.074
+Then, let's define these four keys
+
+14
+00:00:51.074 --> 00:00:56.150
+that we recorded from when
+we created our retro app.
+
+15
+00:00:56.150 --> 00:00:59.620
+So, you got the four keys, and I just
+put question marks but you get the idea.
+
+16
+00:00:59.620 --> 00:01:04.170
+Then you call,
+you create the twython object.
+
+17
+00:01:04.170 --> 00:01:06.700
+So that next line,
+API = Twython, da, da, da.
+
+18
+00:01:07.800 --> 00:01:11.270
+That's creating, that's
+the constructor for the twython class.
+
+19
+00:01:11.270 --> 00:01:13.830
+It creates an API, twython API object.
+
+20
+00:01:14.960 --> 00:01:17.190
+Notice that the four
+arguments are the four keys.
+
+21
+00:01:17.190 --> 00:01:20.010
+So you give it all four of those keys and
+argument and
+
+22
+00:01:20.010 --> 00:01:23.760
+it will establish a connection with
+Twitter, Twitter will authenticate, and
+
+23
+00:01:23.760 --> 00:01:28.000
+if it authenticates, it will send a
+response back allowing you to have access.
+
+24
+00:01:28.000 --> 00:01:31.504
+Then you just call API.update_status and
+
+25
+00:01:31.504 --> 00:01:33.970
+the argument is just
+whatever the tweet is.
+
+26
+00:01:33.970 --> 00:01:37.880
+Right, so in quotes I have the word hi and
+my tweet just says hi really simple.
+
+27
+00:01:37.880 --> 00:01:40.830
+So sending a tweet is actually
+a pretty easy process.
+
+28
+00:01:40.830 --> 00:01:44.060
+Notice that the four keys are used
+when you create the twython object.
+
+29
+00:01:44.060 --> 00:01:46.998
+And right there,
+the API is twython API object.
+
+30
+00:01:46.998 --> 00:01:49.366
+So easy.
+
+31
+00:01:49.366 --> 00:01:54.510
+Now, look through, filtering through
+a stream is actually harder, but
+
+32
+00:01:54.510 --> 00:01:56.080
+let's say we're searching for Hashtags.
+
+33
+00:01:56.080 --> 00:02:01.350
+So maybe we want to look through tweets,
+and find tweets with a particular hashtag.
+
+34
+00:02:01.350 --> 00:02:06.040
+And a particular hashtag shows up, then
+we want the raspberry Pi to do something.
+
+35
+00:02:06.040 --> 00:02:10.570
+So in this case,
+the raspberry Pi is receiving tweets, and
+
+36
+00:02:10.570 --> 00:02:12.020
+receiving information about tweets.
+
+37
+00:02:12.020 --> 00:02:12.900
+Not sending tweets,
+
+38
+00:02:12.900 --> 00:02:15.800
+so the last slide we just did
+the raspberry Pi is sending a tweet.
+
+39
+00:02:15.800 --> 00:02:17.915
+Now, we're saying okay
+the raspberry Pi is filtering,
+
+40
+00:02:17.915 --> 00:02:19.000
+it's going to receive the tweets.
+
+41
+00:02:19.000 --> 00:02:20.740
+So, we want to have bidirectionality.
+
+42
+00:02:20.740 --> 00:02:22.620
+So that's why we're doing this.
+
+43
+00:02:22.620 --> 00:02:27.050
+So let's say we're, yeah we want to find
+some particular hashtag and do something.
+
+44
+00:02:28.250 --> 00:02:29.500
+Okay?
+
+45
+00:02:29.500 --> 00:02:31.910
+So and
+what we do doesn't really matter so much.
+
+46
+00:02:31.910 --> 00:02:34.650
+The key thing is you know how
+do we find the hashtag right?
+
+47
+00:02:34.650 --> 00:02:37.540
+How do we search through the streams,
+and detect this tag and
+
+48
+00:02:37.540 --> 00:02:38.839
+then do something when it occurs?
+
+49
+00:02:40.410 --> 00:02:45.450
+So you need to scan public Twitter
+streams for this hashtag, whatever it is.
+
+50
+00:02:45.450 --> 00:02:48.160
+It doesn't have to be a hashtag,
+it could be a string or something,
+
+51
+00:02:48.160 --> 00:02:50.170
+but you need to search them.
+
+52
+00:02:50.170 --> 00:02:53.260
+So for this we're going to use
+this Twython Streamer object.
+
+53
+00:02:54.770 --> 00:02:59.550
+So Twython Streamer is a class and Twython
+Streamer object allows you to examine
+
+54
+00:02:59.550 --> 00:03:01.300
+public streams which
+is what we want to do.
+
+55
+00:03:02.890 --> 00:03:05.780
+So a Twython Streamer it has,
+well it has many methods,
+
+56
+00:03:05.780 --> 00:03:09.000
+but it has one method that we, that is
+particularly relevant to what we are doing
+
+57
+00:03:09.000 --> 00:03:12.610
+right now and it searches for
+text in streams.
+
+58
+00:03:12.610 --> 00:03:18.740
+So it's called statuses.filter and
+it will given a stream, and you
+
+59
+00:03:18.740 --> 00:03:22.480
+have the appropriate arguments, it will
+search for that text inside that stream.
+
+60
+00:03:22.480 --> 00:03:27.770
+And detect if any of that stream has some
+tweet that matches that text, one or
+
+61
+00:03:27.770 --> 00:03:29.630
+more tweets that matches that text.
+
+62
+00:03:29.630 --> 00:03:32.020
+So, you pass an argument with
+the terms you want to track.
+
+63
+00:03:32.020 --> 00:03:35.187
+So, if there's some particular
+hashtag that you're looking for
+
+64
+00:03:35.187 --> 00:03:38.352
+you pass that as the argument to
+the status.filter in quotes, and
+
+65
+00:03:38.352 --> 00:03:40.064
+it'll search the stream for that.
+
+66
+00:03:40.064 --> 00:03:42.050
+So example here is how you might use it.
+
+67
+00:03:42.050 --> 00:03:45.440
+You've got some stream, some twython
+stream that you have created, okay?
+
+68
+00:03:45.440 --> 00:03:46.560
+Called stream.
+
+69
+00:03:46.560 --> 00:03:49.920
+So if you say,
+stream.statuses.filter track Harris,
+
+70
+00:03:49.920 --> 00:03:53.710
+quotes, then it'll look for
+streams until it sees Harris and
+
+71
+00:03:53.710 --> 00:03:56.550
+if it sees Harris then It will say,
+okay, I've detected something.
+
+72
+00:03:56.550 --> 00:03:58.230
+And then you'll be able
+to respond to that.
+
+73
+00:03:58.230 --> 00:04:00.100
+Okay?
+And we'll just describe how that happens
+
+74
+00:04:00.100 --> 00:04:01.270
+a little bit later.
+
+75
+00:04:01.270 --> 00:04:02.000
+But that's the idea.
+
+76
+00:04:02.000 --> 00:04:05.400
+That method right there,
+that's part of the Twython Streamer,
+
+77
+00:04:05.400 --> 00:04:07.140
+that's actually going to
+search through streams for
+
+78
+00:04:07.140 --> 00:04:11.090
+whatever string you're interested
+in finding in a Tweet.
+
+79
+00:04:11.090 --> 00:04:14.726
+And when it finds something it will
+respond, and we'll talk about that next.
+
+80
+00:04:14.726 --> 00:04:16.460
+Thank you.
+
+81
+00:04:16.460 --> 00:04:21.316
+[MUSIC]

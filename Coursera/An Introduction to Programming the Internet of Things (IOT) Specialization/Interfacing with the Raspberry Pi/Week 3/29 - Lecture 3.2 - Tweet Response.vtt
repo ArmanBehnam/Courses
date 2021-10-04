@@ -1,0 +1,341 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.046 --> 00:00:15.078
+So in this lecture we'll talk about how
+to get the Raspberry Pi to respond to
+
+3
+00:00:15.078 --> 00:00:20.130
+the existence of a tweet with a particular
+hashtag or some other string inside it.
+
+4
+00:00:20.130 --> 00:00:22.490
+So we've been talking about
+filtering Twitter streams.
+
+5
+00:00:22.490 --> 00:00:25.760
+So, looking through a public
+stream to see if you
+
+6
+00:00:25.760 --> 00:00:30.240
+can find a particular string inside that
+stream, a Tweet containing a string.
+
+7
+00:00:30.240 --> 00:00:33.320
+And so this is putting it all together.
+
+8
+00:00:33.320 --> 00:00:36.580
+A little example of a piece
+of code that might do that.
+
+9
+00:00:36.580 --> 00:00:38.930
+And note that in this case
+I haven't done the import,
+
+10
+00:00:38.930 --> 00:00:41.550
+the importing of the Twython class.
+
+11
+00:00:41.550 --> 00:00:45.930
+I haven't done that, but besides that,
+if you added that, this would work.
+
+12
+00:00:45.930 --> 00:00:49.020
+So first thing you're doing is you're
+creating a class the MyStreamer
+
+13
+00:00:49.020 --> 00:00:49.700
+class, right?
+
+14
+00:00:49.700 --> 00:00:51.880
+class MyStreamer(TwythonStreamer) :.
+
+15
+00:00:51.880 --> 00:00:55.260
+So I'm defining a new class
+which extends TwythonStreamer.
+
+16
+00:00:55.260 --> 00:00:58.200
+So it's going to have all
+the same methods and attributes.
+
+17
+00:00:58.200 --> 00:01:04.075
+Then inside that class,
+I'm defining this Callback.
+
+18
+00:01:04.075 --> 00:01:06.760
+So def on_success,
+
+19
+00:01:06.760 --> 00:01:10.460
+I'm doing inside MyStreamer, and
+on_success is the callback, right?
+
+20
+00:01:10.460 --> 00:01:15.800
+So if a filter is performed and
+it finds a match to a string inside
+
+21
+00:01:15.800 --> 00:01:18.270
+the Twitter feed,
+then it will call on_success.
+
+22
+00:01:18.270 --> 00:01:21.350
+So I define that inside
+my Class MyStreamer.
+
+23
+00:01:21.350 --> 00:01:24.528
+And notice how everything is
+indented within my MyStreamer class.
+
+24
+00:01:24.528 --> 00:01:28.470
+So the on_success, all it does is
+if there's text in the data, so
+
+25
+00:01:28.470 --> 00:01:30.250
+if it actually finds some data.
+
+26
+00:01:30.250 --> 00:01:32.820
+Then it prints Found_it.
+
+27
+00:01:32.820 --> 00:01:35.430
+So that's what it's going to do
+if it finds the particular string
+
+28
+00:01:35.430 --> 00:01:36.279
+Harris, it'll do that.
+
+29
+00:01:37.900 --> 00:01:40.752
+So then, outside of the class,
+I instantiate MyStreamer,
+
+30
+00:01:40.752 --> 00:01:43.490
+stream = MyStreamer, bam, right?
+
+31
+00:01:43.490 --> 00:01:45.570
+So I create a string.
+
+32
+00:01:45.570 --> 00:01:49.990
+Notice I pass it the four
+tokens that I had, right,
+
+33
+00:01:49.990 --> 00:01:52.990
+the keys, the four keys that I had.
+
+34
+00:01:52.990 --> 00:01:55.080
+I pass that for authentication purposes.
+
+35
+00:01:55.080 --> 00:02:00.010
+And I get this stream that I can use
+to communicate with Twitter servers.
+
+36
+00:02:00.010 --> 00:02:03.250
+Then, last line of code,
+I just call filters.
+
+37
+00:02:03.250 --> 00:02:05.380
+So stream.statuses.filter.
+
+38
+00:02:05.380 --> 00:02:08.250
+And I pass it as an argument that track,
+the track argument,
+
+39
+00:02:08.250 --> 00:02:10.640
+I'm going to say track = Harris.
+
+40
+00:02:10.640 --> 00:02:12.590
+So it's going to track the string hash.
+
+41
+00:02:12.590 --> 00:02:16.600
+And you can put any string in there
+you want, but it'll track for Harris.
+
+42
+00:02:16.600 --> 00:02:19.720
+And now what'll happen is,
+as soon as it, it'll search the strings.
+
+43
+00:02:19.720 --> 00:02:21.720
+It finds the string that has Harris in it.
+
+44
+00:02:21.720 --> 00:02:22.711
+It'll print found it.
+
+45
+00:02:24.510 --> 00:02:27.800
+Now let's say,
+instead of just printing found it.
+
+46
+00:02:27.800 --> 00:02:31.720
+We want our Raspberry Pi to blink
+a light in response to a tweet.
+
+47
+00:02:31.720 --> 00:02:35.390
+So when it sees a particular tweet,
+it turns a light off, on and off.
+
+48
+00:02:35.390 --> 00:02:36.140
+Blinks an LED.
+
+49
+00:02:37.170 --> 00:02:39.980
+And let's assume this LED is on pin 13,
+okay.
+
+50
+00:02:41.650 --> 00:02:45.210
+So what I'm doing is,
+first I'm defining this blink function.
+
+51
+00:02:45.210 --> 00:02:46.830
+Actually is a very small change.
+
+52
+00:02:46.830 --> 00:02:48.750
+I define a function to do blink.
+
+53
+00:02:48.750 --> 00:02:52.030
+I GPIO, we'll remember this
+from previous courses, right?
+
+54
+00:02:52.030 --> 00:02:56.849
+GPIO.output, 13 GPIO high,
+then you sleep for
+
+55
+00:02:56.849 --> 00:03:00.671
+one second, then GPIO output 13 low.
+
+56
+00:03:00.671 --> 00:03:04.320
+So that turns it on for
+a second, and then turns it off.
+
+57
+00:03:04.320 --> 00:03:07.210
+Now note that I'm leaving out the code,
+
+58
+00:03:07.210 --> 00:03:11.810
+importing the GPIO library,
+importing the time library.
+
+59
+00:03:11.810 --> 00:03:15.680
+For the sleep function I've left those
+out but this gets right to the part,
+
+60
+00:03:15.680 --> 00:03:16.640
+the heart of it anyway.
+
+61
+00:03:16.640 --> 00:03:19.310
+Assume we have those import,
+imports in there.
+
+62
+00:03:19.310 --> 00:03:20.480
+So to find my blink functions.
+
+63
+00:03:20.480 --> 00:03:24.030
+Every time you call blink,
+it'll blink this light once.
+
+64
+00:03:24.030 --> 00:03:27.804
+Then in my MyStreamer class
+when I'm defining on_success,
+
+65
+00:03:27.804 --> 00:03:30.890
+I change on_success ever so slightly.
+
+66
+00:03:30.890 --> 00:03:36.560
+Instead of saying if text in data print
+found it, now I say if text in data blink.
+
+67
+00:03:36.560 --> 00:03:39.390
+I call blink and that makes the LED blink.
+
+68
+00:03:39.390 --> 00:03:45.330
+So now my Raspberry Pi will blink an LED
+every time it receives a string of this,
+
+69
+00:03:45.330 --> 00:03:46.790
+you know that contains Harris.
+
+70
+00:03:46.790 --> 00:03:50.920
+A tweet that contains Harris in it or
+whatever string I want to look for.
+
+71
+00:03:50.920 --> 00:03:54.050
+And the LED's on pin 13, that happens
+to be the pin I'm using here, but.
+
+72
+00:03:55.140 --> 00:03:58.016
+Actually I didn't even give the pin
+numbering, but that's up to you.
+
+73
+00:03:58.016 --> 00:04:00.320
+Thank you.
+
+74
+00:04:00.320 --> 00:04:04.879
+[MUSIC]

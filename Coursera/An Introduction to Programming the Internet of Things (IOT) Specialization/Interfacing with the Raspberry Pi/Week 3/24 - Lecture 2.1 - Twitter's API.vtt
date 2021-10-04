@@ -1,0 +1,356 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.180 --> 00:00:12.602
+We'll talk about Twitter.
+
+3
+00:00:12.602 --> 00:00:15.737
+We'll start talking about Twitter
+in this lecture and its API and
+
+4
+00:00:15.737 --> 00:00:19.140
+how you can get the Raspberry Pi
+to interact with Twitter.
+
+5
+00:00:19.140 --> 00:00:22.110
+So Twitter's API, they have an API,
+
+6
+00:00:22.110 --> 00:00:25.670
+Raspberry Pi can run several SDKs for
+their API.
+
+7
+00:00:25.670 --> 00:00:29.780
+So, you can download a bunch of different
+libraries, we'll use on in particular.
+
+8
+00:00:29.780 --> 00:00:31.360
+But you can download several
+different libraries and
+
+9
+00:00:31.360 --> 00:00:33.470
+use them to access twitter functions.
+
+10
+00:00:35.500 --> 00:00:37.210
+Raspberry Pi can make tweets.
+
+11
+00:00:37.210 --> 00:00:39.910
+You can just connect and make a tweet.
+
+12
+00:00:39.910 --> 00:00:42.350
+Also Raspberry Pi can respond to tweets.
+
+13
+00:00:42.350 --> 00:00:44.110
+Oh by the way I should
+mention that these tweets,
+
+14
+00:00:44.110 --> 00:00:46.150
+when you make a tweet it's
+called updating status.
+
+15
+00:00:46.150 --> 00:00:48.910
+And that is actually going to be important
+to us because that's the name of
+
+16
+00:00:48.910 --> 00:00:50.780
+the function that we're
+going to use to make a tweet.
+
+17
+00:00:50.780 --> 00:00:54.140
+But when I say make a tweet
+I mean update status.
+
+18
+00:00:54.140 --> 00:00:55.640
+And Raspberry Pi can respond to tweets.
+
+19
+00:00:55.640 --> 00:00:59.200
+So, not only can it send tweets,
+it can look through tweets and
+
+20
+00:00:59.200 --> 00:01:01.730
+do something if a tweet occurs,
+or something like that.
+
+21
+00:01:01.730 --> 00:01:03.440
+So, it may look for a tag,
+maybe you want to search for
+
+22
+00:01:03.440 --> 00:01:07.780
+tags of a different type and look at
+the text in those or something like that.
+
+23
+00:01:07.780 --> 00:01:10.320
+But, it's a two-way thing.
+
+24
+00:01:10.320 --> 00:01:14.010
+So, Raspberry Pi can send tweets,
+but also it can receive tweets and
+
+25
+00:01:14.010 --> 00:01:14.690
+scan through tweets.
+
+26
+00:01:17.160 --> 00:01:20.490
+So Twython is the package
+that we will use so
+
+27
+00:01:20.490 --> 00:01:25.270
+that is the SDK that we are going
+to use to access Twitter's API.
+
+28
+00:01:25.270 --> 00:01:26.490
+There are other ones we could use but
+
+29
+00:01:26.490 --> 00:01:28.840
+Twython is pretty good,
+lots of good documentation on it.
+
+30
+00:01:30.630 --> 00:01:33.248
+So first thing you're going to
+want to do is install it.
+
+31
+00:01:33.248 --> 00:01:36.950
+Here are the three lines of code that
+you're going to have to use to install it.
+
+32
+00:01:36.950 --> 00:01:40.290
+First you do an app get update
+which is a good idea in general
+
+33
+00:01:40.290 --> 00:01:41.390
+just to do the update.
+
+34
+00:01:41.390 --> 00:01:47.793
+But then you do an app get install
+Python pip and then pip install Twython.
+
+35
+00:01:47.793 --> 00:01:51.362
+So Python pip is an installer for
+Python packages.
+
+36
+00:01:51.362 --> 00:01:57.200
+So what you're doing first is installing
+the installer, the Pip installer.
+
+37
+00:01:57.200 --> 00:02:00.580
+And then, you're using
+the installer to install Twython.
+
+38
+00:02:00.580 --> 00:02:02.890
+But, this is easy,
+just type in these three lines.
+
+39
+00:02:02.890 --> 00:02:04.092
+It should just work cleanly.
+
+40
+00:02:04.092 --> 00:02:09.310
+Okay, now, if you want to
+
+41
+00:02:09.310 --> 00:02:13.160
+make an app that interacts with Twitter,
+you have to register that app first.
+
+42
+00:02:13.160 --> 00:02:16.580
+It won't allow you access unless
+you've already registered and
+
+43
+00:02:16.580 --> 00:02:19.180
+you have the keys to prove
+that you registered.
+
+44
+00:02:19.180 --> 00:02:23.110
+So you've gotta register
+the app to access their API.
+
+45
+00:02:23.110 --> 00:02:25.930
+Now to start with that, start that off,
+you need a Twitter account.
+
+46
+00:02:25.930 --> 00:02:28.460
+So I'm going to assume that
+you get a Twitter account.
+
+47
+00:02:28.460 --> 00:02:31.810
+They're free,
+it's very quick to get a Twitter account.
+
+48
+00:02:31.810 --> 00:02:33.720
+Just go to Twitter and get an account.
+
+49
+00:02:33.720 --> 00:02:35.584
+So, you start with that.
+
+50
+00:02:35.584 --> 00:02:38.936
+Then you're going to need several keys for
+authentication, actually in our case,
+
+51
+00:02:38.936 --> 00:02:41.721
+they're going to be four different
+keys that you're going to need for
+
+52
+00:02:41.721 --> 00:02:42.800
+authentication.
+
+53
+00:02:42.800 --> 00:02:46.475
+So these four keys will be
+hard coded interior code, and
+
+54
+00:02:46.475 --> 00:02:48.751
+they'll be sent in the messages.
+
+55
+00:02:48.751 --> 00:02:52.575
+When you establish a connection
+with Twitter servers,
+
+56
+00:02:52.575 --> 00:02:56.570
+you going to send these keys and
+Twitter will use those keys.
+
+57
+00:02:57.660 --> 00:02:59.280
+So the Twitter API,
+
+58
+00:02:59.280 --> 00:03:04.520
+or SDK rather, Twython is going to use
+those keys in establishing a connection.
+
+59
+00:03:04.520 --> 00:03:07.490
+And sending them or
+the equivalent of sending them.
+
+60
+00:03:07.490 --> 00:03:12.120
+It won't send them directly, but
+those keys are going to be used
+
+61
+00:03:12.120 --> 00:03:15.910
+on the receiving end, on the server end
+to authenticate who you are, right?
+
+62
+00:03:15.910 --> 00:03:20.220
+To authenticate that you are this
+person who registered previously.
+
+63
+00:03:20.220 --> 00:03:27.380
+So you need these four keys in order to
+to be able to interact and use the API.
+
+64
+00:03:27.380 --> 00:03:29.580
+So to get these keys you
+need to register you apps.
+
+65
+00:03:29.580 --> 00:03:32.030
+So will go to the steps
+of registering an app.
+
+66
+00:03:32.030 --> 00:03:33.570
+This is the first you going to want to do.
+
+67
+00:03:33.570 --> 00:03:36.990
+Before you have the app,
+you just register it like this.
+
+68
+00:03:36.990 --> 00:03:42.498
+So you start of,
+go to http://apps.twitter.com.
+
+69
+00:03:42.498 --> 00:03:44.460
+So start off by going there.
+
+70
+00:03:44.460 --> 00:03:46.960
+And you get a page looks like this.
+
+71
+00:03:46.960 --> 00:03:49.700
+And it's pretty simple, Twitter apps,
+and it should be blank,
+
+72
+00:03:49.700 --> 00:03:52.270
+this is how mine was when I
+first did this, is just blank.
+
+73
+00:03:52.270 --> 00:03:55.641
+And there's a button in there that
+says create new app so go ahead and
+
+74
+00:03:55.641 --> 00:03:57.665
+click on that and that's how you start.
+
+75
+00:03:57.665 --> 00:03:58.498
+Thank you.
+
+76
+00:03:58.498 --> 00:04:00.614
+[MUSIC]

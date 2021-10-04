@@ -1,0 +1,548 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.672 --> 00:00:16.279
+In this lecture, we'll talk about Twython
+and how it responds when you filter and
+
+3
+00:00:16.279 --> 00:00:20.822
+you actually detect a tweet that contains
+whatever string you're looking for,
+
+4
+00:00:20.822 --> 00:00:22.379
+how do you respond to that?
+
+5
+00:00:22.379 --> 00:00:27.350
+So we're using this TwythonStreamer
+class to do the filtering, right?
+
+6
+00:00:27.350 --> 00:00:31.590
+To search through the stream for
+a string that you want to find or
+
+7
+00:00:31.590 --> 00:00:33.130
+a hashtag you want to find,
+something like that.
+
+8
+00:00:34.470 --> 00:00:37.078
+So, in order to do this,
+to do what we need,
+
+9
+00:00:37.078 --> 00:00:40.880
+first we're going to define a new class,
+okay?
+
+10
+00:00:40.880 --> 00:00:44.840
+Our own homemade class that
+extends TwythonStreamer.
+
+11
+00:00:44.840 --> 00:00:49.620
+So what we mean by extend is that
+it's a subclass of TwythonStreamer.
+
+12
+00:00:49.620 --> 00:00:51.350
+So that means, whatever data and
+
+13
+00:00:51.350 --> 00:00:55.020
+whatever methods TwythonStreamer has,
+our new class will have those methods.
+
+14
+00:00:55.020 --> 00:00:57.120
+It'll inherit those, okay.
+
+15
+00:00:57.120 --> 00:01:00.476
+So we define that, so we'll make a class,
+call it MyStreamer for
+
+16
+00:01:00.476 --> 00:01:01.825
+the lack of a better name.
+
+17
+00:01:01.825 --> 00:01:05.601
+And in parenthesis you put TwythonStreamer
+to say, look we want to inherit,
+
+18
+00:01:05.601 --> 00:01:07.370
+we want to extend TwythonStreamer.
+
+19
+00:01:07.370 --> 00:01:10.700
+So MyStreamer now has all the same
+stuff that TwythonStreamer had.
+
+20
+00:01:10.700 --> 00:01:15.160
+And you might ask, well why would I make
+a new class if it's just going to inherit
+
+21
+00:01:15.160 --> 00:01:16.965
+everything that TwythonStreamer had?
+
+22
+00:01:16.965 --> 00:01:20.903
+Well the reason why is because you want to
+be able to redefine some of the methods of
+
+23
+00:01:20.903 --> 00:01:21.660
+TwythonStreamer.
+
+24
+00:01:21.660 --> 00:01:26.330
+So TwythonStreamer has a set of methods,
+and with certain names, and
+
+25
+00:01:26.330 --> 00:01:28.360
+we want to redefine some of those.
+
+26
+00:01:28.360 --> 00:01:29.836
+Okay, to do something different.
+
+27
+00:01:29.836 --> 00:01:35.062
+So by making this new class, MyStreamer
+and extending it from TwythonStreamer,
+
+28
+00:01:35.062 --> 00:01:40.150
+we get all the original methods and data,
+but we could change them if we want to.
+
+29
+00:01:40.150 --> 00:01:44.211
+So that's exactly what we're going to do,
+one in particular, actually.
+
+30
+00:01:44.211 --> 00:01:48.015
+So now, you're going to define a method,
+or really redefine a method,
+
+31
+00:01:48.015 --> 00:01:50.900
+called on_success() inside your new class.
+
+32
+00:01:50.900 --> 00:01:52.990
+So TwythonStreamer has this on_success().
+
+33
+00:01:52.990 --> 00:01:55.990
+But you are going to redefine
+that to our own thing.
+
+34
+00:01:55.990 --> 00:02:00.690
+Now, note that this on_success()
+is called a callback, okay?
+
+35
+00:02:00.690 --> 00:02:05.600
+Now callback, we've actually talked about
+this a little bit before with GUIs.
+
+36
+00:02:05.600 --> 00:02:10.900
+A callback is basically a function
+that's not called by your code directly,
+
+37
+00:02:10.900 --> 00:02:15.370
+it's called as a result of something
+else outside of your code occurring.
+
+38
+00:02:15.370 --> 00:02:19.350
+So when you're talking with graphic user
+interfaces, a callback is usually used,
+
+39
+00:02:19.350 --> 00:02:23.120
+like say you click on a button,
+then you want something to happen, right?
+
+40
+00:02:23.120 --> 00:02:26.720
+So that something that's going to happen,
+you write a function for that.
+
+41
+00:02:26.720 --> 00:02:30.080
+And that function is called whenever
+a human clicks on a button, okay?
+
+42
+00:02:30.080 --> 00:02:33.150
+So it is outside of the program's
+direct control, right?
+
+43
+00:02:33.150 --> 00:02:35.060
+You don't know when a human's
+going to click on the button.
+
+44
+00:02:35.060 --> 00:02:37.504
+But when they do, the callback is invoked.
+
+45
+00:02:37.504 --> 00:02:38.962
+The function that is a callback,
+
+46
+00:02:38.962 --> 00:02:41.950
+associated with that button
+click that is invoked, okay?
+
+47
+00:02:41.950 --> 00:02:43.430
+So that's the general idea of a callback.
+
+48
+00:02:43.430 --> 00:02:45.820
+There is some event outside of your code.
+
+49
+00:02:45.820 --> 00:02:47.520
+And you don't know when
+it's going to occur.
+
+50
+00:02:47.520 --> 00:02:51.740
+When it occurs, then the callback
+fuction associated is called.
+
+51
+00:02:51.740 --> 00:02:56.210
+So on_success() is a callback,
+on_success() is called
+
+52
+00:02:56.210 --> 00:03:00.420
+when a tweet is found that matches
+the criteria you're looking for.
+
+53
+00:03:00.420 --> 00:03:02.520
+So remember we talked about
+this filter function, right?
+
+54
+00:03:02.520 --> 00:03:03.590
+And we'll show this again.
+
+55
+00:03:03.590 --> 00:03:07.200
+But we talked about this
+statuses.filter method, right?
+
+56
+00:03:07.200 --> 00:03:11.740
+When this method detects that a string is
+found in a tweet, in the stream that it's
+
+57
+00:03:11.740 --> 00:03:17.658
+examining, then when it detects that,
+it calls on_success().
+
+58
+00:03:17.658 --> 00:03:22.140
+So this on_success() method, or function
+of method that you're going to define,
+
+59
+00:03:22.140 --> 00:03:24.620
+you want this on_success() method to be,
+to
+
+60
+00:03:24.620 --> 00:03:28.650
+describe whatever you want to do when you
+find a tweak that matches your criteria.
+
+61
+00:03:28.650 --> 00:03:31.010
+So if you're looking for
+a tweak that says Harris in it, right?
+
+62
+00:03:31.010 --> 00:03:32.930
+What are you going to do once you find it?
+
+63
+00:03:32.930 --> 00:03:34.190
+You find it, what do you do?
+
+64
+00:03:34.190 --> 00:03:35.110
+Maybe you print the tweet.
+
+65
+00:03:35.110 --> 00:03:36.587
+Maybe you say, I found it.
+
+66
+00:03:36.587 --> 00:03:38.370
+Maybe you do some processing on it.
+
+67
+00:03:38.370 --> 00:03:39.580
+Who knows, right?
+
+68
+00:03:39.580 --> 00:03:44.118
+So on_success() is describing
+whatever you want to have
+
+69
+00:03:44.118 --> 00:03:48.754
+happen once the criteria
+are mashed by a filter operation.
+
+70
+00:03:48.754 --> 00:03:51.580
+So you're going to have to redefine
+on_success() to do whatever you want.
+
+71
+00:03:53.370 --> 00:03:56.438
+So for instance,
+in our very simple on_success() call back,
+
+72
+00:03:56.438 --> 00:03:58.462
+we're just going to say def on_success.
+
+73
+00:03:58.462 --> 00:04:02.100
+Oh and by the way,
+this def is inside my new class, okay?
+
+74
+00:04:02.100 --> 00:04:03.470
+It's got to be inside my class.
+
+75
+00:04:03.470 --> 00:04:05.620
+If it's not inside my class,
+this won't work.
+
+76
+00:04:05.620 --> 00:04:09.970
+So what that would mean is it literally
+would be indented inside the definition of
+
+77
+00:04:09.970 --> 00:04:12.040
+my streamer class, right?
+
+78
+00:04:12.040 --> 00:04:16.490
+So I define on_success(),
+it takes, well apparently,
+
+79
+00:04:16.490 --> 00:04:17.980
+it takes two arguments, self and data.
+
+80
+00:04:19.210 --> 00:04:25.837
+And all it's doing is if text in data,
+then print found it.
+
+81
+00:04:25.837 --> 00:04:28.600
+Okay, so, well first let me
+say what these arguments are.
+
+82
+00:04:28.600 --> 00:04:29.820
+Notice it takes two arguments.
+
+83
+00:04:31.090 --> 00:04:36.865
+Any method that you define inside a class,
+the first argument is always self, okay?
+
+84
+00:04:36.865 --> 00:04:40.253
+That self is the object itself.
+
+85
+00:04:40.253 --> 00:04:44.660
+The object that this on_success()
+method was called from, okay?
+
+86
+00:04:44.660 --> 00:04:47.195
+Right now,
+we're not going to worry about that, okay?
+
+87
+00:04:47.195 --> 00:04:50.040
+Now it's an argument to
+the on_success() method.
+
+88
+00:04:50.040 --> 00:04:56.040
+But it's an implicit argument, meaning it
+looks like on_success() has two arguments.
+
+89
+00:04:56.040 --> 00:04:59.726
+But, if you were to call on_success(), you
+would write code that calls on_success().
+
+90
+00:04:59.726 --> 00:05:03.692
+It's because the callback, we won't, but
+if you were to write the code that calls
+
+91
+00:05:03.692 --> 00:05:07.037
+on_success() you would call it
+with one argument, only the data,
+
+92
+00:05:07.037 --> 00:05:08.865
+the self gets passed automatically.
+
+93
+00:05:08.865 --> 00:05:10.321
+So it's an implicit argument.
+
+94
+00:05:10.321 --> 00:05:12.542
+But, and now this data that's returned.
+
+95
+00:05:12.542 --> 00:05:17.255
+The datas a real argument, now,
+this data is a dictionary, okay?
+
+96
+00:05:17.255 --> 00:05:20.960
+Now we haven't talked exactly about
+dictionary, but basically a dictionary
+
+97
+00:05:20.960 --> 00:05:24.890
+is a bunch of data with a bunch of tags,
+named tags next to it, okay?
+
+98
+00:05:24.890 --> 00:05:26.290
+And this dictionary,
+
+99
+00:05:26.290 --> 00:05:30.500
+it contains the information about
+the tweet that triggered on_success().
+
+100
+00:05:30.500 --> 00:05:33.154
+So say I was looking for
+the string Harris,
+
+101
+00:05:33.154 --> 00:05:37.361
+then data would represent all
+the information inside that string,
+
+102
+00:05:37.361 --> 00:05:40.940
+that tweet,
+that contained the word Harris in it.
+
+103
+00:05:40.940 --> 00:05:44.236
+Now when I say it represents it, what
+happened is the different pieces of that
+
+104
+00:05:44.236 --> 00:05:46.587
+tweet are put into different
+parts of the dictionary.
+
+105
+00:05:46.587 --> 00:05:49.091
+But all the information in that
+tweet are in this dictionary,
+
+106
+00:05:49.091 --> 00:05:51.830
+in different fields of the dictionary,
+okay?
+
+107
+00:05:51.830 --> 00:05:54.440
+Now the field that we're
+interested is the text field.
+
+108
+00:05:54.440 --> 00:05:58.990
+The text field of the dictionary,
+it actually has the text, the string,
+
+109
+00:05:58.990 --> 00:05:59.940
+of the tweet.
+
+110
+00:05:59.940 --> 00:06:03.030
+So that's why, if you look at the code,
+it says if 'text' in data.
+
+111
+00:06:03.030 --> 00:06:08.310
+So if this data actually has text
+of any kind, then print found it.
+
+112
+00:06:08.310 --> 00:06:09.690
+And then that's all I'm doing.
+
+113
+00:06:09.690 --> 00:06:11.629
+So it's a very simple function.
+
+114
+00:06:11.629 --> 00:06:15.130
+So yeah, the text field of data
+is the matching tweet itself.
+
+115
+00:06:15.130 --> 00:06:18.963
+And that's just a very simple
+on_success() function.
+
+116
+00:06:18.963 --> 00:06:20.338
+Thank you.
+
+117
+00:06:20.338 --> 00:06:29.209
+[MUSIC]

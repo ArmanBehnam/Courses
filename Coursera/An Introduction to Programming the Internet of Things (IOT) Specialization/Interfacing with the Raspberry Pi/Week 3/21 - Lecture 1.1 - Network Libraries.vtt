@@ -1,0 +1,1099 @@
+WEBVTT
+
+1
+00:00:00.004 --> 00:00:01.614
+[MUSIC]
+
+2
+00:00:01.614 --> 00:00:05.574
+In this lecture,
+
+3
+00:00:05.574 --> 00:00:09.534
+we'll talk about
+
+4
+00:00:09.534 --> 00:00:15.080
+networking libraries.
+
+5
+00:00:15.080 --> 00:00:18.520
+Now we already talked about socket
+library in previous modules, but
+
+6
+00:00:18.520 --> 00:00:22.460
+we're going to go into other libraries,
+just a little bit.
+
+7
+00:00:22.460 --> 00:00:25.500
+And then we'll get to specific,
+sort of vendor-specific libraries,
+
+8
+00:00:25.500 --> 00:00:29.110
+that allow you to communicate
+with different services online.
+
+9
+00:00:29.110 --> 00:00:30.730
+So networking libraries.
+
+10
+00:00:30.730 --> 00:00:32.678
+We've already learned
+about the Socket Library,
+
+11
+00:00:32.678 --> 00:00:34.840
+a Socket Library is
+a very low-level library.
+
+12
+00:00:34.840 --> 00:00:40.140
+By that I mean, it's very useful,
+but there's more work for
+
+13
+00:00:40.140 --> 00:00:44.020
+the programmer to do, meaning
+the programmer is left to handle a lot,
+
+14
+00:00:44.020 --> 00:00:46.640
+a relatively large amount of
+details when it comes to this,
+
+15
+00:00:46.640 --> 00:00:49.005
+using the Socket Library
+to send a message.
+
+16
+00:00:49.005 --> 00:00:54.220
+So specifically, the programmer has
+to compose the message content, so
+
+17
+00:00:54.220 --> 00:00:59.500
+that means that the programmer has to be
+aware of what the network protocol looks,
+
+18
+00:00:59.500 --> 00:01:02.750
+defines as the message to look like.
+
+19
+00:01:02.750 --> 00:01:05.140
+So the program has to know well for ATTP,
+
+20
+00:01:05.140 --> 00:01:08.890
+you gotta have this line
+with the method at the top.
+
+21
+00:01:08.890 --> 00:01:09.920
+Then this on the second line.
+
+22
+00:01:09.920 --> 00:01:11.570
+You gotta have a series of headers,
+
+23
+00:01:11.570 --> 00:01:14.140
+you gotta know what
+the valid header values are.
+
+24
+00:01:14.140 --> 00:01:17.080
+You have to know a lot,
+a decent amount about what
+
+25
+00:01:17.080 --> 00:01:20.210
+the message is supposed to look like
+in order to use the Socket Library,
+
+26
+00:01:20.210 --> 00:01:23.600
+because the Socket Library,
+you have to specify that as a program.
+
+27
+00:01:24.620 --> 00:01:27.880
+Now, sometimes Socket Library is good if
+
+28
+00:01:27.880 --> 00:01:30.580
+you're just making some sort
+of ad hoc communication,
+
+29
+00:01:30.580 --> 00:01:34.990
+say I just want my raspberry pie to
+connect to my other raspberry pie, right?
+
+30
+00:01:34.990 --> 00:01:38.350
+And then, when I want them to talk to each
+other, I can use whatever protocol I want.
+
+31
+00:01:38.350 --> 00:01:40.170
+I don't have to use HTTP or
+
+32
+00:01:40.170 --> 00:01:43.420
+any specific complicated protocol,
+I can just make up something.
+
+33
+00:01:43.420 --> 00:01:46.149
+I can say look,
+I'm going to send ten bytes every time,
+
+34
+00:01:46.149 --> 00:01:49.728
+which are the results from my ADD
+converter, something like that, or
+
+35
+00:01:49.728 --> 00:01:53.939
+actually, raspberry pie doesn't have that,
+but results from my computation.
+
+36
+00:01:53.939 --> 00:01:57.700
+I can, if I know that, then the socket is
+good because you don't need any particular
+
+37
+00:01:57.700 --> 00:01:59.780
+kind of protocol that
+you need to worry about.
+
+38
+00:01:59.780 --> 00:02:02.840
+You just stick ten bytes on the wire,
+and on the receiving end,
+
+39
+00:02:02.840 --> 00:02:05.160
+you receive ten bytes, and
+it's very simple, right.
+
+40
+00:02:05.160 --> 00:02:08.090
+There's no protocol you have to worry
+about because you can make up the protocol
+
+41
+00:02:08.090 --> 00:02:09.540
+and make sure it's simple.
+
+42
+00:02:09.540 --> 00:02:13.200
+But with more complicated protocols,
+it becomes a little bit more work to use
+
+43
+00:02:13.200 --> 00:02:15.720
+Socket Library because you
+have to compose the message,
+
+44
+00:02:15.720 --> 00:02:18.760
+so you have to know
+the details of the protocol.
+
+45
+00:02:18.760 --> 00:02:23.020
+So here's an example, and actually we
+saw this example several lectures ago.
+
+46
+00:02:23.020 --> 00:02:25.050
+Sorry about the indentation.
+
+47
+00:02:25.050 --> 00:02:26.780
+It's just hard to fit on the screen right,
+
+48
+00:02:26.780 --> 00:02:30.650
+but the indentation is
+important with python.
+
+49
+00:02:30.650 --> 00:02:31.240
+What's happened here,
+
+50
+00:02:31.240 --> 00:02:33.880
+is that some of these lines
+are broken up over several lines.
+
+51
+00:02:33.880 --> 00:02:37.210
+For instance, the first three lines you
+see on that screen, that's one line okay,
+
+52
+00:02:37.210 --> 00:02:39.910
+that's the creation of the socket.
+
+53
+00:02:39.910 --> 00:02:44.570
+We did this example before, all this is
+doing is connecting to Google.com and
+
+54
+00:02:44.570 --> 00:02:47.720
+sending it a http get message.
+
+55
+00:02:47.720 --> 00:02:51.860
+So basically requesting the website,
+requesting the data on the website,
+
+56
+00:02:51.860 --> 00:02:53.370
+the html on the website.
+
+57
+00:02:53.370 --> 00:02:58.690
+So, you could see, we're calling socket to
+create the socket, then socket.get host by
+
+58
+00:02:58.690 --> 00:03:03.940
+name, with Google.com, so we have to get
+the host, the IP addresses for Google.com.
+
+59
+00:03:03.940 --> 00:03:08.257
+So that's doing a DNS lookup and
+then after that you do a connect and
+
+60
+00:03:08.257 --> 00:03:12.959
+then notice it says message equals,
+and we have that message in quotes,
+
+61
+00:03:12.959 --> 00:03:15.320
+get blah blah blah and then we send.
+
+62
+00:03:15.320 --> 00:03:18.550
+Now, the thing to notice about
+this is that that message,
+
+63
+00:03:18.550 --> 00:03:19.950
+you had to compose that message.
+
+64
+00:03:19.950 --> 00:03:23.060
+Now, this is a very simple message,
+but you had to know
+
+65
+00:03:23.060 --> 00:03:26.130
+protocol specific details to know
+what that message should look like.
+
+66
+00:03:26.130 --> 00:03:29.630
+The fact that the word get has to be
+the first thing you see, get or put or
+
+67
+00:03:29.630 --> 00:03:30.270
+something like that.
+
+68
+00:03:30.270 --> 00:03:32.650
+There are several headers
+that have to be first,
+
+69
+00:03:32.650 --> 00:03:37.430
+and you have to know that about HTML, HTTP
+rather, in order to make that message.
+
+70
+00:03:37.430 --> 00:03:38.570
+The next thing, that slash.
+
+71
+00:03:38.570 --> 00:03:41.670
+That's telling you what directory to
+look at, what file to find, right?
+
+72
+00:03:41.670 --> 00:03:45.468
+So the slash is just saying look,
+whatever file the index at the top level,
+
+73
+00:03:45.468 --> 00:03:47.470
+that's what I want you to get, right?
+
+74
+00:03:47.470 --> 00:03:48.430
+You have to know that.
+
+75
+00:03:48.430 --> 00:03:51.520
+HTTP/1.1, that's giving you
+the HTTP version that's being used.
+
+76
+00:03:51.520 --> 00:03:53.120
+You have to put that there and
+use a program.
+
+77
+00:03:53.120 --> 00:03:54.100
+You have to know that.
+
+78
+00:03:54.100 --> 00:03:56.260
+Also the slash r slash n slash r slash n.
+
+79
+00:03:56.260 --> 00:03:58.010
+That's the character turn line feeds,
+
+80
+00:03:58.010 --> 00:04:00.500
+a couple of character line
+feeds that you need, right?
+
+81
+00:04:00.500 --> 00:04:03.420
+You need two of them to let it know
+that that's the end of the message.
+
+82
+00:04:03.420 --> 00:04:05.870
+So those details,
+I mean I know about those.
+
+83
+00:04:05.870 --> 00:04:08.050
+We didn't specifically talk
+about those but, you know,
+
+84
+00:04:08.050 --> 00:04:09.540
+it's possible for
+you to look those things up.
+
+85
+00:04:09.540 --> 00:04:12.980
+You can Google http, find all the details.
+
+86
+00:04:12.980 --> 00:04:16.700
+But it can be a pain, right, because
+that's the most simple message you're ever
+
+87
+00:04:16.700 --> 00:04:19.320
+going to see, HTTP message,
+they get longer.
+
+88
+00:04:19.320 --> 00:04:20.460
+There are headers and
+
+89
+00:04:20.460 --> 00:04:23.750
+more complicated things that you want to
+add into these type of messages.
+
+90
+00:04:23.750 --> 00:04:27.270
+So using the bare Socket Library
+can be tedious for
+
+91
+00:04:27.270 --> 00:04:29.670
+a programmer because they have to
+worry about all those details.
+
+92
+00:04:30.860 --> 00:04:34.190
+It is nice sometimes to use
+protocol-specific libraries and there
+
+93
+00:04:34.190 --> 00:04:38.980
+are several of these available in Python
+and for the Raspberry PI and so forth.
+
+94
+00:04:38.980 --> 00:04:41.080
+And so these libraries, they are,
+
+95
+00:04:41.080 --> 00:04:44.800
+you have several,
+a lot of these just for one protocol.
+
+96
+00:04:46.110 --> 00:04:50.600
+Now the programmer doesn't have to know
+the protocol details in this case.
+
+97
+00:04:50.600 --> 00:04:55.630
+So they can just rely on these library
+functions that are available that
+
+98
+00:04:55.630 --> 00:04:57.380
+handle the details.
+
+99
+00:04:57.380 --> 00:05:00.120
+So it handles, as a for instance,
+the character turn line keys.
+
+100
+00:05:00.120 --> 00:05:00.960
+It'll put those in.
+
+101
+00:05:00.960 --> 00:05:04.390
+And they'll put them in the right place in
+the message and things like this, right?
+
+102
+00:05:04.390 --> 00:05:08.360
+So you just call these functions that
+where the arguments of the functions are,
+
+103
+00:05:08.360 --> 00:05:12.310
+the key details, the key information
+that you want to put in this message and
+
+104
+00:05:12.310 --> 00:05:15.910
+then the library function just
+composes it into the appropriate type
+
+105
+00:05:15.910 --> 00:05:19.550
+of string of data, series of data and
+then sends that for you.
+
+106
+00:05:19.550 --> 00:05:21.180
+And then on the other end, it receives it.
+
+107
+00:05:21.180 --> 00:05:22.760
+It does the same thing on receipt.
+
+108
+00:05:22.760 --> 00:05:26.490
+So they'll be library functions that maybe
+receive a message of a particular type,
+
+109
+00:05:26.490 --> 00:05:30.160
+and rather than showing you the whole raw
+message, they pulled out the important
+
+110
+00:05:30.160 --> 00:05:34.310
+things, you know, the payload and so
+forth that you're interested in and
+
+111
+00:05:34.310 --> 00:05:37.310
+strip away the rest so that you don't
+have to see that in the program.
+
+112
+00:05:37.310 --> 00:05:41.250
+So using these application specific or
+rather protocol specific libraries
+
+113
+00:05:41.250 --> 00:05:44.170
+can be very helpful sometimes and
+make it a lot easier.
+
+114
+00:05:44.170 --> 00:05:48.170
+So one of these libraries called,
+well there's the http library, right?
+
+115
+00:05:48.170 --> 00:05:50.630
+So you can import http client,
+
+116
+00:05:50.630 --> 00:05:55.620
+then if you want to send that same
+get message, you say con equals,
+
+117
+00:05:55.620 --> 00:06:00.390
+you call this function, they provide you
+an http lib called http connection, right?
+
+118
+00:06:00.390 --> 00:06:02.140
+So you call that function, and
+
+119
+00:06:02.140 --> 00:06:06.546
+you just give it the name of
+the domain that you want to go to.
+
+120
+00:06:06.546 --> 00:06:12.010
+So, this actually does a DNS lookup,
+but it also establishes a connection.
+
+121
+00:06:12.010 --> 00:06:15.289
+It rolls it up in to one function,
+and then conn.request, GET and
+
+122
+00:06:15.289 --> 00:06:19.660
+then /, that is actually what
+sends the request message.
+
+123
+00:06:19.660 --> 00:06:21.460
+So, notice that you're just
+giving the key details.
+
+124
+00:06:21.460 --> 00:06:23.750
+You're saying, look, GET,
+this what I want to do,
+
+125
+00:06:23.750 --> 00:06:25.500
+this is the type of header I want.
+
+126
+00:06:25.500 --> 00:06:28.780
+And then /, this is the directory
+of the file that I want.
+
+127
+00:06:28.780 --> 00:06:30.010
+You just give those key details and
+
+128
+00:06:30.010 --> 00:06:34.710
+it composes the bytes that it
+needs to send in the request.
+
+129
+00:06:34.710 --> 00:06:38.560
+And this actually sends the request for
+you, so this makes it easier.
+
+130
+00:06:38.560 --> 00:06:42.606
+Now this isn't, the difference between
+this and what we saw in the last slide,
+
+131
+00:06:42.606 --> 00:06:47.090
+isn't that big because the thing on the
+last slide was pretty simple as it was.
+
+132
+00:06:47.090 --> 00:06:51.380
+But this can be very helpful for
+more complicated types of messages.
+
+133
+00:06:51.380 --> 00:06:54.840
+So even here, you don't have to worry
+about exactly how the data is going to be
+
+134
+00:06:54.840 --> 00:06:57.700
+arranged in the packet,
+in the message in the headers.
+
+135
+00:06:57.700 --> 00:07:01.700
+You just give it the key data to get
+in the slash and it composes the rest.
+
+136
+00:07:01.700 --> 00:07:05.360
+So protocol specific libraries
+are very helpful in that way.
+
+137
+00:07:05.360 --> 00:07:07.590
+And there are a lot of them for
+a lot of different protocols,
+
+138
+00:07:07.590 --> 00:07:09.240
+we won't go through all those.
+
+139
+00:07:09.240 --> 00:07:13.552
+But you should know this for future, like
+for the capstones say, when you want your
+
+140
+00:07:13.552 --> 00:07:18.111
+Raspberry Pi to interact with something on
+the network, you don't necessarily have to
+
+141
+00:07:18.111 --> 00:07:22.320
+work from scratch with socket library,
+and learn a whole protocol, right?
+
+142
+00:07:22.320 --> 00:07:25.378
+Say you know you want your HTTP,
+you want your,
+
+143
+00:07:25.378 --> 00:07:30.660
+say you know you want your Raspberry Pi
+to not HTTP, let's say another protocol.
+
+144
+00:07:30.660 --> 00:07:32.120
+Let's say you want to
+talk to a mail server,
+
+145
+00:07:32.120 --> 00:07:36.230
+you want to send some mail, for
+instance, okay, send email.
+
+146
+00:07:36.230 --> 00:07:39.380
+So email the typical
+protocol is called SMTP, so
+
+147
+00:07:39.380 --> 00:07:41.750
+if you want to send mail you
+have to compose that mail and
+
+148
+00:07:41.750 --> 00:07:46.960
+then make a message in the format of SMTP,
+defined by that protocol.
+
+149
+00:07:46.960 --> 00:07:49.400
+Now you don't know that protocol,
+now you can look up that protocol.
+
+150
+00:07:49.400 --> 00:07:51.490
+You can Google SMTP and
+
+151
+00:07:51.490 --> 00:07:54.140
+find an information about what
+that protocol looks like.
+
+152
+00:07:54.140 --> 00:07:59.730
+But an easier way is just
+to import SMTP lib and
+
+153
+00:07:59.730 --> 00:08:03.380
+I then use the function that
+are provided in there to send the email.
+
+154
+00:08:03.380 --> 00:08:05.240
+It makes it much easier, right.
+
+155
+00:08:05.240 --> 00:08:08.820
+So just remember that for the future.
+
+156
+00:08:08.820 --> 00:08:11.820
+You don't want to build everything
+from scratch if you can help it.
+
+157
+00:08:11.820 --> 00:08:15.760
+If there's any protocol, there's no way we
+can go through all the different protocols
+
+158
+00:08:15.760 --> 00:08:19.340
+there are, but the different networking
+protocols at the application level.
+
+159
+00:08:19.340 --> 00:08:25.580
+But look for application level
+protocols specific It libraries for
+
+160
+00:08:25.580 --> 00:08:31.210
+any particular protocol that you're going
+to interact with your Raspberry Pi.
+
+161
+00:08:31.210 --> 00:08:35.350
+Along those lines, let's talk about how
+you interact with an online service.
+
+162
+00:08:35.350 --> 00:08:41.940
+So what we mean by this is, say there's
+Raspberry Pi, it's a nice little machine.
+
+163
+00:08:41.940 --> 00:08:44.020
+But it's small, relatively small okay.
+
+164
+00:08:44.020 --> 00:08:47.840
+It only has so much computing power,
+it only has so much resources, so
+
+165
+00:08:47.840 --> 00:08:49.440
+much information, right.
+
+166
+00:08:49.440 --> 00:08:53.720
+So in order to get interesting things
+going on you're going to need, depending
+
+167
+00:08:53.720 --> 00:08:57.375
+what you want to do, you might need your
+Raspberry Pi to connect to the cloud,
+
+168
+00:08:57.375 --> 00:09:00.825
+the web in general, or the cloud, and
+
+169
+00:09:00.825 --> 00:09:06.165
+offload some of it's job to the cloud, or
+get information from the cloud, right?
+
+170
+00:09:06.165 --> 00:09:09.667
+So what happens is, the way this works
+is there are these online services.
+
+171
+00:09:09.667 --> 00:09:15.460
+This service is already out there on
+the web that do something for you, okay?
+
+172
+00:09:15.460 --> 00:09:20.040
+That do some tasks for you and maybe it's
+a computational task that your raspberry
+
+173
+00:09:20.040 --> 00:09:22.360
+pie can't do fast, or
+something like that, or
+
+174
+00:09:22.360 --> 00:09:25.920
+maybe it's accessing data that your
+raspberry pie doesn't have locally.
+
+175
+00:09:25.920 --> 00:09:31.430
+So these services, they allow you,
+your machines to connect to them.
+
+176
+00:09:31.430 --> 00:09:34.350
+So you can make a request,
+you send a message from your say,
+
+177
+00:09:34.350 --> 00:09:38.510
+Raspberry Pi, to their servers with
+some kind of request in there,
+
+178
+00:09:38.510 --> 00:09:42.440
+please give me this data, please perform
+this operation, something like that.
+
+179
+00:09:42.440 --> 00:09:47.380
+And then the server sends back a message
+to your device with the results.
+
+180
+00:09:47.380 --> 00:09:51.390
+So there are a lot of online
+services like this, a whole lot.
+
+181
+00:09:51.390 --> 00:09:53.850
+They're pretty interesting to use.
+
+182
+00:09:53.850 --> 00:09:57.010
+So, for instance, Google Maps, right?
+
+183
+00:09:57.010 --> 00:10:01.100
+Say you want to make a webpage and
+you want to have a Google map in there.
+
+184
+00:10:01.100 --> 00:10:03.970
+Say I want to have a webpage
+with my office in there,
+
+185
+00:10:03.970 --> 00:10:05.590
+direct people to my office, something.
+
+186
+00:10:05.590 --> 00:10:08.130
+And I want to have Google Maps, you know,
+
+187
+00:10:08.130 --> 00:10:12.160
+a map in there with my address
+highlighted, my location highlighted and
+
+188
+00:10:12.160 --> 00:10:14.675
+directions to my house and
+whatever, my office.
+
+189
+00:10:14.675 --> 00:10:17.450
+So something like that,
+I would make a webpage and
+
+190
+00:10:17.450 --> 00:10:21.110
+I want to have, I might want to have
+code that interacts with Google Maps,
+
+191
+00:10:21.110 --> 00:10:25.470
+that allows people to do certain search
+and basically what you do on Google Maps.
+
+192
+00:10:25.470 --> 00:10:26.430
+You can do it through my page.
+
+193
+00:10:26.430 --> 00:10:30.160
+[COUGH] So there's an interface for
+that, that's an online service.
+
+194
+00:10:30.160 --> 00:10:33.760
+And you can send it a message, a request
+message, send Google servers a request
+
+195
+00:10:33.760 --> 00:10:36.890
+message, please give me this map, and
+give me these directions, whatever.
+
+196
+00:10:36.890 --> 00:10:39.230
+It'll send them back, and
+you can put them on your webpage.
+
+197
+00:10:40.520 --> 00:10:43.940
+Twitter, so,
+say you want to send a tweet, right?
+
+198
+00:10:43.940 --> 00:10:46.620
+You can write a program
+that sends a tweet,
+
+199
+00:10:46.620 --> 00:10:48.420
+that you don't have to do it manually.
+
+200
+00:10:48.420 --> 00:10:51.670
+You can create a message,
+send a message to Twitter servers,
+
+201
+00:10:51.670 --> 00:10:53.330
+Twitter servers take it and
+send the tweet.
+
+202
+00:10:53.330 --> 00:10:53.970
+Or the other way.
+
+203
+00:10:53.970 --> 00:10:56.610
+Maybe you want your code
+to examine tweets, right?
+
+204
+00:10:56.610 --> 00:10:59.490
+So you can send a request message,
+let me see tweets like this and
+
+205
+00:10:59.490 --> 00:11:00.846
+it'll send back the tweets, you know.
+
+206
+00:11:00.846 --> 00:11:03.390
+Let me see tweets that match
+this characteristic and
+
+207
+00:11:03.390 --> 00:11:06.170
+though Twitter service will
+send them back to your machine.
+
+208
+00:11:06.170 --> 00:11:09.460
+YouTube, maybe you want to make
+a web page something like that,
+
+209
+00:11:09.460 --> 00:11:13.830
+an app that has an interface,
+well lets you upload videos, right?
+
+210
+00:11:13.830 --> 00:11:17.560
+And basically, you can copy a lot
+of what YouTube already provides.
+
+211
+00:11:17.560 --> 00:11:20.290
+You can put that locally on your device,
+on your app or
+
+212
+00:11:20.290 --> 00:11:23.190
+your web page or something like that,
+using their interface.
+
+213
+00:11:23.190 --> 00:11:24.990
+And Facebook too, same thing, right?
+
+214
+00:11:24.990 --> 00:11:26.870
+You want to look at somebody's profile or
+
+215
+00:11:26.870 --> 00:11:30.890
+something like that through Facebook,
+you can write code that does that, okay?
+
+216
+00:11:30.890 --> 00:11:34.580
+And it's always Facebook servers, or
+YouTube servers, Twitter servers,
+
+217
+00:11:34.580 --> 00:11:39.020
+Google Maps servers,
+that are doing the job, but your device is
+
+218
+00:11:39.020 --> 00:11:43.450
+interacting with their servers through
+messages that are going back and forth.
+
+219
+00:11:43.450 --> 00:11:46.390
+So there are lots of online services,
+and if you're interested,
+
+220
+00:11:46.390 --> 00:11:47.650
+you can Google these.
+
+221
+00:11:47.650 --> 00:11:50.600
+These type of web based,
+usually they're called APIs.
+
+222
+00:11:50.600 --> 00:11:51.560
+We'll talk about this.
+
+223
+00:11:51.560 --> 00:11:55.290
+You can Google them to get a long list
+of lots of different public APIs that
+
+224
+00:11:55.290 --> 00:11:56.770
+you can use.
+
+225
+00:11:56.770 --> 00:12:00.070
+So, oh, and some of these services
+you may have to pay for, right.
+
+226
+00:12:00.070 --> 00:12:01.650
+They're not all free.
+
+227
+00:12:01.650 --> 00:12:06.102
+So, a lot of them, they have a free part,
+so maybe you get some ability for free,
+
+228
+00:12:06.102 --> 00:12:08.610
+but other things you have to pay for,
+right.
+
+229
+00:12:08.610 --> 00:12:13.591
+So that depends on what service
+you're using, right, but
+
+230
+00:12:13.591 --> 00:12:16.090
+some of them will cost money.
+
+231
+00:12:16.090 --> 00:12:16.890
+Thank you.
+
+232
+00:12:16.890 --> 00:12:24.149
+[MUSIC]

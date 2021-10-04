@@ -1,0 +1,582 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.262 --> 00:00:15.750
+This lecture will talk about different
+online services that your Raspberry Pi, or
+
+3
+00:00:15.750 --> 00:00:19.380
+any device really can interact with and
+get services from.
+
+4
+00:00:19.380 --> 00:00:20.995
+Request services get responses from them.
+
+5
+00:00:20.995 --> 00:00:25.310
+Web-based services, so by this we
+mean services in the cloud, right?
+
+6
+00:00:25.310 --> 00:00:29.480
+So some service that is
+run on remote servers
+
+7
+00:00:29.480 --> 00:00:30.930
+that are accessible through the network.
+
+8
+00:00:30.930 --> 00:00:34.700
+These are services that
+typically Raspberry Pi can't,
+
+9
+00:00:34.700 --> 00:00:36.470
+doesn't have the ability to do.
+
+10
+00:00:36.470 --> 00:00:40.550
+So maybe it's too computationally
+intensive, the task that it performs, or
+
+11
+00:00:40.550 --> 00:00:43.270
+maybe it just doesn't have the data
+that it needs or something like that.
+
+12
+00:00:44.320 --> 00:00:49.379
+So, runs on a remote server except, so
+there's some remote server, say from
+
+13
+00:00:49.379 --> 00:00:54.670
+Facebook, some of our servers, and they
+accept requests from clients so a client
+
+14
+00:00:54.670 --> 00:01:00.720
+like your Raspberry Pi will send a request
+and then, you'll get the service.
+
+15
+00:01:00.720 --> 00:01:03.260
+And they interact typically
+using HTTP messages.
+
+16
+00:01:03.260 --> 00:01:05.280
+These are web based services, right?
+
+17
+00:01:05.280 --> 00:01:07.788
+So the interface is going to be HTTP.
+
+18
+00:01:07.788 --> 00:01:14.339
+Now, HTTP messages are constrained,
+but they are HTTP formatted messages.
+
+19
+00:01:16.180 --> 00:01:18.550
+So here's a picture of what
+something might look like.
+
+20
+00:01:18.550 --> 00:01:21.650
+So you've got some device, I'm drawing
+out a little cell phone icon there but
+
+21
+00:01:21.650 --> 00:01:23.100
+it can be any, it can be Raspberry Pi or
+
+22
+00:01:23.100 --> 00:01:28.380
+whatever it is, it makes a request
+to some servers at Google Maps.
+
+23
+00:01:29.630 --> 00:01:31.030
+Give me a map of UCI.
+
+24
+00:01:32.070 --> 00:01:34.690
+Now of course it doesn't just
+say give me a map of UCI.
+
+25
+00:01:34.690 --> 00:01:37.860
+There's a formatted
+message there that's sent.
+
+26
+00:01:37.860 --> 00:01:41.350
+And then those servers receive it,
+they get the map, and they send a response
+
+27
+00:01:41.350 --> 00:01:44.690
+which contains the map or data to
+find the map or something like that.
+
+28
+00:01:44.690 --> 00:01:49.280
+So that's the idea,
+to have these services running remotely.
+
+29
+00:01:49.280 --> 00:01:51.617
+And it adds a lot of power to your system,
+right,
+
+30
+00:01:51.617 --> 00:01:53.956
+because a Raspberry PI
+alone can only do so much.
+
+31
+00:01:53.956 --> 00:01:55.732
+But if you want to be Internet of Things,
+and
+
+32
+00:01:55.732 --> 00:01:59.190
+this thing needs to communicate with the
+internet and access these remote services.
+
+33
+00:01:59.190 --> 00:02:03.650
+So this is a very common thing that
+IoT devices can do is sort of access
+
+34
+00:02:03.650 --> 00:02:06.620
+bigger services provided by servers
+somewhere out there on the network.
+
+35
+00:02:08.680 --> 00:02:12.420
+So applications programming interface,
+or API.
+
+36
+00:02:12.420 --> 00:02:15.090
+API is a common shorthand for it.
+
+37
+00:02:15.090 --> 00:02:19.390
+So an API defines a communication
+interface between programs.
+
+38
+00:02:19.390 --> 00:02:23.714
+So when we're talking about these web
+based services, the API defines the format
+
+39
+00:02:23.714 --> 00:02:28.010
+of the messages that have to go back and
+forth from client to server.
+
+40
+00:02:28.010 --> 00:02:30.630
+Now, these are web based services
+that we're talking about, so
+
+41
+00:02:30.630 --> 00:02:32.750
+these are all HTTP messages.
+
+42
+00:02:32.750 --> 00:02:37.870
+But the API's going to define
+the content of the HTTP message.
+
+43
+00:02:37.870 --> 00:02:40.950
+So for instance, what information
+should be in each header, right?
+
+44
+00:02:40.950 --> 00:02:42.510
+Which headers are required?
+
+45
+00:02:42.510 --> 00:02:45.000
+What should be in the payload,
+if there's a payload?
+
+46
+00:02:45.000 --> 00:02:45.890
+Things like that.
+
+47
+00:02:45.890 --> 00:02:48.048
+They have to be defined by this API.
+
+48
+00:02:48.048 --> 00:02:51.971
+So the API just tells you, client, if you
+want to make this request, request for
+
+49
+00:02:51.971 --> 00:02:56.140
+this data you should format a message in
+this way, an HTTP message in this way.
+
+50
+00:02:56.140 --> 00:02:58.640
+If you want to request this type
+of data you format in this way.
+
+51
+00:02:58.640 --> 00:03:01.244
+And they tell on the other side,
+they say, look,
+
+52
+00:03:01.244 --> 00:03:05.276
+when you receive the response back you
+can expect the data to be in this field,
+
+53
+00:03:05.276 --> 00:03:08.897
+in this field and and this other type
+of data is in this field and so on.
+
+54
+00:03:08.897 --> 00:03:11.926
+So it tells you the format of
+the messages that go back and
+
+55
+00:03:11.926 --> 00:03:16.910
+forth between the client and the server,
+so request response messages.
+
+56
+00:03:16.910 --> 00:03:21.018
+It also defines the legal sequence
+of messages if a sequence is
+
+57
+00:03:21.018 --> 00:03:24.330
+Is actually relevant.
+
+58
+00:03:24.330 --> 00:03:28.040
+So, what I mean by that is that a lot
+of these protocols are stateless,
+
+59
+00:03:28.040 --> 00:03:30.690
+that is, you send one message,
+you get one response, and
+
+60
+00:03:30.690 --> 00:03:34.934
+there's no memory of a previous sequence
+of things that happened before, right?
+
+61
+00:03:34.934 --> 00:03:38.910
+But sometimes, there are message
+sequences, so you send one message and
+
+62
+00:03:38.910 --> 00:03:42.873
+then you get this response and based on
+the response you send another message,
+
+63
+00:03:42.873 --> 00:03:44.746
+so there can be a sequence of messages.
+
+64
+00:03:44.746 --> 00:03:47.770
+And if that was the case,
+if you had an API like that,
+
+65
+00:03:47.770 --> 00:03:51.020
+if you had a protocol like that,
+then the API would have to specify that.
+
+66
+00:03:51.020 --> 00:03:54.180
+It would say, you send this message first,
+and then if you get this response,
+
+67
+00:03:54.180 --> 00:03:56.200
+you can either send this or
+that message, something like that.
+
+68
+00:03:56.200 --> 00:03:59.340
+So that would be a more complicated API,
+but
+
+69
+00:03:59.340 --> 00:04:04.090
+that's all within the scope
+of what you'd call an API, to
+
+70
+00:04:04.090 --> 00:04:08.640
+define the legal message formats and then
+the sequences, if there are sequences.
+
+71
+00:04:08.640 --> 00:04:13.330
+So for example here,
+this is my mock up of Google Maps API.
+
+72
+00:04:13.330 --> 00:04:16.780
+Now, this is not a Google Maps API,
+but this is the idea.
+
+73
+00:04:16.780 --> 00:04:20.090
+Say Google Maps API,
+I wants to get a map of some place.
+
+74
+00:04:20.090 --> 00:04:25.630
+So maybe they say look, you send an HTTP
+message, it's gotta be a get message.
+
+75
+00:04:25.630 --> 00:04:29.690
+And after the get you gotta put in the,
+under maps you put in the name of
+
+76
+00:04:29.690 --> 00:04:34.036
+the place that you want the map from and
+it will go and find that map for you.
+
+77
+00:04:34.036 --> 00:04:36.604
+And then you give the HTTP version or
+something like that.
+
+78
+00:04:36.604 --> 00:04:39.864
+This is overly simplified but
+that's the idea.
+
+79
+00:04:39.864 --> 00:04:44.435
+It tells you how you compose
+the HTTP message in order to get
+
+80
+00:04:44.435 --> 00:04:49.111
+the result that you want,
+to get the service that you want.
+
+81
+00:04:49.111 --> 00:04:54.425
+Now API is one term, SDK is another
+term that is related in this context,
+
+82
+00:04:54.425 --> 00:04:56.620
+Software Development Kit.
+
+83
+00:04:56.620 --> 00:05:02.140
+Now there's a broader definition outside
+of network protocols but in our scope
+
+84
+00:05:02.140 --> 00:05:08.340
+Software Development Kit, an SDK, it's a
+set of tools to support the use of an API.
+
+85
+00:05:08.340 --> 00:05:13.090
+Now, that can mean different things,
+typically what it means is
+
+86
+00:05:13.090 --> 00:05:17.010
+it's a bunch of library functions,
+okay, that support the use of the API.
+
+87
+00:05:17.010 --> 00:05:21.420
+So, an API just tells you the format,
+what the messages should look like and
+
+88
+00:05:21.420 --> 00:05:22.930
+how they should be formatted.
+
+89
+00:05:22.930 --> 00:05:25.220
+The SDK is supposed to be,
+
+90
+00:05:25.220 --> 00:05:30.590
+it's typically a bunch of library
+functions that adhere to that API.
+
+91
+00:05:30.590 --> 00:05:34.900
+So what that means is that the programmer
+doesn't need to know the details of
+
+92
+00:05:34.900 --> 00:05:39.460
+the API because the SDK acts as
+an interface for him or her.
+
+93
+00:05:41.090 --> 00:05:44.910
+So for instance,
+if you want to send a message to get
+
+94
+00:05:46.260 --> 00:05:48.680
+a map from Google Maps, right?
+
+95
+00:05:48.680 --> 00:05:52.550
+One way would be to just know the API
+that I showed in last slide, and then,
+
+96
+00:05:52.550 --> 00:05:57.350
+you create a string that looks like
+that and then bam, you send that.
+
+97
+00:05:57.350 --> 00:05:58.630
+Or if you have an SDK,
+
+98
+00:05:58.630 --> 00:06:02.530
+the SDK might have a library function
+in there that says, get map.
+
+99
+00:06:03.630 --> 00:06:05.430
+Get map location or
+something like that and
+
+100
+00:06:05.430 --> 00:06:09.288
+then it just takes one argument which
+is UCI, the name of the place you want.
+
+101
+00:06:09.288 --> 00:06:15.030
+And then it's the job of that function to
+actually create the proper request message
+
+102
+00:06:15.030 --> 00:06:16.995
+and send it out.
+
+103
+00:06:16.995 --> 00:06:18.324
+So it makes it easier.
+
+104
+00:06:18.324 --> 00:06:22.081
+If you have an SDK, you have these library
+functions where you don't even have to
+
+105
+00:06:22.081 --> 00:06:23.415
+know the details of the API.
+
+106
+00:06:23.415 --> 00:06:26.945
+You just call the library functions and
+they handle all the details.
+
+107
+00:06:26.945 --> 00:06:28.435
+So SDKs are good.
+
+108
+00:06:30.457 --> 00:06:34.067
+Sometimes API and
+SDK are used interchangeably, okay.
+
+109
+00:06:34.067 --> 00:06:35.585
+So watch out for that.
+
+110
+00:06:35.585 --> 00:06:39.227
+Sometimes when you're looking up API,
+SDK, when you want an SDK,
+
+111
+00:06:39.227 --> 00:06:42.623
+you look up API and
+you end up finding SDK.
+
+112
+00:06:42.623 --> 00:06:45.813
+So the difference between APIs and
+SDKs sometimes is blurred.
+
+113
+00:06:45.813 --> 00:06:50.823
+But roughly the API defines the interface
+and the SDK is a bunch of tools,
+
+114
+00:06:50.823 --> 00:06:54.873
+maybe just library functions,
+that help you use the API.
+
+115
+00:06:58.000 --> 00:07:00.220
+So here's my example that
+I was walking through.
+
+116
+00:07:00.220 --> 00:07:01.180
+The API says, look,
+
+117
+00:07:01.180 --> 00:07:05.450
+here's the format of a get message to
+get a map from Google Maps, let's say.
+
+118
+00:07:05.450 --> 00:07:10.160
+And the SDK instead provides you with this
+GetMap function that takes care of it and
+
+119
+00:07:10.160 --> 00:07:12.630
+formats the message and sends it for
+you, something like that.
+
+120
+00:07:12.630 --> 00:07:13.966
+So that's roughly the relationship.
+
+121
+00:07:13.966 --> 00:07:15.179
+Thank you.
+
+122
+00:07:15.179 --> 00:07:23.285
+[MUSIC]
