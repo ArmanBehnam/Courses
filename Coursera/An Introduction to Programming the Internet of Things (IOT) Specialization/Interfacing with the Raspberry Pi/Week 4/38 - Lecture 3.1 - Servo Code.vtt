@@ -1,0 +1,414 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.379
+[MUSIC]
+
+2
+00:00:10.712 --> 00:00:14.076
+So I'm just going to walk
+through an example of some code
+
+3
+00:00:14.076 --> 00:00:17.440
+that manipulates a servo
+from the Raspberry Pi.
+
+4
+00:00:17.440 --> 00:00:21.130
+I'll go through it step by step so
+you can see how it works.
+
+5
+00:00:21.130 --> 00:00:25.750
+So this is going to be some
+actually relatively simple code.
+
+6
+00:00:25.750 --> 00:00:26.860
+It's dumb code, but
+
+7
+00:00:26.860 --> 00:00:31.820
+what it would do is make the servo
+scan from left to right back to left.
+
+8
+00:00:31.820 --> 00:00:33.860
+That's all it'll do.
+
+9
+00:00:33.860 --> 00:00:34.910
+Over a period it's kind of slow scan.
+
+10
+00:00:36.280 --> 00:00:39.080
+Slower than that actually, but
+that's all this code is going to do, so
+
+11
+00:00:39.080 --> 00:00:41.690
+I just want to show you this example,
+just walk through each step.
+
+12
+00:00:42.720 --> 00:00:44.990
+Okay, so we start at the top.
+
+13
+00:00:44.990 --> 00:00:48.340
+We start by,
+now this is a throwback actually to
+
+14
+00:00:49.600 --> 00:00:54.150
+last course when we were talking about the
+general purpose IO and the Raspberry Pi.
+
+15
+00:00:54.150 --> 00:00:57.630
+We have to import Raspberry Pi.GPIO.
+
+16
+00:00:57.630 --> 00:01:02.720
+So we import the GPIO library just so we
+can manipulate the general purpose pent.
+
+17
+00:01:02.720 --> 00:01:07.790
+Now first thing we do is we
+say GPIO.setmode(GPIO.BOARD).
+
+18
+00:01:07.790 --> 00:01:10.400
+Remember, that's the board pin numbering.
+
+19
+00:01:10.400 --> 00:01:13.970
+So the pin numbers are two pin numbers you
+can use, and you gotta select which one.
+
+20
+00:01:13.970 --> 00:01:17.010
+There's the board pin numbering, which
+we're using, but there's also the broad
+
+21
+00:01:17.010 --> 00:01:20.820
+com pin numbering, which we're not using,
+and that would be GPIO.BCM.
+
+22
+00:01:20.820 --> 00:01:21.470
+We're not doing that.
+
+23
+00:01:21.470 --> 00:01:22.930
+We're doing .BOARD.
+
+24
+00:01:22.930 --> 00:01:25.272
+So we set the mode, then we set up.
+
+25
+00:01:25.272 --> 00:01:29.810
+We call GPIO.setup
+making pin 12 an output.
+
+26
+00:01:29.810 --> 00:01:33.520
+12,GPIO.OUT, because that's where we're
+going to drive the post with modulating
+
+27
+00:01:33.520 --> 00:01:34.280
+signal.
+
+28
+00:01:34.280 --> 00:01:36.780
+That's going to be connected to
+the signal input of the server.
+
+29
+00:01:36.780 --> 00:01:39.390
+We're assuming that we're using the wiring
+that we saw in the last lecture.
+
+30
+00:01:40.640 --> 00:01:44.150
+Now, then we say pulse
+with modulation.start.
+
+31
+00:01:44.150 --> 00:01:48.000
+That start method it just starts
+a pulse with modulated signal,
+
+32
+00:01:48.000 --> 00:01:50.060
+starts generating one
+on the appropriate pin.
+
+33
+00:01:50.060 --> 00:01:51.450
+In this case pin 12.
+
+34
+00:01:51.450 --> 00:01:54.030
+Now, we gave it an argument 0.
+
+35
+00:01:54.030 --> 00:01:59.030
+That's the duty cycle at the beginning,
+so the duty cycle is from 0 to 100.
+
+36
+00:01:59.030 --> 00:02:01.200
+So 0 duty cycle means
+it's low all the time.
+
+37
+00:02:01.200 --> 00:02:04.340
+So actually this just puts out a 0
+all the time but we'll change that.
+
+38
+00:02:05.620 --> 00:02:07.290
+So then we've got two loops.
+
+39
+00:02:07.290 --> 00:02:10.880
+For each i in range 100 is the first loop.
+
+40
+00:02:10.880 --> 00:02:13.810
+So what this is doing is it's
+iterating through the duty cycle.
+
+41
+00:02:13.810 --> 00:02:15.870
+So duty cycle goes from 0 to 100.
+
+42
+00:02:15.870 --> 00:02:18.540
+Actually in this case instead
+we're saying i in range 10,
+
+43
+00:02:18.540 --> 00:02:23.220
+it's going to go from 0 to 99, so it won't
+quite reach 100, but that's close enough.
+
+44
+00:02:23.220 --> 00:02:25.730
+Maybe i should range 101, but whatever.
+
+45
+00:02:25.730 --> 00:02:30.644
+So for i in range 100, so
+each pass through i is going to be 0,
+
+46
+00:02:30.644 --> 00:02:32.939
+then 1, then 2, and so on.
+
+47
+00:02:32.939 --> 00:02:38.950
+So pwm.GhangeDutyCycle i, so that just
+
+48
+00:02:38.950 --> 00:02:44.150
+changed the duty cycle to i, which means
+in the servo it rotates it a little bit.
+
+49
+00:02:44.150 --> 00:02:48.590
+So it starts off at 1, then it goes to 2,
+then 3, then 4 rotating it all the way
+
+50
+00:02:48.590 --> 00:02:54.590
+through once it gets to 100 or
+99 it's basically at a 180 degree turn.
+
+51
+00:02:55.630 --> 00:02:59.890
+So and I put a small sleep time in
+between in each iteration right, so
+
+52
+00:02:59.890 --> 00:03:04.830
+I change the duty cycle rotate a little
+bit wait 0.1 seconds then rotate it again,
+
+53
+00:03:04.830 --> 00:03:06.380
+wait 0.1 seconds and so on.
+
+54
+00:03:06.380 --> 00:03:10.489
+So this is going to do a sweep that first
+loop just as a sweep from left to right.
+
+55
+00:03:11.760 --> 00:03:18.310
+Now, the next loop is actually very
+similar except this time the range is
+
+56
+00:03:18.310 --> 00:03:24.478
+different ranged from 100 down to 0, and
+I gave this third argument negative 1.
+
+57
+00:03:24.478 --> 00:03:28.332
+So negative 1 that third argument to
+the range function is the step, okay?
+
+58
+00:03:28.332 --> 00:03:34.830
+It means what change you're going to
+make to the number every pass throw.
+
+59
+00:03:34.830 --> 00:03:37.480
+So in the first range in that
+first loop I just say range 100.
+
+60
+00:03:37.480 --> 00:03:39.650
+With that it just assumes
+you want to increment.
+
+61
+00:03:39.650 --> 00:03:43.950
+You want to add one, but
+in the second loop I want to decrement.
+
+62
+00:03:43.950 --> 00:03:45.180
+I want to subtract 1.
+
+63
+00:03:45.180 --> 00:03:48.810
+So I have the save that, so
+I say 0 comma, so I say 100 comma 0.
+
+64
+00:03:48.810 --> 00:03:52.780
+So from 100 to 0 and the third argument
+I say negative 1 to tell it look,
+
+65
+00:03:52.780 --> 00:03:54.640
+every pass through you
+should decrement this.
+
+66
+00:03:54.640 --> 00:03:58.740
+So it starts off at 100,
+then 99, then 98, and so on.
+
+67
+00:03:58.740 --> 00:04:02.780
+So this a range, same range,
+but in the opposite order, and
+
+68
+00:04:02.780 --> 00:04:06.020
+this time I just say post
+modulation.change duty cycle i.
+
+69
+00:04:06.020 --> 00:04:07.140
+Again, same thing.
+
+70
+00:04:07.140 --> 00:04:11.660
+So the duty cycle starts off at 99,
+which is basically 180 degrees, sorry.
+
+71
+00:04:11.660 --> 00:04:15.020
+It started at 100, which is a 180 degrees,
+then it goes to 99, 98, 97.
+
+72
+00:04:15.020 --> 00:04:17.850
+I put the same sleep in between, so
+
+73
+00:04:17.850 --> 00:04:23.890
+it slowly sweeps the other way, and
+that's all that this code does.
+
+74
+00:04:23.890 --> 00:04:28.695
+Now, if I wanted to when you
+write embedded code you almost
+
+75
+00:04:28.695 --> 00:04:33.830
+always put it in an infinite loop because
+what this would do is it would scan to
+
+76
+00:04:33.830 --> 00:04:37.090
+the left then scan to the right and
+then it would be done, right?
+
+77
+00:04:37.090 --> 00:04:38.360
+And it would never do anything again.
+
+78
+00:04:38.360 --> 00:04:42.210
+It is much more common with embedded
+systems to have them live, right?
+
+79
+00:04:42.210 --> 00:04:43.690
+Continually doing something.
+
+80
+00:04:43.690 --> 00:04:45.890
+So if I were to do that
+I could take this and
+
+81
+00:04:45.890 --> 00:04:49.170
+put a wild true around both for
+loops, right?
+
+82
+00:04:49.170 --> 00:04:52.520
+So I could say wild true and
+indent the for loops into that,
+
+83
+00:04:52.520 --> 00:04:55.420
+and then it would just scan left,
+scan right, scan left,
+
+84
+00:04:55.420 --> 00:04:58.180
+scan right forever as long
+as it received power.
+
+85
+00:04:58.180 --> 00:05:01.403
+I didn't do that so the way this
+code is is it will scan left once,
+
+86
+00:05:01.403 --> 00:05:03.754
+scan right once and
+that'd be the end of that.
+
+87
+00:05:03.754 --> 00:05:07.499
+Thank you.
+
+88
+00:05:07.499 --> 00:05:13.959
+[MUSIC]

@@ -1,0 +1,682 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.508 --> 00:00:14.987
+We'll talk in this lecture
+about how to capture images and
+
+3
+00:00:14.987 --> 00:00:17.057
+how to send them over the network.
+
+4
+00:00:17.057 --> 00:00:21.957
+So, sending an image over the network,
+so why would we want to do this?
+
+5
+00:00:21.957 --> 00:00:23.420
+There are a lot of reasons
+why you want to do it.
+
+6
+00:00:23.420 --> 00:00:27.190
+If you want to view a Raspberry Pi's
+camera from a remote site.
+
+7
+00:00:27.190 --> 00:00:28.983
+Home security system's an example.
+
+8
+00:00:28.983 --> 00:00:32.823
+Maybe you make a home security system with
+your Raspberry Pi where it has a motion
+
+9
+00:00:32.823 --> 00:00:35.114
+sensor and
+when it detect motion in your house,
+
+10
+00:00:35.114 --> 00:00:38.465
+it snaps a picture to see who's
+moving around in your house, right?
+
+11
+00:00:38.465 --> 00:00:42.476
+And in that case, you might want it
+to send the picture to your phone,
+
+12
+00:00:42.476 --> 00:00:46.510
+to where you are, sends you an email and
+it sends an attachment.
+
+13
+00:00:46.510 --> 00:00:47.584
+Something like that.
+
+14
+00:00:47.584 --> 00:00:52.157
+So, there are a lot of reasons why you
+might want to have the Raspberry Pi take
+
+15
+00:00:52.157 --> 00:00:55.746
+a picture and then send it
+somewhere else over the network.
+
+16
+00:00:55.746 --> 00:00:57.975
+So, what you want to do
+is capture an image and
+
+17
+00:00:57.975 --> 00:01:01.580
+we've already seen how to capture
+an image in the last lecture.
+
+18
+00:01:01.580 --> 00:01:04.580
+But then you want to send it
+on some network connection.
+
+19
+00:01:04.580 --> 00:01:07.980
+So we have to do a little
+bit to get that to happen.
+
+20
+00:01:07.980 --> 00:01:11.770
+Here's a simple code that would do that.
+
+21
+00:01:11.770 --> 00:01:15.880
+So this is socket code and we've already
+looked at socket code in previous modules.
+
+22
+00:01:15.880 --> 00:01:18.100
+So first you make a socket, okay.
+
+23
+00:01:18.100 --> 00:01:22.060
+Then you connect on that socket
+to some server, some address,
+
+24
+00:01:22.060 --> 00:01:23.480
+wherever you want to connect to.
+
+25
+00:01:23.480 --> 00:01:25.640
+Port 8000, that's arbitrary in my mind.
+
+26
+00:01:25.640 --> 00:01:31.520
+But you give it an IP address or a domain
+name at a port and you make a connection.
+
+27
+00:01:31.520 --> 00:01:35.560
+Now, then what we do here is a little bit
+different than what we did before when we
+
+28
+00:01:35.560 --> 00:01:37.410
+did socket programming.
+
+29
+00:01:37.410 --> 00:01:40.500
+We call this mysocket.makefile, okay.
+
+30
+00:01:40.500 --> 00:01:45.710
+Now what does is it makes
+a file object inside
+
+31
+00:01:45.710 --> 00:01:50.259
+a local directory and notice that
+the arguments to it are w and b right?
+
+32
+00:01:51.320 --> 00:01:54.980
+So, those are telling you the permissions
+so you can write to this file.
+
+33
+00:01:56.020 --> 00:01:58.460
+And bytes,
+you can write bytes to the file.
+
+34
+00:01:58.460 --> 00:02:03.400
+So, it's creating a file so this
+connection, conn, is going to be a file.
+
+35
+00:02:04.520 --> 00:02:06.500
+Now, why is it doing that?
+
+36
+00:02:06.500 --> 00:02:09.563
+The reason why it's doing this
+because if you look at the next line,
+
+37
+00:02:09.563 --> 00:02:12.629
+camera.capture, we've actually
+used this in the last lecture,
+
+38
+00:02:12.629 --> 00:02:16.130
+camera.capture is first argument is
+a file that you want to save to.
+
+39
+00:02:16.130 --> 00:02:16.908
+Right?
+
+40
+00:02:16.908 --> 00:02:20.308
+But, a regular socket is not a file.
+
+41
+00:02:20.308 --> 00:02:25.290
+So you need a file-like object
+that is connected to the socket.
+
+42
+00:02:25.290 --> 00:02:26.100
+Okay?
+
+43
+00:02:26.100 --> 00:02:27.110
+So that's what you're doing there.
+
+44
+00:02:27.110 --> 00:02:30.700
+You may say, make file
+mysocket.makefile is making this file.
+
+45
+00:02:30.700 --> 00:02:34.156
+But anything you write to that file is
+actually going to be written out to
+
+46
+00:02:34.156 --> 00:02:35.144
+the socket, okay?
+
+47
+00:02:35.144 --> 00:02:36.550
+So, that's what we're doing.
+
+48
+00:02:36.550 --> 00:02:38.690
+So we make this file, this conn.
+
+49
+00:02:38.690 --> 00:02:40.070
+And then we say camera capture.
+
+50
+00:02:40.070 --> 00:02:42.020
+And we pass as the first
+argument this conn,
+
+51
+00:02:42.020 --> 00:02:45.110
+which to the camera.capture
+function looks like a file.
+
+52
+00:02:45.110 --> 00:02:47.400
+But when you write to that file it
+actually sends it out in a socket.
+
+53
+00:02:48.450 --> 00:02:51.500
+So, and
+that's pretty straightforward, right?
+
+54
+00:02:51.500 --> 00:02:53.720
+Now we have now sent
+this out on the network.
+
+55
+00:02:53.720 --> 00:02:56.530
+In this case I gave camera.capture
+the extra argument jpeg to tell it I
+
+56
+00:02:56.530 --> 00:02:59.150
+want to send it as a jpeg,
+but you can change that.
+
+57
+00:03:01.260 --> 00:03:03.660
+Okay, so
+another thing you might want to do,
+
+58
+00:03:03.660 --> 00:03:08.500
+that they give you a facility to do in
+the library is time-lapse photography.
+
+59
+00:03:08.500 --> 00:03:11.940
+So by this I mean you take
+a picture then you wait,
+
+60
+00:03:11.940 --> 00:03:15.910
+ten minutes you take another picture, you
+wait ten minutes you take another picture.
+
+61
+00:03:15.910 --> 00:03:16.830
+This is good for
+
+62
+00:03:16.830 --> 00:03:20.790
+if you want to see something changing
+that changes very slowly over time.
+
+63
+00:03:20.790 --> 00:03:23.410
+You can put big time
+lapses between the images.
+
+64
+00:03:23.410 --> 00:03:28.430
+And then you get a sequence of images of
+stills that are separated by big chunks
+
+65
+00:03:28.430 --> 00:03:33.210
+of time and if you run them together
+you can see weeks in minutes.
+
+66
+00:03:33.210 --> 00:03:37.390
+You can have weeks of images,
+roll them to display them in a minute and
+
+67
+00:03:37.390 --> 00:03:38.720
+see things change more quickly.
+
+68
+00:03:38.720 --> 00:03:41.710
+So this is time lapse photography and
+they give you a method for that.
+
+69
+00:03:42.970 --> 00:03:45.900
+The method's called
+camera.capture_continuous.
+
+70
+00:03:45.900 --> 00:03:47.510
+So it takes photos over time.
+
+71
+00:03:47.510 --> 00:03:49.540
+So, what it does is it basically, yeah,
+
+72
+00:03:49.540 --> 00:03:52.710
+does it what it is,
+it's like an infinite loop of photos.
+
+73
+00:03:52.710 --> 00:03:55.585
+Now, it takes one argument, a file name.
+
+74
+00:03:56.755 --> 00:04:01.035
+And this file name, note that since
+you're taking many photos over time,
+
+75
+00:04:01.035 --> 00:04:03.615
+one file name is not actually sufficient,
+right?
+
+76
+00:04:03.615 --> 00:04:06.015
+You can't just give it one file
+name otherwise it'll overwrite.
+
+77
+00:04:06.015 --> 00:04:08.935
+You don't want it to overwrite
+the old file with the new file.
+
+78
+00:04:08.935 --> 00:04:12.575
+So what you want is for every one of these
+images to be under a different file name.
+
+79
+00:04:12.575 --> 00:04:15.275
+So what you do is you give it
+an argument which is really
+
+80
+00:04:15.275 --> 00:04:16.623
+the prefix of the file name.
+
+81
+00:04:17.800 --> 00:04:20.940
+Or not the prefix, but some part of
+the fie name that remains constant.
+
+82
+00:04:20.940 --> 00:04:23.710
+It doesn't have to be a prefix,
+although that is common.
+
+83
+00:04:24.960 --> 00:04:28.610
+But, you add to that one of
+two pieces of information.
+
+84
+00:04:28.610 --> 00:04:30.720
+You could add both axis if you wanted to.
+
+85
+00:04:30.720 --> 00:04:33.010
+You can counter and or a time stamp.
+
+86
+00:04:34.040 --> 00:04:39.460
+So, inside this argument that you pass to
+capture continuous, you have some string,
+
+87
+00:04:39.460 --> 00:04:42.583
+and inside the argument you can
+put in curly bracket counter or
+
+88
+00:04:42.583 --> 00:04:45.280
+you can put curly bracket timestamp.
+
+89
+00:04:45.280 --> 00:04:47.820
+And wherever it sees
+curly bracket counter,
+
+90
+00:04:47.820 --> 00:04:51.600
+it will substitute that with a counter
+with a count with an integer,
+
+91
+00:04:51.600 --> 00:04:54.320
+which is the number of
+the picture that it is on.
+
+92
+00:04:54.320 --> 00:04:57.230
+So the first time it'll
+say it'll be a one.
+
+93
+00:04:57.230 --> 00:04:59.170
+Next time, next picture, it will be a two.
+
+94
+00:04:59.170 --> 00:05:01.450
+Next picture it will be a three,
+and so on.
+
+95
+00:05:01.450 --> 00:05:05.420
+So, by sticking {counter} in
+there in the string somewhere
+
+96
+00:05:05.420 --> 00:05:09.830
+you always have a different name for
+every image in your time lapse.
+
+97
+00:05:09.830 --> 00:05:13.830
+Instead of using a counter,
+you can also use timestamp, {timestamp}.
+
+98
+00:05:13.830 --> 00:05:15.610
+And {timestamp} instead
+of putting a counter,
+
+99
+00:05:15.610 --> 00:05:18.440
+it just puts a time in there in time code.
+
+100
+00:05:18.440 --> 00:05:22.275
+It puts a time stamp in there which
+also make sure that every file name is
+
+101
+00:05:22.275 --> 00:05:25.600
+a different name because it
+changes based on the time stamp.
+
+102
+00:05:25.600 --> 00:05:29.450
+And whether you put {counter} or
+{timestamp} in there and
+
+103
+00:05:29.450 --> 00:05:31.381
+where you put them is up to you.
+
+104
+00:05:31.381 --> 00:05:37.157
+So, for instance, let's say as
+the argument to capture_continuous,
+
+105
+00:05:37.157 --> 00:05:40.624
+my argument is picture{counter}.jpg.
+
+106
+00:05:40.624 --> 00:05:44.645
+That produces picture1.jpg the first time,
+
+107
+00:05:44.645 --> 00:05:47.280
+picture2.jpg the second time,
+picture3, picture4.
+
+108
+00:05:47.280 --> 00:05:50.610
+Every time it substitutes that curly
+bracket counter with an integer,
+
+109
+00:05:50.610 --> 00:05:53.690
+which is the number of
+the picture that I'm on.
+
+110
+00:05:53.690 --> 00:05:54.990
+So that's typically how you would use it.
+
+111
+00:05:54.990 --> 00:05:56.850
+You could do the same thing
+with timestamp or whatever.
+
+112
+00:05:59.010 --> 00:06:06.080
+So I'll just look more at this continuous
+capture, and how you might use it.
+
+113
+00:06:06.080 --> 00:06:09.330
+So capture continuous is iterable, okay?
+
+114
+00:06:09.330 --> 00:06:10.790
+It's an iterable sequence.
+
+115
+00:06:10.790 --> 00:06:14.050
+So what that means is you can
+iterate through it with a for.
+
+116
+00:06:16.240 --> 00:06:18.770
+So what you can do, for
+instance here in this loop.
+
+117
+00:06:18.770 --> 00:06:20.370
+So we say first we make a camera,
+
+118
+00:06:20.370 --> 00:06:24.650
+which is an instantiation of pi camera,
+an object of pi camera class.
+
+119
+00:06:24.650 --> 00:06:29.263
+Then, for each file name in
+camera.capture_continuous,
+
+120
+00:06:29.263 --> 00:06:31.780
+we say time.sleep (300).
+
+121
+00:06:31.780 --> 00:06:36.670
+So what this will do is,
+every pass through the loop,
+
+122
+00:06:36.670 --> 00:06:38.180
+that file name sees the for
+
+123
+00:06:38.180 --> 00:06:43.310
+file name that word file name, variable
+file name will be mapped to one image,
+
+124
+00:06:43.310 --> 00:06:48.350
+to one image file from
+camera.capture capture continuous.
+
+125
+00:06:48.350 --> 00:06:50.315
+So for instance first pass through there,
+
+126
+00:06:50.315 --> 00:06:56.400
+camera.capture_continuous is going to
+create a picture image 1.jpg, right?
+
+127
+00:06:56.400 --> 00:06:57.940
+because it's a counter.
+
+128
+00:06:57.940 --> 00:07:03.190
+And file name will be that file,
+image1.jpg on the first pass.
+
+129
+00:07:03.190 --> 00:07:05.377
+On the next pass of that loop,
+
+130
+00:07:05.377 --> 00:07:09.850
+camera.capture_continuous will
+create image2.jpg.
+
+131
+00:07:09.850 --> 00:07:13.990
+And file name will be equal to image2.jpg.
+
+132
+00:07:13.990 --> 00:07:14.771
+And so on.
+
+133
+00:07:14.771 --> 00:07:19.738
+Now, notice that in this file loop,
+I stuck in the loop this time.sleep300.
+
+134
+00:07:19.738 --> 00:07:22.752
+So it's 300 seconds,
+that's 5 minutes, okay.
+
+135
+00:07:22.752 --> 00:07:24.230
+It's an infaloop.
+
+136
+00:07:24.230 --> 00:07:26.600
+This is actually an infaloop
+as I've written it.
+
+137
+00:07:26.600 --> 00:07:29.750
+Of course, we could put a break in there,
+if somebody types in something,
+
+138
+00:07:29.750 --> 00:07:30.380
+break out of the loop.
+
+139
+00:07:30.380 --> 00:07:34.140
+We haven't done that, but there's
+a five minute delay between images.
+
+140
+00:07:34.140 --> 00:07:38.990
+So camera.capture_continuous, the neck,
+every time it's called, every time
+
+141
+00:07:38.990 --> 00:07:42.740
+it's invoked, it's the top of the loop,
+it creates, it takes another image.
+
+142
+00:07:42.740 --> 00:07:46.320
+And I've put to sleep in
+between iterations of 300 so
+
+143
+00:07:46.320 --> 00:07:49.600
+it waits five minutes between iterations.
+
+144
+00:07:49.600 --> 00:07:53.771
+So that's a common way to
+use continuous capture to do
+
+145
+00:07:53.771 --> 00:07:56.935
+time-lapse photography, thank you.
+
+146
+00:07:56.935 --> 00:08:04.458
+[MUSIC]

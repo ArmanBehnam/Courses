@@ -1,0 +1,653 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.378 --> 00:00:16.320
+We'll talk about pulse width modulation
+and how it's implemented on Raspberry Pi.
+
+3
+00:00:16.320 --> 00:00:20.190
+So, this is actually a review a little bit
+of pulse width modulation if you've taken
+
+4
+00:00:20.190 --> 00:00:25.770
+previous courses in this specialization
+you may not have, so I'll review it again.
+
+5
+00:00:25.770 --> 00:00:27.860
+It's worth spending a couple
+minutes on it anyway.
+
+6
+00:00:27.860 --> 00:00:32.831
+Pulse width modulation, we talked about
+this in the context of Arduino before, but
+
+7
+00:00:32.831 --> 00:00:35.221
+we'll do it our Raspberry Pi right now.
+
+8
+00:00:35.221 --> 00:00:42.525
+So the idea behind pulse width modulation
+is that you have our processors.
+
+9
+00:00:42.525 --> 00:00:44.737
+Our Raspberry Pi, our Arduino,
+whatever they are,
+
+10
+00:00:44.737 --> 00:00:46.890
+they are inherently digital devices.
+
+11
+00:00:46.890 --> 00:00:49.760
+So they're putting out zeroes and ones.
+
+12
+00:00:49.760 --> 00:00:53.690
+In Raspberry Pi 's case, its signal
+outputs are zero volts or 3.3 volts.
+
+13
+00:00:54.700 --> 00:00:57.260
+So zeroes and ones, it's a digital output.
+
+14
+00:00:57.260 --> 00:01:02.020
+But you have some actuators that you want
+to control that require analog input.
+
+15
+00:01:02.020 --> 00:01:06.900
+So maybe like for instance motors,
+this motor, maybe it's a DC motor.
+
+16
+00:01:06.900 --> 00:01:09.080
+It speeds up according to
+how much voltage you supply.
+
+17
+00:01:10.110 --> 00:01:12.422
+So if you want to have good
+control over the motor,
+
+18
+00:01:12.422 --> 00:01:14.250
+you don't want it to just be off and on.
+
+19
+00:01:14.250 --> 00:01:16.510
+You want to make it a little
+faster a little slower.
+
+20
+00:01:16.510 --> 00:01:22.250
+You need to control the voltage output
+that the motor receives in an analog way.
+
+21
+00:01:22.250 --> 00:01:26.400
+But that is not easy with
+one of these devices.
+
+22
+00:01:26.400 --> 00:01:30.380
+So one way to get around that is to use
+what is called pulse width modulation.
+
+23
+00:01:30.380 --> 00:01:34.650
+And the idea behind that is, look,
+we can only output zeroes and ones, but
+
+24
+00:01:34.650 --> 00:01:38.500
+what we can do is we can change between
+zeroes and ones really quickly, up and
+
+25
+00:01:38.500 --> 00:01:39.670
+down, up and down.
+
+26
+00:01:39.670 --> 00:01:42.810
+So that's what a pulse width modulated
+signal is, it's just a square wave,
+
+27
+00:01:42.810 --> 00:01:46.230
+essentially, that goes high low,
+high low very fast.
+
+28
+00:01:46.230 --> 00:01:49.837
+But, in fact,
+the common frequency is 50 Hertz.
+
+29
+00:01:49.837 --> 00:01:50.670
+Okay?
+
+30
+00:01:50.670 --> 00:01:54.468
+It's so fast that the receiving device,
+
+31
+00:01:54.468 --> 00:02:00.255
+whatever it is that you're
+trying to control, can't track.
+
+32
+00:02:00.255 --> 00:02:02.080
+[LAUGH] That's not the right term.
+
+33
+00:02:02.080 --> 00:02:06.695
+But, what I mean is, these high, so
+let's take a look at these pulses,
+
+34
+00:02:06.695 --> 00:02:08.675
+take a look at the top row,
+right, 70% duty cycle.
+
+35
+00:02:08.675 --> 00:02:13.275
+So duty cycle, by the way,
+is the percent of time the pulse is high.
+
+36
+00:02:13.275 --> 00:02:16.745
+So if you look at these three rows,
+these three clocks, they're all clocks and
+
+37
+00:02:16.745 --> 00:02:17.895
+they have the same frequency.
+
+38
+00:02:17.895 --> 00:02:22.505
+They go high at the same time, each one
+of them goes high at the same time.
+
+39
+00:02:22.505 --> 00:02:27.395
+But the top one is high 75% of the time,
+and low 25% of the time.
+
+40
+00:02:27.395 --> 00:02:30.290
+So it's got a 75% duty cycle.
+
+41
+00:02:30.290 --> 00:02:34.340
+The middle one is high 50% of the time and
+low 50% of the time.
+
+42
+00:02:34.340 --> 00:02:38.250
+And then the bottom one is high only 25%
+of the time and low 75% of the time.
+
+43
+00:02:38.250 --> 00:02:42.820
+But they all have the same frequency,
+but they have a change in duty cycle.
+
+44
+00:02:42.820 --> 00:02:45.992
+So the idea is these square waves
+are going up and down so fast,
+
+45
+00:02:45.992 --> 00:02:48.710
+that say you could hook
+this up to a motor.
+
+46
+00:02:48.710 --> 00:02:54.270
+The motor can not speed up and slow down
+fast enough to match this square wave.
+
+47
+00:02:54.270 --> 00:02:58.040
+Meaning, say these high low,
+say it's 50 Hertz right, so what's that,
+
+48
+00:02:58.040 --> 00:03:02.590
+it's about, I'm slow with my math,
+20 milliseconds I think is a clock period.
+
+49
+00:03:02.590 --> 00:03:04.640
+Yes, 20 milliseconds is a clock period.
+
+50
+00:03:04.640 --> 00:03:07.950
+So 20 milliseconds between when
+it goes high, these things,
+
+51
+00:03:07.950 --> 00:03:11.160
+the motors can't start and stop that fast.
+
+52
+00:03:11.160 --> 00:03:15.950
+So what happens is,
+the speed of the motor will
+
+53
+00:03:15.950 --> 00:03:21.040
+basically correspond to
+the average value of this signal.
+
+54
+00:03:21.040 --> 00:03:24.630
+So by changing the duty cycle,
+by increasing the duty cycle,
+
+55
+00:03:24.630 --> 00:03:30.758
+the pulse width, how long a time, the
+average value of that signal gets higher.
+
+56
+00:03:30.758 --> 00:03:33.580
+And so the receiving device,
+say it's a motor or
+
+57
+00:03:33.580 --> 00:03:38.880
+something like that,
+it perceives a higher average voltage.
+
+58
+00:03:38.880 --> 00:03:43.860
+So it's almost like it responds as
+if it's receiving an analog voltage
+
+59
+00:03:43.860 --> 00:03:45.975
+that's a higher voltage when
+you increase the duty cycle.
+
+60
+00:03:45.975 --> 00:03:47.610
+But when you decrease the duty cycle,
+
+61
+00:03:47.610 --> 00:03:51.050
+like you go to 25%,
+then the average is going to be lower.
+
+62
+00:03:51.050 --> 00:03:55.910
+So the receiving device say,
+motor, will move more slowly
+
+63
+00:03:55.910 --> 00:03:59.760
+responding as if it's receiving
+a lower average constant voltage.
+
+64
+00:03:59.760 --> 00:04:02.780
+So what you're doing with this pulse width
+modulation is you're making the signal go
+
+65
+00:04:02.780 --> 00:04:08.180
+high low so fast that the receiving
+device, it just averages out.
+
+66
+00:04:08.180 --> 00:04:11.050
+It can't follow it because
+it was going too fast, so
+
+67
+00:04:11.050 --> 00:04:13.450
+it just averages out the signal value.
+
+68
+00:04:13.450 --> 00:04:17.140
+And by changing the pulse width, you can
+change the average that it perceives.
+
+69
+00:04:17.140 --> 00:04:20.400
+So it acts as if is getting
+an analog voltage signal.
+
+70
+00:04:20.400 --> 00:04:23.650
+So that's the whole idea behind
+pulse width modulation, and
+
+71
+00:04:23.650 --> 00:04:26.870
+the use is to control analog devices,
+
+72
+00:04:26.870 --> 00:04:31.700
+analog actuators, from a digital
+system like our Raspberry Pi.
+
+73
+00:04:31.700 --> 00:04:36.290
+So pulse width modulation is very useful
+for controlling a lot of devices.
+
+74
+00:04:36.290 --> 00:04:39.240
+Now what we're going to use it for
+here is for a servo motor.
+
+75
+00:04:39.240 --> 00:04:40.880
+So servo motors
+are a particular type of motor,
+
+76
+00:04:40.880 --> 00:04:42.290
+there are different types of motors.
+
+77
+00:04:42.290 --> 00:04:43.575
+We'll focus on servos.
+
+78
+00:04:43.575 --> 00:04:45.630
+[COUGH] So
+
+79
+00:04:45.630 --> 00:04:49.490
+a servo motor is a motor whose rotation
+angle can be precisely controlled.
+
+80
+00:04:49.490 --> 00:04:53.671
+So if you look at that motor,
+you see that little white x on top of it?
+
+81
+00:04:53.671 --> 00:04:58.670
+That thing rotates left, right,
+clockwise, counterclockwise.
+
+82
+00:04:58.670 --> 00:05:02.800
+The angle at which that thing
+rotated can be controlled precisely.
+
+83
+00:05:02.800 --> 00:05:06.841
+So, [COUGH] excuse me, where you use
+this type of thing is in, say a robot,
+
+84
+00:05:06.841 --> 00:05:10.690
+if you want to make a robot arm move out
+to a certain distance and you want to
+
+85
+00:05:10.690 --> 00:05:15.640
+control exactly how far it moves, how
+much it rotates, you would use a servo.
+
+86
+00:05:15.640 --> 00:05:20.011
+Note that you wouldn't use this for
+say you had an RC car and you wanted that,
+
+87
+00:05:20.011 --> 00:05:22.350
+you had wheels that just provide speed.
+
+88
+00:05:22.350 --> 00:05:26.140
+The rear tires, you want to just drive,
+to make them go fast.
+
+89
+00:05:26.140 --> 00:05:29.420
+For that,
+you would probably use a DC motor
+
+90
+00:05:29.420 --> 00:05:33.420
+because DC motors allow you to
+control the speed pretty well.
+
+91
+00:05:33.420 --> 00:05:35.530
+So you could make it speed up or
+slow down.
+
+92
+00:05:35.530 --> 00:05:36.780
+You can't control the angle.
+
+93
+00:05:36.780 --> 00:05:38.740
+Right, but you could control the speed.
+
+94
+00:05:38.740 --> 00:05:42.310
+With a servo, you're not trying
+to control the speed, generally,
+
+95
+00:05:42.310 --> 00:05:45.350
+you're trying to control
+the angle with precision.
+
+96
+00:05:45.350 --> 00:05:46.700
+So that's what we're dealing with here.
+
+97
+00:05:48.060 --> 00:05:52.400
+So, the pulse width controls
+the rotation angle.
+
+98
+00:05:52.400 --> 00:05:56.810
+So the standard is this, assume you
+have a 50 Hertz clock frequency.
+
+99
+00:05:56.810 --> 00:05:57.940
+That's what these servos expect.
+
+100
+00:05:59.170 --> 00:06:03.830
+Now, not clock frequency but
+pulse width modulation frequency.
+
+101
+00:06:03.830 --> 00:06:09.530
+Now the pulse width should modulate
+generally between one millisecond high for
+
+102
+00:06:09.530 --> 00:06:12.910
+one millisecond and two milliseconds high.
+
+103
+00:06:12.910 --> 00:06:17.380
+Remember that the entire clock
+period is 20 milliseconds so
+
+104
+00:06:17.380 --> 00:06:20.120
+the duty cycle is actually
+very small either way.
+
+105
+00:06:20.120 --> 00:06:24.750
+But if you have a one millisecond pulse
+width, so it's high for one millisecond,
+
+106
+00:06:24.750 --> 00:06:30.600
+low for 19, then this servo should be at
+zero degrees, all the way to the left,
+
+107
+00:06:30.600 --> 00:06:34.090
+all the way counterclockwise, no,
+yes, all the way counterclockwise.
+
+108
+00:06:34.090 --> 00:06:36.680
+Where if you increase the pulse
+with all the way up to 2,
+
+109
+00:06:36.680 --> 00:06:40.200
+which would be the max,
+then you get 180 degrees rotation.
+
+110
+00:06:40.200 --> 00:06:43.380
+And then if you want it
+in between 90 degrees,
+
+111
+00:06:43.380 --> 00:06:46.110
+you do 1.5 milliseconds and so on.
+
+112
+00:06:46.110 --> 00:06:50.207
+So that's the idea, just by setting
+the pulse width, you can precisely control
+
+113
+00:06:50.207 --> 00:06:54.378
+the angle to which the servo turns, and
+that's useful for a lot of applications.
+
+114
+00:06:57.546 --> 00:07:01.600
+So note that, too, just for curiosity's
+sake, that this same interface that
+
+115
+00:07:01.600 --> 00:07:05.880
+we're talking about, this servo interface,
+is used for remote control a lot.
+
+116
+00:07:05.880 --> 00:07:11.580
+So I only know this because I do
+remote control quadcopters now.
+
+117
+00:07:11.580 --> 00:07:15.650
+And the interface that you use
+is pulse width modulated signal.
+
+118
+00:07:15.650 --> 00:07:19.570
+That's what's sent by the transmitter to
+the receiver and what the receiver sends
+
+119
+00:07:19.570 --> 00:07:24.429
+to the flight controller, which eventually
+controls the speed of the motors.
+
+120
+00:07:25.710 --> 00:07:30.170
+Now even though my quadcopter
+doesn't have any servos on it,
+
+121
+00:07:30.170 --> 00:07:34.870
+still it's using pulse
+width modulation to control
+
+122
+00:07:34.870 --> 00:07:38.940
+how much I want to yaw and
+roll and pitch and all that.
+
+123
+00:07:38.940 --> 00:07:43.810
+The reason why is because, originally,
+it was all, it actually was servos.
+
+124
+00:07:43.810 --> 00:07:45.750
+In fact, some remote control devices,
+
+125
+00:07:45.750 --> 00:07:49.780
+plenty of remote control devices use
+actual servos, like say a plaine, right?
+
+126
+00:07:49.780 --> 00:07:52.060
+So you got a remote
+controlled plane fixed wing.
+
+127
+00:07:52.060 --> 00:07:54.810
+It's got these control services,
+ailerons and things like this.
+
+128
+00:07:54.810 --> 00:07:56.580
+Flaps that go up and down.
+
+129
+00:07:56.580 --> 00:07:59.960
+And there are servos connected to those
+flaps and so you can control how much
+
+130
+00:07:59.960 --> 00:08:03.900
+those servos go up and down, and that's
+why they use pulse width modulation.
+
+131
+00:08:03.900 --> 00:08:06.320
+Now with quad copters,
+you don't have servos on them.
+
+132
+00:08:06.320 --> 00:08:08.150
+I mean you might if you,
+
+133
+00:08:08.150 --> 00:08:11.360
+sometimes people put on the gimble
+to control the camera and its angle.
+
+134
+00:08:11.360 --> 00:08:13.559
+But I don't have any servos on there but
+
+135
+00:08:13.559 --> 00:08:18.171
+it still uses exactly the same interface
+just because that's what RC people use.
+
+136
+00:08:18.171 --> 00:08:19.504
+Thank you.
+
+137
+00:08:19.504 --> 00:08:25.129
+[MUSIC]
