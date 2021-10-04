@@ -1,0 +1,756 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.226
+[MUSIC]
+
+2
+00:00:03.226 --> 00:00:12.319
+[SOUND]
+So
+
+3
+00:00:12.319 --> 00:00:15.493
+in this lecture,
+we're going to talk about Secure Shell and
+
+4
+00:00:15.493 --> 00:00:19.269
+how we use to talk to the RaspberryPi and
+to other machines remotely.
+
+5
+00:00:21.664 --> 00:00:25.290
+So Secure Shell ssh short
+hand is the program
+
+6
+00:00:25.290 --> 00:00:30.220
+that allows you to access
+the machine remotely.
+
+7
+00:00:30.220 --> 00:00:33.820
+So a shell, we've actually talked about
+what a shell in a previous lecture, but
+
+8
+00:00:33.820 --> 00:00:37.530
+a shell is such a program that
+accepts your commands and
+
+9
+00:00:37.530 --> 00:00:38.970
+interprets your commands.
+
+10
+00:00:38.970 --> 00:00:42.450
+So for instance if you type into
+the shell, it's what you see at a console.
+
+11
+00:00:42.450 --> 00:00:46.680
+So If you type into the shell ls,
+then it'll interpret that, and
+
+12
+00:00:46.680 --> 00:00:49.470
+ls means directory, so it'll give
+you a directory listing in Linux.
+
+13
+00:00:49.470 --> 00:00:52.120
+Right, so ls is prompting you for that.
+
+14
+00:00:52.120 --> 00:00:54.960
+If you type cd that'll change directory,
+and so on.
+
+15
+00:00:54.960 --> 00:00:58.750
+So a shell is just a basic program where
+you type into it, it interprets a command,
+
+16
+00:00:58.750 --> 00:01:01.930
+it executes a command and
+it prints out the results to you.
+
+17
+00:01:01.930 --> 00:01:07.590
+So that's all a shell is, and that
+shell is what LXTerminal does for you.
+
+18
+00:01:07.590 --> 00:01:11.740
+LXTerminal runs a shell in Raspbian,
+in Raspberry Pi.
+
+19
+00:01:11.740 --> 00:01:15.810
+So a secure shell is basically
+a way to get a remote shell.
+
+20
+00:01:15.810 --> 00:01:20.760
+So Say you've got your Raspberry Pi
+in your house and I'm at work and
+
+21
+00:01:20.760 --> 00:01:23.330
+I want to connect to your
+Raspberry Pi at your house.
+
+22
+00:01:23.330 --> 00:01:26.080
+And so I want to have a shell
+open up on my local machine,
+
+23
+00:01:26.080 --> 00:01:27.810
+say I'm sitting at a laptop.
+
+24
+00:01:27.810 --> 00:01:31.070
+I want to have a shell on my laptop
+Laptop where when I type commands in,
+
+25
+00:01:31.070 --> 00:01:33.170
+it sends those commands
+to the Raspberry Pi,
+
+26
+00:01:33.170 --> 00:01:36.630
+the Raspberry Pi executes the commands and
+the results come back to my screen.
+
+27
+00:01:36.630 --> 00:01:39.450
+So I can be at a remote machine and
+type in to it and
+
+28
+00:01:39.450 --> 00:01:43.760
+access it just like I was accessing my
+Raspberry Pi remotely, or vice versa.
+
+29
+00:01:43.760 --> 00:01:50.130
+So I can be sitting at my Raspberry Pi
+at home and that can be connected to my,
+
+30
+00:01:50.130 --> 00:01:54.870
+I can use secure shell to connect to
+my computer on my desk in my office.
+
+31
+00:01:54.870 --> 00:01:57.840
+And so I can to my Raspberry Pi LS and
+
+32
+00:01:57.840 --> 00:02:00.290
+that will send that command
+to my machine at my desk and
+
+33
+00:02:00.290 --> 00:02:03.570
+the directory on the machine at
+my desk will appear on my screen.
+
+34
+00:02:03.570 --> 00:02:06.170
+So we're going to use secure shell for
+that.
+
+35
+00:02:06.170 --> 00:02:11.360
+Now, just for a little background,
+secure shell, it's predecessor really,
+
+36
+00:02:11.360 --> 00:02:14.480
+I'll call it it's predecessor,
+is a program called Telnet.
+
+37
+00:02:14.480 --> 00:02:20.550
+Telnet, it's the same thing,
+it's a remote shell but it's not secure.
+
+38
+00:02:20.550 --> 00:02:23.980
+So it doesn't encrypt
+the traffic in transit.
+
+39
+00:02:23.980 --> 00:02:28.900
+So don't use telnet unless you do not
+care if the world sees what you're
+
+40
+00:02:28.900 --> 00:02:30.150
+typing, okay?
+
+41
+00:02:30.150 --> 00:02:35.090
+So generally I never used Telnet now
+except for experiments to try out things,
+
+42
+00:02:35.090 --> 00:02:37.150
+like with ssh try.
+
+43
+00:02:37.150 --> 00:02:40.290
+I'd tried a few, I've tested with it but
+anything serious,
+
+44
+00:02:40.290 --> 00:02:43.140
+anything you really doing you
+use Secure Shell instead Telnet.
+
+45
+00:02:44.340 --> 00:02:46.930
+So we're going to use Secure Shell.
+
+46
+00:02:46.930 --> 00:02:49.930
+So a secure shell's useful for
+a lot of things.
+
+47
+00:02:49.930 --> 00:02:51.620
+Actually one good thing, especially for
+
+48
+00:02:51.620 --> 00:02:55.740
+Raspberry Pi, one really good thing about
+using a Secure Shell with a Raspberry Pi
+
+49
+00:02:55.740 --> 00:02:58.980
+is that Raspberry Pi you'll notice
+when you get it out of the box.
+
+50
+00:02:58.980 --> 00:03:01.950
+It doesn't have a screen, it doesn't
+have a keyboard, mouse, any of that.
+
+51
+00:03:01.950 --> 00:03:05.860
+So, you need to connect a screen to it,
+connect a keyboard, connect a mouse.
+
+52
+00:03:05.860 --> 00:03:08.210
+But if you use Secure Shell,
+you don't have to do that.
+
+53
+00:03:08.210 --> 00:03:12.345
+You can just connect your Raspberry Pi
+up to the network, wi-fi, say.
+
+54
+00:03:12.345 --> 00:03:17.755
+Then you can go to your laptop and connect
+to the Raspberry Pi, and type into your
+
+55
+00:03:17.755 --> 00:03:21.105
+laptop and it will send it straight to
+Raspberry Pi and you can see the results.
+
+56
+00:03:21.105 --> 00:03:26.050
+So you can use your Raspberry Pi without
+connecting up a physical keyboard, and
+
+57
+00:03:26.050 --> 00:03:30.610
+mouse, and screen, if you use
+Secure Shell to remotely connect to it.
+
+58
+00:03:30.610 --> 00:03:34.340
+Another thing that is really
+useful to do with a Raspberry Pi.
+
+59
+00:03:34.340 --> 00:03:35.910
+I used it in making these slides.
+
+60
+00:03:35.910 --> 00:03:39.270
+When I was doing screen shots, some of
+them I did on the Raspberry Pi itself, but
+
+61
+00:03:39.270 --> 00:03:41.190
+some of them I did remotely, and
+
+62
+00:03:41.190 --> 00:03:44.019
+you get the same screen shot
+because it's Secure Shell running.
+
+63
+00:03:45.030 --> 00:03:50.030
+Okay, so whenever you do Secure Shell,
+there are two machines involved,
+
+64
+00:03:50.030 --> 00:03:52.820
+and this is generally
+how the Internet works.
+
+65
+00:03:52.820 --> 00:03:55.250
+You have this client-server model.
+
+66
+00:03:55.250 --> 00:03:59.500
+So, on the one side, you've got the Secure
+Shell server, and the Secure Shell server
+
+67
+00:03:59.500 --> 00:04:02.580
+is a program that's running on the machine
+that you want to access remotely.
+
+68
+00:04:02.580 --> 00:04:08.500
+So if I want to If I'm on my laptop,
+I want to access the Raspberry Pi.
+
+69
+00:04:08.500 --> 00:04:11.430
+I would have to run a secure
+shell server on the Raspberry Pi.
+
+70
+00:04:12.950 --> 00:04:17.210
+Then the secure shell client, that's
+a program that's running on the machine
+
+71
+00:04:17.210 --> 00:04:19.430
+that I'm using to access the server.
+
+72
+00:04:19.430 --> 00:04:24.060
+So, in the case where, from my laptop,
+I want to talk to my Raspberry Pi, but
+
+73
+00:04:24.060 --> 00:04:28.190
+I want to sit at my laptop,
+the laptop is running Secure Shell client.
+
+74
+00:04:28.190 --> 00:04:31.060
+The Raspberry Pi is running
+Secure Shell server.
+
+75
+00:04:31.060 --> 00:04:35.270
+So you have to have both those machines
+involved in the communication, and
+
+76
+00:04:35.270 --> 00:04:36.160
+two different programs.
+
+77
+00:04:36.160 --> 00:04:38.770
+So basically the whole
+Secure Shell protocol is
+
+78
+00:04:38.770 --> 00:04:40.329
+two programs talking to each
+other across the network.
+
+79
+00:04:42.910 --> 00:04:46.910
+So the command you type into the client
+will be sent to the server and
+
+80
+00:04:46.910 --> 00:04:48.460
+executed on the server.
+
+81
+00:04:48.460 --> 00:04:51.960
+And then the response is the results,
+whatever text appears on the screen,
+
+82
+00:04:51.960 --> 00:04:55.669
+that is sent back to the client and
+appears on the client's screen.
+
+83
+00:04:57.610 --> 00:05:01.140
+Now a basic secure shell,
+which is what we'll be dealing with,
+
+84
+00:05:01.140 --> 00:05:04.310
+involves only a terminal interface,
+basically a text base interface.
+
+85
+00:05:04.310 --> 00:05:08.680
+So it will look just like LX
+terminal on the Raspberry Pi.
+
+86
+00:05:08.680 --> 00:05:09.380
+You get text.
+
+87
+00:05:09.380 --> 00:05:11.730
+No graphics, no GUI.
+
+88
+00:05:11.730 --> 00:05:15.590
+All right, now you can get secure
+shell clients that do run GUI,
+
+89
+00:05:15.590 --> 00:05:19.410
+well not Secure Shell, but
+you can get something equivalent.
+
+90
+00:05:19.410 --> 00:05:22.570
+Okay, we're not actually going to cover
+that, we'll just do a text base right now,
+
+91
+00:05:22.570 --> 00:05:23.580
+because it's simpler.
+
+92
+00:05:23.580 --> 00:05:28.400
+But you can do a GUI too
+Commonly I don't prefer GUI.
+
+93
+00:05:29.470 --> 00:05:32.170
+Two reasons, one thing I remember
+all the text based commands.
+
+94
+00:05:32.170 --> 00:05:37.140
+So, I don't need the GUI, but second
+that it slows things down because if you
+
+95
+00:05:37.140 --> 00:05:42.190
+send graphics, that takes a lot
+of network bandwidth, right?
+
+96
+00:05:42.190 --> 00:05:44.300
+Relative to text,
+I mean if you just send LS,
+
+97
+00:05:44.300 --> 00:05:46.990
+all you're sending is LS plus
+a little bit of packaging.
+
+98
+00:05:46.990 --> 00:05:51.370
+If you have to send a image or something
+like that that of course is going to take
+
+99
+00:05:51.370 --> 00:05:53.180
+a lot more networking bandwidth.
+
+100
+00:05:53.180 --> 00:05:57.100
+So I generally tend to use just
+a text based Secure Shell anyway, and
+
+101
+00:05:57.100 --> 00:05:57.950
+that's what we'll be using here.
+
+102
+00:05:59.860 --> 00:06:01.140
+Okay, so requirements.
+
+103
+00:06:01.140 --> 00:06:04.290
+In order to run Secure Shell,
+both machines have to be on the internet.
+
+104
+00:06:04.290 --> 00:06:06.500
+They both have to be connected
+to the internet somehow,
+
+105
+00:06:06.500 --> 00:06:07.720
+both have addresses on the internet.
+
+106
+00:06:09.020 --> 00:06:13.670
+You must have a secure shell client
+program running on the client machine.
+
+107
+00:06:13.670 --> 00:06:15.760
+So if my client machine is a laptop,
+
+108
+00:06:15.760 --> 00:06:17.810
+then I've gotta have a Secure Shell
+client running on the laptop.
+
+109
+00:06:19.260 --> 00:06:22.390
+Now Secure Shell clients, if you download,
+
+110
+00:06:22.390 --> 00:06:27.550
+if you install the Linux application, or
+Linux operating system on your machine,
+
+111
+00:06:27.550 --> 00:06:31.470
+or Mac OS X,
+which is essentially a nice looking Linux.
+
+112
+00:06:31.470 --> 00:06:36.670
+Either one of those two will have secure
+shell clients built in, right, by default.
+
+113
+00:06:36.670 --> 00:06:40.520
+But if you're running instead, if you're
+running like on a Windows machine,
+
+114
+00:06:40.520 --> 00:06:43.040
+then you will have to download
+a Secure Shell client of some kind.
+
+115
+00:06:43.040 --> 00:06:45.820
+Usually I use putty, P-U-T-T-Y.
+
+116
+00:06:45.820 --> 00:06:47.450
+Okay, next up.
+
+117
+00:06:47.450 --> 00:06:48.330
+Next requirement,
+
+118
+00:06:48.330 --> 00:06:51.650
+the machine being controlled has to
+be running a Secure Shell server.
+
+119
+00:06:51.650 --> 00:06:54.810
+So not only does it have to
+a Secure Shell server program installed,
+
+120
+00:06:54.810 --> 00:06:56.980
+that has to be executed, okay?
+
+121
+00:06:56.980 --> 00:06:59.920
+It has to be executing when
+you want to do the connection.
+
+122
+00:06:59.920 --> 00:07:03.790
+So this is actually default on the
+Raspberry Pi, on Raspbian, specifically.
+
+123
+00:07:03.790 --> 00:07:07.465
+When you start Raspbian,
+it has a secure shell server.
+
+124
+00:07:07.465 --> 00:07:12.050
+Daemon is what they're called in
+Unix that's running by default.
+
+125
+00:07:12.050 --> 00:07:15.960
+So as soon as you boot your Raspberry Pi,
+in the background one of your background
+
+126
+00:07:15.960 --> 00:07:19.300
+processes is a Secure Shell server that's
+just sitting there running waiting for
+
+127
+00:07:19.300 --> 00:07:21.990
+connections okay?
+
+128
+00:07:21.990 --> 00:07:24.420
+So Raspberry that's default,
+other Linux's so
+
+129
+00:07:24.420 --> 00:07:29.070
+let's say you downloaded
+on my Linux box at work.
+
+130
+00:07:29.070 --> 00:07:32.670
+When I download the next side of that,
+it has Secure Shell server program but
+
+131
+00:07:32.670 --> 00:07:34.140
+it's not running by default.
+
+132
+00:07:34.140 --> 00:07:35.870
+So I have to go and set it up.
+
+133
+00:07:35.870 --> 00:07:39.240
+I have to go and change the boot script so
+that it starts it running at boot time.
+
+134
+00:07:39.240 --> 00:07:42.200
+Actually now I have set that up recently.
+
+135
+00:07:42.200 --> 00:07:46.230
+So yeah, my machine at work, it has
+that set up, but by default it wouldn't.
+
+136
+00:07:46.230 --> 00:07:47.159
+But Raspberry Pi does.
+
+137
+00:07:48.440 --> 00:07:51.440
+Also if you have Secure Shell if you're
+trying to do it on a Windows machine,
+
+138
+00:07:51.440 --> 00:07:55.020
+to run a server you have to download and
+install Secure Shell Server first for
+
+139
+00:07:55.020 --> 00:07:57.000
+your Windows machine.
+
+140
+00:07:57.000 --> 00:07:59.470
+And then set it up that
+it runs at boot time,
+
+141
+00:07:59.470 --> 00:08:02.420
+runs as soon as you start a machine if
+you're doing it on a Windows machine.
+
+142
+00:08:04.330 --> 00:08:07.240
+Okay another thing is that
+on the server machine,
+
+143
+00:08:07.240 --> 00:08:10.850
+the machine that you're connecting to
+you have to have an account, okay?
+
+144
+00:08:10.850 --> 00:08:13.370
+So you can't just blindly
+connect to a server.
+
+145
+00:08:13.370 --> 00:08:16.180
+The server's going to ask you for
+a username and a password.
+
+146
+00:08:16.180 --> 00:08:19.150
+So you have to have a valid
+account credentials, valid
+
+147
+00:08:19.150 --> 00:08:23.950
+username password on the server machine or
+else this whole mechanism won't work.
+
+148
+00:08:23.950 --> 00:08:27.290
+Because the whole point of Secure Shell
+is to verify the credentials, right?
+
+149
+00:08:27.290 --> 00:08:30.410
+To check that you really are entitled
+to connect to this machine and
+
+150
+00:08:30.410 --> 00:08:32.000
+send this data, receive this data.
+
+151
+00:08:34.580 --> 00:08:35.560
+Oh, yes.
+
+152
+00:08:37.030 --> 00:08:38.710
+And one other thing.
+
+153
+00:08:38.710 --> 00:08:42.280
+Any firewall needs to
+allow Secure Shell access.
+
+154
+00:08:42.280 --> 00:08:47.350
+If there is a firewall then it has
+to be opened to up allow to allow
+
+155
+00:08:47.350 --> 00:08:50.710
+Secure Shell access, which by default,
+
+156
+00:08:50.710 --> 00:08:55.080
+that firewall port is shutdown and I have
+to ask the administrator to turn that on.
+
+157
+00:08:55.080 --> 00:08:56.248
+But it's a public network,
+it shouldn't be a problem.
+
+158
+00:08:56.248 --> 00:09:01.513
+Thank you.
+
+159
+00:09:01.513 --> 00:09:06.479
+[MUSIC]

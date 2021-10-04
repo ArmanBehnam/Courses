@@ -1,0 +1,732 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.213
+[MUSIC]
+
+2
+00:00:10.213 --> 00:00:17.310
+So today, we will use Python on
+your raspberry pi to make a server.
+
+3
+00:00:17.310 --> 00:00:20.480
+So, we'll make a socket
+program that'll be a server.
+
+4
+00:00:20.480 --> 00:00:21.970
+It'll listen for incoming messages.
+
+5
+00:00:21.970 --> 00:00:25.430
+Now, it'll be a very simple server, it'll
+just print out those incoming message.
+
+6
+00:00:25.430 --> 00:00:30.550
+But we're just going to do that at
+the command, interactively we'll do it.
+
+7
+00:00:31.820 --> 00:00:35.250
+So, first thing we need to do,
+actually if you saw the video before
+
+8
+00:00:35.250 --> 00:00:36.870
+on the client side,
+we're going to do the same thing.
+
+9
+00:00:36.870 --> 00:00:41.030
+We're going to start out by connecting
+remotely to my raspberry pi.
+
+10
+00:00:41.030 --> 00:00:43.570
+So, I'm on a Windows machine right now,
+
+11
+00:00:43.570 --> 00:00:48.290
+I have PuTTY installed which
+is my client for Secure Shell.
+
+12
+00:00:48.290 --> 00:00:50.310
+So, I'll start Secure Shell.
+
+13
+00:00:50.310 --> 00:00:52.090
+Now, I'm going to put in for
+the host name right here,
+
+14
+00:00:52.090 --> 00:00:54.610
+I'm going to put in the IP address.
+
+15
+00:00:54.610 --> 00:00:58.190
+But before I do that, I want to change
+the appearance just for looks sake and
+
+16
+00:00:58.190 --> 00:00:59.750
+increase the font size.
+
+17
+00:00:59.750 --> 00:01:04.200
+So, I'll change the font size to 20 and
+make it nice and big.
+
+18
+00:01:04.200 --> 00:01:06.780
+Okay, so when I make the window,
+it will be nice and big.
+
+19
+00:01:06.780 --> 00:01:11.690
+So now, let's see,
+let's go to the secure shell, all right.
+
+20
+00:01:11.690 --> 00:01:15.365
+So, yeah, here it is.
+
+21
+00:01:15.365 --> 00:01:18.245
+Hostname, okay, so
+let's put in the IP address For
+
+22
+00:01:18.245 --> 00:01:21.004
+my raspberry pi,
+which I have found out already.
+
+23
+00:01:24.921 --> 00:01:27.546
+Yeah, there we go.
+
+24
+00:01:27.546 --> 00:01:28.171
+Bam.
+
+25
+00:01:28.171 --> 00:01:32.240
+Login at pi, and put in my password.
+
+26
+00:01:34.520 --> 00:01:36.100
+If I typed that right, yes, perfect.
+
+27
+00:01:36.100 --> 00:01:39.610
+Okay, so I've got one window,
+let's shrink it up a little bit.
+
+28
+00:01:39.610 --> 00:01:41.810
+But the font is nice and big.
+
+29
+00:01:41.810 --> 00:01:44.840
+Okay, now, let's get another window
+because we want to have a sending and
+
+30
+00:01:44.840 --> 00:01:45.710
+a receiving window.
+
+31
+00:01:46.880 --> 00:01:49.120
+So, let's open another one.
+
+32
+00:01:49.120 --> 00:01:49.660
+Same IP.
+
+33
+00:01:49.660 --> 00:01:53.010
+Oh, actually,
+let's again change the appearance.
+
+34
+00:01:54.510 --> 00:01:56.270
+Change the font size to 20.
+
+35
+00:01:56.270 --> 00:02:00.620
+I wish I could make that permanent but
+I don't know how.
+
+36
+00:02:02.670 --> 00:02:03.587
+Type in the same address.
+
+37
+00:02:09.921 --> 00:02:11.712
+Okay, there we go.
+
+38
+00:02:17.421 --> 00:02:19.690
+All right, and
+we'll shrink this window up, too.
+
+39
+00:02:21.340 --> 00:02:22.625
+There we go.
+
+40
+00:02:22.625 --> 00:02:26.160
+Okay, so we're going to have
+a server that's just listening,
+
+41
+00:02:26.160 --> 00:02:26.880
+waiting for connections.
+
+42
+00:02:26.880 --> 00:02:28.390
+We'll write that in Python.
+
+43
+00:02:28.390 --> 00:02:31.160
+And then, we'll make a client,
+we'll use Netcat.
+
+44
+00:02:31.160 --> 00:02:33.770
+The Netcat program to make
+the client to send to message, and
+
+45
+00:02:33.770 --> 00:02:36.210
+see if the server receives it.
+
+46
+00:02:36.210 --> 00:02:41.130
+So, let's take the top window,
+and make the server in there.
+
+47
+00:02:41.130 --> 00:02:43.220
+So, start Python.
+
+48
+00:02:45.110 --> 00:02:45.990
+I found the rate.
+
+49
+00:02:45.990 --> 00:02:46.940
+Bam.
+
+50
+00:02:46.940 --> 00:02:52.088
+All right,
+start by importing socket library.
+
+51
+00:02:52.088 --> 00:02:53.700
+Okay, now.
+
+52
+00:02:53.700 --> 00:02:58.650
+First thing I'm going to want
+to do is create a socket, so
+
+53
+00:02:58.650 --> 00:03:01.461
+I'll say ms=socket.socket
+
+54
+00:03:04.046 --> 00:03:09.629
+First document is family,
+so address family internet.
+
+55
+00:03:09.629 --> 00:03:17.087
+And next argument tells us that,
+it's a TCP connection that we want.
+
+56
+00:03:18.921 --> 00:03:20.630
+There we go.
+
+57
+00:03:20.630 --> 00:03:23.760
+That should work, okay, so
+now I have a socket called MS.
+
+58
+00:03:25.420 --> 00:03:28.300
+Now we need to,
+we're going to need to bind the socket.
+
+59
+00:03:28.300 --> 00:03:31.570
+Now, bind actually takes one argument,
+it's changed in the new version.
+
+60
+00:03:31.570 --> 00:03:34.929
+It takes one argument which is an address.
+
+61
+00:03:36.090 --> 00:03:39.480
+An address meaning an IP address and
+a port.
+
+62
+00:03:39.480 --> 00:03:42.380
+Now, remember that since we're acting as
+a server, we don't know the IP address, so
+
+63
+00:03:42.380 --> 00:03:44.550
+we want to pass that as a none, a blank,
+
+64
+00:03:44.550 --> 00:03:47.750
+for the IP address but
+we want it to be listening on Port 1234.
+
+65
+00:03:47.750 --> 00:03:50.070
+So, we need to make one of
+these address tuples, and for
+
+66
+00:03:50.070 --> 00:03:52.300
+that we use get_address_info.
+
+67
+00:03:52.300 --> 00:03:56.025
+So, will make address info,
+
+68
+00:03:56.025 --> 00:04:00.942
+make an object called address info that
+
+69
+00:04:00.942 --> 00:04:05.421
+equals socket.getaddressinfo.
+
+70
+00:04:05.421 --> 00:04:08.840
+So, it takes two arguments,
+the IP address and the port.
+
+71
+00:04:08.840 --> 00:04:11.300
+Now, for the IP address,
+we're going to pass none,
+
+72
+00:04:11.300 --> 00:04:15.660
+because we're listening for any IP
+address that's connecting on this port.
+
+73
+00:04:15.660 --> 00:04:17.750
+And for
+the port we're going to pass 1-2-3,
+
+74
+00:04:17.750 --> 00:04:21.200
+1-2-3-4 rather,
+arbitrary unused port, bam.
+
+75
+00:04:21.200 --> 00:04:26.770
+Okay, so if we print out address info,
+just to see what it looks like, it's
+
+76
+00:04:26.770 --> 00:04:33.275
+a set of tuples, notice that these tuples,
+they all have, there are five tuples.
+
+77
+00:04:33.275 --> 00:04:38.755
+Look at the first one, 2, 1, 6, empty, and
+then the fifth element in there is a pair.
+
+78
+00:04:38.755 --> 00:04:40.445
+The pair that we want.
+
+79
+00:04:40.445 --> 00:04:45.650
+The IP address, that's just a loop back,
+and 1234 is the port number.
+
+80
+00:04:45.650 --> 00:04:46.870
+So, that's what we want to use,
+
+81
+00:04:46.870 --> 00:04:52.470
+what we want to listen to,
+what we want to bind to in this case.
+
+82
+00:04:52.470 --> 00:04:58.879
+So, just to verify that, print A info 04.
+
+83
+00:04:58.879 --> 00:05:03.141
+And the reason why I'm saying 04 is
+because 0 means the first five tuple, and
+
+84
+00:05:03.141 --> 00:05:05.890
+then 4 means the fifth
+element in that five tuple.
+
+85
+00:05:05.890 --> 00:05:07.290
+Remember, we always count from zero.
+
+86
+00:05:07.290 --> 00:05:10.330
+The fifth element in that five tuple,
+it should be the address, the IP and
+
+87
+00:05:10.330 --> 00:05:11.630
+the port number.
+
+88
+00:05:11.630 --> 00:05:13.470
+So, bam ,there it is, okay.
+
+89
+00:05:13.470 --> 00:05:18.177
+So, now we can bind, so we say ms.bind,
+
+90
+00:05:18.177 --> 00:05:22.087
+and we'll pass to it the address.
+
+91
+00:05:27.671 --> 00:05:29.940
+Okay, so now, it's bound.
+
+92
+00:05:29.940 --> 00:05:31.360
+Now, we can listen.
+
+93
+00:05:31.360 --> 00:05:37.790
+So, ms.listen and
+we'll pass it five for now.
+
+94
+00:05:37.790 --> 00:05:40.700
+It doesn't matter because we're
+the only ones actually trying it.
+
+95
+00:05:40.700 --> 00:05:43.540
+But we're only going to have
+one client talking to it.
+
+96
+00:05:43.540 --> 00:05:44.810
+Okay, so now, it's listening.
+
+97
+00:05:44.810 --> 00:05:48.390
+So now, we've got to set it to
+accept an incoming message.
+
+98
+00:05:48.390 --> 00:05:54.997
+So, we'll say con ABR=ms.accept,
+
+99
+00:05:54.997 --> 00:06:02.610
+now what will happen is when I hit enter,
+this will block, there, it's blocking.
+
+100
+00:06:02.610 --> 00:06:03.980
+It's waiting to accept a message.
+
+101
+00:06:03.980 --> 00:06:07.250
+But it needs for a message to show
+up before it can accept anything.
+
+102
+00:06:07.250 --> 00:06:10.860
+So, it's blocking, waiting until somebody
+sends in a message on that port 1234,
+
+103
+00:06:10.860 --> 00:06:13.690
+sends us some data,
+then it will accept that.
+
+104
+00:06:13.690 --> 00:06:16.680
+And it'll return the data,
+the address that it came from and
+
+105
+00:06:16.680 --> 00:06:20.734
+it'll turn in the AADR variable and
+the data will be in this con variable.
+
+106
+00:06:20.734 --> 00:06:23.380
+We can, we'll look at it in
+a second when we send it.
+
+107
+00:06:24.530 --> 00:06:28.510
+>> Okay, so now,
+let's go to the bottom window, okay?
+
+108
+00:06:28.510 --> 00:06:33.480
+Now, the bottom window is what we're going
+to use for our client to send some data.
+
+109
+00:06:33.480 --> 00:06:37.640
+And we won't use Python for this,
+we'll just use Netcat, so nc.
+
+110
+00:06:39.240 --> 00:06:40.840
+It's a very simple tool.
+
+111
+00:06:40.840 --> 00:06:44.780
+What we can do is since we're just
+sending data you just give the IP address
+
+112
+00:06:45.820 --> 00:06:46.630
+and the port.
+
+113
+00:06:46.630 --> 00:06:49.510
+So, the IP address we're going to
+use a loop back address because
+
+114
+00:06:49.510 --> 00:06:52.400
+we're just sending from
+the raspberry pi to itself.
+
+115
+00:06:52.400 --> 00:06:59.605
+So, the loop back address
+is this 127.00.1 and
+
+116
+00:06:59.605 --> 00:07:03.140
+the port number 1234.
+
+117
+00:07:03.140 --> 00:07:05.933
+So, NetCat is sending,
+
+118
+00:07:05.933 --> 00:07:11.254
+it's connected on that port number 1234.
+
+119
+00:07:11.254 --> 00:07:16.520
+Now, notice in the top window,
+that MS except has just returned, right?
+
+120
+00:07:16.520 --> 00:07:19.900
+It completed, and now we have
+a Python prompt in the top again.
+
+121
+00:07:19.900 --> 00:07:23.250
+The reason for that is because
+it had accepted the connection.
+
+122
+00:07:23.250 --> 00:07:27.950
+So, the NC tried to make a connection,
+and up here, it accepted the connection.
+
+123
+00:07:27.950 --> 00:07:30.340
+Now, no data has been sent
+on that connection yet, but
+
+124
+00:07:30.340 --> 00:07:31.470
+we're going to do that right now.
+
+125
+00:07:31.470 --> 00:07:34.180
+So, let's go to the bottom window and
+send a little data.
+
+126
+00:07:34.180 --> 00:07:35.460
+Let's say, hello world.
+
+127
+00:07:35.460 --> 00:07:37.840
+Okay, hit Enter.
+
+128
+00:07:38.930 --> 00:07:41.450
+Now, that data should have been sent.
+
+129
+00:07:41.450 --> 00:07:47.360
+So now, let's go to the top window, and
+let's receive that data from the buffer.
+
+130
+00:07:47.360 --> 00:07:53.420
+So, the way we do that is we say,
+data equals conn.receive.
+
+131
+00:07:53.420 --> 00:07:54.920
+And we give it a size.
+
+132
+00:07:54.920 --> 00:07:55.690
+Let's say 1000.
+
+133
+00:07:55.690 --> 00:07:56.700
+That's more than enough.
+
+134
+00:07:56.700 --> 00:07:58.530
+1000 is the maximum amount
+that it will take in.
+
+135
+00:07:58.530 --> 00:08:01.860
+But that's more than what was sent,
+so we'll do that.
+
+136
+00:08:01.860 --> 00:08:02.620
+So now, we've got data.
+
+137
+00:08:03.720 --> 00:08:05.490
+So now, we want to look at data.
+
+138
+00:08:05.490 --> 00:08:08.212
+So, let's say, print data.
+
+139
+00:08:11.713 --> 00:08:13.320
+And there it is.
+
+140
+00:08:13.320 --> 00:08:15.920
+Now, see where the string is hello world.
+
+141
+00:08:15.920 --> 00:08:18.100
+Now, notice,
+how it represents it on the screen.
+
+142
+00:08:18.100 --> 00:08:21.400
+First it has a B in front of it,
+B and then quotes, hello world.
+
+143
+00:08:21.400 --> 00:08:23.900
+The B represents byte array, right?
+
+144
+00:08:23.900 --> 00:08:25.790
+It's not a string, it's a byte array.
+
+145
+00:08:25.790 --> 00:08:26.510
+But that's okay.
+
+146
+00:08:26.510 --> 00:08:31.690
+So B, hello world, and then notice at
+the end of the hello world, it has a /n.
+
+147
+00:08:31.690 --> 00:08:34.810
+That /n is a carriage return, simple.
+
+148
+00:08:34.810 --> 00:08:40.268
+Because remember when I typed hello world
+into Netcat, I hit Enter afterwards.
+
+149
+00:08:40.268 --> 00:08:44.070
+So, the /n comes across as a character,
+so it successfully reviewed the data, and
+
+150
+00:08:44.070 --> 00:08:47.020
+I can send more data if I want,
+but what I'll do
+
+151
+00:08:47.020 --> 00:08:50.650
+now is now that I've successfully done
+this, I'll just break the connection.
+
+152
+00:08:51.730 --> 00:08:56.000
+So, actually I'll do it in the top
+window I'll say look I'm done, so
+
+153
+00:08:56.000 --> 00:08:59.980
+I want to close my connection, so I'll say
+conn, conn's my connection so I close it.
+
+154
+00:09:01.670 --> 00:09:02.580
+Bam.
+
+155
+00:09:02.580 --> 00:09:03.860
+And you notice that the bottom is,
+
+156
+00:09:03.860 --> 00:09:06.080
+has quit too because
+the connection's now closed.
+
+157
+00:09:06.080 --> 00:09:09.135
+And I should close the socket,
+so ms.close.
+
+158
+00:09:11.350 --> 00:09:12.530
+It's all cleaned up.
+
+159
+00:09:12.530 --> 00:09:13.470
+So, that's everything.
+
+160
+00:09:13.470 --> 00:09:14.379
+Thanks a lot.
+
+161
+00:09:14.379 --> 00:09:23.339
+[MUSIC]

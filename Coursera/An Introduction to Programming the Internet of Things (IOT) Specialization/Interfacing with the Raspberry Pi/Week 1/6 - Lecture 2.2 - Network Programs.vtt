@@ -1,0 +1,809 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.837 --> 00:00:14.705
+We're going to talk now
+a little bit about the network,
+
+3
+00:00:14.705 --> 00:00:18.260
+about the Internet and
+how to interact with it through a code.
+
+4
+00:00:18.260 --> 00:00:20.700
+So eventually that's we want to do.
+
+5
+00:00:20.700 --> 00:00:21.730
+In our Internet of things,
+
+6
+00:00:21.730 --> 00:00:25.630
+our IRT devices, we want to be able to
+write codes that talk on the network.
+
+7
+00:00:25.630 --> 00:00:29.311
+So we'll talk a little bit about that,
+and start introducing the Internet and
+
+8
+00:00:29.311 --> 00:00:30.837
+its protocols and how it works.
+
+9
+00:00:32.546 --> 00:00:37.065
+So a programmatic networking, so by this
+I mean using the network through code,
+
+10
+00:00:37.065 --> 00:00:39.080
+through a program.
+
+11
+00:00:39.080 --> 00:00:41.300
+Now accessing a network
+on a Raspberry Pi or
+
+12
+00:00:41.300 --> 00:00:46.020
+really any device as a user
+is pretty straight forward.
+
+13
+00:00:46.020 --> 00:00:46.870
+We've seen this.
+
+14
+00:00:46.870 --> 00:00:50.390
+You just go to your machine, you connect
+to the network, open a browser for
+
+15
+00:00:50.390 --> 00:00:52.400
+instance, open a email application.
+
+16
+00:00:52.400 --> 00:00:55.200
+You open some appropriate network
+application and you work with it and
+
+17
+00:00:55.200 --> 00:00:58.480
+you run it and great,
+a user can interact on the network.
+
+18
+00:00:58.480 --> 00:01:02.060
+But we want, when we're making
+these IOT devices, we want.
+
+19
+00:01:02.060 --> 00:01:04.560
+Not so much manual direct,
+manual interaction.
+
+20
+00:01:04.560 --> 00:01:08.120
+We want some program that's
+running on our IoT device
+
+21
+00:01:08.120 --> 00:01:10.870
+to be able to actually
+interact on the network.
+
+22
+00:01:10.870 --> 00:01:14.510
+So we want that program, it should
+be able to talk to other servers,
+
+23
+00:01:14.510 --> 00:01:15.800
+other machines on the network, and
+
+24
+00:01:15.800 --> 00:01:19.293
+get data from those machines,
+request services from those machines.
+
+25
+00:01:19.293 --> 00:01:25.520
+So the isn't the only device
+that's doing the work.
+
+26
+00:01:25.520 --> 00:01:28.850
+So it can offload work to a foreign
+machine, or remote machine, and
+
+27
+00:01:28.850 --> 00:01:29.520
+get results back.
+
+28
+00:01:29.520 --> 00:01:34.800
+And so from the user's point of view, the
+whole system is much more complicated and
+
+29
+00:01:34.800 --> 00:01:36.070
+interesting.
+
+30
+00:01:36.070 --> 00:01:40.840
+So you can have interaction between
+the network and some network servers and
+
+31
+00:01:40.840 --> 00:01:43.230
+the world, with the Raspberry Pi
+basically in between.
+
+32
+00:01:43.230 --> 00:01:43.880
+Or the Raspberry Pi, or
+
+33
+00:01:43.880 --> 00:01:48.930
+whatever your IOT device is, it's in
+between, getting data from the world.
+
+34
+00:01:48.930 --> 00:01:52.250
+Interpreting that, sending it to
+the network, getting some service,
+
+35
+00:01:52.250 --> 00:01:55.560
+getting results back to the Raspberry Pi,
+whatever your device is, and
+
+36
+00:01:55.560 --> 00:01:57.950
+then sending actuations out to the world.
+
+37
+00:01:57.950 --> 00:01:59.880
+Put us up on the screen,
+making something happen.
+
+38
+00:02:00.960 --> 00:02:04.550
+So that's what we want, that's what
+Internet things is really supposed to do.
+
+39
+00:02:04.550 --> 00:02:06.920
+It's supposed to take this
+natural environment and
+
+40
+00:02:06.920 --> 00:02:09.480
+interface it with the network some how.
+
+41
+00:02:09.480 --> 00:02:13.410
+So for instance, you have a little
+cloud over there that's the Internet.
+
+42
+00:02:13.410 --> 00:02:16.500
+Has the Internet, and some servers on
+the Internet that you might be interacting
+
+43
+00:02:16.500 --> 00:02:19.930
+with, maybe providing some
+kind of service that you want.
+
+44
+00:02:19.930 --> 00:02:24.370
+And then there's a Raspberry Pi,
+which is remote somewhere local,
+
+45
+00:02:24.370 --> 00:02:26.110
+remote from the servers.
+
+46
+00:02:26.110 --> 00:02:30.400
+And it has sensors and actuators, because
+I was implementing this embedded device.
+
+47
+00:02:30.400 --> 00:02:31.700
+It's IOT device.
+
+48
+00:02:31.700 --> 00:02:34.300
+It has actuators that do things
+out in the real world and
+
+49
+00:02:34.300 --> 00:02:36.560
+sensors that read data
+from the real world.
+
+50
+00:02:36.560 --> 00:02:39.860
+So, sensors meaning buttons and things
+like this, light sensors, sound sensors,
+
+51
+00:02:39.860 --> 00:02:41.800
+microphones, whatever you want.
+
+52
+00:02:41.800 --> 00:02:46.170
+And then has actuators, speakers,
+screen, that type of thing.
+
+53
+00:02:46.170 --> 00:02:50.530
+And so the Raspberry Pi is directly
+interfacing with the real world through
+
+54
+00:02:50.530 --> 00:02:51.940
+these sensors and actuators.
+
+55
+00:02:51.940 --> 00:02:55.440
+And it's trading data with some
+servers based in the internet,
+
+56
+00:02:55.440 --> 00:02:57.930
+some servers connected by the internet.
+
+57
+00:02:57.930 --> 00:03:02.290
+So you get this, the whole system that the
+person is interacting with is much bigger.
+
+58
+00:03:02.290 --> 00:03:03.910
+It's not just the Raspberry Pi.
+
+59
+00:03:03.910 --> 00:03:09.505
+Is this whole network infrastructure that
+include some service on the network.
+
+60
+00:03:10.878 --> 00:03:14.100
+So, first we talk a little
+bit about the Internet.
+
+61
+00:03:14.100 --> 00:03:16.750
+We need to explain what the Internet
+looks like in order to have you
+
+62
+00:03:16.750 --> 00:03:18.660
+writing code that actually
+accesses the internet.
+
+63
+00:03:19.730 --> 00:03:20.930
+So, the internet.
+
+64
+00:03:20.930 --> 00:03:23.840
+The structure of the internet
+is relatively ad hoc.
+
+65
+00:03:23.840 --> 00:03:27.470
+Not completely but remember that's
+it's not completely controlled.
+
+66
+00:03:27.470 --> 00:03:32.420
+At any time, I can open up a laptop and
+have it connect onto the network and
+
+67
+00:03:32.420 --> 00:03:34.330
+now it is a node on the internet.
+
+68
+00:03:34.330 --> 00:03:37.750
+And then I can close that laptop and
+it is no longer node on the internet, or
+
+69
+00:03:37.750 --> 00:03:40.950
+I can say, look I'm going to buy
+a router and turn on my router and
+
+70
+00:03:40.950 --> 00:03:44.040
+connect ten machines to
+the Internet through my router.
+
+71
+00:03:44.040 --> 00:03:47.100
+So the structure of the Internet
+is not a fixed thing,
+
+72
+00:03:47.100 --> 00:03:48.310
+it's not centrally controlled.
+
+73
+00:03:48.310 --> 00:03:51.840
+It's controlled locally by
+all sorts of random people.
+
+74
+00:03:51.840 --> 00:03:53.500
+Anybody who wants to start a connection,
+
+75
+00:03:53.500 --> 00:03:56.740
+has a little money,
+can spring up their own little subnetwork.
+
+76
+00:03:58.020 --> 00:04:00.640
+So you've got this set of
+local area networks, LANs,
+
+77
+00:04:00.640 --> 00:04:02.450
+we're calling them, L-A-Ns,
+local area networks.
+
+78
+00:04:03.510 --> 00:04:05.610
+And those things are out of control.
+
+79
+00:04:05.610 --> 00:04:08.710
+You don't know what those things
+look like, what protocols they use.
+
+80
+00:04:08.710 --> 00:04:10.500
+That's up to whatever the locality is.
+
+81
+00:04:10.500 --> 00:04:11.870
+I mean there are certain standards,
+
+82
+00:04:11.870 --> 00:04:14.240
+but people don't have to adhere
+to those standards necessarily.
+
+83
+00:04:14.240 --> 00:04:17.280
+So everybody has their own local area
+networks, and these are all somehow
+
+84
+00:04:17.280 --> 00:04:21.470
+tied together into one massive internet,
+and they all have to talk together.
+
+85
+00:04:21.470 --> 00:04:24.420
+So these local area networks
+are connected by, well,
+
+86
+00:04:24.420 --> 00:04:26.910
+I'm drawing a sort of hierarchy
+of routers in this picture.
+
+87
+00:04:26.910 --> 00:04:30.190
+Doesn't have to be routers, it can be
+switches and bridges and things like this.
+
+88
+00:04:30.190 --> 00:04:35.340
+But networking infrastructure,
+a hierarchy of this, a massive hierarchy,
+
+89
+00:04:35.340 --> 00:04:38.660
+that all communicate together
+to form the internet.
+
+90
+00:04:39.890 --> 00:04:42.560
+Now this is a vast simplification.
+
+91
+00:04:42.560 --> 00:04:44.250
+But the general idea is at the bottom,
+
+92
+00:04:44.250 --> 00:04:47.280
+the local area network level,
+that's out of control.
+
+93
+00:04:47.280 --> 00:04:51.270
+At the top level there's gotta
+be some structure imposed so
+
+94
+00:04:51.270 --> 00:04:52.610
+that everybody can talk together.
+
+95
+00:04:54.180 --> 00:04:58.670
+So, the structure in post, the way
+everybody, all these random local area
+
+96
+00:04:58.670 --> 00:05:02.600
+networks talk together is through
+the use of these internet protocols.
+
+97
+00:05:02.600 --> 00:05:05.790
+So, you need to send data from one
+local area network to another,
+
+98
+00:05:05.790 --> 00:05:07.830
+and you don't have control over
+the individual networks, but
+
+99
+00:05:07.830 --> 00:05:09.890
+they still need to communicate somehow.
+
+100
+00:05:09.890 --> 00:05:10.800
+So how do you do this?
+
+101
+00:05:10.800 --> 00:05:13.890
+Generally you use a protocol,
+internet protocols.
+
+102
+00:05:13.890 --> 00:05:19.590
+Now, a protocol is basically a set of
+rules that define a lot of things.
+
+103
+00:05:19.590 --> 00:05:20.720
+They define the communication.
+
+104
+00:05:20.720 --> 00:05:24.770
+So, they define how data should be
+transferred between two different nodes.
+
+105
+00:05:24.770 --> 00:05:26.960
+They define what data is
+contained in each packet.
+
+106
+00:05:26.960 --> 00:05:29.620
+They define what's in the header,
+they define a lot.
+
+107
+00:05:29.620 --> 00:05:33.150
+But the protocol defines
+how you should communicate.
+
+108
+00:05:34.500 --> 00:05:36.090
+Just to give you a little example,
+
+109
+00:05:36.090 --> 00:05:38.610
+you ever see movies where
+people talk on a CB radio?
+
+110
+00:05:38.610 --> 00:05:42.970
+And they say either talk, and every
+time their done talking they say over.
+
+111
+00:05:42.970 --> 00:05:45.860
+And then the next person's allowed
+to talk, and then they talk and
+
+112
+00:05:45.860 --> 00:05:47.040
+they say over.
+
+113
+00:05:47.040 --> 00:05:50.270
+That's protocol, and protocol is you
+say whatever you want to say and
+
+114
+00:05:50.270 --> 00:05:53.030
+then you say over to let
+the other person know you are done
+
+115
+00:05:53.030 --> 00:05:55.020
+with whatever you're saying,
+and they can talk.
+
+116
+00:05:55.020 --> 00:05:58.680
+And the reason why you have that protocol
+is to share the communication lines,
+
+117
+00:05:58.680 --> 00:06:03.650
+because basically with a radio like
+that you have one set of lines,
+
+118
+00:06:03.650 --> 00:06:05.210
+one communication channel.
+
+119
+00:06:05.210 --> 00:06:07.270
+So, only one person can
+be talking at a time.
+
+120
+00:06:07.270 --> 00:06:10.450
+So, you need some signal to let
+the other person know, okay I am done,
+
+121
+00:06:10.450 --> 00:06:13.820
+I am relinquishing control of this bus so
+that you can talk now.
+
+122
+00:06:13.820 --> 00:06:15.480
+So, that's why you say, over.
+
+123
+00:06:15.480 --> 00:06:18.010
+And then when you're done with all your
+communication you say over and out,
+
+124
+00:06:18.010 --> 00:06:20.380
+meaning you want to end
+communication completely.
+
+125
+00:06:20.380 --> 00:06:21.970
+And that's called a protocol.
+
+126
+00:06:21.970 --> 00:06:24.730
+It defines basically how you're
+supposed to communicate.
+
+127
+00:06:24.730 --> 00:06:25.770
+It gives you some rules.
+
+128
+00:06:25.770 --> 00:06:27.100
+Now it doesn't define everything.
+
+129
+00:06:27.100 --> 00:06:28.740
+It doesn't define what you can say.
+
+130
+00:06:28.740 --> 00:06:31.920
+You can put any data inside the payload.
+
+131
+00:06:31.920 --> 00:06:32.680
+The words you say,
+
+132
+00:06:32.680 --> 00:06:36.340
+you can say whatever you want as
+long as at the end you say over.
+
+133
+00:06:36.340 --> 00:06:38.950
+Or at the end of the whole
+communication you say over and out.
+
+134
+00:06:38.950 --> 00:06:40.150
+So that's a protocol.
+
+135
+00:06:40.150 --> 00:06:43.190
+And the network's the same thing.
+
+136
+00:06:43.190 --> 00:06:47.810
+Usually the exterior information isn't
+at the beginning, isn't at the end,
+
+137
+00:06:47.810 --> 00:06:48.890
+but the beginning.
+
+138
+00:06:48.890 --> 00:06:52.040
+So with this example that I'm
+giving here with over and
+
+139
+00:06:52.040 --> 00:06:54.170
+out, you say that after you're
+done with your payload.
+
+140
+00:06:54.170 --> 00:06:55.040
+You say your payload.
+
+141
+00:06:55.040 --> 00:06:56.130
+Then you say over.
+
+142
+00:06:56.130 --> 00:06:57.040
+So that's a footer.
+
+143
+00:06:57.040 --> 00:06:58.900
+They call that a footer
+because it's at the end.
+
+144
+00:06:58.900 --> 00:07:02.460
+Usually in the Internet most of these
+network protocols you have headers, so
+
+145
+00:07:02.460 --> 00:07:05.660
+you put that network information
+at the beginning of the pack and
+
+146
+00:07:05.660 --> 00:07:08.350
+you say, things like what's
+the destination address?
+
+147
+00:07:08.350 --> 00:07:10.000
+You put that at the beginning.
+
+148
+00:07:10.000 --> 00:07:11.780
+What's the size of all the data?
+
+149
+00:07:11.780 --> 00:07:12.690
+You put that at the beginning.
+
+150
+00:07:12.690 --> 00:07:15.050
+Things like this, you put this
+information at the beginning and
+
+151
+00:07:15.050 --> 00:07:16.620
+then you put your payload out there.
+
+152
+00:07:16.620 --> 00:07:18.380
+But it's the same idea.
+
+153
+00:07:18.380 --> 00:07:22.850
+So, there I said are these internet
+protocols and the idea is in order for
+
+154
+00:07:22.850 --> 00:07:26.590
+two machines on two random local area
+networks to communicate they have to
+
+155
+00:07:26.590 --> 00:07:28.480
+adhere to these internet protocols.
+
+156
+00:07:28.480 --> 00:07:29.860
+So, when they want to talk,
+
+157
+00:07:29.860 --> 00:07:32.670
+when one machine from one local area
+network wants to talk to another machine
+
+158
+00:07:32.670 --> 00:07:37.410
+from another local area network
+it has to adhere to the protocol.
+
+159
+00:07:37.410 --> 00:07:41.830
+It has to encapsulate data the way
+that the Internet protocol dictates.
+
+160
+00:07:41.830 --> 00:07:43.290
+And as long as it does that,
+
+161
+00:07:43.290 --> 00:07:45.910
+the machine at the receiving end
+will understand that data and
+
+162
+00:07:45.910 --> 00:07:51.380
+be able to pull out the information
+that it needs, and they can communicate.
+
+163
+00:07:51.380 --> 00:07:53.850
+And these protocols don't
+interfere with the LAN protocol.
+
+164
+00:07:53.850 --> 00:07:56.470
+So these local area networks, they can
+have whatever protocols they want.
+
+165
+00:07:57.850 --> 00:08:00.540
+So that we would call
+the payload of the message.
+
+166
+00:08:00.540 --> 00:08:03.350
+They can have whatever
+information in them they want,
+
+167
+00:08:03.350 --> 00:08:07.060
+as long as you put the special header for
+the Internet protocol
+
+168
+00:08:07.060 --> 00:08:09.960
+on the outside of all that you
+can send whatever data you want.
+
+169
+00:08:09.960 --> 00:08:13.031
+So the local area networks can have
+whatever random protocols they want to
+
+170
+00:08:13.031 --> 00:08:15.408
+have as long as you adhere to
+these Internet protocols and
+
+171
+00:08:15.408 --> 00:08:18.254
+put their headers on the front and
+footers if you have to on the back.
+
+172
+00:08:18.254 --> 00:08:21.379
+Then two machines can communicate.
+
+173
+00:08:21.379 --> 00:08:29.295
+Thank you.
+[MUSIC]

@@ -1,0 +1,799 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.574 --> 00:00:12.630
+So we'll talk a little bit about exception
+handling and how we use it with sockets.
+
+3
+00:00:12.630 --> 00:00:17.616
+Exception handling is useful,
+because sockets can go wrong and
+
+4
+00:00:17.616 --> 00:00:19.932
+we want to able to catch that.
+
+5
+00:00:21.690 --> 00:00:23.170
+So errors during execution.
+
+6
+00:00:23.170 --> 00:00:26.710
+Any Python program can have
+errors during execution, and
+
+7
+00:00:26.710 --> 00:00:30.870
+part of writing really robust
+code is handling those errors.
+
+8
+00:00:30.870 --> 00:00:34.690
+So anticipating classes of
+things that might go wrong, and
+
+9
+00:00:34.690 --> 00:00:36.180
+then handling them in some way.
+
+10
+00:00:36.180 --> 00:00:39.220
+Writing some code that deals
+with the error somehow.
+
+11
+00:00:39.220 --> 00:00:44.130
+Now this isn't, we're not heavily
+talking about error handling.
+
+12
+00:00:44.130 --> 00:00:47.270
+But with sockets, we really want to
+a little bit, because there are so
+
+13
+00:00:47.270 --> 00:00:50.550
+many errors that can happen, so
+many conditions that can happen.
+
+14
+00:00:50.550 --> 00:00:55.000
+You really want your code to be a little
+bit robust in the face of these errors.
+
+15
+00:00:55.000 --> 00:00:57.430
+So errors can happen when
+you're working with sockets.
+
+16
+00:00:57.430 --> 00:00:58.910
+Really it can happen anywhere.
+
+17
+00:00:58.910 --> 00:01:01.590
+They can happen when you're
+working with sockets,
+
+18
+00:01:01.590 --> 00:01:04.360
+common things like
+sockets cannot be opened.
+
+19
+00:01:04.360 --> 00:01:07.270
+So you try to open a socket on
+another end, and you can't open it.
+
+20
+00:01:07.270 --> 00:01:11.160
+Maybe the server is not there,
+or something like that, right?
+
+21
+00:01:11.160 --> 00:01:13.980
+Data can't be sent for some reason,
+data might be blocked.
+
+22
+00:01:13.980 --> 00:01:16.400
+This type of thing happens in networks,
+right?
+
+23
+00:01:16.400 --> 00:01:21.130
+So there are lots of errors that can
+happen when you're using sockets.
+
+24
+00:01:21.130 --> 00:01:22.520
+And you want to be able
+to handle these errors.
+
+25
+00:01:22.520 --> 00:01:25.600
+You don't want your machine to just,
+your code to just crash every time.
+
+26
+00:01:25.600 --> 00:01:28.360
+Something like that happens, you like
+it to be able to print a response,
+
+27
+00:01:28.360 --> 00:01:29.920
+tell you what's going on at least.
+
+28
+00:01:31.440 --> 00:01:35.490
+So when errors happen during execution,
+they're called exceptions.
+
+29
+00:01:35.490 --> 00:01:38.500
+And this isn't just with sockets,
+this is just in general, in Python or
+
+30
+00:01:38.500 --> 00:01:40.440
+other languages you have
+what are called exceptions.
+
+31
+00:01:40.440 --> 00:01:45.130
+Exceptions that are raised, or
+thrown, however you want to call it.
+
+32
+00:01:45.130 --> 00:01:49.000
+There are many types of
+exceptions that can be raised for
+
+33
+00:01:49.000 --> 00:01:50.680
+different functions, okay?
+
+34
+00:01:50.680 --> 00:01:55.170
+So the exception type,
+tells you what kind of thing went wrong.
+
+35
+00:01:55.170 --> 00:01:58.830
+So for instance, you can have
+an exception, a ZeroDivisionError, right.
+
+36
+00:01:58.830 --> 00:02:02.580
+And if that exception happens,
+you know somebody tried to divide by zero.
+
+37
+00:02:02.580 --> 00:02:07.380
+You can have a TypeError,
+which means that you tried to perform
+
+38
+00:02:07.380 --> 00:02:12.520
+an operation on the wrong type,
+like you tried to perform an add,
+
+39
+00:02:12.520 --> 00:02:15.810
+or a floating point add on an integer,
+or something like this, right?
+
+40
+00:02:15.810 --> 00:02:16.900
+A type error.
+
+41
+00:02:16.900 --> 00:02:21.230
+So there are lots of different
+types of error, error classes,
+
+42
+00:02:21.230 --> 00:02:23.010
+exception classes that can happen.
+
+43
+00:02:23.010 --> 00:02:24.730
+Depending on what kind of
+function you're calling,
+
+44
+00:02:24.730 --> 00:02:26.400
+what kind of method you're calling.
+
+45
+00:02:26.400 --> 00:02:29.070
+And sockets have their
+own set of errors and
+
+46
+00:02:29.070 --> 00:02:30.720
+exceptions that we're
+going to want to handle.
+
+47
+00:02:31.950 --> 00:02:33.020
+For at least a sub set of them.
+
+48
+00:02:34.050 --> 00:02:37.320
+So handling exceptions, so
+how do you handle in exception in general?
+
+49
+00:02:37.320 --> 00:02:40.700
+So when an error happens
+the idea of handling exception is
+
+50
+00:02:40.700 --> 00:02:41.740
+when the error happens.
+
+51
+00:02:41.740 --> 00:02:46.280
+When the exception is raised, you want
+your code to do something appropriate.
+
+52
+00:02:46.280 --> 00:02:47.770
+Now what it does,
+
+53
+00:02:47.770 --> 00:02:51.720
+is really what's appropriate really
+depends on the application, okay?
+
+54
+00:02:51.720 --> 00:02:55.080
+And what the error is, but
+you want something to happen.
+
+55
+00:02:55.080 --> 00:02:57.220
+You want to control what happens.
+
+56
+00:02:57.220 --> 00:03:01.190
+So the way you do this is you use
+this try and accept statements.
+
+57
+00:03:01.190 --> 00:03:04.330
+So there are try and accept statements
+that are built into Python,
+
+58
+00:03:04.330 --> 00:03:08.610
+which allow you to handle errors and
+exceptions as they come up.
+
+59
+00:03:08.610 --> 00:03:12.950
+So what you do is, you place
+the code with the possible error,
+
+60
+00:03:12.950 --> 00:03:17.150
+that you think will raise the exception,
+you place that inside a try clause.
+
+61
+00:03:17.150 --> 00:03:18.520
+I'll show an example of this.
+
+62
+00:03:19.680 --> 00:03:23.400
+Then, after that try clause you have
+what's called an accept clause.
+
+63
+00:03:23.400 --> 00:03:28.960
+And the accept clause contains code that
+you want to execute when the try clause,
+
+64
+00:03:28.960 --> 00:03:33.300
+when the code inside the try clause throws
+the exception, or raises the exception.
+
+65
+00:03:33.300 --> 00:03:40.319
+So to give you an example,
+inside your try clause, you say z = x / y.
+
+66
+00:03:40.319 --> 00:03:44.650
+So that's the code that you
+want to execute that you think
+
+67
+00:03:44.650 --> 00:03:46.210
+might raise an exception.
+
+68
+00:03:46.210 --> 00:03:47.940
+Maybe it's going to divide by zero.
+
+69
+00:03:47.940 --> 00:03:49.062
+Maybe y = 0.
+
+70
+00:03:49.062 --> 00:03:49.670
+Right?
+
+71
+00:03:49.670 --> 00:03:53.220
+Okay, so you suspect that this code
+might raise this exception, so
+
+72
+00:03:53.220 --> 00:03:55.650
+I will put it inside this try clause.
+
+73
+00:03:55.650 --> 00:03:56.970
+Now then right after the try clause,
+
+74
+00:03:56.970 --> 00:03:59.720
+I have my except clause,
+except ZeroDivisionError.
+
+75
+00:03:59.720 --> 00:04:04.180
+So if a ZeroDivisionError happens,
+this except clause will be executed.
+
+76
+00:04:04.180 --> 00:04:07.460
+And in the except clause I just say
+print("Divide by zero"), right?
+
+77
+00:04:07.460 --> 00:04:10.650
+So all this is really doing is just
+reporting to me what the problem
+
+78
+00:04:10.650 --> 00:04:11.510
+was, right?
+
+79
+00:04:11.510 --> 00:04:14.300
+But the idea is,
+that if inside this try clause,
+
+80
+00:04:14.300 --> 00:04:18.590
+an exception is thrown that matches
+the exception after the word except, so
+
+81
+00:04:18.590 --> 00:04:20.740
+specifically zero division error.
+
+82
+00:04:20.740 --> 00:04:23.390
+If that exception is raised,
+
+83
+00:04:23.390 --> 00:04:27.760
+then the code inside the except
+clause is executed, divide by zero.
+
+84
+00:04:27.760 --> 00:04:29.330
+It prints it anyway.
+
+85
+00:04:29.330 --> 00:04:32.180
+So in this case it's very
+simple exception handling.
+
+86
+00:04:32.180 --> 00:04:36.920
+It's not going to fix anything, it's just
+going to print to you what went wrong, and
+
+87
+00:04:36.920 --> 00:04:37.980
+that's all we're doing right now.
+
+88
+00:04:39.320 --> 00:04:43.910
+So, now we wouldn't do this for
+sockets, so we have to know something,
+
+89
+00:04:43.910 --> 00:04:47.270
+some basics about the errors that
+you can expect with sockets.
+
+90
+00:04:47.270 --> 00:04:48.860
+Some of the exceptions that can be raised.
+
+91
+00:04:48.860 --> 00:04:52.490
+And every different type of method has
+different exceptions that can be raised.
+
+92
+00:04:52.490 --> 00:04:55.100
+And we're just going to do
+a very easy job of this.
+
+93
+00:04:55.100 --> 00:04:59.100
+We only handle some very generic errors
+and exceptions are going to be raised.
+
+94
+00:04:59.100 --> 00:05:01.410
+We're not going to go into great depth
+with the exception handling, but
+
+95
+00:05:01.410 --> 00:05:02.210
+we need a little bit of it.
+
+96
+00:05:03.360 --> 00:05:07.760
+So socket.error that is
+an exception that is just generic.
+
+97
+00:05:07.760 --> 00:05:11.220
+Any socket error is going to fall
+into this class of socket.error.
+
+98
+00:05:11.220 --> 00:05:11.930
+Okay?
+
+99
+00:05:11.930 --> 00:05:16.740
+So that's just the most generic type
+of socket exception that can be raised.
+
+100
+00:05:16.740 --> 00:05:20.910
+And another type of protection that can
+be raised in the process is gaierror.
+
+101
+00:05:20.910 --> 00:05:25.890
+The gai stands for
+detaddressinfo.error, right, gai error.
+
+102
+00:05:25.890 --> 00:05:31.205
+And remember, getaddressinfo that does
+a DNS lookup, so you tell it www.
+
+103
+00:05:31.205 --> 00:05:34.640
+Google.com, you pass that as
+an argument to getaddressinfo,
+
+104
+00:05:34.640 --> 00:05:36.270
+it'll tell you the IP address.
+
+105
+00:05:36.270 --> 00:05:37.830
+If there's an error in that process,
+
+106
+00:05:37.830 --> 00:05:42.790
+it doesn't find that host address,
+then it will raise a gaierror.
+
+107
+00:05:44.090 --> 00:05:48.229
+Okay, so those are the two exception
+classes that we want to be able to handle.
+
+108
+00:05:49.440 --> 00:05:51.260
+So we're going to change our code.
+
+109
+00:05:51.260 --> 00:05:54.520
+So we went through over
+a series of slides.
+
+110
+00:05:54.520 --> 00:05:57.770
+We went through a generic client, okay,
+
+111
+00:05:57.770 --> 00:06:00.640
+a generic network client and
+how you would make it.
+
+112
+00:06:00.640 --> 00:06:03.460
+Now we're going to enhance that client,
+by adding try and
+
+113
+00:06:03.460 --> 00:06:08.110
+accept statements to catch some
+of these errors as they occur.
+
+114
+00:06:08.110 --> 00:06:09.960
+And to just make the program more robust.
+
+115
+00:06:09.960 --> 00:06:13.040
+And when I say catch,
+we're just going to report them.
+
+116
+00:06:13.040 --> 00:06:15.770
+We're just going to print this error
+happened and that error happened.
+
+117
+00:06:15.770 --> 00:06:18.280
+Just so that it doesn't just
+crash in a generic way,
+
+118
+00:06:18.280 --> 00:06:20.329
+at least we know how it failed,
+if it fails.
+
+119
+00:06:22.570 --> 00:06:25.360
+So, here is our full on client program.
+
+120
+00:06:25.360 --> 00:06:30.400
+So, this is really combining
+the slides that we did before,
+
+121
+00:06:30.400 --> 00:06:32.680
+that we've done over
+the last few lectures.
+
+122
+00:06:32.680 --> 00:06:36.970
+And adding, trying and accept
+clauses to make the code more robot.
+
+123
+00:06:36.970 --> 00:06:38.975
+Now, what I've done is I put in red,
+
+124
+00:06:38.975 --> 00:06:44.380
+highlighted in red, the actual code that
+I want to execute and the rest of it.
+
+125
+00:06:44.380 --> 00:06:48.060
+Are the try and accept clauses, and the
+accept clause is the error handling stuff.
+
+126
+00:06:49.480 --> 00:06:54.160
+Now you notice at the top, I import
+the socket, I import the socket package,
+
+127
+00:06:54.160 --> 00:06:55.270
+I also import sys.
+
+128
+00:06:55.270 --> 00:06:56.960
+Now why do I import sys?
+
+129
+00:06:56.960 --> 00:07:03.410
+I import sys because I need to import the
+sys package, so that I can call sys.exit.
+
+130
+00:07:03.410 --> 00:07:07.220
+Now the reason that I need sys.exit,
+is because when these exceptions happen
+
+131
+00:07:07.220 --> 00:07:09.620
+in my code, so
+Sam is trying to open a socket and
+
+132
+00:07:09.620 --> 00:07:12.890
+it fails, right, I'm trying to
+get domain name and it fails.
+
+133
+00:07:12.890 --> 00:07:16.948
+When that happens I want to just exit,I
+want to the quit the program, oKay?
+
+134
+00:07:16.948 --> 00:07:21.130
+In order to do that,
+I need to call sis.exit, So
+
+135
+00:07:21.130 --> 00:07:22.950
+that's why I am importing the sis package.
+
+136
+00:07:24.190 --> 00:07:28.130
+So let's take a look at the beginning,
+the first thing, the first try.
+
+137
+00:07:28.130 --> 00:07:29.930
+First line that's highlighted in red.
+
+138
+00:07:29.930 --> 00:07:32.040
+I'm creating the socket
+we've already looked at.
+
+139
+00:07:32.040 --> 00:07:34.100
+So I create the socket, I call it my sock.
+
+140
+00:07:34.100 --> 00:07:35.280
+That's in my try.
+
+141
+00:07:35.280 --> 00:07:39.680
+Now you say accept, you see right
+after it, acceptsocket.error,
+
+142
+00:07:39.680 --> 00:07:42.350
+print failed to create socket, sys.exit.
+
+143
+00:07:42.350 --> 00:07:46.510
+So it just prints an error report and
+says, look, the socket creation failed,
+
+144
+00:07:46.510 --> 00:07:48.540
+for whatever reason, and it exits.
+
+145
+00:07:48.540 --> 00:07:51.670
+And it quits right there, it doesn't try
+to execute the remaining lines of code.
+
+146
+00:07:51.670 --> 00:07:54.250
+So that's why I'm using sys.exit.
+
+147
+00:07:54.250 --> 00:07:57.950
+Now after I create the socket, the next
+thing I try, the next line in red,
+
+148
+00:07:57.950 --> 00:08:03.309
+is host equals socket.gethostbyname,
+so I'm trying to get the IP address.
+
+149
+00:08:04.540 --> 00:08:10.020
+I've tried that, and if that fails,
+if my except socket.gaierror,
+
+150
+00:08:10.020 --> 00:08:13.570
+it says failed to get host and
+it also does a sys.exit.
+
+151
+00:08:13.570 --> 00:08:16.870
+Now the next line of code creates
+a connection to the host on port 80.
+
+152
+00:08:16.870 --> 00:08:21.200
+It creates a message, which is a generic
+request message, which we've already seen.
+
+153
+00:08:21.200 --> 00:08:22.848
+Then does a try, try is to do a send.
+
+154
+00:08:22.848 --> 00:08:23.625
+Sendall.
+
+155
+00:08:23.625 --> 00:08:28.990
+So mysock.sendall's in the try, and
+if there's a socket error on that,
+
+156
+00:08:28.990 --> 00:08:32.850
+it reports Failed to send and
+sys.exit and quits.
+
+157
+00:08:32.850 --> 00:08:37.495
+Now, after that, data = mysock.recv,
+so I'm receiving the data.
+
+158
+00:08:37.495 --> 00:08:38.625
+It's only receiving 1,000 bytes,
+
+159
+00:08:38.625 --> 00:08:41.503
+because that's the limit that
+I arbitrarily put in there.
+
+160
+00:08:41.503 --> 00:08:45.555
+And that 1,000 bytes in this case
+would be, since I'm requesting
+
+161
+00:08:45.555 --> 00:08:48.750
+a web page from Google, is whatever
+appears on their first page right?
+
+162
+00:08:48.750 --> 00:08:52.700
+That would, that contents the HTML data,
+the stuff that appears on the screen
+
+163
+00:08:52.700 --> 00:08:56.960
+that's what I'm receiving or
+the first 1,000 bytes of that anyway.
+
+164
+00:08:56.960 --> 00:09:00.950
+Then I say print data, so I'm just
+going to print that to the screen.
+
+165
+00:09:00.950 --> 00:09:03.970
+It's a pretty simple operation,
+I print it, and
+
+166
+00:09:03.970 --> 00:09:05.380
+then I close the socket and that's it.
+
+167
+00:09:06.840 --> 00:09:08.870
+And this code will actually work,
+and you should try this,
+
+168
+00:09:08.870 --> 00:09:10.306
+and you'll see that in another lecture.
+
+169
+00:09:10.306 --> 00:09:11.526
+Thank you.
+
+170
+00:09:11.526 --> 00:09:18.516
+[MUSIC]

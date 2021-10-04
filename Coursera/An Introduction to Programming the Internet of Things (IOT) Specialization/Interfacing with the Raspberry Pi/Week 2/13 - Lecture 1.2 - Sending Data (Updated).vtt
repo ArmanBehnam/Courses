@@ -1,0 +1,856 @@
+WEBVTT
+
+1
+00:00:00.890 --> 00:00:04.740
+So, we're going to talk
+a little about sockets,
+
+2
+00:00:04.740 --> 00:00:06.750
+and how to use them
+for communication.
+
+3
+00:00:06.750 --> 00:00:08.250
+So, some of the
+basic things you do
+
+4
+00:00:08.250 --> 00:00:10.005
+with sockets once
+they're created.
+
+5
+00:00:10.005 --> 00:00:11.310
+How you connect them,
+
+6
+00:00:11.310 --> 00:00:12.840
+how you send data on the socket,
+
+7
+00:00:12.840 --> 00:00:14.610
+how you receive data on socket.
+
+8
+00:00:14.610 --> 00:00:18.015
+So, I've got two lines
+of code right here.
+
+9
+00:00:18.015 --> 00:00:20.880
+Let's look at
+the second one first.
+
+10
+00:00:20.880 --> 00:00:25.240
+The second one is mysock.connect.
+
+11
+00:00:25.240 --> 00:00:27.090
+So, mysock is the socket object
+
+12
+00:00:27.090 --> 00:00:29.220
+that I've created already.
+
+13
+00:00:29.220 --> 00:00:32.010
+Connect() is a method for that,
+
+14
+00:00:32.010 --> 00:00:35.355
+that will connect that socket
+to a remote machine,
+
+15
+00:00:35.355 --> 00:00:37.870
+to an application on
+a remote machine.
+
+16
+00:00:37.870 --> 00:00:41.600
+So, now let's look at
+the argument for that.
+
+17
+00:00:41.600 --> 00:00:43.340
+Connect() actually it
+takes one argument.
+
+18
+00:00:43.340 --> 00:00:45.200
+It looks like two, but it's
+actually one argument,
+
+19
+00:00:45.200 --> 00:00:47.750
+which is a tuple of two things.
+
+20
+00:00:47.750 --> 00:00:51.510
+That tuple contains host, number.
+
+21
+00:00:51.510 --> 00:00:54.260
+Now, in this case,
+host is the IP address
+
+22
+00:00:54.260 --> 00:00:56.245
+of the host that you
+want to connect to.
+
+23
+00:00:56.245 --> 00:01:01.380
+Then, the second
+part of the tuple,
+
+24
+00:01:01.380 --> 00:01:02.700
+which is the single argument.
+
+25
+00:01:02.700 --> 00:01:04.455
+Right? The second part
+of that tuple
+
+26
+00:01:04.455 --> 00:01:06.380
+is a number which
+
+27
+00:01:06.380 --> 00:01:08.335
+is the port number that
+you want to connect to.
+
+28
+00:01:08.335 --> 00:01:11.195
+So, the fact that I'm
+now connecting to port
+
+29
+00:01:11.195 --> 00:01:14.135
+80 tells me that I'm
+connecting to a web server,
+
+30
+00:01:14.135 --> 00:01:16.665
+because port 80 is
+associated with web servers.
+
+31
+00:01:16.665 --> 00:01:19.760
+So, note that on the second line
+
+32
+00:01:19.760 --> 00:01:20.600
+where I'm doing the connection,
+
+33
+00:01:20.600 --> 00:01:23.840
+the first part of
+
+34
+00:01:23.840 --> 00:01:25.880
+that tuple which is
+the argument is the host.
+
+35
+00:01:25.880 --> 00:01:27.290
+That's supposed to
+be the IP address
+
+36
+00:01:27.290 --> 00:01:29.530
+or representation
+of the IP address.
+
+37
+00:01:29.530 --> 00:01:32.070
+But, remember that usually
+
+38
+00:01:32.070 --> 00:01:34.545
+humans don't remember
+IP addresses.
+
+39
+00:01:34.545 --> 00:01:35.865
+Now, this depends on the human.
+
+40
+00:01:35.865 --> 00:01:38.970
+I actually have
+a few IP addresses
+
+41
+00:01:38.970 --> 00:01:41.340
+dedicated to memory,
+but not too many.
+
+42
+00:01:41.340 --> 00:01:44.220
+For the most part, people
+don't remember IP addresses.
+
+43
+00:01:44.220 --> 00:01:46.095
+They remember domain names.
+
+44
+00:01:46.095 --> 00:01:50.340
+So, for instance, you
+remember www.google.com,
+
+45
+00:01:50.340 --> 00:01:52.160
+but you don't know its IP address
+
+46
+00:01:52.160 --> 00:01:54.100
+off the top of you had probably,
+
+47
+00:01:54.100 --> 00:01:56.450
+unless you're odd, but you
+probably don't remember that.
+
+48
+00:01:56.450 --> 00:01:58.460
+So, what happens is
+you have to take
+
+49
+00:01:58.460 --> 00:02:01.565
+this domain name and generate
+the IP address from it.
+
+50
+00:02:01.565 --> 00:02:04.435
+So, that's what the first
+line of code is doing.
+
+51
+00:02:04.435 --> 00:02:06.440
+So, the host is an IP address,
+
+52
+00:02:06.440 --> 00:02:08.075
+but you may only have the domain.
+
+53
+00:02:08.075 --> 00:02:10.055
+So, you call this function
+
+54
+00:02:10.055 --> 00:02:12.620
+gethostbyname() to
+perform a DNS lookup.
+
+55
+00:02:12.620 --> 00:02:14.720
+DNS is Domain Name
+Service lookup.
+
+56
+00:02:14.720 --> 00:02:17.480
+It will lookup the IP address
+
+57
+00:02:17.480 --> 00:02:18.710
+for a particular domain name,
+
+58
+00:02:18.710 --> 00:02:20.090
+and it'll return that.
+
+59
+00:02:20.090 --> 00:02:22.415
+So, if I say
+socket.gethostbyname,
+
+60
+00:02:22.415 --> 00:02:24.710
+pass it the string which
+is the domain name,
+
+61
+00:02:24.710 --> 00:02:27.790
+it will return this host
+which is the IP address.
+
+62
+00:02:27.790 --> 00:02:31.740
+Now, how this DNS works
+is a longer story,
+
+63
+00:02:31.740 --> 00:02:33.900
+but it's network protocol.
+
+64
+00:02:33.900 --> 00:02:35.190
+It will look locally,
+
+65
+00:02:35.190 --> 00:02:36.430
+maybe you have it in
+your local cache,
+
+66
+00:02:36.430 --> 00:02:38.870
+otherwise it'll go
+your name server and ask it,
+
+67
+00:02:38.870 --> 00:02:40.970
+where can I find
+it, the name saver
+
+68
+00:02:40.970 --> 00:02:42.845
+might ask another name
+server and so on.
+
+69
+00:02:42.845 --> 00:02:45.200
+But eventually, from
+your program point of view,
+
+70
+00:02:45.200 --> 00:02:46.520
+you call gethostbyname(),
+
+71
+00:02:46.520 --> 00:02:48.025
+it comes back with an IP address.
+
+72
+00:02:48.025 --> 00:02:50.120
+Then, once you have
+the IP address as host,
+
+73
+00:02:50.120 --> 00:02:52.535
+then you can call
+mysock.connect(),
+
+74
+00:02:52.535 --> 00:02:54.050
+and pass it one argument
+
+75
+00:02:54.050 --> 00:02:56.720
+which is a tuple of
+the host, IP address,
+
+76
+00:02:56.720 --> 00:02:58.550
+and the port that you want
+
+77
+00:02:58.550 --> 00:02:59.660
+to connect to depending on the
+
+78
+00:02:59.660 --> 00:03:01.510
+application you want to speak to.
+
+79
+00:03:01.510 --> 00:03:04.440
+So, connect, it creates
+
+80
+00:03:04.440 --> 00:03:07.170
+a connection or opens
+the connection between the two.
+
+81
+00:03:07.170 --> 00:03:09.320
+The port 80 is for web traffic,
+
+82
+00:03:09.320 --> 00:03:12.240
+but it can be whatever port
+you want to connect to.
+
+83
+00:03:12.350 --> 00:03:15.430
+So, now once you've
+got that connected,
+
+84
+00:03:15.430 --> 00:03:17.510
+you want to send
+some data on a socket.
+
+85
+00:03:17.510 --> 00:03:19.430
+So again, I've got
+two lines of code.
+
+86
+00:03:19.430 --> 00:03:21.215
+Let's look at the second
+line of code.
+
+87
+00:03:21.215 --> 00:03:22.760
+That's where I'm actually
+doing the sending.
+
+88
+00:03:22.760 --> 00:03:26.370
+So, my sock.sendall(), I'm
+using the sendall() method.
+
+89
+00:03:26.370 --> 00:03:27.835
+Let's skip that
+for a second here.
+
+90
+00:03:27.835 --> 00:03:29.555
+The sendall() method,
+it sends data.
+
+91
+00:03:29.555 --> 00:03:31.610
+I pass it this one
+argument message.
+
+92
+00:03:31.610 --> 00:03:33.470
+In this case, if you look
+at the first line message,
+
+93
+00:03:33.470 --> 00:03:34.585
+it's just a string.
+
+94
+00:03:34.585 --> 00:03:37.640
+So, that string is being
+sent on that socket.
+
+95
+00:03:37.640 --> 00:03:39.290
+Now, remember from
+the last slide,
+
+96
+00:03:39.290 --> 00:03:40.805
+I connect that socket to
+
+97
+00:03:40.805 --> 00:03:44.330
+google.com port 80
+to their web server,
+
+98
+00:03:44.330 --> 00:03:47.090
+and I'm sending
+that string message,
+
+99
+00:03:47.090 --> 00:03:48.410
+that string on
+the first line message.
+
+100
+00:03:48.410 --> 00:03:50.225
+I'm sending that to google.com.
+
+101
+00:03:50.225 --> 00:03:53.240
+Now, I can set
+an arbitrary string,
+
+102
+00:03:53.240 --> 00:03:55.595
+but I'm sending it
+to a web server,
+
+103
+00:03:55.595 --> 00:03:56.960
+port 80 web server.
+
+104
+00:03:56.960 --> 00:04:00.100
+So, web servers understand HTTP.
+
+105
+00:04:00.100 --> 00:04:02.240
+So, that's the protocol
+they understand.
+
+106
+00:04:02.240 --> 00:04:06.560
+So, this message is actually
+an HTTP GET request.
+
+107
+00:04:06.560 --> 00:04:08.240
+I don't want to go
+heavily into that,
+
+108
+00:04:08.240 --> 00:04:09.410
+but let me just explain what this
+
+109
+00:04:09.410 --> 00:04:11.900
+simple GET request looks like.
+
+110
+00:04:11.900 --> 00:04:14.130
+The most simple GET request,
+
+111
+00:04:14.130 --> 00:04:15.695
+this is the most
+simple you can get.
+
+112
+00:04:15.695 --> 00:04:18.800
+There are basic three things
+in the message.
+
+113
+00:04:18.800 --> 00:04:21.420
+If you look at
+that message, it says GET,
+
+114
+00:04:21.420 --> 00:04:23.350
+the first word is GET.
+
+115
+00:04:23.350 --> 00:04:24.800
+It's the type of request.
+
+116
+00:04:24.800 --> 00:04:27.395
+There are a few types
+of HTTP requests.
+
+117
+00:04:27.395 --> 00:04:29.900
+A GET request is the
+most common very basic.
+
+118
+00:04:29.900 --> 00:04:32.810
+It just says, give me
+data off of this webpage.
+
+119
+00:04:32.810 --> 00:04:35.900
+Basically all it says, give
+me the data off this webpage.
+
+120
+00:04:35.900 --> 00:04:37.700
+So, it's asking you to return
+
+121
+00:04:37.700 --> 00:04:40.075
+it with the data
+that it finds there.
+
+122
+00:04:40.075 --> 00:04:44.465
+Now, then, the next thing
+on that line is a slash.
+
+123
+00:04:44.465 --> 00:04:46.580
+The slash tells you which file
+
+124
+00:04:46.580 --> 00:04:48.800
+you want to get
+off of the server.
+
+125
+00:04:48.800 --> 00:04:50.420
+Now, it's just slash.
+
+126
+00:04:50.420 --> 00:04:52.490
+So, that just means
+the local directory.
+
+127
+00:04:52.490 --> 00:04:54.410
+It doesn't tell me
+the name of a file there.
+
+128
+00:04:54.410 --> 00:04:56.535
+Whenever you don't give it
+a name of file like that,
+
+129
+00:04:56.535 --> 00:04:59.975
+it assumes the name of
+the file is called index.html.
+
+130
+00:04:59.975 --> 00:05:02.100
+That's the generic webpage name.
+
+131
+00:05:02.100 --> 00:05:03.230
+So, it's going to get
+
+132
+00:05:03.230 --> 00:05:05.330
+index.html because I
+didn't leave a name.
+
+133
+00:05:05.330 --> 00:05:10.835
+Now, I could have said,
+/picture.pdf or something.
+
+134
+00:05:10.835 --> 00:05:12.790
+I could have said
+any resource I wanted to.
+
+135
+00:05:12.790 --> 00:05:14.595
+But, if I just say / like that,
+
+136
+00:05:14.595 --> 00:05:15.860
+it'll just assume I'm looking for
+
+137
+00:05:15.860 --> 00:05:17.815
+index.html on the server,
+
+138
+00:05:17.815 --> 00:05:21.980
+and that's usually the file
+that has the main webpage.
+
+139
+00:05:21.980 --> 00:05:26.000
+Then, the third thing on the
+line is the version of HTTP.
+
+140
+00:05:26.000 --> 00:05:27.620
+So, it's version 1.1.
+
+141
+00:05:27.620 --> 00:05:31.310
+Then, at the end of the line,
+there is \r\ n\r\n.
+
+142
+00:05:31.310 --> 00:05:33.200
+That character and line feed,
+
+143
+00:05:33.200 --> 00:05:36.600
+character and line feed
+that double like that.
+
+144
+00:05:37.510 --> 00:05:41.275
+In HTTP, it marks
+the end of a request.
+
+145
+00:05:41.275 --> 00:05:43.020
+So, that's how it knows
+that that's the end
+
+146
+00:05:43.020 --> 00:05:45.910
+of the request when
+you put the \r\n\r\n.
+
+147
+00:05:46.370 --> 00:05:48.810
+So, by sending that,
+
+148
+00:05:48.810 --> 00:05:51.795
+I'm requesting Google's webpage.
+
+149
+00:05:51.795 --> 00:05:55.370
+So, then I might want to
+receive data on the socket.
+
+150
+00:05:55.370 --> 00:05:57.890
+Now, typically after sending
+a request like that,
+
+151
+00:05:57.890 --> 00:06:00.420
+you'll want to receive
+whatever the results are.
+
+152
+00:06:00.420 --> 00:06:01.940
+You're expecting
+Google to send you
+
+153
+00:06:01.940 --> 00:06:03.815
+back a webpage or some data,
+
+154
+00:06:03.815 --> 00:06:05.945
+and so you want to
+receive data on that.
+
+155
+00:06:05.945 --> 00:06:10.210
+So, this time we
+call mysock.recv.
+
+156
+00:06:10.210 --> 00:06:12.200
+Now, it takes an argument.
+
+157
+00:06:12.200 --> 00:06:14.795
+In this case 1000 we're
+passing as an argument.
+
+158
+00:06:14.795 --> 00:06:18.520
+That is the maximum number of
+bytes that you can receive,
+
+159
+00:06:18.520 --> 00:06:22.910
+that you're expecting to
+receive on this socket.
+
+160
+00:06:22.910 --> 00:06:24.635
+That's the maximum
+that you receive.
+
+161
+00:06:24.635 --> 00:06:27.140
+mysock.recv will
+return some number
+
+162
+00:06:27.140 --> 00:06:28.955
+of bytes that are
+received on the socket,
+
+163
+00:06:28.955 --> 00:06:30.950
+and they will go to data.
+
+164
+00:06:30.950 --> 00:06:32.749
+So, data will be assigned
+
+165
+00:06:32.749 --> 00:06:35.570
+to whatever is received
+on the socket,
+
+166
+00:06:35.570 --> 00:06:38.065
+and this is a blocking wait.
+
+167
+00:06:38.065 --> 00:06:40.190
+What I mean by blocking wait is,
+
+168
+00:06:40.190 --> 00:06:41.750
+it when you're
+executing this code,
+
+169
+00:06:41.750 --> 00:06:43.130
+the code execution will stop at
+
+170
+00:06:43.130 --> 00:06:44.990
+that line until
+something is received.
+
+171
+00:06:44.990 --> 00:06:46.160
+It will block on that line.
+
+172
+00:06:46.160 --> 00:06:47.630
+It won't continue past that line
+
+173
+00:06:47.630 --> 00:06:49.510
+until something is received.
+
+174
+00:06:49.510 --> 00:06:51.290
+The argument is
+just a maximum number
+
+175
+00:06:51.290 --> 00:06:52.310
+of bytes to receive,
+
+176
+00:06:52.310 --> 00:06:53.810
+which is important
+in certain languages
+
+177
+00:06:53.810 --> 00:06:55.380
+where you have
+these fixed length buffers.
+
+178
+00:06:55.380 --> 00:06:56.965
+You don't want to
+overflow the buffer.
+
+179
+00:06:56.965 --> 00:06:58.580
+Now, then closing a socket
+
+180
+00:06:58.580 --> 00:07:01.430
+is what you do after you're
+done with the communication.
+
+181
+00:07:01.430 --> 00:07:03.200
+mysock.close() is
+pretty straightforward.
+
+182
+00:07:03.200 --> 00:07:05.060
+It will close the socket,
+which is good
+
+183
+00:07:05.060 --> 00:07:06.830
+because then you can
+reuse a socket later,
+
+184
+00:07:06.830 --> 00:07:09.155
+or if you want to connect
+to something else.
+
+185
+00:07:09.155 --> 00:07:13.230
+So, free up the port. Thank you.

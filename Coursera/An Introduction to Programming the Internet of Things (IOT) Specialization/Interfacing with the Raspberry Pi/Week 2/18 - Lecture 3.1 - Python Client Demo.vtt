@@ -1,0 +1,951 @@
+WEBVTT
+
+1
+00:00:12.110 --> 00:00:14.730
+What we're going to
+do, is we're going
+
+2
+00:00:14.730 --> 00:00:16.770
+to demonstrate how to open
+
+3
+00:00:16.770 --> 00:00:21.645
+a socket connection in
+Python or Raspberry Pi,
+
+4
+00:00:21.645 --> 00:00:24.960
+and use this to send something
+to a machine through
+
+5
+00:00:24.960 --> 00:00:28.350
+the socket on the internet.
+
+6
+00:00:28.350 --> 00:00:29.730
+Now, in this case,
+
+7
+00:00:29.730 --> 00:00:31.680
+we're going send from
+the Raspberry Pi to
+
+8
+00:00:31.680 --> 00:00:34.830
+the Raspberry Pi, but
+that's easy to change.
+
+9
+00:00:34.830 --> 00:00:36.380
+So you can easily
+change the IP address.
+
+10
+00:00:36.380 --> 00:00:37.955
+That's just convenient
+for our example,
+
+11
+00:00:37.955 --> 00:00:39.420
+but you can just change
+
+12
+00:00:39.420 --> 00:00:40.680
+the IP address and
+the destination
+
+13
+00:00:40.680 --> 00:00:42.165
+machine would be different.
+
+14
+00:00:42.165 --> 00:00:44.640
+So we'll use this
+Raspberry Pi then.
+
+15
+00:00:44.640 --> 00:00:45.940
+Now, what I'm running this on
+
+16
+00:00:45.940 --> 00:00:47.575
+is actually my desktop machine.
+
+17
+00:00:47.575 --> 00:00:50.170
+What you're seeing recorded
+is my desktop machine.
+
+18
+00:00:50.170 --> 00:00:51.340
+I have my Raspberry Pi sitting
+
+19
+00:00:51.340 --> 00:00:53.495
+next to me and it's
+already plugged in,
+
+20
+00:00:53.495 --> 00:00:55.290
+but I want to work
+from my desktop
+
+21
+00:00:55.290 --> 00:00:56.860
+because it's easier for
+me to record from there.
+
+22
+00:00:56.860 --> 00:01:00.865
+So I am going to first open
+a secure shell terminal.
+
+23
+00:01:00.865 --> 00:01:02.140
+So I'm going to use this program
+
+24
+00:01:02.140 --> 00:01:03.535
+PuTTY that I have at the bottom.
+
+25
+00:01:03.535 --> 00:01:06.040
+I've talked about
+this, but is PuTTY.
+
+26
+00:01:06.040 --> 00:01:09.090
+Now, PuTTY what it'll do is
+when I start this thing,
+
+27
+00:01:09.090 --> 00:01:11.800
+I type in the IP address of
+the Raspberry Pi which I
+
+28
+00:01:11.800 --> 00:01:14.770
+already know and it'll
+open up a terminal window,
+
+29
+00:01:14.770 --> 00:01:16.420
+window that I can type text into.
+
+30
+00:01:16.420 --> 00:01:18.010
+When I type text
+into that window,
+
+31
+00:01:18.010 --> 00:01:20.410
+it gets sent directly
+to my Raspberry Pi,
+
+32
+00:01:20.410 --> 00:01:22.090
+and my Raspberry Pi processes it,
+
+33
+00:01:22.090 --> 00:01:23.335
+and when the
+Raspberry Pi wants to
+
+34
+00:01:23.335 --> 00:01:24.680
+send responses to the screen,
+
+35
+00:01:24.680 --> 00:01:26.270
+it puts it into that
+terminal window.
+
+36
+00:01:26.270 --> 00:01:30.005
+So is as if I was sitting
+at the Raspberry Pi itself.
+
+37
+00:01:30.005 --> 00:01:31.760
+It is just for
+convenience sake here.
+
+38
+00:01:31.760 --> 00:01:34.205
+So I'm going to open a window
+to the Raspberry Pi.
+
+39
+00:01:34.205 --> 00:01:35.600
+I need to open two because I'm
+
+40
+00:01:35.600 --> 00:01:36.960
+going to send and I'm
+going to receive.
+
+41
+00:01:36.960 --> 00:01:40.320
+So I'll send from one I'll
+receive in the other.
+
+42
+00:01:41.300 --> 00:01:44.330
+So before I actually
+open this up, I want to,
+
+43
+00:01:44.330 --> 00:01:45.680
+just for the sake of the video,
+
+44
+00:01:45.680 --> 00:01:48.365
+I want to make the font bigger.
+So I'm going to do this.
+
+45
+00:01:48.365 --> 00:01:49.470
+You don't generally
+have to do this,
+
+46
+00:01:49.470 --> 00:01:51.664
+but I'm going in here and
+change the appearance,
+
+47
+00:01:51.664 --> 00:01:53.060
+change the font size,
+
+48
+00:01:53.060 --> 00:01:55.870
+make it 24 and nice and big.
+
+49
+00:01:55.870 --> 00:01:58.655
+So now, I'll make the connection.
+
+50
+00:01:58.655 --> 00:02:05.310
+So I'll type in the IP address
+that I have memorized.
+
+51
+00:02:07.150 --> 00:02:10.260
+Open, so login as
+
+52
+00:02:10.260 --> 00:02:14.340
+Pi type in the pamphlet.
+Yeah there it is.
+
+53
+00:02:14.340 --> 00:02:15.820
+So now I've got
+my window and if I type
+
+54
+00:02:15.820 --> 00:02:17.920
+a command like ls let's say,
+
+55
+00:02:17.920 --> 00:02:20.020
+it gives me the directory
+on the Raspberry Pi,
+
+56
+00:02:20.020 --> 00:02:22.480
+because this is connected
+directed Raspberry Pi.
+
+57
+00:02:22.480 --> 00:02:23.965
+So I just want to
+
+58
+00:02:23.965 --> 00:02:25.855
+shrink that a little
+bit. Yeah there we go.
+
+59
+00:02:25.855 --> 00:02:28.935
+So I'll use this
+terminal for sending,
+
+60
+00:02:28.935 --> 00:02:31.810
+and then I need another
+terminal for receiving.
+
+61
+00:02:31.810 --> 00:02:35.050
+So let me make
+another PuTTY window.
+
+62
+00:02:35.050 --> 00:02:38.060
+Again, I'll just
+change the appearance,
+
+63
+00:02:38.060 --> 00:02:46.210
+bigger font, and type in
+the IP address again.
+
+64
+00:02:51.650 --> 00:03:01.120
+Open that up. Again Pi,
+and I've got two.
+
+65
+00:03:02.510 --> 00:03:06.190
+So now I've got two
+terminal windows.
+
+66
+00:03:06.190 --> 00:03:08.575
+The top one I'm going to
+send from the bottom,
+
+67
+00:03:08.575 --> 00:03:11.135
+one I'm going to
+use as a receiver.
+
+68
+00:03:11.135 --> 00:03:13.050
+The both these
+terminal windows are
+
+69
+00:03:13.050 --> 00:03:14.625
+connected to
+the same Raspberry Pi.
+
+70
+00:03:14.625 --> 00:03:17.220
+So now, in order to
+send or receive,
+
+71
+00:03:17.220 --> 00:03:20.200
+I'm going to need run a client
+program in the top window.
+
+72
+00:03:20.200 --> 00:03:23.080
+That's going to do the sending
+and I'll just type
+
+73
+00:03:23.080 --> 00:03:26.065
+that in Python interactively,
+just as you can see it.
+
+74
+00:03:26.065 --> 00:03:27.775
+But I'm also going to need to run
+
+75
+00:03:27.775 --> 00:03:30.550
+a server program in
+the bottom window
+
+76
+00:03:30.550 --> 00:03:33.675
+which is just basically
+
+77
+00:03:33.675 --> 00:03:35.570
+receiving texts and then
+printing it on the screen.
+
+78
+00:03:35.570 --> 00:03:37.145
+So it's pretty simple
+server program.
+
+79
+00:03:37.145 --> 00:03:38.780
+Since it is so simple,
+
+80
+00:03:38.780 --> 00:03:40.130
+I don't even have
+to write in Python.
+
+81
+00:03:40.130 --> 00:03:41.150
+I could write it in Python,
+
+82
+00:03:41.150 --> 00:03:42.320
+it's not that big a deal.
+
+83
+00:03:42.320 --> 00:03:43.490
+But instead, I can use
+
+84
+00:03:43.490 --> 00:03:46.645
+a utility tool called Netcat
+which is a great tool.
+
+85
+00:03:46.645 --> 00:03:48.950
+Nc is the name of the program.
+
+86
+00:03:48.950 --> 00:03:51.230
+So Netcat can be used
+to send or receive.
+
+87
+00:03:51.230 --> 00:03:53.080
+In this case, I just
+wanted to sit there,
+
+88
+00:03:53.080 --> 00:03:54.995
+listen on a particular
+port number.
+
+89
+00:03:54.995 --> 00:03:56.810
+We're going to use
+a port one, two,
+
+90
+00:03:56.810 --> 00:03:58.805
+three, four, stuff
+taught my head.
+
+91
+00:03:58.805 --> 00:04:00.980
+We're going to have it sit
+there listening on this port,
+
+92
+00:04:00.980 --> 00:04:02.150
+anything it receives it prints to
+
+93
+00:04:02.150 --> 00:04:03.470
+the screen, really simple.
+
+94
+00:04:03.470 --> 00:04:05.060
+So I don't have to do
+anything for that,
+
+95
+00:04:05.060 --> 00:04:06.110
+I just start running it.
+
+96
+00:04:06.110 --> 00:04:08.915
+So nc dash l to tell it to listen
+
+97
+00:04:08.915 --> 00:04:10.430
+because it's listening
+on a port and
+
+98
+00:04:10.430 --> 00:04:12.320
+I give the port number,
+one, two, three, four.
+
+99
+00:04:12.320 --> 00:04:15.855
+Now, if you look at
+the bottom left terminal,
+
+100
+00:04:15.855 --> 00:04:17.730
+you'll see that it's
+now blocked, right?
+
+101
+00:04:17.730 --> 00:04:19.095
+There's nothing appearing there.
+
+102
+00:04:19.095 --> 00:04:21.020
+That's because nobody's
+made a connection to it
+
+103
+00:04:21.020 --> 00:04:22.790
+yet and it's not
+receiving anything.
+
+104
+00:04:22.790 --> 00:04:24.020
+When it does receive something,
+
+105
+00:04:24.020 --> 00:04:25.705
+it'll appear in that screen.
+
+106
+00:04:25.705 --> 00:04:28.775
+So now let's go to
+the top window and
+
+107
+00:04:28.775 --> 00:04:30.170
+we want to send some texts
+
+108
+00:04:30.170 --> 00:04:31.520
+and we're going to
+do it in Python,
+
+109
+00:04:31.520 --> 00:04:33.740
+and I'll type it
+interactively in Python.
+
+110
+00:04:33.740 --> 00:04:35.770
+So let's type Python,
+
+111
+00:04:35.770 --> 00:04:38.600
+Python3 because
+that's what I use.
+
+112
+00:04:38.600 --> 00:04:42.320
+So at first, we need to
+import the socket library.
+
+113
+00:04:42.320 --> 00:04:44.555
+I'm a slow typer so bear with me.
+
+114
+00:04:44.555 --> 00:04:46.520
+Import socket prime.
+
+115
+00:04:46.520 --> 00:04:48.530
+Now, we have to
+create the socket.
+
+116
+00:04:48.530 --> 00:04:50.150
+We have to call the
+constructor for the socket.
+
+117
+00:04:50.150 --> 00:04:52.735
+So I'll call it ms for my socket,
+
+118
+00:04:52.735 --> 00:04:57.630
+and socket.socket
+is the constructor.
+
+119
+00:04:57.630 --> 00:04:59.435
+So constructor takes
+two arguments.
+
+120
+00:04:59.435 --> 00:05:03.830
+First argument indicates
+what protocol we're using.
+
+121
+00:05:03.830 --> 00:05:07.440
+Now, 99.9 percent of the time,
+
+122
+00:05:07.440 --> 00:05:09.685
+this is going to be Internet.
+
+123
+00:05:09.685 --> 00:05:11.980
+So AF INET is actually
+
+124
+00:05:11.980 --> 00:05:14.915
+the Internet, which
+is what we want.
+
+125
+00:05:14.915 --> 00:05:16.730
+Then the second argument tells
+
+126
+00:05:16.730 --> 00:05:18.875
+you if you want TCP or UDP.
+
+127
+00:05:18.875 --> 00:05:22.940
+We want TCP, so I'm going
+to type socket.SOCK_STREAM.
+
+128
+00:05:29.550 --> 00:05:34.605
+There we go. So now
+ms is the socket,
+
+129
+00:05:34.605 --> 00:05:36.240
+so I have created the socket.
+
+130
+00:05:36.240 --> 00:05:40.650
+Now, what I want
+this socket to do,
+
+131
+00:05:40.650 --> 00:05:42.050
+what I want do in the socket is,
+
+132
+00:05:42.050 --> 00:05:43.985
+I want to send something.
+
+133
+00:05:43.985 --> 00:05:45.940
+I want to make a
+connection on this socket,
+
+134
+00:05:45.940 --> 00:05:49.345
+and of course it's still
+the same machine, right?
+
+135
+00:05:49.345 --> 00:05:51.425
+So both the server
+
+136
+00:05:51.425 --> 00:05:52.580
+that's running on
+the bottom screen is
+
+137
+00:05:52.580 --> 00:05:53.900
+on the same Raspberry Pi.
+
+138
+00:05:53.900 --> 00:05:55.670
+So I'm going make a established
+
+139
+00:05:55.670 --> 00:05:57.710
+a connection on this socket
+from the Raspberry Pi to
+
+140
+00:05:57.710 --> 00:06:01.385
+the Raspberry Pi really
+between the two processes.
+
+141
+00:06:01.385 --> 00:06:03.620
+So the process running on
+the top window which is doing
+
+142
+00:06:03.620 --> 00:06:05.240
+the sending and
+the processes running in
+
+143
+00:06:05.240 --> 00:06:06.920
+the bottom window which is
+listening to PuTTY one,
+
+144
+00:06:06.920 --> 00:06:08.630
+two, three, four, we
+
+145
+00:06:08.630 --> 00:06:10.385
+want to make a connection
+between those two.
+
+146
+00:06:10.385 --> 00:06:14.490
+So to establish a connection
+you call ms.connect.
+
+147
+00:06:18.640 --> 00:06:23.330
+Now, ms.connect it
+needs an address.
+
+148
+00:06:23.330 --> 00:06:26.250
+What am I connecting to? Now,
+remember on the Internet,
+
+149
+00:06:26.250 --> 00:06:28.935
+the address has two ports.
+
+150
+00:06:28.935 --> 00:06:30.650
+The IP address, which tells
+
+151
+00:06:30.650 --> 00:06:32.400
+you which machine
+you're running on,
+
+152
+00:06:32.400 --> 00:06:34.070
+and then the port number which
+
+153
+00:06:34.070 --> 00:06:36.350
+tells you which process
+on that machine.
+
+154
+00:06:36.350 --> 00:06:38.800
+Now the port number is going
+to be one, two, three, four.
+
+155
+00:06:38.800 --> 00:06:41.150
+The IP address for us is
+
+156
+00:06:41.150 --> 00:06:43.430
+not going to be
+the Raspberry Pi's IP address.
+
+157
+00:06:43.430 --> 00:06:44.750
+When you're talking to yourself
+
+158
+00:06:44.750 --> 00:06:46.670
+or when a machine is
+talking to itself,
+
+159
+00:06:46.670 --> 00:06:48.560
+there's a particular IP address
+
+160
+00:06:48.560 --> 00:06:49.880
+that you always use
+called a loopback
+
+161
+00:06:49.880 --> 00:06:54.235
+address and it is 127.0.0.1.
+
+162
+00:06:54.235 --> 00:06:56.030
+Whenever you use
+that address, it means that
+
+163
+00:06:56.030 --> 00:06:58.795
+the machine is sending
+a message to itself.
+
+164
+00:06:58.795 --> 00:07:01.265
+Just another process
+on the same machine.
+
+165
+00:07:01.265 --> 00:07:02.465
+So that's what we're doing here.
+
+166
+00:07:02.465 --> 00:07:04.235
+So that's what we're going
+to use for the IP address.
+
+167
+00:07:04.235 --> 00:07:06.410
+Now note, we can send
+to any machine with
+
+168
+00:07:06.410 --> 00:07:07.580
+any IP address because
+we can just fill
+
+169
+00:07:07.580 --> 00:07:08.930
+in a different IP address here,
+
+170
+00:07:08.930 --> 00:07:10.430
+but since we're doing
+it on the same machine,
+
+171
+00:07:10.430 --> 00:07:12.310
+we just use
+this loopback address.
+
+172
+00:07:12.310 --> 00:07:15.410
+Now, ms.connects actually
+takes one argument which is
+
+173
+00:07:15.410 --> 00:07:18.770
+a tuple of the IP address
+and the port number.
+
+174
+00:07:18.770 --> 00:07:28.980
+So let's just give it that
+127.0.0.1, and then 1234.
+
+175
+00:07:28.980 --> 00:07:33.865
+So ms.connect is taking
+one argument, which is a tuple.
+
+176
+00:07:33.865 --> 00:07:36.740
+The tuple contains
+the IP address string
+
+177
+00:07:36.740 --> 00:07:38.600
+which is the IP address
+and the port number.
+
+178
+00:07:38.600 --> 00:07:41.250
+So we connect then and
+there is a connection.
+
+179
+00:07:41.250 --> 00:07:42.380
+Now, we haven't seen
+anything happened
+
+180
+00:07:42.380 --> 00:07:43.430
+because I haven't sent anything
+
+181
+00:07:43.430 --> 00:07:46.430
+on his connection yet,
+but that's connection.
+
+182
+00:07:46.430 --> 00:07:48.335
+So now I'm going
+to send something,
+
+183
+00:07:48.335 --> 00:07:54.750
+and I'm going to use the
+send all method rather.
+
+184
+00:07:55.780 --> 00:07:58.345
+For this, I want to send
+
+185
+00:07:58.345 --> 00:08:00.555
+a string hello world
+something like that.
+
+186
+00:08:00.555 --> 00:08:02.690
+Now, send all takes an argument.
+
+187
+00:08:02.690 --> 00:08:04.480
+It doesn't take
+a string argument,
+
+188
+00:08:04.480 --> 00:08:06.155
+it takes a byte array argument,
+
+189
+00:08:06.155 --> 00:08:08.570
+which is very
+similar to a string.
+
+190
+00:08:08.570 --> 00:08:11.990
+It's a slight
+generalization of a string,
+
+191
+00:08:11.990 --> 00:08:13.490
+but the only difference from
+
+192
+00:08:13.490 --> 00:08:15.560
+our point of view that we put
+a b in front of the string.
+
+193
+00:08:15.560 --> 00:08:19.094
+So maybe hello world,
+
+194
+00:08:19.094 --> 00:08:22.320
+let's say and we send it now.
+
+195
+00:08:22.320 --> 00:08:23.950
+When I hit Enter,
+
+196
+00:08:23.950 --> 00:08:25.250
+I should see something appear in
+
+197
+00:08:25.250 --> 00:08:26.480
+the bottom screen, right?
+
+198
+00:08:26.480 --> 00:08:27.690
+You should finally
+receive something.
+
+199
+00:08:27.690 --> 00:08:30.330
+So it worked, right?
+
+200
+00:08:30.330 --> 00:08:32.330
+I can send any number of texts.
+
+201
+00:08:32.330 --> 00:08:35.500
+I could say, Hello again,
+
+202
+00:08:35.510 --> 00:08:38.925
+like that and hit
+Enter, sends it again.
+
+203
+00:08:38.925 --> 00:08:40.620
+So that's it.
+
+204
+00:08:40.620 --> 00:08:42.555
+I can do that all
+day if I feel like.
+
+205
+00:08:42.555 --> 00:08:45.820
+So that is pretty
+simple. Thank you.

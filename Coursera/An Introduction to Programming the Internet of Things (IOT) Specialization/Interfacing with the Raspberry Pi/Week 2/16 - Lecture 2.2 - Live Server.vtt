@@ -1,0 +1,506 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.283 --> 00:00:15.659
+This lecture, we'll talk about,
+we'll complete talking about a server,
+
+3
+00:00:15.659 --> 00:00:16.682
+generic server.
+
+4
+00:00:16.682 --> 00:00:21.287
+And then we'll talk about how to make it
+a live server, basically a server you want
+
+5
+00:00:21.287 --> 00:00:25.720
+to stay alive, to continue to do its job
+over time, so we'll talk about that.
+
+6
+00:00:27.840 --> 00:00:28.690
+Sending and receiving.
+
+7
+00:00:28.690 --> 00:00:33.590
+So in our generic, generic server, its
+job is basically to wait for connections.
+
+8
+00:00:33.590 --> 00:00:35.780
+When it gets one, it accepts it.
+
+9
+00:00:35.780 --> 00:00:40.450
+It accepts whatever data
+comes in on the socket, then,
+
+10
+00:00:40.450 --> 00:00:42.020
+it takes that and just turns it around.
+
+11
+00:00:42.020 --> 00:00:43.000
+It sends it back.
+
+12
+00:00:43.000 --> 00:00:46.670
+Okay, this is a really simple of what
+we'll call an echo server, really simple,
+
+13
+00:00:46.670 --> 00:00:50.120
+just receives a message and then sends
+the same thing right back to the client.
+
+14
+00:00:50.120 --> 00:00:53.179
+So, it's a dumb server, but
+you can imagine putting in something
+
+15
+00:00:53.179 --> 00:00:56.674
+more interesting if you wanted to that
+does something, receives the data,
+
+16
+00:00:56.674 --> 00:00:58.660
+processes it, and sends the result back.
+
+17
+00:00:58.660 --> 00:01:01.490
+That would be easy, but
+we're just doing the generic thing.
+
+18
+00:01:03.180 --> 00:01:07.170
+So we start off over right here,
+you start receiving, doing the receive.
+
+19
+00:01:07.170 --> 00:01:10.780
+So you have a connection at this point,
+and you say conn, and
+
+20
+00:01:10.780 --> 00:01:11.675
+conn is your connection.
+
+21
+00:01:11.675 --> 00:01:15.390
+Conn.receive, that receives
+the data that you want to receive.
+
+22
+00:01:15.390 --> 00:01:19.380
+And 1000, the argument to the receive
+is the maximum amount of bytes that we
+
+23
+00:01:19.380 --> 00:01:23.220
+want to receive, we limit it so
+that we don't overflow any buffers.
+
+24
+00:01:23.220 --> 00:01:24.710
+This shouldn't be a problem in Python,
+
+25
+00:01:24.710 --> 00:01:27.220
+but in a language like C
+that could be an issue.
+
+26
+00:01:27.220 --> 00:01:32.540
+So we do the receive, and information
+goes into data then we just turn
+
+27
+00:01:32.540 --> 00:01:37.510
+it right around and we cay conn.sendall
+{data}, so we send the data right back.
+
+28
+00:01:37.510 --> 00:01:41.640
+So receive is used as receive the data,
+send all sends it.
+
+29
+00:01:41.640 --> 00:01:43.520
+We didn't use send, we used sendall,
+
+30
+00:01:43.520 --> 00:01:47.280
+just because as we said before,
+sendall actually makes sure that the data,
+
+31
+00:01:47.280 --> 00:01:50.680
+the message is sent, that all the data
+is sent, even if there are issues or
+
+32
+00:01:50.680 --> 00:01:52.680
+it's chopped up into chunks or
+something like that.
+
+33
+00:01:52.680 --> 00:01:53.360
+It all gets sent.
+
+34
+00:01:53.360 --> 00:01:54.610
+So, we used sendall.
+
+35
+00:01:55.650 --> 00:02:00.280
+And at the end, after you're done with
+sending the data back, the server's
+
+36
+00:02:00.280 --> 00:02:04.810
+done it's job, so we say okay, now we can
+close the connection and close the socket.
+
+37
+00:02:04.810 --> 00:02:06.450
+And you do them in that order.
+
+38
+00:02:06.450 --> 00:02:09.180
+So that's sort of a simple
+generic server right there.
+
+39
+00:02:09.180 --> 00:02:10.930
+That's the end of it, any way.
+
+40
+00:02:10.930 --> 00:02:13.080
+But typically you want a live server.
+
+41
+00:02:13.080 --> 00:02:17.330
+So a live server is a server that
+doesn't just receive one message,
+
+42
+00:02:17.330 --> 00:02:22.180
+send this response back, do that once and
+then go to sleep, an end.
+
+43
+00:02:22.180 --> 00:02:23.300
+We don't want that usually.
+
+44
+00:02:23.300 --> 00:02:28.070
+Usually a server is a program that
+stays alive for a long period of time.
+
+45
+00:02:28.070 --> 00:02:31.030
+Waiting for messages, and
+it receives a message, it does something,
+
+46
+00:02:31.030 --> 00:02:33.900
+it sends a response, and waits for
+the next one, and it continues.
+
+47
+00:02:33.900 --> 00:02:36.430
+In fact,
+it generally continues that forever.
+
+48
+00:02:36.430 --> 00:02:41.510
+So here's, here's how we modify
+the code slightly to do that.
+
+49
+00:02:41.510 --> 00:02:44.140
+Basically, it's similar
+to what we just saw
+
+50
+00:02:44.140 --> 00:02:46.480
+except you'll notice this while True loop,
+right?
+
+51
+00:02:46.480 --> 00:02:50.090
+So that's a while True, that's an infinite
+loop because True is always True.
+
+52
+00:02:50.090 --> 00:02:54.320
+So what it does is,
+inside the loop it accepts a connection.
+
+53
+00:02:54.320 --> 00:02:57.235
+So it's waiting for a connection,
+it accepts one when one comes in.
+
+54
+00:02:57.235 --> 00:02:59.195
+It retains the connection and the address.
+
+55
+00:03:00.755 --> 00:03:03.075
+So the address, we don't actually
+need the address right now, but
+
+56
+00:03:03.075 --> 00:03:04.395
+the connection is key.
+
+57
+00:03:04.395 --> 00:03:09.445
+Then we call receive on that connection
+to receive the data on that connection.
+
+58
+00:03:09.445 --> 00:03:11.065
+Then if not data, we break.
+
+59
+00:03:11.065 --> 00:03:15.665
+So the idea there is that if we don't
+receive any data on the connection, then
+
+60
+00:03:15.665 --> 00:03:19.700
+we know that the communication is done and
+we can just break out of this whole loop.
+
+61
+00:03:19.700 --> 00:03:22.350
+But if there is data then
+you say conn.sendall(data).
+
+62
+00:03:22.350 --> 00:03:25.670
+You just do what we want to
+do send the response back.
+
+63
+00:03:25.670 --> 00:03:29.440
+Presumably if it was a more interesting
+server it would do processing first
+
+64
+00:03:29.440 --> 00:03:30.930
+then send the result back.
+
+65
+00:03:30.930 --> 00:03:32.380
+But we send the data back, and
+
+66
+00:03:32.380 --> 00:03:35.670
+then we go back into the loop waiting
+to accept the next connection.
+
+67
+00:03:37.440 --> 00:03:40.570
+So, or not the next connection, but
+waiting to accept the next message.
+
+68
+00:03:41.630 --> 00:03:44.720
+And then outside the loop, we close
+a connection, and we close a socket.
+
+69
+00:03:44.720 --> 00:03:48.330
+So, that's just an example of
+a live server, how you make it so
+
+70
+00:03:48.330 --> 00:03:49.880
+it stays alive over a period of time.
+
+71
+00:03:49.880 --> 00:03:51.930
+And this is much more typical of a server.
+
+72
+00:03:53.900 --> 00:03:56.589
+Infinite loop and connections
+close when no data is received.
+
+73
+00:03:58.040 --> 00:04:00.300
+So full server programs.
+
+74
+00:04:00.300 --> 00:04:03.810
+So this is just the whole program
+put together, top to bottom,
+
+75
+00:04:03.810 --> 00:04:04.640
+from all the slides.
+
+76
+00:04:04.640 --> 00:04:07.700
+You start off, you import, oh,
+don't mind the indentation.
+
+77
+00:04:07.700 --> 00:04:12.050
+The indentation of the two imports is
+shifted by one, but un-indent that.
+
+78
+00:04:12.050 --> 00:04:15.110
+That should be all the way left justified.
+
+79
+00:04:15.110 --> 00:04:18.280
+So you import the socket and sys.
+
+80
+00:04:18.280 --> 00:04:21.240
+Socket you import because that
+has a socket library in it.
+
+81
+00:04:21.240 --> 00:04:25.690
+Import sys because sys allows
+us to do sys.exit which means
+
+82
+00:04:25.690 --> 00:04:27.880
+when there's an error,
+we need this for error handling.
+
+83
+00:04:27.880 --> 00:04:30.265
+When there's some error we print
+out our error message, and
+
+84
+00:04:30.265 --> 00:04:31.495
+then we're going to exit.
+
+85
+00:04:31.495 --> 00:04:34.695
+We don't want to continue doing anything
+else because there's been a failure.
+
+86
+00:04:34.695 --> 00:04:38.205
+So we put sys in there just so
+we have that exit function.
+
+87
+00:04:38.205 --> 00:04:42.045
+And it starts off, we create the sockets,
+so mysock = socket,
+
+88
+00:04:42.045 --> 00:04:43.430
+does socket, and so on.
+
+89
+00:04:43.430 --> 00:04:44.700
+Create a socket.
+
+90
+00:04:44.700 --> 00:04:47.190
+Then, inside the first try, we do a bind.
+
+91
+00:04:47.190 --> 00:04:48.800
+We bind to that socket.
+
+92
+00:04:48.800 --> 00:04:52.840
+The first argument is empty
+because we don't know what IP
+
+93
+00:04:52.840 --> 00:04:54.010
+address we're going to bind to.
+
+94
+00:04:54.010 --> 00:04:56.230
+It depends on who's trying
+to connect with us.
+
+95
+00:04:56.230 --> 00:04:58.210
+Once 1234 is just
+an arbitrary port number, but
+
+96
+00:04:58.210 --> 00:04:59.690
+the second argument is a port number.
+
+97
+00:04:59.690 --> 00:05:00.980
+So, we bind to the socket.
+
+98
+00:05:00.980 --> 00:05:03.652
+Then we listen on that socket,
+mysock.listen.
+
+99
+00:05:03.652 --> 00:05:07.690
+We listen on the socket,
+waiting for a message to come in.
+
+100
+00:05:07.690 --> 00:05:09.930
+Then we go into our loop that we just saw.
+
+101
+00:05:09.930 --> 00:05:11.390
+When a message comes in we accept it,
+
+102
+00:05:11.390 --> 00:05:15.220
+and returning the connection,
+we receive data from that connection.
+
+103
+00:05:15.220 --> 00:05:20.280
+Then if there's some data, if there is
+some data, we go and send a response back.
+
+104
+00:05:20.280 --> 00:05:22.670
+Otherwise we break because
+we know we're done.
+
+105
+00:05:22.670 --> 00:05:26.380
+And we stay in that loop until there
+is no data that's received, so
+
+106
+00:05:26.380 --> 00:05:28.240
+we receive data and data's empty.
+
+107
+00:05:28.240 --> 00:05:32.067
+Then we break out of that, we close
+the connection, and close the socket.
+
+108
+00:05:32.067 --> 00:05:32.647
+Thank you.
+
+109
+00:05:32.647 --> 00:05:41.609
+[MUSIC]

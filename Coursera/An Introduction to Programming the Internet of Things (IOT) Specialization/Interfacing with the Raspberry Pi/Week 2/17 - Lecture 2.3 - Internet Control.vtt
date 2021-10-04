@@ -1,0 +1,551 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:10.000
+[MUSIC]
+
+2
+00:00:11.166 --> 00:00:15.067
+We'll talk in this lecture about
+controlling a device through the Internet,
+
+3
+00:00:15.067 --> 00:00:18.269
+controlling a Raspberry Pi based
+device through the Internet.
+
+4
+00:00:20.050 --> 00:00:21.380
+So controlling over the Internet.
+
+5
+00:00:21.380 --> 00:00:25.890
+This is sort of a central thing,
+central idea in the Internet of things,
+
+6
+00:00:25.890 --> 00:00:29.760
+devices, is accessing some
+device through the Internet.
+
+7
+00:00:29.760 --> 00:00:32.080
+Controlling a device over the Internet,
+it's the Internet of things,
+
+8
+00:00:32.080 --> 00:00:32.730
+it's interesting.
+
+9
+00:00:32.730 --> 00:00:34.160
+They have a lot of applications.
+
+10
+00:00:34.160 --> 00:00:36.700
+Just to name a few,
+home automation, right?
+
+11
+00:00:36.700 --> 00:00:39.809
+Maybe you want to automate your home,
+control a device in your home remotely.
+
+12
+00:00:40.890 --> 00:00:42.080
+Telemedicine, right?
+
+13
+00:00:42.080 --> 00:00:47.920
+Maybe you want to control with a knife,
+a hand, a surgical device remotely.
+
+14
+00:00:47.920 --> 00:00:48.740
+Things like this.
+
+15
+00:00:48.740 --> 00:00:50.320
+So controlling over the Internet.
+
+16
+00:00:50.320 --> 00:00:55.015
+This is part of the Internet of things
+idea, and we want to be able to do that.
+
+17
+00:00:55.015 --> 00:00:58.735
+And now that we've talked about
+making clients and servers,
+
+18
+00:00:58.735 --> 00:01:03.965
+socket based clients and servers,
+we have the tools to start doing that.
+
+19
+00:01:03.965 --> 00:01:06.495
+Now so we'll just mock up
+a tiny one right here, but
+
+20
+00:01:06.495 --> 00:01:10.155
+you can add features to
+this if you want to.
+
+21
+00:01:10.155 --> 00:01:12.785
+So the idea here is we're going to
+say look, we want to send commands to
+
+22
+00:01:12.785 --> 00:01:17.810
+a Raspberry PI and then have the Raspberry
+Pi do something in the real world.
+
+23
+00:01:19.030 --> 00:01:23.770
+Now maybe that something is turning
+off and on a light in your house or
+
+24
+00:01:23.770 --> 00:01:27.680
+moving a knife across somebody's vein or
+something like this.
+
+25
+00:01:27.680 --> 00:01:28.670
+But that's the idea.
+
+26
+00:01:28.670 --> 00:01:31.820
+You want to send commands
+To Raspberry Pi remotely and
+
+27
+00:01:31.820 --> 00:01:33.780
+then Raspberry Pi does something.
+
+28
+00:01:33.780 --> 00:01:36.710
+Now notice that, even though we're not
+going to to do this in this example,
+
+29
+00:01:36.710 --> 00:01:38.100
+you can send data the other way, too.
+
+30
+00:01:38.100 --> 00:01:41.640
+Sensor data can go from
+the Raspberry Pi to your remote device.
+
+31
+00:01:41.640 --> 00:01:43.220
+You can also do that.
+
+32
+00:01:43.220 --> 00:01:44.110
+We're not doing that.
+
+33
+00:01:44.110 --> 00:01:46.360
+We're just doing the one sided way,
+
+34
+00:01:46.360 --> 00:01:49.810
+send controlled data to the Raspberry Pi
+device over the internet.
+
+35
+00:01:51.780 --> 00:01:54.410
+Okay, so we're going to make
+a really simple system,
+
+36
+00:01:54.410 --> 00:01:57.570
+an Internet controlled LED, just a light.
+
+37
+00:01:57.570 --> 00:02:00.840
+And what's going to happen is you've got
+some device, it looks like a little cell
+
+38
+00:02:00.840 --> 00:02:03.730
+phone picture but
+it could be any device that is networked.
+
+39
+00:02:03.730 --> 00:02:05.280
+So, it goes through the network.
+
+40
+00:02:05.280 --> 00:02:07.940
+My little cloud is my
+symbol of the network.
+
+41
+00:02:07.940 --> 00:02:11.550
+So, it goes through the network, the
+internet, to your Raspberry Pi, sending
+
+42
+00:02:11.550 --> 00:02:15.950
+a command to your Raspberry Pi and then
+it tells it to turn the LED off or on.
+
+43
+00:02:15.950 --> 00:02:18.590
+The Raspberry Pi is wired
+directly to the LED.
+
+44
+00:02:18.590 --> 00:02:21.600
+And it turns it off or
+on according to the remote commands.
+
+45
+00:02:21.600 --> 00:02:23.630
+So that's what we want to do.
+
+46
+00:02:23.630 --> 00:02:25.810
+It's not hard to write.
+
+47
+00:02:25.810 --> 00:02:30.550
+So the LED turns it off and
+on by remote commands from some device.
+
+48
+00:02:31.560 --> 00:02:36.850
+An on message literally ON, if that's
+the contents of the message being sent,
+
+49
+00:02:36.850 --> 00:02:41.830
+then the LED will go on and
+an off message will turn the LED off.
+
+50
+00:02:41.830 --> 00:02:43.850
+So that's all we want to do right now.
+
+51
+00:02:43.850 --> 00:02:48.050
+Now notice that once we do this we can
+expand this to do anything based on any
+
+52
+00:02:48.050 --> 00:02:51.410
+kind of message but as a demo we're
+just going to do this simple thing.
+
+53
+00:02:52.480 --> 00:02:56.780
+So, basically what's happening in this is,
+that the Raspberry Pi is a server, right?
+
+54
+00:02:56.780 --> 00:03:00.980
+It's sitting there waiting for
+a request, on and off, are two requests.
+
+55
+00:03:00.980 --> 00:03:04.400
+And some client is going to connect
+to the Raspberry Pi server, and
+
+56
+00:03:04.400 --> 00:03:08.450
+if the Raspberry Pi sees that the request
+isn't on, it will turn the LED on.
+
+57
+00:03:08.450 --> 00:03:11.964
+So the LED itself is the resource
+that the server is protecting.
+
+58
+00:03:11.964 --> 00:03:16.940
+Since the Raspberry Pi is acting as
+a server, we're going to basically
+
+59
+00:03:16.940 --> 00:03:21.070
+take that generic server code that we
+just looked at in a previous lecture and
+
+60
+00:03:21.070 --> 00:03:25.120
+we're going to modify it ever so
+slightly to control this LED.
+
+61
+00:03:25.120 --> 00:03:26.949
+And it's really a very small modification.
+
+62
+00:03:29.090 --> 00:03:31.070
+So here's how we modify it.
+
+63
+00:03:31.070 --> 00:03:33.400
+We go,
+this isn't the whole server program, but
+
+64
+00:03:33.400 --> 00:03:37.400
+this is the main core of it,
+that loop where it accepts connections and
+
+65
+00:03:37.400 --> 00:03:41.470
+then processes, receives data,
+processes it, and sends the results back.
+
+66
+00:03:41.470 --> 00:03:45.400
+So we're going to modify
+that loop just a little bit.
+
+67
+00:03:45.400 --> 00:03:47.560
+So at the top line
+there's an infinite loop.
+
+68
+00:03:47.560 --> 00:03:49.340
+We say we accept the connection.
+
+69
+00:03:49.340 --> 00:03:50.840
+We get this connection back.
+
+70
+00:03:50.840 --> 00:03:52.330
+The next line we receive data.
+
+71
+00:03:52.330 --> 00:03:53.030
+So we say conn.
+
+72
+00:03:53.030 --> 00:03:55.460
+receive data, receive request.
+
+73
+00:03:55.460 --> 00:03:58.260
+Now in our model this request is
+going to be one of two things.
+
+74
+00:03:58.260 --> 00:04:01.080
+It's going to be either an on or an off.
+
+75
+00:04:01.080 --> 00:04:04.350
+Right, it's going to be the word on or
+the word off.
+
+76
+00:04:04.350 --> 00:04:06.840
+So, if there's no data it
+breaks the connection, right.
+
+77
+00:04:06.840 --> 00:04:13.670
+But if there's data, if the data equals
+on, then GPIO.output 13 equals true,
+
+78
+00:04:13.670 --> 00:04:18.800
+13 true, which if you remember from
+previous lectures GPIO.output set,
+
+79
+00:04:18.800 --> 00:04:23.320
+in this case, it'll set pin 13 to true,
+to high, right?
+
+80
+00:04:23.320 --> 00:04:26.110
+Now I'm assuming here that
+pin 13 is wired to the LED.
+
+81
+00:04:26.110 --> 00:04:29.850
+In order for this to work,
+we have to take in the LED,
+
+82
+00:04:29.850 --> 00:04:35.440
+wire it in a resistor to pin 13 which
+we've done in previous modules, right?
+
+83
+00:04:35.440 --> 00:04:40.820
+So we wire it to pin 13, GPIO.output(13,
+true) will turn that LED on.
+
+84
+00:04:40.820 --> 00:04:45.770
+Then if data equals off,
+then it's going to to say it's going to to
+
+85
+00:04:45.770 --> 00:04:49.890
+take pin 13 to turn it off, to make it
+false, which will turn the LED off.
+
+86
+00:04:49.890 --> 00:04:53.280
+And that's really the only change
+in the code that we have to make.
+
+87
+00:04:53.280 --> 00:04:58.310
+Now, notice that the received data has
+to be compared to the commands, right?
+
+88
+00:04:58.310 --> 00:05:02.400
+So we say if data equals on, you compare
+it to on, you compare it to off.
+
+89
+00:05:02.400 --> 00:05:04.850
+Now notice that, here's a funny thing.
+
+90
+00:05:04.850 --> 00:05:07.560
+When I say data equals on,
+I don't just say data equals on,
+
+91
+00:05:07.560 --> 00:05:09.670
+I say data equals b on.
+
+92
+00:05:09.670 --> 00:05:11.260
+And data equals b off.
+
+93
+00:05:11.260 --> 00:05:12.630
+Why did I do this?
+
+94
+00:05:12.630 --> 00:05:16.650
+That's because, and I'm not sure why this
+is the case, that's because this data,
+
+95
+00:05:16.650 --> 00:05:20.340
+the result returned from the receive
+function is not a string.
+
+96
+00:05:20.340 --> 00:05:22.870
+Okay?
+It's what's called a byte array.
+
+97
+00:05:22.870 --> 00:05:28.800
+A byte array is actually,
+it's an array, a list of bytes, okay?
+
+98
+00:05:28.800 --> 00:05:34.000
+Which is, actually in C strangely enough,
+a byte array is equivalent to a string.
+
+99
+00:05:34.000 --> 00:05:37.290
+But in Python those are actually
+different structures.
+
+100
+00:05:37.290 --> 00:05:39.410
+So different types of objects.
+
+101
+00:05:39.410 --> 00:05:43.630
+So what you need to do is you put
+that B in front of the string.
+
+102
+00:05:43.630 --> 00:05:47.130
+So on, when I put on, say,
+right there I say B on.
+
+103
+00:05:47.130 --> 00:05:48.590
+But on in quote?
+
+104
+00:05:48.590 --> 00:05:50.115
+That's a string.
+
+105
+00:05:50.115 --> 00:05:52.845
+But in order to compare it to data,
+data's a byte array,
+
+106
+00:05:52.845 --> 00:05:55.685
+I have to turn that
+string into a byte array.
+
+107
+00:05:55.685 --> 00:05:56.875
+The simple shorthand for
+
+108
+00:05:56.875 --> 00:05:59.305
+turning a string into a byte array
+is putting a b in front of it.
+
+109
+00:05:59.305 --> 00:06:05.175
+So if you say b on, that is the byte array
+which is equivalent to the string on.
+
+110
+00:06:05.175 --> 00:06:08.125
+And then b off is the byte array which
+is equivalent to the string off.
+
+111
+00:06:08.125 --> 00:06:09.735
+So I need to convert it
+into a byte array just so
+
+112
+00:06:09.735 --> 00:06:13.030
+I can compare it to the data
+because the data's a byte array.
+
+113
+00:06:13.030 --> 00:06:16.290
+But other than that this
+is a very small change and
+
+114
+00:06:16.290 --> 00:06:19.230
+this should do the task,
+this should serve the need.
+
+115
+00:06:19.230 --> 00:06:22.180
+And so when it receives on
+it will turn the LED on,
+
+116
+00:06:22.180 --> 00:06:24.226
+when it receives off it will turn it off.
+
+117
+00:06:24.226 --> 00:06:32.459
+Thank you.
+[MUSIC]
