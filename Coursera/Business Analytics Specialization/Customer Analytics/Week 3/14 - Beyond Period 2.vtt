@@ -1,0 +1,1202 @@
+WEBVTT
+
+1
+00:00:05.090 --> 00:00:08.020
+Welcome back. I hope that
+
+2
+00:00:08.020 --> 00:00:10.150
+rigorous content on regression
+
+3
+00:00:10.150 --> 00:00:12.460
+and related techniques
+makes sense to you.
+
+4
+00:00:12.460 --> 00:00:13.960
+I hope it's pretty
+clear now how we can
+
+5
+00:00:13.960 --> 00:00:15.865
+take a bunch of data from,
+
+6
+00:00:15.865 --> 00:00:18.810
+let's say, period 1,
+whether it's, again,
+
+7
+00:00:18.810 --> 00:00:21.235
+past behavior,
+marketing activities,
+
+8
+00:00:21.235 --> 00:00:23.095
+competition, whatever,
+
+9
+00:00:23.095 --> 00:00:25.510
+to predict something
+about period 2.
+
+10
+00:00:25.510 --> 00:00:26.950
+Whether it's the
+number of purchases,
+
+11
+00:00:26.950 --> 00:00:29.315
+whether someone stays
+with us or not.
+
+12
+00:00:29.315 --> 00:00:32.455
+It's really really important
+to be able to do that.
+
+13
+00:00:32.455 --> 00:00:34.240
+Unfortunately, those
+techniques are
+
+14
+00:00:34.240 --> 00:00:37.020
+common, they're very accessible.
+
+15
+00:00:37.020 --> 00:00:39.880
+You don't necessarily have
+to have special software.
+
+16
+00:00:39.880 --> 00:00:42.715
+You can do it in something as
+simple as Microsoft Excel.
+
+17
+00:00:42.715 --> 00:00:44.320
+In fact, I want to talk about
+
+18
+00:00:44.320 --> 00:00:46.870
+an example where
+people were doing that
+
+19
+00:00:46.870 --> 00:00:49.820
+thing long before they had
+
+20
+00:00:49.820 --> 00:00:53.660
+any kind of computational
+power that we have today,
+
+21
+00:00:53.660 --> 00:00:56.720
+or even the rich data
+that we have today.
+
+22
+00:00:56.720 --> 00:00:58.110
+I want to take you back to
+
+23
+00:00:58.110 --> 00:01:01.260
+the late 1960s, the early 1970s.
+
+24
+00:01:01.260 --> 00:01:03.350
+It was the dawn of what today
+
+25
+00:01:03.350 --> 00:01:05.720
+we would know as
+direct marketing.
+
+26
+00:01:05.720 --> 00:01:07.520
+It really was when a lot of
+
+27
+00:01:07.520 --> 00:01:10.115
+these ideas of customer
+analytics were born.
+
+28
+00:01:10.115 --> 00:01:12.380
+It was the first time that
+we really had any kind
+
+29
+00:01:12.380 --> 00:01:14.540
+of granularity about what
+
+30
+00:01:14.540 --> 00:01:17.660
+particular customers were
+doing and a desire to
+
+31
+00:01:17.660 --> 00:01:19.040
+know what each and every one of
+
+32
+00:01:19.040 --> 00:01:21.200
+those customers
+would be doing next,
+
+33
+00:01:21.200 --> 00:01:23.875
+for how long, and
+for how much money.
+
+34
+00:01:23.875 --> 00:01:25.760
+So it became very important for
+
+35
+00:01:25.760 --> 00:01:28.010
+companies to come up
+with what we like
+
+36
+00:01:28.010 --> 00:01:32.025
+to call KPIs, key
+performance indicators.
+
+37
+00:01:32.025 --> 00:01:33.170
+Can we look at
+
+38
+00:01:33.170 --> 00:01:37.055
+some indicators of what people
+had been doing in the past
+
+39
+00:01:37.055 --> 00:01:39.860
+in order to make some
+accurate statements
+
+40
+00:01:39.860 --> 00:01:43.090
+about what they're likely
+to do in the future.
+
+41
+00:01:43.090 --> 00:01:45.634
+This is just a natural area
+
+42
+00:01:45.634 --> 00:01:48.220
+to run something like
+a regression model,
+
+43
+00:01:48.220 --> 00:01:49.970
+and indeed, regression models
+
+44
+00:01:49.970 --> 00:01:51.770
+were used for this
+kind of purpose.
+
+45
+00:01:51.770 --> 00:01:54.560
+But it wasn't, let's
+just throw in tons and
+
+46
+00:01:54.560 --> 00:01:55.805
+tons and tons of data
+
+47
+00:01:55.805 --> 00:01:57.880
+because part of it as
+the data was limited,
+
+48
+00:01:57.880 --> 00:01:59.060
+part of it, as I said, is that
+
+49
+00:01:59.060 --> 00:02:00.770
+our computational
+power was limited.
+
+50
+00:02:00.770 --> 00:02:02.210
+So we have to think
+very carefully.
+
+51
+00:02:02.210 --> 00:02:04.595
+It was very very important
+for us to come up with
+
+52
+00:02:04.595 --> 00:02:06.890
+just a few measures
+that would be fairly
+
+53
+00:02:06.890 --> 00:02:08.570
+predictive of what customers
+
+54
+00:02:08.570 --> 00:02:10.085
+would be worth in the future.
+
+55
+00:02:10.085 --> 00:02:13.115
+So our forefathers
+in direct marketing,
+
+56
+00:02:13.115 --> 00:02:14.660
+they basically did the kinds
+
+57
+00:02:14.660 --> 00:02:16.265
+of things we've been
+talking about here.
+
+58
+00:02:16.265 --> 00:02:17.690
+Let's take our dataset,
+
+59
+00:02:17.690 --> 00:02:19.640
+let's chop it into two pieces,
+
+60
+00:02:19.640 --> 00:02:21.590
+let's collect some
+data from period
+
+61
+00:02:21.590 --> 00:02:23.630
+1 to see which elements of
+
+62
+00:02:23.630 --> 00:02:25.550
+that period 1 data would be
+
+63
+00:02:25.550 --> 00:02:28.775
+most predictive of what
+people did in period 2.
+
+64
+00:02:28.775 --> 00:02:30.695
+In period 2 would be looking at,
+
+65
+00:02:30.695 --> 00:02:33.080
+how many purchases
+they made or what was
+
+66
+00:02:33.080 --> 00:02:35.825
+the dollar value of
+those customers?
+
+67
+00:02:35.825 --> 00:02:37.880
+They ran lots of
+models to try to find
+
+68
+00:02:37.880 --> 00:02:40.060
+out which bits of data
+were most predictive,
+
+69
+00:02:40.060 --> 00:02:41.750
+and they'd do it over and
+
+70
+00:02:41.750 --> 00:02:43.970
+over and over again on lots
+of different datasets,
+
+71
+00:02:43.970 --> 00:02:45.080
+for lots of different products,
+
+72
+00:02:45.080 --> 00:02:46.790
+lots of different geographies,
+
+73
+00:02:46.790 --> 00:02:48.530
+lots of different
+customer segments.
+
+74
+00:02:48.530 --> 00:02:50.990
+Because we wanted
+to find a few of
+
+75
+00:02:50.990 --> 00:02:54.920
+those explanatory variables
+that were pretty robust,
+
+76
+00:02:54.920 --> 00:02:58.400
+that time and time again
+would prove to be predictive.
+
+77
+00:02:58.400 --> 00:03:00.920
+This is where our forefathers in
+
+78
+00:03:00.920 --> 00:03:05.735
+direct marketing came up
+with the idea of R-F-M,
+
+79
+00:03:05.735 --> 00:03:09.500
+recency, frequency,
+monetary value.
+
+80
+00:03:09.500 --> 00:03:11.390
+What they found time and time
+
+81
+00:03:11.390 --> 00:03:13.670
+again back in the
+'60s, early '70s,
+
+82
+00:03:13.670 --> 00:03:16.835
+and we still see true today
+here in the 21st century,
+
+83
+00:03:16.835 --> 00:03:19.970
+is that you can give me
+these three summary metrics.
+
+84
+00:03:19.970 --> 00:03:22.880
+You give me recency,
+frequency, monetary value.
+
+85
+00:03:22.880 --> 00:03:24.530
+You tell me the last
+
+86
+00:03:24.530 --> 00:03:26.750
+time that someone
+made a purchase with
+
+87
+00:03:26.750 --> 00:03:28.490
+me or did some other kind
+
+88
+00:03:28.490 --> 00:03:31.759
+of economically
+valuable activity,
+
+89
+00:03:31.759 --> 00:03:33.875
+maybe they took a sales call.
+
+90
+00:03:33.875 --> 00:03:35.960
+Maybe they visited the website.
+
+91
+00:03:35.960 --> 00:03:38.120
+So they did something that
+
+92
+00:03:38.120 --> 00:03:39.230
+suggests that they're going to
+
+93
+00:03:39.230 --> 00:03:40.720
+become a more valuable customer.
+
+94
+00:03:40.720 --> 00:03:43.050
+Generally, we're talking
+about a purchase.
+
+95
+00:03:43.050 --> 00:03:44.910
+So that's R, that's recency.
+
+96
+00:03:44.910 --> 00:03:46.730
+Now tell me about frequency.
+
+97
+00:03:46.730 --> 00:03:49.220
+Tell me how many
+purchases they made or
+
+98
+00:03:49.220 --> 00:03:51.920
+how many economically
+beneficial activities
+
+99
+00:03:51.920 --> 00:03:54.635
+they did over a set
+period of time,
+
+100
+00:03:54.635 --> 00:03:56.695
+let's say the last year or two,
+
+101
+00:03:56.695 --> 00:03:58.910
+and third would be
+monetary value.
+
+102
+00:03:58.910 --> 00:04:01.475
+I think that's pretty
+much self-explanatory.
+
+103
+00:04:01.475 --> 00:04:02.810
+So when they did
+
+104
+00:04:02.810 --> 00:04:05.315
+those economically
+beneficial activities,
+
+105
+00:04:05.315 --> 00:04:07.190
+what was the overall or
+
+106
+00:04:07.190 --> 00:04:10.850
+the average monetary value of
+each and every one of them?
+
+107
+00:04:10.850 --> 00:04:13.310
+So if you can give me R-F-M,
+
+108
+00:04:13.310 --> 00:04:15.125
+recency, frequency,
+monetary value,
+
+109
+00:04:15.125 --> 00:04:17.690
+I can make a very accurate
+statement about what
+
+110
+00:04:17.690 --> 00:04:20.430
+that customer's going to
+be worth in period 2.
+
+111
+00:04:20.430 --> 00:04:22.340
+Again, this was one of
+
+112
+00:04:22.340 --> 00:04:23.660
+the first areas where
+
+113
+00:04:23.660 --> 00:04:25.950
+regression analysis
+was used in marketing.
+
+114
+00:04:25.950 --> 00:04:27.350
+It was one of the first ways for
+
+115
+00:04:27.350 --> 00:04:28.925
+folks in marketing to
+say, "You know what,
+
+116
+00:04:28.925 --> 00:04:31.010
+all of that data that
+we've been collecting,
+
+117
+00:04:31.010 --> 00:04:33.025
+not really sure
+what to do with it,
+
+118
+00:04:33.025 --> 00:04:34.700
+there's real value there.
+
+119
+00:04:34.700 --> 00:04:36.440
+We can really predict stuff
+
+120
+00:04:36.440 --> 00:04:38.630
+and then we can start to
+change our business to take
+
+121
+00:04:38.630 --> 00:04:40.790
+advantage of these insights about
+
+122
+00:04:40.790 --> 00:04:43.205
+what's likely to
+happen in the future,
+
+123
+00:04:43.205 --> 00:04:45.680
+not just what happened
+in the past."
+
+124
+00:04:45.680 --> 00:04:47.720
+So I just want to
+put RFM out there as
+
+125
+00:04:47.720 --> 00:04:50.015
+just one very nice example
+
+126
+00:04:50.015 --> 00:04:52.730
+of an application of
+
+127
+00:04:52.730 --> 00:04:54.680
+the kinds of things that
+[inaudible] was talking about.
+
+128
+00:04:54.680 --> 00:04:57.370
+Now I want to go
+one step further.
+
+129
+00:04:57.370 --> 00:04:59.890
+So we can run these
+regression models
+
+130
+00:04:59.890 --> 00:05:01.620
+and we can take
+whatever data we have.
+
+131
+00:05:01.620 --> 00:05:04.220
+Again, we could start with
+something as simple as RFM.
+
+132
+00:05:04.220 --> 00:05:06.610
+We can bring in many
+many more kinds
+
+133
+00:05:06.610 --> 00:05:08.380
+of measures, much
+more complicated,
+
+134
+00:05:08.380 --> 00:05:10.480
+much more interesting,
+and make statements
+
+135
+00:05:10.480 --> 00:05:13.720
+about what's likely to
+happen in period 2.
+
+136
+00:05:13.720 --> 00:05:16.240
+Again, if all you're
+interested in
+
+137
+00:05:16.240 --> 00:05:18.790
+is making statements
+about period two,
+
+138
+00:05:18.790 --> 00:05:21.580
+how many purchases are going
+to happen in the next year?
+
+139
+00:05:21.580 --> 00:05:23.200
+Who's going to churn or not?
+
+140
+00:05:23.200 --> 00:05:27.205
+Then regression type
+models are fine.
+
+141
+00:05:27.205 --> 00:05:30.610
+In fact, you can't do better
+than regression type models,
+
+142
+00:05:30.610 --> 00:05:32.020
+or different kinds of data
+
+143
+00:05:32.020 --> 00:05:33.865
+mining that might be out there.
+
+144
+00:05:33.865 --> 00:05:36.880
+But what happens when you
+want to go beyond period two?
+
+145
+00:05:36.880 --> 00:05:39.100
+What happens when you want
+to make statements about
+
+146
+00:05:39.100 --> 00:05:41.635
+period three, or period four?
+
+147
+00:05:41.635 --> 00:05:43.660
+Or what happens if you want
+to talk about something
+
+148
+00:05:43.660 --> 00:05:46.345
+like customer lifetime value?
+
+149
+00:05:46.345 --> 00:05:49.075
+But we don't want to limit
+our statements just to what
+
+150
+00:05:49.075 --> 00:05:52.150
+a particular customer is going
+to do over the next year.
+
+151
+00:05:52.150 --> 00:05:54.850
+But if we want to go out
+there and acquire customers,
+
+152
+00:05:54.850 --> 00:05:57.160
+if we want to figure out
+what's the maximum amount
+
+153
+00:05:57.160 --> 00:05:59.230
+that we should be willing
+to spend on a customer,
+
+154
+00:05:59.230 --> 00:06:01.000
+We can't limit ourselves just to
+
+155
+00:06:01.000 --> 00:06:02.890
+how much they're going to pay us,
+
+156
+00:06:02.890 --> 00:06:05.185
+how much profits we'll get
+from them in the next period,
+
+157
+00:06:05.185 --> 00:06:08.455
+we need to project that
+out way into the future.
+
+158
+00:06:08.455 --> 00:06:11.890
+The problem is, regression
+type models are
+
+159
+00:06:11.890 --> 00:06:15.655
+fairly limited at their ability
+to do that kind of thing.
+
+160
+00:06:15.655 --> 00:06:17.185
+Let me try to explain why.
+
+161
+00:06:17.185 --> 00:06:20.815
+Let's go back to the timeline
+that I described before.
+
+162
+00:06:20.815 --> 00:06:23.605
+We get all of this
+data in period one
+
+163
+00:06:23.605 --> 00:06:26.800
+to make a statement about
+what we see in period two.
+
+164
+00:06:26.800 --> 00:06:28.780
+We run a regression
+model to predict
+
+165
+00:06:28.780 --> 00:06:30.865
+sales as a function of;
+
+166
+00:06:30.865 --> 00:06:32.319
+visits to the website,
+
+167
+00:06:32.319 --> 00:06:34.135
+usage of social media,
+
+168
+00:06:34.135 --> 00:06:35.590
+marketing activities,
+
+169
+00:06:35.590 --> 00:06:37.915
+everything under the
+sun, that's great.
+
+170
+00:06:37.915 --> 00:06:39.700
+But what happens if we
+want to make statements
+
+171
+00:06:39.700 --> 00:06:41.635
+about period three?
+
+172
+00:06:41.635 --> 00:06:43.630
+Well, if all you want to do is
+
+173
+00:06:43.630 --> 00:06:45.175
+make statements
+about period three,
+
+174
+00:06:45.175 --> 00:06:47.650
+that's not so bad. You'll
+say, "Wait a minute.
+
+175
+00:06:47.650 --> 00:06:50.650
+I have this data on period two.
+
+176
+00:06:50.650 --> 00:06:54.490
+Instead of using period two
+as my dependent variable,
+
+177
+00:06:54.490 --> 00:06:57.595
+that's the thing that I want
+to explain in my regression,
+
+178
+00:06:57.595 --> 00:06:59.800
+why don't I look at
+period two and get
+
+179
+00:06:59.800 --> 00:07:02.395
+my explanatory variables from it.
+
+180
+00:07:02.395 --> 00:07:04.959
+Why don't I look at; the
+visits to the website,
+
+181
+00:07:04.959 --> 00:07:07.315
+the marketing touches, the RFM?
+
+182
+00:07:07.315 --> 00:07:08.860
+I have period two,
+
+183
+00:07:08.860 --> 00:07:11.575
+so let me take all the period
+two data now to try to
+
+184
+00:07:11.575 --> 00:07:14.575
+make a prediction about what
+will happen in period three.
+
+185
+00:07:14.575 --> 00:07:16.885
+Hey, I already ran my regression.
+
+186
+00:07:16.885 --> 00:07:18.789
+So I have my regression
+coefficients,
+
+187
+00:07:18.789 --> 00:07:20.350
+I have all the outputs
+and everything
+
+188
+00:07:20.350 --> 00:07:22.015
+that rigor was talking about.
+
+189
+00:07:22.015 --> 00:07:24.670
+So let me just jam in
+my period two data
+
+190
+00:07:24.670 --> 00:07:26.100
+into that regression and
+
+191
+00:07:26.100 --> 00:07:27.840
+make statements about
+period three. "
+
+192
+00:07:27.840 --> 00:07:30.990
+You see, I can predict the
+future and that's great.
+
+193
+00:07:30.990 --> 00:07:32.490
+If you want to go
+one statement at
+
+194
+00:07:32.490 --> 00:07:34.670
+one period out, terrific.
+
+195
+00:07:34.670 --> 00:07:37.480
+But what happens if you
+want to go to period four?
+
+196
+00:07:37.480 --> 00:07:41.080
+We don't have any data beyond
+period two ,we don't have
+
+197
+00:07:41.080 --> 00:07:43.030
+any x variables from period
+
+198
+00:07:43.030 --> 00:07:45.175
+three in order to
+predict period four,
+
+199
+00:07:45.175 --> 00:07:46.945
+what are we going to do there?
+
+200
+00:07:46.945 --> 00:07:49.480
+How far out into the
+future can we go?
+
+201
+00:07:49.480 --> 00:07:52.165
+The problem with
+regression type models
+
+202
+00:07:52.165 --> 00:07:53.695
+is that they're limited.
+
+203
+00:07:53.695 --> 00:07:55.600
+That if you don't
+have any data to
+
+204
+00:07:55.600 --> 00:07:57.895
+use as inputs into the model,
+
+205
+00:07:57.895 --> 00:08:00.115
+then you can't get the output.
+
+206
+00:08:00.115 --> 00:08:04.045
+So no matter how long your
+observation period might be,
+
+207
+00:08:04.045 --> 00:08:05.890
+you're limited as far as how
+
+208
+00:08:05.890 --> 00:08:07.870
+far into the future you
+can make statements.
+
+209
+00:08:07.870 --> 00:08:12.265
+Now, in many cases
+this isn't a problem.
+
+210
+00:08:12.265 --> 00:08:15.490
+For many kinds of decisions
+
+211
+00:08:15.490 --> 00:08:16.810
+that the companies want to make,
+
+212
+00:08:16.810 --> 00:08:18.730
+simply being able to
+make statements about
+
+213
+00:08:18.730 --> 00:08:21.940
+one maybe two periods
+out, is perfectly fine.
+
+214
+00:08:21.940 --> 00:08:23.230
+In fact, you might say that
+
+215
+00:08:23.230 --> 00:08:26.560
+most decisions are
+perfectly adequate
+
+216
+00:08:26.560 --> 00:08:28.210
+and these limitations of
+
+217
+00:08:28.210 --> 00:08:31.705
+regression aren't going to
+be a problem, and I agree.
+
+218
+00:08:31.705 --> 00:08:33.565
+But there are times,
+
+219
+00:08:33.565 --> 00:08:37.120
+especially when we want to
+ask when type questions,
+
+220
+00:08:37.120 --> 00:08:38.890
+or long run type questions.
+
+221
+00:08:38.890 --> 00:08:42.235
+Like I mentioned, customer
+lifetime value already.
+
+222
+00:08:42.235 --> 00:08:44.770
+It's one thing if we want
+to make a statement about,
+
+223
+00:08:44.770 --> 00:08:46.870
+''Is this customer
+going to churn in
+
+224
+00:08:46.870 --> 00:08:48.910
+the next period or not?''
+
+225
+00:08:48.910 --> 00:08:50.170
+Regression models are going to be
+
+226
+00:08:50.170 --> 00:08:51.640
+great for that kind of thing.
+
+227
+00:08:51.640 --> 00:08:53.590
+But if we want to ask
+a question instead,
+
+228
+00:08:53.590 --> 00:08:55.780
+''When will this
+customer churn?''
+
+229
+00:08:55.780 --> 00:08:58.015
+Like if they survive
+through the next period,
+
+230
+00:08:58.015 --> 00:09:00.490
+how many more periods
+will they survive?
+
+231
+00:09:00.490 --> 00:09:03.415
+Regression won't
+really work well,
+
+232
+00:09:03.415 --> 00:09:06.910
+when we're projecting way
+outside of the range of
+
+233
+00:09:06.910 --> 00:09:08.440
+data that we had in
+
+234
+00:09:08.440 --> 00:09:11.500
+the first place to run
+the original model.
+
+235
+00:09:11.500 --> 00:09:14.410
+So if we want to make these
+longer run projections,
+
+236
+00:09:14.410 --> 00:09:16.675
+and I'm going to keep
+coming back to talk about
+
+237
+00:09:16.675 --> 00:09:20.680
+customer lifetime value
+as one very nice,
+
+238
+00:09:20.680 --> 00:09:23.440
+very practical example
+of something that we're
+
+239
+00:09:23.440 --> 00:09:26.425
+going to want to do over
+a longer period of time.
+
+240
+00:09:26.425 --> 00:09:28.510
+Today, as firms start talking
+
+241
+00:09:28.510 --> 00:09:30.640
+much more about
+customer centricity,
+
+242
+00:09:30.640 --> 00:09:32.560
+that we want to figure out
+who the right customers
+
+243
+00:09:32.560 --> 00:09:33.850
+are and we're willing to
+
+244
+00:09:33.850 --> 00:09:35.500
+invest in them because
+they're going to be
+
+245
+00:09:35.500 --> 00:09:37.765
+so worth it in the long run,
+
+246
+00:09:37.765 --> 00:09:40.870
+we need to have some
+visibility into the long run.
+
+247
+00:09:40.870 --> 00:09:41.680
+We need to be able to make
+
+248
+00:09:41.680 --> 00:09:43.570
+these predictive statements about
+
+249
+00:09:43.570 --> 00:09:44.950
+the long run in order to
+
+250
+00:09:44.950 --> 00:09:47.665
+see if those investments
+are justified.
+
+251
+00:09:47.665 --> 00:09:50.380
+So there's much more interest
+than ever to be able to
+
+252
+00:09:50.380 --> 00:09:53.125
+make statements
+beyond period two.
+
+253
+00:09:53.125 --> 00:09:54.685
+So I want to talk about
+
+254
+00:09:54.685 --> 00:09:57.610
+a very different kind
+of modeling approach.
+
+255
+00:09:57.610 --> 00:10:01.660
+It's not nearly as popular
+as regression models are,
+
+256
+00:10:01.660 --> 00:10:04.560
+but it's not necessarily
+any more complicated.
+
+257
+00:10:04.560 --> 00:10:08.610
+As our view to the future
+goes further and further out,
+
+258
+00:10:08.610 --> 00:10:12.000
+it becomes more and more
+important to add this other kind
+
+259
+00:10:12.000 --> 00:10:13.620
+of modeling approach to
+
+260
+00:10:13.620 --> 00:10:16.420
+your toolkit. That's
+what we'll do next.
