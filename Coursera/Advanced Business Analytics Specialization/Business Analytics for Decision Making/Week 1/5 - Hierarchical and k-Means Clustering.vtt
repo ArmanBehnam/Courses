@@ -1,0 +1,555 @@
+WEBVTT
+
+1
+00:00:00.220 --> 00:00:04.772
+There are two main methods for
+clustering, hierarchical clustering and
+
+2
+00:00:04.772 --> 00:00:06.450
+k-Means clustering.
+
+3
+00:00:06.450 --> 00:00:10.550
+Our goal for this video is for you to
+understand how these methods operate
+
+4
+00:00:10.550 --> 00:00:13.610
+before we use them to analyze datasets.
+
+5
+00:00:13.610 --> 00:00:15.490
+We're going to talk about objects but
+
+6
+00:00:15.490 --> 00:00:19.240
+keep in mind that an object is
+equivalent to an observation.
+
+7
+00:00:19.240 --> 00:00:21.760
+Or it will be equivalent to
+a customer in marketing data.
+
+8
+00:00:22.820 --> 00:00:24.890
+Let's start with hierarchical clustering.
+
+9
+00:00:24.890 --> 00:00:27.460
+This technique is conceptually simple.
+
+10
+00:00:27.460 --> 00:00:31.735
+The process begins with placing
+each object in its own cluster.
+
+11
+00:00:31.735 --> 00:00:36.403
+For example, suppose that we have five
+objects labeled A, B, C, D and E.
+
+12
+00:00:36.403 --> 00:00:41.590
+Then in the first step these objects
+are placed each in its own cluster.
+
+13
+00:00:41.590 --> 00:00:44.990
+In subsequent steps,
+the method calculates the distance between
+
+14
+00:00:44.990 --> 00:00:49.330
+each pair of clusters and then it
+merges the two closest to each other.
+
+15
+00:00:49.330 --> 00:00:51.060
+Let's suppose that objects A and
+
+16
+00:00:51.060 --> 00:00:56.300
+B are the objects that are closest to
+each other of all the possible pairs.
+
+17
+00:00:56.300 --> 00:00:59.320
+These objects are merged
+into a single cluster.
+
+18
+00:00:59.320 --> 00:01:03.725
+In the third step, the procedure
+merges the AB cluster with C.
+
+19
+00:01:03.725 --> 00:01:07.320
+And finally,
+the procedure stops when merging D and E.
+
+20
+00:01:07.320 --> 00:01:10.170
+The final result shows two clusters.
+
+21
+00:01:10.170 --> 00:01:14.270
+One with A, B, and C and
+the other one with D and E.
+
+22
+00:01:14.270 --> 00:01:15.720
+The procedure is simple.
+
+23
+00:01:15.720 --> 00:01:20.480
+But it needs to know how to measure
+distance from one cluster to another.
+
+24
+00:01:20.480 --> 00:01:24.990
+And it also needs to know when to
+stop merging clusters, otherwise,
+
+25
+00:01:24.990 --> 00:01:28.700
+it will always result in one cluster,
+with all the objects in it.
+
+26
+00:01:28.700 --> 00:01:30.940
+You might recall that,
+in the previous video,
+
+27
+00:01:30.940 --> 00:01:35.380
+we introduced five measures to calculate
+the distance between a pair of clusters.
+
+28
+00:01:35.380 --> 00:01:38.860
+These measures were single linkage,
+complete linkage,
+
+29
+00:01:38.860 --> 00:01:42.750
+average linkage, average group linkage,
+and Ward's method.
+
+30
+00:01:42.750 --> 00:01:46.175
+Any of these measures can be
+used in hierarchical clustering.
+
+31
+00:01:46.175 --> 00:01:49.730
+Software packages allow you to
+choose which measure to use.
+
+32
+00:01:49.730 --> 00:01:52.795
+In terms of when to stop,
+this is determined by the analyst.
+
+33
+00:01:52.795 --> 00:01:56.650
+Cluster analysis requires
+experimentation and
+
+34
+00:01:56.650 --> 00:01:59.260
+often there is no single
+one correct answer.
+
+35
+00:01:59.260 --> 00:02:03.620
+Experimenting with several distance
+measures and with different number of
+
+36
+00:02:03.620 --> 00:02:08.200
+clusters is a common practice in order
+to find meaningful groupings of data.
+
+37
+00:02:08.200 --> 00:02:12.454
+We will address some of these issues
+in the last video of this module.
+
+38
+00:02:12.454 --> 00:02:17.427
+Hierarchical clustering may be
+represented by a two-dimensional diagram
+
+39
+00:02:17.427 --> 00:02:18.752
+called dendogram.
+
+40
+00:02:18.752 --> 00:02:22.460
+This diagram has the form
+of an inverted tree.
+
+41
+00:02:22.460 --> 00:02:25.810
+The horizontal axis represents
+the observations and
+
+42
+00:02:25.810 --> 00:02:27.950
+the vertical axis represents distance.
+
+43
+00:02:27.950 --> 00:02:31.450
+The length of the branches
+represented by the vertical lines
+
+44
+00:02:31.450 --> 00:02:35.190
+indicate the distance between
+the two clusters that are merging.
+
+45
+00:02:35.190 --> 00:02:37.980
+The diagram is read from
+the bottom to the top
+
+46
+00:02:37.980 --> 00:02:41.370
+by sweeping a horizontal
+line across the entire tree.
+
+47
+00:02:41.370 --> 00:02:44.840
+If we start a distance of zero and
+move up,
+
+48
+00:02:44.840 --> 00:02:49.900
+the first merger that we find is
+the one of observations A and B.
+
+49
+00:02:49.900 --> 00:02:52.820
+At this point,
+we have a solution with six clusters.
+
+50
+00:02:52.820 --> 00:02:57.505
+One with A and B in it and
+the other five with one observation each.
+
+51
+00:02:57.505 --> 00:03:00.767
+That is C, D, E, F, and G.
+
+52
+00:03:00.767 --> 00:03:04.645
+The next merger of the AB
+cluster with observation
+
+53
+00:03:04.645 --> 00:03:07.424
+C occurs at the distance of 1.5.
+
+54
+00:03:07.424 --> 00:03:11.470
+Then observations D and
+E merged at distance of 2.
+
+55
+00:03:11.470 --> 00:03:15.850
+And observations F and
+G merged at a distance of 2.5.
+
+56
+00:03:15.850 --> 00:03:19.890
+At this level, the dendrogram shows
+a solution with three clusters.
+
+57
+00:03:19.890 --> 00:03:23.510
+One with A, B, and C,
+another one with D and E.
+
+58
+00:03:23.510 --> 00:03:26.160
+And a third one with F and G.
+
+59
+00:03:26.160 --> 00:03:29.135
+A two cluster solution is found
+is at the distance of three.
+
+60
+00:03:29.135 --> 00:03:32.480
+Since the dendogram contains
+all possible solutions,
+
+61
+00:03:32.480 --> 00:03:37.770
+it is only practical to examine it for
+datasets with relatively few observations.
+
+62
+00:03:37.770 --> 00:03:39.276
+Now let's talk about k-means.
+
+63
+00:03:39.276 --> 00:03:43.350
+The k-means method is very well known and
+widely used.
+
+64
+00:03:43.350 --> 00:03:47.470
+It is scalable, meaning that it
+can deal with very large datasets.
+
+65
+00:03:47.470 --> 00:03:52.020
+The overall idea is to assign
+objects to the nearest cluster.
+
+66
+00:03:52.020 --> 00:03:56.280
+Where distance is measured from the object
+to the centroid of the cluster.
+
+67
+00:03:56.280 --> 00:03:59.080
+Recall that the centroid
+is the cluster average.
+
+68
+00:03:59.080 --> 00:04:02.770
+The value of k indicates
+the number of clusters.
+
+69
+00:04:02.770 --> 00:04:06.640
+The process starts with the selection
+of k observations at the centroid
+
+70
+00:04:06.640 --> 00:04:08.185
+of the initial clusters.
+
+71
+00:04:08.185 --> 00:04:10.180
+This selection is somewhat arbitrary.
+
+72
+00:04:10.180 --> 00:04:14.590
+But the procedure works better if
+the initial centroids are as far apart
+
+73
+00:04:14.590 --> 00:04:15.560
+as possible.
+
+74
+00:04:15.560 --> 00:04:19.590
+Then, the rest of the observations
+are assigned to the closest centroid.
+
+75
+00:04:19.590 --> 00:04:23.740
+Once the assignment is completed,
+the cluster averages are recalculated.
+
+76
+00:04:23.740 --> 00:04:27.152
+These recalculation could change
+the position of the centroids and
+
+77
+00:04:27.152 --> 00:04:30.050
+cause a reassignment of the observations.
+
+78
+00:04:30.050 --> 00:04:33.670
+These two steps are repeated until
+the centroids do not change.
+
+79
+00:04:33.670 --> 00:04:35.375
+So let's take a look at a simple example.
+
+80
+00:04:35.375 --> 00:04:39.959
+We want to divide seven individuals
+into two groups based on their age and
+
+81
+00:04:39.959 --> 00:04:41.480
+annual income.
+
+82
+00:04:41.480 --> 00:04:44.300
+To initialize a procedure,
+we select David and
+
+83
+00:04:44.300 --> 00:04:47.830
+Clara as the initial members for
+the two clusters.
+
+84
+00:04:47.830 --> 00:04:51.980
+Sometimes these initial objects
+are referred to as seeds.
+
+85
+00:04:51.980 --> 00:04:56.340
+Since there is only one member in each
+cluster, the centroid of these initial
+
+86
+00:04:56.340 --> 00:05:01.720
+clusters are the values corresponding to
+the age and income of David and Clair.
+
+87
+00:05:01.720 --> 00:05:05.200
+Since income and
+age have values at very different scales,
+
+88
+00:05:05.200 --> 00:05:09.120
+we use the normalized values to
+calculate nucleon distances.
+
+89
+00:05:09.120 --> 00:05:11.830
+According to these calculations,
+we assign Ann and
+
+90
+00:05:11.830 --> 00:05:14.640
+George to David to form the red cluster.
+
+91
+00:05:14.640 --> 00:05:19.996
+The second cluster, colored in blue,
+has Clara, Bob, Erin and Frank.
+
+92
+00:05:19.996 --> 00:05:25.155
+The clusters centers are then recalculated
+and they move to a new position.
+
+93
+00:05:25.155 --> 00:05:30.485
+The new cluster positions cause Bob to be
+a little bit closer to the red centroid
+
+94
+00:05:30.485 --> 00:05:35.115
+than to the blue centroid, and therefore
+Bob is reassigned to the red cluster.
+
+95
+00:05:35.115 --> 00:05:38.225
+The centroids are recalculated
+once again and
+
+96
+00:05:38.225 --> 00:05:40.870
+this time no reassignments are possible.
+
+97
+00:05:40.870 --> 00:05:44.390
+The final clusters seem to
+be characterized by age,
+
+98
+00:05:44.390 --> 00:05:48.590
+with the red cluster consisting
+of all of the people under 40 and
+
+99
+00:05:48.590 --> 00:05:52.220
+the blue clusters with all
+the people over 40 years old.
+
+100
+00:05:52.220 --> 00:05:55.900
+The beauty of k-Means is that
+it is a very simple procedure.
+
+101
+00:05:55.900 --> 00:06:00.500
+The weakness is that the final clusters
+depend on the initial choices.
+
+102
+00:06:00.500 --> 00:06:04.230
+This is why cluster analysis
+software gives you the option of
+
+103
+00:06:04.230 --> 00:06:09.150
+running the procedure multiple times
+from seeds that are randomly chosen.
+
+104
+00:06:09.150 --> 00:06:12.640
+Process of creating clusters
+from a dataset can be viewed
+
+105
+00:06:12.640 --> 00:06:14.410
+as an optimization problem.
+
+106
+00:06:14.410 --> 00:06:20.160
+Both hierarchical clustering and K-means
+are procedures that find approximate
+
+107
+00:06:20.160 --> 00:06:25.715
+solutions to the problem maximizing the
+similarity of the objects in each cluster.
+
+108
+00:06:25.715 --> 00:06:30.010
+The maximization must take into
+consideration that there must be k
+
+109
+00:06:30.010 --> 00:06:36.620
+clusters and that all objects must belong
+to one cluster and only one cluster.
+
+110
+00:06:36.620 --> 00:06:39.180
+This is not easy optimization problem and
+
+111
+00:06:39.180 --> 00:06:43.050
+this is the reason business
+analytic softwares employ
+
+112
+00:06:43.050 --> 00:06:45.941
+approximation procedure such as
+hierarchical clustering and k-means.
+
+113
+00:06:47.390 --> 00:06:48.250
+In our next video,
+
+114
+00:06:48.250 --> 00:06:53.010
+we will take a closer look at
+the optimization approach from clustering.
+
+115
+00:06:53.010 --> 00:06:57.245
+We will model the problem and
+use a tool called Solver to search for
+
+116
+00:06:57.245 --> 00:06:58.944
+the best set of clusters.

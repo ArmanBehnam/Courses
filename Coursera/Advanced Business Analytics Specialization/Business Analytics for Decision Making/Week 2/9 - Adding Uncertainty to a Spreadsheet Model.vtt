@@ -1,0 +1,651 @@
+WEBVTT
+
+1
+00:00:00.280 --> 00:00:04.580
+In this video we're going to show how
+to turn at the deterministic model
+
+2
+00:00:04.580 --> 00:00:07.280
+into one that includes uncertainty.
+
+3
+00:00:07.280 --> 00:00:09.490
+We're going to do this
+with a specific example.
+
+4
+00:00:09.490 --> 00:00:12.960
+Overbooking is a common practice
+in the airline industry.
+
+5
+00:00:12.960 --> 00:00:16.720
+On every flight there is a fraction
+of passengers that do not show up.
+
+6
+00:00:16.720 --> 00:00:19.830
+Anticipating this,
+airlines overbook flights.
+
+7
+00:00:19.830 --> 00:00:23.690
+That is they sell more tickets
+than the capacity of the aircraft,
+
+8
+00:00:23.690 --> 00:00:29.010
+hoping that the right number of customers
+will show up and the plane will fly full.
+
+9
+00:00:29.010 --> 00:00:32.140
+Overbooking increases
+the probability of a full flight,
+
+10
+00:00:32.140 --> 00:00:34.320
+maximizing revenue for the airline.
+
+11
+00:00:34.320 --> 00:00:37.420
+But if overbooking causes
+passengers to be bumped,
+
+12
+00:00:37.420 --> 00:00:41.660
+there is a cost to the airline in
+both travel vouchers and good will.
+
+13
+00:00:41.660 --> 00:00:44.670
+This of course reduces revenue.
+
+14
+00:00:44.670 --> 00:00:49.150
+The secret to overbooking is
+finding that magical number
+
+15
+00:00:49.150 --> 00:00:54.260
+of extra reservations to avoid both
+empty seats and bumped flyers.
+
+16
+00:00:54.260 --> 00:00:58.820
+If every passenger that would miss
+a flight for any reason at all will have
+
+17
+00:00:58.820 --> 00:01:03.360
+to buy another ticket then empty seats
+would not represent a loss of revenue.
+
+18
+00:01:03.360 --> 00:01:06.240
+However, this is not how things work.
+
+19
+00:01:06.240 --> 00:01:11.290
+Business travelers often pay higher
+fares for refundable tickets.
+
+20
+00:01:11.290 --> 00:01:15.710
+These travelers need flexibility of
+changing plans at the last minute and
+
+21
+00:01:15.710 --> 00:01:19.530
+the airline is happy to provide
+this service for a price.
+
+22
+00:01:19.530 --> 00:01:24.190
+But even travelers flying on
+non-refundable tickets could miss a flight
+
+23
+00:01:24.190 --> 00:01:28.470
+and be transferred to a later flight for
+a fee or no fee at all.
+
+24
+00:01:28.470 --> 00:01:33.840
+Without overbooking the seats
+of the no shows would be empty.
+
+25
+00:01:33.840 --> 00:01:37.320
+The loss of revenue of an empty
+seat typically exceeds
+
+26
+00:01:37.320 --> 00:01:40.500
+the actual cost of compensating
+a bumped passenger.
+
+27
+00:01:40.500 --> 00:01:44.800
+But angering people is not good for
+business, and this is why
+
+28
+00:01:44.800 --> 00:01:49.510
+the overbooking models include cost of
+not only what the passenger receives,
+
+29
+00:01:49.510 --> 00:01:54.740
+such as flight voucher, but
+also an estimate of loss of goodwill.
+
+30
+00:01:54.740 --> 00:01:58.900
+The problem of setting an overbooking
+limit on a flight is complex.
+
+31
+00:01:58.900 --> 00:02:04.602
+Airline analysts use models that consider
+historical data, the mix of refundable and
+
+32
+00:02:04.602 --> 00:02:08.720
+non-refundable tickets, and
+the different airfare classes and levels.
+
+33
+00:02:08.720 --> 00:02:12.080
+They even consider location
+since a flight leaving Las Vegas
+
+34
+00:02:12.080 --> 00:02:15.760
+might have more no shows
+than one leaving Detroit.
+
+35
+00:02:15.760 --> 00:02:20.580
+We're going to use a simplified version
+of this problem to show how simulation is
+
+36
+00:02:20.580 --> 00:02:24.540
+used to deal with the uncertainty
+of passenger behavior and
+
+37
+00:02:24.540 --> 00:02:26.710
+delays in flight schedules.
+
+38
+00:02:26.710 --> 00:02:31.060
+We're going to assume that we have been
+charged with the task of establishing
+
+39
+00:02:31.060 --> 00:02:35.460
+an overbooking limit for
+a particular flight of a discount airline.
+
+40
+00:02:35.460 --> 00:02:40.100
+The airline sells non-refundable
+tickets only, but passengers that miss
+
+41
+00:02:40.100 --> 00:02:43.879
+the flight can transfer to
+another flight for a fee of $60.
+
+42
+00:02:43.879 --> 00:02:48.500
+The flight uses an Airbus
+319 with 134 seats.
+
+43
+00:02:48.500 --> 00:02:51.305
+Historically, the average demand for
+
+44
+00:02:51.305 --> 00:02:56.747
+this flight has been 150 passengers and
+the show up rate has been 92%.
+
+45
+00:02:56.747 --> 00:03:01.557
+The price for the ticket is $314,
+and we have considered
+
+46
+00:03:01.557 --> 00:03:06.571
+that each passenger that is
+bumped cost the airline $400.
+
+47
+00:03:06.571 --> 00:03:10.800
+With this data, we will build a model to
+calculate net revenue for this flight.
+
+48
+00:03:11.830 --> 00:03:15.738
+Before modeling this problem on
+a spreadsheet, it is useful to understand
+
+49
+00:03:15.738 --> 00:03:20.610
+the logic of how the overbooking limit
+interacts with the no-show rate.
+
+50
+00:03:20.610 --> 00:03:23.730
+This graphical representation
+of the model shows that
+
+51
+00:03:23.730 --> 00:03:27.700
+everything starts in the yellow
+box with the decision to overbook.
+
+52
+00:03:27.700 --> 00:03:31.480
+The overbooking limit is added
+to the capacity of the aircraft
+
+53
+00:03:31.480 --> 00:03:33.800
+to calculate the booking capacity.
+
+54
+00:03:33.800 --> 00:03:37.700
+The number of passengers actually
+booked is the minimum between
+
+55
+00:03:37.700 --> 00:03:41.060
+the booking capacity and
+the actually demand.
+
+56
+00:03:41.060 --> 00:03:45.600
+This simply means that we cannot book
+more passengers than the demand and
+
+57
+00:03:45.600 --> 00:03:49.890
+we're not allowed to book more
+passengers than the booking capacity.
+
+58
+00:03:49.890 --> 00:03:53.670
+For various reasons some booked
+passengers do not show up, but
+
+59
+00:03:53.670 --> 00:03:56.220
+most of them do and are ready to board.
+
+60
+00:03:56.220 --> 00:03:58.990
+If the number of passengers
+that are ready to board exceeds
+
+61
+00:03:58.990 --> 00:04:03.530
+the capacity of the aircraft, then we have
+to bump some passengers to a later flight.
+
+62
+00:04:03.530 --> 00:04:07.410
+Now you can the connection
+between an overbooking limit and
+
+63
+00:04:07.410 --> 00:04:09.580
+the number of bumped passengers.
+
+64
+00:04:09.580 --> 00:04:11.630
+Know that this connection
+is not direct and
+
+65
+00:04:11.630 --> 00:04:17.170
+other factors such as actual demand and
+no-show rates play an important role.
+
+66
+00:04:17.170 --> 00:04:19.620
+Now, let's create
+the spreadsheet model for this.
+
+67
+00:04:19.620 --> 00:04:24.830
+Locate and open the Excel file titled,
+Flight Overbooking Simulation.
+
+68
+00:04:24.830 --> 00:04:27.380
+The workbook has two spreadsheets.
+
+69
+00:04:27.380 --> 00:04:29.780
+Let's start with the Overbooking Model.
+
+70
+00:04:29.780 --> 00:04:33.830
+The top part of the spreadsheet contains
+the data, which includes the average
+
+71
+00:04:33.830 --> 00:04:37.790
+demand, the percentage of ticketed
+passengers that actually show up for
+
+72
+00:04:37.790 --> 00:04:41.670
+the flight, the capacity of the aircraft,
+the ticket price,
+
+73
+00:04:41.670 --> 00:04:45.970
+the transfer fee that no-shows must
+pay to take another flight and
+
+74
+00:04:45.970 --> 00:04:49.265
+the cost to the airline for
+every bumped passenger.
+
+75
+00:04:49.265 --> 00:04:54.530
+We use these values in the model that
+estimates the number of bumped passengers
+
+76
+00:04:54.530 --> 00:04:56.030
+and the net revenue.
+
+77
+00:04:56.030 --> 00:05:00.130
+The model has one input,
+two assumptions and two outputs.
+
+78
+00:05:00.130 --> 00:05:04.350
+The input in the light gold
+cell is the overbooking limit.
+
+79
+00:05:04.350 --> 00:05:06.810
+The assumptions are in the green cells.
+
+80
+00:05:06.810 --> 00:05:09.300
+One is the actual demand and
+
+81
+00:05:09.300 --> 00:05:14.200
+the other is the number of passengers
+that show up and are ready to board.
+
+82
+00:05:14.200 --> 00:05:15.100
+The outputs,
+
+83
+00:05:15.100 --> 00:05:20.710
+in the pale orange cells, are the number
+of bumped passengers and the net revenue.
+
+84
+00:05:20.710 --> 00:05:26.080
+When the overbooking limit is set at 0 and
+the demand is assumed to be 154
+
+85
+00:05:26.080 --> 00:05:32.820
+passengers, the model predicts
+a net revenue of $42,732.
+
+86
+00:05:32.820 --> 00:05:35.570
+Naturally, there are no bumped passengers.
+
+87
+00:05:35.570 --> 00:05:38.580
+Therefore, the overbooking cost is 0.
+
+88
+00:05:38.580 --> 00:05:44.070
+We can see that the model also predicts
+that there will be 11 no shows.
+
+89
+00:05:44.070 --> 00:05:47.330
+This means that in order to
+increase the net revenue,
+
+90
+00:05:47.330 --> 00:05:51.460
+we could increase the overbooking
+limit to at least 11 passengers.
+
+91
+00:05:51.460 --> 00:05:58.432
+If we do that, the estimated net
+revenue increases to $46,250.
+
+92
+00:05:58.432 --> 00:06:02.100
+Note that the number
+of no shows is now 12.
+
+93
+00:06:02.100 --> 00:06:07.340
+So we can increase the overbooking limit
+to 12 to match the number of no shows.
+
+94
+00:06:07.340 --> 00:06:11.680
+The revenue is now $46,564.
+
+95
+00:06:11.680 --> 00:06:16.650
+Considering the assumptions that
+the actual demand is 154 passengers and
+
+96
+00:06:16.650 --> 00:06:23.870
+that the show up rate is 92%, an
+overbooking of 12 maximizes net revenue.
+
+97
+00:06:23.870 --> 00:06:25.950
+The model provides good insights.
+
+98
+00:06:25.950 --> 00:06:30.210
+First of all, overbooking has
+the potential for increasing revenue.
+
+99
+00:06:30.210 --> 00:06:34.650
+However, the model does not take
+advantage of additional historical data
+
+100
+00:06:34.650 --> 00:06:37.330
+that is available for
+this particular flight.
+
+101
+00:06:37.330 --> 00:06:40.950
+We're only using average values for
+historical records.
+
+102
+00:06:40.950 --> 00:06:45.460
+Let's assume that using historical
+data we conclude that the demand for
+
+103
+00:06:45.460 --> 00:06:51.560
+this flight follows a Poisson distribution
+with an average of 150 passengers.
+
+104
+00:06:51.560 --> 00:06:55.227
+Let's also assume that through
+a statistical analysis
+
+105
+00:06:55.227 --> 00:06:58.348
+of the number of booked
+passengers who show up,
+
+106
+00:06:58.348 --> 00:07:03.980
+we discover that it follows a binomial
+distribution with a success rate of 0.92.
+
+107
+00:07:03.980 --> 00:07:06.263
+According to this distribution,
+
+108
+00:07:06.263 --> 00:07:12.170
+there is an 85% chance that more than
+134 passengers will show up at the gate.
+
+109
+00:07:12.170 --> 00:07:16.220
+With this additional information
+we can create a simulation model
+
+110
+00:07:16.220 --> 00:07:19.530
+that is based on the deterministic
+model that we just built.
+
+111
+00:07:19.530 --> 00:07:24.320
+This is what we call adding
+uncertainty to a spreadsheet model.
+
+112
+00:07:24.320 --> 00:07:26.580
+Let's take a look at
+the model with uncertainty.
+
+113
+00:07:26.580 --> 00:07:29.780
+Click on the spreadsheet
+named Overbooking Simulation.
+
+114
+00:07:29.780 --> 00:07:35.367
+The green cells contain functions
+from the Analytic Solver Platform,
+
+115
+00:07:35.367 --> 00:07:37.702
+which we will refer to as ASP.
+
+116
+00:07:37.702 --> 00:07:41.846
+If you don't have the ASP loaded on Excel,
+watch the video title
+
+117
+00:07:41.846 --> 00:07:47.370
+Introduction to the Analytic Solver
+Platform first and then comeback here.
+
+118
+00:07:47.370 --> 00:07:52.320
+The actual demand is now a random number
+that follows a Poisson distribution.
+
+119
+00:07:52.320 --> 00:07:56.230
+The number of passengers ready to
+board is also a random number that
+
+120
+00:07:56.230 --> 00:07:58.160
+follows a binomial distribution.
+
+121
+00:07:58.160 --> 00:08:03.690
+All Analytic Solver Platform
+functions start with the letters PSI.
+
+122
+00:08:03.690 --> 00:08:08.330
+If we click on the play button,
+we can see that the net revenue changes.
+
+123
+00:08:08.330 --> 00:08:12.000
+We can also press on the F9 key to
+recalculate the spreadsheet and
+
+124
+00:08:12.000 --> 00:08:17.130
+we will see that certain cells change
+values and the net revenue changes.
+
+125
+00:08:17.130 --> 00:08:21.800
+Each time we do this the software runs
+the number of trials as specified in
+
+126
+00:08:21.800 --> 00:08:24.160
+the tools section of the ribbon.
+
+127
+00:08:24.160 --> 00:08:27.130
+I have mine set to 10,000 trials.
+
+128
+00:08:27.130 --> 00:08:32.030
+Note that because this is assimilation
+with an overbooking limit of 12,
+
+129
+00:08:32.030 --> 00:08:36.420
+the number of bumped
+passengers is not always 0.
+
+130
+00:08:36.420 --> 00:08:40.490
+In this video we have used
+a flight overbooking example
+
+131
+00:08:40.490 --> 00:08:44.930
+to show how to turn a deterministic
+model into a simulation model.
+
+132
+00:08:44.930 --> 00:08:48.890
+We have learned how to add
+uncertainty using the simulation
+
+133
+00:08:48.890 --> 00:08:51.900
+functions in the Analytic Solver Platform.
+
+134
+00:08:51.900 --> 00:08:56.406
+In the next video we will learn
+how to collect simulation data and
+
+135
+00:08:56.406 --> 00:09:01.924
+how to use this output to answer relevant
+questions and gain useful insights.

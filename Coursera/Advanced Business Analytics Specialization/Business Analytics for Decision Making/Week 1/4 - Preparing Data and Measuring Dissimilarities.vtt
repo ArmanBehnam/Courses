@@ -1,0 +1,650 @@
+WEBVTT
+
+1
+00:00:00.320 --> 00:00:04.310
+By now, you should have an understanding
+of what cluster analysis is.
+
+2
+00:00:04.310 --> 00:00:08.400
+And also, a good grasp on the type
+of business questions that this
+
+3
+00:00:08.400 --> 00:00:10.070
+technique is able to answer.
+
+4
+00:00:10.070 --> 00:00:11.670
+Before we review the methods for
+
+5
+00:00:11.670 --> 00:00:16.340
+performing the analysis,
+we need to discuss data preparation.
+
+6
+00:00:16.340 --> 00:00:19.440
+And we also need to discuss
+how clustering methods
+
+7
+00:00:19.440 --> 00:00:21.652
+measure the similarity
+between observations.
+
+8
+00:00:21.652 --> 00:00:27.070
+While datasets could contain
+a wide variety of data types.
+
+9
+00:00:27.070 --> 00:00:32.850
+For the purpose of this discussion we
+will focus on two most common data types,
+
+10
+00:00:32.850 --> 00:00:34.990
+numerical and categorical.
+
+11
+00:00:34.990 --> 00:00:39.630
+Numerical variables include quantities
+that may be continuous, such as time.
+
+12
+00:00:39.630 --> 00:00:43.960
+Or integer, such as number of purchases or
+number of dependents.
+
+13
+00:00:43.960 --> 00:00:47.860
+Categorical variables may be ordinal or
+nominal.
+
+14
+00:00:47.860 --> 00:00:50.810
+An ordinal variable implies
+some sort of ranking.
+
+15
+00:00:50.810 --> 00:00:55.740
+For instance, a customer satisfaction
+rating is stated as high,
+
+16
+00:00:55.740 --> 00:00:58.680
+medium, and low, implies an order.
+
+17
+00:00:58.680 --> 00:01:03.060
+Therefore, a value transformation to
+a numerical variable will be to make
+
+18
+00:01:03.060 --> 00:01:07.870
+high equal to 3,
+medium equal to 2 and low equal to 1.
+
+19
+00:01:07.870 --> 00:01:12.770
+Note that these transformations imply
+that the difference between high and
+
+20
+00:01:12.770 --> 00:01:17.180
+medium is the same as the difference
+between medium and low.
+
+21
+00:01:17.180 --> 00:01:21.930
+Nominal variables on the other hand,
+can be thought of representing choices.
+
+22
+00:01:21.930 --> 00:01:25.150
+Political party affiliations
+are nominal data.
+
+23
+00:01:25.150 --> 00:01:30.030
+In the United States for example,
+this nominal data would indicate Democrat,
+
+24
+00:01:30.030 --> 00:01:32.610
+Republican, or Independent voters.
+
+25
+00:01:32.610 --> 00:01:35.510
+These choices do not imply
+any particular order, and
+
+26
+00:01:35.510 --> 00:01:39.880
+therefore they cannot be transformed
+into a single numerical variable.
+
+27
+00:01:39.880 --> 00:01:42.650
+The transformation
+requires binary variables.
+
+28
+00:01:42.650 --> 00:01:47.080
+A binary variable has two possible values,
+0 and 1.
+
+29
+00:01:47.080 --> 00:01:50.130
+The number of binary variables needed for
+
+30
+00:01:50.130 --> 00:01:54.255
+the transformation is equal to
+the number of categories minus 1.
+
+31
+00:01:54.255 --> 00:01:58.030
+Note that in the transformation for
+the political affiliation,
+
+32
+00:01:58.030 --> 00:02:02.050
+we use two binary variables,
+because there are three categories.
+
+33
+00:02:02.050 --> 00:02:06.544
+A Democrat is transformed into a value of
+1 for variable 1, and a variable of 0 for
+
+34
+00:02:06.544 --> 00:02:07.396
+a variable 2.
+
+35
+00:02:07.396 --> 00:02:10.940
+A Republican is transformed
+into a value of 0 for
+
+36
+00:02:10.940 --> 00:02:13.710
+variable 1, and
+a value of 1 for variable 2.
+
+37
+00:02:13.710 --> 00:02:18.260
+And then Independent has a value of 0 for
+both variables.
+
+38
+00:02:18.260 --> 00:02:23.480
+A special case of nominal data occurs
+when there are only two categories.
+
+39
+00:02:23.480 --> 00:02:25.910
+For instance, yes or no options.
+
+40
+00:02:25.910 --> 00:02:30.960
+For yes is typically given the value of 1,
+and no is given the value of 0.
+
+41
+00:02:30.960 --> 00:02:35.913
+Most software packages for data analysis
+include tools that can transform
+
+42
+00:02:35.913 --> 00:02:41.180
+categorical data that is given in
+the form of text to numerical variables.
+
+43
+00:02:41.180 --> 00:02:45.053
+Although software can perform these
+transformations automatically.
+
+44
+00:02:45.053 --> 00:02:48.619
+It is always good to verify how
+categorical variables are being
+
+45
+00:02:48.619 --> 00:02:54.295
+transformed, to avoid problems such as the
+software treating nominal data as ordinal.
+
+46
+00:02:54.295 --> 00:02:59.660
+Datasets may contain variables with
+values that are on very different scales.
+
+47
+00:02:59.660 --> 00:03:04.342
+Therefore it is recommended to perform
+data analysis, such as clustering.
+
+48
+00:03:04.342 --> 00:03:09.700
+On normalized, or also called standardized
+data instead of the original data.
+
+49
+00:03:09.700 --> 00:03:14.230
+Normalization takes care of differences in
+scale by transforming each original value
+
+50
+00:03:14.230 --> 00:03:16.150
+to its standard value.
+
+51
+00:03:16.150 --> 00:03:19.093
+The operation consists of
+subtracting the mean and
+
+52
+00:03:19.093 --> 00:03:21.910
+dividing by the standard deviation.
+
+53
+00:03:21.910 --> 00:03:26.641
+In this example, we have age and
+income data for five people.
+
+54
+00:03:26.641 --> 00:03:33.949
+The average age of the sample is 42.20
+years and the average income is 105,000.
+
+55
+00:03:33.949 --> 00:03:38.906
+The last two columns of the table
+show the normalized values, for
+
+56
+00:03:38.906 --> 00:03:43.338
+instance, the normalized
+age of Ann is -0.4948.
+
+57
+00:03:43.338 --> 00:03:47.510
+Which is the result of subtracting
+the average age of the group,
+
+58
+00:03:47.510 --> 00:03:51.771
+which is 42.20 years from Ann's age,
+which is 35 years.
+
+59
+00:03:51.771 --> 00:03:55.740
+And then dividing by
+the standard deviation of 14.55.
+
+60
+00:03:55.740 --> 00:03:58.290
+The normalized value means that Ann's
+
+61
+00:03:58.290 --> 00:04:02.250
+age is 0.4948 standard
+deviations below the mean.
+
+62
+00:04:02.250 --> 00:04:06.950
+The normalized values for age and
+income are now on the same scale.
+
+63
+00:04:06.950 --> 00:04:10.280
+That is with an average of 0 and
+a standard deviation of 1.
+
+64
+00:04:10.280 --> 00:04:15.850
+The normalized values allow us to
+identify the outliers in our dataset.
+
+65
+00:04:15.850 --> 00:04:20.810
+And they eliminate biases from variables
+with relatively large original values.
+
+66
+00:04:20.810 --> 00:04:25.220
+Also, normalized values enable
+an easier interpretation of cluster
+
+67
+00:04:25.220 --> 00:04:26.680
+analysis results.
+
+68
+00:04:26.680 --> 00:04:30.730
+Since the mean of a normalized
+variable is zero, we are able to
+
+69
+00:04:30.730 --> 00:04:35.260
+easily detect values that are above the
+mean and those that are below the mean.
+
+70
+00:04:35.260 --> 00:04:38.360
+We're also able to know
+how far a value is from
+
+71
+00:04:38.360 --> 00:04:41.220
+the mean in terms of standard deviations.
+
+72
+00:04:41.220 --> 00:04:43.880
+A normalized value for
+instance of 1.7 means
+
+73
+00:04:44.950 --> 00:04:49.708
+that the original value is 1.7
+standard deviations above the mean.
+
+74
+00:04:49.708 --> 00:04:53.510
+To do cluster analysis we need
+a measure of distance, or
+
+75
+00:04:53.510 --> 00:04:56.310
+the similarity between observations.
+
+76
+00:04:56.310 --> 00:04:59.835
+The Euclidean distance is
+the most commonly used measure of
+
+77
+00:04:59.835 --> 00:05:02.700
+the similarity between two observations.
+
+78
+00:05:02.700 --> 00:05:07.320
+This measure is the equivalent of the
+straight line distance between two objects
+
+79
+00:05:07.320 --> 00:05:08.820
+in a two-dimensional space.
+
+80
+00:05:09.890 --> 00:05:13.780
+Using the normalized age and
+income values in our previous example,
+
+81
+00:05:13.780 --> 00:05:18.250
+we can compute the distances from
+each pair of persons in our set.
+
+82
+00:05:18.250 --> 00:05:21.670
+For instance,
+the distance between David and Ann, or
+
+83
+00:05:21.670 --> 00:05:23.930
+the distance between David and Clara.
+
+84
+00:05:23.930 --> 00:05:28.130
+Then a scatter plot can be used to
+create a graphical representation
+
+85
+00:05:28.130 --> 00:05:31.080
+of the distance between
+each pair of observations.
+
+86
+00:05:31.080 --> 00:05:34.805
+The plot shows that in terms of age and
+income,
+
+87
+00:05:34.805 --> 00:05:40.330
+David is at least three times closer or
+more similar to Ann, than he is to Clara.
+
+88
+00:05:40.330 --> 00:05:43.745
+This make sense,
+since David is both closer in age and
+
+89
+00:05:43.745 --> 00:05:46.675
+income to Ann, than he is to Clara.
+
+90
+00:05:46.675 --> 00:05:50.925
+Now that we have a way to measure
+distances between observations,
+
+91
+00:05:50.925 --> 00:05:55.560
+we need to establish a measure
+of distance between clusters.
+
+92
+00:05:55.560 --> 00:05:58.670
+There are five distance
+measures between clusters.
+
+93
+00:05:58.670 --> 00:06:02.310
+And they are single linkage,
+complete linkage,
+
+94
+00:06:02.310 --> 00:06:06.660
+average linkage, average group linkage,
+and Ward's method.
+
+95
+00:06:06.660 --> 00:06:10.990
+In single linkage the distance
+between two clusters is determined by
+
+96
+00:06:10.990 --> 00:06:16.350
+the minimum distance between every pair of
+objects that are not in the same cluster.
+
+97
+00:06:16.350 --> 00:06:21.170
+Complete linkage uses a maximum
+distance between objects that are not
+
+98
+00:06:21.170 --> 00:06:22.870
+in the same cluster.
+
+99
+00:06:22.870 --> 00:06:28.270
+Average linkage calculate the average of
+all distances across the two clusters.
+
+100
+00:06:28.270 --> 00:06:32.340
+Average group linkage is the distance
+between the center of one cluster
+
+101
+00:06:32.340 --> 00:06:34.330
+to the center of the other.
+
+102
+00:06:34.330 --> 00:06:37.720
+Ward's method uses a sum
+of squares criterion.
+
+103
+00:06:37.720 --> 00:06:42.670
+The sum of squares refers to the squared
+distance from each observation
+
+104
+00:06:42.670 --> 00:06:46.160
+to the centroid of the cluster
+to which it is assigned.
+
+105
+00:06:46.160 --> 00:06:50.380
+Let's go through the calculations
+using the data in our simple example.
+
+106
+00:06:50.380 --> 00:06:53.900
+Suppose that Clara and
+Erin form a cluster,
+
+107
+00:06:53.900 --> 00:06:58.780
+the centroid of this cluster is
+the average normalized values.
+
+108
+00:06:58.780 --> 00:07:04.250
+So in our example we have 0.9828 and
+0.0906 as the average of the normalized
+
+109
+00:07:05.330 --> 00:07:11.840
+age and the average of the normalized
+income for the members of the cluster.
+
+110
+00:07:11.840 --> 00:07:16.560
+We then calculate the squared distance
+from each cluster member to the centroid.
+
+111
+00:07:16.560 --> 00:07:20.752
+The squared distance is calculated by
+adding the squared differences for
+
+112
+00:07:20.752 --> 00:07:23.260
+each variable value and the centroid.
+
+113
+00:07:23.260 --> 00:07:29.923
+For example, Clara has a normalized age
+of 1.567 and the centroid is 0.9828.
+
+114
+00:07:29.923 --> 00:07:33.579
+So we square the difference
+between these two numbers,
+
+115
+00:07:33.579 --> 00:07:36.318
+we do the same for the normalized income.
+
+116
+00:07:36.318 --> 00:07:40.053
+The result is a squared
+distance of 0.3495.
+
+117
+00:07:40.053 --> 00:07:42.762
+Then we go through the same
+calculations for Erin.
+
+118
+00:07:42.762 --> 00:07:45.235
+Because the cluster has only two members,
+
+119
+00:07:45.235 --> 00:07:48.470
+the centroid is exactly
+halfway between them.
+
+120
+00:07:48.470 --> 00:07:52.585
+The sum of the squares for
+this cluster is 0.699.
+
+121
+00:07:52.585 --> 00:07:53.881
+The sum of squares for
+
+122
+00:07:53.881 --> 00:07:59.090
+our complete solution is the aggregate of
+sum of the squares for all the clusters.
+
+123
+00:07:59.090 --> 00:08:02.281
+Since each cluster method may
+generate a different outcome,
+
+124
+00:08:02.281 --> 00:08:06.350
+it is generally recommended to
+experiment and compare results.
+
+125
+00:08:06.350 --> 00:08:10.706
+In this slide, we show how single
+linkage does better than k-means and
+
+126
+00:08:10.706 --> 00:08:14.350
+Ward's method in these
+two-dimensional problems.
+
+127
+00:08:14.350 --> 00:08:18.400
+However, no single method will
+always outperform the others.
+
+128
+00:08:18.400 --> 00:08:22.150
+We have reviewed three concepts
+that are critical to performing
+
+129
+00:08:22.150 --> 00:08:23.840
+a valid cluster analysis.
+
+130
+00:08:23.840 --> 00:08:26.370
+First, data should be in the correct form
+
+131
+00:08:26.370 --> 00:08:30.450
+by taking into consideration
+what each variable represents.
+
+132
+00:08:30.450 --> 00:08:33.970
+Second, and
+a proper metric should be established
+
+133
+00:08:33.970 --> 00:08:37.990
+to be able to measure the distance
+between every pair of observations.
+
+134
+00:08:37.990 --> 00:08:43.560
+And third, we must decide how distance
+between clusters is going to be measured.
+
+135
+00:08:43.560 --> 00:08:48.153
+We are now ready to review how the most
+common clustering methods operate.

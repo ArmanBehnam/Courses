@@ -1,0 +1,534 @@
+WEBVTT
+
+1
+00:00:00.210 --> 00:00:04.100
+In our last video we built
+a simulation by adding uncertainty
+
+2
+00:00:04.100 --> 00:00:06.490
+to a flight overbooking model.
+
+3
+00:00:06.490 --> 00:00:10.790
+The model has two sources of uncertainty,
+the demand and the show-up rate.
+
+4
+00:00:10.790 --> 00:00:13.570
+Let's review the simulation
+model that we created.
+
+5
+00:00:13.570 --> 00:00:18.220
+So locate and open the Excel file,
+Flight Overbooking Simulation.
+
+6
+00:00:18.220 --> 00:00:20.810
+This workbook has two tabs.
+
+7
+00:00:20.810 --> 00:00:24.040
+Click on the Overbooking Simulation tab.
+
+8
+00:00:24.040 --> 00:00:28.910
+The top table has the problem data and
+the bottom table has a model.
+
+9
+00:00:28.910 --> 00:00:33.330
+The model starts with a policy
+decision of the overbooking limit.
+
+10
+00:00:33.330 --> 00:00:36.028
+This is the yellow cell, B13.
+
+11
+00:00:36.028 --> 00:00:41.730
+The two green cells, B14 and B17,
+are the ones with the certainty.
+
+12
+00:00:41.730 --> 00:00:47.820
+In B14, we use the PsiPoisson function
+from the analytic solver platform to
+
+13
+00:00:47.820 --> 00:00:53.800
+model the actual demand based on
+the average demand of 150 passengers.
+
+14
+00:00:53.800 --> 00:00:59.160
+In cell B17, we use PsiBinomial
+to model the show up process.
+
+15
+00:00:59.160 --> 00:01:04.603
+The binomial has two parameters,
+the number of passengers that were booked,
+
+16
+00:01:04.603 --> 00:01:10.473
+which is in cell B17, and the probability
+that they show up, which is in cell B6.
+
+17
+00:01:10.473 --> 00:01:13.174
+The model calculates
+the number of no shows and
+
+18
+00:01:13.174 --> 00:01:17.330
+then it determines how many passengers
+will actually board the plane,
+
+19
+00:01:17.330 --> 00:01:20.610
+versus those who are bumped
+to a later flight.
+
+20
+00:01:20.610 --> 00:01:25.720
+The last part of the model calculates
+revenue, cost and net revenue.
+
+21
+00:01:25.720 --> 00:01:28.730
+If we recalculate
+the spreadsheet by pressing F9,
+
+22
+00:01:28.730 --> 00:01:32.180
+we can see that the values
+in the green cells change.
+
+23
+00:01:32.180 --> 00:01:36.480
+And that causes changes in both
+the number of bumped passengers and
+
+24
+00:01:36.480 --> 00:01:38.180
+in the net revenue.
+
+25
+00:01:38.180 --> 00:01:42.450
+We have highlighted these two cells
+with light orange to indicate these
+
+26
+00:01:42.450 --> 00:01:45.280
+are outputs we're interested in tracking.
+
+27
+00:01:45.280 --> 00:01:49.670
+Every time that we recalculate
+the spreadsheet, 10,000 values for
+
+28
+00:01:49.670 --> 00:01:54.360
+the actual demand and
+the ready to board cells are generated.
+
+29
+00:01:54.360 --> 00:01:58.820
+Each set of values is what in
+simulation is called a trial.
+
+30
+00:01:58.820 --> 00:02:01.130
+As we mentioned in our previous video,
+
+31
+00:02:01.130 --> 00:02:06.540
+you can change the number of trials
+in the tools group of the ASP tab.
+
+32
+00:02:06.540 --> 00:02:10.080
+We need to tell the simulator that
+we would like to track the number
+
+33
+00:02:10.080 --> 00:02:12.850
+of bumped passengers and the net revenue.
+
+34
+00:02:12.850 --> 00:02:18.130
+This is done by selecting cells B20 and
+B24, and
+
+35
+00:02:18.130 --> 00:02:23.630
+clicking on Results in the simulation
+model group of the ASP tab.
+
+36
+00:02:23.630 --> 00:02:28.260
+Once we do that, we can check
+the cells to see what has changed.
+
+37
+00:02:28.260 --> 00:02:29.820
+By clicking on cell B20,
+
+38
+00:02:29.820 --> 00:02:34.310
+we can see that there is an additional
+function called PsiOutput.
+
+39
+00:02:34.310 --> 00:02:37.920
+This function does not
+modify the cell calculation.
+
+40
+00:02:37.920 --> 00:02:43.090
+It is there to tell the simulator that
+the cell is a simulation output and
+
+41
+00:02:43.090 --> 00:02:47.200
+it that it should collect data on
+it when the simulation is run.
+
+42
+00:02:47.200 --> 00:02:50.020
+The same function was added to cell B24.
+
+43
+00:02:51.870 --> 00:02:54.690
+To run the simulation,
+click on the Play button
+
+44
+00:02:54.690 --> 00:03:00.080
+in the Model tab of the Solver options and
+Model Specifications panel.
+
+45
+00:03:00.080 --> 00:03:03.909
+To analyze results, double-click on B24.
+
+46
+00:03:03.909 --> 00:03:08.420
+The simulator displays the empirical
+distribution of net revenue that
+
+47
+00:03:08.420 --> 00:03:12.420
+results from the simulation
+of 10,000 trials.
+
+48
+00:03:12.420 --> 00:03:14.970
+In addition to the empirical distribution,
+
+49
+00:03:14.970 --> 00:03:17.863
+the software reports
+the most common statistics.
+
+50
+00:03:17.863 --> 00:03:23.117
+For example,
+the simulation results show that
+
+51
+00:03:23.117 --> 00:03:28.634
+the new revenue is estimated to be $45,196
+
+52
+00:03:28.634 --> 00:03:33.363
+with a minimum value of $33,644 and
+
+53
+00:03:33.363 --> 00:03:37.453
+a maximum value of $47,778.
+
+54
+00:03:37.453 --> 00:03:40.890
+Estimating a range for
+the net revenue is important.
+
+55
+00:03:40.890 --> 00:03:43.410
+But what's interesting is being able to
+
+56
+00:03:43.410 --> 00:03:47.800
+estimate the probability of
+collecting some target net revenue.
+
+57
+00:03:47.800 --> 00:03:52.050
+For example, let's suppose that we were
+interested in knowing the probability that
+
+58
+00:03:52.050 --> 00:03:55.920
+the net revenue is $45,000 or more.
+
+59
+00:03:55.920 --> 00:04:00.270
+We can do this using the markers
+in the distribution chart.
+
+60
+00:04:00.270 --> 00:04:03.440
+The markers are red dotted vertical lines.
+
+61
+00:04:03.440 --> 00:04:06.250
+There is a lower and an upper marker.
+
+62
+00:04:06.250 --> 00:04:11.870
+In this case, we only need the lower
+marker, which we place on the value of 45.
+
+63
+00:04:11.870 --> 00:04:18.650
+So remove the upper marker and enter 45
+in the text box for the lower marker.
+
+64
+00:04:18.650 --> 00:04:24.491
+We now see that the distribution
+estimates that there is 63.83%
+
+65
+00:04:24.491 --> 00:04:30.050
+probability that the net revenue
+will be $45,000 or more.
+
+66
+00:04:30.050 --> 00:04:34.400
+A similar analysis is possible on
+the number of bumped passengers.
+
+67
+00:04:34.400 --> 00:04:39.004
+Recall that the deterministic
+model estimates that, on average,
+
+68
+00:04:39.004 --> 00:04:44.752
+1 passenger will be bumped when setting
+the overbooking limit to 13 passengers.
+
+69
+00:04:44.752 --> 00:04:49.449
+If we double-click on cell B20,
+we access the distribution of bumped
+
+70
+00:04:49.449 --> 00:04:52.530
+passengers that results
+from the simulation.
+
+71
+00:04:53.540 --> 00:04:59.490
+The mean value of this distribution is 1,
+as predicted by the deterministic model.
+
+72
+00:04:59.490 --> 00:05:02.180
+However, now we have
+additional information.
+
+73
+00:05:02.180 --> 00:05:07.090
+For instance, if we set the lower
+marker to a value of 2,
+
+74
+00:05:07.090 --> 00:05:13.294
+we discover that according to our
+simulation results there is a 24.55%
+
+75
+00:05:13.294 --> 00:05:18.360
+chance that the number of
+bumped passengers is 2 or more.
+
+76
+00:05:18.360 --> 00:05:20.640
+We can also find that there is a low,
+
+77
+00:05:20.640 --> 00:05:25.690
+over 10% chance that the number of
+bumped passengers is 5 or more.
+
+78
+00:05:25.690 --> 00:05:31.280
+These probabilities represent the risk of
+the overbooking limit that we have chosen.
+
+79
+00:05:31.280 --> 00:05:34.820
+The simulation can now be used
+to find an overbooking limit
+
+80
+00:05:34.820 --> 00:05:37.870
+that meets some desirable level of risk.
+
+81
+00:05:37.870 --> 00:05:43.350
+For instance, suppose that the airline
+would like at least a 95% chance
+
+82
+00:05:43.350 --> 00:05:48.030
+that the number of bumped passengers
+is less than or equal to 2.
+
+83
+00:05:48.030 --> 00:05:50.940
+Which overbooking limit
+would accomplish this?
+
+84
+00:05:50.940 --> 00:05:55.060
+Let's use the interactive simulation
+feature to find this out.
+
+85
+00:05:55.060 --> 00:06:01.380
+In the Solve Actual group of the ASP tab,
+click on the Simulation bulb.
+
+86
+00:06:01.380 --> 00:06:03.420
+The bulb should turn yellow.
+
+87
+00:06:03.420 --> 00:06:08.380
+We then click on B20 to open
+the frequency distribution chart.
+
+88
+00:06:08.380 --> 00:06:12.766
+We set the lower marker to 2, and
+start decreasing the overbooking limit.
+
+89
+00:06:13.860 --> 00:06:17.260
+Every time we enter a new number,
+the spreadsheet is recalculated and
+
+90
+00:06:17.260 --> 00:06:19.550
+the simulation is run.
+
+91
+00:06:19.550 --> 00:06:23.590
+The frequency chart is updated at
+the end of the simulation, and
+
+92
+00:06:23.590 --> 00:06:26.660
+we can see the change in
+the probability value
+
+93
+00:06:26.660 --> 00:06:30.630
+that the number of bumped passengers
+is less than or equal to 2.
+
+94
+00:06:30.630 --> 00:06:35.495
+We keep decreasing the overbooking
+limit until we find out that a limit of
+
+95
+00:06:35.495 --> 00:06:40.482
+9 results in a probability
+slightly higher than 95%.
+
+96
+00:06:40.482 --> 00:06:45.825
+Now we have an overbooking limit for
+this flight that meets the airline policy.
+
+97
+00:06:45.825 --> 00:06:50.365
+In this video, we have added output
+variables to our simulation model by
+
+98
+00:06:50.365 --> 00:06:54.665
+using the PsiOutput function of
+the Analytic Solver Platform.
+
+99
+00:06:54.665 --> 00:06:58.673
+This function instructs the simulator
+to collect data on the cell where
+
+100
+00:06:58.673 --> 00:07:01.000
+the function is added.
+
+101
+00:07:01.000 --> 00:07:06.330
+The collected data generates an empirical
+distribution of the output variable.
+
+102
+00:07:06.330 --> 00:07:09.460
+This distribution helps us analyze risk,
+
+103
+00:07:09.460 --> 00:07:13.065
+which we define as a probability
+of some undesirable outcome.
+
+104
+00:07:13.065 --> 00:07:14.915
+In our overbooking example,
+
+105
+00:07:14.915 --> 00:07:20.580
+the undesirable outcome is either empty
+seats or too many bumped passengers.
+
+106
+00:07:20.580 --> 00:07:23.190
+The empirical distributions
+of net revenue and
+
+107
+00:07:23.190 --> 00:07:28.830
+bumped passengers can be used to asses
+the risk of various overbooking limits.
+
+108
+00:07:28.830 --> 00:07:32.980
+Finally, we show how to use
+the interactive simulation feature
+
+109
+00:07:32.980 --> 00:07:34.680
+in the context of searching for
+
+110
+00:07:34.680 --> 00:07:39.560
+an overbooking limit that could
+meet a particular airline policy.
+
+111
+00:07:39.560 --> 00:07:45.050
+This example has shown the power of
+simulation as a predictive analytics tool.
+
+112
+00:07:45.050 --> 00:07:48.953
+We will explore additional features
+in the next videos for this module.
