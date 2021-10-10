@@ -1,0 +1,729 @@
+WEBVTT
+
+1
+00:00:01.130 --> 00:00:03.780
+When we talk about storing data and
+making it available for
+
+2
+00:00:03.780 --> 00:00:07.680
+data analytics, we usually describe our
+process where data is physically moved
+
+3
+00:00:07.680 --> 00:00:11.610
+from various source systems into
+a common location like a database.
+
+4
+00:00:11.610 --> 00:00:15.290
+This usually happens using something
+called an extract, transform, and
+
+5
+00:00:15.290 --> 00:00:18.020
+load, or ETL, process.
+
+6
+00:00:18.020 --> 00:00:22.740
+As the name suggests, an ETL process
+extracts data from one location,
+
+7
+00:00:22.740 --> 00:00:24.990
+transforms the data in some way, and
+
+8
+00:00:24.990 --> 00:00:30.430
+then loads the data into a new location,
+again, generally some type of database.
+
+9
+00:00:30.430 --> 00:00:34.280
+Furthermore, when we want to analyze
+data in a database, we generally pull
+
+10
+00:00:34.280 --> 00:00:39.380
+a specific data set from the database and
+perform analytics using some other tool.
+
+11
+00:00:39.380 --> 00:00:42.250
+We might even reload some
+data back into the database
+
+12
+00:00:42.250 --> 00:00:46.740
+like scores from a statistical model
+to use in business operations.
+
+13
+00:00:46.740 --> 00:00:50.310
+The reason we do things this way is
+largely driven by the computing storage
+
+14
+00:00:50.310 --> 00:00:53.650
+resources available in our data and
+analytics environment.
+
+15
+00:00:53.650 --> 00:00:57.340
+Because ETL operations can be
+very processing intensive,
+
+16
+00:00:57.340 --> 00:01:01.198
+we try to do them in the background
+before data is needed by analysts.
+
+17
+00:01:01.198 --> 00:01:04.350
+Also because disk storage tends
+to be a lot cheaper than memory,
+
+18
+00:01:04.350 --> 00:01:07.300
+we tend to keep data on disk and
+use disk operations for
+
+19
+00:01:07.300 --> 00:01:11.900
+access, even though putting data in
+memory would make the access much faster.
+
+20
+00:01:11.900 --> 00:01:15.377
+There's a reason why the disk storage on
+your PC is measured in terabytes, but
+
+21
+00:01:15.377 --> 00:01:17.075
+the memory is measured in gigabytes.
+
+22
+00:01:17.075 --> 00:01:19.800
+Memory is a lot more expensive.
+
+23
+00:01:19.800 --> 00:01:23.174
+The downside of this approach is that
+every time we move data from one place to
+
+24
+00:01:23.174 --> 00:01:26.932
+another, we increase the likelihood that
+something might go wrong in the process.
+
+25
+00:01:26.932 --> 00:01:30.905
+And we insert some amount of delay
+between the time the data is created and
+
+26
+00:01:30.905 --> 00:01:32.740
+when it is available for access.
+
+27
+00:01:34.010 --> 00:01:37.450
+However, as processing power and
+memory become cheaper,
+
+28
+00:01:37.450 --> 00:01:42.070
+some additional options have emerged for
+both storage and access for analytics.
+
+29
+00:01:42.070 --> 00:01:45.640
+In this video, we're going to briefly
+cover four of these emerging ideas,
+
+30
+00:01:45.640 --> 00:01:48.830
+two related to data storage,
+data virtualization and
+
+31
+00:01:48.830 --> 00:01:51.720
+data federation, and
+two related to data storage for
+
+32
+00:01:51.720 --> 00:01:56.210
+analytics, in-memory computing and
+in-database analytics.
+
+33
+00:01:56.210 --> 00:01:59.900
+The reason we cover this in a course
+on analytics is that it's important for
+
+34
+00:01:59.900 --> 00:02:02.750
+you as the data analyst to understand
+what mechanisms are used in
+
+35
+00:02:02.750 --> 00:02:04.490
+your data environment.
+
+36
+00:02:04.490 --> 00:02:08.240
+This will allow you to better interpret
+what you're seeing, why you're seeing it,
+
+37
+00:02:08.240 --> 00:02:12.250
+and how relevant your findings are based
+on when and where the data came from.
+
+38
+00:02:12.250 --> 00:02:13.880
+The more you know about your data and
+
+39
+00:02:13.880 --> 00:02:16.214
+your data environment,
+the more effective you can be.
+
+40
+00:02:17.735 --> 00:02:21.895
+So let's start with data virtualization
+and data federation, which are related but
+
+41
+00:02:21.895 --> 00:02:24.275
+slightly different concepts.
+
+42
+00:02:24.275 --> 00:02:28.305
+The idea behind data virtualization is
+that we keep source data where it is for
+
+43
+00:02:28.305 --> 00:02:32.025
+each source, but we make it look like
+all the data is in one place and
+
+44
+00:02:32.025 --> 00:02:36.160
+we allow users to access that
+data using one common interface.
+
+45
+00:02:36.160 --> 00:02:40.220
+With data virtualization, we don't
+necessarily seek to change the data or
+
+46
+00:02:40.220 --> 00:02:42.340
+integrate data from multiple sources.
+
+47
+00:02:42.340 --> 00:02:45.960
+But we make it a lot simpler for users
+to get it without having to worry about
+
+48
+00:02:45.960 --> 00:02:48.910
+details of the underlying data format and
+technology.
+
+49
+00:02:50.190 --> 00:02:53.990
+One advantage of data virtualization is
+that we can avoid having to store data in
+
+50
+00:02:53.990 --> 00:02:58.139
+multiple places, namely in the source
+system and in some target database.
+
+51
+00:02:59.280 --> 00:03:02.890
+Another advantage is that changes in
+source data are usually reflected
+
+52
+00:03:02.890 --> 00:03:05.500
+immediately in the user access layer.
+
+53
+00:03:05.500 --> 00:03:08.470
+Since I don't need to wait for
+ETL processes to run and
+
+54
+00:03:08.470 --> 00:03:10.030
+move the data from one place to another.
+
+55
+00:03:11.200 --> 00:03:13.560
+It's also easier to
+alter the access layer,
+
+56
+00:03:13.560 --> 00:03:16.580
+should there be changes in the structure
+of the underlying source data.
+
+57
+00:03:17.710 --> 00:03:21.590
+However, data virtualization
+does have some limitations.
+
+58
+00:03:21.590 --> 00:03:22.750
+First and foremost,
+
+59
+00:03:22.750 --> 00:03:27.060
+while it removes a data layer in the
+environment, it adds a processing layer.
+
+60
+00:03:27.060 --> 00:03:30.290
+And it can take longer to run
+data extraction operations
+
+61
+00:03:30.290 --> 00:03:33.360
+since this additional layer must
+translate user instructions
+
+62
+00:03:33.360 --> 00:03:37.580
+into whatever language is appropriate for
+the sources in question.
+
+63
+00:03:37.580 --> 00:03:39.794
+Furthermore, if any data cleansing or
+
+64
+00:03:39.794 --> 00:03:42.749
+complex transformation
+operations are required,
+
+65
+00:03:42.749 --> 00:03:47.259
+those processes add to the processing
+load, and can further slow down access.
+
+66
+00:03:47.259 --> 00:03:53.220
+In these cases, it may actually be better
+to use more traditional ETL processes.
+
+67
+00:03:53.220 --> 00:03:57.720
+Again, data virtualization alone only
+makes data look like it's in one place.
+
+68
+00:03:57.720 --> 00:04:01.040
+It doesn't necessarily make sense of
+how data from different sources relate
+
+69
+00:04:01.040 --> 00:04:04.375
+to each other, which one of
+the primary advantages of constructing
+
+70
+00:04:04.375 --> 00:04:06.965
+a centralized database in the first place.
+
+71
+00:04:06.965 --> 00:04:09.365
+This is where data federation comes in.
+
+72
+00:04:09.365 --> 00:04:13.785
+With data federation, not only do we make
+it look like data is in one place, but
+
+73
+00:04:13.785 --> 00:04:17.715
+we actually fit that data into
+a common integrated data model.
+
+74
+00:04:17.715 --> 00:04:21.685
+We perform all the same transformations
+and establish all the same relationships
+
+75
+00:04:21.685 --> 00:04:24.925
+among data entities that we would
+do in a physical database, but
+
+76
+00:04:24.925 --> 00:04:26.330
+we do it all virtually.
+
+77
+00:04:26.330 --> 00:04:28.470
+That is,
+without ever actually moving the data.
+
+78
+00:04:29.600 --> 00:04:33.520
+The advantages of data federation are
+similar to those of data virtualization
+
+79
+00:04:33.520 --> 00:04:36.420
+with the added benefit of presenting
+a more integrated view of
+
+80
+00:04:36.420 --> 00:04:39.140
+data from multiple sources to the user.
+
+81
+00:04:39.140 --> 00:04:42.570
+Of course, this comes at the cost
+of even more complex processing
+
+82
+00:04:42.570 --> 00:04:46.550
+that can result in slower performance
+when data is accessed or extracted.
+
+83
+00:04:46.550 --> 00:04:48.050
+Both data virtualization and
+
+84
+00:04:48.050 --> 00:04:52.150
+data federation are usually accomplished
+using specialized software applications
+
+85
+00:04:52.150 --> 00:04:55.370
+that connect to a variety of
+different source systems.
+
+86
+00:04:55.370 --> 00:04:59.350
+While they eliminate the need to move data
+using ETL processes, they still require
+
+87
+00:04:59.350 --> 00:05:01.880
+development and maintenance to
+establish those connections and
+
+88
+00:05:01.880 --> 00:05:03.709
+present a unified view of data to users.
+
+89
+00:05:05.500 --> 00:05:08.980
+Data virtualization and data federation
+can be attractive in environments where
+
+90
+00:05:08.980 --> 00:05:12.980
+resources are limited,
+the velocity of changes is very rapid,
+
+91
+00:05:12.980 --> 00:05:15.740
+little transformation or
+integration is required, or
+
+92
+00:05:15.740 --> 00:05:20.020
+when sources have very high quality data
+or store a lot of history themselves.
+
+93
+00:05:20.020 --> 00:05:22.620
+However, they become less
+attractive as the volume or
+
+94
+00:05:22.620 --> 00:05:25.020
+complexity of transformations increase, or
+
+95
+00:05:25.020 --> 00:05:27.679
+when there is a need to store
+historical data outside the source.
+
+96
+00:05:29.770 --> 00:05:32.923
+The other two ideas we want to discuss,
+in-memory computing and
+
+97
+00:05:32.923 --> 00:05:36.246
+in-database analytics, are a little
+different in that they seek to
+
+98
+00:05:36.246 --> 00:05:40.548
+maximize the performance of the analytical
+operations versus minimizing data movement
+
+99
+00:05:40.548 --> 00:05:42.490
+in physical storage.
+
+100
+00:05:42.490 --> 00:05:44.820
+With in-memory computing,
+all the data needed for
+
+101
+00:05:44.820 --> 00:05:47.340
+analysis is actually
+loaded into a computer or
+
+102
+00:05:47.340 --> 00:05:52.540
+server's random access memory, or RAM,
+where it can be accessed very quickly.
+
+103
+00:05:52.540 --> 00:05:55.950
+Typically, a whole data structure,
+including relationships between data
+
+104
+00:05:55.950 --> 00:05:59.320
+entities, is stored and
+available for analytical purposes.
+
+105
+00:05:59.320 --> 00:06:02.460
+The advantage of this approach
+is obviously the speed.
+
+106
+00:06:02.460 --> 00:06:05.370
+As an analyst,
+I can apply complex techniques to the data
+
+107
+00:06:05.370 --> 00:06:08.130
+in much less time than it
+would take were I to try and
+
+108
+00:06:08.130 --> 00:06:11.610
+access data stored on disk locally or
+on a remote server.
+
+109
+00:06:11.610 --> 00:06:14.830
+And once the data is in memory,
+I can try a lot of different things
+
+110
+00:06:14.830 --> 00:06:17.390
+without having to wait too
+long between each attempt.
+
+111
+00:06:17.390 --> 00:06:20.740
+This enables analytical efforts that
+require exploration and trial and
+
+112
+00:06:20.740 --> 00:06:21.670
+error to accomplish.
+
+113
+00:06:22.950 --> 00:06:26.620
+To do this however,
+I need to get the data into memory.
+
+114
+00:06:26.620 --> 00:06:30.550
+Unless my total data volume is pretty
+small, it's far too expensive to store
+
+115
+00:06:30.550 --> 00:06:33.380
+all of it in memory and
+to store it there all the time.
+
+116
+00:06:33.380 --> 00:06:37.510
+So what I usually need to do is execute a
+one time load of some manageable subset of
+
+117
+00:06:37.510 --> 00:06:39.900
+data into memory for analysis.
+
+118
+00:06:39.900 --> 00:06:42.410
+Depending on how complex
+my data set is and
+
+119
+00:06:42.410 --> 00:06:46.160
+how many entities are involved,
+this load can take quite a while.
+
+120
+00:06:46.160 --> 00:06:49.780
+Many of the most popular data
+visualization exploration tools
+
+121
+00:06:49.780 --> 00:06:52.090
+use some form of in-memory computing.
+
+122
+00:06:52.090 --> 00:06:55.680
+As do a number of specialized data
+appliances that combine database and
+
+123
+00:06:55.680 --> 00:06:57.125
+data access operations.
+
+124
+00:06:57.125 --> 00:07:01.490
+In-database analytics also seeks
+to speed up analytics, but
+
+125
+00:07:01.490 --> 00:07:04.560
+in kind of the opposite web
+as in-memory computing.
+
+126
+00:07:04.560 --> 00:07:08.083
+Instead of moving the data to a place
+where an analytical application can
+
+127
+00:07:08.083 --> 00:07:10.856
+manipulate it quickly,
+with in-database analytics,
+
+128
+00:07:10.856 --> 00:07:14.050
+we move specific analytical
+operations back into the database.
+
+129
+00:07:14.050 --> 00:07:18.406
+Where they can be quickly executed as
+data is loaded into the database itself,
+
+130
+00:07:18.406 --> 00:07:21.940
+either using ETL or
+other custom procedures.
+
+131
+00:07:21.940 --> 00:07:23.690
+So when would I do this?
+
+132
+00:07:23.690 --> 00:07:27.280
+Let's say I had developed a predictive or
+prescriptive model that helped to detect
+
+133
+00:07:27.280 --> 00:07:30.570
+fraud, or which triggered certain
+actions like stock trades or
+
+134
+00:07:30.570 --> 00:07:33.190
+price changes based on real time data.
+
+135
+00:07:33.190 --> 00:07:37.250
+By incorporating this model directly into
+the database, I can drastically reduce
+
+136
+00:07:37.250 --> 00:07:40.770
+the time lag between the input events and
+output actions based on that model.
+
+137
+00:07:41.770 --> 00:07:45.040
+In some situations,
+even milliseconds can matter, so
+
+138
+00:07:45.040 --> 00:07:47.655
+I want to minimize any delay in action.
+
+139
+00:07:47.655 --> 00:07:50.360
+In-database analytics are ideal
+in this type of situation.
+
+140
+00:07:52.010 --> 00:07:54.210
+Let's quickly recap what we've covered.
+
+141
+00:07:54.210 --> 00:07:57.470
+We talked about four emerging ideas
+related to where data is stored for
+
+142
+00:07:57.470 --> 00:07:59.260
+accessing analytics.
+
+143
+00:07:59.260 --> 00:08:03.280
+We learned how data virtualization and
+data federation minimize data movement and
+
+144
+00:08:03.280 --> 00:08:06.760
+storage requirements by making it
+look like data is in one place.
+
+145
+00:08:06.760 --> 00:08:08.260
+And even in a common structure,
+
+146
+00:08:08.260 --> 00:08:10.499
+when in fact it is only
+physically stored at the source.
+
+147
+00:08:11.730 --> 00:08:14.460
+We then discussed how in-memory
+computing and in-database
+
+148
+00:08:14.460 --> 00:08:18.790
+analytics speed up the application of
+analytics by storing data in memory and
+
+149
+00:08:18.790 --> 00:08:21.570
+moving analytical operations
+into the database respectively.
+
+150
+00:08:22.640 --> 00:08:25.860
+One or more of these ideas may
+exist within your data environment.
+
+151
+00:08:25.860 --> 00:08:28.001
+So be sure to learn what your
+environment looks like and
+
+152
+00:08:28.001 --> 00:08:29.312
+how you can get the most out of it.

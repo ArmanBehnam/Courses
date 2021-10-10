@@ -1,0 +1,1196 @@
+WEBVTT
+
+1
+00:00:01.250 --> 00:00:04.370
+In an earlier video,
+we introduced the idea of the database and
+
+2
+00:00:04.370 --> 00:00:08.860
+the database management system, or DBMS,
+which is a software application used for
+
+3
+00:00:08.860 --> 00:00:11.810
+creating, maintaining,
+and accessing databases.
+
+4
+00:00:11.810 --> 00:00:14.650
+We also briefly introduced
+a special type of database called
+
+5
+00:00:14.650 --> 00:00:16.870
+the relational database,
+which is far and away and
+
+6
+00:00:16.870 --> 00:00:19.210
+the most popular type of
+database used in business today.
+
+7
+00:00:20.220 --> 00:00:23.740
+The applications that run relational
+databases are called relational database
+
+8
+00:00:23.740 --> 00:00:27.115
+management systems, or RDBMS.
+
+9
+00:00:27.115 --> 00:00:30.630
+While there are emerging database types,
+if you want to be an effective analyst in
+
+10
+00:00:30.630 --> 00:00:34.050
+most organizations, you'll almost
+certainly need to understand what
+
+11
+00:00:34.050 --> 00:00:37.979
+relational databases are, how they work,
+and how to extract data from them.
+
+12
+00:00:39.250 --> 00:00:42.915
+In this video, we'll go a bit deeper
+into the relational database itself.
+
+13
+00:00:42.915 --> 00:00:46.479
+And we'll spend all of module three
+learning how to extract data from
+
+14
+00:00:46.479 --> 00:00:50.850
+relational databases using a language
+called Structured Query Language, or SQL.
+
+15
+00:00:52.340 --> 00:00:55.485
+In relational databases,
+we store information in tables, and
+
+16
+00:00:55.485 --> 00:00:58.900
+then define specific
+relationships among those tables.
+
+17
+00:00:58.900 --> 00:01:03.590
+A table is a two dimensional structure
+that stores data in rows and columns.
+
+18
+00:01:03.590 --> 00:01:07.460
+Most relational databases are row
+oriented, meaning that the ideas or
+
+19
+00:01:07.460 --> 00:01:11.760
+items described in the table are stored
+in rows, with the columns of the tables
+
+20
+00:01:11.760 --> 00:01:15.070
+containing attributes that describe
+the ideas or items of interest.
+
+21
+00:01:16.090 --> 00:01:18.790
+Let's look at an example
+of a database table.
+
+22
+00:01:18.790 --> 00:01:21.650
+Consider this table,
+which we'll call FLIGHTS,
+
+23
+00:01:21.650 --> 00:01:24.890
+that contains information about
+commercial airline flights.
+
+24
+00:01:24.890 --> 00:01:26.760
+Each row describes the one flight, and
+
+25
+00:01:26.760 --> 00:01:29.320
+each column describes
+an attribute of that flight.
+
+26
+00:01:29.320 --> 00:01:33.900
+In this case, we have a flight identifier,
+an aircraft identifier we call the tail
+
+27
+00:01:33.900 --> 00:01:38.510
+number, a flight number, departure and
+arrival airports, departure and
+
+28
+00:01:38.510 --> 00:01:42.900
+arrival times, and the number of
+passengers on-board the aircraft.
+
+29
+00:01:42.900 --> 00:01:47.780
+Sometimes we refer to the rows of a table
+as records, a term that has its origins in
+
+30
+00:01:47.780 --> 00:01:51.580
+the idea that one would store information
+about something in a physical record.
+
+31
+00:01:51.580 --> 00:01:55.650
+Kind of like how physical files were the
+ancestors of the digital files we store in
+
+32
+00:01:55.650 --> 00:01:57.220
+our computers.
+
+33
+00:01:57.220 --> 00:02:00.320
+Similarly, we can describe
+columns as fields or
+
+34
+00:02:00.320 --> 00:02:04.490
+attributes to reflect that they contain
+data that describes the record.
+
+35
+00:02:04.490 --> 00:02:07.220
+We'll use rows and records,
+and columns, fields, and
+
+36
+00:02:07.220 --> 00:02:10.370
+attributes interchangeably
+as we go forward.
+
+37
+00:02:10.370 --> 00:02:13.540
+Each row of a table in a relational
+database must be unique.
+
+38
+00:02:13.540 --> 00:02:16.670
+In other words, there can't be
+duplicate rows in any table.
+
+39
+00:02:16.670 --> 00:02:20.530
+To ensure that each row is unique, we
+define something called a primary key for
+
+40
+00:02:20.530 --> 00:02:21.845
+the table.
+
+41
+00:02:21.845 --> 00:02:23.705
+The primary key is a column or
+
+42
+00:02:23.705 --> 00:02:28.265
+set of columns that are guaranteed to
+be unique for every row in the table.
+
+43
+00:02:28.265 --> 00:02:30.705
+There are a few ways that we
+can define a primary key.
+
+44
+00:02:31.915 --> 00:02:35.995
+If a primary key can be constructed using
+attributes that occur naturally in a data
+
+45
+00:02:35.995 --> 00:02:38.740
+record, we call this a natural key.
+
+46
+00:02:38.740 --> 00:02:41.580
+Sometimes this can be done
+using only one attribute.
+
+47
+00:02:41.580 --> 00:02:45.860
+In other cases, it takes more than one
+attribute to uniquely define a row.
+
+48
+00:02:45.860 --> 00:02:49.230
+In that case, we call the combination
+of attributes a composite key.
+
+49
+00:02:50.680 --> 00:02:54.190
+Sometimes it's easier just to define
+a new column in a database and
+
+50
+00:02:54.190 --> 00:02:57.710
+force it to be unique,
+often by simply numbering each row and
+
+51
+00:02:57.710 --> 00:03:00.650
+incrementing that number
+as new rows are added.
+
+52
+00:03:00.650 --> 00:03:03.890
+A key defined using this approach
+is called a surrogate key.
+
+53
+00:03:03.890 --> 00:03:07.230
+A surrogate key usually doesn't have
+a meaning outside the database.
+
+54
+00:03:07.230 --> 00:03:10.460
+It's something we've added simply to
+facilitate the unique storage of data
+
+55
+00:03:10.460 --> 00:03:11.960
+records.
+
+56
+00:03:11.960 --> 00:03:16.660
+In our FLIGHTS table, the FLIGHT_ID
+field uniquely defines each row, but
+
+57
+00:03:16.660 --> 00:03:19.090
+it doesn't really have
+a meaning outside the database.
+
+58
+00:03:19.090 --> 00:03:22.000
+So this is an example of a surrogate key.
+
+59
+00:03:22.000 --> 00:03:24.760
+However, I could have
+constructed a composite key
+
+60
+00:03:24.760 --> 00:03:28.103
+using the combination of FLIGHT_NUMBER,
+DEPARTURE_AIRPORT, and
+
+61
+00:03:28.103 --> 00:03:31.050
+DEPARTURE_TIME, which also
+turns out to be unique.
+
+62
+00:03:31.050 --> 00:03:34.420
+Because all of this attributes
+are naturally occurring in the record,
+
+63
+00:03:34.420 --> 00:03:37.840
+this composite key would
+also be a natural key.
+
+64
+00:03:37.840 --> 00:03:40.540
+When I start talking about
+multiple tables in a database and
+
+65
+00:03:40.540 --> 00:03:45.810
+how they're related, it's useful to depict
+them visually using a shorthand like this.
+
+66
+00:03:45.810 --> 00:03:50.190
+Here we list out all columns in the table
+vertically instead of horizontally
+
+67
+00:03:50.190 --> 00:03:51.912
+with the table name at the top.
+
+68
+00:03:51.912 --> 00:03:54.560
+This shorthand lets us see
+all the types of information
+
+69
+00:03:54.560 --> 00:03:57.200
+contained in the table in a compact form.
+
+70
+00:03:57.200 --> 00:03:58.550
+And as we'll see in a moment,
+
+71
+00:03:58.550 --> 00:04:01.740
+it also lets us more easily show how
+tables are related to each other.
+
+72
+00:04:03.220 --> 00:04:06.130
+We can also incorporate information
+about the primary key of our
+
+73
+00:04:06.130 --> 00:04:08.770
+table into the shorthand, like this.
+
+74
+00:04:08.770 --> 00:04:12.270
+I've simply added a PK to
+the right of the FLIGHT_ID field,
+
+75
+00:04:12.270 --> 00:04:15.219
+which indicates that FLIGHT_ID is
+the primary key of this table.
+
+76
+00:04:16.840 --> 00:04:20.320
+One thing you might also notice is that
+all of the column names in our examples
+
+77
+00:04:20.320 --> 00:04:22.800
+use a continuous string of characters.
+
+78
+00:04:22.800 --> 00:04:26.290
+When I have multiple words or
+abbreviations in my column names,
+
+79
+00:04:26.290 --> 00:04:29.700
+I've placed an underscore
+between them instead of a space.
+
+80
+00:04:29.700 --> 00:04:33.030
+Most relational database systems
+expect both column names and
+
+81
+00:04:33.030 --> 00:04:37.140
+table names to be in this type of format,
+so keep that in mind as we go forward.
+
+82
+00:04:38.720 --> 00:04:42.310
+As we noted earlier, the real power of
+the relational database is the way it
+
+83
+00:04:42.310 --> 00:04:46.640
+links ideas together by identifying
+relationships between tables.
+
+84
+00:04:46.640 --> 00:04:50.630
+To do this, we define something called
+a foreign key, which is a column or
+
+85
+00:04:50.630 --> 00:04:54.480
+columns that establish
+a logical link between tables.
+
+86
+00:04:54.480 --> 00:04:57.670
+Usually the way this works is
+that a foreign key in one table
+
+87
+00:04:57.670 --> 00:04:59.620
+matches the primary key in another table.
+
+88
+00:05:01.100 --> 00:05:02.610
+An example should help make this clear.
+
+89
+00:05:03.700 --> 00:05:07.760
+Let's starts with our FLIGHTS table using
+the shorthand we just just introduced.
+
+90
+00:05:07.760 --> 00:05:11.390
+Suppose we have another table in
+the database, called PLANES, that contains
+
+91
+00:05:11.390 --> 00:05:15.790
+information about specific aircraft,
+like the TAIL_NUMBER, the AIRLINE name,
+
+92
+00:05:15.790 --> 00:05:20.000
+the AIRCRAFT_TYPE, the FLEET_TYPE,
+and the number of seats on the plane.
+
+93
+00:05:20.000 --> 00:05:22.960
+The primary key of the PLANES
+table is TAIL_NUMBER,
+
+94
+00:05:22.960 --> 00:05:24.410
+which is unique for each aircraft.
+
+95
+00:05:25.720 --> 00:05:28.180
+Since this does have a meaning
+outside the database,
+
+96
+00:05:28.180 --> 00:05:30.440
+this is also a natural primary key.
+
+97
+00:05:32.280 --> 00:05:35.530
+You might notice that TAIL_NUMBER is
+common to both the PLANES table and
+
+98
+00:05:35.530 --> 00:05:37.010
+our FLIGHTS table.
+
+99
+00:05:37.010 --> 00:05:40.490
+We can establish a linkage between
+these tables by identifying TAIL_NUMBER
+
+100
+00:05:40.490 --> 00:05:42.170
+as a foreign key in the FLIGHTS table.
+
+101
+00:05:43.190 --> 00:05:46.539
+Visually, we can draw the linkage using a
+line that connects these two field names.
+
+102
+00:05:48.480 --> 00:05:51.270
+Let's take this idea a step
+further by adding another table,
+
+103
+00:05:51.270 --> 00:05:56.010
+called AIRPORTS, which has information
+about each airport, including the COUNTRY,
+
+104
+00:05:56.010 --> 00:05:59.379
+STATE, CITY, POSTAL_CODE,
+LATITUDE, and LONGITUDE.
+
+105
+00:06:00.540 --> 00:06:01.880
+Again, the airport name or
+
+106
+00:06:01.880 --> 00:06:05.560
+code is the natural primary key that
+uniquely defines each row of the table.
+
+107
+00:06:06.740 --> 00:06:10.520
+In this case, it looks like there are two
+fields in our FLIGHTS table that contain
+
+108
+00:06:10.520 --> 00:06:15.550
+the same type of information as AIRPORT,
+DEPARTURE_AIRPORT and ARRIVAL_AIRPORT.
+
+109
+00:06:15.550 --> 00:06:19.520
+Both of these fields can be identified as
+foreign keys that link the FLIGHTS table
+
+110
+00:06:19.520 --> 00:06:20.850
+to the AIRPORTS table.
+
+111
+00:06:20.850 --> 00:06:22.650
+In essence,
+we've linked these tables twice.
+
+112
+00:06:24.520 --> 00:06:27.360
+Note that the column names in
+the tables don't need to be the same to
+
+113
+00:06:27.360 --> 00:06:29.550
+establish a foreign key relationship.
+
+114
+00:06:29.550 --> 00:06:32.090
+All that needs to be true is that
+they represent the same idea,
+
+115
+00:06:32.090 --> 00:06:33.742
+and that they are of the same data type.
+
+116
+00:06:34.990 --> 00:06:37.440
+Let's add one more table to our example.
+
+117
+00:06:37.440 --> 00:06:39.420
+Here's a table called CITY_PAIRS,
+
+118
+00:06:39.420 --> 00:06:42.510
+which provides information about
+the route that a flight might take,
+
+119
+00:06:42.510 --> 00:06:46.405
+Including the DISTANCE between points and
+a field called REGIONALITY that might
+
+120
+00:06:46.405 --> 00:06:50.160
+describe something like a domestic
+route versus an international route.
+
+121
+00:06:50.160 --> 00:06:52.963
+In this table,
+the combination of DEPARTURE_AIRPORT and
+
+122
+00:06:52.963 --> 00:06:55.960
+ARRIVAL_AIRPORT define
+the unique row of the table.
+
+123
+00:06:55.960 --> 00:06:59.179
+So this is an example of
+composite natural primary key.
+
+124
+00:07:00.660 --> 00:07:04.600
+The CITY_PAIRS table also seems to have
+relationships to the FLIGHTS table, but
+
+125
+00:07:04.600 --> 00:07:06.970
+the relationship is a little
+different this time.
+
+126
+00:07:06.970 --> 00:07:10.644
+Specifically, it looks like I need
+both the DEPARTURE_AIRPORT and
+
+127
+00:07:10.644 --> 00:07:14.130
+the ARRIVAL_AIRPORT to establish
+a link between the tables.
+
+128
+00:07:14.130 --> 00:07:16.890
+So that's exactly how I
+describe the relationship.
+
+129
+00:07:16.890 --> 00:07:21.040
+Unlike the AIRPORTS table, I don't link to
+the CITY_PAIRS table twice using a single
+
+130
+00:07:21.040 --> 00:07:24.910
+foreign key, but rather I link
+it once using two foreign keys.
+
+131
+00:07:26.500 --> 00:07:29.440
+Okay, what we have at this point is
+the beginning of something called
+
+132
+00:07:29.440 --> 00:07:34.050
+a logical data model, or a visualization
+of how a database is structured.
+
+133
+00:07:34.050 --> 00:07:38.140
+The data model for a large database would
+obviously have many more tables with many
+
+134
+00:07:38.140 --> 00:07:40.330
+more linkages among those tables.
+
+135
+00:07:40.330 --> 00:07:43.170
+As a data analyst,
+it's always a good idea to try and
+
+136
+00:07:43.170 --> 00:07:46.280
+get your hands on a copy of the data
+model so you can see what types
+
+137
+00:07:46.280 --> 00:07:50.820
+of data are available in the database and
+how to make sense of the database itself.
+
+138
+00:07:50.820 --> 00:07:54.060
+This is particularly important when you
+start thinking about how to extract data
+
+139
+00:07:54.060 --> 00:07:55.360
+for analysis.
+
+140
+00:07:55.360 --> 00:07:58.290
+You'll need to understand the database
+structure to write effective queries
+
+141
+00:07:58.290 --> 00:07:59.650
+against the database.
+
+142
+00:07:59.650 --> 00:08:01.360
+We'll talk more about
+that in module three.
+
+143
+00:08:03.180 --> 00:08:06.200
+One of the things you may have noticed in
+our example is that we broke different
+
+144
+00:08:06.200 --> 00:08:07.790
+ideas into different tables.
+
+145
+00:08:07.790 --> 00:08:10.130
+There are a number of different
+reasons we might do this.
+
+146
+00:08:10.130 --> 00:08:13.240
+We might find that different types of
+data come from different sources, or
+
+147
+00:08:13.240 --> 00:08:17.020
+that some data changes rapidly
+while other data changes slowly.
+
+148
+00:08:17.020 --> 00:08:17.990
+But broadly speaking,
+
+149
+00:08:17.990 --> 00:08:21.809
+the notion of trying to break data into
+different ideas is called normalization.
+
+150
+00:08:22.850 --> 00:08:26.120
+It turns out that normalizing
+data eliminates redundancy
+
+151
+00:08:26.120 --> 00:08:30.420
+by ensuring that we store unique data
+only once versus multiple times.
+
+152
+00:08:30.420 --> 00:08:32.990
+For example,
+what if we stored the AIRCRAFT_TYPE for
+
+153
+00:08:32.990 --> 00:08:36.290
+each aircraft in our FLIGHTS table
+instead of in the PLANES table?
+
+154
+00:08:36.290 --> 00:08:39.250
+A single aircraft would
+likely take many flights, so
+
+155
+00:08:39.250 --> 00:08:42.380
+every time there was a flight for
+that aircraft in the FLIGHTS table,
+
+156
+00:08:42.380 --> 00:08:45.027
+I'd have the same aircraft type,
+which is a bit redundant.
+
+157
+00:08:45.027 --> 00:08:49.355
+By putting AIRCRAFT_TYPE in a separate
+PLANES table, I only need to store
+
+158
+00:08:49.355 --> 00:08:53.500
+AIRCRAFT_TYPE once, namely,
+in the unique row for that aircraft.
+
+159
+00:08:53.500 --> 00:08:55.531
+In relational database design,
+
+160
+00:08:55.531 --> 00:09:00.397
+there is a special degree of normalization
+called third normal form, or 3NF.
+
+161
+00:09:00.397 --> 00:09:02.472
+When a database is in third normal form,
+
+162
+00:09:02.472 --> 00:09:05.839
+all unnecessary redundancy has
+been removed from the database.
+
+163
+00:09:06.850 --> 00:09:09.790
+While the definition of third
+normal form is a bit technical,
+
+164
+00:09:09.790 --> 00:09:14.530
+it was paraphrased by Bill Kent
+from IBM in 1982 as follows.
+
+165
+00:09:14.530 --> 00:09:19.220
+Every non-key attribute must provide
+a fact about the key, the whole key and
+
+166
+00:09:19.220 --> 00:09:20.030
+nothing but the key.
+
+167
+00:09:21.320 --> 00:09:25.530
+What this means is that for a database to
+be in third normal form, each table must
+
+168
+00:09:25.530 --> 00:09:30.080
+only contain information than in some
+way directly describes its primary key.
+
+169
+00:09:30.080 --> 00:09:31.130
+Consider this example.
+
+170
+00:09:32.130 --> 00:09:36.460
+Here we have a table that describes
+orders, with order ID as the primary key.
+
+171
+00:09:36.460 --> 00:09:40.067
+The attributes of this table are Date,
+Customer_ID, Product_Name,
+
+172
+00:09:40.067 --> 00:09:41.910
+and Product_Type.
+
+173
+00:09:41.910 --> 00:09:45.900
+In this example, all columns seem
+to describe the order directly,
+
+174
+00:09:45.900 --> 00:09:50.110
+except Product_Type, which actually
+seems to describe the product.
+
+175
+00:09:50.110 --> 00:09:52.555
+So this table would not
+be in third normal form,
+
+176
+00:09:52.555 --> 00:09:55.420
+since Product_Type is not
+directly describing the order.
+
+177
+00:09:56.970 --> 00:10:01.460
+Okay, now we have a basic understanding of
+what a relational database is, and how and
+
+178
+00:10:01.460 --> 00:10:05.580
+why we separate different ideas into
+tables and relate them to each other.
+
+179
+00:10:05.580 --> 00:10:08.380
+So why are relational databases so
+popular?
+
+180
+00:10:08.380 --> 00:10:09.329
+Here are a few reasons.
+
+181
+00:10:10.580 --> 00:10:14.650
+First, they allow us to group data
+logically around discrete ideas.
+
+182
+00:10:14.650 --> 00:10:19.290
+This makes sense conceptually, and allows
+the model to be understood more easily.
+
+183
+00:10:19.290 --> 00:10:22.940
+Secondly, as we mentioned earlier, they
+can minimize the amount of duplicate data
+
+184
+00:10:22.940 --> 00:10:26.840
+stored in a database,
+thereby reducing storage requirements.
+
+185
+00:10:26.840 --> 00:10:31.020
+They also minimize the number of places
+where changes to data need to be made.
+
+186
+00:10:31.020 --> 00:10:33.960
+Consider the AIRCRAFT_TYPE
+example we used earlier.
+
+187
+00:10:33.960 --> 00:10:37.068
+Let's say I needed to correct
+the AIRCRAFT_TYPE for an aircraft.
+
+188
+00:10:37.068 --> 00:10:40.791
+It would be a lot easier to change that
+value once in the PLANES table than to
+
+189
+00:10:40.791 --> 00:10:44.830
+have to change it in every record related
+to that aircraft in the FLIGHTS table.
+
+190
+00:10:46.210 --> 00:10:49.950
+Additionally, in highly transactional
+systems where lots of updates or
+
+191
+00:10:49.950 --> 00:10:51.090
+additions are made,
+
+192
+00:10:51.090 --> 00:10:55.490
+using relational database can improve
+the overall performance of the database.
+
+193
+00:10:55.490 --> 00:10:59.840
+Finally, and perhaps most importantly to
+the data analyst, a relational database
+
+194
+00:10:59.840 --> 00:11:04.390
+model is incredibly flexible in terms of
+how data can be queried and extracted.
+
+195
+00:11:04.390 --> 00:11:08.450
+If constructed correctly, a relational
+model presents very few limitations
+
+196
+00:11:08.450 --> 00:11:11.019
+on the types of data sets that can
+be obtained from the database.
+
+197
+00:11:12.510 --> 00:11:15.750
+However, there are some
+downsides to relational models.
+
+198
+00:11:15.750 --> 00:11:19.840
+The more normalized the database becomes,
+the more complex the data extraction and
+
+199
+00:11:19.840 --> 00:11:21.750
+analysis operations become,
+
+200
+00:11:21.750 --> 00:11:25.890
+as more tables need to be joined
+together to get consolidated data sets.
+
+201
+00:11:25.890 --> 00:11:28.429
+This is the cost of the flexibility
+that the model provides.
+
+202
+00:11:29.460 --> 00:11:32.310
+It can also require more effort
+to integrate fundamentally new
+
+203
+00:11:32.310 --> 00:11:33.110
+data domains or
+
+204
+00:11:33.110 --> 00:11:37.910
+data sources, as they must be architected
+to fit within the current database model.
+
+205
+00:11:37.910 --> 00:11:42.510
+Sometimes it can be hard to fit new ideas
+into a model that didn't anticipate them.
+
+206
+00:11:42.510 --> 00:11:45.690
+To get around some of these limitations,
+some organizations opt for
+
+207
+00:11:45.690 --> 00:11:48.230
+data models that are not fully normalized.
+
+208
+00:11:48.230 --> 00:11:51.490
+It turns out that the more we find
+ourselves joining the same tables together
+
+209
+00:11:51.490 --> 00:11:56.110
+for repeated operations, the more it
+makes sense to denormalize information.
+
+210
+00:11:56.110 --> 00:11:58.980
+In other words,
+we create structures that are not in third
+
+211
+00:11:58.980 --> 00:12:02.570
+normal form to facilitate things
+like reporting and analytics.
+
+212
+00:12:02.570 --> 00:12:06.050
+The tradeoff of this approach is
+less efficient storage of data for
+
+213
+00:12:06.050 --> 00:12:07.800
+more efficient interrogation of data.
+
+214
+00:12:09.280 --> 00:12:13.140
+Usually, this is accomplished by creating
+tables downstream of a normalized
+
+215
+00:12:13.140 --> 00:12:14.180
+database model.
+
+216
+00:12:14.180 --> 00:12:17.810
+Or through the use of something called the
+database view, which makes it look like
+
+217
+00:12:17.810 --> 00:12:22.560
+data is denormalized, even though the data
+is actually stored in normalized tables.
+
+218
+00:12:22.560 --> 00:12:25.890
+With views, the tables are joined
+dynamically in the background, but
+
+219
+00:12:25.890 --> 00:12:30.070
+the user only sees the denormalized
+view of those tables.
+
+220
+00:12:30.070 --> 00:12:34.330
+The idea of denormalization is often taken
+further through the construction of data
+
+221
+00:12:34.330 --> 00:12:37.931
+marts, or alternate non-relational
+data structures, like cubes.
+
+222
+00:12:37.931 --> 00:12:39.878
+A data mart can be
+thought of as a smaller,
+
+223
+00:12:39.878 --> 00:12:43.724
+specialized database that is established
+for a specific user group or function,
+
+224
+00:12:43.724 --> 00:12:46.940
+like finance or
+marketing campaign analysis.
+
+225
+00:12:46.940 --> 00:12:50.890
+Data marts usually contain a subset of the
+information stored in a larger database
+
+226
+00:12:50.890 --> 00:12:53.860
+and may be normalized, denormalized,
+or somewhere in between.
+
+227
+00:12:54.990 --> 00:12:58.390
+A cube is basically
+an n-dimensional table.
+
+228
+00:12:58.390 --> 00:13:01.307
+So instead of a two-dimensional
+table with columns and rows,
+
+229
+00:13:01.307 --> 00:13:05.220
+I might have a three-dimensional
+structure with columns, rows and stacks.
+
+230
+00:13:05.220 --> 00:13:08.049
+Or even higher dimension structures
+that can't be easily visualized.
+
+231
+00:13:09.230 --> 00:13:11.740
+Cubes are not relational
+database structures but
+
+232
+00:13:11.740 --> 00:13:15.150
+are used pretty commonly in downstream
+business intelligence tools.
+
+233
+00:13:15.150 --> 00:13:17.540
+Okay, we've covered quite
+a bit in this video.
+
+234
+00:13:17.540 --> 00:13:19.000
+Let's recap.
+
+235
+00:13:19.000 --> 00:13:22.640
+We started by describing relational
+databases as a collection of tables with
+
+236
+00:13:22.640 --> 00:13:24.830
+relationships defined among them.
+
+237
+00:13:24.830 --> 00:13:29.250
+We talked about how the uniqueness of rows
+in a table is defined using a primary key,
+
+238
+00:13:29.250 --> 00:13:31.570
+how that key can be natural or
+surrogate, and
+
+239
+00:13:31.570 --> 00:13:35.910
+how a composite key can be constructed
+using multiple fields in the table.
+
+240
+00:13:35.910 --> 00:13:40.290
+We described how foreign key relationships
+establish the linkages between tables, and
+
+241
+00:13:40.290 --> 00:13:43.610
+saw a few different ways in
+which those linkages can occur.
+
+242
+00:13:43.610 --> 00:13:46.980
+We learned what it means for a data
+model to be in third normal form, and
+
+243
+00:13:46.980 --> 00:13:50.130
+discussed the advantages and
+disadvantages of normalization and
+
+244
+00:13:50.130 --> 00:13:52.330
+the relational database itself.
+
+245
+00:13:52.330 --> 00:13:56.880
+Finally, we presented a few examples
+of how data is actually denomalized
+
+246
+00:13:56.880 --> 00:14:01.410
+to facilitate repeated data extraction
+operations in reporting and analytics.
+
+247
+00:14:01.410 --> 00:14:05.400
+These ideas will be key in module three,
+where we'll actually learn how to extract
+
+248
+00:14:05.400 --> 00:14:07.690
+data for
+analysis from relational databases.
