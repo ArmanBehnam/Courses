@@ -1,0 +1,1168 @@
+WEBVTT
+
+1
+00:00:03.840 --> 00:00:06.210
+Hello I'm Professor Brian Bushee,
+welcome back.
+
+2
+00:00:06.210 --> 00:00:10.588
+In this video, we're going to let the data
+speak, literally let the data speak.
+
+3
+00:00:10.588 --> 00:00:16.110
+We're gonna throw out any notion of
+trying to model discretionary earnings or
+
+4
+00:00:16.110 --> 00:00:21.620
+unusual trends and ratios and instead just
+look at the distribution of the numbers.
+
+5
+00:00:21.620 --> 00:00:26.350
+There's something called Benford's Law,
+which reports how frequently certain
+
+6
+00:00:26.350 --> 00:00:30.600
+numbers appear in naturally
+generated data sets.
+
+7
+00:00:30.600 --> 00:00:35.100
+But that means that in artificially
+generated data sets, for example,
+
+8
+00:00:35.100 --> 00:00:38.410
+financial statements that have been
+manipulated through earnings management,
+
+9
+00:00:38.410 --> 00:00:42.650
+the numbers won't appear in the same
+frequency as Benford's Law.
+
+10
+00:00:42.650 --> 00:00:43.900
+And so we can look for
+
+11
+00:00:43.900 --> 00:00:48.216
+deviations from Benford's Law to find
+financial statements that look fishy.
+
+12
+00:00:48.216 --> 00:00:52.580
+It's pretty off-the-wall stuff but
+it's gaining prominence
+
+13
+00:00:52.580 --> 00:00:55.880
+as a fraud detection tool, so
+let's take a look at how it works.
+
+14
+00:00:57.180 --> 00:01:02.040
+Okay, for our last model we're gonna throw
+away all notions of trying to model any
+
+15
+00:01:02.040 --> 00:01:05.295
+discretionary earnings or
+fraud prediction ratios.
+
+16
+00:01:05.295 --> 00:01:09.109
+And instead we're just gonna let the data
+speak, to tell us whether it's true or
+
+17
+00:01:09.109 --> 00:01:10.750
+whether it's been manipulated.
+
+18
+00:01:10.750 --> 00:01:13.510
+And we're gonna do this with
+something called Benford's Law.
+
+19
+00:01:14.510 --> 00:01:19.200
+So, back in 1881, Simon Newcomb
+determined that the probability that
+
+20
+00:01:19.200 --> 00:01:24.410
+a number has a first digit, d,
+is given by this equation here.
+
+21
+00:01:24.410 --> 00:01:27.602
+Now, apparently he discovered this
+because back then you had to use
+
+22
+00:01:27.602 --> 00:01:29.960
+books of logarithms to
+do complex calculations.
+
+23
+00:01:29.960 --> 00:01:34.938
+And he noticed that the pages in the ones
+were much more worn than the pages in
+
+24
+00:01:34.938 --> 00:01:36.250
+the nines.
+
+25
+00:01:36.250 --> 00:01:40.570
+So, he got the idea that ones must appear
+more often than nines as leading digits,
+
+26
+00:01:40.570 --> 00:01:43.720
+and what he found is that they
+seem to follow this distribution.
+
+27
+00:01:45.160 --> 00:01:48.520
+In 1938,
+Frank Benford found a large number of
+
+28
+00:01:48.520 --> 00:01:51.530
+naturally occurring data
+sets follow this pattern.
+
+29
+00:01:51.530 --> 00:01:56.010
+So, you find this in the surface area of
+rivers, molecular weights, death rates,
+
+30
+00:01:56.010 --> 00:02:00.189
+street addresses and the numbers
+contained in an issue of Reader's Digest.
+
+31
+00:02:01.740 --> 00:02:05.840
+So, much like what always happens is
+the person that discovers something
+
+32
+00:02:05.840 --> 00:02:08.380
+doesn't get the credit,
+it's the person that popularizes it.
+
+33
+00:02:08.380 --> 00:02:12.400
+So this became known as Benford's Law
+instead of Newcomb's Law.
+
+34
+00:02:12.400 --> 00:02:16.480
+And since then it's been used to find
+irregularities in published scientific
+
+35
+00:02:16.480 --> 00:02:21.475
+studies, fraudulent election data in Iran,
+suspicious macroeconomic data from Greece,
+
+36
+00:02:21.475 --> 00:02:24.810
+and tax return misreporting.
+
+37
+00:02:24.810 --> 00:02:28.950
+So in each of these cases the distribution
+of the numbers and what you're looking at
+
+38
+00:02:28.950 --> 00:02:33.970
+doesn't meet this equation first
+discovered by Simon Newcomb and
+
+39
+00:02:33.970 --> 00:02:35.400
+popularized by Frank Benford.
+
+40
+00:02:35.400 --> 00:02:38.109
+And we're gonna use this
+distribution to look for
+
+41
+00:02:38.109 --> 00:02:40.506
+irregularities in financial statements.
+
+42
+00:02:42.900 --> 00:02:47.890
+This is, perhaps, the silliest
+thing I have ever heard in my life.
+
+43
+00:02:47.890 --> 00:02:49.800
+And I am no spring chicken!
+
+44
+00:02:49.800 --> 00:02:53.370
+>> What could possibly be the explanation
+for such an odd law of nature?
+
+45
+00:02:54.470 --> 00:02:59.920
+>> So, Benford's Law is what's called
+a phenomenological law, which means that
+
+46
+00:02:59.920 --> 00:03:05.310
+it explains a phenomenon that occurs in
+nature, but we have no idea why it occurs.
+
+47
+00:03:05.310 --> 00:03:08.750
+In fact, I found a quote where
+a leading scientist had said
+
+48
+00:03:08.750 --> 00:03:12.790
+it continues to defy attempts
+at an easy derivation.
+
+49
+00:03:12.790 --> 00:03:15.100
+So, if the scientists don't
+know a good explanation,
+
+50
+00:03:15.100 --> 00:03:18.210
+then I certainly can't come up with one.
+
+51
+00:03:18.210 --> 00:03:20.825
+But it seems to work in
+a lot of unconstrained,
+
+52
+00:03:20.825 --> 00:03:23.100
+naturally occurring data sets.
+
+53
+00:03:23.100 --> 00:03:26.190
+And just because we don't
+understand why it happens
+
+54
+00:03:26.190 --> 00:03:28.750
+doesn't mean that we can't
+use it to our benefit.
+
+55
+00:03:28.750 --> 00:03:29.370
+So, let's go on.
+
+56
+00:03:31.400 --> 00:03:36.350
+Here's what the expected distribution of
+leading digits is under Benford's Law.
+
+57
+00:03:36.350 --> 00:03:40.830
+So you'd expect to see a 1 as
+the first digit about 30% of the time.
+
+58
+00:03:40.830 --> 00:03:44.458
+Whereas a 9 would be a first
+digit only about 5% of the time.
+
+59
+00:03:44.458 --> 00:03:49.295
+Notice that 0 doesn't appear here, so if
+you're working with a decimal number like
+
+60
+00:03:49.295 --> 00:03:53.145
+0.05, we would consider 5
+to be the leading digit.
+
+61
+00:03:53.145 --> 00:03:57.660
+There's another example to show
+how this can detect fraud.
+
+62
+00:03:57.660 --> 00:04:01.960
+Here's the distribution of leading
+digits from 215 months of returns for
+
+63
+00:04:01.960 --> 00:04:06.140
+the Fairfield Sentry Fund which was a fund
+that invested only with Bernie Madoff.
+
+64
+00:04:06.140 --> 00:04:10.740
+And if you haven't heard of Bernie Madoff
+maybe you should Google him.
+
+65
+00:04:10.740 --> 00:04:12.340
+It's sort of an interesting read.
+
+66
+00:04:12.340 --> 00:04:14.893
+But he ran this thing
+called a Ponzi scheme,
+
+67
+00:04:14.893 --> 00:04:19.658
+which was a fraudulent investment fund
+where he basically would pay off investors
+
+68
+00:04:19.658 --> 00:04:21.880
+from new money that he would attract.
+
+69
+00:04:21.880 --> 00:04:26.160
+So, as long as he would attract new money,
+he could pay back to investors.
+
+70
+00:04:26.160 --> 00:04:28.640
+But if the new money ever stopped,
+then the Ponzi scheme would collapse.
+
+71
+00:04:29.780 --> 00:04:33.516
+Anyway, if you look at the distribution
+of the first digit of the returns,
+
+72
+00:04:33.516 --> 00:04:37.629
+you find that there were way too many
+1's in the first digits, not enough 9's.
+
+73
+00:04:37.629 --> 00:04:41.537
+And so the more you see
+a discrepancy from Benford's Law,
+
+74
+00:04:41.537 --> 00:04:46.322
+the more likely it is you're looking
+at numbers that have been made up,
+
+75
+00:04:46.322 --> 00:04:50.340
+as opposed to represent real
+returns earned by a real fund.
+
+76
+00:04:53.160 --> 00:04:56.240
+>> Doesn't this just indicate
+that Bernie Madoff was not that
+
+77
+00:04:56.240 --> 00:04:57.850
+good at committing fraud?
+
+78
+00:04:57.850 --> 00:05:02.510
+I mean, wouldn't an expert Ponzi
+schemer remember to make up returns
+
+79
+00:05:02.510 --> 00:05:05.450
+that conformed to
+the Benford distribution?
+
+80
+00:05:05.450 --> 00:05:05.950
+Duh!
+
+81
+00:05:07.910 --> 00:05:12.736
+>> That raises an excellent point, that
+as Benford's Law becomes a more popular
+
+82
+00:05:12.736 --> 00:05:17.210
+fraud detection technique,
+eventually the fraudsters will catch on.
+
+83
+00:05:17.210 --> 00:05:20.870
+And they will make sure to commit their
+frauds in a way where the financial
+
+84
+00:05:20.870 --> 00:05:24.710
+statement numbers conform to
+the Benford Law of Distribution.
+
+85
+00:05:24.710 --> 00:05:27.970
+This happens with any kind
+of fraud detection tool
+
+86
+00:05:27.970 --> 00:05:31.400
+where the more that the fraudsters
+know about it, the more they can try
+
+87
+00:05:31.400 --> 00:05:36.300
+to make their numbers meet
+the expected level of the model.
+
+88
+00:05:36.300 --> 00:05:40.150
+But nobody's found a way to manipulate all
+of the tools that we've looked at in this
+
+89
+00:05:40.150 --> 00:05:44.360
+course, which means that even though
+Benford's Law may work in a lot of cases,
+
+90
+00:05:44.360 --> 00:05:46.740
+you don't wanna rely on it exclusively.
+
+91
+00:05:46.740 --> 00:05:50.930
+Because the manager can't manipulate their
+numbers to make everything look good,
+
+92
+00:05:50.930 --> 00:05:53.030
+they're gonna trip up somewhere, and
+
+93
+00:05:53.030 --> 00:05:54.789
+that's why you gotta
+look at multiple tools.
+
+94
+00:05:56.290 --> 00:06:00.793
+The approach that we're gonna use to apply
+Benford's Law to financial statements was
+
+95
+00:06:00.793 --> 00:06:04.879
+laid out in a paper by Dan Amiram,
+Zahn Bozanic, and Ethan Rouen in 2014.
+
+96
+00:06:04.879 --> 00:06:09.631
+What they did was they aggregated all
+the financial statement data they could
+
+97
+00:06:09.631 --> 00:06:14.060
+get by industries, by years,
+they looked from 2000 to 2011.
+
+98
+00:06:14.060 --> 00:06:16.840
+And that they found that the leading
+digits in finance statements
+
+99
+00:06:16.840 --> 00:06:19.280
+tend to follow Benford's distribution.
+
+100
+00:06:19.280 --> 00:06:23.620
+In fact, 83% of firm's financial
+statements conform with this distribution.
+
+101
+00:06:24.700 --> 00:06:28.406
+So when it doesn't conform,
+when there's larger discrepancies between
+
+102
+00:06:28.406 --> 00:06:31.347
+the distribution of numbers in
+the financial statement and
+
+103
+00:06:31.347 --> 00:06:35.701
+the Benford distribution, they also found
+larger Modified Jones Model discretionary
+
+104
+00:06:35.701 --> 00:06:37.796
+accruals and higher Beneish M-Scores.
+
+105
+00:06:37.796 --> 00:06:42.703
+So the discrepancies did seem to line up
+with other tools that we've looked at to
+
+106
+00:06:42.703 --> 00:06:44.620
+detect earnings management.
+
+107
+00:06:45.870 --> 00:06:50.990
+So here's how we're gonna calculate
+the discrepancy from Benford's Law.
+
+108
+00:06:50.990 --> 00:06:53.530
+First, we need a large number
+of financial statement items.
+
+109
+00:06:53.530 --> 00:06:57.504
+There's no theory on how many
+are needed but more is better.
+
+110
+00:06:57.504 --> 00:07:01.713
+So one good way to do this is to basically
+take all the numbers in the balance sheet,
+
+111
+00:07:01.713 --> 00:07:05.480
+income statement, cash flow statement and
+run this test on them.
+
+112
+00:07:05.480 --> 00:07:09.090
+It doesn't matter what the numbers are,
+it just matters that we get these numbers.
+
+113
+00:07:10.090 --> 00:07:12.520
+Then we need to count the number
+of each leading digit.
+
+114
+00:07:12.520 --> 00:07:16.830
+So, we can use an Excel formula
+where we take the left most digit.
+
+115
+00:07:16.830 --> 00:07:19.390
+Now, you notice I've got
+an absolute value here.
+
+116
+00:07:19.390 --> 00:07:22.020
+That's because with negative numbers
+it would grab the minus sign so
+
+117
+00:07:22.020 --> 00:07:23.850
+we need to make it positive.
+
+118
+00:07:23.850 --> 00:07:27.500
+You also need to multiply it by 1,000 or
+some large
+
+119
+00:07:27.500 --> 00:07:31.905
+multiple of 10 before taking the digits,
+so that will help you with the decimals.
+
+120
+00:07:31.905 --> 00:07:35.650
+Cuz we don't want zero as the leading
+digit, we want the first non-zero number.
+
+121
+00:07:36.660 --> 00:07:39.350
+Once we've got all the leading
+digits from all the numbers,
+
+122
+00:07:39.350 --> 00:07:43.420
+we wanna count them up with an Excel
+formula to get the amount of, or
+
+123
+00:07:43.420 --> 00:07:46.970
+the number of leading digits for
+each number one through nine.
+
+124
+00:07:48.520 --> 00:07:52.460
+Then we can compare the actual frequency
+of these leading digits to the expected
+
+125
+00:07:52.460 --> 00:07:53.950
+distribution under Benford's Law.
+
+126
+00:07:54.950 --> 00:07:57.180
+And we'll test whether it
+seems to be different,
+
+127
+00:07:57.180 --> 00:08:01.050
+using something called
+the Kolmogorov-Smirnov statistic,
+
+128
+00:08:01.050 --> 00:08:06.620
+not sure how to pronounce that,
+which is this sort of ugly formula here.
+
+129
+00:08:06.620 --> 00:08:12.010
+In this formula, AD is the actual
+frequency of the leading digit, so AD is
+
+130
+00:08:12.010 --> 00:08:17.630
+the actual frequency for 1 is the first
+number, AD2 is for 2 is the first number.
+
+131
+00:08:17.630 --> 00:08:22.690
+ED is the theoretical frequency or what's
+expected under the Benford distribution.
+
+132
+00:08:22.690 --> 00:08:25.150
+And basically, what this statistic
+is doing is it's looking for
+
+133
+00:08:25.150 --> 00:08:29.840
+the biggest point or the biggest
+cumulative difference in the distribution.
+
+134
+00:08:31.510 --> 00:08:36.080
+Then to see if that's statistically
+significant, if it's consistent with
+
+135
+00:08:36.080 --> 00:08:41.250
+earnings management, you wanna see if this
+statistic is greater than 1.36 divided
+
+136
+00:08:41.250 --> 00:08:45.640
+by the square root of P, where P is
+the total number of leading digits used.
+
+137
+00:08:45.640 --> 00:08:48.670
+So, this is something where
+the cut off we're gonna use
+
+138
+00:08:48.670 --> 00:08:50.489
+is a function of the number
+of leading digits.
+
+139
+00:08:52.830 --> 00:08:58.470
+>> Sweetie, y'all can't just give us
+the Kolmogorov-Smirnov statistic and
+
+140
+00:08:58.470 --> 00:09:01.950
+expect us to know what the lamb
+y'all are talking about.
+
+141
+00:09:03.600 --> 00:09:07.170
+>> I completely agree, let's take
+a look at an example of how this works.
+
+142
+00:09:08.750 --> 00:09:10.620
+So, to illustrate how to calculate this,
+
+143
+00:09:10.620 --> 00:09:15.265
+I've put together a spreadsheet with two
+companies Dog Donut and Beagle Bagel,
+
+144
+00:09:15.265 --> 00:09:20.370
+two leading snack food,
+breakfast food companies for dogs.
+
+145
+00:09:21.520 --> 00:09:25.630
+In the first tab for
+Dog Donut I've got three years worth of
+
+146
+00:09:25.630 --> 00:09:28.350
+their financial statements, balance sheet,
+income statement, and cash flow statement.
+
+147
+00:09:29.620 --> 00:09:36.042
+Then what I need to do is use the formula
+to find the leading digit for each number.
+
+148
+00:09:36.042 --> 00:09:40.625
+So, for 129.30, the leading digit's 1, for
+
+149
+00:09:40.625 --> 00:09:43.921
+315.46 the leading digit is 3.
+
+150
+00:09:43.921 --> 00:09:46.890
+One that I want to show you is down here.
+
+151
+00:09:46.890 --> 00:09:51.270
+There's a number that's 0.51,
+we can't have 0 as our leading digit, so
+
+152
+00:09:51.270 --> 00:09:54.260
+we wanna pull the 5 as the leading digit.
+
+153
+00:09:54.260 --> 00:09:56.740
+So we got all the leading digits
+from all these numbers and
+
+154
+00:09:56.740 --> 00:09:58.700
+then we want to count everything up.
+
+155
+00:09:58.700 --> 00:10:02.970
+So, I've got a formula where I count
+up the number of times 1 is the leading
+
+156
+00:10:02.970 --> 00:10:06.930
+digit, the number of times 2 is
+the leading digit, then we add that up.
+
+157
+00:10:06.930 --> 00:10:09.800
+So, there were a 122 leading digits.
+
+158
+00:10:09.800 --> 00:10:13.945
+We can divide each count by the percent
+to see that in this example,
+
+159
+00:10:13.945 --> 00:10:20.220
+1's were the leading digit 31% of
+the time, 2's 13% of the time and so on.
+
+160
+00:10:20.220 --> 00:10:23.760
+Then I've got the expected
+distribution based on Benford's Law.
+
+161
+00:10:23.760 --> 00:10:26.990
+And what I calculate is what's
+called the cumulative difference.
+
+162
+00:10:26.990 --> 00:10:30.480
+So, for number one it's simple, it's just
+the difference between the actual and
+
+163
+00:10:30.480 --> 00:10:33.270
+expected distribution for one.
+
+164
+00:10:33.270 --> 00:10:37.770
+For two, the cumulative differences,
+I have to add up the distribution for
+
+165
+00:10:37.770 --> 00:10:42.460
+one and two, and compare that to the
+expected distribution for one and two, and
+
+166
+00:10:42.460 --> 00:10:45.000
+I find the difference is 2.6%.
+
+167
+00:10:45.000 --> 00:10:50.670
+For three, I add up 31%, 13.9%, 20.5%,
+and compare that to 30.1, 17.6, 12.5 and
+
+168
+00:10:50.670 --> 00:10:56.680
+they're off by 5 and so forth and so on.
+
+169
+00:10:56.680 --> 00:11:02.330
+So, the KS statistic is the maximum
+the difference which would be 5.4,
+
+170
+00:11:02.330 --> 00:11:07.550
+the cutoff is this formula of 1.36
+divided by the square root of 122,
+
+171
+00:11:07.550 --> 00:11:09.430
+which is the number of items.
+
+172
+00:11:09.430 --> 00:11:13.420
+We can see that the KS statistic
+is way below the cut off.
+
+173
+00:11:13.420 --> 00:11:16.290
+So, we have no concerns
+in this case that there's
+
+174
+00:11:16.290 --> 00:11:19.440
+manipulation based on
+a deviation from Benford's law.
+
+175
+00:11:19.440 --> 00:11:22.290
+It conforms to Benford's
+law pretty closely.
+
+176
+00:11:24.260 --> 00:11:28.090
+>> Why do you combine all three
+years into one statistic?
+
+177
+00:11:28.090 --> 00:11:29.860
+Can't you do this for
+each individual year?
+
+178
+00:11:31.750 --> 00:11:32.900
+>> Excellent point.
+
+179
+00:11:32.900 --> 00:11:35.480
+This is definitely
+a technique that works much
+
+180
+00:11:35.480 --> 00:11:38.290
+better the more numbers that you have.
+
+181
+00:11:38.290 --> 00:11:41.490
+It doesn't work as well at detecting fraud
+
+182
+00:11:41.490 --> 00:11:45.700
+if you only have a very small number
+of numbers to take a look at.
+
+183
+00:11:45.700 --> 00:11:48.100
+So, that's why using
+three years of numbers,
+
+184
+00:11:48.100 --> 00:11:51.040
+which is sort of the maximum amount
+of numbers you can get in a financial
+
+185
+00:11:51.040 --> 00:11:53.690
+statement, is gonna be more powerful.
+
+186
+00:11:53.690 --> 00:11:56.867
+Also, remember we've seen examples
+where if you manipulated one year,
+
+187
+00:11:56.867 --> 00:11:58.260
+it also affects the other year?
+
+188
+00:11:58.260 --> 00:12:03.142
+So, it's easier to pick up frauds
+if you find these deviations across
+
+189
+00:12:03.142 --> 00:12:06.130
+both years as opposed to one unusual year.
+
+190
+00:12:06.130 --> 00:12:08.824
+And definitely if you dig
+through this example,
+
+191
+00:12:08.824 --> 00:12:13.700
+it's a case where you wouldn't clearly
+find fraud looking at individual years.
+
+192
+00:12:13.700 --> 00:12:17.504
+But looking at all three years together,
+it does seem like these were
+
+193
+00:12:17.504 --> 00:12:21.586
+artificially generated numbers
+consistent with earnings management.
+
+194
+00:12:21.586 --> 00:12:24.630
+Now, we can do the same thing for
+Beagle Bagel.
+
+195
+00:12:24.630 --> 00:12:27.400
+So, we put in all the financial
+statement numbers we can find for
+
+196
+00:12:27.400 --> 00:12:32.370
+the last three years,
+calculate all the leading digits,
+
+197
+00:12:32.370 --> 00:12:35.800
+then count up the number of each
+of the leading digits to get
+
+198
+00:12:35.800 --> 00:12:40.400
+the actual distribution compared
+to the expected distribution.
+
+199
+00:12:40.400 --> 00:12:43.405
+And we end up with a KS
+statistic of 16.2%,
+
+200
+00:12:43.405 --> 00:12:47.850
+that's based on the cumulative difference
+between the number of one, twos, and
+
+201
+00:12:47.850 --> 00:12:51.730
+threes, actually versus what
+the Benford Law would say.
+
+202
+00:12:51.730 --> 00:12:56.070
+That 16.2% is greater
+than our cutoff of 12.3%.
+
+203
+00:12:56.070 --> 00:13:00.596
+So, in this case we would be suspicious
+that there was manipulation going on
+
+204
+00:13:00.596 --> 00:13:03.143
+with Beagle Bagel because their financial
+
+205
+00:13:03.143 --> 00:13:06.337
+statements don't meet this
+Benford distribution.
+
+206
+00:13:06.337 --> 00:13:09.256
+And we looked at one of their close
+competitors where their financial
+
+207
+00:13:09.256 --> 00:13:10.370
+statement does beat it.
+
+208
+00:13:10.370 --> 00:13:15.090
+So we can attribute this to some
+kind of industry effect, instead it
+
+209
+00:13:15.090 --> 00:13:18.280
+looks like they may have done somethings
+to manipulate there financial statements.
+
+210
+00:13:20.710 --> 00:13:25.100
+>> Professor, I want to enthusiastically
+and sincerely thank you for
+
+211
+00:13:25.100 --> 00:13:29.840
+giving us 359 tools for
+analyzing financial statements.
+
+212
+00:13:29.840 --> 00:13:32.940
+Now, I have just one
+more small favor to ask.
+
+213
+00:13:32.940 --> 00:13:34.580
+Which doggone tool should I use?
+
+214
+00:13:36.130 --> 00:13:38.260
+>> You're welcome,
+I've been happy to do this.
+
+215
+00:13:38.260 --> 00:13:43.020
+And I will ignore the sarcasm
+in saying 359 tools.
+
+216
+00:13:43.020 --> 00:13:44.850
+So which ones should you use?
+
+217
+00:13:44.850 --> 00:13:46.547
+Well, you should use all of them.
+
+218
+00:13:46.547 --> 00:13:51.004
+[LAUGH] So one thing that I hoped has
+definitely come across in these videos,
+
+219
+00:13:51.004 --> 00:13:56.235
+is that there is no one tool that will
+pick up all forms of earnings management.
+
+220
+00:13:56.235 --> 00:13:59.755
+If there was one tool that always worked,
+I certainly wouldn't tell you about it.
+
+221
+00:13:59.755 --> 00:14:02.025
+I would keep it to myself and get rich so
+
+222
+00:14:02.025 --> 00:14:03.695
+I wouldn't have to sit
+here making these videos.
+
+223
+00:14:04.755 --> 00:14:07.955
+Also, as we talked about it earlier,
+if there was one tool that
+
+224
+00:14:07.955 --> 00:14:11.530
+always seem to work,
+the fraudsters would find out about it and
+
+225
+00:14:11.530 --> 00:14:15.140
+do their manipulation in a way
+that the tool wouldn't pick it up.
+
+226
+00:14:15.140 --> 00:14:19.240
+So that's why you need to look at a big
+range of tools to find these kinds of
+
+227
+00:14:19.240 --> 00:14:20.300
+problems.
+
+228
+00:14:20.300 --> 00:14:22.878
+The big data approaches of this
+week are good starting points.
+
+229
+00:14:22.878 --> 00:14:26.123
+So if you've got a large number
+of companies to look at,
+
+230
+00:14:26.123 --> 00:14:29.506
+you run the Benford's test or
+the fraud prediction test,
+
+231
+00:14:29.506 --> 00:14:32.405
+figure out which five or
+six look suspicious, and
+
+232
+00:14:32.405 --> 00:14:37.280
+then dive in deeper to look at the other
+tools to see if there's a problem.
+
+233
+00:14:37.280 --> 00:14:41.180
+Because one thing I'm pretty sure about
+is that the more tools that suggest
+
+234
+00:14:41.180 --> 00:14:42.610
+there's manipulation,
+
+235
+00:14:42.610 --> 00:14:46.149
+the more likely it is that you've found a
+company that's manipulated their earnings.
+
+236
+00:14:48.480 --> 00:14:52.680
+That wraps our look at Benford's Law and
+it also wraps our week
+
+237
+00:14:52.680 --> 00:14:57.350
+on big data approaches to try to
+detect earnings management or fraud.
+
+238
+00:14:57.350 --> 00:15:01.046
+I hope some of these tools come in
+handy for you in the future and
+
+239
+00:15:01.046 --> 00:15:04.700
+help you identify some firms that
+may have fishy financial statements,
+
+240
+00:15:04.700 --> 00:15:08.440
+so that you can stay as far
+away from them as possible.
+
+241
+00:15:08.440 --> 00:15:13.213
+And I really hope that you
+enjoyed all this material and
+
+242
+00:15:13.213 --> 00:15:16.130
+I want to thank you for watching.
+
+243
+00:15:16.130 --> 00:15:17.840
+>> See you next video.
