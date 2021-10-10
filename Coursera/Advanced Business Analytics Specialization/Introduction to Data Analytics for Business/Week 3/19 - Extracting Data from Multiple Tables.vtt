@@ -1,0 +1,851 @@
+WEBVTT
+
+1
+00:00:00.890 --> 00:00:05.350
+In previous videos, we explored some of
+the basic commands used in SQL queries,
+
+2
+00:00:05.350 --> 00:00:08.790
+focussing on how we might extract
+data from a single table.
+
+3
+00:00:08.790 --> 00:00:12.650
+However, the real power of SQL is that
+we can take advantage of the relational
+
+4
+00:00:12.650 --> 00:00:17.300
+structure in our database, and bring
+together multiple ideas into one dataset
+
+5
+00:00:17.300 --> 00:00:19.780
+that we can use for subsequent analysis.
+
+6
+00:00:19.780 --> 00:00:23.300
+So today we're going to talk about how to
+do that using a family of commands that
+
+7
+00:00:23.300 --> 00:00:24.940
+join tables together.
+
+8
+00:00:24.940 --> 00:00:27.840
+Before we jump in let's
+revisit the idea of aliases
+
+9
+00:00:27.840 --> 00:00:31.040
+that we introduced when we
+talked about data aggregations.
+
+10
+00:00:31.040 --> 00:00:33.340
+We saw that we could rename any column or
+
+11
+00:00:33.340 --> 00:00:38.530
+aggregate in our select by adding as,
+and a new name like this.
+
+12
+00:00:38.530 --> 00:00:44.080
+Select count star as
+num_rows from transactions.
+
+13
+00:00:44.080 --> 00:00:49.140
+It turns out that I can also use aliases
+to rename whole tables as well as columns.
+
+14
+00:00:49.140 --> 00:00:52.240
+This will important when we start
+talking about multiple tables,
+
+15
+00:00:52.240 --> 00:00:55.660
+especially when those tables have
+column names that are the same.
+
+16
+00:00:55.660 --> 00:00:59.320
+Using aliases helps us specify
+which table a column belongs to.
+
+17
+00:01:00.470 --> 00:01:03.420
+The syntax for table aliases
+is a little different than for
+
+18
+00:01:03.420 --> 00:01:06.580
+column aliases, but the idea is the same.
+
+19
+00:01:06.580 --> 00:01:09.100
+Consider one of our
+earlier example queries.
+
+20
+00:01:09.100 --> 00:01:12.440
+Select channel, product,
+price from transactions.
+
+21
+00:01:13.550 --> 00:01:17.260
+If I wanted to clearly specify
+the table associated with each column,
+
+22
+00:01:17.260 --> 00:01:19.530
+I could of written the query this way.
+
+23
+00:01:19.530 --> 00:01:23.746
+Select transactions.channel,
+transactions.product,
+
+24
+00:01:23.746 --> 00:01:26.910
+transactions.price, from transactions.
+
+25
+00:01:28.020 --> 00:01:31.880
+Note that I more completely described
+each field in the select statement using
+
+26
+00:01:31.880 --> 00:01:34.920
+the convention table name dot field name.
+
+27
+00:01:34.920 --> 00:01:37.660
+This makes the table
+association really clear.
+
+28
+00:01:37.660 --> 00:01:41.240
+But as you might imagine, it can get
+tedious to type out the whole table name
+
+29
+00:01:41.240 --> 00:01:43.310
+every time I reference a column.
+
+30
+00:01:43.310 --> 00:01:45.980
+This is where table aliases come in.
+
+31
+00:01:45.980 --> 00:01:49.440
+Let's say I simply want to refer to
+the transactions tabel as table A.
+
+32
+00:01:49.440 --> 00:01:52.869
+I could write the same query this way.
+
+33
+00:01:52.869 --> 00:01:57.816
+Select a.channel, a.product, a.price,
+
+34
+00:01:57.816 --> 00:02:00.795
+from transactions space a.
+
+35
+00:02:00.795 --> 00:02:04.578
+In this case, space a is my alias for
+the transactions table.
+
+36
+00:02:04.578 --> 00:02:06.396
+Note that unlike column aliases,
+
+37
+00:02:06.396 --> 00:02:10.225
+I don't need to use the word as
+between the table and its alias.
+
+38
+00:02:10.225 --> 00:02:13.295
+I can if I want to, but it's usually
+more efficient just to use a space.
+
+39
+00:02:14.875 --> 00:02:18.945
+Again, if I'm extracting data from
+a single table, using the table name, or
+
+40
+00:02:18.945 --> 00:02:21.620
+an alias all over the place
+is a bit redundant.
+
+41
+00:02:21.620 --> 00:02:25.360
+However, it's really helpful when
+we bring other tables into the mix.
+
+42
+00:02:25.360 --> 00:02:28.550
+So let's move on and look at how we
+extract data from more than one table.
+
+43
+00:02:29.880 --> 00:02:33.810
+Remember that in a relational database
+the linkage between tables is defined by
+
+44
+00:02:33.810 --> 00:02:35.390
+a foreign key.
+
+45
+00:02:35.390 --> 00:02:37.200
+That is, we have the same column or
+
+46
+00:02:37.200 --> 00:02:39.429
+at least the same type of
+column in both tables.
+
+47
+00:02:40.450 --> 00:02:44.620
+Often, the foreign key in one table links
+to a primary key in another table, but
+
+48
+00:02:44.620 --> 00:02:45.958
+it doesn't have to be the case.
+
+49
+00:02:45.958 --> 00:02:51.060
+In this short-hand diagram, you could
+see logically how two tables, A and B,
+
+50
+00:02:51.060 --> 00:02:56.060
+are linked using the fields A.Key and
+B.Key.
+
+51
+00:02:56.060 --> 00:02:59.120
+In SQL,
+we use an operation called the JOIN
+
+52
+00:02:59.120 --> 00:03:02.440
+to allow us to access more
+than one table at a time.
+
+53
+00:03:02.440 --> 00:03:05.200
+There are a number of different
+types of joins that can be applied.
+
+54
+00:03:05.200 --> 00:03:07.707
+Depending on what type of
+output we're hoping to get.
+
+55
+00:03:07.707 --> 00:03:12.207
+We'll cover the three most common
+types of joins first, outer joins,
+
+56
+00:03:12.207 --> 00:03:14.760
+inner joins and left joins.
+
+57
+00:03:14.760 --> 00:03:18.650
+This venn diagram illustrates
+logically what these joins do.
+
+58
+00:03:18.650 --> 00:03:23.380
+The inner join only returns rows of data
+where there is a common key value match.
+
+59
+00:03:23.380 --> 00:03:24.250
+In other words,
+
+60
+00:03:24.250 --> 00:03:28.490
+when the specific values in the key
+field are the same in both tables.
+
+61
+00:03:28.490 --> 00:03:32.690
+The full outer join returns all rows
+of data from both tables, whether or
+
+62
+00:03:32.690 --> 00:03:35.370
+not there is a key value
+match between them.
+
+63
+00:03:35.370 --> 00:03:39.500
+Finally, the left join returns
+all rows of data in one table and
+
+64
+00:03:39.500 --> 00:03:43.630
+adds data from any rows in the second
+table where there is a key value match.
+
+65
+00:03:45.010 --> 00:03:47.840
+Another way to think about what
+joins do is that they try to match
+
+66
+00:03:47.840 --> 00:03:52.920
+rows of data between table and sort of
+align them up using the key relationship.
+
+67
+00:03:52.920 --> 00:03:57.060
+With an inner join, I only give data
+back if the rows line up properly.
+
+68
+00:03:57.060 --> 00:04:01.170
+With an outer join, I get back both
+rows that line up and those that don't.
+
+69
+00:04:01.170 --> 00:04:04.120
+Meaning that I'll have some rows on
+my output dataset that only had data
+
+70
+00:04:04.120 --> 00:04:08.000
+on one side, and other rows that
+only had data on the other side
+
+71
+00:04:08.000 --> 00:04:10.000
+in addition to those
+with data on both sides.
+
+72
+00:04:11.030 --> 00:04:13.260
+The left join is sort of in the middle.
+
+73
+00:04:13.260 --> 00:04:16.840
+It makes sure that I have all rows
+of data from one side, but may or
+
+74
+00:04:16.840 --> 00:04:19.050
+may not have data from the other side.
+
+75
+00:04:19.050 --> 00:04:22.500
+Some examples of join should make
+this clear, but before we do that
+
+76
+00:04:22.500 --> 00:04:26.430
+let's look at the sin tax of sequel
+codes when using join clause.
+
+77
+00:04:26.430 --> 00:04:31.550
+Assume I want data from two tables named
+table one and table two respectfully.
+
+78
+00:04:31.550 --> 00:04:34.390
+The sin tax for
+a full outer join looks like this,
+
+79
+00:04:36.180 --> 00:04:40.970
+I select some number of counts from table
+one and table two using aliases a and
+
+80
+00:04:40.970 --> 00:04:43.920
+b that I define in the subsequent clauses.
+
+81
+00:04:43.920 --> 00:04:49.320
+I select from table one alias a, and
+full our join table two alias to b.
+
+82
+00:04:50.450 --> 00:04:55.330
+Finally I define the field from each table
+on which I want the join to take place
+
+83
+00:04:55.330 --> 00:04:59.041
+by saying on a.key equals b.key.
+
+84
+00:05:00.060 --> 00:05:03.570
+The syntax for an inner join and
+for a left join are similar,
+
+85
+00:05:03.570 --> 00:05:07.780
+except that I replace full outer join with
+inner join and left join respectively.
+
+86
+00:05:09.360 --> 00:05:12.390
+Let's set up an example to
+see how these joins work.
+
+87
+00:05:12.390 --> 00:05:15.120
+Once again,
+we'll start with our transactions table.
+
+88
+00:05:15.120 --> 00:05:17.260
+But now we'll introduce a second table.
+
+89
+00:05:17.260 --> 00:05:21.180
+Let's call this table products,
+which has one row for each product and
+
+90
+00:05:21.180 --> 00:05:25.600
+contains the product and two attributes
+about each product, material and medium.
+
+91
+00:05:26.970 --> 00:05:30.920
+Using our table short hand, we can see
+the relationship between the tables.
+
+92
+00:05:30.920 --> 00:05:34.930
+They both contain the product field, which
+is the foreign key in the transactions
+
+93
+00:05:34.930 --> 00:05:37.269
+table and
+the primary key in the products table.
+
+94
+00:05:38.790 --> 00:05:42.100
+Let's say that I just wanted to
+augment my transactions data by
+
+95
+00:05:42.100 --> 00:05:44.850
+adding attributes about
+each product purchased.
+
+96
+00:05:44.850 --> 00:05:46.410
+I'd write a query that looks like this.
+
+97
+00:05:47.590 --> 00:05:52.275
+Select a.star, b.star from transactions a,
+
+98
+00:05:52.275 --> 00:05:58.020
+left join products b,
+on a dot product equals b.product.
+
+99
+00:05:58.020 --> 00:06:01.930
+I've chosen a left joint here, because I
+want to start with all my transactions on
+
+100
+00:06:01.930 --> 00:06:06.570
+the left, and only join in data from
+the products table, if there is a match.
+
+101
+00:06:06.570 --> 00:06:09.060
+In this case, there's a match for
+each transaction, and
+
+102
+00:06:09.060 --> 00:06:10.660
+I get the following output data set.
+
+103
+00:06:12.400 --> 00:06:15.740
+Here I have all the data from
+the original transactions table, but
+
+104
+00:06:15.740 --> 00:06:19.760
+I've added the material and
+medium columns from the product table.
+
+105
+00:06:19.760 --> 00:06:23.010
+Know that each time the same product
+comes up in the transactions table,
+
+106
+00:06:23.010 --> 00:06:27.060
+the same information from the product
+table's included in the output table.
+
+107
+00:06:27.060 --> 00:06:29.770
+So what if I chosen inner join instead?
+
+108
+00:06:29.770 --> 00:06:32.970
+In this case, it would have made
+no difference as there was a match
+
+109
+00:06:32.970 --> 00:06:36.920
+on product table for every type of
+product and the transactions table.
+
+110
+00:06:36.920 --> 00:06:39.790
+Or what if we were missing
+information in the products table?
+
+111
+00:06:39.790 --> 00:06:43.580
+For example, what if my products
+table were missing magazines.
+
+112
+00:06:43.580 --> 00:06:46.870
+With a left join, all the transactions
+would be in the table.
+
+113
+00:06:46.870 --> 00:06:51.260
+But the values for the last two columns
+will be missing in those rows like this.
+
+114
+00:06:51.260 --> 00:06:55.610
+But if I used an inner join, the rows for
+magazines will be missing entirely.
+
+115
+00:06:55.610 --> 00:06:58.080
+If I needed to see information
+about all transactions,
+
+116
+00:06:58.080 --> 00:06:59.930
+I wouldn't get what I needed.
+
+117
+00:06:59.930 --> 00:07:03.129
+With the left join, I'm able to see
+exactly what information I'm missing.
+
+118
+00:07:04.270 --> 00:07:08.720
+In data analysis, this is often precisely
+the type of thing I'm looking for.
+
+119
+00:07:08.720 --> 00:07:12.520
+Personally, I have a strong bias towards
+using left joins over inter joins when
+
+120
+00:07:12.520 --> 00:07:15.520
+possible, especially for data analytics.
+
+121
+00:07:15.520 --> 00:07:18.250
+I can always throw away data later,
+but it's much harder to
+
+122
+00:07:18.250 --> 00:07:21.320
+spot missing data problems,
+if they're already removed in your query.
+
+123
+00:07:22.340 --> 00:07:24.380
+What about a full outer join?
+
+124
+00:07:24.380 --> 00:07:27.200
+Let's say I wrote this
+query as a full outer join.
+
+125
+00:07:27.200 --> 00:07:30.010
+The dataset returned might look like this.
+
+126
+00:07:30.010 --> 00:07:32.360
+Note that there are two
+products in products table for
+
+127
+00:07:32.360 --> 00:07:34.380
+which there are no transactions.
+
+128
+00:07:34.380 --> 00:07:37.080
+These products show up on the right
+side of the table with missing
+
+129
+00:07:37.080 --> 00:07:40.730
+values in the transactions
+tables fields on the left.
+
+130
+00:07:40.730 --> 00:07:43.480
+I may or may not be interested in
+understanding which products have not
+
+131
+00:07:43.480 --> 00:07:44.660
+transactions, but
+
+132
+00:07:44.660 --> 00:07:48.330
+if I were I might consider using a full
+outer join to help point them out.
+
+133
+00:07:49.420 --> 00:07:50.710
+Generally speaking, however,
+
+134
+00:07:50.710 --> 00:07:55.489
+full outer joins are much less common
+than ; left joins and inner joins.
+
+135
+00:07:55.489 --> 00:07:58.480
+One thing you may have noticed to my
+output dataset is that even though I
+
+136
+00:07:58.480 --> 00:08:02.407
+selected all columns from
+both tables using a.star and
+
+137
+00:08:02.407 --> 00:08:06.690
+b.star, the field in my own
+cross only appeared once.
+
+138
+00:08:06.690 --> 00:08:10.290
+Some SQL engines are smart enough to
+realise that including the same values
+
+139
+00:08:10.290 --> 00:08:12.280
+from both tables of redundant.
+
+140
+00:08:12.280 --> 00:08:15.950
+Others will in fact return values for
+each table in separate columns.
+
+141
+00:08:15.950 --> 00:08:18.000
+We've used one column here for simplicity.
+
+142
+00:08:19.580 --> 00:08:22.510
+We also mentioned earlier that
+inner joins, outer joins, and
+
+143
+00:08:22.510 --> 00:08:25.440
+left joins are just a few of the types
+of joins that we can execute.
+
+144
+00:08:26.490 --> 00:08:30.360
+Here's a more complete set of joins and
+the logic that defines each one.
+
+145
+00:08:30.360 --> 00:08:33.890
+We won't go through these here, but you
+may occasionally find yourself in need of
+
+146
+00:08:33.890 --> 00:08:36.430
+these other joins depending on
+the outcome you're trying to achieve.
+
+147
+00:08:37.460 --> 00:08:40.900
+Okay, before we wrap up,
+let's take our example a step further and
+
+148
+00:08:40.900 --> 00:08:44.170
+incorporate some of the other ideas
+we've learned thus far around SQL.
+
+149
+00:08:45.360 --> 00:08:49.730
+It's often the case that I add data to one
+table from another table to facilitate
+
+150
+00:08:49.730 --> 00:08:54.090
+some sort of aggravation based on
+something that's only in the second table.
+
+151
+00:08:54.090 --> 00:08:58.240
+For example, let's say I wanted
+a query that did the following.
+
+152
+00:08:58.240 --> 00:09:03.040
+Return the average price of products
+by medium, exclude transactions from
+
+153
+00:09:03.040 --> 00:09:08.440
+the reseller channel, only include medium
+values where the average price is greater
+
+154
+00:09:08.440 --> 00:09:13.270
+than 10, and sort the results from highest
+average price to the lowest average price.
+
+155
+00:09:14.530 --> 00:09:15.930
+We could write the following query,
+
+156
+00:09:15.930 --> 00:09:18.590
+which incorporates almost every
+idea we've discussed so far.
+
+157
+00:09:19.900 --> 00:09:25.870
+Here we select the grouping field
+b.medium, and the aggregate avg a.price,
+
+158
+00:09:25.870 --> 00:09:30.830
+and we define an alias for
+the average price as avg_price.
+
+159
+00:09:30.830 --> 00:09:38.010
+We select from transactions a and left
+join products b on a.price equals b.price.
+
+160
+00:09:38.010 --> 00:09:42.810
+We filter resellers using where
+a.channel is not equal to reseller,
+
+161
+00:09:42.810 --> 00:09:45.430
+then group by b.medium.
+
+162
+00:09:45.430 --> 00:09:50.177
+We further filter the aggregated data
+by adding having avg_price greater
+
+163
+00:09:50.177 --> 00:09:52.070
+than 12.50.
+
+164
+00:09:52.070 --> 00:09:54.790
+Finally we order by avg_price,
+
+165
+00:09:54.790 --> 00:09:59.470
+desc to make sure the data is sorted
+from highest to lowest average price.
+
+166
+00:10:00.550 --> 00:10:03.320
+When we run this query,
+we get the following output data set.
+
+167
+00:10:04.600 --> 00:10:06.610
+We have two rows in the data set.
+
+168
+00:10:06.610 --> 00:10:10.290
+Visual medium with an average
+price of 12.61, and
+
+169
+00:10:10.290 --> 00:10:14.139
+audio visual medium with
+an average price of 12.45.
+
+170
+00:10:14.139 --> 00:10:15.518
+If you can, pause here and
+
+171
+00:10:15.518 --> 00:10:19.420
+try to work your way through
+the steps in this query manually.
+
+172
+00:10:19.420 --> 00:10:22.430
+Can you tell which step or
+steps didn't actually make a difference?
+
+173
+00:10:23.430 --> 00:10:25.508
+If you've got it, then congratulations.
+
+174
+00:10:25.508 --> 00:10:28.710
+You understand enough about sequel to
+accomplish a pretty large percentage of
+
+175
+00:10:28.710 --> 00:10:30.500
+the queries we actually used to pull data.
+
+176
+00:10:31.670 --> 00:10:35.670
+These basic commands along with a little
+creativity can take you a long way.
+
+177
+00:10:36.820 --> 00:10:39.760
+In the remainder of this module,
+we'll look at a few more commands and
+
+178
+00:10:39.760 --> 00:10:43.710
+functions in sequel and see how we can
+write more elaborate quarries to extract
+
+179
+00:10:43.710 --> 00:10:45.260
+data in more valuable ways.

@@ -1,0 +1,449 @@
+WEBVTT
+
+1
+00:00:00.540 --> 00:00:04.970
+In some of our other videos on SQL, we
+cover the basic commands using SQL queries
+
+2
+00:00:04.970 --> 00:00:08.230
+and how to extract data from
+multiple tables using joints.
+
+3
+00:00:08.230 --> 00:00:11.160
+In this short video, we're going to talk
+about a different way of bringing data
+
+4
+00:00:11.160 --> 00:00:14.468
+from multiple tables together
+using the UNION command.
+
+5
+00:00:14.468 --> 00:00:17.320
+When we learned about joining
+tables together, we really focused
+
+6
+00:00:17.320 --> 00:00:21.330
+on how to enrich rows of data by
+adding columns from different tables.
+
+7
+00:00:21.330 --> 00:00:23.880
+You can think of this as kind
+of a left right operation.
+
+8
+00:00:23.880 --> 00:00:27.330
+We have some data on the left and
+some data on the right, and
+
+9
+00:00:27.330 --> 00:00:28.800
+we want to bring them together.
+
+10
+00:00:28.800 --> 00:00:31.050
+We do this using a joint operation.
+
+11
+00:00:31.050 --> 00:00:34.330
+We can also think about bringing
+tables together top to bottom.
+
+12
+00:00:34.330 --> 00:00:38.420
+Meaning that if we have two sets of data
+with similar types of rows, we can sort of
+
+13
+00:00:38.420 --> 00:00:43.090
+stack the data on top of each other to
+get one taller data set with more rows.
+
+14
+00:00:43.090 --> 00:00:45.850
+To do this, we use the UNION command.
+
+15
+00:00:45.850 --> 00:00:48.840
+The syntax of the UNION
+command looks like this.
+
+16
+00:00:48.840 --> 00:00:53.050
+Here I have two simple SELECT from clauses
+with the UNION command between them.
+
+17
+00:00:53.050 --> 00:00:56.020
+The key requirement for
+performing a UNION is that the top and
+
+18
+00:00:56.020 --> 00:00:58.680
+bottom data sets need to have
+the same number of columns.
+
+19
+00:00:58.680 --> 00:01:02.510
+And those columns need to represent
+the same set of ideas in the same order.
+
+20
+00:01:02.510 --> 00:01:06.585
+So in this case, the type of data in
+FIELD_A from the top SELECT clause needs
+
+21
+00:01:06.585 --> 00:01:10.430
+to match the type of data in FIELD_D
+on the bottom SELECT clause.
+
+22
+00:01:10.430 --> 00:01:14.470
+The type of data in FIELD_B needs to
+match the type of data in FIELD_E and
+
+23
+00:01:14.470 --> 00:01:18.830
+the type of data in FIELD_C needs to
+match the type of data in FIELD_F.
+
+24
+00:01:18.830 --> 00:01:21.750
+Note that I said the type of data,
+not the column name.
+
+25
+00:01:21.750 --> 00:01:23.800
+The column names do not have to match.
+
+26
+00:01:23.800 --> 00:01:26.960
+But the type of data in those
+columns do have to match.
+
+27
+00:01:26.960 --> 00:01:30.742
+So if FIELD_A is a number then
+FIELD_D also has to be a number.
+
+28
+00:01:30.742 --> 00:01:34.290
+If FIELD_C is a date then
+FIELD_F also has to be a date.
+
+29
+00:01:34.290 --> 00:01:38.510
+If the column names are different, the SQL
+engine will generally just use the column
+
+30
+00:01:38.510 --> 00:01:40.969
+names from the first SELECT
+statement in the data output.
+
+31
+00:01:41.990 --> 00:01:45.990
+Of course it also makes sense that
+the columns represent the same idea.
+
+32
+00:01:45.990 --> 00:01:48.030
+It may not make sense to
+have customer name and
+
+33
+00:01:48.030 --> 00:01:51.750
+a product type in the same column,
+even though they are both text fields.
+
+34
+00:01:51.750 --> 00:01:55.290
+But, strictly speaking,
+SQL won't prevent me from doing that.
+
+35
+00:01:55.290 --> 00:01:58.080
+So, when would we want to
+use the UNION statement?
+
+36
+00:01:58.080 --> 00:01:59.840
+Let's look at an example.
+
+37
+00:01:59.840 --> 00:02:00.980
+In some of our other videos,
+
+38
+00:02:00.980 --> 00:02:04.710
+we used the table we call transactions,
+which looked like this.
+
+39
+00:02:04.710 --> 00:02:07.400
+Notice that this table captures
+transaction from a few different
+
+40
+00:02:07.400 --> 00:02:08.420
+sales channels.
+
+41
+00:02:08.420 --> 00:02:10.790
+Namely the web, stores and resellers.
+
+42
+00:02:11.810 --> 00:02:12.540
+What if the data for
+
+43
+00:02:12.540 --> 00:02:15.890
+this channels would actually produce
+by three different source system?
+
+44
+00:02:15.890 --> 00:02:19.860
+And stored in my data warehouse as
+three separate tables, like this.
+
+45
+00:02:19.860 --> 00:02:23.580
+Here, I have a web purchase table,
+a store purchase table and
+
+46
+00:02:23.580 --> 00:02:25.620
+a reseller purchase table.
+
+47
+00:02:25.620 --> 00:02:28.280
+In this case, the structures of
+the tables are identical, but
+
+48
+00:02:28.280 --> 00:02:30.090
+they wouldn't have to be.
+
+49
+00:02:30.090 --> 00:02:30.870
+In fact,
+
+50
+00:02:30.870 --> 00:02:34.370
+sometimes the reasons I store data in
+different tables in the first place, is
+
+51
+00:02:34.370 --> 00:02:38.610
+because each source might have a number of
+elements unique to that particular source.
+
+52
+00:02:38.610 --> 00:02:41.960
+I wouldn't necessarily want to try to
+enforce all those different elements in to
+
+53
+00:02:41.960 --> 00:02:42.730
+one common table.
+
+54
+00:02:43.980 --> 00:02:47.795
+In any case, let's say I wanted one
+data set and included all transactions.
+
+55
+00:02:47.795 --> 00:02:51.880
+I'd basically want to stack these
+data sets on top of each other.
+
+56
+00:02:51.880 --> 00:02:54.590
+Here's the SQL query I'd used to do that.
+
+57
+00:02:54.590 --> 00:02:58.270
+Note that I've three SELECT from clauses,
+one for each source table.
+
+58
+00:02:58.270 --> 00:03:00.610
+With the UNION command between each one.
+
+59
+00:03:00.610 --> 00:03:01.820
+In each SELECT statement,
+
+60
+00:03:01.820 --> 00:03:05.140
+I select star to bring back all
+the columns from the source table.
+
+61
+00:03:05.140 --> 00:03:08.560
+And I add one additional static
+column would be alias channel
+
+62
+00:03:08.560 --> 00:03:11.950
+to identify which channel
+each transaction came from.
+
+63
+00:03:11.950 --> 00:03:14.065
+If I run this query I get
+the following data set.
+
+64
+00:03:14.065 --> 00:03:17.860
+It looks very similar to our
+original transactions table
+
+65
+00:03:17.860 --> 00:03:19.510
+with the couple of differences.
+
+66
+00:03:19.510 --> 00:03:23.070
+First, the columns are in the order
+that I defined them in the query so
+
+67
+00:03:23.070 --> 00:03:25.240
+channel is now on the far right.
+
+68
+00:03:25.240 --> 00:03:26.690
+If I wanted them in a different order,
+
+69
+00:03:26.690 --> 00:03:29.680
+I could have just typed out the column
+names in a different order but for
+
+70
+00:03:29.680 --> 00:03:34.211
+simplicity I use the star wildcard and
+put channel at the end.
+
+71
+00:03:34.211 --> 00:03:38.180
+Secondly, the transactions themselves are
+ordered as they were in the source tables
+
+72
+00:03:38.180 --> 00:03:40.470
+and how they were stacked in my query.
+
+73
+00:03:40.470 --> 00:03:42.550
+If I wanted the data
+sets sorted differently,
+
+74
+00:03:42.550 --> 00:03:45.510
+I'd use the order by command to
+return the rows in a different order.
+
+75
+00:03:46.590 --> 00:03:49.340
+Here's an example of a query that
+would produce exactly the same
+
+76
+00:03:49.340 --> 00:03:51.268
+output as our original transactions table.
+
+77
+00:03:51.268 --> 00:03:56.290
+SELECT Transaction_ID, Customer_ID,
+'WEB' AS Channel, Product,
+
+78
+00:03:56.290 --> 00:04:00.998
+Price, Discount FROM WEB_PURCHASE
+UNION SELECT Transaction_ID,
+
+79
+00:04:00.998 --> 00:04:05.960
+Customer ID, 'Store' As Channel,
+Product, Price, Discount.
+
+80
+00:04:05.960 --> 00:04:09.969
+FROM Store_Purchase, UNION,
+SELECT Transaction_ID,
+
+81
+00:04:09.969 --> 00:04:13.975
+Customer_ID, 'Reseller' AS Channel,
+Product, Price,
+
+82
+00:04:13.975 --> 00:04:18.070
+Discount FROM RESELLER_PURCHASE
+ORDER BY TRANSACTION_ID.
+
+83
+00:04:19.880 --> 00:04:23.540
+Now that we've added the UNION command or
+SQL toolkit, we have enough commands at
+
+84
+00:04:23.540 --> 00:04:27.410
+our disposal to write most queries that
+we need to extract data for analysis.
+
+85
+00:04:27.410 --> 00:04:28.590
+Let's think about that.
+
+86
+00:04:28.590 --> 00:04:30.775
+We've really only covered eight commands.
+
+87
+00:04:30.775 --> 00:04:35.764
+SELECT, FROM, JOIN ON, WHERE,
+
+88
+00:04:35.764 --> 00:04:40.590
+GROUP BY, ORDER BY, and UNION.
+
+89
+00:04:41.810 --> 00:04:44.780
+Now to be fair,
+there's a lot more we can learn.
+
+90
+00:04:44.780 --> 00:04:47.690
+In fact in other videos we'll
+extend our understanding of SQL by
+
+91
+00:04:47.690 --> 00:04:51.060
+introducing some ideas like operators and
+sub queries.
+
+92
+00:04:51.060 --> 00:04:53.016
+But in terms of overall SQL structure,
+
+93
+00:04:53.016 --> 00:04:55.695
+it's really just as simple
+as these eight commands.
+
+94
+00:04:55.695 --> 00:04:57.783
+If you have a good understanding of these,
+
+95
+00:04:57.783 --> 00:05:01.614
+you'll be well on your way to getting
+the data you need to crush that analysis.

@@ -1,0 +1,750 @@
+WEBVTT
+
+1
+00:00:01.060 --> 00:00:05.130
+Welcome back, today,
+we begin our module on data extraction.
+
+2
+00:00:05.130 --> 00:00:07.566
+In this module, we'll focus on learning
+the basics of a powerful language called
+
+3
+00:00:07.566 --> 00:00:08.696
+Structured Query Language, or SQL,
+
+4
+00:00:08.696 --> 00:00:10.410
+that's used to extract data
+from relational database.
+
+5
+00:00:14.660 --> 00:00:16.200
+So what is SQL?
+
+6
+00:00:16.200 --> 00:00:20.750
+Like relational databases themselves, SQL
+was developed in the early 1970s to help
+
+7
+00:00:20.750 --> 00:00:24.370
+users manipulate and
+extract data from those databases.
+
+8
+00:00:24.370 --> 00:00:26.755
+It's a language that's based
+on relational algebra,
+
+9
+00:00:26.755 --> 00:00:31.260
+which is a set of mathematical operations
+that speak to how things are related,
+
+10
+00:00:31.260 --> 00:00:33.329
+like intersections,
+unions and differences.
+
+11
+00:00:34.450 --> 00:00:39.174
+In 1986, SQL was adopted as an American
+National Standards Institute, or
+
+12
+00:00:39.174 --> 00:00:40.310
+ANSI, standard.
+
+13
+00:00:40.310 --> 00:00:44.572
+And in 1987, it was adopted as an
+International Standards Organization, or
+
+14
+00:00:44.572 --> 00:00:46.410
+ISO, standard.
+
+15
+00:00:46.410 --> 00:00:49.830
+Note that there are different proprietary
+versions of the SQL language used in
+
+16
+00:00:49.830 --> 00:00:51.400
+different database systems.
+
+17
+00:00:51.400 --> 00:00:54.740
+However, it turns out that
+the differences are very subtle.
+
+18
+00:00:54.740 --> 00:00:58.230
+And they are almost all identical
+when it comes to basic syntax.
+
+19
+00:00:58.230 --> 00:01:01.360
+This is one of the reasons SQL is
+such a highly transferable skill.
+
+20
+00:01:03.070 --> 00:01:06.080
+In this course,
+we'll be focusing on SQL queries or
+
+21
+00:01:06.080 --> 00:01:09.310
+pieces of code that extract
+data from database tables.
+
+22
+00:01:09.310 --> 00:01:12.010
+However, SQL's actually
+a much broader language,
+
+23
+00:01:12.010 --> 00:01:15.750
+which could be used to both create and
+manipulate data within a database,
+
+24
+00:01:15.750 --> 00:01:18.599
+using data definition or
+data manipulation operations.
+
+25
+00:01:20.220 --> 00:01:23.340
+Okay, before we dive in,
+let's remind ourselves of what we're
+
+26
+00:01:23.340 --> 00:01:26.140
+looking at when we have
+a relational database.
+
+27
+00:01:26.140 --> 00:01:29.410
+Our database is generally made up
+of two dimensional tables that have
+
+28
+00:01:29.410 --> 00:01:32.380
+a set of defined relationships among them.
+
+29
+00:01:32.380 --> 00:01:36.320
+Most relational databases are row
+oriented, meaning that the ideas or
+
+30
+00:01:36.320 --> 00:01:40.630
+items described in a table are stored
+in rows with the columns of the table
+
+31
+00:01:40.630 --> 00:01:43.800
+containing attributes that describe
+the ideas or items of interest.
+
+32
+00:01:45.170 --> 00:01:49.600
+The idea behind a SQL query is to extract
+just the data we want from a database
+
+33
+00:01:49.600 --> 00:01:52.020
+table or set of tables.
+
+34
+00:01:52.020 --> 00:01:55.670
+Let's start by outlining a short list
+of common commands that can be used on
+
+35
+00:01:55.670 --> 00:01:56.870
+one table.
+
+36
+00:01:56.870 --> 00:02:00.040
+In a later video, we'll talk about
+how to work with multiple tables.
+
+37
+00:02:01.400 --> 00:02:05.448
+Here we have a very short list of the most
+common commands used in SQL queries.
+
+38
+00:02:05.448 --> 00:02:13.370
+Select, from, where, group by,
+having, and order by.
+
+39
+00:02:13.370 --> 00:02:18.090
+In fact, the majority of queries on single
+tables can be constructed using just these
+
+40
+00:02:18.090 --> 00:02:20.320
+commands and a little creativity.
+
+41
+00:02:20.320 --> 00:02:22.129
+Pretty simple, right?
+
+42
+00:02:22.129 --> 00:02:25.225
+Let's outline what these commands do.
+
+43
+00:02:25.225 --> 00:02:28.885
+The SELECT commands define
+which attributes, columns, or
+
+44
+00:02:28.885 --> 00:02:31.333
+fields I want to extract from the table.
+
+45
+00:02:31.333 --> 00:02:34.837
+Normally I'm not interested in
+all the attributes in a table, so
+
+46
+00:02:34.837 --> 00:02:37.589
+select allows me to bring
+back only the ones I need.
+
+47
+00:02:38.750 --> 00:02:43.430
+The FROM command defines the table
+from which I want to extract the data.
+
+48
+00:02:43.430 --> 00:02:48.710
+The SELECT and FROM commands work together
+and are required in every SQL query.
+
+49
+00:02:48.710 --> 00:02:50.090
+All other commands are optional.
+
+50
+00:02:51.786 --> 00:02:55.969
+The where command adds filters that
+restrict which rows of data are extracted
+
+51
+00:02:55.969 --> 00:02:56.879
+from the table.
+
+52
+00:02:57.920 --> 00:03:01.970
+Similar to the way the SELECT
+command only return columns I want,
+
+53
+00:03:01.970 --> 00:03:05.680
+the WHERE command only returns data
+based on the rows I want included.
+
+54
+00:03:07.400 --> 00:03:11.380
+Sometimes, I don't actually want the rows
+themselves, but some aggregation of
+
+55
+00:03:11.380 --> 00:03:16.080
+the rows, for example, maybe I have a
+table that list purchase transactions, but
+
+56
+00:03:16.080 --> 00:03:20.130
+what I really want is a summary of
+purchase transactions by month.
+
+57
+00:03:20.130 --> 00:03:24.210
+The GROUP BY command is used to define
+the level of aggregation I want in
+
+58
+00:03:24.210 --> 00:03:25.040
+the output data set.
+
+59
+00:03:26.920 --> 00:03:31.898
+If I do want aggregated data, and I want
+to filter the output set further based
+
+60
+00:03:31.898 --> 00:03:35.204
+on those aggregations,
+I use the HAVING command.
+
+61
+00:03:35.204 --> 00:03:39.677
+The HAVING command is similar to the WHERE
+command, except that it operates on
+
+62
+00:03:39.677 --> 00:03:43.974
+aggregated rows of data versus
+the underlying rows of the database table.
+
+63
+00:03:43.974 --> 00:03:45.925
+This might be a little confusing at first,
+but
+
+64
+00:03:45.925 --> 00:03:48.940
+the difference will become clearer
+when we run through some examples.
+
+65
+00:03:50.430 --> 00:03:54.570
+Finally, the ORDER BY command allows
+me to define how I want the output set
+
+66
+00:03:54.570 --> 00:03:55.200
+to be sorted.
+
+67
+00:03:56.310 --> 00:03:58.780
+Now that we've identified
+what these commands do,
+
+68
+00:03:58.780 --> 00:04:01.420
+let's walk through each
+of them in more detail.
+
+69
+00:04:01.420 --> 00:04:04.560
+The way we'll do this is we'll talk
+about the syntax of each command,
+
+70
+00:04:04.560 --> 00:04:07.520
+then illustrate with how
+it works with an example.
+
+71
+00:04:07.520 --> 00:04:11.225
+Syntax describe the rules for
+how your code needs to be written, so
+
+72
+00:04:11.225 --> 00:04:14.830
+that it's understood by
+the software tools that execute it.
+
+73
+00:04:14.830 --> 00:04:17.720
+We'll start with the SELECT and
+FROM commands.
+
+74
+00:04:17.720 --> 00:04:20.552
+Remember that the SELECT
+commands defines which columns or
+
+75
+00:04:20.552 --> 00:04:22.260
+fields we want from a table.
+
+76
+00:04:22.260 --> 00:04:25.670
+And the FROM command identifies
+which table that is.
+
+77
+00:04:25.670 --> 00:04:29.140
+The basic syntax of a query using
+these commands looks like this.
+
+78
+00:04:30.600 --> 00:04:32.600
+On the first line I have
+the SELECT command,
+
+79
+00:04:32.600 --> 00:04:36.250
+followed by each field I want,
+separated by commas.
+
+80
+00:04:36.250 --> 00:04:39.780
+On the second line, I have the FROM
+command followed by a table name.
+
+81
+00:04:40.990 --> 00:04:43.842
+You'll notice that no additional
+punctuation is needed,
+
+82
+00:04:43.842 --> 00:04:46.701
+like a semicolon or
+other character at the end of each line.
+
+83
+00:04:46.701 --> 00:04:47.757
+In fact, with SQL,
+
+84
+00:04:47.757 --> 00:04:51.185
+you generally don't need to put
+things on separate lines at all.
+
+85
+00:04:51.185 --> 00:04:54.173
+I like to put commands on separate
+lines for readability, but
+
+86
+00:04:54.173 --> 00:04:58.110
+I could have just as easily put
+both commands on a single line.
+
+87
+00:04:58.110 --> 00:05:01.369
+Let's illustrate how the SELECT and
+FROM commands work using an example.
+
+88
+00:05:03.000 --> 00:05:06.470
+Consider a simple table that contains
+a list of purchase transactions.
+
+89
+00:05:06.470 --> 00:05:09.270
+We'll call this the transactions table.
+
+90
+00:05:09.270 --> 00:05:13.050
+Each row represents a single purchase
+transaction, and the columns contain
+
+91
+00:05:13.050 --> 00:05:17.650
+information about each transaction,
+specifically a Transaction_ID,
+
+92
+00:05:17.650 --> 00:05:21.590
+which uniquely identifies the transaction,
+a customer ID which identifies
+
+93
+00:05:21.590 --> 00:05:26.070
+the customer, the channel through which
+the product was sold, the product name,
+
+94
+00:05:26.070 --> 00:05:29.360
+the price of the product, and the amount
+of any discount that was applied.
+
+95
+00:05:30.780 --> 00:05:34.620
+Let's say that we were interested in
+extracting just the channel, product, and
+
+96
+00:05:34.620 --> 00:05:36.710
+price for each transaction.
+
+97
+00:05:36.710 --> 00:05:38.290
+Here's what our code would
+look like to do this.
+
+98
+00:05:39.730 --> 00:05:44.490
+I select channel, product,
+and price from transactions.
+
+99
+00:05:44.490 --> 00:05:47.060
+When I run this code,
+I get the following data set.
+
+100
+00:05:49.030 --> 00:05:51.880
+There's a row for
+each transaction in the source table, but
+
+101
+00:05:51.880 --> 00:05:55.700
+I've only extracted channel, product,
+and price in the myopia data set.
+
+102
+00:05:57.330 --> 00:06:00.090
+There's one special case we want
+to introduce before we move on to
+
+103
+00:06:00.090 --> 00:06:00.740
+the next command.
+
+104
+00:06:01.770 --> 00:06:04.920
+Let's say that I wanted all
+the columns from a table.
+
+105
+00:06:04.920 --> 00:06:07.580
+I can include each column name
+in my select statement, but
+
+106
+00:06:07.580 --> 00:06:12.180
+this can get pretty tedious, especially if
+my table has a large number of columns.
+
+107
+00:06:12.180 --> 00:06:16.910
+Luckily, SQL provides us a shorthand way
+of identifying all columns in the table,
+
+108
+00:06:16.910 --> 00:06:19.310
+using what's called a wildcard character.
+
+109
+00:06:19.310 --> 00:06:22.450
+In this case, an asterisk or star.
+
+110
+00:06:22.450 --> 00:06:25.192
+If I want to return all
+columns of the table,
+
+111
+00:06:25.192 --> 00:06:28.390
+I just use SELECT * FROM TABLE_NAME,
+like this.
+
+112
+00:06:29.640 --> 00:06:33.490
+This particular query would simply
+extract a copy of the whole table, but
+
+113
+00:06:33.490 --> 00:06:36.620
+generally we combine this with other
+commands that restrict rows or
+
+114
+00:06:36.620 --> 00:06:37.969
+bringing multiple tables together.
+
+115
+00:06:39.000 --> 00:06:41.830
+We'll see how this works in
+practice in a few minutes.
+
+116
+00:06:41.830 --> 00:06:44.200
+Okay, now that we
+understand the select and
+
+117
+00:06:44.200 --> 00:06:47.140
+from statements,
+let's move on to the where command.
+
+118
+00:06:47.140 --> 00:06:50.220
+Remember that the WHERE command allows
+us to restrict which rows of data
+
+119
+00:06:50.220 --> 00:06:52.170
+are returned in our query.
+
+120
+00:06:52.170 --> 00:06:54.950
+The syntax of the where
+command is simply where
+
+121
+00:06:54.950 --> 00:06:58.740
+followed by a set of conditions
+defined using relational algebra.
+
+122
+00:06:58.740 --> 00:07:03.010
+Like a column equaling a certain value or
+another column, being greater than or
+
+123
+00:07:03.010 --> 00:07:05.480
+less than a certain value or
+another column, or
+
+124
+00:07:05.480 --> 00:07:08.890
+even being a member of
+a specific list of values.
+
+125
+00:07:08.890 --> 00:07:12.730
+If you have experience in Excel,
+this is similar to how the filter function
+
+126
+00:07:12.730 --> 00:07:15.400
+works in restricting
+rows of a spreadsheet.
+
+127
+00:07:15.400 --> 00:07:18.100
+Again, let's illustrate using an example.
+
+128
+00:07:18.100 --> 00:07:21.830
+We'll start with the same transactions
+table we introduced earlier.
+
+129
+00:07:21.830 --> 00:07:24.790
+Let's say that I want to return
+all transactions in this table
+
+130
+00:07:24.790 --> 00:07:27.060
+to have store as the channel.
+
+131
+00:07:27.060 --> 00:07:29.700
+My query to do that would look like this.
+
+132
+00:07:29.700 --> 00:07:33.123
+Remember that the SELECT and
+FROM commands are always required, so
+
+133
+00:07:33.123 --> 00:07:34.151
+I start with those.
+
+134
+00:07:34.151 --> 00:07:36.295
+I've used the wild card character star,
+
+135
+00:07:36.295 --> 00:07:39.590
+to indicate that I want all
+columns to be returned.
+
+136
+00:07:39.590 --> 00:07:45.770
+So SELECT * FROM TRANSACTIONS, and
+I've added WHERE CHANNEL = 'STORE'.
+
+137
+00:07:45.770 --> 00:07:49.340
+Note that store is enclosed
+in single quotation marks.
+
+138
+00:07:49.340 --> 00:07:53.350
+In SQL, string values are those
+containing letters or numbers and
+
+139
+00:07:53.350 --> 00:07:56.840
+letters are always enclosed
+in single quotation markets.
+
+140
+00:07:56.840 --> 00:08:00.440
+If you don't do that, the SQL engine will
+think you're referring to a column name or
+
+141
+00:08:00.440 --> 00:08:02.830
+a table name versus
+a specific column value.
+
+142
+00:08:04.270 --> 00:08:07.000
+When I run this query I
+get the expected result,
+
+143
+00:08:07.000 --> 00:08:10.890
+a dataset that only contains transactions
+with a channel of store, but
+
+144
+00:08:10.890 --> 00:08:12.710
+which has all columns
+from the source table.
+
+145
+00:08:14.280 --> 00:08:18.190
+Let's take our example one step further,
+and bring together both column filtering
+
+146
+00:08:18.190 --> 00:08:21.510
+using the SELECT command, and
+row filtering using the WHERE command.
+
+147
+00:08:22.640 --> 00:08:26.410
+If we wanted to return just the channel,
+product, and price columns for
+
+148
+00:08:26.410 --> 00:08:30.210
+transactions that happened in a store,
+we write a query that looks like this.
+
+149
+00:08:31.270 --> 00:08:37.280
+SELECT CHANNEL, PRODUCT, PRICE FROM
+TRANSACTIONS WHEHRE CHANNEL = 'STORE'.
+
+150
+00:08:38.600 --> 00:08:41.900
+Now my output data set only
+contains those three columns, and
+
+151
+00:08:41.900 --> 00:08:44.130
+only transactions with
+the sales channel of store.
+
+152
+00:08:45.470 --> 00:08:49.840
+Okay, so far we've introduced some of
+the basic commands used in SQL queries.
+
+153
+00:08:49.840 --> 00:08:53.540
+And we've explored column and
+row filtering operations using the SELECT,
+
+154
+00:08:53.540 --> 00:08:54.942
+FROM, and WHERE commands.
+
+155
+00:08:54.942 --> 00:08:58.747
+In a subsequent video, we're going
+to focus on data aggregation and
+
+156
+00:08:58.747 --> 00:09:03.155
+sorting operations in SQL using the
+GROUP BY, HAVING, and ORDER BY commands.

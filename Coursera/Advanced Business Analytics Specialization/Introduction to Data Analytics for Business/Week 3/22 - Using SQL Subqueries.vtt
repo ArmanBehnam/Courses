@@ -1,0 +1,500 @@
+WEBVTT
+
+1
+00:00:00.840 --> 00:00:04.870
+Hi, in this video we're going to further
+extend our understanding of SQL by
+
+2
+00:00:04.870 --> 00:00:06.870
+talking about subqueries.
+
+3
+00:00:06.870 --> 00:00:11.790
+A subquery also called a nested query or
+inner query is a complete SQL query that
+
+4
+00:00:11.790 --> 00:00:17.040
+exists within a larger SQL query which
+we called the main query or outer query.
+
+5
+00:00:17.040 --> 00:00:21.230
+There are few reasons we might
+use subqueries In data analytics,
+
+6
+00:00:21.230 --> 00:00:25.480
+we're often trying multiple data in some
+unique way immediately for the first time.
+
+7
+00:00:25.480 --> 00:00:27.650
+As we think through the best
+way to pull the data,
+
+8
+00:00:27.650 --> 00:00:30.790
+we might have multiple steps
+that we want to isolate in task
+
+9
+00:00:30.790 --> 00:00:33.880
+to make sure they're doing
+exactly what we want them to do.
+
+10
+00:00:33.880 --> 00:00:37.140
+Building queries and
+pieces from the inside out can allow us
+
+11
+00:00:37.140 --> 00:00:41.650
+to more effectively test each step and
+get to our final output more quickly.
+
+12
+00:00:41.650 --> 00:00:45.440
+In other cases, there are operations that
+are very difficult or even impossible to
+
+13
+00:00:45.440 --> 00:00:49.510
+do without sub-queries, so we must use
+them if we want to accomplish the task.
+
+14
+00:00:50.600 --> 00:00:53.970
+Finally, depending on the nature of
+the database design and the hardware and
+
+15
+00:00:53.970 --> 00:00:57.450
+software involved, queries with
+subqueries might run faster and
+
+16
+00:00:57.450 --> 00:00:59.450
+more efficiently than those without them.
+
+17
+00:00:59.450 --> 00:01:01.650
+Of course,
+the opposite can be true as well.
+
+18
+00:01:01.650 --> 00:01:05.450
+You'll need to learn what works best
+in your specific data environment.
+
+19
+00:01:05.450 --> 00:01:07.780
+Before we get to the syntax of subqueries,
+
+20
+00:01:07.780 --> 00:01:10.460
+let's talk a little bit
+about what they actually do.
+
+21
+00:01:10.460 --> 00:01:13.260
+We know that a SQL query
+returns some set of data,
+
+22
+00:01:13.260 --> 00:01:17.420
+essentially a two dimensional data table
+with some number of columns and rows.
+
+23
+00:01:17.420 --> 00:01:19.440
+If our query only has one column,
+
+24
+00:01:19.440 --> 00:01:22.140
+it effectively returns
+a one-dimensional list of values.
+
+25
+00:01:23.280 --> 00:01:27.280
+When we use a sub-query in a larger sequel
+query, we're basically just replacing
+
+26
+00:01:27.280 --> 00:01:30.870
+a table name or list of values
+with the results of our sub-query.
+
+27
+00:01:30.870 --> 00:01:33.194
+Let's look at two of the most
+common uses of sub-queries.
+
+28
+00:01:34.570 --> 00:01:39.000
+The first is an where clause of a query
+when we're using the in operator to filter
+
+29
+00:01:39.000 --> 00:01:44.210
+a data set based on some column value,
+being in a list of specific column values.
+
+30
+00:01:44.210 --> 00:01:49.474
+Without a subquery the code might
+look like this Select * from table_A
+
+31
+00:01:49.474 --> 00:01:54.400
+where field_A in value_1,
+value_2 All the way up to Value N.
+
+32
+00:01:54.400 --> 00:01:57.690
+Let's say then instead of a static list,
+
+33
+00:01:57.690 --> 00:02:00.900
+I wanted to use a list from another
+query in the where statement.
+
+34
+00:02:00.900 --> 00:02:04.150
+I'd simply replace the list
+with a subquery like this.
+
+35
+00:02:04.150 --> 00:02:09.900
+Select star from Table A, where field IN,
+select Field B from Table B.
+
+36
+00:02:11.330 --> 00:02:15.760
+Just like the list itself,
+we put the subquery inside parenthesis.
+
+37
+00:02:15.760 --> 00:02:20.190
+Also remember that the in operator is
+looking for list of values so my subquery
+
+38
+00:02:20.190 --> 00:02:24.650
+must return only one column otherwise the
+SQL engine won't know how to interpret it.
+
+39
+00:02:26.100 --> 00:02:30.630
+Here's an example we used two tables we
+introduced in an earlier video on joining
+
+40
+00:02:30.630 --> 00:02:32.150
+multiple tables.
+
+41
+00:02:32.150 --> 00:02:36.040
+Specifically we have a transaction table
+that contains one purchase per row and
+
+42
+00:02:36.040 --> 00:02:40.830
+as the following columns, transaction ID,
+customer ID, channel, product,
+
+43
+00:02:40.830 --> 00:02:42.660
+price and discount.
+
+44
+00:02:42.660 --> 00:02:45.680
+We also have a product's table that
+contains one product per row and
+
+45
+00:02:45.680 --> 00:02:49.300
+three columns, product,
+material and medium.
+
+46
+00:02:49.300 --> 00:02:53.660
+You noticed that the medium column has
+values in it that are audio, visual or
+
+47
+00:02:53.660 --> 00:02:54.300
+audiovisual.
+
+48
+00:02:55.310 --> 00:03:00.480
+Let's say we wanted a list of purchases
+but only of products with a visual medium.
+
+49
+00:03:00.480 --> 00:03:04.950
+One way to write this query is to use a
+joining and filtering approach like this.
+
+50
+00:03:04.950 --> 00:03:10.178
+Select a.* from transactions
+a left join products
+
+51
+00:03:10.178 --> 00:03:16.970
+B on A.product equals B.product
+where B.median equals visual.
+
+52
+00:03:16.970 --> 00:03:21.390
+This query joins information from
+the product table to the transaction table
+
+53
+00:03:21.390 --> 00:03:24.940
+then uses a where clause to filter only
+those rows with visual as a medium.
+
+54
+00:03:25.940 --> 00:03:29.539
+However I could have also written
+a query using a sub query like this.
+
+55
+00:03:30.740 --> 00:03:34.690
+Select star from transactions
+where product in.
+
+56
+00:03:34.690 --> 00:03:37.700
+Select product from products
+where medium equals visual.
+
+57
+00:03:38.930 --> 00:03:42.280
+Here I first created a list of all
+the products in the product stable with
+
+58
+00:03:42.280 --> 00:03:44.860
+a visual medium using a sub-query.
+
+59
+00:03:44.860 --> 00:03:48.100
+Then I use that list in the where
+clause with the in operator
+
+60
+00:03:48.100 --> 00:03:50.879
+to filter rose from the transactions
+table using product.
+
+61
+00:03:52.210 --> 00:03:56.570
+Both queries would return the same output
+data set, namely the six rows from
+
+62
+00:03:56.570 --> 00:04:00.120
+the transactions table that are for
+the visual book and magazine products.
+
+63
+00:04:01.390 --> 00:04:04.510
+You'll find that in SQL,
+like most programming languages,
+
+64
+00:04:04.510 --> 00:04:07.580
+there is usually more than one way
+to get something accomplished.
+
+65
+00:04:07.580 --> 00:04:11.830
+How you choose to code will be based on
+a combination of logic, performance, and
+
+66
+00:04:11.830 --> 00:04:13.830
+your own individual style.
+
+67
+00:04:13.830 --> 00:04:16.990
+Your organization might also have standard
+ways of doing things that you want to
+
+68
+00:04:16.990 --> 00:04:17.770
+consider as well.
+
+69
+00:04:19.220 --> 00:04:22.470
+So we just talked about how to
+use a subquery in a where clause.
+
+70
+00:04:22.470 --> 00:04:26.180
+The other common use of subqueries is to
+replace a table reference in a query,
+
+71
+00:04:26.180 --> 00:04:28.680
+especially a query with a join command.
+
+72
+00:04:28.680 --> 00:04:31.050
+Recall that a basic join
+query looks like this.
+
+73
+00:04:32.190 --> 00:04:35.830
+Here, I replace the reference
+to table two, with a subquery.
+
+74
+00:04:35.830 --> 00:04:37.460
+Again like the earlier example,
+
+75
+00:04:37.460 --> 00:04:40.750
+my subquery is completely
+contained within parenthesis.
+
+76
+00:04:40.750 --> 00:04:45.160
+I still use the alias B to describe
+the results of my subquery and
+
+77
+00:04:45.160 --> 00:04:47.910
+the alias is outside
+the ending parenthesis.
+
+78
+00:04:47.910 --> 00:04:52.130
+In fact this is one case where I must
+use an alias because the subquery itself
+
+79
+00:04:52.130 --> 00:04:53.479
+doesn't have a name like a table would.
+
+80
+00:04:55.300 --> 00:04:57.180
+Again, we can use our transaction and
+
+81
+00:04:57.180 --> 00:04:59.660
+products table to illustrate
+this idea with an example.
+
+82
+00:05:01.320 --> 00:05:05.050
+Let's say I wanted to add total sales
+by product to our product table.
+
+83
+00:05:05.050 --> 00:05:07.130
+I can do this using a sub core like this.
+
+84
+00:05:08.950 --> 00:05:13.200
+Here, I used the sub core to sum the price
+across transactions table to get total
+
+85
+00:05:13.200 --> 00:05:14.730
+sales by product.
+
+86
+00:05:14.730 --> 00:05:17.690
+Then I use this output in a join
+with with the product's table to get
+
+87
+00:05:17.690 --> 00:05:20.780
+the desired result,
+which is just the products table,
+
+88
+00:05:20.780 --> 00:05:23.963
+the total sales added as
+an additional column.
+
+89
+00:05:23.963 --> 00:05:27.080
+The examples we've used
+here are pretty simple.
+
+90
+00:05:27.080 --> 00:05:28.810
+However, both sub queries and
+
+91
+00:05:28.810 --> 00:05:32.830
+outer queries in which they exist can
+be as complex as you want them to be.
+
+92
+00:05:32.830 --> 00:05:34.850
+In fact the more complex the query,
+
+93
+00:05:34.850 --> 00:05:37.610
+the more value you may
+find in using subqueries.
+
+94
+00:05:37.610 --> 00:05:41.490
+As we mentioned earlier, the ability to
+breakdown a query into testable parts
+
+95
+00:05:41.490 --> 00:05:44.340
+can help insure that you queries
+doing exactly what you wanted to do.
+
+96
+00:05:45.600 --> 00:05:48.530
+There are also a number of different
+ways in which sub-queries can be use
+
+97
+00:05:48.530 --> 00:05:51.190
+beyond the two methods
+that we've discussed here.
+
+98
+00:05:51.190 --> 00:05:54.620
+As you become more proficient in writing
+sequel code, you can experiment with this
+
+99
+00:05:54.620 --> 00:05:58.080
+techniques and others to build
+your own bag of coding tricks.
+
+100
+00:05:58.080 --> 00:06:00.060
+There are ton of resources on the web,
+
+101
+00:06:00.060 --> 00:06:02.320
+including help groups
+in coding communities.
+
+102
+00:06:02.320 --> 00:06:03.560
+They can help you dig deeper and
+
+103
+00:06:03.560 --> 00:06:06.180
+figure out how to do just
+about anything that you want.
+
+104
+00:06:06.180 --> 00:06:08.450
+So happy coding and
+I'll see you next time.
