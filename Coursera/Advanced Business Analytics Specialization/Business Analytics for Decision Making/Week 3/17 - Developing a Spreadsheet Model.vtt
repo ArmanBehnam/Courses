@@ -1,0 +1,512 @@
+WEBVTT
+
+1
+00:00:00.400 --> 00:00:04.980
+In the last video, we show how
+a description can be translated
+
+2
+00:00:04.980 --> 00:00:09.000
+into a mathematical formulation
+of an optimization problem.
+
+3
+00:00:09.000 --> 00:00:13.410
+Personally, I believe that there is a lot
+of value in creating these formulations
+
+4
+00:00:13.410 --> 00:00:16.480
+before using optimization
+software to solve the problem.
+
+5
+00:00:16.480 --> 00:00:21.430
+However, the reality is that many analysts
+go directly from the problem description
+
+6
+00:00:21.430 --> 00:00:24.600
+to the software, and
+skip the formulation step.
+
+7
+00:00:24.600 --> 00:00:26.400
+Either way you do it, ultimately,
+
+8
+00:00:26.400 --> 00:00:30.390
+these optimization models
+require specialized software.
+
+9
+00:00:30.390 --> 00:00:34.760
+Our optimization software is embedded
+in the Analytic Solver Platform and
+
+10
+00:00:34.760 --> 00:00:37.970
+it operates on a spreadsheet
+model of the problem.
+
+11
+00:00:37.970 --> 00:00:42.760
+So in this video, we are going to develop
+a spreadsheet model that can be used for
+
+12
+00:00:42.760 --> 00:00:45.460
+the optimization of
+the transportation problem.
+
+13
+00:00:45.460 --> 00:00:49.590
+Locate and open the Excel file
+titled Transportation Problem-Data.
+
+14
+00:00:50.600 --> 00:00:55.950
+This file contains a spreadsheet with
+the problem data shown in a single table.
+
+15
+00:00:55.950 --> 00:00:58.440
+The values in C6 to
+
+16
+00:00:58.440 --> 00:01:03.700
+F10 are the transportation costs
+from each supplier to each customer.
+
+17
+00:01:03.700 --> 00:01:09.390
+The values in G6 to G10
+are the capacity of each supplier.
+
+18
+00:01:09.390 --> 00:01:14.130
+And the values in C11
+to F11 are the demands.
+
+19
+00:01:14.130 --> 00:01:18.920
+The first thing that we're going to do is
+to select the entire table and copy it.
+
+20
+00:01:19.990 --> 00:01:23.948
+We're then going to paste it on B13.
+
+21
+00:01:23.948 --> 00:01:26.940
+Change the title of the new
+table from Data to Model.
+
+22
+00:01:28.250 --> 00:01:33.070
+Delete all the data values so we can
+enter the appropriate Excel functions.
+
+23
+00:01:33.070 --> 00:01:38.950
+Select the range C16 to G21 and
+hit the Delete key.
+
+24
+00:01:40.640 --> 00:01:46.640
+Our 20 decision variables will
+be in the range from C16 to F20.
+
+25
+00:01:46.640 --> 00:01:47.700
+In our models,
+
+26
+00:01:47.700 --> 00:01:53.050
+we have been using light gold to indicate
+that the cells are decision variables.
+
+27
+00:01:53.050 --> 00:01:56.515
+So we select the decision variable
+range and click on light gold.
+
+28
+00:01:56.515 --> 00:02:01.540
+The values for the decision variables will
+be determined by the optimization process.
+
+29
+00:02:01.540 --> 00:02:04.040
+But it is good practice
+when building models to
+
+30
+00:02:04.040 --> 00:02:08.820
+enter some values to help us verify
+that our spreadsheet model works.
+
+31
+00:02:08.820 --> 00:02:13.770
+So enter the solution that I showed to
+you in the introduction to this module.
+
+32
+00:02:13.770 --> 00:02:18.750
+In that solution, supplier A sends
+its 50 units to customer 4.
+
+33
+00:02:18.750 --> 00:02:21.110
+Therefore, enter 50 in cell F16.
+
+34
+00:02:22.430 --> 00:02:27.250
+Supplier B sends 20 units to customer
+2 and 20 units to customer 3.
+
+35
+00:02:27.250 --> 00:02:33.200
+Enter 20 in cell D17 and 20 in E17.
+
+36
+00:02:33.200 --> 00:02:37.370
+Supplier C sends its 60
+units to customer 1.
+
+37
+00:02:37.370 --> 00:02:40.390
+Enter 60 in C18.
+
+38
+00:02:40.390 --> 00:02:47.370
+Supplier D sends 15 units to customer
+1 and 15 units to customer 3.
+
+39
+00:02:47.370 --> 00:02:54.240
+Enter 15 in cell C19 and 15 in cell E19.
+
+40
+00:02:54.240 --> 00:03:00.760
+Finally, supplier E sends 5 units
+to customer 2 and 15 to customer 4.
+
+41
+00:03:00.760 --> 00:03:05.490
+So enter 5 in D20 and 15 in F20.
+
+42
+00:03:06.890 --> 00:03:11.280
+We have a complete solution, but
+we need to verify that it is feasible.
+
+43
+00:03:11.280 --> 00:03:15.750
+A feasible solution is one that
+satisfies all the constraints.
+
+44
+00:03:15.750 --> 00:03:19.280
+Let's first see if the solution
+satisfies the capacity constraints.
+
+45
+00:03:19.280 --> 00:03:26.019
+We first change the title from
+Capacity to Shipped in cell G14.
+
+46
+00:03:26.019 --> 00:03:29.949
+The cells in the range from
+D16 to D20 will contain
+
+47
+00:03:29.949 --> 00:03:34.155
+the total number of units
+shipped from each supplier.
+
+48
+00:03:34.155 --> 00:03:36.455
+To calculate what a supplier ships,
+
+49
+00:03:36.455 --> 00:03:39.825
+add all the quantities that
+are shipped to all the customers.
+
+50
+00:03:39.825 --> 00:03:42.390
+This can be done with the sum function.
+
+51
+00:03:42.390 --> 00:03:48.090
+Go to cell G16 and enter =sum(,
+
+52
+00:03:48.090 --> 00:03:53.340
+and select the range C16 to F16 and
+close the parentheses.
+
+53
+00:03:54.350 --> 00:03:57.860
+Cells G16 should now show 50.
+
+54
+00:03:57.860 --> 00:04:00.420
+Select G16 and
+
+55
+00:04:00.420 --> 00:04:05.790
+copy the cell down to G20 by dragging
+it from the bottom right corner marker.
+
+56
+00:04:05.790 --> 00:04:09.120
+The amounts shipped should not
+exceed the supplier capacities shown
+
+57
+00:04:09.120 --> 00:04:10.750
+on the data table.
+
+58
+00:04:10.750 --> 00:04:13.470
+This tells us that
+the solution is feasible with
+
+59
+00:04:13.470 --> 00:04:15.850
+respect to the capacity constraints.
+
+60
+00:04:15.850 --> 00:04:20.310
+We are now going to verify that
+the demand constraints are satisfied.
+
+61
+00:04:20.310 --> 00:04:25.247
+We start by changing the title
+Demand in B21 to Received.
+
+62
+00:04:25.247 --> 00:04:30.322
+Then, in cell C21,
+use again the function sum to calculate
+
+63
+00:04:30.322 --> 00:04:35.430
+the total number of units
+that customer 1 will receive.
+
+64
+00:04:35.430 --> 00:04:39.927
+Enter =sum(, then select the range
+
+65
+00:04:39.927 --> 00:04:45.020
+C16 to C20 and close parentheses.
+
+66
+00:04:45.020 --> 00:04:52.404
+Then, copy the formula by dragging it from
+the bottom right corner of C21 to F21.
+
+67
+00:04:52.404 --> 00:04:55.255
+The values received by
+the customers should be
+
+68
+00:04:55.255 --> 00:04:59.390
+at least as large as the demand
+values on the data table.
+
+69
+00:04:59.390 --> 00:05:03.410
+This means that the solution
+is also feasible with respect
+
+70
+00:05:03.410 --> 00:05:05.420
+to the demand constraints.
+
+71
+00:05:05.420 --> 00:05:07.695
+Now we only need to add
+the objective function.
+
+72
+00:05:07.695 --> 00:05:10.710
+Recall that the objective in the model
+
+73
+00:05:10.710 --> 00:05:15.201
+is to find a feasible shipment
+that minimize the total cost.
+
+74
+00:05:15.201 --> 00:05:20.330
+Also recall that we calculated the total
+cost as the sum of the products
+
+75
+00:05:20.330 --> 00:05:24.330
+of unit shipped multiplied
+by cost per unit.
+
+76
+00:05:24.330 --> 00:05:28.970
+Excel includes a very useful function
+to calculate this in one step.
+
+77
+00:05:28.970 --> 00:05:31.620
+The function is called sumproduct.
+
+78
+00:05:31.620 --> 00:05:36.030
+Go to cell B23 and enter Total Cost.
+
+79
+00:05:36.030 --> 00:05:42.670
+Then go to cell C23 and
+enter =sumproduct( and
+
+80
+00:05:42.670 --> 00:05:47.410
+first select the cost
+in the range C6 to F10.
+
+81
+00:05:48.850 --> 00:05:54.290
+Enter a comma, and
+then select the shipments in cells C16
+
+82
+00:05:54.290 --> 00:05:57.040
+to F20 and close parentheses.
+
+83
+00:05:57.040 --> 00:05:58.691
+After pressing Enter,
+
+84
+00:05:58.691 --> 00:06:04.310
+you will see that the function correctly
+calculates the total cost of 1085.
+
+85
+00:06:04.310 --> 00:06:09.617
+As the last step, we will add some useful
+formatting to the objective function,
+
+86
+00:06:09.617 --> 00:06:13.310
+and we will also define names for
+the cells in our model.
+
+87
+00:06:13.310 --> 00:06:18.030
+Select cells B23 and C23 and add borders,
+
+88
+00:06:19.100 --> 00:06:23.630
+and select C23 and
+add a light orange background.
+
+89
+00:06:23.630 --> 00:06:28.160
+This is the color that we have used
+throughout the course to indicate
+
+90
+00:06:28.160 --> 00:06:29.880
+output cells.
+
+91
+00:06:29.880 --> 00:06:32.510
+Select the range G6 to G10,
+
+92
+00:06:33.520 --> 00:06:38.341
+click the name box at the left end of
+the formula bar, and type Capacity.
+
+93
+00:06:38.341 --> 00:06:45.860
+Select the range C11 to F11,
+click the name box, and type Demand.
+
+94
+00:06:45.860 --> 00:06:53.440
+Select the range C16 to F20,
+click the name box, and type Shipments.
+
+95
+00:06:54.580 --> 00:07:01.510
+Select the range G12 to G20,
+click the name box, and type Shipped.
+
+96
+00:07:01.510 --> 00:07:07.930
+Select the range C21 to F21,
+click the name box, and type Received.
+
+97
+00:07:07.930 --> 00:07:15.532
+And then select the cell C23,
+click the name box, and type Total_Cost.
+
+98
+00:07:15.532 --> 00:07:21.670
+Our spreadsheet model is able to evaluate
+the total cost of any set of shipments.
+
+99
+00:07:21.670 --> 00:07:24.690
+We just need to change the values
+of the decision variables.
+
+100
+00:07:24.690 --> 00:07:27.700
+And the spreadsheet
+calculates the total cost and
+
+101
+00:07:27.700 --> 00:07:30.670
+updates the quantities shipped and
+received.
+
+102
+00:07:30.670 --> 00:07:33.730
+We could do some
+What-If Analysis in this way.
+
+103
+00:07:33.730 --> 00:07:38.420
+But it wouldn't be practical to try
+to find the minimum cost solution
+
+104
+00:07:38.420 --> 00:07:41.550
+by manually changing the shipment values.
+
+105
+00:07:41.550 --> 00:07:43.919
+There are just way too many
+shipment combinations.
+
+106
+00:07:45.120 --> 00:07:48.730
+Fortunately, there is software
+that can help us with this.
+
+107
+00:07:48.730 --> 00:07:50.078
+In the next video,
+
+108
+00:07:50.078 --> 00:07:54.729
+we will learn how to add optimization
+to this spreadsheet model.

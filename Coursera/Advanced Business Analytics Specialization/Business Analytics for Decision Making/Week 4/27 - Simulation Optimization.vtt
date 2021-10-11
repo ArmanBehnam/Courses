@@ -1,0 +1,446 @@
+WEBVTT
+
+1
+00:00:00.180 --> 00:00:03.410
+Throughout this course you
+have learned how to use data
+
+2
+00:00:03.410 --> 00:00:08.690
+to create models that help you solve
+a variety of problems in business.
+
+3
+00:00:08.690 --> 00:00:11.800
+We started with models
+to make predictions and
+
+4
+00:00:11.800 --> 00:00:14.670
+then moved to models that
+prescribed solutions.
+
+5
+00:00:14.670 --> 00:00:20.360
+In the previous video, we introduced the
+idea of merging two analytic technologies,
+
+6
+00:00:20.360 --> 00:00:22.440
+simulation and optimization.
+
+7
+00:00:22.440 --> 00:00:25.700
+By setting chance constraints,
+we were able to account for
+
+8
+00:00:25.700 --> 00:00:30.460
+the uncertainty in some key input
+data to an optimization model.
+
+9
+00:00:30.460 --> 00:00:33.170
+In this video,
+we are going to build on that and
+
+10
+00:00:33.170 --> 00:00:37.670
+describe how simulation and
+optimization can be fully integrated.
+
+11
+00:00:37.670 --> 00:00:41.440
+The process of developing
+a simulation optimization model
+
+12
+00:00:41.440 --> 00:00:44.550
+is not very different from
+what we have been doing.
+
+13
+00:00:44.550 --> 00:00:50.130
+It requires the definition of the three
+main elements of an optimization model,
+
+14
+00:00:50.130 --> 00:00:55.170
+that is the decision variables,
+constraints, and the objective function.
+
+15
+00:00:55.170 --> 00:00:59.410
+In addition, we need to identify
+the sources uncertainty
+
+16
+00:00:59.410 --> 00:01:02.090
+that would be part of
+the simulation model.
+
+17
+00:01:02.090 --> 00:01:04.040
+Let's consider the following situation.
+
+18
+00:01:04.040 --> 00:01:09.137
+An investor is considering 4
+assets to invest a $100,000.
+
+19
+00:01:09.137 --> 00:01:13.056
+The annual return of each asset is
+the major source of uncertainty in
+
+20
+00:01:13.056 --> 00:01:14.700
+the decision problem.
+
+21
+00:01:14.700 --> 00:01:19.460
+Through a statistical analysis of
+historical data, the investors has found
+
+22
+00:01:19.460 --> 00:01:25.140
+probability distribution functions to
+model the annual return of each asset.
+
+23
+00:01:25.140 --> 00:01:29.410
+The functions and the limits on
+the amounts that she feels comfortable
+
+24
+00:01:29.410 --> 00:01:32.570
+investing in each assets
+are shown in this statement.
+
+25
+00:01:32.570 --> 00:01:36.920
+The annual return of bonds
+is assumed to be a uniform
+
+26
+00:01:36.920 --> 00:01:40.167
+distribution between 4% and 6%.
+
+27
+00:01:40.167 --> 00:01:46.111
+The returns of a stock follow a lognormal
+distribution with mean of 11% and
+
+28
+00:01:46.111 --> 00:01:48.990
+a standard deviation of 4%.
+
+29
+00:01:48.990 --> 00:01:53.970
+The returns of mutual funds is considered
+to follow a normal distribution
+
+30
+00:01:53.970 --> 00:01:57.300
+with mean of 8% and
+standard deviation of 1%.
+
+31
+00:01:57.300 --> 00:02:01.670
+The money market is considered
+to have a fixed return of 1%.
+
+32
+00:02:01.670 --> 00:02:04.962
+In addition,
+the investor must deal with other risks,
+
+33
+00:02:04.962 --> 00:02:09.385
+such as changes in the economy or
+major global events.
+
+34
+00:02:09.385 --> 00:02:14.680
+One way to account for such uncertainty
+is to consider your risk factors for
+
+35
+00:02:14.680 --> 00:02:17.460
+each asset as shown in this table.
+
+36
+00:02:17.460 --> 00:02:24.230
+Negative values represent low risk and
+values greater than 1 represent high risk.
+
+37
+00:02:24.230 --> 00:02:30.130
+The investor specifies a limit on
+the total amount on risk per $1 invested.
+
+38
+00:02:30.130 --> 00:02:33.354
+Let's assume that in
+the case of our investor,
+
+39
+00:02:33.354 --> 00:02:36.830
+she has set a risk
+factor limit of 100,000.
+
+40
+00:02:36.830 --> 00:02:42.313
+The problem is to find how to invest
+the $100,000 in order to maximize total
+
+41
+00:02:42.313 --> 00:02:47.719
+respective return by staying within the
+investment limits set by the investor and
+
+42
+00:02:47.719 --> 00:02:51.270
+by not exceeding the total risk factor.
+
+43
+00:02:51.270 --> 00:02:54.980
+Locate and open the Excel
+file Portfolio Optimization.
+
+44
+00:02:54.980 --> 00:02:58.060
+The top table in the spreadsheet
+contains the data for
+
+45
+00:02:58.060 --> 00:03:01.090
+the four assets that
+the investor is considering.
+
+46
+00:03:01.090 --> 00:03:05.690
+First we have the parameters of the
+probability distribution functions, then
+
+47
+00:03:05.690 --> 00:03:11.560
+there are the investment limits for each
+asset, and then we have the risk factors.
+
+48
+00:03:11.560 --> 00:03:14.020
+The model is in the bottom table.
+
+49
+00:03:14.020 --> 00:03:18.750
+As usual, the light gold cells
+indicate the decision variables.
+
+50
+00:03:18.750 --> 00:03:23.770
+In this case the decisions are the amounts
+to be invested in each asset.
+
+51
+00:03:23.770 --> 00:03:27.610
+The total in this column is
+the sum of all the investments,
+
+52
+00:03:27.610 --> 00:03:31.510
+which needs to be less than or
+equal to $100,000.
+
+53
+00:03:31.510 --> 00:03:37.342
+The risk for each asset is the product of
+the risk factor and the amount invested.
+
+54
+00:03:37.342 --> 00:03:41.210
+The total risk must be less than or
+equal to a 100,000.
+
+55
+00:03:41.210 --> 00:03:45.200
+The return for the first three
+assets is a random variable.
+
+56
+00:03:45.200 --> 00:03:50.630
+As we have done in all our models,
+these uncertain cells are shown in green.
+
+57
+00:03:50.630 --> 00:03:55.020
+They contain the probability distribution
+functions, a uniform distribution for
+
+58
+00:03:55.020 --> 00:03:59.860
+bonds, a lognormal distribution for
+stocks, and a normal distribution for
+
+59
+00:03:59.860 --> 00:04:01.210
+mutual funds.
+
+60
+00:04:01.210 --> 00:04:05.330
+The value column contains
+the return value in dollars.
+
+61
+00:04:05.330 --> 00:04:09.715
+The sum of this column is the total
+return value that we're maximizing.
+
+62
+00:04:09.715 --> 00:04:11.385
+We use light orange for
+
+63
+00:04:11.385 --> 00:04:16.535
+the total value cell to indicate that this
+is both the output of the simulation and
+
+64
+00:04:16.535 --> 00:04:20.465
+also the objective function value for
+the optimization.
+
+65
+00:04:20.465 --> 00:04:25.190
+Click on the ASP tab to access
+the Solver model panel.
+
+66
+00:04:25.190 --> 00:04:29.405
+The optimization model
+consists of maximizing E14,
+
+67
+00:04:29.405 --> 00:04:32.462
+which is the total value of the returns.
+
+68
+00:04:32.462 --> 00:04:38.254
+The decision variables are the investment
+locations in B10 to B13.
+
+69
+00:04:38.254 --> 00:04:42.733
+There are two constraints, one for
+the total amount invested and one for
+
+70
+00:04:42.733 --> 00:04:44.360
+the total risk.
+
+71
+00:04:44.360 --> 00:04:49.303
+In this simulation model,
+we have the uncertainty variables
+
+72
+00:04:49.303 --> 00:04:53.105
+of the annual returns
+in cells D10 to D12 and
+
+73
+00:04:53.105 --> 00:04:57.019
+we have the uncertainty
+output function E14.
+
+74
+00:04:57.019 --> 00:05:01.222
+This is the solution that ASP found for
+this problem.
+
+75
+00:05:01.222 --> 00:05:05.920
+This visible solution meets all
+the criteria specified by the investor.
+
+76
+00:05:05.920 --> 00:05:10.810
+The value in E14 is not expected return,
+it is
+
+77
+00:05:10.810 --> 00:05:16.160
+just one trial of the simulation using
+the values of the decision variables.
+
+78
+00:05:16.160 --> 00:05:22.619
+To find out more about the performance
+of this portfolio, double click on E14.
+
+79
+00:05:22.619 --> 00:05:29.768
+The expected return of this
+portfolio is estimated to be $6352.
+
+80
+00:05:29.768 --> 00:05:34.603
+The frequency of this tuition can be
+used to estimate probabilities that
+
+81
+00:05:34.603 --> 00:05:38.190
+the portfolio achieves some
+desired return levels.
+
+82
+00:05:38.190 --> 00:05:43.170
+For example,
+the simulation predicts that there is
+
+83
+00:05:43.170 --> 00:05:48.220
+a 9.96% probability that
+the return will be $8,000 or more.
+
+84
+00:05:48.220 --> 00:05:53.220
+Simulation optimization is one of the most
+sophisticated tools in data analytics for
+
+85
+00:05:53.220 --> 00:05:54.320
+business.
+
+86
+00:05:54.320 --> 00:05:58.790
+It allows you to create models that
+include many of the complexities
+
+87
+00:05:58.790 --> 00:06:00.850
+of business decisions.
+
+88
+00:06:00.850 --> 00:06:05.280
+In many ways, these models can be
+considered to be at the highest level
+
+89
+00:06:05.280 --> 00:06:07.550
+of the analytical process.
+
+90
+00:06:07.550 --> 00:06:12.880
+With this, we conclude our course on
+data analytics for decision making.
+
+91
+00:06:12.880 --> 00:06:17.424
+I hope that this course has given
+you insights in how to use data to
+
+92
+00:06:17.424 --> 00:06:21.982
+create models that can help
+businesses make better decisions.
