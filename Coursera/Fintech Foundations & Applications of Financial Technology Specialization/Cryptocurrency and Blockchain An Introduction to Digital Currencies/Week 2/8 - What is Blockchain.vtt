@@ -1,0 +1,1057 @@
+WEBVTT
+
+1
+00:00:00.740 --> 00:00:03.760
+So a tamper-proof
+ledger is crucial
+
+2
+00:00:03.760 --> 00:00:05.950
+for creating a system
+of property rights.
+
+3
+00:00:05.950 --> 00:00:08.260
+So in my example in
+the previous lecture,
+
+4
+00:00:08.260 --> 00:00:09.565
+I created such a ledger
+
+5
+00:00:09.565 --> 00:00:12.040
+recursively and
+the key trick is that
+
+6
+00:00:12.040 --> 00:00:14.080
+every entry contains
+a little copy of
+
+7
+00:00:14.080 --> 00:00:16.495
+the previous entry in
+the form of a digest.
+
+8
+00:00:16.495 --> 00:00:20.360
+But my simple method is
+pretty easy to work around.
+
+9
+00:00:20.360 --> 00:00:22.915
+Now, here's the thing,
+Blockchain is the same idea
+
+10
+00:00:22.915 --> 00:00:26.290
+but with cryptography so that
+it is hard to work around.
+
+11
+00:00:26.290 --> 00:00:28.450
+Also, another key
+difference instead
+
+12
+00:00:28.450 --> 00:00:33.050
+of transactions
+appearing one at a time,
+
+13
+00:00:33.050 --> 00:00:36.385
+Blockchain stores
+transactions into blocks.
+
+14
+00:00:36.385 --> 00:00:38.350
+That's important for efficiency.
+
+15
+00:00:38.350 --> 00:00:40.645
+Now to understand how
+Blockchain works,
+
+16
+00:00:40.645 --> 00:00:42.415
+we do need some concepts
+
+17
+00:00:42.415 --> 00:00:45.905
+from cryptography and
+from computer science.
+
+18
+00:00:45.905 --> 00:00:48.260
+So here is an outline
+of this lecture.
+
+19
+00:00:48.260 --> 00:00:49.400
+First, I'm going to discuss
+
+20
+00:00:49.400 --> 00:00:51.410
+something called the linked list,
+
+21
+00:00:51.410 --> 00:00:53.720
+then the hash function,
+
+22
+00:00:53.720 --> 00:00:55.675
+the hash pointer,
+
+23
+00:00:55.675 --> 00:00:58.170
+putting it together
+which is Blockchain,
+
+24
+00:00:58.170 --> 00:00:59.880
+and then back to my example,
+
+25
+00:00:59.880 --> 00:01:03.945
+how Blockchain creates
+a truly tamper-proof ledger.
+
+26
+00:01:03.945 --> 00:01:07.775
+Well, so first we're going
+to talk about a linked list
+
+27
+00:01:07.775 --> 00:01:09.680
+and important to this idea of
+
+28
+00:01:09.680 --> 00:01:11.780
+a linked list is something
+called a pointer.
+
+29
+00:01:11.780 --> 00:01:14.420
+So a pointer in computer science,
+
+30
+00:01:14.420 --> 00:01:15.980
+is a language object that stores
+
+31
+00:01:15.980 --> 00:01:17.150
+the memory address of
+
+32
+00:01:17.150 --> 00:01:19.490
+another value located
+in the computer memory.
+
+33
+00:01:19.490 --> 00:01:21.920
+So the idea is it's
+not the object itself,
+
+34
+00:01:21.920 --> 00:01:23.720
+but it tells you where
+to find the object.
+
+35
+00:01:23.720 --> 00:01:25.315
+It's like an index entry.
+
+36
+00:01:25.315 --> 00:01:26.760
+So then if that's a point,
+
+37
+00:01:26.760 --> 00:01:28.290
+what's a linked list?
+
+38
+00:01:28.290 --> 00:01:30.170
+A linked list is
+a linear collection
+
+39
+00:01:30.170 --> 00:01:31.190
+of data elements such
+
+40
+00:01:31.190 --> 00:01:32.330
+that each element contains
+
+41
+00:01:32.330 --> 00:01:34.430
+a pointer that
+points to the next.
+
+42
+00:01:34.430 --> 00:01:36.110
+So the elements might be
+
+43
+00:01:36.110 --> 00:01:37.640
+entirely different places but
+
+44
+00:01:37.640 --> 00:01:39.500
+they are connected by pointers.
+
+45
+00:01:39.500 --> 00:01:42.770
+So what these pointers
+do is they turn what is
+
+46
+00:01:42.770 --> 00:01:46.175
+a random collection of
+objects into an ordered list.
+
+47
+00:01:46.175 --> 00:01:48.070
+Now, the list could be anything.
+
+48
+00:01:48.070 --> 00:01:49.980
+For example, it
+could be a list of
+
+49
+00:01:49.980 --> 00:01:52.650
+financial transactions
+in which case,
+
+50
+00:01:52.650 --> 00:01:54.920
+a list of financial
+transactions with
+
+51
+00:01:54.920 --> 00:01:57.215
+a system of pointers is a ledger.
+
+52
+00:01:57.215 --> 00:02:00.440
+So let's go back to my example
+from the previous lecture.
+
+53
+00:02:00.440 --> 00:02:02.525
+Maria creates a single MariaCoin,
+
+54
+00:02:02.525 --> 00:02:04.370
+Maria sells the
+MariaCoin to Sophie,
+
+55
+00:02:04.370 --> 00:02:06.350
+Sophie sells
+the MariaCoin to Geoff.
+
+56
+00:02:06.350 --> 00:02:07.880
+We could digitally implement
+
+57
+00:02:07.880 --> 00:02:10.100
+this list by turning
+each description into
+
+58
+00:02:10.100 --> 00:02:11.570
+an object and then creating
+
+59
+00:02:11.570 --> 00:02:15.230
+a link through a pointer
+to the previous object.
+
+60
+00:02:15.230 --> 00:02:16.910
+So just to summarize,
+
+61
+00:02:16.910 --> 00:02:19.715
+a pointer indexes an object
+in computer memory.
+
+62
+00:02:19.715 --> 00:02:22.520
+Using a system of objects
+connected by pointers,
+
+63
+00:02:22.520 --> 00:02:24.170
+one can represent a ledger.
+
+64
+00:02:24.170 --> 00:02:26.780
+Now, how can we make that
+ledger tamper-proof?
+
+65
+00:02:26.780 --> 00:02:28.310
+Well, we replace the pointer with
+
+66
+00:02:28.310 --> 00:02:30.265
+something called a hash pointer.
+
+67
+00:02:30.265 --> 00:02:32.310
+Now, what this hash
+pointer does is
+
+68
+00:02:32.310 --> 00:02:34.950
+turn the linked list
+into a block chain.
+
+69
+00:02:34.950 --> 00:02:36.615
+So what's a hash pointer?
+
+70
+00:02:36.615 --> 00:02:39.260
+Well, first we have to
+understand a hash function.
+
+71
+00:02:39.260 --> 00:02:41.675
+Now, a hash function
+is something amazing.
+
+72
+00:02:41.675 --> 00:02:44.360
+Well, a function is simply
+
+73
+00:02:44.360 --> 00:02:46.820
+something that takes an
+input and returns an output.
+
+74
+00:02:46.820 --> 00:02:49.370
+Now, what makes
+a function a function is
+
+75
+00:02:49.370 --> 00:02:51.980
+that you can't have
+more than one output per input.
+
+76
+00:02:51.980 --> 00:02:54.185
+Namely, if you put
+in the same input,
+
+77
+00:02:54.185 --> 00:02:56.210
+however many times you
+put in that input,
+
+78
+00:02:56.210 --> 00:02:57.320
+you get the same output.
+
+79
+00:02:57.320 --> 00:03:00.080
+That's the defining
+characteristic of a function.
+
+80
+00:03:00.080 --> 00:03:05.290
+However, you can have
+more than one input per output.
+
+81
+00:03:05.290 --> 00:03:07.490
+Now, imagine a function that maps
+
+82
+00:03:07.490 --> 00:03:11.630
+an enormous space into
+a very small space.
+
+83
+00:03:11.630 --> 00:03:13.115
+That's what a hash function is.
+
+84
+00:03:13.115 --> 00:03:14.180
+It takes an input of
+
+85
+00:03:14.180 --> 00:03:17.180
+virtually any size
+and returns an output
+
+86
+00:03:17.180 --> 00:03:19.040
+of a fixed size and we will be
+
+87
+00:03:19.040 --> 00:03:21.680
+interested in particular kinds
+of hash function,
+
+88
+00:03:21.680 --> 00:03:24.050
+a cryptographic hash function.
+
+89
+00:03:24.050 --> 00:03:26.435
+In this case, the hash
+function will
+
+90
+00:03:26.435 --> 00:03:30.175
+return a 256-bit number.
+
+91
+00:03:30.175 --> 00:03:32.025
+What are the possible inputs?
+
+92
+00:03:32.025 --> 00:03:33.630
+Really almost anything.
+
+93
+00:03:33.630 --> 00:03:37.235
+So now, let's go back to
+my example from before.
+
+94
+00:03:37.235 --> 00:03:39.510
+Maria creates a single MariaCoin,
+
+95
+00:03:39.510 --> 00:03:41.430
+Maria sells the
+MariaCoin to Sophie,
+
+96
+00:03:41.430 --> 00:03:45.645
+and then we have the digest
+of the previous entry, MCSM.
+
+97
+00:03:45.645 --> 00:03:48.285
+Sophie sells
+the MariaCoin to Geoff,
+
+98
+00:03:48.285 --> 00:03:49.820
+and then we have the digest of
+
+99
+00:03:49.820 --> 00:03:53.600
+the previous entry
+MSMS and then MCSM,
+
+100
+00:03:53.600 --> 00:03:55.850
+and then we have a digest
+of the whole thing.
+
+101
+00:03:55.850 --> 00:03:58.910
+So there was a mapping
+from the digest to
+
+102
+00:03:58.910 --> 00:04:02.405
+the previous element that made
+this tampering difficult.
+
+103
+00:04:02.405 --> 00:04:04.010
+But actually in this example,
+
+104
+00:04:04.010 --> 00:04:06.470
+the tampering was not
+actually difficult at
+
+105
+00:04:06.470 --> 00:04:09.890
+all because you just
+
+106
+00:04:09.890 --> 00:04:13.385
+needed to match the names
+with the initials.
+
+107
+00:04:13.385 --> 00:04:16.160
+So here I created the digest.
+
+108
+00:04:16.160 --> 00:04:17.975
+It wasn't a very clever digest.
+
+109
+00:04:17.975 --> 00:04:20.000
+But what's going to
+happen now is that
+
+110
+00:04:20.000 --> 00:04:23.015
+the hash function is going
+to create the digest.
+
+111
+00:04:23.015 --> 00:04:26.255
+So let's see very
+specifically how this works.
+
+112
+00:04:26.255 --> 00:04:28.460
+We're going to replace
+my digest method
+
+113
+00:04:28.460 --> 00:04:30.500
+with one using hash functions.
+
+114
+00:04:30.500 --> 00:04:33.590
+I'm actually going to use
+the same hash function as used
+
+115
+00:04:33.590 --> 00:04:36.635
+in Bitcoin which
+is called SHA-256.
+
+116
+00:04:36.635 --> 00:04:39.680
+It will take almost anything
+that you can type
+
+117
+00:04:39.680 --> 00:04:42.800
+up and turn it into
+a 256-bit number.
+
+118
+00:04:42.800 --> 00:04:44.630
+I would encourage you to just
+
+119
+00:04:44.630 --> 00:04:46.700
+stop for a moment and try it.
+
+120
+00:04:46.700 --> 00:04:49.520
+You can simply Google SHA-256 to
+
+121
+00:04:49.520 --> 00:04:52.795
+find many examples on
+the web, here is one.
+
+122
+00:04:52.795 --> 00:04:56.315
+So here is what I've done.
+
+123
+00:04:56.315 --> 00:04:58.925
+So here's my ledger
+with hashes using
+
+124
+00:04:58.925 --> 00:05:01.790
+SHA-256 of the previous entry.
+
+125
+00:05:01.790 --> 00:05:04.850
+First, we have Maria
+creates a single MariaCoin.
+
+126
+00:05:04.850 --> 00:05:07.295
+Then, Maria sells
+the MariaCoin to Sophie.
+
+127
+00:05:07.295 --> 00:05:09.800
+Now, if you go to
+the hash function and you
+
+128
+00:05:09.800 --> 00:05:12.470
+type in precisely Maria
+
+129
+00:05:12.470 --> 00:05:14.210
+creates a single MariaCoin with
+
+130
+00:05:14.210 --> 00:05:18.350
+the spaces with no leading space
+and no following space,
+
+131
+00:05:18.350 --> 00:05:19.850
+you should get out
+
+132
+00:05:19.850 --> 00:05:23.920
+the 256-bit number that
+I have printed here.
+
+133
+00:05:23.920 --> 00:05:26.355
+So now we have the second entry.
+
+134
+00:05:26.355 --> 00:05:28.970
+Maria sells the MariaCoin
+to Sophie along with
+
+135
+00:05:28.970 --> 00:05:30.590
+the digest produced by
+
+136
+00:05:30.590 --> 00:05:33.100
+the hash function
+of the first entry.
+
+137
+00:05:33.100 --> 00:05:36.290
+Now, if you go to
+that hash program
+
+138
+00:05:36.290 --> 00:05:39.335
+and type in Maria sells
+the MariaCoin to Sophie,
+
+139
+00:05:39.335 --> 00:05:42.215
+press carriage return and then
+
+140
+00:05:42.215 --> 00:05:46.975
+paste in perfectly this number,
+
+141
+00:05:46.975 --> 00:05:49.980
+what you should get out is
+
+142
+00:05:49.980 --> 00:05:54.305
+a 256-bit number that
+you see in item three.
+
+143
+00:05:54.305 --> 00:05:58.085
+That's the hash of Maria sells
+the MariaCoin to Sophie,
+
+144
+00:05:58.085 --> 00:06:01.825
+return and then the 256-bit
+number printed into.
+
+145
+00:06:01.825 --> 00:06:03.480
+Now, the final step,
+
+146
+00:06:03.480 --> 00:06:05.250
+Sophie sells the MariaCoin to
+
+147
+00:06:05.250 --> 00:06:08.135
+Geoff along with
+the hash of step two.
+
+148
+00:06:08.135 --> 00:06:09.845
+If you type that in,
+
+149
+00:06:09.845 --> 00:06:13.330
+you get the hash that
+I printed in four.
+
+150
+00:06:13.330 --> 00:06:18.390
+So SHA-256 is a
+cryptographic hash function.
+
+151
+00:06:18.390 --> 00:06:20.780
+We can kind of get
+a feel for how it
+
+152
+00:06:20.780 --> 00:06:22.865
+worked in the previous slide.
+
+153
+00:06:22.865 --> 00:06:25.850
+It really produces
+very random looking output.
+
+154
+00:06:25.850 --> 00:06:27.890
+We can make this precise.
+
+155
+00:06:27.890 --> 00:06:30.815
+The fact that it's a
+cryptographic hash function means
+
+156
+00:06:30.815 --> 00:06:33.590
+two inputs are very unlikely
+to produce the same output.
+
+157
+00:06:33.590 --> 00:06:35.825
+That means its
+collision resistant.
+
+158
+00:06:35.825 --> 00:06:40.850
+Now, it must be
+theoretically possible to
+
+159
+00:06:40.850 --> 00:06:43.070
+find inputs that produce
+the same output because
+
+160
+00:06:43.070 --> 00:06:45.875
+the input space is much
+bigger than the output space.
+
+161
+00:06:45.875 --> 00:06:49.880
+The output phase is
+all 256-bit numbers.
+
+162
+00:06:49.880 --> 00:06:51.950
+The input space is virtually
+
+163
+00:06:51.950 --> 00:06:54.440
+anything you could
+type in a computer.
+
+164
+00:06:54.440 --> 00:06:59.270
+So it must be possible
+to find inputs that
+
+165
+00:06:59.270 --> 00:07:00.890
+produce the same
+output but all we
+
+166
+00:07:00.890 --> 00:07:04.045
+need is that it's very hard.
+
+167
+00:07:04.045 --> 00:07:06.560
+Just to get a sense
+of how hard it is,
+
+168
+00:07:06.560 --> 00:07:09.410
+any two random inputs will
+have the same output.
+
+169
+00:07:09.410 --> 00:07:11.000
+The chance of
+any two random inputs
+
+170
+00:07:11.000 --> 00:07:12.440
+would have the same
+output is two to
+
+171
+00:07:12.440 --> 00:07:16.385
+the power 256 which is
+an enormous number.
+
+172
+00:07:16.385 --> 00:07:19.190
+To put in perspective
+there are an estimated two
+
+173
+00:07:19.190 --> 00:07:23.935
+to the power 259 atoms
+in the known universe.
+
+174
+00:07:23.935 --> 00:07:27.990
+So SHA-256 is a
+cryptographic hash function.
+
+175
+00:07:27.990 --> 00:07:30.190
+It satisfies
+collision-resistance.
+
+176
+00:07:30.190 --> 00:07:32.465
+That's what I discussed
+on the previous slide
+
+177
+00:07:32.465 --> 00:07:35.539
+namely the chance
+of any two values
+
+178
+00:07:35.539 --> 00:07:41.365
+producing the same output
+is very very small.
+
+179
+00:07:41.365 --> 00:07:45.645
+It also satisfies a property
+called hiding meaning that,
+
+180
+00:07:45.645 --> 00:07:47.225
+given an output, it's virtually
+
+181
+00:07:47.225 --> 00:07:49.865
+impossible to
+reverse-engineer the input.
+
+182
+00:07:49.865 --> 00:07:54.530
+Finally, it satisfies
+a mysterious sounding property
+
+183
+00:07:54.530 --> 00:07:56.480
+called puzzle-friendliness
+which actually
+
+184
+00:07:56.480 --> 00:07:57.680
+means what it says.
+
+185
+00:07:57.680 --> 00:07:59.690
+You can use it to
+make good puzzles.
+
+186
+00:07:59.690 --> 00:08:02.480
+So that's something that
+we're going to discuss later.
+
+187
+00:08:02.480 --> 00:08:04.480
+So using my previous example,
+
+188
+00:08:04.480 --> 00:08:05.675
+you can get the sense that
+
+189
+00:08:05.675 --> 00:08:08.165
+even a tiny amount of tampering
+
+190
+00:08:08.165 --> 00:08:10.610
+will produce an
+enormous inconsistency
+
+191
+00:08:10.610 --> 00:08:12.320
+between the statement
+and the hash.
+
+192
+00:08:12.320 --> 00:08:16.490
+So try typing different
+very small modifications of
+
+193
+00:08:16.490 --> 00:08:18.065
+a statement and you
+can see you get
+
+194
+00:08:18.065 --> 00:08:21.590
+a very very different output.
+
+195
+00:08:21.590 --> 00:08:24.965
+So unlike my trivial
+digest method
+
+196
+00:08:24.965 --> 00:08:28.145
+where I used the first
+letters of the name,
+
+197
+00:08:28.145 --> 00:08:30.680
+collision-resistance and
+hiding means that one cannot
+
+198
+00:08:30.680 --> 00:08:34.270
+cleverly tamper to
+produce the same hash.
+
+199
+00:08:34.270 --> 00:08:37.820
+Recursivity means that one has to
+
+200
+00:08:37.820 --> 00:08:41.885
+tamper all along the chain
+to not be discovered.
+
+201
+00:08:41.885 --> 00:08:45.035
+So just to go back here,
+
+202
+00:08:45.035 --> 00:08:47.930
+if any one of
+these hashes are wrong,
+
+203
+00:08:47.930 --> 00:08:50.585
+all the rest of the hashes
+will not match.
+
+204
+00:08:50.585 --> 00:08:52.550
+So this makes it extremely
+
+205
+00:08:52.550 --> 00:08:55.490
+difficult to tamper with
+this type of ledger.
+
+206
+00:08:55.490 --> 00:08:57.845
+So what then is a Blockchain?
+
+207
+00:08:57.845 --> 00:09:02.680
+It is a linked list but
+instead of a pointer,
+
+208
+00:09:02.680 --> 00:09:06.120
+it has what's called
+a hash pointer.
+
+209
+00:09:06.250 --> 00:09:08.270
+Now, the objects are not
+
+210
+00:09:08.270 --> 00:09:11.405
+individual transactions
+but they are blocks.
+
+211
+00:09:11.405 --> 00:09:15.560
+The hash pointer is simply
+the hash function applied to
+
+212
+00:09:15.560 --> 00:09:17.330
+the previous entry
+where it was created
+
+213
+00:09:17.330 --> 00:09:19.610
+combined with the pointer
+to the previous elements.
+
+214
+00:09:19.610 --> 00:09:22.820
+So it's just pointer
+plus hash function.
+
+215
+00:09:22.820 --> 00:09:24.965
+So to summarize,
+
+216
+00:09:24.965 --> 00:09:27.290
+to implement property rights
+within Bitcoin,
+
+217
+00:09:27.290 --> 00:09:29.615
+we require a tamper-proof ledger.
+
+218
+00:09:29.615 --> 00:09:33.130
+We begin with a linked list
+that's just a ledger.
+
+219
+00:09:33.130 --> 00:09:34.890
+Replacing the pointer with
+
+220
+00:09:34.890 --> 00:09:37.125
+a hash pointer makes
+a ledger tamper-proof,
+
+221
+00:09:37.125 --> 00:09:38.460
+it turns it into a Blockchain.
+
+222
+00:09:38.460 --> 00:09:41.085
+Now technically, Blockchain
+is not tamper proof.
+
+223
+00:09:41.085 --> 00:09:44.330
+However, any tampers, it's
+extremely likely to be
+
+224
+00:09:44.330 --> 00:09:47.150
+detected because to create
+
+225
+00:09:47.150 --> 00:09:48.980
+a tampering that's not detected,
+
+226
+00:09:48.980 --> 00:09:51.650
+you have to tamper with
+every stage along the chain.
+
+227
+00:09:51.650 --> 00:09:54.870
+So thus it really is tamper-proof
+in the strongest sense.
+
+228
+00:09:54.870 --> 00:09:58.200
+No one has an incentive
+to even try.

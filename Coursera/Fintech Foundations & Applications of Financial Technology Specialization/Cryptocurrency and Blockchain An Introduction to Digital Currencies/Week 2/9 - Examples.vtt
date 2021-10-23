@@ -1,0 +1,444 @@
+WEBVTT
+
+1
+00:00:01.810 --> 00:00:06.330
+So in the previous example, we saw how
+important block chain is to BitCoin.
+
+2
+00:00:06.330 --> 00:00:08.640
+Block chain ensures a tamper proof ledger.
+
+3
+00:00:08.640 --> 00:00:10.950
+Together with the digital signature,
+
+4
+00:00:10.950 --> 00:00:15.530
+this forms a system of property rights,
+but block chain is not enough.
+
+5
+00:00:16.640 --> 00:00:19.310
+In this lecture we will see why.
+
+6
+00:00:19.310 --> 00:00:21.590
+Let's go back to MariaCoin.
+
+7
+00:00:21.590 --> 00:00:23.430
+Now with the background
+from the previous lecture,
+
+8
+00:00:23.430 --> 00:00:27.660
+we can be a little bit more specific
+about how MariaCoin might work.
+
+9
+00:00:27.660 --> 00:00:31.010
+So let's think about
+transacting with MariaCoin.
+
+10
+00:00:31.010 --> 00:00:33.710
+Maria creates MariaCoin,
+what exactly does this mean?
+
+11
+00:00:33.710 --> 00:00:37.208
+It means she creates a unique
+digital ID representing the coin and
+
+12
+00:00:37.208 --> 00:00:41.355
+she signs it with her private key as we
+discussed with the digital signature.
+
+13
+00:00:41.355 --> 00:00:44.985
+Now in stage two, Maria writes a message,
+pay Sophie with this coin.
+
+14
+00:00:44.985 --> 00:00:47.598
+By Sophie, in BitCoin terminology,
+
+15
+00:00:47.598 --> 00:00:52.746
+we actually mean just Sophie's public
+signature and by this coin, we mean
+
+16
+00:00:52.746 --> 00:00:58.560
+a hash pointer which is to say a pointer
+along with a hash function of the coin.
+
+17
+00:00:58.560 --> 00:01:02.280
+Then Maria signs the message
+with her private key, so
+
+18
+00:01:02.280 --> 00:01:04.960
+we talked about how that works
+also with digital signatures.
+
+19
+00:01:06.020 --> 00:01:10.640
+Now using Maria's public key, any user
+can view this series of operations and
+
+20
+00:01:10.640 --> 00:01:14.910
+verify that Sophie is
+the valid owner of the coin.
+
+21
+00:01:14.910 --> 00:01:19.860
+Along with the hash pointers, the ledger
+is secure, property rights are valid, and
+
+22
+00:01:19.860 --> 00:01:24.930
+Sophie can repeat steps 2 and
+3 to transfer the coin where she likes.
+
+23
+00:01:25.940 --> 00:01:30.170
+So while this MariaCoin technically
+preserves property rights,
+
+24
+00:01:30.170 --> 00:01:32.180
+it's actually not a viable system.
+
+25
+00:01:32.180 --> 00:01:33.760
+Let's see why.
+
+26
+00:01:33.760 --> 00:01:39.040
+So once Sophie is the valid owner of
+the coin, she can repeat the sell
+
+27
+00:01:39.040 --> 00:01:44.600
+the coin protocol to pay
+another user with the coin.
+
+28
+00:01:44.600 --> 00:01:50.090
+And she can repeat the protocol again
+to pay yet another user with the coin.
+
+29
+00:01:50.090 --> 00:01:53.210
+So there are no safeguards in this system
+
+30
+00:01:53.210 --> 00:01:57.140
+to prevent Sophie from taking the coin and
+spending it twice.
+
+31
+00:01:57.140 --> 00:02:01.420
+So we know based on the ledger that Sophie
+is the valid owner of the coin, and
+
+32
+00:02:01.420 --> 00:02:04.950
+everybody might maintain the ledger,
+and accept that.
+
+33
+00:02:04.950 --> 00:02:08.536
+But what happens if Sophie then
+tries to sell the coin twice?
+
+34
+00:02:08.536 --> 00:02:11.604
+Well some people will have a copy
+of the ledger with Geoff, and
+
+35
+00:02:11.604 --> 00:02:14.212
+some people will have a copy
+of the ledger with Mike.
+
+36
+00:02:14.212 --> 00:02:18.530
+And it will work like the coin
+simply been minted again.
+
+37
+00:02:18.530 --> 00:02:24.930
+Now you might think, well why don't we
+just figure out which one occurred first?
+
+38
+00:02:24.930 --> 00:02:27.310
+But in a distributed network,
+it might not be so
+
+39
+00:02:27.310 --> 00:02:29.650
+clear which one occurred first, right?
+
+40
+00:02:29.650 --> 00:02:32.940
+It takes time for
+the message to get to all the nodes.
+
+41
+00:02:32.940 --> 00:02:35.510
+This is whats known as
+the Double-spend Attack.
+
+42
+00:02:35.510 --> 00:02:37.490
+Its a complicated name for
+
+43
+00:02:37.490 --> 00:02:42.110
+a very simple concept which is when
+you've got an online coin, what is to
+
+44
+00:02:42.110 --> 00:02:46.800
+prevent somebody from simply spending
+the coin as many times as they want?
+
+45
+00:02:46.800 --> 00:02:52.260
+And it sounds sort of simple and trivial,
+but actually, it's a real problem.
+
+46
+00:02:53.390 --> 00:02:57.880
+Now, there's a pretty straightforward
+workaround for the double spend attack.
+
+47
+00:02:58.910 --> 00:03:02.510
+So okay,
+that idea with MariaCoin didn't work.
+
+48
+00:03:02.510 --> 00:03:03.365
+Let's try again.
+
+49
+00:03:03.365 --> 00:03:06.410
+Let's consider something called JamesCoin.
+
+50
+00:03:06.410 --> 00:03:11.120
+So JamesCoin is a lot like MariaCoin
+in that people can use signatures
+
+51
+00:03:11.120 --> 00:03:14.589
+to transfer between one another,
+but it's got one key difference.
+
+52
+00:03:15.890 --> 00:03:19.990
+All transactions in the ledger must
+be signed by a person named James,
+
+53
+00:03:19.990 --> 00:03:23.490
+let's assume it's a very
+specific person to be valid.
+
+54
+00:03:23.490 --> 00:03:26.330
+So the first transaction
+is James creates JamesCoin.
+
+55
+00:03:27.390 --> 00:03:28.830
+James now writes a message.
+
+56
+00:03:28.830 --> 00:03:31.620
+Pay Sophie with this coin and signs it.
+
+57
+00:03:31.620 --> 00:03:32.960
+Sophie can then write a message.
+
+58
+00:03:32.960 --> 00:03:35.142
+Pay Geoff with this coin and then sign it.
+
+59
+00:03:35.142 --> 00:03:39.540
+However, both Sophie and
+James sign off on this last message and
+
+60
+00:03:39.540 --> 00:03:44.410
+then we can also require that
+James broadcast the ledger.
+
+61
+00:03:44.410 --> 00:03:48.540
+Now, James has signed the message,
+pay Geoff with his coin.
+
+62
+00:03:48.540 --> 00:03:52.798
+So whatever software he's running knows
+that Geoff is the valid owner of the coin.
+
+63
+00:03:52.798 --> 00:03:56.725
+Even if James wanted to sign
+off on a contradictory message,
+
+64
+00:03:56.725 --> 00:03:59.729
+pay Mike with his coin,
+it wouldn't let him.
+
+65
+00:03:59.729 --> 00:04:01.850
+You could easily write
+something like that.
+
+66
+00:04:01.850 --> 00:04:05.580
+So now we have a system that
+avoids the double spend attack.
+
+67
+00:04:05.580 --> 00:04:07.690
+It's actually a pretty good system.
+
+68
+00:04:07.690 --> 00:04:12.650
+So for one thing, this ledger can be
+widely distributed, and it's tamper-proof
+
+69
+00:04:12.650 --> 00:04:17.150
+due to the blockchain technology that
+I described in the previous lecture.
+
+70
+00:04:17.150 --> 00:04:20.450
+Which means that even James
+himself who needs to sign off on
+
+71
+00:04:20.450 --> 00:04:24.600
+every message cannot manipulate
+the ledger without detection.
+
+72
+00:04:24.600 --> 00:04:28.055
+So for these reasons,
+while in some senses seems centralized,
+
+73
+00:04:28.055 --> 00:04:31.152
+it's actually a pretty
+decentralized system.
+
+74
+00:04:31.152 --> 00:04:36.550
+James cannot act badly in an obvious
+way because everybody would detect it.
+
+75
+00:04:36.550 --> 00:04:38.170
+But there are some problems.
+
+76
+00:04:38.170 --> 00:04:41.270
+I mean, James does sound a little
+bit like a centralized intermediary.
+
+77
+00:04:41.270 --> 00:04:43.880
+He's not quite a centralized intermediary,
+but
+
+78
+00:04:43.880 --> 00:04:46.360
+it's not as decentralized
+as one might want.
+
+79
+00:04:46.360 --> 00:04:51.180
+For example, James might decide to sign
+off on his friend's transactions but
+
+80
+00:04:51.180 --> 00:04:52.930
+not on others.
+
+81
+00:04:52.930 --> 00:04:55.130
+Also, it's a little unstable, right?
+
+82
+00:04:55.130 --> 00:04:57.090
+We'd better hope that
+nothing happens to James.
+
+83
+00:04:57.090 --> 00:04:59.800
+If something happens to James,
+we don't have a currency anymore.
+
+84
+00:04:59.800 --> 00:05:02.693
+So this is not something
+that BitCoin wants.
+
+85
+00:05:02.693 --> 00:05:03.526
+So with BitCoin,
+
+86
+00:05:03.526 --> 00:05:07.260
+we are seeking a more decentralized
+system to avoid the double-spend attack.
+
+87
+00:05:08.330 --> 00:05:12.250
+So to summarize thus far, blockchain and
+the digital signature are necessary
+
+88
+00:05:12.250 --> 00:05:15.460
+components for cryptocurrency,
+but they're not sufficient.
+
+89
+00:05:15.460 --> 00:05:18.770
+They do not, for instance,
+prevent the double-spend attack.
+
+90
+00:05:18.770 --> 00:05:22.640
+Requiring one address to sign
+off an all transaction does
+
+91
+00:05:22.640 --> 00:05:27.990
+avoid the double spend attack, but it is
+prone to manipulation and system failure.
+
+92
+00:05:27.990 --> 00:05:32.552
+That is why cryptocurrency requires
+what I call distributed consensus, and
+
+93
+00:05:32.552 --> 00:05:34.945
+what I'll discuss in the next lecture.

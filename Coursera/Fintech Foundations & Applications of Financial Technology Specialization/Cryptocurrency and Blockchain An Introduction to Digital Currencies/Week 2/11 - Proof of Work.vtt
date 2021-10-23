@@ -1,0 +1,834 @@
+WEBVTT
+
+1
+00:00:00.740 --> 00:00:05.160
+Recall that to ensure
+a system of property rights,
+
+2
+00:00:05.160 --> 00:00:07.920
+nodes need to reach a
+distributed consensus on
+
+3
+00:00:07.920 --> 00:00:11.235
+what can constitute
+a correct set of transactions.
+
+4
+00:00:11.235 --> 00:00:12.990
+Now, also Bitcoin must
+
+5
+00:00:12.990 --> 00:00:14.350
+replace the need
+for a central bank.
+
+6
+00:00:14.350 --> 00:00:16.335
+So it must manage
+currency supply.
+
+7
+00:00:16.335 --> 00:00:20.040
+Interestingly, these two
+problems turn out to be related.
+
+8
+00:00:20.040 --> 00:00:22.740
+Recall the distributed
+consensus protocol
+
+9
+00:00:22.740 --> 00:00:24.315
+from the previous lecture.
+
+10
+00:00:24.315 --> 00:00:27.270
+Our initial digital
+consensus protocol,
+
+11
+00:00:27.270 --> 00:00:30.120
+the thought experiment, was
+to pick nodes at random.
+
+12
+00:00:30.120 --> 00:00:31.740
+By picking nodes at random,
+
+13
+00:00:31.740 --> 00:00:33.450
+we make it hard for
+any single node
+
+14
+00:00:33.450 --> 00:00:34.950
+to control the blockchain.
+
+15
+00:00:34.950 --> 00:00:38.460
+This automatically disincentivizes
+malicious behavior
+
+16
+00:00:38.460 --> 00:00:41.175
+by making malicious
+behavior difficult.
+
+17
+00:00:41.175 --> 00:00:45.925
+However, it does require
+picking a node at random.
+
+18
+00:00:45.925 --> 00:00:48.950
+Moreover, what you would
+really like to do is to
+
+19
+00:00:48.950 --> 00:00:51.950
+only pick honest nodes and
+never pick malicious ones.
+
+20
+00:00:51.950 --> 00:00:53.570
+Now, this is not possible
+
+21
+00:00:53.570 --> 00:00:55.310
+because not only
+can you not tell,
+
+22
+00:00:55.310 --> 00:00:57.440
+nodes do not even
+have identities.
+
+23
+00:00:57.440 --> 00:00:59.525
+But what if you
+could somehow turn
+
+24
+00:00:59.525 --> 00:01:01.715
+a node into an honest node?
+
+25
+00:01:01.715 --> 00:01:03.350
+Now, our first pass at
+
+26
+00:01:03.350 --> 00:01:06.215
+distributed consensus require
+picking a node at random.
+
+27
+00:01:06.215 --> 00:01:08.735
+We know that this is
+impossible for two reasons.
+
+28
+00:01:08.735 --> 00:01:11.570
+First of all, as I talked
+about in previous lectures,
+
+29
+00:01:11.570 --> 00:01:14.490
+there's no such thing as
+computer-generated randomness.
+
+30
+00:01:14.490 --> 00:01:15.740
+Recall a computer can
+
+31
+00:01:15.740 --> 00:01:18.110
+only generate
+pseudo-random numbers.
+
+32
+00:01:18.110 --> 00:01:19.490
+Even if there were,
+
+33
+00:01:19.490 --> 00:01:21.440
+it would require
+a centralized computer
+
+34
+00:01:21.440 --> 00:01:22.975
+to generate the randomness,
+
+35
+00:01:22.975 --> 00:01:24.740
+and everyone would
+need to agree on it.
+
+36
+00:01:24.740 --> 00:01:26.600
+So there would be some degree
+of centralization.
+
+37
+00:01:26.600 --> 00:01:29.180
+So really we have two problems
+to solve: generating
+
+38
+00:01:29.180 --> 00:01:32.075
+randomness and incentivizing
+honest behavior.
+
+39
+00:01:32.075 --> 00:01:34.895
+Solving one problem
+helps with the other.
+
+40
+00:01:34.895 --> 00:01:37.220
+If randomness is not good enough,
+
+41
+00:01:37.220 --> 00:01:38.480
+it makes it more likely that
+
+42
+00:01:38.480 --> 00:01:41.210
+a malicious node will
+take over the system.
+
+43
+00:01:41.210 --> 00:01:43.960
+But if we incentivize
+honest behavior,
+
+44
+00:01:43.960 --> 00:01:46.135
+then fewer nodes are
+malicious to begin with,
+
+45
+00:01:46.135 --> 00:01:48.635
+therefore, decreasing
+the need for true randomness.
+
+46
+00:01:48.635 --> 00:01:50.570
+Bitcoin's proof-of-work,
+proposed by
+
+47
+00:01:50.570 --> 00:01:53.000
+Satoshi Nakamoto is
+a truly ingenious way
+
+48
+00:01:53.000 --> 00:01:54.515
+of dealing with these problems.
+
+49
+00:01:54.515 --> 00:01:57.305
+It also constitutes
+a vast experiment.
+
+50
+00:01:57.305 --> 00:01:59.810
+There is no theory,
+economic or otherwise,
+
+51
+00:01:59.810 --> 00:02:03.140
+that tells us that
+proof-of-work should well work.
+
+52
+00:02:03.140 --> 00:02:05.710
+We just see that,
+so far, it does.
+
+53
+00:02:05.710 --> 00:02:07.740
+Side note: It's
+worth understanding
+
+54
+00:02:07.740 --> 00:02:10.190
+proof-of-work pretty well
+for at least two reasons.
+
+55
+00:02:10.190 --> 00:02:13.805
+First, because it contains
+some genuinely new ideas.
+
+56
+00:02:13.805 --> 00:02:17.515
+Currently, many intermediaries
+profit off of information.
+
+57
+00:02:17.515 --> 00:02:19.580
+Now, what if information
+could be stored
+
+58
+00:02:19.580 --> 00:02:21.900
+accurately and maintained
+in a decentralized way?
+
+59
+00:02:21.900 --> 00:02:24.020
+The blockchain helps with that.
+
+60
+00:02:24.020 --> 00:02:26.450
+But it doesn't go far
+enough because it
+
+61
+00:02:26.450 --> 00:02:29.915
+doesn't govern how
+new information gets added.
+
+62
+00:02:29.915 --> 00:02:31.580
+So that's point number one.
+
+63
+00:02:31.580 --> 00:02:33.995
+There's some genuinely
+new ideas here.
+
+64
+00:02:33.995 --> 00:02:36.620
+Point number two, many
+believe that it is
+
+65
+00:02:36.620 --> 00:02:37.940
+proof-of-work that contains
+
+66
+00:02:37.940 --> 00:02:39.950
+the seeds of Bitcoin's downfall.
+
+67
+00:02:39.950 --> 00:02:41.900
+So if we want to
+understand what some of
+
+68
+00:02:41.900 --> 00:02:44.585
+the naysayers about
+Bitcoin have been saying,
+
+69
+00:02:44.585 --> 00:02:47.195
+then we have to
+understand proof-of-work.
+
+70
+00:02:47.195 --> 00:02:50.765
+So proof-of-work concept
+one is block reward.
+
+71
+00:02:50.765 --> 00:02:54.140
+Now, let's continue with
+the thought experiment.
+
+72
+00:02:54.140 --> 00:02:56.000
+Assume for the moment that we can
+
+73
+00:02:56.000 --> 00:02:58.000
+pick a node at random
+to propose a block.
+
+74
+00:02:58.000 --> 00:02:59.510
+Now, let's say that we give
+
+75
+00:02:59.510 --> 00:03:01.550
+the node that proposes
+the blocks some extra
+
+76
+00:03:01.550 --> 00:03:05.670
+bitcoins to transact with
+more precisely because,
+
+77
+00:03:05.670 --> 00:03:07.560
+remember, a node doesn't
+have an identity,
+
+78
+00:03:07.560 --> 00:03:09.645
+so it can't spend a bitcoin.
+
+79
+00:03:09.645 --> 00:03:10.890
+As part of the block,
+
+80
+00:03:10.890 --> 00:03:12.290
+the node gets to include
+
+81
+00:03:12.290 --> 00:03:14.135
+a transaction with
+these bitcoins,
+
+82
+00:03:14.135 --> 00:03:17.605
+presumably to pay itself,
+but we don't know that.
+
+83
+00:03:17.605 --> 00:03:20.975
+Now, this is going to act
+to keep the blocks honest.
+
+84
+00:03:20.975 --> 00:03:23.360
+Why? It might seem strange,
+
+85
+00:03:23.360 --> 00:03:25.160
+because they get
+the block reward even
+
+86
+00:03:25.160 --> 00:03:27.395
+if they behave dishonestly.
+
+87
+00:03:27.395 --> 00:03:29.735
+Well, here's how it works.
+
+88
+00:03:29.735 --> 00:03:32.450
+The only way they
+actually get to receive
+
+89
+00:03:32.450 --> 00:03:35.825
+their reward is if future nodes
+accept their block.
+
+90
+00:03:35.825 --> 00:03:39.140
+So recall that future nodes
+except a proposed block by
+
+91
+00:03:39.140 --> 00:03:40.430
+including a hash pointer to
+
+92
+00:03:40.430 --> 00:03:42.955
+the block in the next
+block they propose.
+
+93
+00:03:42.955 --> 00:03:45.270
+Now, suppose you act dishonestly,
+
+94
+00:03:45.270 --> 00:03:47.000
+extending perhaps an
+orphaned fork with
+
+95
+00:03:47.000 --> 00:03:48.940
+transactions to you
+or your friends.
+
+96
+00:03:48.940 --> 00:03:53.270
+Now, the next node is unlikely
+to accept your block.
+
+97
+00:03:53.270 --> 00:03:56.600
+If that node does not
+accept your block,
+
+98
+00:03:56.600 --> 00:03:59.510
+your block is still less
+likely to become part of
+
+99
+00:03:59.510 --> 00:04:02.935
+the accepted chain
+in the long run,
+
+100
+00:04:02.935 --> 00:04:04.540
+and if that's the case,
+
+101
+00:04:04.540 --> 00:04:07.410
+the transaction with
+your new bitcoins is gone
+
+102
+00:04:07.410 --> 00:04:11.435
+forever and no block
+reward for you.
+
+103
+00:04:11.435 --> 00:04:14.720
+So you had better
+propose a block that
+
+104
+00:04:14.720 --> 00:04:17.870
+will gain acceptance and be
+part of the long-run chain.
+
+105
+00:04:17.870 --> 00:04:20.480
+Let's play the devil's
+advocate for a moment.
+
+106
+00:04:20.480 --> 00:04:22.895
+Let's suppose that
+most nodes are not
+
+107
+00:04:22.895 --> 00:04:26.005
+honest but actually that
+most nodes are malicious.
+
+108
+00:04:26.005 --> 00:04:28.610
+Now, let's say you
+behave maliciously.
+
+109
+00:04:28.610 --> 00:04:31.370
+Is it possible that
+the next node might choose
+
+110
+00:04:31.370 --> 00:04:34.430
+to reward your behavior
+by accepting your block?
+
+111
+00:04:34.430 --> 00:04:37.160
+Suppose if you are honest
+that the next node might
+
+112
+00:04:37.160 --> 00:04:40.240
+choose to punish you by
+accepting a different block,
+
+113
+00:04:40.240 --> 00:04:43.100
+then dishonest behavior
+would be rewarded.
+
+114
+00:04:43.100 --> 00:04:45.665
+Is this something that
+could actually happen?
+
+115
+00:04:45.665 --> 00:04:46.985
+Actually, no.
+
+116
+00:04:46.985 --> 00:04:48.830
+That's the beauty of this system.
+
+117
+00:04:48.830 --> 00:04:51.440
+So here's a fact about
+
+118
+00:04:51.440 --> 00:04:54.320
+honesty and dishonesty that
+we're going to rely on,
+
+119
+00:04:54.320 --> 00:04:56.060
+whether it's a fact
+or not is not clear.
+
+120
+00:04:56.060 --> 00:04:57.740
+Let's call it a conjecture.
+
+121
+00:04:57.740 --> 00:05:00.665
+Let's suppose that nodes
+
+122
+00:05:00.665 --> 00:05:04.400
+behave honestly, unless
+incentivized otherwise.
+
+123
+00:05:04.400 --> 00:05:06.695
+So we will say that
+
+124
+00:05:06.695 --> 00:05:09.080
+honest nodes are public
+spirited in that sense.
+
+125
+00:05:09.080 --> 00:05:14.000
+They can still be out for
+their own self-interest.
+
+126
+00:05:14.000 --> 00:05:17.030
+But if it's in
+their self-interest,
+
+127
+00:05:17.030 --> 00:05:18.494
+they will behave honestly,
+
+128
+00:05:18.494 --> 00:05:20.760
+and when in doubt,
+they'll behave honestly.
+
+129
+00:05:20.760 --> 00:05:22.430
+Now, let's say malicious nodes
+
+130
+00:05:22.430 --> 00:05:24.110
+are out for their own good.
+
+131
+00:05:24.110 --> 00:05:27.110
+So for example, here's
+what we're not assuming.
+
+132
+00:05:27.110 --> 00:05:29.660
+We're not assuming that
+the malicious nodes are
+
+133
+00:05:29.660 --> 00:05:32.165
+specifically designed for
+the destruction of the system.
+
+134
+00:05:32.165 --> 00:05:33.740
+We're simply assuming that
+
+135
+00:05:33.740 --> 00:05:36.020
+the malicious nodes
+are self-interested.
+
+136
+00:05:36.020 --> 00:05:39.640
+So let's continue
+this devil's advocate argument.
+
+137
+00:05:39.640 --> 00:05:41.870
+Suppose, I, Jessica, propose
+
+138
+00:05:41.870 --> 00:05:44.270
+a block that exhibits
+self-dealing, for example.
+
+139
+00:05:44.270 --> 00:05:45.695
+It's a malicious block.
+
+140
+00:05:45.695 --> 00:05:48.560
+Now, consider the next node
+that's chosen to propose
+
+141
+00:05:48.560 --> 00:05:51.605
+a block will say this
+node is Alice's node.
+
+142
+00:05:51.605 --> 00:05:53.420
+Now, let's think about
+
+143
+00:05:53.420 --> 00:05:55.940
+Alice's decision to
+accept my block,
+
+144
+00:05:55.940 --> 00:05:58.535
+potentially rewarding
+my malicious behavior.
+
+145
+00:05:58.535 --> 00:06:00.440
+Now, remember that Alice also
+
+146
+00:06:00.440 --> 00:06:02.665
+wants to receive
+the block reward.
+
+147
+00:06:02.665 --> 00:06:04.940
+Accepting my block makes
+
+148
+00:06:04.940 --> 00:06:06.980
+it less likely that
+her block will be
+
+149
+00:06:06.980 --> 00:06:09.170
+accepted in
+the next round because
+
+150
+00:06:09.170 --> 00:06:11.975
+the next node will see that
+my block was malicious.
+
+151
+00:06:11.975 --> 00:06:13.415
+So in other words,
+
+152
+00:06:13.415 --> 00:06:16.370
+to accept my malicious block,
+
+153
+00:06:16.370 --> 00:06:19.230
+Alice needs to not
+only be malicious,
+
+154
+00:06:19.230 --> 00:06:22.250
+she also needs to be
+without self-interest.
+
+155
+00:06:22.250 --> 00:06:23.960
+So note, in the background is
+
+156
+00:06:23.960 --> 00:06:25.610
+a prevailing view
+that most nodes are
+
+157
+00:06:25.610 --> 00:06:27.934
+acting honestly
+because all incentives
+
+158
+00:06:27.934 --> 00:06:29.510
+are for them to do so.
+
+159
+00:06:29.510 --> 00:06:31.199
+So just to summarize,
+
+160
+00:06:31.199 --> 00:06:32.400
+in the Bitcoin protocol,
+
+161
+00:06:32.400 --> 00:06:34.030
+all nodes are peers.
+
+162
+00:06:34.030 --> 00:06:37.415
+They all in principle get
+to propose transactions.
+
+163
+00:06:37.415 --> 00:06:39.470
+Why should they behave honestly,
+
+164
+00:06:39.470 --> 00:06:41.810
+as opposed to seek to
+reward themselves?
+
+165
+00:06:41.810 --> 00:06:44.065
+The answer is incentives.
+
+166
+00:06:44.065 --> 00:06:48.530
+Honest behavior leads to
+likely block rewards,
+
+167
+00:06:48.530 --> 00:06:51.800
+and malicious behavior
+probably will not succeed.
+
+168
+00:06:51.800 --> 00:06:54.530
+It ism therefore,
+self-fulfilling equilibrium that
+
+169
+00:06:54.530 --> 00:06:56.630
+most not nodes act honestly and
+
+170
+00:06:56.630 --> 00:06:58.820
+expect other nodes
+to act honestly,
+
+171
+00:06:58.820 --> 00:07:02.045
+which then in turn incentivizes
+more honest behavior.
+
+172
+00:07:02.045 --> 00:07:04.260
+What's next? So we were still in
+
+173
+00:07:04.260 --> 00:07:06.915
+the thought experiment
+of assuming randomness.
+
+174
+00:07:06.915 --> 00:07:10.175
+What determines which node
+gets to create a block?
+
+175
+00:07:10.175 --> 00:07:11.810
+In real life, there is
+
+176
+00:07:11.810 --> 00:07:14.105
+no magic random number generator
+
+177
+00:07:14.105 --> 00:07:17.110
+that allows us to implement
+the thought experiment,
+
+178
+00:07:17.110 --> 00:07:21.640
+or is there? We'll see.
