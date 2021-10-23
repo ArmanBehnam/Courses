@@ -1,0 +1,497 @@
+WEBVTT
+
+1
+00:00:02.590 --> 00:00:06.905
+Now, what happens if instead of having say five or six discrete actions,
+
+2
+00:00:06.905 --> 00:00:09.010
+now deal with a continuous action space?
+
+3
+00:00:09.010 --> 00:00:10.790
+So, previously you had two options,
+
+4
+00:00:10.790 --> 00:00:12.760
+you steer the bike to the left or to the right.
+
+5
+00:00:12.760 --> 00:00:16.895
+Now, you have to provide a particular value between say,
+
+6
+00:00:16.895 --> 00:00:19.515
+minus pi over two and plus pi by over two,
+
+7
+00:00:19.515 --> 00:00:22.000
+which is the exact amount of steering you want to apply.
+
+8
+00:00:22.000 --> 00:00:26.955
+This is especially important in the means like say, robot control.
+
+9
+00:00:26.955 --> 00:00:31.525
+In this case, you have all the joints or all the limbs of your robot.
+
+10
+00:00:31.525 --> 00:00:33.390
+And you can move them via motors,
+
+11
+00:00:33.390 --> 00:00:35.370
+and motors are controlled via voltage.
+
+12
+00:00:35.370 --> 00:00:40.070
+So, you can apply any voltage you want within some particular diapason.
+
+13
+00:00:40.070 --> 00:00:44.420
+Now, this actually means that you can no longer deal,
+
+14
+00:00:44.420 --> 00:00:48.405
+you can no longer solve this problem by simply having one neuron per possible action,
+
+15
+00:00:48.405 --> 00:00:50.320
+and using a soft mark similarity.
+
+16
+00:00:50.320 --> 00:00:53.680
+So, how do you use say neural network to predict,
+
+17
+00:00:53.680 --> 00:00:58.430
+not discrete variable, but the real value of variable.
+
+18
+00:00:58.430 --> 00:01:00.160
+One way you can do this is,
+
+19
+00:01:00.160 --> 00:01:01.610
+you can simply solve regression problem.
+
+20
+00:01:01.610 --> 00:01:03.960
+It's probably the most obvious one.
+
+21
+00:01:03.960 --> 00:01:08.110
+For example, if you use default circuit theorem or Schirus regression models,
+
+22
+00:01:08.110 --> 00:01:10.270
+they usually minimize the mean squared error.
+
+23
+00:01:10.270 --> 00:01:13.280
+If you remember the Bayesian method scores,
+
+24
+00:01:13.280 --> 00:01:15.305
+minimizing squared error is
+
+25
+00:01:15.305 --> 00:01:18.670
+actually the same thing as maximizing the logarithm of likelihood,
+
+26
+00:01:18.670 --> 00:01:23.690
+in case that you predict the normal distribution for the action space.
+
+27
+00:01:23.690 --> 00:01:26.360
+So basically, it means that the probability of taking action is
+
+28
+00:01:26.360 --> 00:01:30.490
+a normal distribution with mean value given by your neural network,
+
+29
+00:01:30.490 --> 00:01:32.560
+and a standard deviation of one.
+
+30
+00:01:32.560 --> 00:01:38.030
+Again, in this case, you can simply fit your model using the existing classification or,
+
+31
+00:01:38.030 --> 00:01:39.955
+in this case, regression algorithm,
+
+32
+00:01:39.955 --> 00:01:43.660
+which is for neural network is another modification of bi-propagation.
+
+33
+00:01:43.660 --> 00:01:48.325
+And you can do this repeatedly until your model converges to an optimal result.
+
+34
+00:01:48.325 --> 00:01:50.095
+In our practical assignments,
+
+35
+00:01:50.095 --> 00:01:54.000
+once you can modify just two lines of code in your assignment,
+
+36
+00:01:54.000 --> 00:01:59.010
+you'll be able to solve a different problem which requires a real value of its output.
+
+37
+00:01:59.010 --> 00:02:00.860
+We'll use the details of
+
+38
+00:02:00.860 --> 00:02:03.770
+these particular changes later in the practical assignment itself.
+
+39
+00:02:03.770 --> 00:02:05.840
+So of course, it's not all theories.
+
+40
+00:02:05.840 --> 00:02:08.090
+Sometimes you get algorithms work really well.
+
+41
+00:02:08.090 --> 00:02:11.915
+You'll have to employ some kind of dirty hacks and practical heuristics.
+
+42
+00:02:11.915 --> 00:02:14.865
+For cross-entropy method, there are several kinds of those heuristics.
+
+43
+00:02:14.865 --> 00:02:17.530
+One family of heuristics is aimed at
+
+44
+00:02:17.530 --> 00:02:20.890
+reducing the amount of samples it takes to be in training.
+
+45
+00:02:20.890 --> 00:02:23.480
+In cross-entropy method, this thing is especially dire.
+
+46
+00:02:23.480 --> 00:02:25.930
+You have to play 100 sessions,
+
+47
+00:02:25.930 --> 00:02:27.810
+and you only use some fraction,
+
+48
+00:02:27.810 --> 00:02:29.440
+say 25 percent of them,
+
+49
+00:02:29.440 --> 00:02:32.690
+and it gets even smaller if you use larger sample sizes.
+
+50
+00:02:32.690 --> 00:02:34.845
+This is of course terribly bad,
+
+51
+00:02:34.845 --> 00:02:39.160
+and this is probably the worst case of sample inefficiency we have.
+
+52
+00:02:39.160 --> 00:02:44.270
+So, cross-entropy method relies on you being able to give it all the samples.
+
+53
+00:02:44.270 --> 00:02:47.470
+This is true for virtual reality, for games,
+
+54
+00:02:47.470 --> 00:02:50.070
+for computer models robots,
+
+55
+00:02:50.070 --> 00:02:54.290
+but it's not true if you want actual robotic car to steer on the actual streets.
+
+56
+00:02:54.290 --> 00:02:58.935
+So instead, you can try some hacks to get it to run more smoothly.
+
+57
+00:02:58.935 --> 00:03:02.390
+Example, you can re-use the samples from several past iterations.
+
+58
+00:03:02.390 --> 00:03:06.560
+So, you don't have to sample 1000 or 100 sessions.
+
+59
+00:03:06.560 --> 00:03:08.540
+You can sample say 20 sessions,
+
+60
+00:03:08.540 --> 00:03:11.215
+and use 80 sessions leftover from the previous iterations.
+
+61
+00:03:11.215 --> 00:03:14.755
+This of course make the training slightly less strategically nice,
+
+62
+00:03:14.755 --> 00:03:17.760
+but it tends to somewhat work, time to time.
+
+63
+00:03:17.760 --> 00:03:20.085
+Now, another problem with cross-entropy method,
+
+64
+00:03:20.085 --> 00:03:23.155
+is that it tends to sometimes fall into the local optima.
+
+65
+00:03:23.155 --> 00:03:26.310
+So, you have a neural network that has a weird structure,
+
+66
+00:03:26.310 --> 00:03:28.035
+so that the gradient sometimes explode.
+
+67
+00:03:28.035 --> 00:03:31.310
+And once they explode, there is a small chance that new ones will appear in
+
+68
+00:03:31.310 --> 00:03:35.240
+a situation where some action has a probability of almost zero.
+
+69
+00:03:35.240 --> 00:03:39.280
+Now, in the usual supervised during set up, this is not so bad.
+
+70
+00:03:39.280 --> 00:03:41.945
+Well, in the worst case you will get not a number everywhere,
+
+71
+00:03:41.945 --> 00:03:45.090
+but usually what you have,
+
+72
+00:03:45.090 --> 00:03:48.260
+is you'll have your network trained to fix this error.
+
+73
+00:03:48.260 --> 00:03:51.095
+Reinforcement learning, the problem is much worse.
+
+74
+00:03:51.095 --> 00:03:53.950
+Because if you don't have a probability of zero,
+
+75
+00:03:53.950 --> 00:03:56.090
+this means that your agent explicitly avoids
+
+76
+00:03:56.090 --> 00:03:58.505
+taking some particular action, some particular state.
+
+77
+00:03:58.505 --> 00:04:00.430
+This is bad, especially if this action
+
+78
+00:04:00.430 --> 00:04:04.265
+was the optimal one that you have not yet discovered.
+
+79
+00:04:04.265 --> 00:04:06.440
+So, since you never take this action,
+
+80
+00:04:06.440 --> 00:04:09.705
+you'll never get the samples where this action happens in the elite session.
+
+81
+00:04:09.705 --> 00:04:12.060
+So, you're stuck in this sub-optimal policy.
+
+82
+00:04:12.060 --> 00:04:13.580
+How you can improve this?
+
+83
+00:04:13.580 --> 00:04:15.095
+Well, of course there's many ways,
+
+84
+00:04:15.095 --> 00:04:18.250
+but one way to do so is to simply regularizing your network.
+
+85
+00:04:18.250 --> 00:04:21.795
+You can try to not only minimize the cross-entropy elite sessions,
+
+86
+00:04:21.795 --> 00:04:23.210
+but also as a regularizer,
+
+87
+00:04:23.210 --> 00:04:26.505
+slightly increase the entropy of the output distribution.
+
+88
+00:04:26.505 --> 00:04:29.570
+So, as we all know, entropy gets smallest
+
+89
+00:04:29.570 --> 00:04:32.380
+when engine is absolutely certain about one action,
+
+90
+00:04:32.380 --> 00:04:33.790
+and takes this action all the time.
+
+91
+00:04:33.790 --> 00:04:35.980
+So, the probability of one for this one action,
+
+92
+00:04:35.980 --> 00:04:37.740
+and zero for all the other actions.
+
+93
+00:04:37.740 --> 00:04:40.940
+The highest value of entropy is achieved for uniform distribution.
+
+94
+00:04:40.940 --> 00:04:42.880
+Now, this means that if you regularize,
+
+95
+00:04:42.880 --> 00:04:45.000
+the higher your entropy gets the better.
+
+96
+00:04:45.000 --> 00:04:49.770
+It means that your agent will be biased against completely giving up on actions.
+
+97
+00:04:49.770 --> 00:04:51.985
+So, if some action gets you personal probabilities,
+
+98
+00:04:51.985 --> 00:04:55.170
+the probability will eventually get slightly higher,
+
+99
+00:04:55.170 --> 00:04:57.000
+falling degree into the entropy.
+
+100
+00:04:57.000 --> 00:05:00.400
+We'll cover this in more detail in the reading section.
+
+101
+00:05:00.400 --> 00:05:03.680
+Now finally, since ruling in the modern world and
+
+102
+00:05:03.680 --> 00:05:07.730
+even your smartphone has more than one computer core, basically this means that,
+
+103
+00:05:07.730 --> 00:05:10.370
+whenever you have parallelizable algorithm,
+
+104
+00:05:10.370 --> 00:05:14.850
+you can get them to run 100 times as fast to 1,000 times as fast,
+
+105
+00:05:14.850 --> 00:05:17.700
+depending on how many servers do you have.
+
+106
+00:05:17.700 --> 00:05:19.865
+For cross-entropy method, it's very simple.
+
+107
+00:05:19.865 --> 00:05:22.500
+You have this phase, we sampled 1,000 sessions.
+
+108
+00:05:22.500 --> 00:05:24.245
+You can sample them all in parallel.
+
+109
+00:05:24.245 --> 00:05:27.045
+Of course sometimes, it requires that you buy
+
+110
+00:05:27.045 --> 00:05:32.600
+1,000 separate kind of environment emulators if it's something physical.
+
+111
+00:05:32.600 --> 00:05:34.670
+But for videogames for example,
+
+112
+00:05:34.670 --> 00:05:36.555
+it's very easy to parallelize.
+
+113
+00:05:36.555 --> 00:05:39.800
+Finally, there is a very neat situation here.
+
+114
+00:05:39.800 --> 00:05:41.140
+Sometimes you want to experiment
+
+115
+00:05:41.140 --> 00:05:43.515
+the neural network architecture for cross-entropy method.
+
+116
+00:05:43.515 --> 00:05:45.120
+And for some cases,
+
+117
+00:05:45.120 --> 00:05:49.210
+if you don't want to only rely on your current observation,
+
+118
+00:05:49.210 --> 00:05:53.870
+you can use your current neural network based architecture to make your agents kind
+
+119
+00:05:53.870 --> 00:05:56.160
+of use a memory to store
+
+120
+00:05:56.160 --> 00:05:58.990
+whatever useful information they have seen on the previous observations.
+
+121
+00:05:58.990 --> 00:06:02.355
+This is of course slightly more complicated than it gets in this particular sentence.
+
+122
+00:06:02.355 --> 00:06:06.375
+So, we'll cover this in much more details near the end of the course.
+
+123
+00:06:06.375 --> 00:06:08.130
+So, I hope the cross-entropy method is
+
+124
+00:06:08.130 --> 00:06:12.190
+slightly lesser pack to you now. Now let's get to practice.

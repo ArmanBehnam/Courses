@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Deep Reinforcement Learning Doesn't Work Yet</title>
+<meta name="description" content="June 24, 2018 note: If you want to cite an example from the post, pleasecite the paper which that example came from. If you want to cite thepost as a whole, ...">
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="canonical" href="https://www.alexirpan.com/2018/02/14/rl-hard.html">
+<link rel="alternate" type="application/rss+xml" title="Sorta Insightful" href="https://www.alexirpan.com/feed.xml" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Deep Reinforcement Learning Doesn't Work Yet" />
+<meta property="og:url" content="http://www.alexirpan.com/2018/02/14/rl-hard.html" />
+<meta property="og:description" content="June 24, 2018 note: If you want to cite an example from the post, please
+cite the paper which that example came from. If you want to cite the
+post as a whole, you can use the following BibTeX:
+
+" />
+<meta property="og:sitename" content="Sorta Insightful" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+if (document.location.hostname.search("alexirpan.com") !== -1) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66803017-1', 'auto');
+  ga('send', 'pageview');
+}
+</script>
+
+<!-- Code from RealFaviconGenerator -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<style>
+/* We want previews included so at least the TeX source is visible to clients
+     without Javascript, or without network connection
+     (new option in kramdown 1.6, enabled in _config.yml)
+     but we hide them if math rendering completes sucessfully. */
+  .MathJax_Preview { color: #888 }
+  .math_finished .MathJax_Preview { display: none }
+</style>
+
+
+  </head>
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Sorta Insightful</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/recs/">Reviews</a>
+          
+        
+          
+          <a class="page-link" href="/projects/">Projects</a>
+          
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+          <a class="page-link" href="/research/">Research</a>
+          
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+          <a class="page-link" href="/feed.xml"><img src="/public/feed-icon.png"></a>
+          
+        
+      </div>
+    </nav>
+  </div>
+  <div class="wrapper">
+    <div class="site-description">In a world where everyone has opinions, one man...also has opinions
+</div>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Deep Reinforcement Learning Doesn't Work Yet</h1>
+    <p class="post-meta">Feb 14, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p><em>June 24, 2018 note: If you want to cite an example from the post, please
+cite the paper which that example came from. If you want to cite the
+post as a whole, you can use the following BibTeX:</em></p>
+
+<pre>@misc{rlblogpost,
+    title={Deep Reinforcement Learning Doesn't Work Yet},
+    author={Irpan, Alex},
+    howpublished={\url{https://www.alexirpan.com/2018/02/14/rl-hard.html}},
+    year={2018}
+}
+</pre>
+
+<hr />
+
+<p></p>
+
+<p><em>This mostly cites papers from Berkeley, Google Brain, DeepMind, and OpenAI
+from the past few years, because that work is most visible to me.
+I’m almost certainly missing stuff from older literature and other
+institutions, and for that I apologize - I’m just one guy, after all.</em></p>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>Once, on Facebook, I made the following claim.</p>
+
+<blockquote>
+  <p>Whenever someone asks me if reinforcement learning can solve their problem, I tell them it can’t. I think this is right at least 70% of the time.</p>
+</blockquote>
+
+<p class="centered"><img src="/public/rl-hard/bender-70.jpg" alt="Futurama Bender meme" /></p>
+
+<p>Deep reinforcement learning is surrounded by mountains and mountains of hype. And
+for good reasons!
+Reinforcement learning is an incredibly general paradigm,
+and in principle, a robust and performant RL system should be great at
+everything. Merging this paradigm with the empirical power of deep learning
+is an obvious fit. Deep RL is one of the closest things that looks anything like
+AGI, and that’s the kind of dream that fuels billions
+of dollars of funding.</p>
+
+<p>Unfortunately, it doesn’t really work yet.</p>
+
+<p>Now, I believe it <em>can</em> work. If I didn’t believe in reinforcement learning,
+I wouldn’t be working on it.
+But there are a lot of problems in the way, many of which feel fundamentally
+difficult. The beautiful demos of learned agents hide all the blood, sweat, and
+tears that go into creating them.</p>
+
+<p>Several times now, I’ve seen people get lured by recent work. They try
+deep reinforcement learning for the first time, and without fail, they
+underestimate deep RL’s difficulties.
+Without fail, the “toy problem” is not as easy as it looks. And without fail,
+the field destroys them a few times, until they learn how to set realistic
+research expectations.</p>
+
+<p>This isn’t the fault of anyone in particular. It’s more of a systemic problem.
+It’s easy to write a story around a positive result. It’s hard to do the same
+for negative ones. The problem is that the negative ones are the ones that
+researchers run into the most often. In some ways, the negative cases are
+actually more important than the positives.</p>
+
+<p>In the rest of the post, I explain why deep RL doesn’t work, cases where
+it does work, and ways I can see it working more reliably in the future.
+I’m not doing this because I want people to stop working on deep RL.
+I’m doing this because I believe it’s easier to make progress on problems if
+there’s agreement on what those problems are, and it’s easier to build
+agreement if people actually talk about the problems, instead of independently
+re-discovering the same issues over and over again.</p>
+
+<p>I want to see more deep RL research. I want new people to join the field. I
+also want new people to know what they’re getting into.</p>
+
+<p>Before getting into the rest of the post, a few remarks.</p>
+
+<ul>
+  <li>
+    <p>I cite several papers in this post. Usually, I cite the paper for its
+compelling negative examples, leaving out the positive ones. <strong>This doesn’t
+mean I don’t like the paper.</strong> I like these papers - they’re worth a read, if
+you have the time.</p>
+  </li>
+  <li>
+    <p>I use “reinforcement learning” and “deep reinforcement learning”
+interchangeably, because in my day-to-day, “RL” always implicitly
+means deep RL.
+<strong>I am criticizing the empirical behavior of deep reinforcement
+learning, not reinforcement learning in general.</strong>
+The papers I cite usually represent the agent with a deep neural net.
+Although the empirical criticisms <em>may</em> apply to linear RL or tabular RL, I’m not
+confident they generalize to smaller problems.
+The hype around deep RL is driven by the promise of applying RL to large, complex,
+high-dimensional environments where good function approximation is necessary.
+It is that hype in particular that needs to be addressed.</p>
+  </li>
+  <li>
+    <p>This post is structured to go from pessimistic to optimistic.
+I know it’s a bit long, but I’d appreciate it if you would take the time to
+read the entire post before replying.</p>
+  </li>
+</ul>
+
+<p>Without further ado, here are some of the failure cases of deep RL.</p>
+
+<h1 id="deep-reinforcement-learning-can-be-horribly-sample-inefficient">Deep Reinforcement Learning Can Be Horribly Sample Inefficient</h1>
+
+<p>The most well-known benchmark for deep reinforcement learning is Atari. As shown
+in the now-famous Deep Q-Networks paper, if you combine Q-Learning with
+reasonably sized neural networks and some optimization tricks, you can achieve
+human or superhuman performance in several Atari games.</p>
+
+<p>Atari games run at 60 frames per second. Off the
+top of your head, can you estimate how many frames a state of the art DQN
+needs to reach human performance?</p>
+
+<p>The answer depends on the game, so let’s take a look at a recent Deepmind
+paper, <a href="https://arxiv.org/abs/1710.02298">Rainbow DQN (Hessel et al, 2017)</a>.
+This paper does an ablation study over several incremental advances made to the
+original DQN architecture, demonstrating that a combination of all advances gives
+the best performance. It exceeds human-level performance on over 40 of the 57 Atari
+games attempted. The results are displayed in this handy chart.</p>
+
+<p class="centered"><img src="/public/rl-hard/rainbow_dqn.png" alt="Figure from Rainbow DQN" /></p>
+
+<p>The y-axis is “median human-normalized score”. This is computed by training
+57 DQNs, one for each Atari game, normalizing the score of each agent such that
+human performance is 100%, then plotting the median performance across the
+57 games. RainbowDQN passes the 100% threshold at about <em>18 million</em> frames.
+This corresponds to about 83 hours of play experience, plus however long it takes
+to train the model. A lot of time, for an Atari game that most humans pick up
+within a few minutes.</p>
+
+<p>Mind you, 18 million frames is actually pretty good, when you consider that the
+previous record
+(<a href="https://arxiv.org/pdf/1707.06887.pdf">Distributional DQN (Bellemare et al, 2017)</a>)
+needed 70 million frames to hit 100% median performance, which is about 4x more
+time. As for the <a href="https://www.nature.com/articles/nature14236">Nature DQN (Mnih et al, 2015)</a>,
+it never hits 100% median performance, even after 200 million frames of
+experience.</p>
+
+<p>The planning fallacy says that finishing something usually takes longer than
+you think it will. Reinforcement
+learning has its own planning fallacy - learning a policy usually needs more
+samples than you think it will.</p>
+
+<p>This is not an Atari-specific issue. The 2nd most popular benchmark is the
+MuJoCo benchmarks, a set of tasks set in the MuJoCo physics
+simulator. In these tasks, the input state is usually the position and velocity
+of each joint of some simulated robot. Even without having to solve vision,
+these benchmarks take between \(10^5\) to \(10^7\) steps to learn, depending
+on the task. This is an astoundingly large amount of experience to
+control such a simple environment.</p>
+
+<p>The <a href="https://arxiv.org/abs/1707.02286">DeepMind parkour paper (Heess et al, 2017)</a>,
+demoed below,
+trained policies by using 64 workers for over 100 hours. The paper does not clarify what “worker”
+means, but I assume it means 1 CPU.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hx_bgoTF7bs" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>These results are <em>super cool</em>. When it first came out, I was surprised
+deep RL was even able to learn these running gaits.</p>
+
+<p>At the same time, the fact that this needed 6400 CPU hours is a bit
+disheartening. It’s not that I expected it to need less time…it’s more that
+it’s disappointing that deep RL is still orders of magnitude above a practical
+level of sample efficiency.</p>
+
+<p>There’s an obvious counterpoint here: what if we just ignore sample efficiency?
+There are several settings where it’s easy to generate experience. Games are
+a big example. But, for any setting where this <em>isn’t</em> true, RL faces an uphill
+battle, and unfortunately, most real-world settings fall under this category.</p>
+
+<h1 id="if-you-just-care-about-final-performance-many-problems-are-better-solved-by-other-methods">If You Just Care About Final Performance, Many Problems are Better Solved by Other Methods</h1>
+
+<p>When searching for solutions to any research problem, there are usually
+trade-offs between different objectives. You can optimize for getting a really
+good solution for that research problem, or you can optimize for making a good
+research contribution. The best problems are ones where getting a good solution
+requires making good research contributions, but it can be hard to find
+approachable problems that meet that criteria.</p>
+
+<p>For purely getting good performance, deep RL’s track record isn’t
+that great, because it consistently gets beaten by other methods.
+Here is a video of the MuJoCo robots, controlled with online trajectory
+optimization. The correct actions are computed in near real-time, online, with
+no offline training. Oh, and it’s running on 2012 hardware. (<a href="https://homes.cs.washington.edu/~todorov/papers/TassaIROS12.pdf">Tassa et al, IROS 2012</a>).</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/uRVAX_sFT24" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>I think these behaviors compare well to the parkour
+paper. What’s different between this paper and that one?</p>
+
+<p>The difference is that Tassa et al use model predictive control, which gets to
+perform planning against a ground-truth world model (the physics simulator).
+Model-free RL doesn’t do this planning, and therefore has a much harder
+job. On the other hand, if planning against a model helps this much, why
+bother with the bells and whistles of training an RL policy?</p>
+
+<p>In a similar vein, you can easily outperform DQN in Atari with off-the-shelf
+Monte Carlo Tree Search. Here are baseline
+numbers from <a href="https://papers.nips.cc/paper/5421-deep-learning-for-real-time-atari-game-play-using-offline-monte-carlo-tree-search-planning">Guo et al, NIPS 2014</a>.
+They compare the scores of a trained DQN to the scores of a UCT agent
+(where UCT is the standard version of MCTS used today.)</p>
+
+<p class="centered"><img src="/public/rl-hard/dqn_atari.png" alt="DQN results" /></p>
+
+<p class="centered"><img src="/public/rl-hard/uct_atari.png" alt="MCTS results" /></p>
+
+<p>Again, this isn’t a fair comparison, because DQN does no search, and MCTS gets to
+perform search against a ground truth model (the Atari emulator).
+However, sometimes you don’t care about fair comparisons. Sometimes you just
+want the thing to work. (If you’re interested in a full evaluation of UCT,
+see the appendix of the original
+<a href="http://www.marcgbellemare.info/static/publications/bellemare13arcade.pdf">Arcade Learning Environment paper (Bellemare et al, JAIR 2013)</a>.)</p>
+
+<p>Reinforcement learning can theoretically work for anything, including
+environments where a model of the world isn’t known. However, this generality
+comes at a price: it’s hard to exploit any problem-specific information that
+could help with learning, which forces you to use tons of samples to learn
+things that could have been hardcoded.</p>
+
+<p>The rule-of-thumb is that except in rare cases, domain-specific algorithms
+work faster and better than reinforcement learning. This isn’t a problem if
+you’re doing deep RL for deep RL’s sake, but I
+personally find it frustrating when I compare RL’s performance to, well,
+anything else. One reason I liked AlphaGo so much was <em>because</em> it was an
+unambiguous win for deep RL, and that doesn’t happen very often.</p>
+
+<p>This makes it harder for me to explain to laypeople why my problems
+are cool and hard and interesting, because they often don’t have the context
+or experience to appreciate <em>why</em> they’re hard.
+There’s an explanation gap between what people think deep RL can do, and
+what it can really do. I’m working in robotics right now. Consider the company
+most people think of
+when you mention robotics:
+<a href="https://www.youtube.com/channel/UC7vVhkEfw4nOGp8TyDk7RcQ">Boston Dynamics</a>.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fRj34o4hN4I" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>This doesn’t use reinforcement learning. I’ve had a few conversations where
+people thought it used RL, but it doesn’t.
+If you look up research papers from the group, you find papers mentioning
+<a href="https://dspace.mit.edu/openaccess-disseminate/1721.1/110533">time-varying LQR, QP solvers, and convex optimization</a>.
+In other words, they mostly apply classical robotics techniques. Turns out
+those classical techniques can work pretty well, when you apply them right.</p>
+
+<h1 id="reinforcement-learning-usually-requires-a-reward-function">Reinforcement Learning Usually Requires a Reward Function</h1>
+
+<p>Reinforcement learning assumes the existence of a reward function. Usually,
+this is either given, or it is hand-tuned offline and kept fixed over the course
+of learning. I say “usually” because there are exceptions, such as imitation
+learning or inverse RL, but most RL approaches treat the reward as an oracle.</p>
+
+<p>Importantly,
+for RL to do the right thing, your reward function must capture <em>exactly</em> what
+you want.
+And I mean <em>exactly</em>. RL has an annoying tendency to overfit to your reward,
+leading to things you didn’t expect. This is why Atari is such a nice benchmark. Not only
+is it easy to get lots of samples, the goal in every game is to maximize score,
+so you never have to worry about defining your reward, and you know everyone
+else has the same reward function.</p>
+
+<p>This is also why the MuJoCo tasks are popular. Because they’re run in simulation,
+you have perfect knowledge of all object state, which makes reward function design
+a lot easier.</p>
+
+<p>In the Reacher task, you control a two-segment arm, that’s connected to a central
+point, and the goal is to move the end of the arm to a target location. Below
+is a video of a successfully learned policy.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BkhSKqc8vSA" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>Since all locations are known, reward can be defined as the distance
+from the end of the arm to the target, plus a small control cost. In principle,
+you can do this in the real world too, if you have enough sensors to get
+accurate enough positions for your environment. But depending on what you want
+your system to do, it could be hard to define a reasonable reward.</p>
+
+<p>By itself, requiring a reward function wouldn’t be a big deal, except…</p>
+
+<h1 id="reward-function-design-is-difficult">Reward Function Design is Difficult</h1>
+
+<p>Making <em>a</em> reward function isn’t that difficult. The difficulty comes when
+you try to design a reward function that encourages the behaviors you want
+while still being learnable.</p>
+
+<p>In the HalfCheetah environment, you have a two-legged robot, restricted to a
+vertical plane, meaning it can only run forward or backward.</p>
+
+<div class="centered">
+<video controls="controls">
+  <source type="video/mp4" src="/public/rl-hard/upright_half_cheetah.mp4" />&lt;/source&gt;
+  <p>Your browser does not support the video element.</p>
+</video>
+</div>
+
+<p>The goal is to learn a running gait. Reward is the velocity of the HalfCheetah.</p>
+
+<p>This is a <em>shaped</em> reward, meaning it gives increasing reward in states
+that are closer to the end goal. This is in contrast to <em>sparse</em> rewards, which
+give reward at the goal state, and no reward anywhere else.
+Shaped rewards are often much easier to learn, because they provide positive feedback
+even when the policy hasn’t figured out a full solution to the problem.</p>
+
+<p>Unfortunately, shaped rewards can bias learning. As said earlier, this can lead
+to behaviors that don’t match what you want.
+A good example is the boat racing game, from an <a href="https://blog.openai.com/faulty-reward-functions/">OpenAI blog post</a>.
+The intended goal is to finish the race. You can imagine that a sparse reward
+would give +1 reward for finishing under a given time, and 0 reward otherwise.</p>
+
+<p>The provided reward gives points for hitting checkpoints, and also
+gives reward for collecting powerups that let you finish the race faster.
+It turns out farming the powerups gives more points than finishing the race.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tlOIHko8ySg" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>To be honest, I was a bit annoyed when this blog post first came out. This
+wasn’t because I thought it was making a bad point! It was because I thought
+the point it made was blindingly obvious. Of course reinforcement learning
+does weird things when the reward is misspecified! It felt like the post
+was making an unnecessarily large deal out of the given example.</p>
+
+<p>Then I started writing this blog post, and realized the most compelling video
+of misspecified reward <em>was</em> the boat racing video. And since then, that video’s
+been used in several presentations bringing awareness to the problem. So, okay,
+I’ll begrudgingly admit this was a good blog post.</p>
+
+<p>RL algorithms fall along a continuum, where they get to assume more or less
+knowledge about the environment they’re in. The broadest category, model-free RL,
+is almost the same as black-box optimization. These methods are only allowed to
+assume they are in an MDP. Otherwise, they are given nothing else. The agent
+is simply told that this gives +1 reward, this doesn’t, and it has to learn
+the rest on its own.
+And like black-box optimization, the problem is that anything that gives
++1 reward is good, even if the +1 reward isn’t coming for the right reasons.</p>
+
+<p>A classic non-RL example is the time someone applied genetic algorithms to
+circuit design, and
+<a href="https://en.wikipedia.org/wiki/Evolvable_hardware#Introduction">got a circuit where an unconnected logic gate was necessary to the final
+design</a>.</p>
+
+<p class="centered"><img src="/public/rl-hard/circuit.png" alt="Circuit with crazy gates" /></p>
+
+<p class="centered">The gray cells are required to get correct behavior, including the one in the top-left corner,
+even though it’s connected to nothing.
+<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.9691&amp;rep=rep1&amp;type=pdf">From “An Evolved Circuit, Intrinsic in Silicon, Entwined with Physics”</a></p>
+
+<p>For a more recent example, see this
+<a href="https://www.salesforce.com/products/einstein/ai-research/tl-dr-reinforced-model-abstractive-summarization/">2017 blog post from Salesforce</a>.
+Their goal is text summarization.
+Their baseline model is trained with supervised learning, then evaluated with
+an automated metric called ROUGE. ROUGE is non-differentiable, but RL can
+deal with non-differentiable rewards, so they tried applying RL to optimize
+ROUGE directly. This gives high ROUGE (hooray!), but it doesn’t actually
+give good summaries. Here’s an example.</p>
+
+<blockquote>
+  <p>Button was denied his 100th race for McLaren after an ERS prevented him from making it to the start-line. It capped a miserable weekend for the Briton.  Button has out-qualified.  Finished ahead of Nico Rosberg at Bahrain. Lewis Hamilton has. In 11 races. . The race. To lead 2,000 laps. . In. . . And.</p>
+</blockquote>
+
+<p class="centered"><a href="https://arxiv.org/abs/1705.04304">Paulus et al, 2017</a></p>
+
+<p>So, despite the RL model giving the highest ROUGE score…</p>
+
+<p class="centered"><img src="/public/rl-hard/salesforce_rouge.png" alt="Salesforce ROUGE performance" /></p>
+
+<p>they ended up using a different model instead.</p>
+
+<p>Here’s another fun example. This is <a href="https://arxiv.org/abs/1704.03073">Popov et al, 2017</a>,
+sometimes known as “the Lego stacking paper”.
+The authors use a distributed version of DDPG to learn a grasping policy. The
+goal is to grasp the red block, and stack it on top of the blue block.</p>
+
+<p>They got it to work, but they ran into a neat failure case.
+For the initial lifting motion, reward is given based on how high the red block
+is. This is defined by the z-coordinate of the
+bottom face of the block. One of the failure modes was that the policy learned
+to tip the red block over, instead of picking it up.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8QnD8ZM0YCo?start=27" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>Now, clearly this isn’t the intended solution. But RL doesn’t care.
+From the perspective of reinforcement learning, it got rewarded for flipping
+a block, so it’s going to keep flipping blocks.</p>
+
+<p>One way to address this is to make the reward sparse, by only giving positive
+reward after the robot stacks the block. Sometimes, this works, because the
+sparse reward is learnable. Often, it doesn’t, because the lack of positive
+reinforcement makes everything too difficult.</p>
+
+<p>The other way to address this is to do careful reward shaping, adding new
+reward terms and tweaking coefficients of existing ones until the behaviors
+you want to learn fall out of the RL algorithm. It’s <em>possible</em> to fight
+RL on this front, but it’s a very unfulfilling fight. On occasion, it’s
+necessary, but I’ve never felt like I’ve learnt anything by doing it.</p>
+
+<p>For reference, here is one of the reward functions from the Lego stacking
+paper.</p>
+
+<p class="centered"><img src="/public/rl-hard/lego_reward.png" alt="Lego grasp reward function" /></p>
+
+<p>I don’t know how much time was spent designing this reward, but based on the
+number of terms and the number of different coefficients, I’m going to
+guess “a lot”.</p>
+
+<p>In talks with other RL researchers, I’ve heard several anecdotes about
+the novel behavior they’ve seen from improperly defined rewards.</p>
+
+<ul>
+  <li>
+    <p>A coworker is teaching an
+agent to navigate a room. The episode terminates if the agent
+walks out of bounds. He didn’t add any penalty if the episode terminates this
+way. The final policy learned to be suicidal, because negative reward was
+plentiful, positive reward was too hard to achieve, and a quick death ending
+in 0 reward was preferable to a long life that risked negative reward.</p>
+  </li>
+  <li>
+    <p>A friend is training a simulated robot arm to reach towards a point
+above a table. It turns out the point was defined <em>with respect to the table</em>,
+and the table wasn’t anchored to anything.
+The policy learned to slam the table really hard, making the table fall
+over, which moved the target point too. The target point <em>just so happened</em>
+to fall next to the end of the arm.</p>
+  </li>
+  <li>
+    <p>A researcher gives a talk about using RL to train a simulated robot hand to
+pick up a hammer and hammer in a nail. Initially, the reward was defined
+by how far the nail was pushed into the hole. Instead of
+picking up the hammer, the robot used its own limbs to punch the nail in.
+So, they added a reward term to encourage picking up the hammer, and retrained
+the policy.
+They got the policy to pick up the hammer…but then it threw the hammer at the
+nail instead of actually using it.</p>
+  </li>
+</ul>
+
+<p>Admittedly, these are all secondhand accounts, and I haven’t seen videos of
+any of these behaviors.
+However, none of it sounds implausible to me.
+I’ve been burned by RL too many times to believe otherwise.</p>
+
+<p>I know people who like to tell stories about <a href="https://en.wikipedia.org/wiki/Instrumental_convergence#Paperclip_maximizer">paperclip optimizers</a>. I get it,
+I really do. But honestly, I’m sick of hearing those stories, because they
+always speculate up some superhuman misaligned AGI to create a just-so story.
+There’s no reason to speculate that far when present-day examples happen
+all the time.</p>
+
+<h1 id="even-given-a-good-reward-local-optima-can-be-hard-to-escape">Even Given a Good Reward, Local Optima Can Be Hard To Escape</h1>
+
+<p>The previous examples of RL are sometimes called “reward hacking”. To me,
+this implies a clever, out-of-the-box solution that gives more reward than the
+intended answer of the reward function designer.</p>
+
+<p>Reward hacking is the exception. The much more common case is a poor local optima
+that comes from getting the exploration-exploitation trade-off wrong.</p>
+
+<p>Here’s one of my favorite videos. This is an implementation of
+<a href="https://arxiv.org/abs/1603.00748">Normalized Advantage Function</a>, learning
+on the HalfCheetah environment.</p>
+
+<div class="centered">
+<video controls="controls">
+  <source type="video/mp4" src="/public/rl-hard/upsidedown_half_cheetah.mp4" />&lt;/source&gt;
+  <p>Your browser does not support the video element.</p>
+</video>
+</div>
+
+<p>From an outside perspective, this is really, <em>really</em> dumb. But we can
+only say it’s dumb because we can see the 3rd person view, and have a bunch of
+prebuilt knowledge that tells us running on your feet is better.
+RL doesn’t know this! It sees a state vector, it sends action vectors, and it
+knows it’s getting some positive reward. That’s it.</p>
+
+<p>Here’s my best guess for what happened during learning.</p>
+
+<ul>
+  <li>In random exploration, the policy found falling forward was better than
+standing still.</li>
+  <li>It did so enough to “burn in” that behavior, so now it’s falling forward
+consistently.</li>
+  <li>After falling forward, the policy learned that if it does a one-time application
+of a lot of force, it’ll do a backflip that gives a bit more reward.</li>
+  <li>It explored the backflip enough to become confident this was a good idea,
+and now backflipping is burned into the policy.</li>
+  <li>Once the policy is backflipping consistently, which is easier for the
+policy: learning to right itself and then run “the standard way”, or learning
+or figuring out how to move forward while lying on its back? I would
+guess the latter.</li>
+</ul>
+
+<p>It’s very funny, but it definitely isn’t what I wanted the robot to do.</p>
+
+<p>Here’s another failed run, this time on the Reacher environment.</p>
+
+<div class="centered">
+<video controls="controls">
+  <source type="video/mp4" src="/public/rl-hard/failed_reacher.mp4" />&lt;/source&gt;
+  <p>Your browser does not support the video element.</p>
+</video>
+</div>
+
+<p>In this run, the initial random weights tended to output highly positive or
+highly negative action outputs. This makes most of the actions output the
+maximum or minimum acceleration possible. It’s really easy to spin super fast:
+just output high magnitude forces at every joint. Once the robot gets going, it’s hard
+to deviate from this policy in a meaningful way - to deviate, you have to take
+several exploration steps to stop the rampant spinning. It’s certainly
+possible, but in this run, it didn’t happen.</p>
+
+<p>These are both cases of the classic exploration-exploitation problem that has dogged
+reinforcement learning since time immemorial.
+Your data comes from your current policy. If your current policy explores too
+much you get junk data and learn nothing. Exploit too much and you burn-in
+behaviors that aren’t optimal.</p>
+
+<p>There are several intuitively pleasing ideas for addressing this - intrinsic
+motivation, curiosity-driven exploration, count-based exploration, and so forth.
+Many of these approaches were first proposed in the 1980s or earlier, and
+several of them have been revisited with deep learning models. However, as far
+as I know, none of them work consistently across all environments. Sometimes
+they help, sometimes they don’t. It would be nice if there was an exploration
+trick that worked everywhere, but I’m skeptical a silver bullet of that caliber
+will be discovered anytime soon. Not because people aren’t trying, but because
+exploration-exploitation
+is really, really, really, really, really hard.
+To quote <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit">Wikipedia</a>,</p>
+
+<blockquote>
+  <p>Originally considered by Allied scientists in World War II, it proved so intractable that, according to Peter Whittle, the problem was proposed to be dropped over Germany so that German scientists could also waste their time on it.</p>
+</blockquote>
+
+<p class="centered">(Reference: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.57.1916&amp;rep=rep1&amp;type=pdf">Q-Learning for Bandit Problems, Duff 1995</a>)</p>
+
+<p>I’ve taken to imagining deep RL as a demon that’s
+deliberately misinterpreting your reward and actively searching for the laziest
+possible local optima. It’s a bit ridiculous, but I’ve found it’s actually a
+productive mindset to have.</p>
+
+<h1 id="even-when-deep-rl-works-it-may-just-be-overfitting-to-weird-patterns-in-the-environment">Even When Deep RL Works, It May Just Be Overfitting to Weird Patterns In the Environment</h1>
+
+<blockquote>
+  <p>Deep RL is popular because it’s the only area in ML where it’s socially
+acceptable to train on the test set.</p>
+</blockquote>
+
+<p class="centered"><a href="https://twitter.com/jacobandreas/status/924356906344267776">Source</a></p>
+
+<p>The upside of reinforcement learning is that if you want to do
+well in an environment, you’re free to overfit like crazy. The downside is that
+if you want to generalize to any other environment, you’re probably going to
+do poorly, because you overfit like crazy.</p>
+
+<p>DQN can solve a lot of the Atari games, but it does so by focusing all of
+learning on a single goal - getting really good at one game. The final model
+won’t generalize to other games, because it hasn’t been trained that way.
+You can finetune a learned DQN to a new Atari game
+(see <a href="https://arxiv.org/abs/1606.04671">Progressive Neural Networks (Rusu et al, 2016)</a>),
+but there’s no guarantee it’ll transfer and people usually don’t expect it to
+transfer.
+It’s not the wild success people see from pretrained ImageNet features.</p>
+
+<p>To forestall some obvious comments: yes, in principle, training on a wide
+distribution of environments should make these issues go away.
+In some cases, you get such a distribution for free. An example
+is navigation, where you can sample goal locations randomly, and use
+universal value functions to generalize.
+(See <a href="http://proceedings.mlr.press/v37/schaul15.pdf">Universal Value Function Approximators, Schaul et al, ICML 2015</a>.)
+I find this work very promising, and I give more examples of this work later.
+However, I don’t think the
+generalization capabilities of deep RL are strong enough to handle a diverse
+set of tasks yet. Perception has gotten a lot better, but deep RL has yet to
+have its “ImageNet for control” moment. OpenAI Universe tried to spark
+this, but from what I heard, it was too difficult to solve, so not much got
+done.</p>
+
+<p>Until we have that kind of generalization moment, we’re stuck with policies that
+can be surprisingly narrow in scope.
+As an example of this (and as an opportunity to poke fun at some of my own work),
+consider <a href="https://arxiv.org/abs/1711.02301">Can Deep RL Solve Erdos-Selfridge-Spencer Games? (Raghu et al, 2017)</a>.
+We studied a toy 2-player combinatorial game, where there’s a closed-form analytic solution
+for optimal play.
+In one of our first experiments, we fixed player 1’s behavior, then trained
+player 2 with RL. By doing this, you can treat player 1’s actions as part
+of the environment. By training player 2 against the optimal player 1, we showed
+RL could reach high performance. But when we deployed the same
+policy against a non-optimal player 1, its performance dropped, because it
+didn’t generalize to non-optimal opponents.</p>
+
+<p><a href="https://arxiv.org/abs/1711.00832">Lanctot et al, NIPS 2017</a> showed a
+similar result. Here, there are two agents
+playing laser tag. The agents are trained with multiagent reinforcement
+learning. To test generalization, they run the training with 5 random
+seeds. Here’s a video of agents that have been trained against one
+another.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8vXpdHuoQH8" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>As you can see, they learn to move towards and shoot each other. Then, they
+took player 1 from one experiment, and pitted it against player 2 from a
+<em>different</em> experiment. If the learned policies generalize, we should see
+similar behavior.</p>
+
+<p>Spoiler alert: they don’t.</p>
+
+<div class="centered">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jOjwOkCM_i8" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+</div>
+
+<p>This seems to be a running theme in multiagent RL. When agents are trained
+against one another, a kind of co-evolution happens. The agents get really good
+at beating each other, but when they get deployed against an unseen player,
+performance drops. I’d also like to point out that the
+only difference between these videos is the random seed. Same learning
+algorithm, same hyperparameters. The diverging behavior is purely from randomness
+in initial conditions.</p>
+
+<p>That being said, there are some neat results from competitive self-play environments
+that seem to contradict this. <a href="https://blog.openai.com/competitive-self-play/">OpenAI has a nice blog post of some of their work in this space</a>.
+Self-play is also an important part of both
+AlphaGo and AlphaZero. My intuition is that if your agents are learning at
+the same pace, they can continually challenge each other and speed up each other’s
+learning, but if one of them learns much faster, it exploits the weaker player
+too much and overfits. As you relax from symmetric self-play to general
+multiagent settings, it gets harder to ensure learning happens at the same
+speed.</p>
+
+<h1 id="even-ignoring-generalization-issues-the-final-results-can-be-unstable-and-hard-to-reproduce">Even Ignoring Generalization Issues, The Final Results Can be Unstable and Hard to Reproduce</h1>
+
+<p>Almost every ML algorithm has hyperparameters, which influence the behavior
+of the learning system. Often, these are picked by hand, or by random search.</p>
+
+<p>Supervised learning is stable. Fixed dataset, ground truth targets. If you
+change the hyperparameters a little bit,
+your performance won’t change that much. Not all hyperparameters perform
+well, but with all the empirical tricks discovered over the years,
+many hyperparams will show signs of life during training. These signs of life are
+super important, because they tell you that you’re on the right track, you’re
+doing something reasonable, and it’s worth investing more time.</p>
+
+<p>Currently, deep RL isn’t stable at all, and it’s just hugely annoying for research.</p>
+
+<p>When I started working at Google Brain, one of the first
+things I did was implement the algorithm from the Normalized Advantage Function
+paper. I figured it would only take me about 2-3 weeks. I had several things
+going for me: some familiarity with Theano (which transferred to TensorFlow
+well), some deep RL experience, and the first author of the NAF paper was
+interning at Brain, so I could bug him with questions.</p>
+
+<p>It ended up taking me 6 weeks to reproduce results, thanks to several software
+bugs. The question is, why did it take so long to find these bugs?</p>
+
+<p>To answer this, let’s consider the simplest continuous control task in
+OpenAI Gym: the Pendulum task. In this task, there’s a pendulum, anchored
+at a point, with gravity acting on the pendulum. The input state is
+3-dimensional. The action space is 1-dimensional, the amount of torque to apply.
+The goal is to balance the pendulum perfectly straight up.</p>
+
+<p>This is a tiny problem, and it’s made even easier by a well shaped reward.
+Reward is defined by the angle of the pendulum. Actions bringing the pendulum
+closer to the vertical not only give reward, they give <em>increasing</em> reward.
+The reward landscape is basically concave.</p>
+
+<p>Below is a video of a policy that <em>mostly</em> works. Although the policy doesn’t
+balance straight up, it outputs the exact torque needed to counteract
+gravity.</p>
+
+<div class="centered">
+<video controls="controls">
+  <source type="video/mp4" src="/public/rl-hard/pendulum_example.mp4" />&lt;/source&gt;
+  <p>Your browser does not support the video element.</p>
+</video>
+</div>
+
+<p>Here is a plot of performance, after I fixed all the bugs. Each line is the
+reward curve from one of 10 independent runs. Same hyperparameters, the only
+difference is the random seed.</p>
+
+<p><img src="/public/rl-hard/pendulum_results.png" alt="Graph of Pendulum results" /></p>
+
+<p>Seven of these runs worked. Three of these runs didn’t. <em>A 30%
+failure rate counts as working.</em>
+Here’s another plot from some published work,
+<a href="https://arxiv.org/abs/1605.09674">“Variational Information Maximizing Exploration” (Houthooft et al, NIPS 2016)</a>.
+The environment is HalfCheetah. The reward is modified to be sparser, but the
+details aren’t too important.
+The y-axis is episode reward, the x-axis is number of timesteps, and the
+algorithm used is TRPO.</p>
+
+<p class="centered"><img src="/public/rl-hard/vime.png" alt="Plot from VIME paper" /></p>
+
+<p>The dark line is the median performance over 10 random seeds, and the shaded
+region is the 25th to 75th percentile. Don’t get me wrong, this plot is a good
+argument in favor of VIME. But on the other hand, the 25th percentile line
+is really close to 0 reward. That means about 25% of runs are failing, just
+because of random seed.</p>
+
+<p>Look, there’s variance in supervised learning too, but it’s rarely this bad.
+If my supervised learning code failed to beat random chance 30% of the time, I’d
+have super high confidence there was a bug in data loading or training. If
+my reinforcement learning code does no better than random, I have no idea if
+it’s a bug, if my hyperparameters are bad, or if I simply got unlucky.</p>
+
+<p class="centered"><img src="/public/rl-hard/dimensionsdebugging.png" alt="Dimensions of debugging" /></p>
+
+<p>This picture is from <a href="http://ai.stanford.edu/~zayd/why-is-machine-learning-hard.html">“Why is Machine Learning ‘Hard’?”</a>.
+The core thesis is that machine learning adds more dimensions to your space
+of failure cases, which exponentially increases the number of ways you can fail.
+Deep RL adds a new dimension: random chance. And the only way you can address
+random chance is by throwing enough experiments at the problem to drown out
+the noise.</p>
+
+<p><strong>When your training algorithm is both sample inefficient and unstable, it heavily
+slows down your rate of productive research.</strong> Maybe it only takes 1 million
+steps. But when you multiply that by 5 random seeds, and then multiply that with
+hyperparam tuning, you need an exploding amount of compute to test hypotheses
+effectively.</p>
+
+<blockquote>
+  <p>If it makes you feel any better, I’ve been doing this for a while and it took me last ~6 weeks to get a from-scratch policy gradients implementation to work 50% of the time on a bunch of RL problems. And I also have a GPU cluster available to me, and a number of friends I get lunch with every day who’ve been in the area for the last few years.</p>
+
+  <p>Also, what we know about good CNN design from supervised learning land doesn’t seem to apply to reinforcement learning land, because you’re mostly bottlenecked by credit assignment / supervision bitrate, not by a lack of a powerful representation. Your ResNets, batchnorms, or very deep networks have no power here.</p>
+
+  <p>[Supervised learning] wants to work. Even if you screw something up you’ll usually get something non-random back. RL must be forced to work. If you screw something up or don’t tune something well enough you’re exceedingly likely to get a policy that is even worse than random. And even if it’s all well tuned you’ll get a bad policy 30% of the time, just because.</p>
+
+  <p>Long story short your failure is more due to the difficulty of deep RL, and much less due to the difficulty of “designing neural networks”.</p>
+</blockquote>
+
+<p class="centered"><a href="https://news.ycombinator.com/item?id=13519044">Hacker News comment from Andrej Karpathy, back when he was at OpenAI</a></p>
+
+<p>Instability to random seed is like a canary in a coal mine. If pure randomness
+is enough to lead to this much variance between runs, imagine how much an actual
+difference in the code could make.</p>
+
+<p>Luckily, we don’t have to imagine, because this was inspected by
+the paper <a href="https://arxiv.org/abs/1709.06560">“Deep Reinforcement Learning That Matters” (Henderson et al, AAAI 2018)</a>.
+Among its conclusions are:</p>
+
+<ul>
+  <li>Multiplying the reward by a constant can cause significant differences in performance.</li>
+  <li>Five random seeds (a common reporting metric) may not be enough to argue
+significant results, since with careful selection you can get non-overlapping
+confidence intervals.</li>
+  <li>Different implementations of the same algorithm have different performance on
+the same task, even when the same hyperparameters are used.</li>
+</ul>
+
+<p>My theory is that RL is very sensitive to both your initialization and to the
+dynamics of your training process, because your data is always collected online
+and the only supervision you get is a single scalar for reward. A policy that
+randomly stumbles onto good training examples will bootstrap itself much
+faster than a policy that doesn’t. A policy that fails to discover good training
+examples in time will collapse towards learning nothing at all, as it becomes
+more confident that any deviation it tries will fail.</p>
+
+<h1 id="but-what-about-all-the-great-things-deep-rl-has-done-for-us">But What About All The Great Things Deep RL Has Done For Us?</h1>
+
+<p>Deep reinforcement learning has certainly done some very cool things. DQN is
+old news now, but was absolutely <em>nuts</em> at the time. A single model was able to
+learn directly from raw pixels, without tuning for each game individually.
+And AlphaGo and AlphaZero continue to be very impressive achievements.</p>
+
+<p>However, outside of these successes, it’s hard to find cases where deep RL
+has created practical real world value.</p>
+
+<p>I tried to think of real-world, productionized uses of deep RL, and it was
+surprisingly difficult. I expected to find something in recommendation systems,
+but I believe those are still dominated by <a href="https://en.wikipedia.org/wiki/Collaborative_filtering">collaborative filtering</a>
+and <a href="https://research.yahoo.com/publications/5863/contextual-bandit-approach-personalized-news-article-recommendation">contextual bandits</a>.</p>
+
+<p>In the end, the best I could find were two Google projects: <a href="https://deepmind.com/blog/deepmind-ai-reduces-google-data-centre-cooling-bill-40/">reducing data
+center power usage</a>,
+and the recently announced <a href="https://cloud.google.com/automl/">AutoML Vision effort</a>.
+Jack Clark from OpenAI
+<a href="https://twitter.com/jackclarkSF/status/919584404472602624">tweeted a similar request and found a similar conclusion</a>.
+(The tweet is from last year, before AutoML was announced.)</p>
+
+<p>I know Audi’s doing something with deep RL, since they demoed a self-driving
+RC car at NIPS and said it used deep RL. I know there’s some
+neat work
+<a href="https://arxiv.org/abs/1706.04972">optimizing device placement for large Tensorflow graphs (Mirhoseini et al, ICML 2017)</a>.
+Salesforce has their text summarization model, which worked if you massaged the
+RL carefully enough.
+Finance companies are surely experimenting with RL as we speak, but so far
+there’s no definitive proof. (Of course, finance companies have reasons to be cagey
+about how they play the market, so perhaps the evidence there is never going to
+be strong.) Facebook’s been doing some neat work with deep RL for chatbots and
+conversation. Every Internet company ever has probably thought about adding RL to
+their ad-serving model, but if anyone’s done it, they’ve kept quiet about it.</p>
+
+<p>The way I see it, either deep RL is still a research topic that isn’t robust
+enough for widespread use, or it’s usable and the people who’ve gotten it
+to work aren’t publicizing it. I think the former is more likely.</p>
+
+<p>If you came to me with an image classification problem, I’d point you to
+pretrained ImageNet models, and they’d probably do great.
+We’re in a world where
+<a href="https://medium.com/@timanglade/how-hbos-silicon-valley-built-not-hotdog-with-mobile-tensorflow-keras-react-native-ef03260747f3">the people behind <em>Silicon Valley</em> can build a real Not Hotdog app</a>
+as a joke. I have trouble seeing the same happen with deep RL.</p>
+
+<h1 id="given-current-limitations-when-could-deep-rl-work-for-me">Given Current Limitations, When Could Deep RL Work For Me?</h1>
+
+<p>A priori, it’s really hard to say. The problem with trying to solve everything
+with RL is that you’re trying to solve several very different environments
+with the same approach. It’s only natural that it won’t work all the time.</p>
+
+<p>That being said, we can draw conclusions from the current list of deep
+reinforcement learning successes. These are projects where deep RL either
+learns some qualitatively impressive behavior, or
+it learns something better than comparable prior work. (Admittedly, this
+is a very subjective criteria.)</p>
+
+<p>Here’s my list so far.</p>
+
+<ul>
+  <li>Things mentioned in the previous sections: DQN, AlphaGo, AlphaZero,
+the parkour bot, reducing power center usage, and AutoML with Neural
+Architecture Search.</li>
+  <li><a href="https://blog.openai.com/dota-2/">OpenAI’s Dota 2 1v1 Shadow Fiend bot, which beat top pro players in a
+simplified duel setting.</a></li>
+  <li><a href="https://arxiv.org/abs/1702.06230">A Super Smash Brothers Melee bot</a> that can beat
+pro players at <a href="https://www.youtube.com/watch?v=dXJUlqBsZtE">1v1 Falcon dittos</a>.
+(Firoiu et al, 2017).</li>
+</ul>
+
+<p>(A quick aside: machine learning recently beat pro players at no-limit
+heads up Texas Hold’Em. This was done by both <a href="https://www.ijcai.org/proceedings/2017/0772.pdf">Libratus (Brown et al, IJCAI 2017)</a>
+and <a href="https://arxiv.org/abs/1701.01724">DeepStack (Moravčík et al, 2017)</a>.
+I’ve talked to a few people who believed this was done with deep RL.
+They’re both very cool, but they don’t use deep RL.
+They use counterfactual regret minimization and clever iterative solving of
+subgames.)</p>
+
+<p>From this list, we can identify common properties that make learning easier.
+None of the properties below are <em>required</em> for learning, but satisfying more
+of them is definitively better.</p>
+
+<ul>
+  <li>
+    <p><strong>It is easy to generate near unbounded amounts of experience.</strong>
+It should be clear why this helps. The more data you have, the easier the learning
+problem is. This applies to
+Atari, Go, Chess, Shogi, and the simulated environments for the parkour bot.
+It likely applies to the power center project too, because
+<a href="https://googleblog.blogspot.com/2014/05/better-data-centers-through-machine.html">in prior work (Gao, 2014)</a>,
+it was shown that neural nets can predict energy efficiency with high
+accuracy. That’s exactly the kind of simulated model you’d want for training an
+RL system.</p>
+
+    <p>It might apply to the Dota 2 and SSBM work, but it depends on the throughput
+of how quickly the games can be run, and how many machines were available to
+run them.</p>
+  </li>
+  <li>
+    <p><strong>The problem is simplified into an easier form.</strong> One of the common errors
+I’ve seen in deep RL is to dream too big. Reinforcement learning can do
+anything! That doesn’t mean you have to do everything at once.</p>
+
+    <p>The OpenAI Dota 2 bot only played the early game, only played Shadow Fiend against Shadow
+Fiend in a 1v1 laning setting, used hardcoded item builds, and presumably
+called the <a href="https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/API">Dota 2 API</a>
+to avoid having to solve perception. The SSBM bot acheived superhuman performance,
+but it was only in 1v1 games, with Captain Falcon only, on Battlefield only,
+in an infinite time match.</p>
+
+    <p>This isn’t a dig at either bot. Why work on a hard problem when you don’t
+even know the easier one is solvable? The
+broad trend of all research is to demonstrate the smallest proof-of-concept
+first and generalize it later. OpenAI is extending their Dota 2 work, and
+there’s ongoing work to extend the SSBM bot <a href="https://github.com/vladfi1/phillip">to other characters</a>.</p>
+  </li>
+  <li>
+    <p><strong>There is a way to introduce self-play into learning.</strong> This is a component
+of AlphaGo, AlphaZero, the Dota 2 Shadow Fiend bot, and the SSBM Falcon bot. I
+should note that by self-play, I mean exactly the setting where the game is
+competitive, and both players can be controlled by the same agent. So far,
+that setting seems to have the most stable and well-performing behavior.</p>
+  </li>
+  <li>
+    <p><strong>There’s a clean way to define a learnable, ungameable reward.</strong> Two player games
+have this: +1 for a win, -1 for a loss. The <a href="https://openreview.net/forum?id=r1Ue8Hcxg">original neural architecture search paper from Zoph et al, ICLR 2017</a> had this: validation accuracy of
+the trained model. Any time you introduce reward shaping, you introduce a chance
+for learning a non-optimal policy that optimizes the wrong objective.</p>
+
+    <p>If you’re interested in further reading on what makes a good reward,
+a good search term is <a href="https://en.wikipedia.org/wiki/Scoring_rule#Proper_scoring_rules">“proper scoring rule”</a>.
+See <a href="https://terrytao.wordpress.com/2016/06/01/how-to-assign-partial-credit-on-an-exam-of-true-false-questions/">this Terrence Tao blog post</a> for an approachable example.</p>
+
+    <p>As for learnability, I have no advice besides trying it out to see if it
+works.</p>
+  </li>
+  <li>
+    <p><strong>If the reward has to be shaped, it should at least be rich.</strong>
+In Dota 2, reward can come from last hits (triggers after every monster kill
+by either player), and health (triggers after every attack or skill that
+hits a target.) These reward signals
+come quick and often. For the SSBM bot, reward can be given for damage dealt
+and taken, which gives signal for every attack that successfully lands. The shorter
+the delay between action and consequence, the faster the feedback loop gets
+closed, and the easier it is for reinforcement learning to figure out a path to high reward.</p>
+  </li>
+</ul>
+
+<h1 id="a-case-study-neural-architecture-search">A Case Study: Neural Architecture Search</h1>
+
+<p>We can combine a few of the principles to analyze the success of Neural
+Architecture Search. According to the initial <a href="https://arxiv.org/abs/1611.01578">ICLR 2017 version</a>,
+after 12800 examples, deep RL was able to design state-of-the art neural
+net architectures. Admittedly, each example required training a neural net
+to convergence, but this is still very sample efficient.</p>
+
+<p>As mentioned above, the reward is validation accuracy.
+This is a very rich reward signal - if a neural net design decision only increases
+accuracy from 70% to 71%, RL will still pick up on this. Additionally, there’s
+evidence that hyperparameters in deep learning are close to
+linearly independent. (This was empirically shown in <a href="https://arxiv.org/abs/1706.00764">Hyperparameter
+Optimization: A Spectral Approach (Hazan et al, 2017)</a> - a summary by me is
+<a href="/2017/06/27/hyperparam-spectral.html">here</a> if interested.)
+NAS isn’t exactly tuning hyperparameters, but I think it’s reasonable
+that neural net design decisions would act similarly. This is good
+news for learning, because the correlations between decision and performance
+are strong. Finally, not only is the reward rich, it’s actually what we care
+about when we train models.</p>
+
+<p>The combination of all these points helps me understand why it “only” takes about
+12800 trained networks to learn a better one, compared to the millions of examples
+needed in other environments. Several parts of the problem are all pushing in
+RL’s favor.</p>
+
+<p>Overall, success stories this strong are still the exception, not the rule.
+Many things have to go right for reinforcement learning to be a plausible
+solution, and even then, it’s not a free ride to make that solution happen.</p>
+
+<p>In short: deep RL is currently not a plug-and-play technology.</p>
+
+<h1 id="looking-to-the-future">Looking to The Future</h1>
+
+<p>There’s an old saying - every researcher learns how to hate their area of
+study. The trick is that researchers will press on despite this, because they
+like the problems too much.</p>
+
+<p>That’s roughly how I feel about deep reinforcement learning. Despite my
+reservations, I think people absolutely should be throwing RL at different
+problems, including ones where it probably shouldn’t work. How else are we
+supposed to make RL better?</p>
+
+<p>I see no reason why deep RL couldn’t work, given more time. Several very
+interesting things are going to happen when deep RL is robust enough for wider
+use. The question is
+how it’ll get there.</p>
+
+<p>Below, I’ve listed some futures I find plausible. For the futures
+based on further research, I’ve provided citations to relevant papers in those
+research areas.</p>
+
+<p><strong>Local optima are good enough:</strong> It would be very arrogant to claim humans are
+globally optimal at anything. I would guess we’re juuuuust good enough to get
+to civilization stage, compared to any other species. In the same vein, an
+RL solution doesn’t have to achieve a global optima, as long as its local optima
+is better than the human baseline.</p>
+
+<p><strong>Hardware solves everything:</strong> I know some people who believe that the most
+influential thing that can be done for AI is simply scaling up hardware. Personally,
+I’m skeptical that hardware will fix everything, but it’s certainly going to
+be important. The faster you can run things, the less you care about sample
+inefficiency, and the easier it is to brute-force your way past exploration
+problems.</p>
+
+<p><strong>Add more learning signal:</strong> Sparse rewards are hard to learn because you get
+very little information about what thing help you. It’s possible we can either hallucinate
+positive rewards (<a href="https://arxiv.org/abs/1707.01495">Hindsight Experience Replay, Andrychowicz et al, NIPS 2017</a>), define auxiliary tasks (<a href="https://arxiv.org/abs/1611.05397">UNREAL, Jaderberg et al, NIPS 2016</a>),
+or bootstrap with self-supervised learning to build good world model. Adding
+more cherries to the cake, so to speak.</p>
+
+<p><strong>Model-based learning unlocks sample efficiency:</strong> Here’s how I describe
+model-based RL: “Everyone wants to do it, not many people know how.” In principle,
+a good model fixes a bunch of problems. As seen in AlphaGo, having a model
+at all makes it much easier to learn a good solution.
+Good world models will transfer well to new tasks,
+and rollouts of the world model let you imagine new experience. From what I’ve
+seen, model-based approaches use fewer samples as well.</p>
+
+<p>The problem is that learning good models is hard. My impression is that
+low-dimensional state models work sometimes, and image
+models are usually too hard. But, if this gets easier, some interesting things
+could happen.</p>
+
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=711FEF6BA26BBF98C28BC111B26F8761?doi=10.1.1.48.6005&amp;rep=rep1&amp;type=pdf">Dyna (Sutton, 1991)</a> and
+<a href="http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Applications_files/dyna2.pdf">Dyna-2 (Silver et al., ICML 2008)</a> are
+classical papers in this space.
+For papers combining model-based learning with deep nets, I would recommend a few recent papers from the Berkeley robotics labs:
+<a href="http://bair.berkeley.edu/blog/2017/11/30/model-based-rl/">Neural Network Dynamics for Model-Based Deep RL with Model-Free Fine-Tuning (Nagabandi et al, 2017</a>,
+<a href="https://arxiv.org/abs/1710.05268">Self-Supervised Visual Planning with Temporal Skip Connections (Ebert et al, CoRL 2017)</a>,
+<a href="https://arxiv.org/abs/1703.03078">Combining Model-Based and Model-Free Updates for Trajectory-Centric Reinforcement Learning (Chebotar et al, ICML 2017)</a>.
+<a href="http://rll.berkeley.edu/dsae/dsae.pdf">Deep Spatial Autoencoders for Visuomotor Learning (Finn et al, ICRA 2016)</a>,
+and <a href="http://jmlr.org/papers/v17/15-522.html">Guided Policy Search (Levine et al, JMLR 2016)</a>.</p>
+
+<p><strong>Use reinforcement learning just as the fine-tuning step:</strong> The first AlphaGo
+paper started with supervised learning, and then did RL fine-tuning on top of it.
+This is a nice recipe, since it lets you use a faster-but-less-powerful method
+to speed up initial learning. It’s worked in other contexts - see
+<a href="https://arxiv.org/abs/1611.02796">Sequence Tutor (Jaques et al, ICML 2017)</a>.
+You can view this as starting the RL process with a reasonable prior, instead of
+a random one, where the problem of learning the prior is offloaded to some
+other approach.</p>
+
+<p><strong>Reward functions could be learnable:</strong> The promise of ML is that we can use
+data to learn things that are better than human design. If reward function design
+is so hard, Why not apply this to learn better reward functions? Imitation
+learning and inverse reinforcement learning are both rich fields that have
+shown reward functions can be implicitly
+defined by human demonstrations or human ratings.</p>
+
+<p>For famous papers in inverse RL and imitation learning, see
+<a href="http://ai.stanford.edu/~ang/papers/icml00-irl.pdf">Algorithms for Inverse Reinforcement Learning (Ng and Russell, ICML 2000)</a>,
+<a href="http://ai.stanford.edu/~ang/papers/icml04-apprentice.pdf">Apprenticeship Learning via Inverse Reinforcement Learning (Abbeel and Ng, ICML 2004)</a>,
+and <a href="https://www.cs.cmu.edu/~sross1/publications/Ross-AIStats11-NoRegret.pdf">DAgger (Ross, Gordon, and Bagnell, AISTATS 2011)</a>.</p>
+
+<p>For recent work scaling these ideas to deep learning, see <a href="https://arxiv.org/abs/1603.00448">Guided Cost Learning (Finn et al, ICML 2016)</a>, <a href="https://arxiv.org/abs/1704.06888">Time-Constrastive Networks (Sermanet et al, 2017)</a>,
+and <a href="https://blog.openai.com/deep-reinforcement-learning-from-human-preferences/">Learning From Human Preferences (Christiano et al, NIPS 2017)</a>. (The Human Preferences paper in particular showed
+that a reward learned from human ratings was actually better-shaped for learning
+than the original hardcoded reward, which is a neat practical result.)</p>
+
+<p>For longer term work that doesn’t use deep learning, I liked
+<a href="https://arxiv.org/abs/1711.02827">Inverse Reward Design (Hadfield-Menell et al, NIPS 2017)</a>
+and <a href="http://proceedings.mlr.press/v78/bajcsy17a/bajcsy17a.pdf">Learning Robot Objectives from Physical Human Interaction (Bajcsy et al, CoRL 2017)</a>.</p>
+
+<p><strong>Transfer learning saves the day:</strong> The promise of transfer learning is that
+you can leverage knowledge from previous tasks to speed up learning of new ones.
+I think this is absolutely the future, when task learning is robust enough to
+solve several disparate tasks. It’s hard to do transfer learning if you can’t
+learn at all, and given task A and task B, it can be very hard to predict
+whether A transfers to B. In my experience, it’s either super obvious, or super
+unclear, and even the super obvious cases aren’t trivial to get working.</p>
+
+<p><a href="http://proceedings.mlr.press/v37/schaul15.pdf">Universal Value Function Approximators (Schaul et al, ICML 2015)</a>,
+<a href="https://arxiv.org/abs/1707.04175">Distral (Whye Teh et al, NIPS 2017)</a>,
+and <a href="https://deepmind.com/blog/enabling-continual-learning-in-neural-networks/">Overcoming Catastrophic Forgetting (Kirkpatrick et al, PNAS 2017)</a> are recent works in this direction.
+For older work, consider reading <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.297.6455&amp;rep=rep1&amp;type=pdf">Horde (Sutton et al, AAMAS 2011)</a>.</p>
+
+<p>Robotics
+in particular has had lots of progress in sim-to-real transfer (transfer learning
+between a simulated version of a task and the real task). See <a href="https://blog.openai.com/spam-detection-in-the-physical-world/">Domain Randomization (Tobin et al, IROS 2017)</a>, <a href="https://arxiv.org/abs/1610.04286">Sim-to-Real Robot
+Learning with Progressive Nets (Rusu et al, CoRL 2017)</a>,
+and
+<a href="https://research.googleblog.com/2017/10/closing-simulation-to-reality-gap-for.html">GraspGAN (Bousmalis et al, 2017)</a>. (Disclaimer: I worked on GraspGAN.)</p>
+
+<p><strong>Good priors could heavily reduce learning time:</strong> This is closely tied to
+several of the previous points. In one view, transfer learning is about using
+past experience to build a good prior for learning other tasks.
+RL algorithms are designed to apply to any Markov Decision Process, which is
+where the pain of generality comes in.
+If we accept that our solutions will only perform well on a small section of
+environments, we should be able to leverage shared structure to solve those
+environments in an efficient way.</p>
+
+<p>One point Pieter Abbeel
+likes to mention in his talks is that deep RL only needs to solve tasks that
+we expect to need in the real world. I agree it makes a lot of sense.
+There should exist
+a real-world prior that lets us quickly learn new real-world tasks, at the cost
+of slower learning on non-realistic tasks, but that’s a perfectly acceptable trade-off.</p>
+
+<p>The difficulty is that such a real-world prior will be very hard to design.
+However, I think there’s a good chance it won’t be impossible.
+Personally, I’m excited by the recent work in metalearning, since it provides
+a data-driven way to generate reasonable priors.
+For example, if I wanted to use RL to do warehouse navigation, I’d get pretty
+curious about using metalearning to learn a good navigation prior,
+and then fine-tuning the prior for the specific warehouse the robot will be
+deployed in.
+This very much seems like the future, and the question is whether metalearning
+will get there or not.</p>
+
+<p>A summary of recent learning-to-learn work can be found in
+<a href="http://bair.berkeley.edu/blog/2017/07/18/learning-to-learn/">this post from BAIR (Berkeley AI Research)</a>.</p>
+
+<p><strong>Harder environments could paradoxically be easier:</strong> One of the big lessons
+from the DeepMind parkour paper is that if you make your task very difficult
+by adding several task variations, you can actually make the learning
+easier, because the policy cannot overfit to any one setting without losing
+performance on all the other settings. We’ve seen a similar thing in the
+domain randomization papers, and even back to ImageNet: models trained on
+ImageNet will generalize way better than ones trained on CIFAR-100. As I said
+above, maybe we’re just an “ImageNet for control” away from making RL
+considerably more generic.</p>
+
+<p>Environment wise, there are a lot of options. <a href="https://github.com/openai/gym">OpenAI Gym</a>
+easily has the most traction, but there’s also the <a href="https://github.com/mgbellemare/Arcade-Learning-Environment">Arcade Learning Environment</a>, <a href="https://github.com/openai/roboschool">Roboschool</a>,
+<a href="https://github.com/deepmind/lab">DeepMind Lab</a>, the <a href="https://github.com/deepmind/dm_control">DeepMind Control Suite</a>, and <a href="https://github.com/facebookresearch/ELF">ELF</a>.</p>
+
+<p>Finally, although it’s unsatisfying from a research
+perspective, the empirical issues of deep RL may not matter for practical purposes. As a
+hypothetical example, suppose a finance company is using deep RL. They train a
+trading agent based on past data from the US stock market, using 3 random seeds.
+In live A/B testing, one gives 2% less revenue, one performs the
+same, and one gives 2% more revenue. In that hypothetical, reproducibility
+doesn’t matter - you deploy the model with 2% more revenue and celebrate.
+Similarly, it doesn’t matter that the trading agent may only perform well
+in the United States - if it generalizes poorly to the worldwide market,
+just don’t deploy it there. There is a large gap between doing something
+extraordinary and making that extraordinary success reproducible, and maybe it’s
+worth focusing on the former first.</p>
+
+<h1 id="where-we-are-now">Where We Are Now</h1>
+
+<p>In many ways, I find myself annoyed with the current state of deep RL.
+And yet, it’s attracted some of the strongest research
+interest I’ve ever seen. My feelings are best summarized by a mindset Andrew
+Ng mentioned in his <a href="https://www.youtube.com/watch?v=F1ka6a13S9I">Nuts and Bolts of Applying Deep Learning</a>
+talk - a lot of short-term pessimism, balanced by even more long-term optimism.
+Deep RL is a bit messy right now, but I still believe in where it could be.</p>
+
+<p>That being said,
+the next time someone asks me whether reinforcement learning can solve their
+problem, I’m still going to tell them that no, it can’t. But I’ll also tell
+them to ask me again in a few years. By then, maybe it can.</p>
+
+<p class="centered">* * *</p>
+
+<p><em>This post went through a lot of revision. Thanks go to following people
+for reading earlier drafts:
+Daniel Abolafia,
+<a href="https://kumarkrishna.github.io">Kumar Krishna Agrawal</a>,
+<a href="https://www.linkedin.com/in/suryabhupa/">Surya Bhupatiraju</a>,
+<a href="https://www.linkedin.com/in/jaredquincydavis/">Jared Quincy Davis</a>,
+<a href="http://cc.gatech.edu/~aedwards/">Ashley Edwards</a>,
+<a href="https://www.linkedin.com/in/pgaooo/">Peter Gao</a>,
+Julian Ibarz,
+Sherjil Ozair,
+<a href="https://people.eecs.berkeley.edu/~vitchyr/">Vitchyr Pong</a>,
+Alex Ray,
+and Kelvin Xu. There were several more reviewers who I’m crediting
+anonymously - thanks for all the feedback.</em></p>
+
+  </article>
+
+  <!--- Post links -->
+  <!--- Add a bit of padding to prev link for spacing -->
+  <div class="post-nav">
+    
+    <a href="/2018/01/18/mh-2018.html" class="older-posts">&larr; MIT Mystery Hunt 2018</a>&nbsp;&nbsp;&nbsp;
+    
+    
+    <a href="/2018/03/07/blog-paper.html" class="newer-posts">Blog Posts and Research Papers &rarr;</a>
+    
+  </div>
+
+  <!-- Disqus comments -->
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+if (document.location.hostname.search("alexirpan.com") !== -1) {
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = "http://www.alexirpan.com/2018/02/14/rl-hard.html";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "/2018/02/14/rl-hard.html"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//kindasortainsightful.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+}
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Sorta Insightful</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Email: alexirpan [at] berkeley [dot] edu</li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/alexirpan">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">alexirpan</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+    <script>
+  // var scripts = document.getElementsByTagName("script");
+  // for (var i = 0; i < scripts.length; i++) {
+  //   /* TODO: keep going after an individual parse error. */
+  //   var script = scripts[i];
+  //   if (script.type.match(/^math\/tex/)) {
+  //     var text = script.text === "" ? script.innerHTML : script.text;
+  //     // Manually enable % as LaTeX comments. Remove when KaTeX supports
+  //     // this. (Not sure if this approach handles all cases, have not fully tested.)
+  //     while (text !== (text = text.replace(/^(([^\\%]|\\.)*)%(.*)/, '$1'))) {
+  //       continue;
+  //     }
+
+  //     var options = script.type.match(/mode\s*=\s*display/) ?
+  //                   {displayMode: true} : {};
+  //     script.insertAdjacentHTML("beforebegin",
+  //                               katex.renderToString(text, options));
+  //   }
+  // }
+  // document.body.className += " math_finished";
+</script>
+
+
+    <script>
+    (function() {
+        var buttons = document.getElementsByClassName("spoiler-control");
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i];
+            button.innerHTML = button.getAttribute("toggle1");
+            button.onclick = function(e) {
+                var affected = this.getAttribute("affected");
+                var to_modify = document.getElementsByClassName(affected);
+                var startstate = (this.innerHTML === this.getAttribute("toggle1"));
+                for (var j = 0; j < to_modify.length; j++) {
+                    var controlled = to_modify[j];
+                    if (startstate) {
+                        this.innerHTML = this.getAttribute("toggle2");
+                        controlled.className = controlled.className.replace("hidden", "shown");
+                    } else {
+                        this.innerHTML = this.getAttribute("toggle1");
+                        controlled.className = controlled.className.replace("shown", "hidden");
+                    }
+                }
+            };
+        }
+  })();
+</script>
+
+
+  </body>
+
+</html>

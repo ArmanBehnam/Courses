@@ -1,0 +1,397 @@
+WEBVTT
+
+1
+00:00:02.960 --> 00:00:07.140
+So now let's take a little bit more formal look on this decision process, shall we?
+
+2
+00:00:07.140 --> 00:00:09.750
+It is a model widely used in the reinforcement learning,
+
+3
+00:00:09.750 --> 00:00:11.695
+it's called The Markov Decision Process.
+
+4
+00:00:11.695 --> 00:00:14.950
+It follows the same structure as we had in the previous chapter with
+
+5
+00:00:14.950 --> 00:00:18.745
+the kind of intuitive definition of decision process,
+
+6
+00:00:18.745 --> 00:00:22.345
+but it's slightly more restricted and has math all around it.
+
+7
+00:00:22.345 --> 00:00:25.065
+So, again we have an agent and environment,
+
+8
+00:00:25.065 --> 00:00:29.310
+and this time environment has a state denoted by S here,
+
+9
+00:00:29.310 --> 00:00:33.525
+and the state is what agent can observe from the environment.
+
+10
+00:00:33.525 --> 00:00:38.835
+So, the agent will be able to pick an action and send it back into the environment.
+
+11
+00:00:38.835 --> 00:00:41.120
+The action here is noted by A.
+
+12
+00:00:41.120 --> 00:00:44.480
+Those capital S and capital A are just sets of
+
+13
+00:00:44.480 --> 00:00:48.690
+all possible states and all possible actions because mathematicians love sets.
+
+14
+00:00:48.690 --> 00:00:50.540
+Now, this third arrow,
+
+15
+00:00:50.540 --> 00:00:54.090
+the vertical one, is how we formalized the feedback.
+
+16
+00:00:54.090 --> 00:00:57.445
+There is some kind of reward denoted by R. Again,
+
+17
+00:00:57.445 --> 00:00:58.815
+this is just the real number,
+
+18
+00:00:58.815 --> 00:01:01.180
+and the larger the reward gets,
+
+19
+00:01:01.180 --> 00:01:03.380
+the more agent should be proud of himself
+
+20
+00:01:03.380 --> 00:01:06.195
+and the more you want to reinforce his behavior.
+
+21
+00:01:06.195 --> 00:01:09.695
+Now this process was called Markov Decision Process for a reason.
+
+22
+00:01:09.695 --> 00:01:11.300
+There's a thing called Markov assumption,
+
+23
+00:01:11.300 --> 00:01:13.385
+which holds about such process.
+
+24
+00:01:13.385 --> 00:01:16.880
+Intuitive, it means that the state, the S,
+
+25
+00:01:16.880 --> 00:01:19.970
+is a thing sufficient to define
+
+26
+00:01:19.970 --> 00:01:24.105
+the environment state and there is nothing else affecting how environment behaves.
+
+27
+00:01:24.105 --> 00:01:28.095
+In terms of math, it means that whenever you want to predict
+
+28
+00:01:28.095 --> 00:01:33.230
+the probability of next state and the rewards your agent is going to get for his action,
+
+29
+00:01:33.230 --> 00:01:37.320
+you only need the current state of environment and agents action to do so,
+
+30
+00:01:37.320 --> 00:01:39.645
+and no other input will be helpful.
+
+31
+00:01:39.645 --> 00:01:42.370
+You probably noticed that from here on
+
+32
+00:01:42.370 --> 00:01:45.360
+the things get slightly unrealistic with this Markov assumption.
+
+33
+00:01:45.360 --> 00:01:47.240
+This actually means that if you want
+
+34
+00:01:47.240 --> 00:01:50.835
+to show your users absolute banners, what you need is,
+
+35
+00:01:50.835 --> 00:01:54.500
+you need a state that encompasses everything about the users that defines how he
+
+36
+00:01:54.500 --> 00:01:56.680
+behaves and this may or may not
+
+37
+00:01:56.680 --> 00:01:59.450
+include the quantum states of all the particles in his brain.
+
+38
+00:01:59.450 --> 00:02:01.530
+So, this is of course, impossible,
+
+39
+00:02:01.530 --> 00:02:05.090
+but just don't get too focused on it.
+
+40
+00:02:05.090 --> 00:02:07.710
+This is just a mathematical model and in practice you can,
+
+41
+00:02:07.710 --> 00:02:09.680
+of course, simplify it a little bit,
+
+42
+00:02:09.680 --> 00:02:11.310
+because models don't have to be accurate.
+
+43
+00:02:11.310 --> 00:02:13.745
+In fact, they're never accurate, they're just sometimes useful.
+
+44
+00:02:13.745 --> 00:02:18.450
+In this case, you can suffice with some kind of higher level features that you use
+
+45
+00:02:18.450 --> 00:02:21.235
+for your decision making process
+
+46
+00:02:21.235 --> 00:02:25.010
+and just pretend that everything else is around the noise,
+
+47
+00:02:25.010 --> 00:02:27.120
+which is what mathematicians usually do.
+
+48
+00:02:27.120 --> 00:02:31.405
+Now, as usual, we want to optimize our reward to our feedback,
+
+49
+00:02:31.405 --> 00:02:35.020
+but the difference here is that unlike our intuitive definition,
+
+50
+00:02:35.020 --> 00:02:39.190
+this time your environment can give you intermediate rewards after every time step.
+
+51
+00:02:39.190 --> 00:02:40.790
+Think of it this way,
+
+52
+00:02:40.790 --> 00:02:44.535
+you have your robots and you want your little robot to walk forward.
+
+53
+00:02:44.535 --> 00:02:50.230
+You can of course simply give him one reward per the entire session.
+
+54
+00:02:50.230 --> 00:02:54.140
+Whenever he falls, just measure how long was it
+
+55
+00:02:54.140 --> 00:02:58.710
+able to walk before it fell and reward him for this value.
+
+56
+00:02:58.710 --> 00:03:02.710
+But intuitively, you can try to give him some small pools of feedback whenever
+
+57
+00:03:02.710 --> 00:03:07.565
+he moves himself forward slightly over duration of one turn.
+
+58
+00:03:07.565 --> 00:03:12.370
+Now, for the purpose of the simple algorithm we are going to see now,
+
+59
+00:03:12.370 --> 00:03:14.440
+this is no different from what we had before,
+
+60
+00:03:14.440 --> 00:03:16.600
+because we want to optimize,
+
+61
+00:03:16.600 --> 00:03:17.830
+not just the individually rewards,
+
+62
+00:03:17.830 --> 00:03:20.545
+we want to optimize the sum of rewards per session.
+
+63
+00:03:20.545 --> 00:03:23.710
+So, we don't want to go as fast as possible right now.
+
+64
+00:03:23.710 --> 00:03:28.105
+Right now, we want to go as fast as possible over the duration of the entire episode.
+
+65
+00:03:28.105 --> 00:03:32.470
+This is also quite useful when you, for example,
+
+66
+00:03:32.470 --> 00:03:36.705
+train your agent to win a board game. Because in chess,
+
+67
+00:03:36.705 --> 00:03:40.020
+you can try to optimize the immediate reward.
+
+68
+00:03:40.020 --> 00:03:41.440
+You can try to say,
+
+69
+00:03:41.440 --> 00:03:43.135
+it has many pons as you can,
+
+70
+00:03:43.135 --> 00:03:46.550
+but this might result in you losing the game quickly,
+
+71
+00:03:46.550 --> 00:03:51.090
+because for the immediate reward has not always the best move.
+
+72
+00:03:51.090 --> 00:03:53.770
+In fact, it's often the worst move you can take.
+
+73
+00:03:53.770 --> 00:03:55.970
+Now, what you want to do with this process,
+
+74
+00:03:55.970 --> 00:03:58.440
+is you want to define an agent,
+
+75
+00:03:58.440 --> 00:04:00.450
+whether trained an agent, so that he thinks
+
+76
+00:04:00.450 --> 00:04:03.285
+actions in a way that gets highest ever reward.
+
+77
+00:04:03.285 --> 00:04:06.315
+This is from [inaudible] Basically,
+
+78
+00:04:06.315 --> 00:04:09.430
+you can think of policy for now as attributed to
+
+79
+00:04:09.430 --> 00:04:13.600
+distribution that takes a state and assigns probabilities to all the possible actions.
+
+80
+00:04:13.600 --> 00:04:15.525
+Now, in this case,
+
+81
+00:04:15.525 --> 00:04:19.650
+you can just use whatever Machine Learning model or table to build the distribution.
+
+82
+00:04:19.650 --> 00:04:21.675
+This is so far outside our scope,
+
+83
+00:04:21.675 --> 00:04:26.200
+but we'll get into the implementation details later this week.
+
+84
+00:04:26.200 --> 00:04:30.890
+Again, we have a policy and want to optimize the reward expected for the policy.
+
+85
+00:04:30.890 --> 00:04:34.780
+If you break down all the maths explicitly,
+
+86
+00:04:34.780 --> 00:04:36.790
+then you'll get the following weird formula,
+
+87
+00:04:36.790 --> 00:04:39.060
+which basically says that you have to,
+
+88
+00:04:39.060 --> 00:04:40.965
+well, sample the first state,
+
+89
+00:04:40.965 --> 00:04:45.695
+then take the first action based on this first state in your agent's policy,
+
+90
+00:04:45.695 --> 00:04:48.530
+then observed the second state and get your reward.
+
+91
+00:04:48.530 --> 00:04:50.650
+Then, take the second action,
+
+92
+00:04:50.650 --> 00:04:52.180
+third state, third action,
+
+93
+00:04:52.180 --> 00:04:53.430
+fourth state and so on,
+
+94
+00:04:53.430 --> 00:04:55.030
+until you reach the end of the episode,
+
+95
+00:04:55.030 --> 00:04:57.190
+then just add up all the rewards.
+
+96
+00:04:57.190 --> 00:04:59.990
+In my humble opinion, this formula below looks slightly
+
+97
+00:04:59.990 --> 00:05:03.075
+more uglier than this informal definition on the top.
+
+98
+00:05:03.075 --> 00:05:06.225
+So, it's only important that you grasp the concept.
+
+99
+00:05:06.225 --> 00:05:08.600
+You don't have to memorize this, of course.

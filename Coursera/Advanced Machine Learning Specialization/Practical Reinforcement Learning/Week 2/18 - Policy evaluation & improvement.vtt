@@ -1,0 +1,641 @@
+WEBVTT
+
+1
+00:00:02.320 --> 00:00:05.360
+Welcome back to our reinforcement learning course.
+
+2
+00:00:05.360 --> 00:00:06.740
+Today, we'll talk about;
+
+3
+00:00:06.740 --> 00:00:09.370
+policy evaluation and policy improvement.
+
+4
+00:00:09.370 --> 00:00:16.040
+These are two main concepts which are toolkit for finding and optimal policy,
+
+5
+00:00:16.040 --> 00:00:17.815
+in a model-based setup.
+
+6
+00:00:17.815 --> 00:00:20.645
+Or just to remind you what is what is model-setup?
+
+7
+00:00:20.645 --> 00:00:24.355
+That is when one know what is well of the world,
+
+8
+00:00:24.355 --> 00:00:28.180
+that is know all probabilities of rewards
+
+9
+00:00:28.180 --> 00:00:32.915
+and next states given current state and current action.
+
+10
+00:00:32.915 --> 00:00:36.750
+And we also are going to talk about finding
+
+11
+00:00:36.750 --> 00:00:40.840
+an optimal policy following value based approach.
+
+12
+00:00:40.840 --> 00:00:42.500
+So what is value based approach?
+
+13
+00:00:42.500 --> 00:00:46.880
+Mainly it consists of two phases.
+
+14
+00:00:46.880 --> 00:00:51.415
+And the first phase one need to build or estimate a value, value function.
+
+15
+00:00:51.415 --> 00:00:55.165
+And second phase is to extract a policy from the value.
+
+16
+00:00:55.165 --> 00:00:58.730
+This second step could be performed only on demand.
+
+17
+00:00:58.730 --> 00:01:00.670
+Only when you are staying inside
+
+18
+00:01:00.670 --> 00:01:04.615
+the state S and want to know which action to perform now.
+
+19
+00:01:04.615 --> 00:01:09.675
+The first technique which is very crucial for us is policy evaluation.
+
+20
+00:01:09.675 --> 00:01:13.825
+It's a famous saying that if you can't measure something you can't improve it.
+
+21
+00:01:13.825 --> 00:01:21.565
+And we will start our journey of finding an optimal policy from this policy evaluation.
+
+22
+00:01:21.565 --> 00:01:28.290
+From measuring of how good is a given policy in each of the state.
+
+23
+00:01:28.290 --> 00:01:30.615
+That is how many reward or
+
+24
+00:01:30.615 --> 00:01:33.825
+how great and expected return we can
+
+25
+00:01:33.825 --> 00:01:38.620
+get starting from state S and following N policy pie.
+
+26
+00:01:38.620 --> 00:01:46.475
+The main helper for this task is Bellman expectation equation.
+
+27
+00:01:46.475 --> 00:01:50.595
+Which you should be already familiar with.
+
+28
+00:01:50.595 --> 00:01:55.935
+And this Bellman expectation equation is basically a system of linear equations,
+
+29
+00:01:55.935 --> 00:02:00.620
+where number of unknowns is equal to number of equations and number of states.
+
+30
+00:02:00.620 --> 00:02:03.355
+So, what are unknowns here?
+
+31
+00:02:03.355 --> 00:02:08.480
+Unknowns here are a value function of each state.
+
+32
+00:02:08.480 --> 00:02:12.800
+So, for each state we associate
+
+33
+00:02:12.800 --> 00:02:19.410
+a number which is a value function of this state under a particular policy pie.
+
+34
+00:02:19.410 --> 00:02:25.515
+We are going to find that values for each state.
+
+35
+00:02:25.515 --> 00:02:28.740
+How to solve this system of linear equations,
+
+36
+00:02:28.740 --> 00:02:33.455
+in fact there are many methods for solving systems of linear equations.
+
+37
+00:02:33.455 --> 00:02:41.285
+But, many of them are designed to obtain an optimal precise solution to the system.
+
+38
+00:02:41.285 --> 00:02:44.890
+And this approaches could take us too much time to
+
+39
+00:02:44.890 --> 00:02:48.510
+compute even for million number of states,
+
+40
+00:02:48.510 --> 00:02:51.000
+and for problems with a million number of states.
+
+41
+00:02:51.000 --> 00:02:55.210
+However, we most of the time don't want to solve this system
+
+42
+00:02:55.210 --> 00:03:00.410
+precisely and it is sufficient for us to obtain an approximate solution.
+
+43
+00:03:00.410 --> 00:03:04.775
+Why is this so? We will talk about a little bit later.
+
+44
+00:03:04.775 --> 00:03:09.045
+But for now consider another approach an alternative one.
+
+45
+00:03:09.045 --> 00:03:11.300
+In fact the specificity of
+
+46
+00:03:11.300 --> 00:03:16.720
+a reinforcement learning task helps one to apply a very simple alternative algorithm.
+
+47
+00:03:16.720 --> 00:03:22.535
+This algorithm is proven to converge for any market decision process and any policy.
+
+48
+00:03:22.535 --> 00:03:25.405
+So the algorithm is as follows, at first,
+
+49
+00:03:25.405 --> 00:03:29.360
+the initialization of value function to zeros is performed.
+
+50
+00:03:29.360 --> 00:03:34.585
+This initialization can be also replaced with any initialization of your choice,
+
+51
+00:03:34.585 --> 00:03:39.035
+as long as all the terminal states are assigned the value of zero.
+
+52
+00:03:39.035 --> 00:03:45.075
+Next, for each state the right hand side of the Bellman expectation equation is computed.
+
+53
+00:03:45.075 --> 00:03:47.895
+Then the freshly computed right hand side,
+
+54
+00:03:47.895 --> 00:03:51.185
+is assigned to the current value of the state.
+
+55
+00:03:51.185 --> 00:03:55.475
+This alternative process of assigning the right hand side to the left hand side,
+
+56
+00:03:55.475 --> 00:03:59.290
+is performed until state values do not change anymore,
+
+57
+00:03:59.290 --> 00:04:02.015
+or the change is sufficiently little.
+
+58
+00:04:02.015 --> 00:04:07.545
+Such an approach to policy evaluation owes us to quickly obtain an approximate solution.
+
+59
+00:04:07.545 --> 00:04:10.560
+And this is precisely what we want.
+
+60
+00:04:10.560 --> 00:04:16.290
+Now, we know how to get the value of each state for a given policy pie.
+
+61
+00:04:16.290 --> 00:04:19.675
+So, once the value of the policy is computed,
+
+62
+00:04:19.675 --> 00:04:23.050
+the policy itself could and should be improved.
+
+63
+00:04:23.050 --> 00:04:26.370
+Intuitively speaking policy evaluation gives us
+
+64
+00:04:26.370 --> 00:04:31.340
+the necessary information about the direction in which we can improve the policy.
+
+65
+00:04:31.340 --> 00:04:36.440
+This improvement can be done by acting greedily with respect to the value function.
+
+66
+00:04:36.440 --> 00:04:39.395
+What does it mean to act greedily with respect to function?
+
+67
+00:04:39.395 --> 00:04:44.600
+In fact what we do is first we recover an action value function Q from value function
+
+68
+00:04:44.600 --> 00:04:51.035
+V. And this V can be computed by a policy evaluation algorithm as we already know.
+
+69
+00:04:51.035 --> 00:04:56.055
+Second, we find an action which maximizes this action value function Q pie,
+
+70
+00:04:56.055 --> 00:05:00.205
+that is we find what is the best possible action in status.
+
+71
+00:05:00.205 --> 00:05:03.235
+Thereafter, this action we will follow policy pie.
+
+72
+00:05:03.235 --> 00:05:06.970
+This improvement procedure is guaranteed to produce a better policy.
+
+73
+00:05:06.970 --> 00:05:09.560
+To obtain some intuition of why is it so,
+
+74
+00:05:09.560 --> 00:05:11.830
+think about action value function Q pie.
+
+75
+00:05:11.830 --> 00:05:17.580
+It tell us what expects to return one because of chief after making action A instead S,
+
+76
+00:05:17.580 --> 00:05:20.535
+and following policy pie thereafter.
+
+77
+00:05:20.535 --> 00:05:24.450
+Our new policy pie prime in current state makes
+
+78
+00:05:24.450 --> 00:05:29.070
+the best possible action according to the action of the function of all policy pie.
+
+79
+00:05:29.070 --> 00:05:33.170
+That is, it chooses an action according to the highest expected combination
+
+80
+00:05:33.170 --> 00:05:37.815
+of immediate reward and an old policy pies value function of next state.
+
+81
+00:05:37.815 --> 00:05:40.000
+But, in this next state,
+
+82
+00:05:40.000 --> 00:05:44.475
+new policy prime also acts greedily with respect to Q pie.
+
+83
+00:05:44.475 --> 00:05:48.065
+That is, it makes a better or the same decision as policy pie.
+
+84
+00:05:48.065 --> 00:05:49.945
+The same is true about a state,
+
+85
+00:05:49.945 --> 00:05:52.220
+after the next state and so on.
+
+86
+00:05:52.220 --> 00:05:55.920
+That is why the value of each state of a new policy pie prime
+
+87
+00:05:55.920 --> 00:06:00.395
+is greater or equal to the value of the same state of an old policy pie.
+
+88
+00:06:00.395 --> 00:06:07.030
+And thus, the new policy pie prime is considered better or equal than our old policy pie.
+
+89
+00:06:07.030 --> 00:06:09.315
+Well, this makes some sense,
+
+90
+00:06:09.315 --> 00:06:10.990
+but what if at some step
+
+91
+00:06:10.990 --> 00:06:14.900
+the improved new policy pie prime is actually equal to an old policy?
+
+92
+00:06:14.900 --> 00:06:19.870
+Well, if an improved policy pie prime is precisely equal to the old policy pie,
+
+93
+00:06:19.870 --> 00:06:23.385
+that is if they recommend the same action for each and every state,
+
+94
+00:06:23.385 --> 00:06:27.040
+then we conclude that this policy is an optimal one.
+
+95
+00:06:27.040 --> 00:06:30.000
+In fact, the equality of policy pie prime and
+
+96
+00:06:30.000 --> 00:06:33.415
+pie means that their functions are also equal.
+
+97
+00:06:33.415 --> 00:06:37.030
+And because during an improvement stage we assigned two policy pie
+
+98
+00:06:37.030 --> 00:06:40.905
+prime the action which maximizes the action value function,
+
+99
+00:06:40.905 --> 00:06:45.775
+we also know what is the value of the new policy pie prime.
+
+100
+00:06:45.775 --> 00:06:49.110
+It is equal to action value function of state S
+
+101
+00:06:49.110 --> 00:06:52.795
+and precisely it is the same action we assigned to the new policy.
+
+102
+00:06:52.795 --> 00:06:58.125
+That is, its value is equal to action value function maximized over all actions.
+
+103
+00:06:58.125 --> 00:07:01.820
+But, this equation is a Bellman optimality equation itself.
+
+104
+00:07:01.820 --> 00:07:07.645
+Well, for now we know how to evaluate policy,
+
+105
+00:07:07.645 --> 00:07:11.065
+how to improve it and why does this make any sense?
+
+106
+00:07:11.065 --> 00:07:14.100
+Let me now stress the difference of how to recover
+
+107
+00:07:14.100 --> 00:07:18.220
+an optimal policy if we were given an optimal value function V,
+
+108
+00:07:18.220 --> 00:07:21.185
+an optimal action value function Q.
+
+109
+00:07:21.185 --> 00:07:23.705
+Well, if Q star is known,
+
+110
+00:07:23.705 --> 00:07:26.585
+an optimal policy is rather straightforward to obtain.
+
+111
+00:07:26.585 --> 00:07:30.895
+We just need to take the action which maximizes its function.
+
+112
+00:07:30.895 --> 00:07:34.475
+However, things are not so simple with value function.
+
+113
+00:07:34.475 --> 00:07:37.475
+Pretend for the moment that V star is known,
+
+114
+00:07:37.475 --> 00:07:40.560
+How could we recover the optimal policy from it?
+
+115
+00:07:40.560 --> 00:07:45.645
+In fact, one need to recover first an action value function from this V star.
+
+116
+00:07:45.645 --> 00:07:48.010
+And this can be done with
+
+117
+00:07:48.010 --> 00:07:50.200
+environment probabilities precisely in
+
+118
+00:07:50.200 --> 00:07:53.390
+the same way as we did in policy improvement stage.
+
+119
+00:07:53.390 --> 00:07:58.440
+And by recovering this Q star we had used the problem of recovering the policy from
+
+120
+00:07:58.440 --> 00:08:03.850
+V star to the previous problem which we already know how to solve.
+
+121
+00:08:03.850 --> 00:08:08.290
+Know that in a model free setup where we don't have access to
+
+122
+00:08:08.290 --> 00:08:13.570
+transition probabilities we're unable to recover an optimal policy solely from V star.
+
+123
+00:08:13.570 --> 00:08:19.330
+And this is why in a model free setup we could only rely on Q star.
+
+124
+00:08:19.330 --> 00:08:23.030
+Well, by now there is one thing is not completely clear.
+
+125
+00:08:23.030 --> 00:08:26.855
+When we were talking about the solution to the system of Bellman expectation equations,
+
+126
+00:08:26.855 --> 00:08:30.055
+I said that most of the time we don't need a precise solution of this system.
+
+127
+00:08:30.055 --> 00:08:33.640
+It is sufficient for us to obtain a good approximation to this solution.
+
+128
+00:08:33.640 --> 00:08:37.800
+Why is it so? Let's look at the small greed world problem.
+
+129
+00:08:37.800 --> 00:08:40.280
+In this greed world problem an agent could
+
+130
+00:08:40.280 --> 00:08:43.150
+escape the world through either of the two internal states,
+
+131
+00:08:43.150 --> 00:08:47.300
+one in the top left with reward of minus 10 and one in the bottom right,
+
+132
+00:08:47.300 --> 00:08:49.355
+with a reward of plus 10.
+
+133
+00:08:49.355 --> 00:08:53.645
+For each time take an agent additionally receives a negative reward of minus one,
+
+134
+00:08:53.645 --> 00:08:57.535
+which motivates an agent to escape as quickly as possible.
+
+135
+00:08:57.535 --> 00:08:59.145
+Left plot corresponds to
+
+136
+00:08:59.145 --> 00:09:03.285
+current value function estimates which are all initial is to zero.
+
+137
+00:09:03.285 --> 00:09:06.900
+In the right plot you can see which actions are taken by
+
+138
+00:09:06.900 --> 00:09:10.505
+the policy which is greedy with respects to current value function estimate.
+
+139
+00:09:10.505 --> 00:09:12.450
+That is a policy on the right,
+
+140
+00:09:12.450 --> 00:09:15.625
+is an improvement over the initial random policy.
+
+141
+00:09:15.625 --> 00:09:18.600
+And this improvement is achieved by acting greedily
+
+142
+00:09:18.600 --> 00:09:21.810
+with respect to value function estimates plotted on the left.
+
+143
+00:09:21.810 --> 00:09:24.960
+At the very beginning, all actions are equally likely because
+
+144
+00:09:24.960 --> 00:09:28.120
+all state value estimates are equal to each other.
+
+145
+00:09:28.120 --> 00:09:32.100
+However, after the only five iterations of policy evaluation,
+
+146
+00:09:32.100 --> 00:09:34.980
+the value of states are sufficient equity to yield
+
+147
+00:09:34.980 --> 00:09:39.995
+the same new policy as a precise solution of the system of Bellman expectation equations.
+
+148
+00:09:39.995 --> 00:09:43.590
+This precise solution is shown in the last draw of plot.
+
+149
+00:09:43.590 --> 00:09:47.190
+Please note that values of the precise solution differ
+
+150
+00:09:47.190 --> 00:09:51.080
+a lot from the intermediate step solution obtain after the fifth iteration.
+
+151
+00:09:51.080 --> 00:09:55.505
+But, for policy improvement the absolute state values do not
+
+152
+00:09:55.505 --> 00:10:00.260
+matter as long as the order of such values is the same as in precise solution.
+
+153
+00:10:00.260 --> 00:10:04.520
+That means that doing all iterations of policy evaluation after
+
+154
+00:10:04.520 --> 00:10:09.355
+the first one is absolutely useless for a subsequent policy improvement step.
+
+155
+00:10:09.355 --> 00:10:13.560
+By now, we are familiar with policy evaluation, and policy improvement.
+
+156
+00:10:13.560 --> 00:10:15.800
+We also know what is the connection of
+
+157
+00:10:15.800 --> 00:10:19.280
+these procedures with Bellman expectation and optimality equations.
+
+158
+00:10:19.280 --> 00:10:24.710
+We may also summarize that these two procedures are essential to find an optimal policy.
+
+159
+00:10:24.710 --> 00:10:27.240
+Well, our next topic to discuss is
+
+160
+00:10:27.240 --> 00:10:31.580
+indeed how to use this procedures to obtain the optimal policy.

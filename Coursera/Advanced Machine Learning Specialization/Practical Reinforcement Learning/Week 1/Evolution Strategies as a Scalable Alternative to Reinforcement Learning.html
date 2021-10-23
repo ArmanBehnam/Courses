@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!--
+
+
+           .d88888b.             
+         .8P"     "9bd888b.      
+        .8P     .d8P"   `"988.   
+     .8888   .d8P"    ,     98.  
+   .8P" 88   8"    .d98b.    88  
+  .8P   88   8 .d8P"   "98b. 88  
+  88    88   8P"  `"8b.    "98.  
+  88.   88   8       8"8b.    88 
+   88    "98.8       8   88   "88
+    `8b.    "98.,  .d8   88    88
+    88 "98b.   .d8P" 8   88   d8"
+    88    "98bP"    .8   88 .d8" 
+    "8b     `    .d8P"   8888"   
+     "88b.,   .d8P"     d8"      
+       "9888P98b.     .d8"       
+               "988888P"         
+
+
+  Solve Impossible Problems.
+  openai.com/jobs
+
+
+-->
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71156606-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-71156606-1');
+  </script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Evolution Strategies as a Scalable Alternative to Reinforcement Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/assets/styles/all.css?v=366de49231" />
+  
+  <script type="text/javascript">document.documentElement.className = 'js';</script>
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg?v=366de49231">
+  <link rel="mask-icon" href="/assets/images/mask-icon.svg?v=366de49231" color="#000000">
+  <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://openai.com/blog/evolution-strategies/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="OpenAI" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Evolution Strategies as a Scalable Alternative to Reinforcement Learning" />
+    <meta property="og:description" content="We&#x27;ve discovered that evolution strategies (ES), an optimization technique that&#x27;s been known for decades, rivals the performance of standard reinforcement learning (RL) techniques on modern RL benchmarks, while overcoming many of RL&#x27;s inconveniences." />
+    <meta property="og:url" content="https://openai.com/blog/evolution-strategies/" />
+    <meta property="og:image" content="https://openai.com/content/images/2017/03/2x-2.jpg" />
+    <meta property="article:published_time" content="2017-03-24T16:17:26.000Z" />
+    <meta property="article:modified_time" content="2020-08-29T15:27:12.000Z" />
+    <meta property="article:tag" content="Research" />
+    <meta property="article:tag" content="Milestones" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/openai.research" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Evolution Strategies as a Scalable Alternative to Reinforcement Learning" />
+    <meta name="twitter:description" content="We&#x27;ve discovered that evolution strategies (ES), an optimization technique that&#x27;s been known for decades, rivals the performance of standard reinforcement learning (RL) techniques on modern RL benchmarks, while overcoming many of RL&#x27;s inconveniences." />
+    <meta name="twitter:url" content="https://openai.com/blog/evolution-strategies/" />
+    <meta name="twitter:image" content="https://openai.com/content/images/2017/03/2x-2.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Andrej Karpathy" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Research, Milestones" />
+    <meta name="twitter:site" content="@openai" />
+    <meta property="og:image:width" content="1276" />
+    <meta property="og:image:height" content="1696" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "OpenAI",
+        "url": "https://openai.com/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://openai.com/content/images/2019/05/openai-avatar.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Andrej Karpathy",
+        "url": "https://openai.com/blog/authors/andrej/",
+        "sameAs": []
+    },
+    "headline": "Evolution Strategies as a Scalable Alternative to Reinforcement Learning",
+    "url": "https://openai.com/blog/evolution-strategies/",
+    "datePublished": "2017-03-24T16:17:26.000Z",
+    "dateModified": "2020-08-29T15:27:12.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://openai.com/content/images/2017/03/2x-2.jpg",
+        "width": 1276,
+        "height": 1696
+    },
+    "keywords": "Research, Milestones",
+    "description": "We&#x27;ve discovered that evolution strategies (ES), an optimization technique that&#x27;s been known for decades, rivals the performance of standard reinforcement learning (RL) techniques on modern RL benchmarks, while overcoming many of RL&#x27;s inconveniences.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://openai.com/"
+    }
+}
+    </script>
+
+    <script defer src="https://unpkg.com/@tryghost/portal@~0.14.0/umd/portal.min.js" data-ghost="https://openai.com/"></script><style> .gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <meta name="generator" content="Ghost 3.40" />
+    <link rel="alternate" type="application/rss+xml" title="OpenAI" href="" />
+</head>
+<body>
+  
+<article class="post" id="post-evolution-strategies">
+  
+  <header
+    class="post-header post-header--cover bg-light-warm-gray bg-cover color-white"
+    style="background-image:url(https://cdn.openai.com/research-covers/evolution-strategies/gradient.jpg)"
+  >
+  <nav class="nav container" data-url="/blog/evolution-strategies/">
+  <div class="row py-0.75">
+    <div class="col-6 col-sm">
+      <a href="/" class="nav-wordmark d-block"><svg id="openai-wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180"><path d="M410.22,41.09c-13.75,0-23.57,4.7-28.39,13.59l-2.59,4.79V43.41h-22.4v97.85H380.4V83.05c0-13.91,7.55-21.89,20.73-21.89,12.56,0,19.76,7.76,19.76,21.31v58.79h23.56v-63C444.45,55,431.65,41.09,410.22,41.09ZM296,41.09c-27.79,0-45.06,17.33-45.06,45.25v13.74c0,26.83,17.42,43.51,45.45,43.51,18.74,0,31.88-6.88,40.15-21l-14.61-8.39c-6.11,8.15-15.86,13.19-25.54,13.19-14.19,0-22.67-8.76-22.67-23.44v-3.89h65.79V83.82c0-26-17.08-42.73-43.51-42.73Zm22.08,43.14H273.72V81.89c0-16.12,7.91-25,22.28-25,13.83,0,22.08,8.76,22.08,23.44ZM678.32,27.3V8.58H596.87V27.3h28.56v95.25H596.87v18.71h81.45V122.55H649.76V27.3ZM60.67,5.87c-36.39,0-59,22.68-59,59.18V84.79c0,36.51,22.6,59.18,59,59.18s59-22.67,59-59.18V65.05C119.66,28.55,97.05,5.87,60.67,5.87ZM95.33,86.14c0,24.24-12.63,38.15-34.66,38.15S26,110.38,26,86.14V63.7c0-24.24,12.63-38.15,34.66-38.15S95.32,39.46,95.32,63.7Zm98.31-45c-12.36,0-23.07,5.11-28.64,13.69l-2.54,3.9V43.41H140.07V174.93h23.55V127.3l2.53,3.74c5.3,7.85,15.65,12.55,27.68,12.55,20.31,0,40.8-13.28,40.8-42.93V84c0-21.35-12.63-42.91-41-42.91Zm17.44,58.4c0,15.77-9.2,25.57-24,25.57-13.8,0-23.44-10.35-23.44-25.18V85.23c0-15.06,9.72-25.57,23.63-25.57,14.7,0,23.83,9.8,23.83,25.57ZM509.55,8.63,462,141.26h23.9l9.1-28.44h54.65l.09.28,9,28.16h23.93L535.08,8.58Zm-8.67,85.52L522.32,27l21.23,67.07Z"/></svg></a>
+    </div>
+    <div class="col-6 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+      <ul class="d-flex flex-column flex-sm-row justify-content-end justify-content-sm-between small-caps mt-n0.125 mt-sm-0">
+                    
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link " href="/api/" data-slug="api">API</a></li>
+          
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link " href="/projects/" data-slug="projects">Projects</a></li>
+          
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link active-parent" href="/blog/" data-slug="blog">Blog</a></li>
+          
+          <li class="mb-sm-0"><a class="nav-link " href="/about/" data-slug="about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  
+  <div class="container mt-3 mb-2 pb-1">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-9 col-sm-8 col-md-5 col-xl-4 order-md-1 mb-1.5 mb-md-1 position-relative">
+            <div class="sticky sticky-top mt-ngutter pt-gutter">
+              <figure class="release-cover mb-0 position-relative bg-fg-2 rounded-small overflow-hidden shadowed-xheavy" style="padding-bottom:132.915360502%">
+    <img
+      class="position-absolute trbl-0 js-lazy"
+      data-src="https://cdn.openai.com/research-covers/evolution-strategies/2x-no-mark.jpg"
+      alt="Evolution Strategies as a Scalable Alternative to Reinforcement Learning">
+</figure>
+
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div class="h-100 w-md-11/12 w-xl-10/12 max-width-xnarrow">
+              <div class="h-100 d-flex flex-column justify-content-between" style="--fg:255,255,255">
+                  <div>
+                    <h1 class="balance-text  mb-0.75">Evolution Strategies as a Scalable Alternative to Reinforcement Learning</h1>
+                      <div class="post-excerpt color-fg mb-1 js-excerpt-container js-widow">
+  </div>
+                  </div>
+                    <div class="post-header-date small-copy color-fg-60 color-fg mb-1 mb-md-10/12">
+    <time datetime="2017-03-24">March 24, 2017</time>
+    <div class="reading-time">12 minute read</div>
+  </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</header>
+
+  <section class="container">
+  <div class="row">
+    <section class="content">
+      
+      <!--kg-card-begin: markdown--><div class="js-excerpt">
+<p>We've <a href="https://arxiv.org/abs/1703.03864">discovered</a> that <em>evolution strategies (ES)</em>, an optimization technique that's been known for decades, rivals the performance of standard <em>reinforcement learning (RL)</em> techniques on modern RL benchmarks (e.g. Atari/MuJoCo), while overcoming many of RL's inconveniences.</p>
+</div>
+<p>In particular, ES is simpler to implement (there is no need for <a href="http://neuralnetworksanddeeplearning.com/chap2.html">backpropagation</a>), it is easier to scale in a distributed setting, it does not suffer in settings with sparse rewards, and has fewer <a href="https://www.quora.com/What-are-hyperparameters-in-machine-learning">hyperparameters</a>. This outcome is surprising because ES resembles simple hill-climbing in a high-dimensional space based only on <a href="https://en.wikipedia.org/wiki/Finite_difference">finite differences</a> along a few random directions at each step.</p>
+<section class="btns"><a href="https://github.com/openai/evolution-strategies-starter" class="btn btn-padded icon-code">View on GitHub</a><a href="https://arxiv.org/abs/1703.03864" class="btn btn-padded icon-paper">View on arXiv</a></section>
+<p>Our finding continues the modern trend of achieving strong results with decades-old ideas. For example, in 2012, the <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">&quot;AlexNet&quot; paper</a> showed how to design, scale and train convolutional neural networks (CNNs) to achieve extremely strong results on image recognition tasks, at a time when most researchers thought that CNNs were not a promising approach to computer vision. Similarly, in 2013, the <a href="https://arxiv.org/abs/1312.5602">Deep Q-Learning paper</a> showed how to combine Q-Learning with CNNs to successfully solve Atari games, reinvigorating RL as a research field with exciting experimental (rather than theoretical) results. Likewise, our work demonstrates that ES achieves strong performance on RL benchmarks, dispelling the common belief that ES methods are impossible to apply to high dimensional problems.</p>
+<p>ES is easy to implement and scale. Running on a computing cluster of 80 machines and 1,440 CPU cores, our implementation is able to train a 3D MuJoCo humanoid walker in only 10 minutes (A3C on 32 cores takes about 10 hours). Using 720 cores we can also obtain comparable performance to A3C on Atari while cutting down the training time from 1 day to 1 hour.</p>
+<p>In what follows, we'll first briefly describe the conventional RL approach, contrast that with our ES approach, discuss the tradeoffs between ES and RL, and finally highlight some of our experiments.</p>
+<h2 id="reinforcementlearning">Reinforcement Learning</h2>
+<p>Let's briefly look at how RL works. Suppose we are given some environment (e.g. a game) that we'd like to train an agent on. To describe the behavior of the agent, we define a policy function (the brain of the agent), which computes how the agent should act in any given situation. In practice, the policy is usually a neural network that takes the current state of the game as an input and calculates the probability of taking any of the allowed actions. A typical policy function might have about 1,000,000 parameters, so our task comes down to finding the precise setting of these parameters such that the policy plays well (i.e. wins a lot of games).</p>
+<figure>
+  <img src="https://openai.com/content/images/2017/03/first-graphic-1.png">
+  <figcaption>
+  Above: In the game of Pong, the policy could take the pixels of the screen and compute the probability of moving the player's paddle (in green, on right) Up, Down, or neither.
+  </figcaption>
+</figure>
+<p>The training process for the policy works as follows. Starting from a random initialization, we let the agent interact with the environment for a while and collect episodes of interaction (e.g. each episode is one game of Pong). We thus obtain a complete recording of what happened: what sequence of states we encountered, what actions we took in each state, and what the reward was at each step. As an example, below is a diagram of three episodes that each took 10 time steps in a hypothetical environment. Each rectangle is a state, and rectangles are colored green if the reward was positive (e.g. we just got the ball past our opponent) and red if the reward was negative (e.g. we missed the ball):</p>
+<p><img src="https://openai.com/content/images/2017/03/second-graphic-1.png" alt=""></p>
+<p>This diagram suggests a recipe for how we can improve the policy; whatever we happened to do leading up to the green states was good, and whatever we happened to do in the states leading up to the red areas was bad. We can then use backpropagation to compute a small update on the network's parameters that would make the green actions more likely in those states in the future, and the red actions less likely in those states in the future. We expect that the updated policy works a bit better as a result. We then iterate the process: collect another batch of episodes, do another update, etc.</p>
+<p><strong>Exploration by injecting noise in the actions.</strong> The policies we usually use in RL are stochastic, in that they only compute probabilities of taking any action. This way, during the course of training, the agent may find itself in a particular state many times, and at different times it will take different actions due to the sampling. This provides the signal needed for learning; some of those actions will lead to good outcomes, and get encouraged, and some of them will not work out, and get discouraged. We therefore say that we introduce exploration into the learning process by injecting noise into the agent's actions, which we do by sampling from the action distribution at each time step. This will be in contrast to ES, which we describe next.</p>
+<h2 id="evolutionstrategies">Evolution Strategies</h2>
+<p><strong>On &quot;Evolution&quot;.</strong> Before we dive into the ES approach, it is important to note that despite the word &quot;evolution&quot;, ES has very little to do with biological evolution. Early versions of these techniques may have been inspired by biological evolution and the approach can, on an abstract level, be seen as sampling a population of individuals and allowing the successful individuals to dictate the distribution of future generations. However, the mathematical details are so heavily abstracted away from biological evolution that it is best to think of ES as simply a class of black-box stochastic optimization techniques.</p>
+<p><strong>Black-box optimization.</strong> In ES, we forget entirely that there is an agent, an environment, that there are neural networks involved, or that interactions take place over time, etc. The whole setup is that 1,000,000 numbers (which happen to describe the parameters of the policy network) go in, 1 number comes out (the total reward), and we want to find the best setting of the 1,000,000 numbers. Mathematically, we would say that we are optimizing a function <code>f(w)</code> with respect to the input vector <code>w</code> (the parameters / weights of the network), but we make no assumptions about the structure of <code>f</code>, except that we can evaluate it (hence &quot;black box&quot;).</p>
+<p><strong>The ES algorithm.</strong> Intuitively, the optimization is a &quot;guess and check&quot; process, where we start with some random parameters and then repeatedly 1) tweak the guess a bit randomly, and 2) move our guess slightly towards whatever tweaks worked better. Concretely, at each step we take a parameter vector <code>w</code> and generate a population of, say, 100 slightly different parameter vectors <code>w1 ... w100</code> by jittering <code>w</code> with gaussian noise. We then evaluate each one of the 100 candidates independently by running the corresponding policy network in the environment for a while, and add up all the rewards in each case. The updated parameter vector then becomes the weighted sum of the 100 vectors, where each weight is proportional to the total reward (i.e. we want the more successful candidates to have a higher weight). Mathematically, you'll notice that this is also equivalent to estimating the gradient of the expected reward in the parameter space using finite differences, except we only do it along 100 random directions. Yet another way to see it is that we're still doing RL (Policy Gradients, or <a href="http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf">REINFORCE</a> specifically), where the agent's actions are to emit entire parameter vectors using a gaussian policy.</p>
+<figure>
+  <img src="https://openai.com/content/images/2017/03/evo.png">
+  <figcaption>
+  Above: ES optimization process, in a setting with only two parameters and a reward function (red = high, blue = low). At each iteration we show the current parameter value (in white), a population of jittered samples (in black), and the estimated gradient (white arrow). We keep moving the parameters to the top of the arrow until we converge to a local optimum. You can reproduce this figure with <a href="https://github.com/karpathy/randomfun/blob/master/es.ipynb">this notebook</a>.
+  </figcaption>
+</figure>
+<p><strong>Code sample.</strong> To make the core algorithm concrete and to highlight its simplicity, here is a short example of optimizing a quadratic function using ES (or see this <a href="https://gist.github.com/karpathy/77fbb6a8dac5395f1b73e7a89300318d">longer version</a> with more comments):</p>
+<pre><code class="language-python"># simple example: minimize a quadratic around some solution point
+import numpy as np
+solution = np.array([0.5, 0.1, -0.3])
+def f(w): return -np.sum((w - solution)**2)
+
+npop = 50      # population size
+sigma = 0.1    # noise standard deviation
+alpha = 0.001  # learning rate
+w = np.random.randn(3) # initial guess
+for i in range(300):
+  N = np.random.randn(npop, 3)
+  R = np.zeros(npop)
+  for j in range(npop):
+    w_try = w + sigma*N[j]
+    R[j] = f(w_try)
+  A = (R - np.mean(R)) / np.std(R)
+  w = w + alpha/(npop*sigma) * np.dot(N.T, A)
+</code></pre>
+<p><strong>Injecting noise in the parameters.</strong> Notice that the objective is identical to the one that RL optimizes: the expected reward. However, RL injects noise in the action space and uses backpropagation to compute the parameter updates, while ES injects noise directly in the parameter space. Another way to describe this is that RL is a &quot;guess and check&quot; on actions, while ES is a &quot;guess and check&quot; on parameters. Since we're injecting noise in the parameters, it is possible to use deterministic policies (and we do, in our experiments). It is also possible to add noise in both actions and parameters to potentially combine the two approaches.</p>
+<h2 id="tradeoffsbetweenesandrl">Tradeoffs between ES and RL</h2>
+<p>ES enjoys multiple advantages over RL algorithms (some of them are a little technical):</p>
+<ul>
+<li><strong>No need for backpropagation</strong>. ES only requires the forward pass of the policy and does not require backpropagation (or value function estimation), which makes the code shorter and between 2-3 times faster in practice. On memory-constrained systems, it is also not necessary to keep a record of the episodes for a later update. There is also no need to worry about exploding gradients in RNNs. Lastly, we can explore a much larger function class of policies, including networks that are not differentiable (such as in binary networks), or ones that include complex modules (e.g. pathfinding, or various optimization layers).</li>
+<li><strong>Highly parallelizable.</strong> ES only requires workers to communicate a few scalars between each other, while in RL it is necessary to synchronize entire parameter vectors (which can be millions of numbers). Intuitively, this is because we control the random seeds on each worker, so each worker can locally reconstruct the perturbations of the other workers. Thus, all that we need to communicate between workers is the reward of each perturbation. As a result, we observed linear speedups in our experiments as we added on the order of thousands of CPU cores to the optimization.</li>
+<li><strong>Higher robustness.</strong> Several hyperparameters that are difficult to set in RL implementations are side-stepped in ES. For example, RL is not &quot;scale-free&quot;, so one can achieve very different learning outcomes (including a complete failure) with different settings of the frame-skip hyperparameter in Atari. As we show in our work, ES works about equally well with any frame-skip.</li>
+<li><strong>Structured exploration.</strong> Some RL algorithms (especially policy gradients) initialize with random policies, which often manifests as random jitter on spot for a long time. This effect is mitigated in Q-Learning due to epsilon-greedy policies, where the max operation can cause the agents to perform some consistent action for a while (e.g. holding down a left arrow). This is more likely to do something in a game than if the agent jitters on spot, as is the case with policy gradients. Similar to Q-learning, ES does not suffer from these problems because we can use deterministic policies and achieve consistent exploration.</li>
+<li><strong>Credit assignment over long time scales.</strong> By studying both ES and RL gradient estimators mathematically we can see that ES is an attractive choice especially when the number of time steps in an episode is long, where actions have longlasting effects, or if no good value function estimates are available.</li>
+</ul>
+<p>Conversely, we also found some challenges to applying ES in practice. One core problem is that in order for ES to work, adding noise in parameters must lead to different outcomes to obtain some gradient signal. As we elaborate on in our paper, we found that the use of virtual batchnorm can help alleviate this problem, but further work on effectively parameterizing neural networks to have variable behaviors as a function of noise is necessary. As an example of a related difficulty, we found that in Montezuma's Revenge, one is very unlikely to get the key in the first level with a random network, while this is occasionally possible with random actions.</p>
+<h2 id="esiscompetitivewithrl">ES is competitive with RL</h2>
+<p>We compared the performance of ES and RL on two standard RL benchmarks: MuJoCo control tasks and Atari game playing. Each MuJoCo task (see examples below) contains a physically-simulated articulated figure, where the policy receives the positions of all joints and has to output the torques to apply at each joint in order to move forward. Below are some example agents trained on three MuJoCo control tasks, where the objective is to move forward:</p>
+<p><img src="https://openai.com/content/images/2017/03/out.gif" alt=""></p>
+<p>We usually compare the performance of algorithms by looking at their efficiency of learning from data; as a function of how many states we've seen, what is our average reward? Here are the example learning curves that we obtain, in comparison to RL (the <a href="https://arxiv.org/abs/1502.05477">TRPO</a> algorithm in this case):</p>
+<p><img src="https://openai.com/content/images/2017/03/es_vs_trpo_full.png" alt=""></p>
+<p><strong>Data efficiency comparison</strong>. The comparisons above show that ES (orange) can reach a comparable performance to TRPO (blue), although it doesn't quite match or surpass it in all cases. Moreover, by scanning horizontally we can see that ES is less efficient, but no worse than about a factor of 10 (note the x-axis is in log scale).</p>
+<p><strong>Wall clock comparison</strong>. Instead of looking at the raw number of states seen, one can argue that the most important metric to look at is the wall clock time: how long (in number of seconds) does it take to solve a given problem? This quantity ultimately dictates the achievable speed of iteration for a researcher. Since ES requires negligible communication between workers, we were able to solve one of the hardest MuJoCo tasks (a 3D humanoid) using 1,440 CPUs across 80 machines in only 10 minutes. As a comparison, in a typical setting 32 A3C workers on one machine would solve this task in about 10 hours. It is also possible that the performance of RL could also improve with more algorithmic and engineering effort, but we found that naively scaling A3C in a standard cloud CPU setting is challenging due to high communication bandwidth requirements.</p>
+<p>Below are a few videos of 3D humanoid walkers trained with ES. As we can see, the results have quite a bit of variety, based on which local minimum the optimization ends up converging into.</p>
+<p><img src="https://openai.com/content/images/2017/03/out-1.gif" alt=""></p>
+<p>On Atari, ES trained on 720 cores in 1 hour achieves comparable performance to A3C trained on 32 cores in 1 day. Below are some result snippets on Pong, Seaquest and Beamrider. These videos show the preprocessed frames, which is exactly what the agent sees when it is playing:</p>
+<p><img src="https://openai.com/content/images/2017/03/atari.gif" alt=""></p>
+<p>In particular, note that the submarine in Seaquest correctly learns to go up when its oxygen reaches low levels.</p>
+<h2 id="relatedwork">Related Work</h2>
+<p>ES is an algorithm from the neuroevolution literature, which has a long history in AI and a complete literature review is beyond the scope of this post. However, we encourage an interested reader to look at <a href="https://en.wikipedia.org/wiki/Neuroevolution">Wikipedia</a>, <a href="http://www.scholarpedia.org/article/Neuroevolution">Scholarpedia</a>, and Jürgen Schmidhuber's <a href="https://arxiv.org/abs/1404.7828">review article (Section 6.6)</a>. The work that most closely informed our approach is <a href="http://www.jmlr.org/papers/volume15/wierstra14a/wierstra14a.pdf">Natural Evolution Strategies</a> by Wierstra et al. 2014. Compared to this work and much of the work it has inspired, our focus is specifically on scaling these algorithms to large-scale, distributed settings, finding components that make the algorithms work better with deep neural networks (e.g. <a href="https://arxiv.org/abs/1606.03498">virtual batch norm</a>), and evaluating them on modern RL benchmarks.</p>
+<p>It is also worth noting that neuroevolution-related approaches have seen some recent resurgence in the machine learning literature, for example with <a href="https://arxiv.org/abs/1609.09106">HyperNetworks</a>, <a href="https://arxiv.org/abs/1703.01041">&quot;Large-Scale Evolution of Image Classifiers&quot;</a> and <a href="https://arxiv.org/abs/1606.02580">&quot;Convolution by Evolution&quot;</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Our work suggests that neuroevolution approaches can be competitive with reinforcement learning methods on modern agent-environment benchmarks, while offering significant benefits related to code complexity and ease of scaling to large-scale distributed settings. We also expect that more exciting work can be done by revisiting other ideas from this line of work, such as indirect encoding methods, or evolving the network structure in addition to the parameters.</p>
+<p><strong>Note on supervised learning</strong>. It is also important to note that supervised learning problems (e.g. image classification, speech recognition, or most other tasks in the industry), where one can compute the exact gradient of the loss function with backpropagation, are not directly impacted by these findings. For example, in our preliminary experiments we found that using ES to estimate the gradient on the MNIST digit recognition task can be as much as 1,000 times slower than using backpropagation. It is only in RL settings, where one has to estimate the gradient of the expected reward by sampling, where ES becomes competitive.</p>
+<p><strong>Code release</strong>. Finally, if you'd like to try running ES yourself, we encourage you to dive into the full details by reading  <a href="https://arxiv.org/abs/1703.03864">our paper</a> or looking at our code on this <a href="https://github.com/openai/evolution-strategies-starter">Github repo</a>.</p>
+<footer class="post-footer js-post-footer">
+  <div>
+    <hr>
+    <div class="row">
+      <div class="col">Cover Artwork</div>
+      <div class="col">Ben Barry</div>
+    </div>
+  </div>
+</footer><!--kg-card-end: markdown-->
+    </section>
+  </div>
+</section>
+  <footer class="post-footer post-footer--authors container js-post-footer-authors">
+  <div data-order="0">
+    <hr>
+    <div class="row" id="authors">
+      <div class="col">Authors</div>
+      <div class="col js-post-footer-authors-list ">
+        <span class="post-author"><a class="fade" href="/blog/authors/andrej/">Andrej Karpathy</a></span><span class="post-author"><a class="fade" href="/blog/authors/tim/">Tim Salimans</a></span><span class="post-author"><a class="fade" href="/blog/authors/jonathan-ho/">Jonathan Ho</a></span><span class="post-author"><a class="fade" href="/blog/authors/peter-chen/">Peter Chen</a></span><span class="post-author"><a class="fade" href="/blog/authors/ilya/">Ilya Sutskever</a></span><span class="post-author"><a class="fade" href="/blog/authors/john/">John Schulman</a></span><span class="post-author"><a class="fade" href="/blog/authors/greg/">Greg Brockman</a></span><span class="post-author"><a class="fade" href="/blog/authors/szymon-sidor/">Szymon Sidor</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<footer class="post-footer post-footer--tags container js-post-footer-tags">
+  <div>
+    <hr>
+    <div class="row" id="tags">
+      <div class="col">Filed Under</div>
+      <div class="col js-post-footer-tags-list">
+        <span class="post-tag"><a class="fade" href="/blog/tags/research/">Research</a></span><span class="post-tag"><a class="fade" href="/blog/tags/milestones/">Milestones</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</article>
+  
+
+  <footer class="footer container">
+  <div class="row line-height-1.65 mb-1">
+    <div class="col-12 col-md-3 col-xl-3">
+      <a href="/" class="d-block footer-logo mb-1.5 position-relative" style="left:-1px"><svg id="openai-horizontal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 936 232"><path d="M667.21,90.58c-13.76,0-23.58,4.7-28.4,13.6L636.22,109V92.9H613.83v97.86h23.55V132.54c0-13.91,7.56-21.89,20.73-21.89,12.56,0,19.76,7.77,19.76,21.31v58.8h23.56v-63C701.43,104.46,688.64,90.58,667.21,90.58ZM553,90.58c-27.79,0-45,17.34-45,45.25v13.74c0,26.84,17.41,43.51,45.44,43.51,18.75,0,31.89-6.87,40.16-21L579,163.68c-6.11,8.15-15.87,13.2-25.55,13.2-14.19,0-22.66-8.76-22.66-23.44v-3.89h65.73V133.32c0-26-17.07-42.74-43.5-42.74Zm22.09,43.15H530.71v-2.35c0-16.11,7.91-25,22.27-25,13.83,0,22.09,8.76,22.09,23.44ZM935.31,76.79V58.07H853.85V76.79h28.56V172H853.85v18.72h81.46V172H906.74V76.79ZM317.65,55.37c-36.38,0-59,22.67-59,59.18v19.74c0,36.5,22.61,59.18,59,59.18s59-22.68,59-59.18V114.55C376.64,78,354,55.37,317.65,55.37Zm34.66,80.27c0,24.24-12.63,38.14-34.66,38.14S283,159.88,283,135.64V113.19c0-24.24,12.64-38.14,34.66-38.14s34.66,13.9,34.66,38.14Zm98.31-45.06c-12.36,0-23.06,5.12-28.64,13.69l-2.53,3.9V92.9h-22.4V224.43h23.56V176.79l2.52,3.74c5.3,7.86,15.65,12.55,27.69,12.55,20.31,0,40.8-13.27,40.8-42.93V133.51c0-21.37-12.63-42.93-41-42.93ZM468.06,149c0,15.77-9.2,25.57-24,25.57-13.8,0-23.43-10.36-23.43-25.18V134.67c0-15,9.71-25.56,23.63-25.56,14.69,0,23.82,9.79,23.82,25.56ZM766.53,58.08,719,190.76h23.93l9.1-28.44h54.64l.09.28,9,28.16h23.92L792.07,58.07Zm-8.66,85.53,21.44-67.08,21.22,67.08Z"/><path d="M212.59,95.12a57.27,57.27,0,0,0-4.92-47.05,58,58,0,0,0-62.4-27.79A57.29,57.29,0,0,0,102.06,1,57.94,57.94,0,0,0,46.79,41.14,57.31,57.31,0,0,0,8.5,68.93a58,58,0,0,0,7.13,67.94,57.31,57.31,0,0,0,4.92,47A58,58,0,0,0,83,211.72,57.31,57.31,0,0,0,126.16,231a57.94,57.94,0,0,0,55.27-40.14,57.3,57.3,0,0,0,38.28-27.79A57.92,57.92,0,0,0,212.59,95.12ZM126.16,216a42.93,42.93,0,0,1-27.58-10c.34-.19,1-.52,1.38-.77l45.8-26.44a7.43,7.43,0,0,0,3.76-6.51V107.7l19.35,11.17a.67.67,0,0,1,.38.54v53.45A43.14,43.14,0,0,1,126.16,216ZM33.57,176.46a43,43,0,0,1-5.15-28.88c.34.21.94.57,1.36.81l45.81,26.45a7.44,7.44,0,0,0,7.52,0L139,142.52v22.34a.67.67,0,0,1-.27.6L92.43,192.18a43.14,43.14,0,0,1-58.86-15.77Zm-12-100A42.92,42.92,0,0,1,44,57.56V112a7.45,7.45,0,0,0,3.76,6.51l55.9,32.28L84.24,162a.68.68,0,0,1-.65.06L37.3,135.33A43.13,43.13,0,0,1,21.53,76.46Zm159,37-55.9-32.28L144,70a.69.69,0,0,1,.65-.06l46.29,26.73a43.1,43.1,0,0,1-6.66,77.76V120a7.44,7.44,0,0,0-3.74-6.54Zm19.27-29c-.34-.21-.94-.57-1.36-.81L152.67,57.2a7.44,7.44,0,0,0-7.52,0L89.25,89.47V67.14a.73.73,0,0,1,.28-.6l46.29-26.72a43.1,43.1,0,0,1,64,44.65ZM78.7,124.3,59.34,113.13a.73.73,0,0,1-.37-.54V59.14A43.09,43.09,0,0,1,129.64,26c-.34.19-.95.52-1.38.77L82.46,53.21a7.45,7.45,0,0,0-3.76,6.51Zm10.51-22.67,24.9-14.38L139,101.63v28.74L114.1,144.75,89.2,130.37Z"/></svg></a>
+    </div>
+    <div class="col-12 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Company</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul class="multicol-2 multicol-sm-1">
+        <li><a class="faded" href="/api/">API</a></li>
+        <li><a class="faded" href="/projects/">Projects</a></li>
+        <li><a class="faded" href="/blog/">Blog</a></li>
+        <li><a class="faded" href="/about/">About</a></li>
+        <li><a class="faded" href="/jobs/">Jobs</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Latest</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul>
+        <li><a class="faded" href="/blog/tags/research/">Research</a></li>
+        <li><a class="faded" href="/blog/tags/announcements/">Announcements</a></li>
+        <li><a class="faded" href="/blog/tags/events/">Events</a></li>
+        <li><a class="faded" href="/blog/tags/milestones/">Milestones</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Resources</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul>
+        <li><a class="faded" href="/newsroom/">Newsroom</a></li>
+        <li><a class="faded" href="/brand/">Brand Assets</a></li>
+        <li><a class="faded" href="/papers/">Papers</a></li>
+        <li><a class="faded" href="/charter/">Charter</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+  <script type="text/javascript" src="/assets/scripts/main.js?v=366de49231"></script>
+  
+  
+</body>
+</html>

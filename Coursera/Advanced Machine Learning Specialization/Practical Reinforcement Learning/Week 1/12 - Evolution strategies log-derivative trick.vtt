@@ -1,0 +1,585 @@
+WEBVTT
+
+1
+00:00:02.470 --> 00:00:05.320
+This is the kind of question you probably asked much more
+
+2
+00:00:05.320 --> 00:00:07.635
+frequently in the final years of your school education.
+
+3
+00:00:07.635 --> 00:00:09.900
+You have this logarithm of
+
+4
+00:00:09.900 --> 00:00:13.940
+some arbitrary function f of x and you want to get the gradient,
+
+5
+00:00:13.940 --> 00:00:15.405
+the derivative of this function.
+
+6
+00:00:15.405 --> 00:00:18.970
+And I want you to simplify the derivative for me by applying some of
+
+7
+00:00:18.970 --> 00:00:20.765
+the properties of derivatives you've studied
+
+8
+00:00:20.765 --> 00:00:24.280
+previously in calculus or finally as a school education.
+
+9
+00:00:24.280 --> 00:00:30.530
+Yes, if you first apply chain rule and then try and then replace the gradient of,
+
+10
+00:00:30.530 --> 00:00:34.830
+well the derivative of logarithm with the appropriate derivative from the table,
+
+11
+00:00:34.830 --> 00:00:37.950
+you will see that this thing is equal to one over f of x,
+
+12
+00:00:37.950 --> 00:00:40.990
+times the derivative of the f of x itself.
+
+13
+00:00:40.990 --> 00:00:43.330
+If you multiply both parts by f of x,
+
+14
+00:00:43.330 --> 00:00:46.380
+if you just move the one over f of x to the left,
+
+15
+00:00:46.380 --> 00:00:49.560
+you see that this thing is equal to the following equation.
+
+16
+00:00:49.560 --> 00:00:53.445
+Have the derivative f of x on the right hand side,
+
+17
+00:00:53.445 --> 00:00:56.160
+which is equal to the function itself,
+
+18
+00:00:56.160 --> 00:00:58.690
+f of x times the derivative of its logarithm.
+
+19
+00:00:58.690 --> 00:01:01.680
+This is a very simple trick, it's called the logderivative trick.
+
+20
+00:01:01.680 --> 00:01:03.395
+It's actually a very powerful one.
+
+21
+00:01:03.395 --> 00:01:06.490
+Let's see how we can use it to simplify our lives.
+
+22
+00:01:06.490 --> 00:01:11.060
+So, you have this nabla J from the previous for like three slides, six slides ago.
+
+23
+00:01:11.060 --> 00:01:15.390
+And we're now going to plug the logderivative trick this equation directly
+
+24
+00:01:15.390 --> 00:01:20.410
+instead of the nabla of probability in this function of a normal distribution.
+
+25
+00:01:20.410 --> 00:01:23.835
+This gradient N theta mu sigma squared.
+
+26
+00:01:23.835 --> 00:01:26.390
+So, if we replaced five,
+
+27
+00:01:26.390 --> 00:01:28.520
+the right hand side of this formula below,
+
+28
+00:01:28.520 --> 00:01:32.920
+you'll see that this nabla J becomes equal to this formula which is even longer,
+
+29
+00:01:32.920 --> 00:01:34.885
+but as it turns out much simpler.
+
+30
+00:01:34.885 --> 00:01:39.630
+So, this is an integral over the probability from normal distribution of
+
+31
+00:01:39.630 --> 00:01:44.140
+thetas times the gradient of the logarithm of this probability here,
+
+32
+00:01:44.140 --> 00:01:49.265
+times the expected trajectory return defined by the second expectation.
+
+33
+00:01:49.265 --> 00:01:52.815
+Now, can we tune this particular format?
+
+34
+00:01:52.815 --> 00:01:58.895
+Can we adapt it to estimate the nabla J in a sampled manner to speed up,
+
+35
+00:01:58.895 --> 00:02:03.445
+to make the computations tractable in any practical environment. What do we do?
+
+36
+00:02:03.445 --> 00:02:07.250
+I'll guess. The easy part here is
+
+37
+00:02:07.250 --> 00:02:11.070
+that once we have the integral times of the probability density function,
+
+38
+00:02:11.070 --> 00:02:13.225
+we can pretend this is an expectation gain.
+
+39
+00:02:13.225 --> 00:02:16.740
+And this gradient of the logarithm is whatever is expected in
+
+40
+00:02:16.740 --> 00:02:19.180
+this expectation and be both
+
+41
+00:02:19.180 --> 00:02:22.165
+simplified for it becomes like this thing here on the top of the slide.
+
+42
+00:02:22.165 --> 00:02:26.510
+So, if you now replace the expectations with samples,
+
+43
+00:02:26.510 --> 00:02:28.210
+you'll see this guy here below.
+
+44
+00:02:28.210 --> 00:02:31.700
+And again it's more of the same thing but you multiplied by
+
+45
+00:02:31.700 --> 00:02:37.235
+the gradient of the logarithm of the normal distribution probability density function,
+
+46
+00:02:37.235 --> 00:02:40.430
+which you can explicitly compute via, well,
+
+47
+00:02:40.430 --> 00:02:44.950
+even do this on a sheet of paper in like 10 minutes,
+
+48
+00:02:44.950 --> 00:02:46.920
+or you can try to google it,
+
+49
+00:02:46.920 --> 00:02:48.465
+or work from it to whatever.
+
+50
+00:02:48.465 --> 00:02:51.330
+If you remember, TensorFlow or Theano or
+
+51
+00:02:51.330 --> 00:02:55.545
+any other symbolic graph frameworks from the deep learning course.
+
+52
+00:02:55.545 --> 00:02:58.320
+You also know that you can get the value of
+
+53
+00:02:58.320 --> 00:03:02.340
+this gradient explicitly by simply using the symbolic gradients.
+
+54
+00:03:02.340 --> 00:03:05.620
+So, here you go, you have a sampled estimate over
+
+55
+00:03:05.620 --> 00:03:09.840
+the simple estimate of a derivative of the expected return,
+
+56
+00:03:09.840 --> 00:03:12.570
+respect to your mu and sigma squared.
+
+57
+00:03:12.570 --> 00:03:15.530
+So, once you have finally obtained a way
+
+58
+00:03:15.530 --> 00:03:19.080
+to estimate the nabla J in a sampled based manner like this formula in the slide.
+
+59
+00:03:19.080 --> 00:03:21.790
+It's time to use this formula to devise
+
+60
+00:03:21.790 --> 00:03:25.400
+an actual algorithm which is capable of sorting and reinforcement during task at hand,
+
+61
+00:03:25.400 --> 00:03:29.310
+from kind of from scratch, from zero to the convergence station.
+
+62
+00:03:29.310 --> 00:03:32.625
+The algorithm's going to be very similar to what it had before.
+
+63
+00:03:32.625 --> 00:03:35.890
+And you will start with some initial guess of mu and sigma squared.
+
+64
+00:03:35.890 --> 00:03:39.810
+Let's see that the initial guess provided us with
+
+65
+00:03:39.810 --> 00:03:44.950
+this sample of green dots at the bottom center of this slide.
+
+66
+00:03:44.950 --> 00:03:48.930
+And then again, intuitively adjust it using the feedback,
+
+67
+00:03:48.930 --> 00:03:50.870
+the reward function of a trajectory defined by
+
+68
+00:03:50.870 --> 00:03:54.970
+this hew with a blue kind of easy clients on the right.
+
+69
+00:03:54.970 --> 00:04:01.385
+Basically, this is a simple type problem to illustrate how the algorithm performs.
+
+70
+00:04:01.385 --> 00:04:06.280
+So, you have a mu and sigma and once you compute the gradient of
+
+71
+00:04:06.280 --> 00:04:11.680
+the expected return which is slightly better on the upper right part of the samples.
+
+72
+00:04:11.680 --> 00:04:15.755
+If you can predict gradient of this thing with respect to mu and sigma squared,
+
+73
+00:04:15.755 --> 00:04:17.590
+you'll see that by following this gradient,
+
+74
+00:04:17.590 --> 00:04:20.990
+you'll move the mu upwards and to the right by
+
+75
+00:04:20.990 --> 00:04:25.145
+a slight degree using the learning rate you have for the gradient descent.
+
+76
+00:04:25.145 --> 00:04:28.980
+Still slightly, it will crawl upwards by a small step.
+
+77
+00:04:28.980 --> 00:04:31.180
+Then, if you repeat the whole process again,
+
+78
+00:04:31.180 --> 00:04:32.440
+you get even better estimate,
+
+79
+00:04:32.440 --> 00:04:34.895
+and maybe even better estimate, and so on and so forth.
+
+80
+00:04:34.895 --> 00:04:37.460
+Each time you draw new samples from the normal distribution,
+
+81
+00:04:37.460 --> 00:04:40.560
+say while say, 50 samples per iteration,
+
+82
+00:04:40.560 --> 00:04:41.920
+which would be more or less a key.
+
+83
+00:04:41.920 --> 00:04:45.900
+Three sampling a blade one or several gains and average their performance.
+
+84
+00:04:45.900 --> 00:04:51.415
+Now, eventually this thing is going to crawl uphill and find itself in the maximum,
+
+85
+00:04:51.415 --> 00:04:52.950
+maybe a local one here.
+
+86
+00:04:52.950 --> 00:04:55.740
+And since it's a probability distribution,
+
+87
+00:04:55.740 --> 00:04:57.075
+it's not yet the final stage,
+
+88
+00:04:57.075 --> 00:04:58.480
+because there's one more thing to change,
+
+89
+00:04:58.480 --> 00:05:03.275
+that you still can adjust the derivative of the sigma squared.
+
+90
+00:05:03.275 --> 00:05:08.800
+Adjust the sigma squared to minimize the loss given by the variance.
+
+91
+00:05:08.800 --> 00:05:14.645
+And this uses to this segue of crawling uphill the sampled base manner,
+
+92
+00:05:14.645 --> 00:05:19.700
+which will eventually find itself in a more or less delta function in the optimal point.
+
+93
+00:05:19.700 --> 00:05:21.735
+And by eventually, of course, they mean,
+
+94
+00:05:21.735 --> 00:05:24.010
+if you have an infinite amount of iterations,
+
+95
+00:05:24.010 --> 00:05:25.670
+and infinite amount of samples and so on,
+
+96
+00:05:25.670 --> 00:05:27.500
+because in a practical case,
+
+97
+00:05:27.500 --> 00:05:30.720
+you can only guarantee that it's kind of more likely to be
+
+98
+00:05:30.720 --> 00:05:34.635
+or in some vicinity of the optimum as you progress.
+
+99
+00:05:34.635 --> 00:05:36.650
+The formal step by step definition,
+
+100
+00:05:36.650 --> 00:05:40.390
+the algorithm looks very similar to whatever you had before in the cross-entropy method.
+
+101
+00:05:40.390 --> 00:05:42.580
+And basically, it shows that we first have to,
+
+102
+00:05:42.580 --> 00:05:45.805
+yes, the initial values for mu and sigma squared.
+
+103
+00:05:45.805 --> 00:05:48.095
+These are both, maybe large vectors.
+
+104
+00:05:48.095 --> 00:05:50.810
+You can try either using some generals,
+
+105
+00:05:50.810 --> 00:05:53.560
+a mu of zero and sigma of a small number
+
+106
+00:05:53.560 --> 00:05:56.660
+for every possible parameter in the entire array.
+
+107
+00:05:56.660 --> 00:05:59.075
+Or you could use a prior node issue, for example,
+
+108
+00:05:59.075 --> 00:06:01.860
+pre-train your neural network on some, well,
+
+109
+00:06:01.860 --> 00:06:06.645
+supervise the data or on some similar environment and use it as an initial guess.
+
+110
+00:06:06.645 --> 00:06:09.620
+So, once the initial mu seen with the taint,
+
+111
+00:06:09.620 --> 00:06:13.490
+you then get the new sample trajectories.
+
+112
+00:06:13.490 --> 00:06:17.590
+You sample mu, you sample theta from mu sigma sample trajectories and this theta.
+
+113
+00:06:17.590 --> 00:06:20.655
+And you use those trajectories to estimate the use
+
+114
+00:06:20.655 --> 00:06:24.055
+of the expected tretron using the formula we've just derived.
+
+115
+00:06:24.055 --> 00:06:26.830
+Now, once we get the formula here,
+
+116
+00:06:26.830 --> 00:06:28.925
+we use it to perform a gradient ascent.
+
+117
+00:06:28.925 --> 00:06:31.015
+So, we want to maximize the nabla J,
+
+118
+00:06:31.015 --> 00:06:35.880
+we say that our new mu is the previous mu plus aIpha,
+
+119
+00:06:35.880 --> 00:06:41.220
+some learning rate, say 0.01 times the derivative of J with respect to this mu.
+
+120
+00:06:41.220 --> 00:06:44.230
+And the same works for sigma. If you replace
+
+121
+00:06:44.230 --> 00:06:47.005
+those derivatives with a more ugly fixed stuff,
+
+122
+00:06:47.005 --> 00:06:50.090
+this actually means that once you've sampled the, well,
+
+123
+00:06:50.090 --> 00:06:53.340
+thetas and first theta your sample trajectories and returns,
+
+124
+00:06:53.340 --> 00:06:59.350
+then you can just break down the VGU which is non-analytical manner,
+
+125
+00:06:59.350 --> 00:07:02.760
+find a formula non-pi or any other, well,
+
+126
+00:07:02.760 --> 00:07:06.445
+write a formula non-pi or any other favorite library of yours.
+
+127
+00:07:06.445 --> 00:07:11.455
+And basically you repeat the process until you're satisfied with the result.
+
+128
+00:07:11.455 --> 00:07:13.390
+I've written a formula for
+
+129
+00:07:13.390 --> 00:07:18.205
+a one-dimensional mu here but you can easily extend it for anything.
+
+130
+00:07:18.205 --> 00:07:20.530
+And for sigma squared, that small is the same thing,
+
+131
+00:07:20.530 --> 00:07:22.890
+you have the derivative of normal distribution.
+
+132
+00:07:22.890 --> 00:07:27.515
+And since normal distribution is something times the expanse of
+
+133
+00:07:27.515 --> 00:07:32.835
+the square difference between mu and the particular sample,
+
+134
+00:07:32.835 --> 00:07:36.610
+the logarithm of this normal distribution is even easier to compute.
+
+135
+00:07:36.610 --> 00:07:39.270
+As you can see right now, the new definition
+
+136
+00:07:39.270 --> 00:07:41.645
+of initial strategy algorithm is not that simple.
+
+137
+00:07:41.645 --> 00:07:44.620
+If it's from a single slide now of the large font size.
+
+138
+00:07:44.620 --> 00:07:47.520
+As I promised to you, this definition is also quite
+
+139
+00:07:47.520 --> 00:07:50.710
+decent from our usual notion of evolution and,
+
+140
+00:07:50.710 --> 00:07:52.845
+well, natural selection yada yada yada.
+
+141
+00:07:52.845 --> 00:07:57.050
+It's rather a trick from domain of stochastic optimization methods.
+
+142
+00:07:57.050 --> 00:07:58.570
+And it is true for
+
+143
+00:07:58.570 --> 00:08:00.090
+any stochastic optimization method or
+
+144
+00:08:00.090 --> 00:08:02.325
+any reinforcement early learning algorithm for that matter.
+
+145
+00:08:02.325 --> 00:08:05.345
+We can slightly improve it by applying duct tape,
+
+146
+00:08:05.345 --> 00:08:09.360
+the usual dose of hacks, heuristics, and tricks.

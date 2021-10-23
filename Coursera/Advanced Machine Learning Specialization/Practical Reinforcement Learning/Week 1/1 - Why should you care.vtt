@@ -1,0 +1,697 @@
+WEBVTT
+
+1
+00:00:03.220 --> 00:00:06.755
+Hello everyone. Welcome to our Reinforcement Learning course.
+
+2
+00:00:06.755 --> 00:00:09.375
+This time, we are going to study yet another field of machine learning,
+
+3
+00:00:09.375 --> 00:00:11.430
+as the name suggests it's called reinforcement learning.
+
+4
+00:00:11.430 --> 00:00:17.140
+And since this field has grown very much entangled with other fields like deep learning,
+
+5
+00:00:17.140 --> 00:00:18.450
+and Bayesian methods of machine learning.
+
+6
+00:00:18.450 --> 00:00:21.800
+We want to try to draw a clear definition.
+
+7
+00:00:21.800 --> 00:00:23.780
+Instead let us begin with some kind of a
+
+8
+00:00:23.780 --> 00:00:26.770
+well a typical application case of reinforcement learning,
+
+9
+00:00:26.770 --> 00:00:29.360
+so that you'll get the general intuitive impression
+
+10
+00:00:29.360 --> 00:00:31.515
+of how it works, and what makes it tick.
+
+11
+00:00:31.515 --> 00:00:35.505
+So to begin with, we have this supervised learning problem formulation,
+
+12
+00:00:35.505 --> 00:00:39.310
+where you try to have a data set with objects and answers,
+
+13
+00:00:39.310 --> 00:00:42.435
+and you trying to approximate those answers,
+
+14
+00:00:42.435 --> 00:00:45.885
+find some function that maps your objects into answers.
+
+15
+00:00:45.885 --> 00:00:49.935
+You do so, usually by using some kind of algorithm,
+
+16
+00:00:49.935 --> 00:00:52.530
+either decision tree, or a linear model,
+
+17
+00:00:52.530 --> 00:00:55.650
+or unilateral or any other model that performs this task.
+
+18
+00:00:55.650 --> 00:00:58.325
+And you train this model to minimize a loss function,
+
+19
+00:00:58.325 --> 00:01:00.530
+a measure of kind of... a measure of quality,
+
+20
+00:01:00.530 --> 00:01:03.200
+the lower the loss function, the better the algorithm performs.
+
+21
+00:01:03.200 --> 00:01:05.410
+And for example, let's consider a problem of
+
+22
+00:01:05.410 --> 00:01:08.460
+banner ads click prediction, click for a prediction.
+
+23
+00:01:08.460 --> 00:01:12.710
+So you have features of your banner, say the topics.
+
+24
+00:01:12.710 --> 00:01:15.440
+The thing they tried to advertise,
+
+25
+00:01:15.440 --> 00:01:17.060
+and the features that some kind of context,
+
+26
+00:01:17.060 --> 00:01:18.630
+what kind of page did it appear,
+
+27
+00:01:18.630 --> 00:01:21.370
+or maybe the features of the user who appeared on this page.
+
+28
+00:01:21.370 --> 00:01:23.360
+And those are the features.
+
+29
+00:01:23.360 --> 00:01:25.845
+Now given those features you try to predict just one variable,
+
+30
+00:01:25.845 --> 00:01:31.200
+whether or not the user clicks on this banner or as other popular approach suggests,
+
+31
+00:01:31.200 --> 00:01:35.500
+the probability that the user will click on this banner or click for rate.
+
+32
+00:01:35.500 --> 00:01:39.340
+You can usually achieve this by employing one of the algorithms,
+
+33
+00:01:39.340 --> 00:01:42.200
+again, linear models, decision trees, neural networks, and
+
+34
+00:01:42.200 --> 00:01:46.215
+the loss function would be for classification problems say they crossentropy,
+
+35
+00:01:46.215 --> 00:01:52.200
+Or maybe hinge loss if you are a fan of support vector machines or similar things.
+
+36
+00:01:52.200 --> 00:01:55.920
+Another problems like traditional misfold by different loss functions of course,
+
+37
+00:01:55.920 --> 00:01:58.790
+but list this one for the time being.
+
+38
+00:01:58.790 --> 00:02:03.080
+Now the problem here is that you assume
+
+39
+00:02:03.080 --> 00:02:07.060
+that you have this kind of known large data set where you were for each banner,
+
+40
+00:02:07.060 --> 00:02:08.340
+and for each page,
+
+41
+00:02:08.340 --> 00:02:10.325
+for each user have the reference answer,
+
+42
+00:02:10.325 --> 00:02:12.945
+but in reality you don't have it.
+
+43
+00:02:12.945 --> 00:02:15.525
+So here's how much reinforcement learning problem,
+
+44
+00:02:15.525 --> 00:02:18.330
+instead of having a data sets you now have some kind
+
+45
+00:02:18.330 --> 00:02:21.890
+of practical kind of neo business application.
+
+46
+00:02:21.890 --> 00:02:23.695
+We don't have that data yet.
+
+47
+00:02:23.695 --> 00:02:25.230
+To be more discrete,
+
+48
+00:02:25.230 --> 00:02:29.080
+let's say that you have some kind of new hot startup at your disposal,
+
+49
+00:02:29.080 --> 00:02:33.365
+you've just got in charge of YouTube or Facebook or whatever,
+
+50
+00:02:33.365 --> 00:02:38.955
+and you have this need website that's a lot of users visit everyday
+
+51
+00:02:38.955 --> 00:02:41.840
+and for each users for each user that visits any of
+
+52
+00:02:41.840 --> 00:02:45.150
+your pages you get the chance to show him a banner that he will either click or not.
+
+53
+00:02:45.150 --> 00:02:48.230
+On the other side of the barricade you have banner ad providers.
+
+54
+00:02:48.230 --> 00:02:52.080
+Those are the companies that are going to pay you if you show their banner.
+
+55
+00:02:52.080 --> 00:02:54.020
+And if users click on their banners.
+
+56
+00:02:54.020 --> 00:02:57.865
+So you have this problem of picking what banner do you want to show,
+
+57
+00:02:57.865 --> 00:03:00.940
+but you cannot yet use supervised learning because you have no data set.
+
+58
+00:03:00.940 --> 00:03:03.750
+However, I more or less believe that by
+
+59
+00:03:03.750 --> 00:03:06.740
+this time you already know how to solve this or you can
+
+60
+00:03:06.740 --> 00:03:09.350
+devise some kind of solution how to get
+
+61
+00:03:09.350 --> 00:03:12.700
+some way or to apply supervised learning undertakings here.
+
+62
+00:03:12.700 --> 00:03:15.550
+So now I want you to think up how do you apply supervised learning?
+
+63
+00:03:15.550 --> 00:03:17.130
+How would you solve this case?
+
+64
+00:03:17.130 --> 00:03:19.345
+There's of course multiple ways you can do so,
+
+65
+00:03:19.345 --> 00:03:23.250
+and so the general approach the most popular solution seems to be the
+
+66
+00:03:23.250 --> 00:03:27.270
+following: You have a data driven approach.
+
+67
+00:03:27.270 --> 00:03:29.700
+You try to apply data driven approach without data.
+
+68
+00:03:29.700 --> 00:03:32.835
+So those things you have to do you have to generate some data.
+
+69
+00:03:32.835 --> 00:03:36.100
+You can do so by initializing with say around them strategy,
+
+70
+00:03:36.100 --> 00:03:40.145
+so you assign random banners you just show advertisements at random,
+
+71
+00:03:40.145 --> 00:03:45.380
+and then you see whether user clicks on this random banner or he doesn't.
+
+72
+00:03:45.380 --> 00:03:48.300
+And you record this into some kind of flagging system.
+
+73
+00:03:48.300 --> 00:03:51.105
+So once this system runs for say a day,
+
+74
+00:03:51.105 --> 00:03:55.055
+you'll get a lot of data containing clicks and non clicks,
+
+75
+00:03:55.055 --> 00:03:57.430
+mostly non clicks, because you know
+
+76
+00:03:57.430 --> 00:04:00.235
+the click through rate is usually a way below point 5.
+
+77
+00:04:00.235 --> 00:04:02.430
+And then you have this kind of
+
+78
+00:04:02.430 --> 00:04:05.660
+supervised learning problem formulated for you, you to have this data,
+
+79
+00:04:05.660 --> 00:04:08.850
+and you try to fit a model that predicts whether
+
+80
+00:04:08.850 --> 00:04:11.070
+a user that you have in that respect whether
+
+81
+00:04:11.070 --> 00:04:13.890
+a user will click on that banner that you've shown him.
+
+82
+00:04:13.890 --> 00:04:20.340
+Now, you have this model that is hopefully better than just random banner placement.
+
+83
+00:04:20.340 --> 00:04:22.770
+You can use this model say secure direction,
+
+84
+00:04:22.770 --> 00:04:24.940
+to improve how your system works,
+
+85
+00:04:24.940 --> 00:04:27.185
+so you go to the next iteration of this loop.
+
+86
+00:04:27.185 --> 00:04:32.560
+You now start to show banners based on the click through rate predicted by your system.
+
+87
+00:04:32.560 --> 00:04:34.465
+Since it is a duct tape approach,
+
+88
+00:04:34.465 --> 00:04:37.350
+it is probably going to work better than random,
+
+89
+00:04:37.350 --> 00:04:42.725
+but it still has a lot of problems that prevent it from being optimal all the cases.
+
+90
+00:04:42.725 --> 00:04:45.770
+So the first problem with this approach is that even though you can train them
+
+91
+00:04:45.770 --> 00:04:48.790
+well that predicts the probability of using clicking a banner,
+
+92
+00:04:48.790 --> 00:04:51.435
+it's not always a good idea to follow what it suggests.
+
+93
+00:04:51.435 --> 00:04:54.310
+Sometimes there are banners that get hyper use or have been clicked,
+
+94
+00:04:54.310 --> 00:04:57.390
+but that are detrimental to your popularity,
+
+95
+00:04:57.390 --> 00:04:59.385
+detrimental to your user base.
+
+96
+00:04:59.385 --> 00:05:02.530
+For example, you have the click pay banners which are as the name suggests
+
+97
+00:05:02.530 --> 00:05:06.100
+the banners that try to get clicked by all means available.
+
+98
+00:05:06.100 --> 00:05:08.380
+These can for example suggest that some kind of celebrity
+
+99
+00:05:08.380 --> 00:05:10.940
+died recently although this is false information,
+
+100
+00:05:10.940 --> 00:05:13.150
+and although if you're a trust for
+
+101
+00:05:13.150 --> 00:05:16.210
+a service users are going to click on those banners at first,
+
+102
+00:05:16.210 --> 00:05:19.900
+you'll eventually lose track of your users by showing those banners too frequently.
+
+103
+00:05:19.900 --> 00:05:24.185
+So what you get here as you will gain more kind of picture rate but
+
+104
+00:05:24.185 --> 00:05:29.190
+you'll use your user base and therefore your kind of total utility will decrease,
+
+105
+00:05:29.190 --> 00:05:34.140
+instead you can try to show content which is kind of more beneficial for your users,
+
+106
+00:05:34.140 --> 00:05:38.960
+and you can try to explicitly optimize the happiness of the users,
+
+107
+00:05:38.960 --> 00:05:43.415
+so that the users stay longer and your user based again increases you gain more trust.
+
+108
+00:05:43.415 --> 00:05:45.850
+So this is how you can ruin
+
+109
+00:05:45.850 --> 00:05:49.965
+your service by simply supplying the machine learning or trusting it too much.
+
+110
+00:05:49.965 --> 00:05:52.810
+So one more possible complication of this approach is
+
+111
+00:05:52.810 --> 00:05:55.760
+that unlike the usual supervised learning pipeline,
+
+112
+00:05:55.760 --> 00:05:57.220
+where you have a data you train,
+
+113
+00:05:57.220 --> 00:05:59.610
+then you deploy, then you freeze the model for eternity.
+
+114
+00:05:59.610 --> 00:06:01.980
+The problem here is that the situation constantly changes,
+
+115
+00:06:01.980 --> 00:06:03.220
+and you have to retrain your model
+
+116
+00:06:03.220 --> 00:06:05.445
+periodically authentically so that you can adjust this change.
+
+117
+00:06:05.445 --> 00:06:10.040
+This is of course well this is not unsolvable but it
+
+118
+00:06:10.040 --> 00:06:14.640
+may turn out to produce very well terrible results.
+
+119
+00:06:14.640 --> 00:06:16.550
+If you keep this thing unattended.
+
+120
+00:06:16.550 --> 00:06:19.300
+For example, lets see that you begin
+
+121
+00:06:19.300 --> 00:06:22.680
+this kind of free training loop a week before Christmas,
+
+122
+00:06:22.680 --> 00:06:24.800
+and since it's a week before Christmas
+
+123
+00:06:24.800 --> 00:06:27.505
+almost everyone will be obsessed with Christmas presents,
+
+124
+00:06:27.505 --> 00:06:31.335
+so your model on probably to show Christmas related matters.
+
+125
+00:06:31.335 --> 00:06:34.140
+Now what happens next is that while it
+
+126
+00:06:34.140 --> 00:06:36.870
+is most certainly learns to profit from this Christmas,
+
+127
+00:06:36.870 --> 00:06:41.610
+it will be able to raise huge click rates for something amount of time,
+
+128
+00:06:41.610 --> 00:06:43.690
+eventually the Christmas is going to be over,
+
+129
+00:06:43.690 --> 00:06:46.010
+and then your model will have to readjust.
+
+130
+00:06:46.010 --> 00:06:49.445
+But well counter intuitively it won't be able to.
+
+131
+00:06:49.445 --> 00:06:53.460
+The problem here is that you always train your model on the kinds of banners
+
+132
+00:06:53.460 --> 00:06:57.250
+that you produce of this... with this very modeled,
+
+133
+00:06:57.250 --> 00:07:01.150
+and if your model shows everyone banners about Christmas and Christmas only,
+
+134
+00:07:01.150 --> 00:07:03.790
+you won't have any data points for your show or
+
+135
+00:07:03.790 --> 00:07:08.210
+some other kinds of banners and they are clicks say more frequently.
+
+136
+00:07:08.210 --> 00:07:10.650
+So this is more or less a vicious circle.
+
+137
+00:07:10.650 --> 00:07:16.370
+You have a model which gets biased towards some particular artifact in the daytime,
+
+138
+00:07:16.370 --> 00:07:19.390
+and then the model gets trained to be even more
+
+139
+00:07:19.390 --> 00:07:22.760
+biased because it doesn't get any other kind of external data.
+
+140
+00:07:22.760 --> 00:07:29.060
+Now, again this might be a problem left unattended but I'm sure that you'll be able
+
+141
+00:07:29.060 --> 00:07:32.160
+to get some kind of heuristic solution to
+
+142
+00:07:32.160 --> 00:07:35.735
+this problem so that your model will readjust eventually.
+
+143
+00:07:35.735 --> 00:07:41.120
+Any ideas? So yes one popular approaches is
+
+144
+00:07:41.120 --> 00:07:47.145
+to say take your model and instead of trusting it 100% of the time,
+
+145
+00:07:47.145 --> 00:07:50.670
+you can flip a coin and if it turns out
+
+146
+00:07:50.670 --> 00:07:54.660
+has you pick the most well the most popular banner,
+
+147
+00:07:54.660 --> 00:07:59.370
+and if it turns out tails then you just show whatever random banner you have,
+
+148
+00:07:59.370 --> 00:08:01.870
+or maybe show the banner or which is in top 100,
+
+149
+00:08:01.870 --> 00:08:05.120
+but you pick this banner uniformly.
+
+150
+00:08:05.120 --> 00:08:07.980
+So we have just devised a duct tape based solution
+
+151
+00:08:07.980 --> 00:08:10.230
+to our learning by trial and error problem.
+
+152
+00:08:10.230 --> 00:08:12.770
+And this proves that if you have enough duct tape you can fix
+
+153
+00:08:12.770 --> 00:08:15.625
+any problem regardless of how complicated it is.
+
+154
+00:08:15.625 --> 00:08:21.520
+The only issue here is that there are probably well definitely more complications,
+
+155
+00:08:21.520 --> 00:08:23.820
+more hidden issues that will arise if
+
+156
+00:08:23.820 --> 00:08:26.755
+you deploy this problem to your particular production environment.
+
+157
+00:08:26.755 --> 00:08:29.650
+And the only way you can solve them so far,
+
+158
+00:08:29.650 --> 00:08:35.050
+is by actually observing well losing money by deploying an imperfect solution,
+
+159
+00:08:35.050 --> 00:08:38.760
+and trying to develop some kind of fix asap.
+
+160
+00:08:38.760 --> 00:08:43.680
+Instead let's try to view this from a more scientific angle.
+
+161
+00:08:43.680 --> 00:08:46.315
+This is where we need the domain of reinforcement learning.
+
+162
+00:08:46.315 --> 00:08:49.720
+So basically, if we to summarize it in one sentence, it would be,
+
+163
+00:08:49.720 --> 00:08:54.455
+a formal kind of science that studies the problem of learning by trial and error.
+
+164
+00:08:54.455 --> 00:08:58.905
+So if a supervised learning is how you learn by having lot of examples, so for example,
+
+165
+00:08:58.905 --> 00:09:01.240
+this is how you get the higher education in the low,
+
+166
+00:09:01.240 --> 00:09:04.740
+reinforcements learning is how you learn to ride a bicycle.
+
+167
+00:09:04.740 --> 00:09:06.910
+You don't just read a book where you have
+
+168
+00:09:06.910 --> 00:09:09.510
+1000 training samples of how do you have to
+
+169
+00:09:09.510 --> 00:09:12.115
+behave when you're riding a bicycle in every possible situation.
+
+170
+00:09:12.115 --> 00:09:16.755
+You just take a bicycles you well you try to ride it,
+
+171
+00:09:16.755 --> 00:09:19.790
+you probably fail for the first half dozen times.
+
+172
+00:09:19.790 --> 00:09:23.410
+You probably hurt yourself, but from hurting yourself you actually learn,
+
+173
+00:09:23.410 --> 00:09:26.740
+and you eventually get better and better by simply
+
+174
+00:09:26.740 --> 00:09:31.430
+trying better approaches and adjusting to how the mechanics operate.

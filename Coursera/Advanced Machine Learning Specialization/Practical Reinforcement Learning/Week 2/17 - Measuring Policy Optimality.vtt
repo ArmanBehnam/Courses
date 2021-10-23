@@ -1,0 +1,393 @@
+WEBVTT
+
+1
+00:00:02.610 --> 00:00:05.785
+So, how to compare to policies with each other.
+
+2
+00:00:05.785 --> 00:00:09.440
+One natural measure of policy performance is how
+
+3
+00:00:09.440 --> 00:00:13.215
+much of the reward could the policy get out of the environment.
+
+4
+00:00:13.215 --> 00:00:18.785
+In fact, we will say that policy pi is greater or equal than pi prime,
+
+5
+00:00:18.785 --> 00:00:20.545
+if, and only if,
+
+6
+00:00:20.545 --> 00:00:23.085
+the value function of policy pi is
+
+7
+00:00:23.085 --> 00:00:26.525
+greater or equal to the value function of policy pi prime,
+
+8
+00:00:26.525 --> 00:00:28.950
+for each and every state.
+
+9
+00:00:28.950 --> 00:00:34.580
+This comparison criteria, naturally yield the definition of the optimal policy.
+
+10
+00:00:34.580 --> 00:00:38.950
+We'll say that the policy pi star is the optimal policy if,
+
+11
+00:00:38.950 --> 00:00:43.610
+and only if, it is greater or equal to any other possible policy.
+
+12
+00:00:43.610 --> 00:00:49.200
+But what if for some environment the optimal policy does not exist?
+
+13
+00:00:49.200 --> 00:00:53.210
+What if for some states the one policy is better,
+
+14
+00:00:53.210 --> 00:00:54.525
+but for the states,
+
+15
+00:00:54.525 --> 00:00:56.255
+the other policy is on top?
+
+16
+00:00:56.255 --> 00:01:00.885
+Actually, for an Markov decision process this cannot be the case.
+
+17
+00:01:00.885 --> 00:01:05.610
+There is a beautiful theorem stating that in any finite Markov decision process,
+
+18
+00:01:05.610 --> 00:01:08.485
+there exists at least one optimal policy.
+
+19
+00:01:08.485 --> 00:01:13.290
+In addition, at least one of optimal policies should be deterministic.
+
+20
+00:01:13.290 --> 00:01:16.440
+The definition of optimal policy also uses
+
+21
+00:01:16.440 --> 00:01:20.650
+a definition of optimal value and optimal action value functions.
+
+22
+00:01:20.650 --> 00:01:23.375
+In fact, on the optimal value function,
+
+23
+00:01:23.375 --> 00:01:25.290
+denoted v star of s,
+
+24
+00:01:25.290 --> 00:01:28.680
+is defined as a value of the best possible policy.
+
+25
+00:01:28.680 --> 00:01:32.130
+That is the value of the v star,
+
+26
+00:01:32.130 --> 00:01:36.720
+is equal to the value of the best possible policy that starts making it's
+
+27
+00:01:36.720 --> 00:01:42.820
+decisions from state s. The same definition is true for the action value function.
+
+28
+00:01:42.820 --> 00:01:44.845
+However, the interpretation of
+
+29
+00:01:44.845 --> 00:01:49.325
+optimal action value function is a bit different from the optimal value function.
+
+30
+00:01:49.325 --> 00:01:52.410
+The optimal action value corresponds to
+
+31
+00:01:52.410 --> 00:01:57.050
+the expected return that is gained by committing action a instead s,
+
+32
+00:01:57.050 --> 00:01:59.445
+and then, and only then,
+
+33
+00:01:59.445 --> 00:02:03.220
+switching to the optimal policy for the rest of an episode.
+
+34
+00:02:03.220 --> 00:02:06.720
+Optimal value and action value functions,
+
+35
+00:02:06.720 --> 00:02:09.465
+also admit a recursive computation form.
+
+36
+00:02:09.465 --> 00:02:13.120
+This form is known as Bellman optimality equation.
+
+37
+00:02:13.120 --> 00:02:15.700
+In fact, the Bellman optimality equation is
+
+38
+00:02:15.700 --> 00:02:19.095
+a slight modification of Bellman expectation equation.
+
+39
+00:02:19.095 --> 00:02:22.420
+And now we are going to discover the differences between them.
+
+40
+00:02:22.420 --> 00:02:25.850
+On the slide, there are two copies of backup diagram
+
+41
+00:02:25.850 --> 00:02:30.060
+corresponding to Bellman expectation equation for value function.
+
+42
+00:02:30.060 --> 00:02:31.865
+Now we are going to modify
+
+43
+00:02:31.865 --> 00:02:36.240
+the right one to make it match the Bellman optimality equation.
+
+44
+00:02:36.240 --> 00:02:38.530
+So, when do we need to change in
+
+45
+00:02:38.530 --> 00:02:42.460
+the right diagram to represent the optimal value function computation?
+
+46
+00:02:42.460 --> 00:02:47.635
+Well, but then we have already computed the optimal values for leaves of the tree,
+
+47
+00:02:47.635 --> 00:02:52.925
+that is, we know v star of s prime for each the next state as prime.
+
+48
+00:02:52.925 --> 00:02:55.645
+Now recall that x on the bottom level,
+
+49
+00:02:55.645 --> 00:02:59.840
+correspond to environment probabilities over which we have no control.
+
+50
+00:02:59.840 --> 00:03:03.230
+That is we have to propagate the value from the bottom of
+
+51
+00:03:03.230 --> 00:03:06.910
+the tree to action node in the same way we have done it before.
+
+52
+00:03:06.910 --> 00:03:11.905
+In other words, we have to account for the average environment influence on the agent.
+
+53
+00:03:11.905 --> 00:03:16.555
+However, over action selection on the top level of the diagram,
+
+54
+00:03:16.555 --> 00:03:18.315
+we do to have control,
+
+55
+00:03:18.315 --> 00:03:20.680
+so we can compare the values in
+
+56
+00:03:20.680 --> 00:03:25.075
+the action nodes and propagate back to the root on the highest value.
+
+57
+00:03:25.075 --> 00:03:30.130
+Paraphrasing, we don't need to compute an expectation on the top level of the tree.
+
+58
+00:03:30.130 --> 00:03:35.965
+We should just put it up the highest value among the action root of the sub-trees.
+
+59
+00:03:35.965 --> 00:03:40.480
+This procedure of taking max at the top of the back up diagram,
+
+60
+00:03:40.480 --> 00:03:43.710
+exactly corresponds to the Bellman optimality equation.
+
+61
+00:03:43.710 --> 00:03:47.265
+There exists another point of view on the Bellman optimality equation.
+
+62
+00:03:47.265 --> 00:03:50.980
+Now that the outer max operator in the last formula,
+
+63
+00:03:50.980 --> 00:03:53.965
+has replaced the outer expectation.
+
+64
+00:03:53.965 --> 00:03:58.555
+I computed the report specificity in the Bellman expectation equation.
+
+65
+00:03:58.555 --> 00:04:01.505
+However, we can unify both approaches,
+
+66
+00:04:01.505 --> 00:04:04.685
+if we treat the max operator as an expectation.
+
+67
+00:04:04.685 --> 00:04:07.270
+That is an expectation with respect to
+
+68
+00:04:07.270 --> 00:04:11.495
+the policy which is greedy with respect to the inner expectation.
+
+69
+00:04:11.495 --> 00:04:17.255
+I mean, the expectation over its distribution that is equal to one for it's
+
+70
+00:04:17.255 --> 00:04:23.225
+action corresponding to the highest inner expectation and zero for all other actions.
+
+71
+00:04:23.225 --> 00:04:25.745
+But I also note that the inner expectation,
+
+72
+00:04:25.745 --> 00:04:28.000
+that is everything that stays to the right of
+
+73
+00:04:28.000 --> 00:04:32.375
+the max operator is nothing but an optimal action value function.
+
+74
+00:04:32.375 --> 00:04:36.010
+So, to wrap up, the optimality equation
+
+75
+00:04:36.010 --> 00:04:39.460
+is in fact expectation equation whereas policy pi,
+
+76
+00:04:39.460 --> 00:04:41.245
+replaced with the greedy policy,
+
+77
+00:04:41.245 --> 00:04:45.070
+greedy with respect to the optimal action value function.
+
+78
+00:04:45.070 --> 00:04:50.005
+The same logic applies to the Bellman optimality equation for action value function.
+
+79
+00:04:50.005 --> 00:04:52.610
+The top level acts of the back up diagram for
+
+80
+00:04:52.610 --> 00:04:56.680
+q function consists of environment reactions,
+
+81
+00:04:56.680 --> 00:04:59.240
+thus we have no control over top level acts,
+
+82
+00:04:59.240 --> 00:05:02.730
+because we have no control over environment probabilities.
+
+83
+00:05:02.730 --> 00:05:07.355
+So, we have to compute the expectation on the top level of the tree.
+
+84
+00:05:07.355 --> 00:05:12.520
+However, we do have control over action probabilities on the bottom level.
+
+85
+00:05:12.520 --> 00:05:15.190
+And just like for the value function,
+
+86
+00:05:15.190 --> 00:05:19.390
+here we also replace the expectation with a max operator.
+
+87
+00:05:19.390 --> 00:05:24.620
+And again, this max operator could be seen as an expectation of a policy,
+
+88
+00:05:24.620 --> 00:05:29.525
+which is greedy with respect to the optimal action values of the least.
+
+89
+00:05:29.525 --> 00:05:32.560
+Well, as you might have noticed, during this week,
+
+90
+00:05:32.560 --> 00:05:35.395
+there were a lot about expressing their solution
+
+91
+00:05:35.395 --> 00:05:38.655
+on the value computation problem in the recursive session.
+
+92
+00:05:38.655 --> 00:05:42.350
+That was basically, the dynamic programming in action.
+
+93
+00:05:42.350 --> 00:05:45.580
+However, there is a lot more to be discussed.
+
+94
+00:05:45.580 --> 00:05:50.920
+So, we know what are Bellman expectation and optimality equations.
+
+95
+00:05:50.920 --> 00:05:53.490
+And that knowledge is fundamental for the rest of
+
+96
+00:05:53.490 --> 00:05:56.060
+the course and reinforcement learning in general.
+
+97
+00:05:56.060 --> 00:05:59.230
+In the next videos, we are going to use these equations to
+
+98
+00:05:59.230 --> 00:06:03.620
+actually find an optimal policy. So, stay tuned.

@@ -1,0 +1,978 @@
+WEBVTT
+
+1
+00:00:03.610 --> 00:00:08.150
+In this video we are going to talk about
+global optimality of agent decisions.
+
+2
+00:00:08.150 --> 00:00:11.810
+And also about how to express
+such a degree of optimality,
+
+3
+00:00:11.810 --> 00:00:13.560
+in a convenient mathematical form.
+
+4
+00:00:15.140 --> 00:00:17.610
+Recall that our ultimate goal,
+
+5
+00:00:17.610 --> 00:00:20.810
+as I have said previously is
+to find an optimal clause.
+
+6
+00:00:20.810 --> 00:00:23.800
+There are many different ways to do so,
+and today we will cover
+
+7
+00:00:23.800 --> 00:00:27.770
+one of the most fundamental method,
+the dynamic programming.
+
+8
+00:00:27.770 --> 00:00:30.280
+What is the dynamic programming?
+
+9
+00:00:30.280 --> 00:00:34.460
+This is a method of solving complex
+problem in a step-by-step fashion.
+
+10
+00:00:34.460 --> 00:00:38.350
+At first, break the problem
+into a set of small pieces.
+
+11
+00:00:38.350 --> 00:00:41.560
+And second,
+an iterative process is launched.
+
+12
+00:00:41.560 --> 00:00:45.210
+That is until no more of
+unsolved pieces remain.
+
+13
+00:00:45.210 --> 00:00:50.810
+Solve at next piece reusing all
+the results of already solved pieces.
+
+14
+00:00:50.810 --> 00:00:53.620
+This dynamic programming
+approach lies at the very heart
+
+15
+00:00:53.620 --> 00:00:58.100
+of the reinforcement learning and thus
+it is essential to deeply understand it.
+
+16
+00:00:59.176 --> 00:01:02.380
+Before we delve into the dynamic
+programming approach,
+
+17
+00:01:02.380 --> 00:01:06.690
+let us first concentrate on the measure
+of agents behavior optimality.
+
+18
+00:01:06.690 --> 00:01:11.640
+Such a measure is absolutely
+required to build an optimal policy.
+
+19
+00:01:11.640 --> 00:01:15.160
+Getting single there right measure
+of optimality of an agent actions.
+
+20
+00:01:16.490 --> 00:01:19.020
+Well, in fact we have already
+seen the possible one,
+
+21
+00:01:19.020 --> 00:01:22.380
+the cumulative discounted reward,
+which is also called the return.
+
+22
+00:01:23.590 --> 00:01:26.650
+Maybe this is the right measure of
+global optimality of agent decisions.
+
+23
+00:01:27.650 --> 00:01:30.600
+Can we say that it is the sum
+of discounted rewards if
+
+24
+00:01:30.600 --> 00:01:36.150
+the largest possible from any time t
+onward than the agent acts optimal?
+
+25
+00:01:36.150 --> 00:01:38.150
+Well, almost yes.
+
+26
+00:01:38.150 --> 00:01:43.180
+There is one interesting peculiarity
+of the return, it is random.
+
+27
+00:01:43.180 --> 00:01:46.730
+In fact, the return may be random
+because of both poles randomness and
+
+28
+00:01:46.730 --> 00:01:50.110
+also because the environment
+itself could be random.
+
+29
+00:01:50.110 --> 00:01:54.440
+Then if the agent can choose actions
+by sampling them from say dependent
+
+30
+00:01:54.440 --> 00:01:55.760
+distribution.
+
+31
+00:01:55.760 --> 00:01:59.080
+And environment can also
+react with different work and
+
+32
+00:01:59.080 --> 00:02:01.860
+next state given the same state and
+action.
+
+33
+00:02:02.950 --> 00:02:06.100
+Thus the question arises,
+how should one maximize the return,
+
+34
+00:02:06.100 --> 00:02:09.900
+which is a random variable,
+how to handle this randomness?
+
+35
+00:02:09.900 --> 00:02:12.600
+One of the most innovative
+approaches of accounting for
+
+36
+00:02:12.600 --> 00:02:16.530
+randomness is by the means
+of taking an expectation.
+
+37
+00:02:16.530 --> 00:02:20.662
+This approach of taking an expectation
+of return is still used in
+
+38
+00:02:20.662 --> 00:02:22.930
+reinforcement learning.
+
+39
+00:02:22.930 --> 00:02:25.728
+And corresponds to the notion
+of value function.
+
+40
+00:02:25.728 --> 00:02:30.070
+Value function, v(s),
+is also called state value function
+
+41
+00:02:30.070 --> 00:02:33.170
+because it depends only
+on the current state.
+
+42
+00:02:33.170 --> 00:02:35.560
+The intuition is as follows.
+
+43
+00:02:35.560 --> 00:02:40.150
+The value function is a mean reward that
+agent could get out from the environment,
+
+44
+00:02:40.150 --> 00:02:44.180
+starting from state s and
+following policy pi onward.
+
+45
+00:02:44.180 --> 00:02:48.480
+The value function, as you may have
+guessed, is defined simply as an expected
+
+46
+00:02:48.480 --> 00:02:52.050
+return, conditioned on the state
+an agent currently stands in.
+
+47
+00:02:52.050 --> 00:02:53.170
+That is, S sub t.
+
+48
+00:02:54.260 --> 00:02:57.690
+That is expressed in the first
+line of the formula in this slide.
+
+49
+00:02:57.690 --> 00:03:00.800
+This formula is a decomposition
+of the value function,
+
+50
+00:03:00.800 --> 00:03:04.140
+which you will encounter many
+times during the course.
+
+51
+00:03:04.140 --> 00:03:07.920
+Now, we are to go through
+this formula line by line.
+
+52
+00:03:07.920 --> 00:03:12.181
+It's interesting that this
+expectation is meant to be over
+
+53
+00:03:12.181 --> 00:03:16.702
+both policy stochasticity and
+environment stochasticity and
+
+54
+00:03:16.702 --> 00:03:21.160
+over all timed steps from time
+t to the very end of the.
+
+55
+00:03:21.160 --> 00:03:24.630
+Taking the expectation with respect
+to the randomness in each and
+
+56
+00:03:24.630 --> 00:03:27.360
+every state doesn't seem very practical.
+
+57
+00:03:27.360 --> 00:03:30.010
+So we proceed with the second
+line of the formula,
+
+58
+00:03:30.010 --> 00:03:35.080
+which composes the return under
+an expectation into the sum of two terms.
+
+59
+00:03:35.080 --> 00:03:39.840
+The immediate reward, Error sub t,
+and the future discounted return
+
+60
+00:03:39.840 --> 00:03:44.348
+from the next state which is
+denoted by gamma times G sub t + 1.
+
+61
+00:03:44.348 --> 00:03:45.021
+In fact,
+
+62
+00:03:45.021 --> 00:03:50.840
+we can write the expectation over both
+sources of firmness in an explicit manner.
+
+63
+00:03:52.170 --> 00:03:57.190
+And this is precisely what is going
+on in the third line of the formula.
+
+64
+00:03:57.190 --> 00:04:00.020
+Additionally, know that on that line,
+we have
+
+65
+00:04:00.020 --> 00:04:05.090
+pushed the expectation with respect to all
+future randomness inside the outer sums.
+
+66
+00:04:05.090 --> 00:04:07.540
+This expectation is highlighted
+in green on the slide.
+
+67
+00:04:08.790 --> 00:04:12.820
+Now, know that this expectation
+is by definition nothing but
+
+68
+00:04:12.820 --> 00:04:16.100
+the value function of the next state,
+s prime.
+
+69
+00:04:16.100 --> 00:04:20.830
+This reference is written explicitly
+on the last line of the formula.
+
+70
+00:04:22.050 --> 00:04:25.500
+Now please make sure that everything
+from this line is clear to you
+
+71
+00:04:25.500 --> 00:04:29.240
+because this reference is ubiquitous
+in reinforcement learning.
+
+72
+00:04:29.240 --> 00:04:33.100
+The decomposition of the value function on
+the immediate to work and discounted value
+
+73
+00:04:33.100 --> 00:04:38.980
+of the next state, the last line,
+is a singular going to heavily reliable.
+
+74
+00:04:38.980 --> 00:04:43.260
+This decomposition is so
+important that it owns a name.
+
+75
+00:04:43.260 --> 00:04:46.910
+It is called the Bellman expectation
+equation for value function.
+
+76
+00:04:48.010 --> 00:04:54.150
+So to reiterate, for computing the right
+hand side of Bellman expectation equation,
+
+77
+00:04:54.150 --> 00:04:58.402
+we should average the reward
+plus the discounted next value,
+
+78
+00:04:58.402 --> 00:05:02.990
+over all combinations of actions,
+rewards, and next state.
+
+79
+00:05:02.990 --> 00:05:06.100
+Weighted by the probabilities of VR curry.
+
+80
+00:05:06.100 --> 00:05:09.440
+We can also think about combination
+of value expectation equation
+
+81
+00:05:09.440 --> 00:05:12.820
+as about propagating values into tree.
+
+82
+00:05:12.820 --> 00:05:16.736
+This tree is known in reinforcement
+learning literature as backup tree, or
+
+83
+00:05:16.736 --> 00:05:17.659
+backup diagram.
+
+84
+00:05:17.659 --> 00:05:22.577
+The backup diagram consists of all
+possible combinations of action selection
+
+85
+00:05:22.577 --> 00:05:26.420
+and environment reaction
+to the selected action.
+
+86
+00:05:26.420 --> 00:05:28.850
+In the root of the tree,
+there is a state s for
+
+87
+00:05:28.850 --> 00:05:30.449
+which we want to compute
+the value function.
+
+88
+00:05:31.530 --> 00:05:35.640
+In that root node an agent could
+choose among different actions,
+
+89
+00:05:35.640 --> 00:05:39.860
+which are represented as filled blue
+circles on the second level of the tree.
+
+90
+00:05:40.880 --> 00:05:44.530
+Once the action is selected
+the environment takes its turn.
+
+91
+00:05:44.530 --> 00:05:48.930
+On each action made in the root state
+an environment could react with the reward
+
+92
+00:05:48.930 --> 00:05:51.060
+and a transition to the next state.
+
+93
+00:05:51.060 --> 00:05:54.710
+This possible next state are denoted
+these field green circles
+
+94
+00:05:54.710 --> 00:05:56.850
+at the bottom level of the backup tree.
+
+95
+00:05:56.850 --> 00:06:01.680
+Each arc in this tree diagram is
+associated with its own probability.
+
+96
+00:06:01.680 --> 00:06:04.940
+Step level of the tree
+corresponds to action selection.
+
+97
+00:06:04.940 --> 00:06:09.847
+So the top level arcs are associated with
+probabilities assigned to actions by our
+
+98
+00:06:09.847 --> 00:06:10.568
+policy pi.
+
+99
+00:06:10.568 --> 00:06:14.730
+The bottom level arcs, on the other hand,
+corresponds to the probabilities
+
+100
+00:06:14.730 --> 00:06:18.240
+of reworking and
+transitioning to the next state.
+
+101
+00:06:18.240 --> 00:06:22.330
+These probabilities are known
+as environment dynamics.
+
+102
+00:06:22.330 --> 00:06:26.450
+To compute the value of the state s
+in the root, according to the formula
+
+103
+00:06:26.450 --> 00:06:30.950
+on the slide, we need to average reward
+and discounted values in that state, or
+
+104
+00:06:30.950 --> 00:06:35.680
+all possible combinations of action
+selection and environment reaction.
+
+105
+00:06:35.680 --> 00:06:40.730
+This diversion could be represented as
+the backing up the value from the leaves,
+
+106
+00:06:41.950 --> 00:06:43.650
+to the root of the tree.
+
+107
+00:06:43.650 --> 00:06:48.770
+That is, we start from the leaves, in each
+leaf we compute the value of that state,
+
+108
+00:06:48.770 --> 00:06:50.030
+of the next state as prior.
+
+109
+00:06:50.030 --> 00:06:55.460
+And then we propagate the computed
+values back up to the root.
+
+110
+00:06:55.460 --> 00:06:59.850
+Once the value exits the state note
+it gets multiplied by the discount
+
+111
+00:06:59.850 --> 00:07:04.660
+factor of gamma and
+once the value ascends the particular arc,
+
+112
+00:07:04.660 --> 00:07:08.240
+it gets multiplied by the probability
+associated with this arc.
+
+113
+00:07:09.260 --> 00:07:14.057
+Additionally, in each node in this tree,
+all the values incoming through arcs
+
+114
+00:07:14.057 --> 00:07:17.725
+are summed and further propagated
+up to the root of the tree.
+
+115
+00:07:17.725 --> 00:07:21.664
+You need to know this diagram is
+nothing but visual representation
+
+116
+00:07:21.664 --> 00:07:26.990
+of the computation process performed
+by the Bellman expectation equation.
+
+117
+00:07:26.990 --> 00:07:31.480
+However, such a visual queue
+may be useful to understand and
+
+118
+00:07:31.480 --> 00:07:33.850
+contrast methods with each other.
+
+119
+00:07:33.850 --> 00:07:37.130
+Another crucial concept in
+the reenforcement learning literature
+
+120
+00:07:37.130 --> 00:07:39.260
+is action value function, q.
+
+121
+00:07:39.260 --> 00:07:43.980
+Which is a function of two arguments,
+state s and action a.
+
+122
+00:07:43.980 --> 00:07:48.580
+Action value function is defined similarly
+to the state value function, but
+
+123
+00:07:48.580 --> 00:07:50.780
+with an interesting twist.
+
+124
+00:07:50.780 --> 00:07:56.890
+It is defined as expectation of return
+conditional on state and action.
+
+125
+00:07:56.890 --> 00:07:59.489
+That is a single but
+very important distinction.
+
+126
+00:08:00.810 --> 00:08:03.740
+The intuition of the state
+action value function,
+
+127
+00:08:03.740 --> 00:08:06.750
+which is also called q
+function is as follows.
+
+128
+00:08:06.750 --> 00:08:12.220
+The q function is the mean reward that
+agent could get out from environment.
+
+129
+00:08:12.220 --> 00:08:17.210
+After making action a instead s and
+subsequently following policy pi.
+
+130
+00:08:18.300 --> 00:08:20.530
+Please note that action a,
+
+131
+00:08:20.530 --> 00:08:25.310
+that is argument of q function,
+is not connected with policy pi.
+
+132
+00:08:25.310 --> 00:08:29.220
+The policy pi could have even zero
+probability of selection action
+
+133
+00:08:29.220 --> 00:08:30.680
+a instead of s.
+
+134
+00:08:30.680 --> 00:08:33.210
+But this by no means restricts us from
+
+135
+00:08:33.210 --> 00:08:37.300
+being able to relate value
+of action a instead of s.
+
+136
+00:08:37.300 --> 00:08:39.675
+The formula and its recursive form,
+
+137
+00:08:39.675 --> 00:08:42.480
+is very similar to those
+of the value function.
+
+138
+00:08:42.480 --> 00:08:45.150
+One important difference exists, though.
+
+139
+00:08:45.150 --> 00:08:46.570
+When computing q function,
+
+140
+00:08:46.570 --> 00:08:51.410
+one is free of policy stochasticity
+in the first action selection step.
+
+141
+00:08:51.410 --> 00:08:55.730
+Equivalently, we don't have the sum
+over all possible initial actions.
+
+142
+00:08:55.730 --> 00:08:57.940
+Because the first action we know for
+
+143
+00:08:57.940 --> 00:09:02.670
+sure is equal to the argument
+of the q function.
+
+144
+00:09:03.910 --> 00:09:09.030
+Otherwise, the regards to the definition
+of q function is precisely the same as for
+
+145
+00:09:09.030 --> 00:09:10.370
+the value function.
+
+146
+00:09:10.370 --> 00:09:13.038
+For deep understanding of
+reenforcement learning,
+
+147
+00:09:13.038 --> 00:09:17.820
+it is really necessary to get acquainted
+with value and action value functions.
+
+148
+00:09:17.820 --> 00:09:22.900
+More to say, we'll require to re-express
+one function in terms of another.
+
+149
+00:09:22.900 --> 00:09:26.740
+Thus let us first make sure
+we understand how to do this.
+
+150
+00:09:26.740 --> 00:09:29.750
+For now, we already know
+how to write the q function
+
+151
+00:09:29.750 --> 00:09:32.080
+recursively in terms of v function.
+
+152
+00:09:33.170 --> 00:09:36.740
+The formula stems from direct
+decomposition of q function
+
+153
+00:09:36.740 --> 00:09:40.720
+into immediate work, and
+value of the next state.
+
+154
+00:09:40.720 --> 00:09:44.410
+To help understanding that this
+dependence of q function on the value
+
+155
+00:09:44.410 --> 00:09:48.470
+of the next state is written from
+the previous slide as the first formula.
+
+156
+00:09:49.590 --> 00:09:53.680
+But what if you want to write v
+function in terms of q function?
+
+157
+00:09:53.680 --> 00:09:57.570
+That is, what if you want to
+express the value of state
+
+158
+00:09:57.570 --> 00:10:00.170
+in terms of action values of the state.
+
+159
+00:10:00.170 --> 00:10:02.820
+Well, in fact, this is pretty easy.
+
+160
+00:10:02.820 --> 00:10:06.060
+If you recall the definition of v and
+
+161
+00:10:06.060 --> 00:10:09.910
+q functions, you'll notice
+that V function is nothing but
+
+162
+00:10:09.910 --> 00:10:15.910
+an expectation of action value function
+with respect to policy probabilities.
+
+163
+00:10:15.910 --> 00:10:20.320
+That observation is highlighted in green
+in the second formula on the slide.
+
+164
+00:10:20.320 --> 00:10:24.420
+This observation gives us the means to
+write q function of current state and
+
+165
+00:10:24.420 --> 00:10:29.350
+action in terms of q function of
+the next state and next actions.
+
+166
+00:10:29.350 --> 00:10:33.460
+This dependence is made explicit
+as the last formula on the slide.
+
+167
+00:10:33.460 --> 00:10:37.900
+Meanwhile the dependence of q function
+on q function of the next state,
+
+168
+00:10:37.900 --> 00:10:40.760
+can be also visualized with back up tree.
+
+169
+00:10:40.760 --> 00:10:43.170
+That is precisely what
+we are going to do next.
+
+170
+00:10:44.200 --> 00:10:47.420
+At the top of the slide, there is
+a formula that expresses a q function,
+
+171
+00:10:47.420 --> 00:10:50.410
+in terms of q functions of
+the next state and actions.
+
+172
+00:10:50.410 --> 00:10:56.420
+This diagram looks strikingly similar to
+the previously discussed backup tree for
+
+173
+00:10:56.420 --> 00:10:58.350
+value function computation.
+
+174
+00:10:58.350 --> 00:11:02.080
+However, unlike the previous
+backup diagram, this diagram for
+
+175
+00:11:02.080 --> 00:11:04.170
+q function has a different root.
+
+176
+00:11:04.170 --> 00:11:08.745
+It is no longer a state but
+actually pair of state and action.
+
+177
+00:11:08.745 --> 00:11:11.710
+That is the arguments of q function.
+
+178
+00:11:11.710 --> 00:11:14.400
+The top level arcs of the tree
+now are also changed.
+
+179
+00:11:15.520 --> 00:11:18.520
+For computation of q(s,a),
+
+180
+00:11:18.520 --> 00:11:23.430
+the top level arches are the environment
+reactions to the action a instead s.
+
+181
+00:11:23.430 --> 00:11:28.630
+That is environment reacts with
+the reward r and the next state s prime,
+
+182
+00:11:28.630 --> 00:11:32.080
+and it reacts on the action
+a made instead s.
+
+183
+00:11:33.110 --> 00:11:37.370
+In the next state s prime, however,
+many different actions are possible and
+
+184
+00:11:37.370 --> 00:11:42.660
+probabilities of that actions are
+associated with arcs on the bottom level.
+
+185
+00:11:42.660 --> 00:11:45.890
+The computational part,
+however, hasn't changed.
+
+186
+00:11:45.890 --> 00:11:51.050
+As before we start from the very bottom
+of the tree, compute the action value of
+
+187
+00:11:51.050 --> 00:11:56.290
+the leaves, multiply the values by the arc
+probabilities of corresponding actions.
+
+188
+00:11:56.290 --> 00:12:01.200
+Then sum all the incoming values
+in an intermediate green note
+
+189
+00:12:01.200 --> 00:12:03.170
+corresponding to the next state, as prior.
+
+190
+00:12:04.190 --> 00:12:06.940
+And multiplying the sum by the gamma.
+
+191
+00:12:08.070 --> 00:12:12.640
+Then the same process is done on the top
+level, with probabilities of actions,
+
+192
+00:12:12.640 --> 00:12:15.730
+replaced by the probabilities
+of the environment dynamics.
+
+193
+00:12:17.460 --> 00:12:20.850
+So for now, we have already
+discussed many different topics.
+
+194
+00:12:20.850 --> 00:12:22.530
+We know what is return, and
+
+195
+00:12:22.530 --> 00:12:25.830
+why the return is a meaningful
+measure of policy performance.
+
+196
+00:12:25.830 --> 00:12:28.760
+We also know that Bellman
+expectation equations
+
+197
+00:12:28.760 --> 00:12:32.300
+allow to actively asses
+the policy quality.
+
+198
+00:12:32.300 --> 00:12:37.390
+They do so by recursive computation of
+failure and action value functions.
+
+199
+00:12:37.390 --> 00:12:41.450
+However, our ultimate goal still
+is to find an optimal policy.
+
+200
+00:12:41.450 --> 00:12:45.930
+We want to know how to optimally
+act in each and every state.
+
+201
+00:12:45.930 --> 00:12:46.920
+To figure this out,
+
+202
+00:12:46.920 --> 00:12:51.820
+however, we should first decide on how
+to compare policies with each other.
+
+203
+00:12:51.820 --> 00:12:53.763
+That's precisely what we
+are going to do next.
+
+204
+00:12:53.763 --> 00:13:03.763
+[MUSIC]

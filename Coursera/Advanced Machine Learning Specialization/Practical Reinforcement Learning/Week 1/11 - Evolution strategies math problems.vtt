@@ -1,0 +1,393 @@
+WEBVTT
+
+1
+00:00:02.420 --> 00:00:04.765
+Now, if you recall the definition of
+
+2
+00:00:04.765 --> 00:00:07.800
+mathematical expectation from any probability theory course you took,
+
+3
+00:00:07.800 --> 00:00:12.460
+the expectation is basically a sum or integral over all possible outcomes available,
+
+4
+00:00:12.460 --> 00:00:15.350
+weighted or multiplied by their respective probabilities.
+
+5
+00:00:15.350 --> 00:00:17.865
+In the first expectation we had on the previous slide,
+
+6
+00:00:17.865 --> 00:00:20.830
+the expectation of a normal distribution is
+
+7
+00:00:20.830 --> 00:00:24.465
+changed to an integral because this continues to many possible outcomes.
+
+8
+00:00:24.465 --> 00:00:27.365
+They are all the vectors of real numbers.
+
+9
+00:00:27.365 --> 00:00:32.050
+And the second part of
+
+10
+00:00:32.050 --> 00:00:36.550
+the formula is weighted by the probability density function in the normal distribution.
+
+11
+00:00:36.550 --> 00:00:40.180
+So, you have this N theta given mu sigma squared,
+
+12
+00:00:40.180 --> 00:00:43.975
+which is the exact PDF of normal distribution,
+
+13
+00:00:43.975 --> 00:00:45.950
+or you plug in the mu, sigma squared from
+
+14
+00:00:45.950 --> 00:00:49.385
+your permutation across from the previous slide.
+
+15
+00:00:49.385 --> 00:00:54.365
+The second part, the second expectation is a little bit harder to think about,
+
+16
+00:00:54.365 --> 00:01:01.995
+even computing the probabilities might be a challenge in any practical environment.
+
+17
+00:01:01.995 --> 00:01:04.440
+So, this in expectation or trajectories.
+
+18
+00:01:04.440 --> 00:01:06.220
+And a trajectory is not just a number,
+
+19
+00:01:06.220 --> 00:01:10.360
+but it's something, it's a complicated structure sampled from a process.
+
+20
+00:01:10.360 --> 00:01:13.950
+So, you have a first state assembled from the distribution of the first states,
+
+21
+00:01:13.950 --> 00:01:16.310
+maybe it's a fixed first state depending on the environment.
+
+22
+00:01:16.310 --> 00:01:19.700
+And you generally don't know the distribution of the first states until you
+
+23
+00:01:19.700 --> 00:01:24.800
+explicitly sample them and maybe fit some probability distribution to model them.
+
+24
+00:01:24.800 --> 00:01:27.210
+And then, your agent has to pick action.
+
+25
+00:01:27.210 --> 00:01:30.240
+So, how the thetas from the left part of our formula,
+
+26
+00:01:30.240 --> 00:01:33.360
+the one sampled from a normal distribution
+
+27
+00:01:33.360 --> 00:01:37.570
+and you plug in those thetas to whatever policy your using or network.
+
+28
+00:01:37.570 --> 00:01:40.380
+You compute this policy from
+
+29
+00:01:40.380 --> 00:01:42.635
+the initial state and you get
+
+30
+00:01:42.635 --> 00:01:46.930
+the probabilities of actions on the last layer, you can use the softmax layer.
+
+31
+00:01:46.930 --> 00:01:49.585
+So, you have the probabilities of actions.
+
+32
+00:01:49.585 --> 00:01:50.975
+Now you have to pick an action,
+
+33
+00:01:50.975 --> 00:01:54.105
+which is also a thing that should be carried at random.
+
+34
+00:01:54.105 --> 00:01:59.200
+And then you fit this action back into the environment to get the next state.
+
+35
+00:01:59.200 --> 00:02:01.220
+Next state is again sampled from
+
+36
+00:02:01.220 --> 00:02:05.035
+the probability distribution of a next state given through a certain action.
+
+37
+00:02:05.035 --> 00:02:08.355
+Then, you have to take the next action after this next state.
+
+38
+00:02:08.355 --> 00:02:09.940
+Then the next, next state, next,
+
+39
+00:02:09.940 --> 00:02:12.340
+next action and every other iteration,
+
+40
+00:02:12.340 --> 00:02:13.760
+the one where you sample next state,
+
+41
+00:02:13.760 --> 00:02:16.150
+you have to use this unknown probability distribution of
+
+42
+00:02:16.150 --> 00:02:19.910
+a next state which is not given to you from the black-box environment.
+
+43
+00:02:19.910 --> 00:02:23.060
+So, this is how you could technically,
+
+44
+00:02:23.060 --> 00:02:24.605
+analytically compute this thing.
+
+45
+00:02:24.605 --> 00:02:26.690
+But we of course,
+
+46
+00:02:26.690 --> 00:02:29.620
+won't be able to do so in any real circumstance.
+
+47
+00:02:29.620 --> 00:02:31.550
+What you need this integral for,
+
+48
+00:02:31.550 --> 00:02:36.275
+is we needed to get a clue on how to maximize this expectation.
+
+49
+00:02:36.275 --> 00:02:38.225
+And to maximize it,
+
+50
+00:02:38.225 --> 00:02:43.925
+the simple way is to apply the gradient based approach for which you have
+
+51
+00:02:43.925 --> 00:02:49.540
+to compute the gradient of this J with respect to something that you can optimize,
+
+52
+00:02:49.540 --> 00:02:52.330
+so that you can influence this thing with.
+
+53
+00:02:52.330 --> 00:02:56.085
+What variables do you compute the gradient with respect to?
+
+54
+00:02:56.085 --> 00:02:59.560
+Gap. Those are the parameters of the probability distribution,
+
+55
+00:02:59.560 --> 00:03:02.195
+the vector of mus and sigma squared or
+
+56
+00:03:02.195 --> 00:03:05.650
+maybe some other vectors in case you define the probability distribution differently.
+
+57
+00:03:05.650 --> 00:03:07.260
+Now, once we try to compute this gradient,
+
+58
+00:03:07.260 --> 00:03:09.175
+we'll find ourselves in the following situation.
+
+59
+00:03:09.175 --> 00:03:13.995
+If you just plug the derivative sign before this double integral here,
+
+60
+00:03:13.995 --> 00:03:16.120
+you'll find that luckily for us,
+
+61
+00:03:16.120 --> 00:03:18.935
+a large part of this integral doesn't explicitly depend on
+
+62
+00:03:18.935 --> 00:03:22.515
+mu and sigma squared once you sample a particular theta.
+
+63
+00:03:22.515 --> 00:03:24.440
+So, the second part where you compute
+
+64
+00:03:24.440 --> 00:03:28.275
+the expected return from a trajectory given a particular theta,
+
+65
+00:03:28.275 --> 00:03:31.730
+is not expected to depend on mu sigma squared once you give
+
+66
+00:03:31.730 --> 00:03:35.775
+it a value of theta sampled from those mu sigma squared defined normal distribution.
+
+67
+00:03:35.775 --> 00:03:38.770
+This allows you to lift
+
+68
+00:03:38.770 --> 00:03:43.965
+the derivative sign a little bit and move the second integral outside of this derivative.
+
+69
+00:03:43.965 --> 00:03:45.635
+So, now, you get the integral of
+
+70
+00:03:45.635 --> 00:03:48.190
+all possible thetas times
+
+71
+00:03:48.190 --> 00:03:52.260
+the derivative of normal distributions probability density function,
+
+72
+00:03:52.260 --> 00:03:54.055
+times the second integral which is just
+
+73
+00:03:54.055 --> 00:03:57.450
+expected trajectory return given this particular theta.
+
+74
+00:03:57.450 --> 00:04:00.670
+So, this is still a double integral and we
+
+75
+00:04:00.670 --> 00:04:03.565
+have to devise some way to estimate it in practice.
+
+76
+00:04:03.565 --> 00:04:06.390
+Previously, we used Monte Carlo sampling of trajectories
+
+77
+00:04:06.390 --> 00:04:10.835
+for each possible theta samples from the normal distribution several times.
+
+78
+00:04:10.835 --> 00:04:13.890
+And right now, we have to devise something
+
+79
+00:04:13.890 --> 00:04:18.130
+similar lest we want to take integrals of distributions we don't know.
+
+80
+00:04:18.130 --> 00:04:22.705
+So, is it possible to devise a scheme that takes samples from this one,
+
+81
+00:04:22.705 --> 00:04:25.860
+or is there something that prevents us from doing so?
+
+82
+00:04:25.860 --> 00:04:29.095
+To backtrack, we are kind of screwed.
+
+83
+00:04:29.095 --> 00:04:33.940
+Because previously, we had the integral times the normal distribution,
+
+84
+00:04:33.940 --> 00:04:36.205
+which is a valid probability density function.
+
+85
+00:04:36.205 --> 00:04:38.590
+But the gradient of this distribution is no longer
+
+86
+00:04:38.590 --> 00:04:41.935
+a probability density function or at least in our case, it isn't.
+
+87
+00:04:41.935 --> 00:04:44.700
+The simplest explanation here is that if you take
+
+88
+00:04:44.700 --> 00:04:48.850
+the derivative of a probability density function that sometimes the derivative might be,
+
+89
+00:04:48.850 --> 00:04:51.895
+say, a negative, because the probability density function decreases.
+
+90
+00:04:51.895 --> 00:04:56.550
+And the probability density function itself cannot be negative, so we're screwed.
+
+91
+00:04:56.550 --> 00:04:58.760
+Of course, the other properties are broken as well because
+
+92
+00:04:58.760 --> 00:05:01.545
+the gradient might be larger than the one for some steep curves.
+
+93
+00:05:01.545 --> 00:05:05.800
+But, this should be far enough for us to
+
+94
+00:05:05.800 --> 00:05:10.545
+think about some other way to give up on this sampling approach,
+
+95
+00:05:10.545 --> 00:05:14.175
+and this makes things a little bit more complicated.
+
+96
+00:05:14.175 --> 00:05:19.560
+We'll need some trick from the math domain that helps us resolve this issue.
+
+97
+00:05:19.560 --> 00:05:21.860
+And this trick is, as it turns out,
+
+98
+00:05:21.860 --> 00:05:25.790
+a very popular one, which we're going to use several times further across.

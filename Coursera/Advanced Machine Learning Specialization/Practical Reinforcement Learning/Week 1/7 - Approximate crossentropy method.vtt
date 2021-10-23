@@ -1,0 +1,433 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.658
+[MUSIC]
+
+2
+00:00:03.658 --> 00:00:06.917
+Now the only issue with method
+that we have left untackled yet
+
+3
+00:00:06.917 --> 00:00:10.193
+is how do you apply it efficiently
+to the problems at a greater scale.
+
+4
+00:00:10.193 --> 00:00:15.043
+Now with the bicycle-riding problem, let's
+say ten states and maybe four actions,
+
+5
+00:00:15.043 --> 00:00:17.710
+it's really probably
+sufficient to solve it.
+
+6
+00:00:17.710 --> 00:00:20.240
+But any reinforcement
+learning problem can do that.
+
+7
+00:00:20.240 --> 00:00:24.730
+Let's see how method actually
+applies to something like steering
+
+8
+00:00:24.730 --> 00:00:30.008
+an autonomous self driving car, or
+playing a game from a feedback.
+
+9
+00:00:30.008 --> 00:00:34.070
+From here, that it's no longer
+possible to store a table with
+
+10
+00:00:34.070 --> 00:00:37.740
+action probabilities for all the possible
+states, because you don't have ten states.
+
+11
+00:00:37.740 --> 00:00:41.030
+You have either say,
+a bajillion states, or
+
+12
+00:00:41.030 --> 00:00:45.685
+even continuous space of states which is
+even technically impossible to record.
+
+13
+00:00:45.685 --> 00:00:49.892
+If you can see direct camera feeds from
+your robot or from your game, then you
+
+14
+00:00:49.892 --> 00:00:54.496
+will probably find out that the amount
+of possible camera, well, camera images,
+
+15
+00:00:54.496 --> 00:00:58.677
+is as large as color depth, say 256
+to the power of the amount of pixels.
+
+16
+00:00:58.677 --> 00:01:03.201
+So if it is even 100 by 100 pixels image,
+which is super small,
+
+17
+00:01:03.201 --> 00:01:07.183
+you'll have 256 times 10,000,
+which is insane.
+
+18
+00:01:07.183 --> 00:01:10.855
+You won't be able to record
+this on any hard drive error,
+
+19
+00:01:10.855 --> 00:01:13.800
+or maybe you will in a few years.
+
+20
+00:01:13.800 --> 00:01:16.415
+Now, not only storing this
+table will be impractical or
+
+21
+00:01:16.415 --> 00:01:17.980
+even impossible in practice.
+
+22
+00:01:17.980 --> 00:01:21.170
+It would also be kind of inefficient
+because of how state spaces
+
+23
+00:01:21.170 --> 00:01:23.410
+work in complex environments.
+
+24
+00:01:23.410 --> 00:01:26.870
+Now we mentioned you're playing this Doom
+game, and you have this camera image.
+
+25
+00:01:26.870 --> 00:01:32.070
+And it's probably kind of reasonable to
+expect that if an agent visits this state,
+
+26
+00:01:32.070 --> 00:01:35.610
+say, ten times, it will reliably
+tell that turning to the right and
+
+27
+00:01:35.610 --> 00:01:39.150
+flying subsequently is
+a reasonable strategy to execute.
+
+28
+00:01:39.150 --> 00:01:42.640
+The only problem here is that if you
+change this state ever so slightly,
+
+29
+00:01:42.640 --> 00:01:47.890
+say you change the health bar
+of a person from 59% to say 49.
+
+30
+00:01:47.890 --> 00:01:50.480
+Then, the agent will have to
+learn everything from scratch,
+
+31
+00:01:50.480 --> 00:01:52.570
+because it's now a different state,
+and has not yet seen it.
+
+32
+00:01:53.750 --> 00:01:55.860
+Of course, it's not the case for humans.
+
+33
+00:01:55.860 --> 00:01:57.320
+Humans can easily generalize, and
+
+34
+00:01:57.320 --> 00:02:01.570
+this is a property you want from your
+reinforcement learning algorithms as well.
+
+35
+00:02:01.570 --> 00:02:05.660
+This is where we approach the so-called
+approximate reinforcement learning.
+
+36
+00:02:05.660 --> 00:02:07.780
+This time we don't use the tabular policy.
+
+37
+00:02:07.780 --> 00:02:10.760
+We don't just record all
+the probabilities explicitly.
+
+38
+00:02:10.760 --> 00:02:12.820
+But we use some kind of
+machine learning model, or
+
+39
+00:02:12.820 --> 00:02:17.460
+well, any model you want, to model this
+probability distribution given the state.
+
+40
+00:02:17.460 --> 00:02:18.756
+For example, it could be a neural network.
+
+41
+00:02:18.756 --> 00:02:21.363
+Basically a neural network
+that was previously used for
+
+42
+00:02:21.363 --> 00:02:25.246
+classification that will take a state,
+an image, maybe apply some computational
+
+43
+00:02:25.246 --> 00:02:28.757
+layers if you're familiar with image
+recognition with neural networks.
+
+44
+00:02:28.757 --> 00:02:33.469
+Then it would have output with a soft
+max layer with as many units as you have
+
+45
+00:02:33.469 --> 00:02:34.860
+actions.
+
+46
+00:02:34.860 --> 00:02:36.210
+Could also use any other method.
+
+47
+00:02:36.210 --> 00:02:40.014
+It could be regression, any other
+linear model, or a Random Forest.
+
+48
+00:02:40.014 --> 00:02:44.137
+Anything that can run the simulation for
+you.
+
+49
+00:02:44.137 --> 00:02:46.305
+And since you can no longer
+set the probabilities or
+
+50
+00:02:46.305 --> 00:02:48.324
+update them explicitly
+after each iteration,
+
+51
+00:02:48.324 --> 00:02:52.290
+you'll have to replace this phase
+with training your neural network.
+
+52
+00:02:52.290 --> 00:02:55.580
+Again, you play M games
+in this Doom environment.
+
+53
+00:02:55.580 --> 00:02:59.610
+Then you select M best of them,
+you call those elite games.
+
+54
+00:02:59.610 --> 00:03:03.368
+And then instead of recomputing
+the whole table, you simply perform
+
+55
+00:03:03.368 --> 00:03:07.343
+several iterations of gradient descent or
+building several new trees.
+
+56
+00:03:07.343 --> 00:03:10.650
+Well, let's consider the neural
+metric option for now.
+
+57
+00:03:10.650 --> 00:03:11.500
+In the case of neural network,
+
+58
+00:03:11.500 --> 00:03:14.990
+what you do is you initialize this
+neural network with random weights.
+
+59
+00:03:14.990 --> 00:03:18.950
+You probably remember some clever ways you
+can do so from the deep learning course.
+
+60
+00:03:18.950 --> 00:03:21.760
+And you take this network and
+use it to pick actions,
+
+61
+00:03:21.760 --> 00:03:26.130
+to actually place a 100 games in this Doom
+environment we had in the previous slide.
+
+62
+00:03:26.130 --> 00:03:28.998
+Then you take again the best sessions,
+several best sessions, and
+
+63
+00:03:28.998 --> 00:03:30.720
+you cold denote them as elite sessions.
+
+64
+00:03:30.720 --> 00:03:33.949
+And you train your neural network to
+increase the probability of actions in
+
+65
+00:03:33.949 --> 00:03:35.810
+the elite sessions.
+
+66
+00:03:35.810 --> 00:03:38.580
+You do so the way you usually
+train neural networks to classify.
+
+67
+00:03:38.580 --> 00:03:42.593
+You have states which are the inputs
+of your neural network, and
+
+68
+00:03:42.593 --> 00:03:47.499
+you have the actions in the session that
+serve the purpose of kind of the correct
+
+69
+00:03:47.499 --> 00:03:51.536
+answer, the target why,
+in the supervised notation.
+
+70
+00:03:51.536 --> 00:03:55.451
+Now you take some kind of stochastic
+[INAUDIBLE] algorithm say [INAUDIBLE], or
+
+71
+00:03:55.451 --> 00:03:58.641
+stochastic gradient descent or
+[INAUDIBLE] proper anything.
+
+72
+00:03:58.641 --> 00:04:03.402
+And you perform one or several iterations
+of network updates given those M
+
+73
+00:04:03.402 --> 00:04:06.410
+best sessions,
+then you repeat the process.
+
+74
+00:04:07.420 --> 00:04:10.446
+Now, you can of course achieve
+it in high-level frameworks, and
+
+75
+00:04:10.446 --> 00:04:11.803
+it looks remarkably simple.
+
+76
+00:04:11.803 --> 00:04:16.983
+Having neural network, and whenever you
+want to update the policy provided by this
+
+77
+00:04:16.983 --> 00:04:22.015
+neural network, just call whatever
+the training methods requires you to call,
+
+78
+00:04:22.015 --> 00:04:23.870
+say the feet in cyclic learn.
+
+79
+00:04:23.870 --> 00:04:28.045
+And you provide your elite states
+as inputs to your network, and
+
+80
+00:04:28.045 --> 00:04:31.350
+elite actions as reference answers.
+
+81
+00:04:31.350 --> 00:04:33.260
+Or you can get something
+more sophisticated up and
+
+82
+00:04:33.260 --> 00:04:37.690
+running if you utilize the particular
+feats of your neural network architecture.
+
+83
+00:04:37.690 --> 00:04:38.930
+But this is the most simple,
+
+84
+00:04:38.930 --> 00:04:42.750
+kind of the bare bones algorithm that will
+still work and work rather efficiently.
+
+85
+00:04:42.750 --> 00:04:45.159
+You'll probably see this guy in
+action in the practical assignment.
+
+86
+00:04:46.880 --> 00:04:51.922
+Now again, the whole pipeline
+has almost not changed at all.
+
+87
+00:04:51.922 --> 00:04:55.347
+You just sample sessions,
+take several best of them.
+
+88
+00:04:55.347 --> 00:04:58.644
+Concatenate them into a training set and
+you fit in your neural network.
+
+89
+00:04:58.644 --> 00:05:02.649
+And in cyclic learning,
+you create a model and then you fit it.
+
+90
+00:05:02.649 --> 00:05:12.649
+[MUSIC]

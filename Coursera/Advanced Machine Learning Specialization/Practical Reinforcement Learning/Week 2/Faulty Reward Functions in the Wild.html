@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!--
+
+
+           .d88888b.             
+         .8P"     "9bd888b.      
+        .8P     .d8P"   `"988.   
+     .8888   .d8P"    ,     98.  
+   .8P" 88   8"    .d98b.    88  
+  .8P   88   8 .d8P"   "98b. 88  
+  88    88   8P"  `"8b.    "98.  
+  88.   88   8       8"8b.    88 
+   88    "98.8       8   88   "88
+    `8b.    "98.,  .d8   88    88
+    88 "98b.   .d8P" 8   88   d8"
+    88    "98bP"    .8   88 .d8" 
+    "8b     `    .d8P"   8888"   
+     "88b.,   .d8P"     d8"      
+       "9888P98b.     .d8"       
+               "988888P"         
+
+
+  Solve Impossible Problems.
+  openai.com/jobs
+
+
+-->
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-71156606-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-71156606-1');
+  </script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Faulty Reward Functions in the Wild</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/assets/styles/all.css?v=b7829f16c6" />
+  
+  <script type="text/javascript">document.documentElement.className = 'js';</script>
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg?v=b7829f16c6">
+  <link rel="mask-icon" href="/assets/images/mask-icon.svg?v=b7829f16c6" color="#000000">
+  <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://openai.com/blog/faulty-reward-functions/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="OpenAI" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Faulty Reward Functions in the Wild" />
+    <meta property="og:description" content="Reinforcement learning algorithms can break in surprising, counterintuitive ways. In this post we&#x27;ll explore one failure mode, which is where you misspecify your reward function." />
+    <meta property="og:url" content="https://openai.com/blog/faulty-reward-functions/" />
+    <meta property="article:published_time" content="2016-12-22T01:05:00.000Z" />
+    <meta property="article:modified_time" content="2019-03-07T03:31:27.000Z" />
+    <meta property="article:tag" content="Research" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/openai.research" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Faulty Reward Functions in the Wild" />
+    <meta name="twitter:description" content="Reinforcement learning algorithms can break in surprising, counterintuitive ways. In this post we&#x27;ll explore one failure mode, which is where you misspecify your reward function." />
+    <meta name="twitter:url" content="https://openai.com/blog/faulty-reward-functions/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Jack Clark" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Research" />
+    <meta name="twitter:site" content="@openai" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "OpenAI",
+        "url": "https://openai.com/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://openai.com/content/images/2019/05/openai-avatar.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jack Clark",
+        "url": "https://openai.com/blog/authors/jack-clark/",
+        "sameAs": []
+    },
+    "headline": "Faulty Reward Functions in the Wild",
+    "url": "https://openai.com/blog/faulty-reward-functions/",
+    "datePublished": "2016-12-22T01:05:00.000Z",
+    "dateModified": "2019-03-07T03:31:27.000Z",
+    "keywords": "Research",
+    "description": "Reinforcement learning algorithms can break in surprising, counterintuitive ways. In this post we&#x27;ll explore one failure mode, which is where you misspecify your reward function.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://openai.com/"
+    }
+}
+    </script>
+
+    <script defer src="https://unpkg.com/@tryghost/portal@~0.14.0/umd/portal.min.js" data-ghost="https://openai.com/"></script><style> .gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <meta name="generator" content="Ghost 3.40" />
+    <link rel="alternate" type="application/rss+xml" title="OpenAI" href="" />
+</head>
+<body>
+  
+<article class="post" id="post-faulty-reward-functions">
+  <header
+  class="post-header"
+  >
+  <nav class="nav container" data-url="/blog/faulty-reward-functions/">
+  <div class="row py-0.75">
+    <div class="col-6 col-sm">
+      <a href="/" class="nav-wordmark d-block"><svg id="openai-wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180"><path d="M410.22,41.09c-13.75,0-23.57,4.7-28.39,13.59l-2.59,4.79V43.41h-22.4v97.85H380.4V83.05c0-13.91,7.55-21.89,20.73-21.89,12.56,0,19.76,7.76,19.76,21.31v58.79h23.56v-63C444.45,55,431.65,41.09,410.22,41.09ZM296,41.09c-27.79,0-45.06,17.33-45.06,45.25v13.74c0,26.83,17.42,43.51,45.45,43.51,18.74,0,31.88-6.88,40.15-21l-14.61-8.39c-6.11,8.15-15.86,13.19-25.54,13.19-14.19,0-22.67-8.76-22.67-23.44v-3.89h65.79V83.82c0-26-17.08-42.73-43.51-42.73Zm22.08,43.14H273.72V81.89c0-16.12,7.91-25,22.28-25,13.83,0,22.08,8.76,22.08,23.44ZM678.32,27.3V8.58H596.87V27.3h28.56v95.25H596.87v18.71h81.45V122.55H649.76V27.3ZM60.67,5.87c-36.39,0-59,22.68-59,59.18V84.79c0,36.51,22.6,59.18,59,59.18s59-22.67,59-59.18V65.05C119.66,28.55,97.05,5.87,60.67,5.87ZM95.33,86.14c0,24.24-12.63,38.15-34.66,38.15S26,110.38,26,86.14V63.7c0-24.24,12.63-38.15,34.66-38.15S95.32,39.46,95.32,63.7Zm98.31-45c-12.36,0-23.07,5.11-28.64,13.69l-2.54,3.9V43.41H140.07V174.93h23.55V127.3l2.53,3.74c5.3,7.85,15.65,12.55,27.68,12.55,20.31,0,40.8-13.28,40.8-42.93V84c0-21.35-12.63-42.91-41-42.91Zm17.44,58.4c0,15.77-9.2,25.57-24,25.57-13.8,0-23.44-10.35-23.44-25.18V85.23c0-15.06,9.72-25.57,23.63-25.57,14.7,0,23.83,9.8,23.83,25.57ZM509.55,8.63,462,141.26h23.9l9.1-28.44h54.65l.09.28,9,28.16h23.93L535.08,8.58Zm-8.67,85.52L522.32,27l21.23,67.07Z"/></svg></a>
+    </div>
+    <div class="col-6 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+      <ul class="d-flex flex-column flex-sm-row justify-content-end justify-content-sm-between small-caps mt-n0.125 mt-sm-0">
+                    
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link " href="/api/" data-slug="api">API</a></li>
+          
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link " href="/projects/" data-slug="projects">Projects</a></li>
+          
+          <li class="mb-1/6 mb-sm-0"><a class="nav-link active-parent" href="/blog/" data-slug="blog">Blog</a></li>
+          
+          <li class="mb-sm-0"><a class="nav-link " href="/about/" data-slug="about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  
+          <div class="container mt-3">
+    <div class="row">
+              <div class="col-12 col-md-9 col-lg-8 col-xl-6 offset-xl-3">
+          <h1 class="balance-text  mb-0.75">Faulty Reward Functions in the Wild</h1>
+        </div>
+    </div>
+        <div class="row">
+          <div class="col-12 col-md-9 col-lg-8 col-xl-6 order-xl-1">
+              <div class="post-excerpt mb-1 js-widow">
+      Reinforcement learning algorithms can break in surprising, counterintuitive ways. In this post we&#x27;ll explore one failure mode, which is where you misspecify your reward function.
+  </div>
+          </div>
+          <div class="col-12 col-md-3 col-lg-4 col-xl-3 order-xl-0">
+              <div class="post-header-date small-copy color-fg-60 mb-1.5">
+    <time datetime="2016-12-21">December 21, 2016</time>
+    <div class="reading-time">3 minute read</div>
+  </div>
+          </div>
+        </div>
+
+  </div>
+
+  
+</header>
+
+  <section class="container">
+  <div class="row">
+    <section class="content">
+      
+          
+      
+      <!--kg-card-begin: markdown--><p>At OpenAI, we've recently started using <a href="https://universe.openai.com/">Universe</a>, our software for measuring and training AI agents, to conduct new RL experiments. Sometimes these experiments illustrate some of the issues with RL as currently practiced. In the following example we'll highlight what happens when a misspecified reward function encourages an RL agent to subvert its environment by prioritizing the acquisition of reward signals above other measures of success.</p>
+<p>Designing safe AI systems will require us to design algorithms that don't attempt to do this, and will teach us to specify and shape goals in such a way they can't be misinterpreted by our AI agents.</p>
+<p>One of the games we've been training on is <a href="http://www.kongregate.com/games/longanimals/coast-runners">CoastRunners</a>. The goal of the game - as understood by most humans - is to finish the boat race quickly and (preferably) ahead of other players. CoastRunners does not directly reward the player's progression around the course, instead the player earns higher scores by hitting targets laid out along the route.</p>
+<p>We assumed the score the player earned would reflect the informal goal of finishing the race, so we included the game in an internal benchmark designed to measure the performance of reinforcement learning systems on racing games. However, it turned out that the targets were laid out in such a way that the reinforcement learning agent could gain a high score without having to finish the course. This led to some unexpected behavior when we trained an RL agent to play the game.</p>
+<figure>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/tlOIHko8ySg" frameborder="0" allowfullscreen=""></iframe>
+</figure>
+<p>The RL agent finds an isolated lagoon where it can turn in a large circle and repeatedly knock over three targets, timing its movement so as to always knock over the targets just as they repopulate. Despite repeatedly catching on fire, crashing into other boats, and going the wrong way on the track, our agent manages to achieve a higher score using this strategy than is possible by completing the course in the normal way. Our agent achieves a score on average 20 percent higher than that achieved by human players.</p>
+<p>While harmless and amusing in the context of a video game, this kind of behavior points to a more general issue with reinforcement learning: it is often difficult or infeasible to capture exactly what we want an agent to do, and as a result we frequently end up using imperfect but easily measured proxies. Often this works well, but sometimes it leads to undesired or even dangerous actions. More broadly it contravenes the basic engineering principle that systems should be reliable and predictable. We've also explored this issue at greater length in our research paper <a href="https://openai.com/blog/concrete-ai-safety-problems/">Concrete Problems on AI Safety</a>.</p>
+<p>How can we avoid such problems? Aside from being careful about designing reward functions, several research directions OpenAI is exploring may help to reduce cases of misspecified rewards:</p>
+<ul>
+<li>Learning from demonstrations allows us to avoid specifying a reward directly and instead just learn to imitate how a human would complete the task. In this example, since the vast majority of humans would seek to complete the racecourse, our RL algorithms would do the same.</li>
+<li>In addition to, or instead of human demonstrations, we can also incorporate <a href="https://medium.com/ai-control/efficient-feedback-a347748b1557#.exjnsupts">human feedback</a> by evaluating the quality of episodes or even sharing control with the agent in an interactive manner. It's possible that a very small amount of evaluative feedback might have prevented this agent from going around in circles.</li>
+<li>It may be possible to use transfer learning to train on many similar games, and infer a “common sense” reward function for this game. Such a reward function might prioritize finishing the race based on the fact that a typical game has such a goal, rather than focusing on the idiosyncrasies of this particular game's reward function. This seems more similar to how a human would play the game.</li>
+</ul>
+<p>These methods may have their own shortcomings. For example, transfer learning involves extrapolating a reward function for a new environment based on reward functions from many similar environments. This extrapolation could itself be faulty — for example, an agent trained on many racing video games where driving off the road has a small penalty, might incorrectly conclude that driving off the road in a new, higher stakes setting is not a big deal. More subtly, if the reward extrapolation process involves neural networks, <a href="https://arxiv.org/abs/1412.6572">adversarial examples</a> in that network could lead a reward function that has “unnatural” regions of high reward that do not correspond to any reasonable real-world goal.</p>
+<p>Solving these issues will be complex. Our hope is that Universe will enable us to both discover and address new failure modes at a rapid pace, and eventually to develop systems whose behavior we can be truly confident in.</p>
+<hr>
+<p><em>Get in touch with the authors of this post: <a href="mailto:damodei@openai.com?Subject=Faulty%20Reward%20Functions%20in%20the%20Wild">Dario</a>, <a href="mailto:jack@openai.com?Subject=Faulty%20Reward%20Functions%20in%20the%20Wild">Jack</a></em></p>
+<!--kg-card-end: markdown-->
+    </section>
+  </div>
+</section>
+  <footer class="post-footer post-footer--authors container js-post-footer-authors">
+  <div data-order="0">
+    <hr>
+    <div class="row" id="authors">
+      <div class="col">Authors</div>
+      <div class="col js-post-footer-authors-list ">
+        <span class="post-author"><a class="fade" href="/blog/authors/jack-clark/">Jack Clark</a></span><span class="post-author"><a class="fade" href="/blog/authors/dario-amodei/">Dario Amodei</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<footer class="post-footer post-footer--tags container js-post-footer-tags">
+  <div>
+    <hr>
+    <div class="row" id="tags">
+      <div class="col">Filed Under</div>
+      <div class="col js-post-footer-tags-list">
+        <span class="post-tag"><a class="fade" href="/blog/tags/research/">Research</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+</article>
+  
+
+  <footer class="footer container">
+  <div class="row line-height-1.65 mb-1">
+    <div class="col-12 col-md-3 col-xl-3">
+      <a href="/" class="d-block footer-logo mb-1.5 position-relative" style="left:-1px"><svg id="openai-horizontal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 936 232"><path d="M667.21,90.58c-13.76,0-23.58,4.7-28.4,13.6L636.22,109V92.9H613.83v97.86h23.55V132.54c0-13.91,7.56-21.89,20.73-21.89,12.56,0,19.76,7.77,19.76,21.31v58.8h23.56v-63C701.43,104.46,688.64,90.58,667.21,90.58ZM553,90.58c-27.79,0-45,17.34-45,45.25v13.74c0,26.84,17.41,43.51,45.44,43.51,18.75,0,31.89-6.87,40.16-21L579,163.68c-6.11,8.15-15.87,13.2-25.55,13.2-14.19,0-22.66-8.76-22.66-23.44v-3.89h65.73V133.32c0-26-17.07-42.74-43.5-42.74Zm22.09,43.15H530.71v-2.35c0-16.11,7.91-25,22.27-25,13.83,0,22.09,8.76,22.09,23.44ZM935.31,76.79V58.07H853.85V76.79h28.56V172H853.85v18.72h81.46V172H906.74V76.79ZM317.65,55.37c-36.38,0-59,22.67-59,59.18v19.74c0,36.5,22.61,59.18,59,59.18s59-22.68,59-59.18V114.55C376.64,78,354,55.37,317.65,55.37Zm34.66,80.27c0,24.24-12.63,38.14-34.66,38.14S283,159.88,283,135.64V113.19c0-24.24,12.64-38.14,34.66-38.14s34.66,13.9,34.66,38.14Zm98.31-45.06c-12.36,0-23.06,5.12-28.64,13.69l-2.53,3.9V92.9h-22.4V224.43h23.56V176.79l2.52,3.74c5.3,7.86,15.65,12.55,27.69,12.55,20.31,0,40.8-13.27,40.8-42.93V133.51c0-21.37-12.63-42.93-41-42.93ZM468.06,149c0,15.77-9.2,25.57-24,25.57-13.8,0-23.43-10.36-23.43-25.18V134.67c0-15,9.71-25.56,23.63-25.56,14.69,0,23.82,9.79,23.82,25.56ZM766.53,58.08,719,190.76h23.93l9.1-28.44h54.64l.09.28,9,28.16h23.92L792.07,58.07Zm-8.66,85.53,21.44-67.08,21.22,67.08Z"/><path d="M212.59,95.12a57.27,57.27,0,0,0-4.92-47.05,58,58,0,0,0-62.4-27.79A57.29,57.29,0,0,0,102.06,1,57.94,57.94,0,0,0,46.79,41.14,57.31,57.31,0,0,0,8.5,68.93a58,58,0,0,0,7.13,67.94,57.31,57.31,0,0,0,4.92,47A58,58,0,0,0,83,211.72,57.31,57.31,0,0,0,126.16,231a57.94,57.94,0,0,0,55.27-40.14,57.3,57.3,0,0,0,38.28-27.79A57.92,57.92,0,0,0,212.59,95.12ZM126.16,216a42.93,42.93,0,0,1-27.58-10c.34-.19,1-.52,1.38-.77l45.8-26.44a7.43,7.43,0,0,0,3.76-6.51V107.7l19.35,11.17a.67.67,0,0,1,.38.54v53.45A43.14,43.14,0,0,1,126.16,216ZM33.57,176.46a43,43,0,0,1-5.15-28.88c.34.21.94.57,1.36.81l45.81,26.45a7.44,7.44,0,0,0,7.52,0L139,142.52v22.34a.67.67,0,0,1-.27.6L92.43,192.18a43.14,43.14,0,0,1-58.86-15.77Zm-12-100A42.92,42.92,0,0,1,44,57.56V112a7.45,7.45,0,0,0,3.76,6.51l55.9,32.28L84.24,162a.68.68,0,0,1-.65.06L37.3,135.33A43.13,43.13,0,0,1,21.53,76.46Zm159,37-55.9-32.28L144,70a.69.69,0,0,1,.65-.06l46.29,26.73a43.1,43.1,0,0,1-6.66,77.76V120a7.44,7.44,0,0,0-3.74-6.54Zm19.27-29c-.34-.21-.94-.57-1.36-.81L152.67,57.2a7.44,7.44,0,0,0-7.52,0L89.25,89.47V67.14a.73.73,0,0,1,.28-.6l46.29-26.72a43.1,43.1,0,0,1,64,44.65ZM78.7,124.3,59.34,113.13a.73.73,0,0,1-.37-.54V59.14A43.09,43.09,0,0,1,129.64,26c-.34.19-.95.52-1.38.77L82.46,53.21a7.45,7.45,0,0,0-3.76,6.51Zm10.51-22.67,24.9-14.38L139,101.63v28.74L114.1,144.75,89.2,130.37Z"/></svg></a>
+    </div>
+    <div class="col-12 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Company</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul class="multicol-2 multicol-sm-1">
+        <li><a class="faded" href="/api/">API</a></li>
+        <li><a class="faded" href="/projects/">Projects</a></li>
+        <li><a class="faded" href="/blog/">Blog</a></li>
+        <li><a class="faded" href="/about/">About</a></li>
+        <li><a class="faded" href="/jobs/">Jobs</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Latest</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul>
+        <li><a class="faded" href="/blog/tags/research/">Research</a></li>
+        <li><a class="faded" href="/blog/tags/announcements/">Announcements</a></li>
+        <li><a class="faded" href="/blog/tags/events/">Events</a></li>
+        <li><a class="faded" href="/blog/tags/milestones/">Milestones</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-xl-3 medium-xsmall-copy mb-1">
+      <div>Resources</div>
+      <hr class="mt-0.1 mb-1/6">
+      <ul>
+        <li><a class="faded" href="/newsroom/">Newsroom</a></li>
+        <li><a class="faded" href="/brand/">Brand Assets</a></li>
+        <li><a class="faded" href="/papers/">Papers</a></li>
+        <li><a class="faded" href="/charter/">Charter</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+  <script type="text/javascript" src="/assets/scripts/main.js?v=b7829f16c6"></script>
+  
+  
+</body>
+</html>

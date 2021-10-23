@@ -1,0 +1,553 @@
+WEBVTT
+
+1
+00:00:02.830 --> 00:00:06.000
+In the previous videos, we become familiar with
+
+2
+00:00:06.000 --> 00:00:09.255
+the policy evaluation and policy iteration algorithms.
+
+3
+00:00:09.255 --> 00:00:12.555
+And now, we are going to fit all the puzzles together,
+
+4
+00:00:12.555 --> 00:00:15.480
+to get an algorithm for finding optimal policy in a
+
+5
+00:00:15.480 --> 00:00:18.845
+model-based setting for variant market decision process.
+
+6
+00:00:18.845 --> 00:00:23.320
+In fact, we already know all we might need to define such algorithm,
+
+7
+00:00:23.320 --> 00:00:26.000
+which is called generalized policy iteration.
+
+8
+00:00:26.000 --> 00:00:27.990
+Generalized policy iteration is one of
+
+9
+00:00:27.990 --> 00:00:30.515
+the most fundamental ideas in reinforcement learning.
+
+10
+00:00:30.515 --> 00:00:34.410
+This idea can be recognized in almost any reinforcement learning algorithm,
+
+11
+00:00:34.410 --> 00:00:37.060
+and thus, it is very important to understand.
+
+12
+00:00:37.060 --> 00:00:39.755
+In its simplest form, it tell us that
+
+13
+00:00:39.755 --> 00:00:42.935
+inter-leaving policy evaluation with policy improvement,
+
+14
+00:00:42.935 --> 00:00:45.805
+will eventually make our policy an optimal one.
+
+15
+00:00:45.805 --> 00:00:49.790
+In fact, when we think a little about these procedures,
+
+16
+00:00:49.790 --> 00:00:56.020
+we realize that they are both competing and cooperating. Why do they compete?
+
+17
+00:00:56.020 --> 00:00:59.290
+Is self-evident. That is when we evaluate a policy,
+
+18
+00:00:59.290 --> 00:01:02.705
+we make it no longer to be greedy with respect to it's value function.
+
+19
+00:01:02.705 --> 00:01:06.335
+And where we make a policy greedy with respect to its value function,
+
+20
+00:01:06.335 --> 00:01:08.645
+we change it's value function.
+
+21
+00:01:08.645 --> 00:01:11.910
+This competing behavior is all the more interesting in that,
+
+22
+00:01:11.910 --> 00:01:14.800
+it eventually drives a policy to become an optimal one.
+
+23
+00:01:14.800 --> 00:01:18.110
+That is to satisfy the Bellman optimality equation.
+
+24
+00:01:18.110 --> 00:01:20.925
+And that is why one could say that
+
+25
+00:01:20.925 --> 00:01:25.190
+these two procedures are also cooperating with each other.
+
+26
+00:01:25.190 --> 00:01:28.815
+But note that this generalized policy iteration idea,
+
+27
+00:01:28.815 --> 00:01:31.880
+doesn't tell us how many times should we call
+
+28
+00:01:31.880 --> 00:01:35.305
+policy evaluation procedure in-between of policy improvement goals,
+
+29
+00:01:35.305 --> 00:01:40.045
+in what order should we update state values, and so on.
+
+30
+00:01:40.045 --> 00:01:43.750
+In theory, all the details are not important as long as
+
+31
+00:01:43.750 --> 00:01:48.515
+policy evaluation and policy improvement continue to interact with each other.
+
+32
+00:01:48.515 --> 00:01:53.170
+In that sense, the generalized policy iteration is a very robust idea.
+
+33
+00:01:53.170 --> 00:01:55.130
+What do I mean by that robustness?
+
+34
+00:01:55.130 --> 00:01:58.820
+Well, generalized policy iteration result policy,
+
+35
+00:01:58.820 --> 00:02:01.020
+does not depend on initialization.
+
+36
+00:02:01.020 --> 00:02:03.895
+It is not susceptible to local optimus.
+
+37
+00:02:03.895 --> 00:02:06.670
+It does not need complete policy evaluation.
+
+38
+00:02:06.670 --> 00:02:10.845
+That is evaluation is needed not to be complete,
+
+39
+00:02:10.845 --> 00:02:13.190
+neither in the sense of updating all stages during
+
+40
+00:02:13.190 --> 00:02:15.300
+the policy relation procedure nor in
+
+41
+00:02:15.300 --> 00:02:18.635
+the sense of complete convergence of policy evaluation.
+
+42
+00:02:18.635 --> 00:02:23.760
+It also does not need to improve policy in all states at any particular step,
+
+43
+00:02:23.760 --> 00:02:26.240
+as long as it guarantee that policy will be
+
+44
+00:02:26.240 --> 00:02:29.470
+updated in each and every state once in a while.
+
+45
+00:02:29.470 --> 00:02:33.700
+So, just for an example of what does generalized policy iteration allow one to do?
+
+46
+00:02:33.700 --> 00:02:38.255
+Think of updating only one state at each policy evaluation step.
+
+47
+00:02:38.255 --> 00:02:43.190
+And in this case, generalized policy iteration will converge to globally optimal policy.
+
+48
+00:02:43.190 --> 00:02:45.030
+To make things even more interesting,
+
+49
+00:02:45.030 --> 00:02:47.805
+think about updating it in a random direction,
+
+50
+00:02:47.805 --> 00:02:50.235
+which is correct only in the expectation,
+
+51
+00:02:50.235 --> 00:02:52.360
+and generalized policy iteration again,
+
+52
+00:02:52.360 --> 00:02:54.435
+will converge to globally optimal policy.
+
+53
+00:02:54.435 --> 00:02:57.100
+Isn't that impressive? That even under
+
+54
+00:02:57.100 --> 00:03:00.705
+these conditions generalized policy iteration is guaranteed to work well?
+
+55
+00:03:00.705 --> 00:03:03.625
+Surely in practice, it will converge the faster,
+
+56
+00:03:03.625 --> 00:03:06.005
+the less obstacles it counters.
+
+57
+00:03:06.005 --> 00:03:08.870
+To further get you a bit of intuition of how different
+
+58
+00:03:08.870 --> 00:03:11.850
+could generalized policy iteration versions be,
+
+59
+00:03:11.850 --> 00:03:16.250
+we are going to talk about two extreme instances of generalized policy iteration.
+
+60
+00:03:16.250 --> 00:03:21.200
+First one is called policy iteration and the second is called value iteration.
+
+61
+00:03:21.200 --> 00:03:25.260
+These two approaches differ in how policy evaluation stage is performed.
+
+62
+00:03:25.260 --> 00:03:30.365
+In brief, policy iteration requires precise evaluation of policy,
+
+63
+00:03:30.365 --> 00:03:32.465
+before each policy improvement step.
+
+64
+00:03:32.465 --> 00:03:34.760
+That is why I need to evaluate a policy,
+
+65
+00:03:34.760 --> 00:03:36.670
+until a numerical convergence of it's
+
+66
+00:03:36.670 --> 00:03:40.155
+state values and before doing a single policy improvement.
+
+67
+00:03:40.155 --> 00:03:43.050
+At the other extreme, consider an algorithm which
+
+68
+00:03:43.050 --> 00:03:46.025
+performs only one iteration of policy evaluation,
+
+69
+00:03:46.025 --> 00:03:50.080
+between any two successive calls of policy improvement procedure.
+
+70
+00:03:50.080 --> 00:03:56.040
+This slider algorithm is called value iteration and is also very widespread in use.
+
+71
+00:03:56.040 --> 00:04:00.425
+On this slide, you can see a pseudocode of policy iteration algorithm,
+
+72
+00:04:00.425 --> 00:04:02.405
+consisting of three stages.
+
+73
+00:04:02.405 --> 00:04:05.835
+It's first stage is an initialization of state values.
+
+74
+00:04:05.835 --> 00:04:08.630
+At this stage, it is very important to initialize
+
+75
+00:04:08.630 --> 00:04:12.000
+value of alternative states, equal to zero.
+
+76
+00:04:12.000 --> 00:04:13.790
+The second stage is basically
+
+77
+00:04:13.790 --> 00:04:17.775
+a policy evaluation procedure which we have already encountered before.
+
+78
+00:04:17.775 --> 00:04:20.530
+The third stage is already familiar to us,
+
+79
+00:04:20.530 --> 00:04:24.155
+policy improvement procedure, with only one extension.
+
+80
+00:04:24.155 --> 00:04:26.730
+In particular, after policy improvement procedure,
+
+81
+00:04:26.730 --> 00:04:29.555
+we check whether a new policy is equal to the old one.
+
+82
+00:04:29.555 --> 00:04:35.460
+If it is equal, then the state values of these policies are also equal.
+
+83
+00:04:35.460 --> 00:04:39.135
+And thus, we have found an optimal policy,
+
+84
+00:04:39.135 --> 00:04:41.530
+which satisfies the Bellman optimality equation.
+
+85
+00:04:41.530 --> 00:04:43.275
+If this is now the case,
+
+86
+00:04:43.275 --> 00:04:45.740
+then we need one more policy evaluation,
+
+87
+00:04:45.740 --> 00:04:48.705
+and one more subsequent policy improvement.
+
+88
+00:04:48.705 --> 00:04:53.930
+Another very important instance of generalized policy iteration is value iteration.
+
+89
+00:04:53.930 --> 00:04:56.310
+In fact, keeping assignal book keeping such as
+
+90
+00:04:56.310 --> 00:04:59.755
+state bill of value initialization and termination criteria,
+
+91
+00:04:59.755 --> 00:05:02.810
+value iteration is essentially a one line assignment.
+
+92
+00:05:02.810 --> 00:05:05.470
+This assignment effectively combines
+
+93
+00:05:05.470 --> 00:05:10.040
+one truncated step of policy evaluation and full policy improvement step.
+
+94
+00:05:10.040 --> 00:05:13.270
+One intuition about this assignment is that it is precisely equal to
+
+95
+00:05:13.270 --> 00:05:17.785
+the Bellman optimality equation for v star turn into assignment operation.
+
+96
+00:05:17.785 --> 00:05:21.180
+A distinctive feature of this algorithm is that it
+
+97
+00:05:21.180 --> 00:05:25.425
+does not explicitly stores the probabilities of actions for each state.
+
+98
+00:05:25.425 --> 00:05:30.200
+That is it does not require an explicit policy to perform iterations.
+
+99
+00:05:30.200 --> 00:05:32.610
+The policy however, could be recovered from
+
+100
+00:05:32.610 --> 00:05:35.440
+value function using that arg marks of q function,
+
+101
+00:05:35.440 --> 00:05:37.820
+and this q function in turn is recovered
+
+102
+00:05:37.820 --> 00:05:40.945
+from value estimates and transient probabilities.
+
+103
+00:05:40.945 --> 00:05:46.770
+This policy recovering step is a very final step in the value iteration algorithm.
+
+104
+00:05:46.770 --> 00:05:50.770
+Please know that in any intermediate step of this algorithm,
+
+105
+00:05:50.770 --> 00:05:52.470
+the computed value of function,
+
+106
+00:05:52.470 --> 00:05:55.740
+may not correspond to any possible particular policy,
+
+107
+00:05:55.740 --> 00:06:00.250
+that is there may be no policy at all that has such value function.
+
+108
+00:06:00.250 --> 00:06:06.000
+No policy by which with v pi equal to v from value iteration step.
+
+109
+00:06:06.000 --> 00:06:08.195
+And this is so by design because,
+
+110
+00:06:08.195 --> 00:06:11.625
+any intermediate v function is just an approximation of
+
+111
+00:06:11.625 --> 00:06:16.085
+optimal v star but not v pi for some policy.
+
+112
+00:06:16.085 --> 00:06:18.905
+Well, we have introduced and discussed
+
+113
+00:06:18.905 --> 00:06:22.585
+two approaches for finding optimal policy with dynamic programming.
+
+114
+00:06:22.585 --> 00:06:26.925
+One is policy iteration and another one is value iteration.
+
+115
+00:06:26.925 --> 00:06:30.585
+Do these approaches differ in the amount of time spent
+
+116
+00:06:30.585 --> 00:06:34.540
+in policy evaluation phase between two successive policy improvements?
+
+117
+00:06:34.540 --> 00:06:38.635
+Policy iteration performs iteration till the convergence,
+
+118
+00:06:38.635 --> 00:06:43.830
+whereas, value iteration performs only single step of policy evaluation.
+
+119
+00:06:43.830 --> 00:06:45.670
+Do these approaches along with
+
+120
+00:06:45.670 --> 00:06:50.775
+the generalized policy iteration are fundamental to the field of reinforcement learning?
+
+121
+00:06:50.775 --> 00:06:54.500
+In future years, you will encounter algorithm that will
+
+122
+00:06:54.500 --> 00:06:58.595
+look like policy and value iteration with some minor changes.
+
+123
+00:06:58.595 --> 00:07:01.910
+For example, you'll definitely encounter the q learning which is
+
+124
+00:07:01.910 --> 00:07:06.445
+the value iteration algorithm applied to the q function instead of v function.
+
+125
+00:07:06.445 --> 00:07:10.370
+But how to compare it to these approaches which one is better?
+
+126
+00:07:10.370 --> 00:07:13.575
+Well, this is a question without a clear answer.
+
+127
+00:07:13.575 --> 00:07:19.030
+One cycle of value iteration is faster than one cycle of policy iteration.
+
+128
+00:07:19.030 --> 00:07:24.055
+But value iteration, it requires much more cycles than policy iteration.
+
+129
+00:07:24.055 --> 00:07:28.910
+One might think that the truth is somewhere in between all the two extremes.
+
+130
+00:07:28.910 --> 00:07:32.040
+Well indeed, it might be useful to experiment with
+
+131
+00:07:32.040 --> 00:07:35.270
+the number of steps spent in policy evaluation.
+
+132
+00:07:35.270 --> 00:07:39.270
+Somewhere between one and infinite number of steps,
+
+133
+00:07:39.270 --> 00:07:43.120
+there might be a best algorithm for your task at hand.
+
+134
+00:07:43.120 --> 00:07:47.060
+This concept of intermediate number of steps, say,
+
+135
+00:07:47.060 --> 00:07:50.605
+k steps spent in policy evaluation,
+
+136
+00:07:50.605 --> 00:07:54.565
+has its own name, it is called modified policy iteration.
+
+137
+00:07:54.565 --> 00:07:56.475
+And as I have said previously,
+
+138
+00:07:56.475 --> 00:08:00.880
+this may be the way to go for your particular application.

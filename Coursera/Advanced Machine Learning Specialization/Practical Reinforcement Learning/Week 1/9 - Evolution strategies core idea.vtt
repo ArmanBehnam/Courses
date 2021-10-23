@@ -1,0 +1,403 @@
+WEBVTT
+
+1
+00:00:03.650 --> 00:00:05.650
+[SOUND] The algorithms we study
+this week have one common property.
+
+2
+00:00:05.650 --> 00:00:10.619
+This property is the fact that they treat
+the decision process, be it decision
+
+3
+00:00:10.619 --> 00:00:15.910
+process or something else, as a black box,
+or well, almost always a black box.
+
+4
+00:00:15.910 --> 00:00:22.140
+You do take account for the fact that you
+have to take states, produce probabilities
+
+5
+00:00:22.140 --> 00:00:26.200
+of actions and so on, so there's this
+iterative structure of the process.
+
+6
+00:00:26.200 --> 00:00:28.690
+But otherwise, the assumption for example,
+
+7
+00:00:28.690 --> 00:00:32.910
+is not that widely used as we
+will use it later in this course.
+
+8
+00:00:32.910 --> 00:00:37.310
+Basically, you can think of it as a,
+again, black box family of algorithms.
+
+9
+00:00:37.310 --> 00:00:40.650
+So, you have this decision process here,
+or any process.
+
+10
+00:00:40.650 --> 00:00:43.370
+And you have all those things,
+actions, rewards.
+
+11
+00:00:43.370 --> 00:00:46.692
+Rewards from the whole
+trajectory in this process.
+
+12
+00:00:46.692 --> 00:00:50.874
+Now the way you think of it is as
+some kind of box to which you feed
+
+13
+00:00:50.874 --> 00:00:53.056
+the parameters of your policy.
+
+14
+00:00:53.056 --> 00:00:58.168
+Maybe ways of a neural network which
+constitutes your agent's probability,
+
+15
+00:00:58.168 --> 00:01:02.583
+action probability distribution,
+or a table of probabilities for
+
+16
+00:01:02.583 --> 00:01:06.730
+every possible state,
+if there is a fleet amount of them.
+
+17
+00:01:06.730 --> 00:01:12.870
+Anything you can think of, and then
+this box spits out the expected reward.
+
+18
+00:01:12.870 --> 00:01:17.180
+Or just reward from one of
+several trajectories averaged.
+
+19
+00:01:17.180 --> 00:01:22.000
+Now since we don't actually require
+that much from this process,
+
+20
+00:01:22.000 --> 00:01:26.640
+can think you can make this next step and
+assume it's a black box.
+
+21
+00:01:26.640 --> 00:01:30.760
+So you have a black box which
+takes a vector of weights.
+
+22
+00:01:30.760 --> 00:01:36.312
+You can just draw a few inputs for every
+respective weight here probabilities.
+
+23
+00:01:36.312 --> 00:01:40.864
+It spits out one number, and
+you want to tune these inputs to
+
+24
+00:01:40.864 --> 00:01:45.429
+get the output number as large
+as possible in expectation.
+
+25
+00:01:45.429 --> 00:01:51.840
+And again the method basically
+does this very thing.
+
+26
+00:01:51.840 --> 00:01:57.270
+Maybe not exactly black box but
+it is almost so.
+
+27
+00:01:57.270 --> 00:02:00.062
+And the method we're going to start
+right now, or to be more accurate,
+
+28
+00:02:00.062 --> 00:02:02.586
+a family of methods,
+the so-called evolution strategies.
+
+29
+00:02:02.586 --> 00:02:07.347
+Now counterintuitively, they only have
+a little bit to do with actual biological
+
+30
+00:02:07.347 --> 00:02:11.285
+evolution, but get another method like.
+
+31
+00:02:11.285 --> 00:02:15.418
+Now the idea behind them is, the first
+thing you have to do is you have to define
+
+32
+00:02:15.418 --> 00:02:19.617
+a distribution, probability distribution,
+over inputs to your black box,
+
+33
+00:02:19.617 --> 00:02:23.090
+which takes parameters
+that produce the reward.
+
+34
+00:02:23.090 --> 00:02:27.640
+So if you use a distribution,
+if you remember for each state.
+
+35
+00:02:27.640 --> 00:02:33.750
+You have to feed it one number per
+particular action in a particular state.
+
+36
+00:02:33.750 --> 00:02:36.264
+So it's the number of states
+times the numbers of actions.
+
+37
+00:02:36.264 --> 00:02:37.699
+Minus one if you are purely mathematical.
+
+38
+00:02:37.699 --> 00:02:41.534
+And in case you are using a neural
+network, say 100 neurons followed by yet
+
+39
+00:02:41.534 --> 00:02:45.133
+another 100 neurons, then you have
+to store, in this case at least,
+
+40
+00:02:45.133 --> 00:02:48.736
+100 squared numbers, which
+are the weights of this neural network.
+
+41
+00:02:48.736 --> 00:02:53.003
+So what you do is you define them
+via some kind of distribution.
+
+42
+00:02:53.003 --> 00:02:56.024
+For example,
+the fully factorized normal distribution.
+
+43
+00:02:56.024 --> 00:02:59.060
+So you have 10,000 weights.
+
+44
+00:02:59.060 --> 00:03:05.586
+What you do is you have 10,000
+means of those respective weights.
+
+45
+00:03:05.586 --> 00:03:12.450
+And you have 10,000 weight wise variances,
+the sigma squares.
+
+46
+00:03:13.570 --> 00:03:15.044
+You could of course use
+any other distribution.
+
+47
+00:03:15.044 --> 00:03:20.219
+For example, you could use not the fully
+factorized norma distribution,
+
+48
+00:03:20.219 --> 00:03:21.953
+but the actual.
+
+49
+00:03:21.953 --> 00:03:26.110
+And some weight, variances,
+the sigma squares.
+
+50
+00:03:27.220 --> 00:03:34.262
+You could, of course, use not the fully
+factorized normal distribution but
+
+51
+00:03:34.262 --> 00:03:39.605
+the actual mandates and,
+weight wise, kind of variant.
+
+52
+00:03:39.605 --> 00:03:45.929
+The algorithm of course
+using other distribution,
+
+53
+00:03:45.929 --> 00:03:50.529
+using not the fully facotrized normal
+
+54
+00:03:50.529 --> 00:03:55.426
+distribution but the actual mandates.
+
+55
+00:03:55.426 --> 00:04:01.161
+And you could use not the The algorithm
+
+56
+00:04:01.161 --> 00:04:08.379
+of course [INAUDIBLE] use not
+the [INAUDIBLE] and [INAUDIBLE].
+
+57
+00:04:08.379 --> 00:04:10.361
+The algorithm of course using
+any other distribution,
+
+58
+00:04:10.361 --> 00:04:12.526
+using not the normal distribution but
+the actual mandates.
+
+59
+00:04:12.526 --> 00:04:17.561
+and [INAUDIBLE] [INAUDIBLE]
+the sigma squareds.
+
+60
+00:04:17.561 --> 00:04:23.551
+The algorithm of course
+using other distribution.
+
+61
+00:04:23.551 --> 00:04:28.089
+Use not the [INAUDIBLE] as
+a normal distribution but
+
+62
+00:04:28.089 --> 00:04:31.554
+the actual [INAUDIBLE] sigma squares.
+
+63
+00:04:31.554 --> 00:04:35.713
+[INAUDIBLE] Weight wise kind of variant.
+
+64
+00:04:35.713 --> 00:04:39.663
+The algorithm [INAUDIBLE] you could
+of course use any other distribution.
+
+65
+00:04:39.663 --> 00:04:42.464
+Use not the normal distribution but
+the actual mandates.
+
+66
+00:04:42.464 --> 00:04:47.494
+You could [INAUDIBLE] squares.
+
+67
+00:04:47.494 --> 00:04:53.367
+[INAUDIBLE] You could of course
+use any other distribution.
+
+68
+00:04:53.367 --> 00:04:57.755
+The algorithms [INAUDIBLE]
+
+69
+00:04:57.755 --> 00:05:02.142
+used not the [INAUDIBLE] and
+
+70
+00:05:02.142 --> 00:05:06.331
+normal distribution but
+
+71
+00:05:06.331 --> 00:05:12.913
+the actual [INAUDIBLE] fully factorized
+
+72
+00:05:12.913 --> 00:05:17.513
+[INAUDIBLE] sigma squares.
+
+73
+00:05:17.513 --> 00:05:25.176
+[FOREIGN] And of course, using any other
+[INAUDIBLE] the algorithm [INAUDIBLE] and
+
+74
+00:05:25.176 --> 00:05:30.517
+weight wise kind of [INAUDIBLE]
+normal distribution but
+
+75
+00:05:30.517 --> 00:05:37.267
+the actual amount of fully factorized
+[INAUDIBLE] the sigma squares.
+
+76
+00:05:37.267 --> 00:05:43.791
+[FOREIGN] The algorithm [INAUDIBLE]
+
+77
+00:05:43.791 --> 00:05:50.315
+and weight wise kind of [INAUDIBLE]
+
+78
+00:05:50.315 --> 00:05:55.208
+but the actual [INAUDIBLE]
+
+79
+00:05:55.208 --> 00:05:59.179
+the sigma squares.
+
+80
+00:06:02.050 --> 00:06:02.938
+The sigma squares.
+
+81
+00:06:02.938 --> 00:06:07.584
+Well, of course,
+use any other distribution [FOREIGN].
+
+82
+00:06:07.584 --> 00:06:11.655
+The algorithm is [INAUDIBLE]
+normal distribution but
+
+83
+00:06:11.655 --> 00:06:15.269
+the actual amount
+[INAUDIBLE] weight wise iii.
+
+84
+00:06:15.269 --> 00:06:20.223
+[FOREIGN] Well of course
+using other distribution.
+
+85
+00:06:20.223 --> 00:06:30.223
+[SOUND]

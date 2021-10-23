@@ -1,0 +1,337 @@
+WEBVTT
+
+1
+00:00:02.240 --> 00:00:05.400
+So, you've just seen what those evolution strategies are capable
+
+2
+00:00:05.400 --> 00:00:08.915
+of and hopefully gotten all impressed with the practical results on the previous slide.
+
+3
+00:00:08.915 --> 00:00:11.140
+Now, it's high time to find out whether they
+
+4
+00:00:11.140 --> 00:00:13.480
+are actually that good or there is a drawback there.
+
+5
+00:00:13.480 --> 00:00:14.920
+It turns out that there is,
+
+6
+00:00:14.920 --> 00:00:19.930
+otherwise there would be no point in extending our course on five more weeks.
+
+7
+00:00:19.930 --> 00:00:23.850
+And the drawbacks turn out to be shared between
+
+8
+00:00:23.850 --> 00:00:27.895
+the evolution strategies and other black-box based methods like cross-entropy method.
+
+9
+00:00:27.895 --> 00:00:31.770
+Since we take the entire interaction process,
+
+10
+00:00:31.770 --> 00:00:33.560
+the entire trajectory sampling as more of
+
+11
+00:00:33.560 --> 00:00:36.870
+a black-box and they are only considered full trajectories.
+
+12
+00:00:36.870 --> 00:00:39.295
+The first drawback is that to even begin training,
+
+13
+00:00:39.295 --> 00:00:43.040
+each of those methods need full trajectory from start to a terminal state.
+
+14
+00:00:43.040 --> 00:00:47.620
+This is required to estimate the reward and this is of course,
+
+15
+00:00:47.620 --> 00:00:50.310
+more or less a reasonable thing to demand
+
+16
+00:00:50.310 --> 00:00:54.405
+depending on our current formalization of the reward function.
+
+17
+00:00:54.405 --> 00:00:57.685
+However, in many cases it will be logically impractical.
+
+18
+00:00:57.685 --> 00:00:59.315
+For example, in some cases you may have
+
+19
+00:00:59.315 --> 00:01:02.240
+an infinite amount of time steps in trajectory technically,
+
+20
+00:01:02.240 --> 00:01:07.915
+or you might want to move your foot forward indefinitely along,
+
+21
+00:01:07.915 --> 00:01:12.555
+or instead of having a fixed step of 10 seconds there.
+
+22
+00:01:12.555 --> 00:01:14.640
+And in other cases,
+
+23
+00:01:14.640 --> 00:01:18.160
+the trajectories might be finite but as long as say,
+
+24
+00:01:18.160 --> 00:01:21.150
+five minutes of sampling per trajectory on your current PC.
+
+25
+00:01:21.150 --> 00:01:24.905
+This does break your algorithm but you can of course fix
+
+26
+00:01:24.905 --> 00:01:29.155
+them with a more darker flare of duct tape.
+
+27
+00:01:29.155 --> 00:01:31.980
+But to even think about it,
+
+28
+00:01:31.980 --> 00:01:36.640
+this reveals that they train in different way from how we humans train.
+
+29
+00:01:36.640 --> 00:01:40.320
+You there on the other side of the screen probably know the cool stuff now,
+
+30
+00:01:40.320 --> 00:01:43.130
+how to walk upright, use a computer,
+
+31
+00:01:43.130 --> 00:01:47.480
+surf the internet, maybe ride a bicycle, maybe swim.
+
+32
+00:01:47.480 --> 00:01:49.920
+There's a lot of cool capabilities you've learned, at least reading.
+
+33
+00:01:49.920 --> 00:01:53.040
+Now, all of them are kind of complicated but you've learned them
+
+34
+00:01:53.040 --> 00:01:57.765
+by not getting any single full trajectory of your life.
+
+35
+00:01:57.765 --> 00:02:00.855
+So, you're probably alive by now therefore,
+
+36
+00:02:00.855 --> 00:02:05.725
+you have not seen a full trajectory of a life from birth to demise.
+
+37
+00:02:05.725 --> 00:02:10.575
+And this basically means that you managed to train from partial experience.
+
+38
+00:02:10.575 --> 00:02:15.020
+This is one property that we humans have that our current algorithms do not have.
+
+39
+00:02:15.020 --> 00:02:21.150
+This in fact, is the entire objective for firm next week to find another family of
+
+40
+00:02:21.150 --> 00:02:23.855
+algorithms that works from partial experience and
+
+41
+00:02:23.855 --> 00:02:27.535
+is capable of training even before it finished just one session.
+
+42
+00:02:27.535 --> 00:02:30.140
+Another common drawback is that generally,
+
+43
+00:02:30.140 --> 00:02:33.455
+the cross-entropy and other strategies generally require a lot of samples.
+
+44
+00:02:33.455 --> 00:02:34.765
+Just think about it.
+
+45
+00:02:34.765 --> 00:02:36.625
+The cross-entropy method asks you to say,
+
+46
+00:02:36.625 --> 00:02:39.210
+sample 100 full trajectories.
+
+47
+00:02:39.210 --> 00:02:44.710
+You go out of your way to sample them and then just casually discards each of them.
+
+48
+00:02:44.710 --> 00:02:46.460
+So just it extracts no information there,
+
+49
+00:02:46.460 --> 00:02:48.510
+it just drops them.
+
+50
+00:02:48.510 --> 00:02:53.170
+Technically, it does estimate thresholds based on them but in general,
+
+51
+00:02:53.170 --> 00:02:56.425
+this is not the thing you would
+
+52
+00:02:56.425 --> 00:03:00.655
+want your method to do with your being filled up the trajectories.
+
+53
+00:03:00.655 --> 00:03:03.855
+The evolution strategies don't have this problem,
+
+54
+00:03:03.855 --> 00:03:07.580
+they do have the problem but they don't formally throw away everything,
+
+55
+00:03:07.580 --> 00:03:10.730
+but on every iteration to meet just one improvement.
+
+56
+00:03:10.730 --> 00:03:13.970
+So it's recommended that you make several full trajectories,
+
+57
+00:03:13.970 --> 00:03:18.770
+sample them from different values of your data from the [inaudible] squared,
+
+58
+00:03:18.770 --> 00:03:22.065
+which is also kind of redundant most of the time.
+
+59
+00:03:22.065 --> 00:03:26.925
+So instead, there is a way to train from partial experience,
+
+60
+00:03:26.925 --> 00:03:29.370
+again which is going to be covered in more detail next week.
+
+61
+00:03:29.370 --> 00:03:32.140
+But so far, the main condition in which
+
+62
+00:03:32.140 --> 00:03:35.060
+those algorithm apply is that you require a lot of cheap samples.
+
+63
+00:03:35.060 --> 00:03:41.410
+So, if you have not only emulate a small cheap model of your environment,
+
+64
+00:03:41.410 --> 00:03:42.710
+it's okay to use any of them.
+
+65
+00:03:42.710 --> 00:03:44.860
+They'll convert pretty fast and sometimes they're going to be
+
+66
+00:03:44.860 --> 00:03:48.025
+even more efficient than the more complicated methods we're going to see later.
+
+67
+00:03:48.025 --> 00:03:51.625
+But, once the sampling gets more complicated,
+
+68
+00:03:51.625 --> 00:03:56.045
+say, you are seeing an actual physical robotic car from an actual physical street,
+
+69
+00:03:56.045 --> 00:03:59.870
+you won't be able to apply those others as
+
+70
+00:03:59.870 --> 00:04:03.690
+efficiently because the main bottleneck is going to be sampling 100 trajectories,
+
+71
+00:04:03.690 --> 00:04:06.375
+which is like 100 cheap through a busy city
+
+72
+00:04:06.375 --> 00:04:09.795
+by a physical robotic car under oversight of a physical driver.
+
+73
+00:04:09.795 --> 00:04:13.090
+So, this is where the limitation comes.
+
+74
+00:04:13.090 --> 00:04:14.510
+And in general, you can think of
+
+75
+00:04:14.510 --> 00:04:18.275
+those black-box algorithms are those that sacrifice a lot of agents,
+
+76
+00:04:18.275 --> 00:04:21.895
+a lot of sample interaction per one unit of improvement.
+
+77
+00:04:21.895 --> 00:04:24.545
+But otherwise when this is available, they're not that bad.
+
+78
+00:04:24.545 --> 00:04:26.265
+Now for the third time,
+
+79
+00:04:26.265 --> 00:04:30.220
+the entire set of the week two,
+
+80
+00:04:30.220 --> 00:04:32.180
+week three, and partially week four,
+
+81
+00:04:32.180 --> 00:04:34.510
+it's going to be dedicated to learning a way to fix this problem.
+
+82
+00:04:34.510 --> 00:04:36.310
+To train from partial experience,
+
+83
+00:04:36.310 --> 00:04:37.600
+to be more sample efficient.
+
+84
+00:04:37.600 --> 00:04:42.300
+We will find a lot of cool ways you can improve there. Until then.

@@ -1,0 +1,729 @@
+WEBVTT
+
+1
+00:00:03.340 --> 00:00:06.130
+Now, let's find out how do we solve this process.
+
+2
+00:00:06.130 --> 00:00:08.460
+Of course, reinforcement learning wouldn't be
+
+3
+00:00:08.460 --> 00:00:12.565
+the entire course if there were just one way you can solve all those processes.
+
+4
+00:00:12.565 --> 00:00:15.780
+But the general case of a solution should look like this.
+
+5
+00:00:15.780 --> 00:00:17.360
+You have your policy,
+
+6
+00:00:17.360 --> 00:00:21.850
+your probability distribution or the assignment of actions to states,
+
+7
+00:00:21.850 --> 00:00:25.600
+and you initialize it at random or via some kind
+
+8
+00:00:25.600 --> 00:00:29.740
+of prior domain knowledge you currently use for your particular problem.
+
+9
+00:00:29.740 --> 00:00:32.390
+Then you intensively improve your policy.
+
+10
+00:00:32.390 --> 00:00:34.890
+You do so by, well, getting data,
+
+11
+00:00:34.890 --> 00:00:36.440
+playing a few games, playing sessions,
+
+12
+00:00:36.440 --> 00:00:38.355
+treating patients or showing balance,
+
+13
+00:00:38.355 --> 00:00:43.735
+and then adjusting your policy in a way that is more efficient,
+
+14
+00:00:43.735 --> 00:00:45.920
+as you can tell given those sessions.
+
+15
+00:00:45.920 --> 00:00:49.745
+Then repeat those process as your policy gradually gets better.
+
+16
+00:00:49.745 --> 00:00:52.410
+Now, one algorithm which is very into
+
+17
+00:00:52.410 --> 00:00:55.170
+the station of this pipeline is the crossentropy method.
+
+18
+00:00:55.170 --> 00:00:56.660
+Now, just as a quick disclaimer,
+
+19
+00:00:56.660 --> 00:00:59.375
+crossentropy method is not strictly an enforcement learning algorithm.
+
+20
+00:00:59.375 --> 00:01:02.240
+It's general procedure for second skeptmization.
+
+21
+00:01:02.240 --> 00:01:04.105
+But for the purpose of our course,
+
+22
+00:01:04.105 --> 00:01:06.140
+the crossentropy method does the following things.
+
+23
+00:01:06.140 --> 00:01:08.545
+It's starts with say, a random policy.
+
+24
+00:01:08.545 --> 00:01:11.805
+So, all actions are equally likely to be taken.
+
+25
+00:01:11.805 --> 00:01:14.220
+And then it plays a few games,
+
+26
+00:01:14.220 --> 00:01:16.275
+a few sessions, with those random actions.
+
+27
+00:01:16.275 --> 00:01:18.130
+Let's use the bicycle example.
+
+28
+00:01:18.130 --> 00:01:19.460
+So, you're trying to ride a bicycle.
+
+29
+00:01:19.460 --> 00:01:23.790
+You're equally likely to steer the pedal or
+
+30
+00:01:23.790 --> 00:01:29.095
+steer the wheel in any direction and then you do so for say, 100 times.
+
+31
+00:01:29.095 --> 00:01:33.030
+Well, initially some of those attempts will be more like you than others.
+
+32
+00:01:33.030 --> 00:01:34.680
+Sometimes you will fall right away,
+
+33
+00:01:34.680 --> 00:01:37.210
+sometimes you'll be able to ride for a few meters.
+
+34
+00:01:37.210 --> 00:01:40.460
+Now, the intention here is you have
+
+35
+00:01:40.460 --> 00:01:45.095
+those more likely sessions where you were able to fare better than falling right away.
+
+36
+00:01:45.095 --> 00:01:49.500
+And you want to do the actions but you did them in those sections more frequently.
+
+37
+00:01:49.500 --> 00:01:52.840
+So basically, you notice that if you
+
+38
+00:01:52.840 --> 00:01:57.505
+steer in the direction opposite to the direction of where you're falling,
+
+39
+00:01:57.505 --> 00:01:59.300
+then you ride for a longer duration.
+
+40
+00:01:59.300 --> 00:02:02.085
+Basically, you now want to increase the probability of doing so,
+
+41
+00:02:02.085 --> 00:02:04.970
+so that you'll be more likely to survive longer,
+
+42
+00:02:04.970 --> 00:02:07.140
+not fall for longer duration.
+
+43
+00:02:07.140 --> 00:02:09.910
+And then you repeat the whole process again.
+
+44
+00:02:09.910 --> 00:02:13.320
+Now you're more proficient at riding bicycles,
+
+45
+00:02:13.320 --> 00:02:16.065
+you're more likely to not do stupid things right away.
+
+46
+00:02:16.065 --> 00:02:19.305
+You play another 100 sessions.
+
+47
+00:02:19.305 --> 00:02:21.675
+You pick those of them which are more efficient.
+
+48
+00:02:21.675 --> 00:02:24.150
+So previously it would be not falling right away.
+
+49
+00:02:24.150 --> 00:02:26.150
+Right now, it would be not falling in one meter.
+
+50
+00:02:26.150 --> 00:02:28.825
+Maybe riding for say, 10 Meters say, in a straight line.
+
+51
+00:02:28.825 --> 00:02:33.520
+And then you adjust, adjust and adjust policy using this simple iterative algorithm
+
+52
+00:02:33.520 --> 00:02:38.970
+until it reaches the optimal strategy and you are able to ride a bike like a pro.
+
+53
+00:02:38.970 --> 00:02:42.720
+Now formally, what it does is,
+
+54
+00:02:42.720 --> 00:02:44.495
+well, it plays N sessions,
+
+55
+00:02:44.495 --> 00:02:46.000
+picks M best of them,
+
+56
+00:02:46.000 --> 00:02:47.760
+denoted as elite sessions,
+
+57
+00:02:47.760 --> 00:02:51.915
+and then adjusts the policy to increase the probability of actions in elite sessions.
+
+58
+00:02:51.915 --> 00:02:53.370
+Now, in the simplest case,
+
+59
+00:02:53.370 --> 00:02:57.550
+your policy is just a table in which you remember all the probabilities.
+
+60
+00:02:57.550 --> 00:03:01.530
+So you have 10 possible situations in which you can ride your bicycle.
+
+61
+00:03:01.530 --> 00:03:03.490
+Maybe you're falling to the left, falling to the right,
+
+62
+00:03:03.490 --> 00:03:05.540
+sit at the middle, going fast,
+
+63
+00:03:05.540 --> 00:03:06.890
+going slow and so on.
+
+64
+00:03:06.890 --> 00:03:10.905
+And for each type of situation, you have probability of steering left or steering right,
+
+65
+00:03:10.905 --> 00:03:13.440
+or maybe accelerating and decelerating.
+
+66
+00:03:13.440 --> 00:03:15.410
+What you want to do,
+
+67
+00:03:15.410 --> 00:03:18.750
+you want to initialize those probabilities to something like
+
+68
+00:03:18.750 --> 00:03:22.280
+a uniform random distribution which is, in this case,
+
+69
+00:03:22.280 --> 00:03:29.340
+useful because it ensures that you're likely to try all the actions and then you play,
+
+70
+00:03:29.340 --> 00:03:34.375
+you use this table and you pick actions by sampling from those probability distributions.
+
+71
+00:03:34.375 --> 00:03:36.700
+And so you play for say,
+
+72
+00:03:36.700 --> 00:03:41.460
+you try riding a bicycle for 100 consecutive attempts.
+
+73
+00:03:41.460 --> 00:03:44.910
+Then you pick, if it's 100,
+
+74
+00:03:44.910 --> 00:03:47.035
+say 10 or 25 of those attempts.
+
+75
+00:03:47.035 --> 00:03:48.360
+You call them elites,
+
+76
+00:03:48.360 --> 00:03:50.400
+then you construct a new metrics,
+
+77
+00:03:50.400 --> 00:03:53.230
+which is following the probabilities distribution
+
+78
+00:03:53.230 --> 00:03:55.740
+in the elite sessions. So, it looks like this.
+
+79
+00:03:55.740 --> 00:03:58.040
+More formally speaking for each state,
+
+80
+00:03:58.040 --> 00:04:00.860
+you remember how many times you appeared in
+
+81
+00:04:00.860 --> 00:04:04.050
+this state and then how many times you just take actions,
+
+82
+00:04:04.050 --> 00:04:08.070
+say you did steer left in this state from the elite sessions.
+
+83
+00:04:08.070 --> 00:04:09.900
+You don't care about the unlikely ones,
+
+84
+00:04:09.900 --> 00:04:13.390
+you only care about how often did you turn left here in the elite sessions.
+
+85
+00:04:13.390 --> 00:04:16.885
+And if in elite sessions this action was the most likely one,
+
+86
+00:04:16.885 --> 00:04:20.820
+then it's likely that by doing this action, you'll get higher reward.
+
+87
+00:04:20.820 --> 00:04:25.870
+So you get a higher probability to steering left in this situation.
+
+88
+00:04:25.870 --> 00:04:30.640
+So again, the intuitive way of thinking about it as that to you just, for each state,
+
+89
+00:04:30.640 --> 00:04:33.080
+you count how many times you visited the state
+
+90
+00:04:33.080 --> 00:04:36.400
+and you count how many times you took action a in this state and
+
+91
+00:04:36.400 --> 00:04:39.130
+you divide the amount of times you took action by the amount of
+
+92
+00:04:39.130 --> 00:04:42.730
+times you appeared in this state to reach the probability distribution.
+
+93
+00:04:42.730 --> 00:04:44.340
+And then you repeat the whole process.
+
+94
+00:04:44.340 --> 00:04:48.310
+You now use your new probability distribution to play
+
+95
+00:04:48.310 --> 00:04:54.235
+another 100 games or write another 100 times and this time hopefully, you'll fare better.
+
+96
+00:04:54.235 --> 00:04:57.925
+Then you get even better by updating the policy again.
+
+97
+00:04:57.925 --> 00:05:01.300
+Now, this particular algorithm is very efficient,
+
+98
+00:05:01.300 --> 00:05:02.595
+but it has a few drawbacks.
+
+99
+00:05:02.595 --> 00:05:04.115
+The first one, the simple one,
+
+100
+00:05:04.115 --> 00:05:08.050
+is that if you're only riding for 100 sessions,
+
+101
+00:05:08.050 --> 00:05:11.550
+it may happen that there's some rare states that you only
+
+102
+00:05:11.550 --> 00:05:15.720
+be once or twice during those 100 sessions.
+
+103
+00:05:15.720 --> 00:05:17.260
+And in this case,
+
+104
+00:05:17.260 --> 00:05:20.330
+you are likely to get a very weird probability distribution.
+
+105
+00:05:20.330 --> 00:05:22.820
+So it will be like 100 percent doing
+
+106
+00:05:22.820 --> 00:05:26.140
+one action because you only had one chance to pick this action.
+
+107
+00:05:26.140 --> 00:05:29.000
+Now, there is another solution of basically
+
+108
+00:05:29.000 --> 00:05:32.450
+increasing the amount of attempts from 100 to 10,000,
+
+109
+00:05:32.450 --> 00:05:35.780
+but falling from a bicycle 10,000 times hurts.
+
+110
+00:05:35.780 --> 00:05:38.430
+So we want something better. And here you can,
+
+111
+00:05:38.430 --> 00:05:41.275
+for example, like you can use these moving rule.
+
+112
+00:05:41.275 --> 00:05:43.930
+You can use the opalescent smoothing one which can be a new policy.
+
+113
+00:05:43.930 --> 00:05:47.580
+What actually happens here is that you add
+
+114
+00:05:47.580 --> 00:05:52.590
+some small positive number to all the probabilities, before you normalize.
+
+115
+00:05:52.590 --> 00:05:58.875
+And this results in you never getting the probability of zero,
+
+116
+00:05:58.875 --> 00:06:00.930
+because you always add some small number.
+
+117
+00:06:00.930 --> 00:06:06.720
+So, even though you might have reached some particular state only once,
+
+118
+00:06:06.720 --> 00:06:11.160
+you'll probably be able to take another action next
+
+119
+00:06:11.160 --> 00:06:16.200
+time because you want to converge to 100 percent this action from just one iteration.
+
+120
+00:06:16.200 --> 00:06:19.040
+It gets much more complicated when you try to apply this,
+
+121
+00:06:19.040 --> 00:06:23.135
+the new crossentropy method algorithm to the stochastic processes.
+
+122
+00:06:23.135 --> 00:06:26.220
+Let's say you have an environment which has some sort of randomness in it.
+
+123
+00:06:26.220 --> 00:06:29.050
+So, you are in a casino, you have two actions.
+
+124
+00:06:29.050 --> 00:06:31.570
+You can walk away, leave the casino for good.
+
+125
+00:06:31.570 --> 00:06:34.540
+Or you could get to the nearest slot machine,
+
+126
+00:06:34.540 --> 00:06:38.840
+insert a dollar, then pull the lever and in most cases you simply lose a dollar.
+
+127
+00:06:38.840 --> 00:06:41.930
+But in some cases you win say, three dollars.
+
+128
+00:06:41.930 --> 00:06:44.610
+Now, the problem here is that if you play this game
+
+129
+00:06:44.610 --> 00:06:46.930
+for- if you repeat this thing for a hundred times,
+
+130
+00:06:46.930 --> 00:06:49.040
+not only you'll probably lose 100 dollars,
+
+131
+00:06:49.040 --> 00:06:51.930
+the problem here is that if you do so,
+
+132
+00:06:51.930 --> 00:06:55.200
+you'll get both situations where you are lucky because
+
+133
+00:06:55.200 --> 00:06:58.970
+you choose the right option of walking away from the casino,
+
+134
+00:06:58.970 --> 00:07:02.290
+but also situations where you got lucky by pulling a lever and then
+
+135
+00:07:02.290 --> 00:07:06.470
+just getting the lucky outcome that had nothing to do with the algorithm.
+
+136
+00:07:06.470 --> 00:07:08.370
+Now, in this situation,
+
+137
+00:07:08.370 --> 00:07:12.850
+the problem is that if you select 10 or 25 best sessions,
+
+138
+00:07:12.850 --> 00:07:16.370
+they are very likely to be biased towards the cases where
+
+139
+00:07:16.370 --> 00:07:21.485
+you pulled the lever and just got the like outcome with plus three dollars.
+
+140
+00:07:21.485 --> 00:07:22.915
+Now, the problem here is,
+
+141
+00:07:22.915 --> 00:07:25.495
+as you have already guessed, that the ancient rule gamer addiction.
+
+142
+00:07:25.495 --> 00:07:28.070
+It will think that whenever it pulls a lever,
+
+143
+00:07:28.070 --> 00:07:29.780
+it gets plus three dollars and it will
+
+144
+00:07:29.780 --> 00:07:32.680
+keep pulling the lever and until it loses all its money.
+
+145
+00:07:32.680 --> 00:07:34.450
+Now, this is problematic.
+
+146
+00:07:34.450 --> 00:07:38.680
+So, as kind of under defiant quiz,
+
+147
+00:07:38.680 --> 00:07:43.510
+I want you to device if- maybe you can find some way to adapt crossentropy method to
+
+148
+00:07:43.510 --> 00:07:49.600
+this stochastic situation in order not to get fooled by these likely events.
+
+149
+00:07:49.600 --> 00:07:52.715
+So, we have just deviced a method that can solve,
+
+150
+00:07:52.715 --> 00:07:56.210
+theoretically, any problem within some reasonable range.
+
+151
+00:07:56.210 --> 00:07:59.520
+It can optimize a strategy regardless of whether
+
+152
+00:07:59.520 --> 00:08:03.420
+this strategy is a strategy of showing banners to users or
+
+153
+00:08:03.420 --> 00:08:06.530
+a strategy of turning a robot so that it walks forward without
+
+154
+00:08:06.530 --> 00:08:10.680
+falling or translating from one language to another, anything.
+
+155
+00:08:10.680 --> 00:08:14.060
+But this crossentropy method seems to be a rather general purpose algorithm.
+
+156
+00:08:14.060 --> 00:08:18.600
+It can apply to pretty much anything from student robots,
+
+157
+00:08:18.600 --> 00:08:21.620
+to trying to optimize advertisements,
+
+158
+00:08:21.620 --> 00:08:25.875
+to recommendation, to machine translation, to financial, anything.
+
+159
+00:08:25.875 --> 00:08:30.280
+The only problem with this general purpose algorithms usually seems to be that they are
+
+160
+00:08:30.280 --> 00:08:35.445
+universally worse than the special purpose methods designed for the problems they solve.
+
+161
+00:08:35.445 --> 00:08:38.780
+Now, the only issue with crossentropy method that we have left untackled
+
+162
+00:08:38.780 --> 00:08:42.585
+yet is how do you apply it efficiently to the problems at a greater scale?
+
+163
+00:08:42.585 --> 00:08:47.165
+Now, with a bicycle riding problem with say 10 states and maybe 4 actions,
+
+164
+00:08:47.165 --> 00:08:49.760
+it's really probably sufficient to solve it.
+
+165
+00:08:49.760 --> 00:08:51.975
+But any problem solving algorithm can do that.
+
+166
+00:08:51.975 --> 00:08:56.240
+Let's see how crossentropy method actually applies to something like, well,
+
+167
+00:08:56.240 --> 00:08:59.155
+steering an autonomous self-driving car,
+
+168
+00:08:59.155 --> 00:09:01.340
+or playing a game from a throw feedback.
+
+169
+00:09:01.340 --> 00:09:04.510
+The problem here is that it's no longer possible to store
+
+170
+00:09:04.510 --> 00:09:08.450
+a table with action probability is for all the possible states,
+
+171
+00:09:08.450 --> 00:09:09.775
+because you don't have 10 states,
+
+172
+00:09:09.775 --> 00:09:11.640
+you have either say,
+
+173
+00:09:11.640 --> 00:09:14.815
+begerian states or even the continuous space of states,
+
+174
+00:09:14.815 --> 00:09:17.370
+which is even technically impossible to record.
+
+175
+00:09:17.370 --> 00:09:20.775
+If you consider camera feeds from your robots or from your game,
+
+176
+00:09:20.775 --> 00:09:25.790
+and you'll probably find out that the amount of possible camera images,
+
+177
+00:09:25.790 --> 00:09:28.140
+is as large as color depth,
+
+178
+00:09:28.140 --> 00:09:30.915
+say 256 to the power of the amount of pixels.
+
+179
+00:09:30.915 --> 00:09:34.190
+So if it is even 100 by 100 pixels image,
+
+180
+00:09:34.190 --> 00:09:39.490
+which is super small, you'll have 256 times 10,000 which is insane.
+
+181
+00:09:39.490 --> 00:09:43.065
+You won't be able to record this on any hard drive ever.
+
+182
+00:09:43.065 --> 00:09:45.970
+Or maybe you will in a few years.
