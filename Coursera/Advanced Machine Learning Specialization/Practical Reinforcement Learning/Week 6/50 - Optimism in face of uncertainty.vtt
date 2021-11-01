@@ -1,0 +1,369 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.080
+So function sampling is all nice and good but ultimately is a huge risk.
+
+2
+00:00:07.080 --> 00:00:08.850
+And as it happens with huge risk,
+
+3
+00:00:08.850 --> 00:00:13.010
+something only solution for the problem and for some problem is bound to be sub optimal.
+
+4
+00:00:13.010 --> 00:00:16.970
+Otherwise it would be a definite solution for all the cases.
+
+5
+00:00:16.970 --> 00:00:21.940
+Now, this situation you might consider is when we actually want to explore ASAP.
+
+6
+00:00:21.940 --> 00:00:24.950
+So you have a chance at free exploration,
+
+7
+00:00:24.950 --> 00:00:28.730
+say you're training to optimize something in a simulation where
+
+8
+00:00:28.730 --> 00:00:32.660
+samples don't cost you actual money or you are currently,
+
+9
+00:00:32.660 --> 00:00:36.565
+if you're trying to show ads you have some fraction of
+
+10
+00:00:36.565 --> 00:00:39.110
+your user base which are ready to sacrifice as
+
+11
+00:00:39.110 --> 00:00:42.170
+long as you get to a good exploitation strategy later on.
+
+12
+00:00:42.170 --> 00:00:44.630
+You want to explore as fast as possible.
+
+13
+00:00:44.630 --> 00:00:52.610
+You have to quickly learn which action is the best with at least some confidence ratio.
+
+14
+00:00:52.610 --> 00:00:55.975
+So you want to explore an action in other words.
+
+15
+00:00:55.975 --> 00:00:59.455
+Until you are 95 percent sure that it's sub optimal.
+
+16
+00:00:59.455 --> 00:01:01.070
+And then you're going to drop it, because,
+
+17
+00:01:01.070 --> 00:01:03.215
+well, there's no more point in exploring it.
+
+18
+00:01:03.215 --> 00:01:08.435
+This brings us to a family of exploitation strategies called the upper confidence bound,
+
+19
+00:01:08.435 --> 00:01:10.445
+and they are just what they sound.
+
+20
+00:01:10.445 --> 00:01:13.075
+The upper confidence bound on the distribution.
+
+21
+00:01:13.075 --> 00:01:18.440
+What happens is, so the sampling from each distribution we computed say 95 percent
+
+22
+00:01:18.440 --> 00:01:21.110
+percentile or 90 percent percentile or 99
+
+23
+00:01:21.110 --> 00:01:24.010
+depending on how you want to explore it or exploit.
+
+24
+00:01:24.010 --> 00:01:27.385
+And you pick whichever action has highest percentile.
+
+25
+00:01:27.385 --> 00:01:30.790
+On the block there are three dots representing those percentiles,
+
+26
+00:01:30.790 --> 00:01:32.690
+and this case will always going to pick
+
+27
+00:01:32.690 --> 00:01:35.450
+the green action because it's percentile lies ahead.
+
+28
+00:01:35.450 --> 00:01:38.630
+But what would happen if it was say, 50 percent percentile?
+
+29
+00:01:38.630 --> 00:01:43.775
+Yes, in this case you would exploit more and pick the orange action.
+
+30
+00:01:43.775 --> 00:01:46.485
+This actually gives you a parameter that you can
+
+31
+00:01:46.485 --> 00:01:49.410
+adjust and even change over time just like epsilon.
+
+32
+00:01:49.410 --> 00:01:52.620
+You can start with a percentile around say,
+
+33
+00:01:52.620 --> 00:01:56.990
+99 and then gradually move it closer to point five.
+
+34
+00:01:56.990 --> 00:02:02.010
+This method actually allows you to explore more quickly or,
+
+35
+00:02:02.010 --> 00:02:05.160
+it would emphasize exploration at the cost of,
+
+36
+00:02:05.160 --> 00:02:08.730
+sometimes, taking actions that may lead huge harms way
+
+37
+00:02:08.730 --> 00:02:12.930
+Because not all actions are guaranteed to give you positive rewards.
+
+38
+00:02:12.930 --> 00:02:14.910
+And it might be discouraged when you're actually
+
+39
+00:02:14.910 --> 00:02:17.565
+working with some hardware which is costly.
+
+40
+00:02:17.565 --> 00:02:20.010
+For example, if you're training a real robotic car,
+
+41
+00:02:20.010 --> 00:02:22.230
+you better not explore that vigorously.
+
+42
+00:02:22.230 --> 00:02:25.760
+So alternatively, you can try to take some lower percentile.
+
+43
+00:02:25.760 --> 00:02:27.210
+Just make sure that the previews you've
+
+44
+00:02:27.210 --> 00:02:30.120
+completely crash in your robotic car is as low as possible.
+
+45
+00:02:30.120 --> 00:02:32.565
+But for now let's stick with the original one.
+
+46
+00:02:32.565 --> 00:02:34.680
+So imagine you have those belief distributions,
+
+47
+00:02:34.680 --> 00:02:37.050
+and what I want you to do is,
+
+48
+00:02:37.050 --> 00:02:39.335
+I want you to make your agent always speak in
+
+49
+00:02:39.335 --> 00:02:44.320
+action which has highest 95 percentile of returns.
+
+50
+00:02:44.320 --> 00:02:49.215
+What's going to happen is pretty similar with the dynamics of the function sampling.
+
+51
+00:02:49.215 --> 00:02:53.365
+This green action is optimal actually but we haven't learned yet.
+
+52
+00:02:53.365 --> 00:02:59.655
+It will eventually grow to this heel on the first row,
+
+53
+00:02:59.655 --> 00:03:02.995
+and will switch from exploring the connection
+
+54
+00:03:02.995 --> 00:03:06.480
+to exploiting the real action since the optimal one now.
+
+55
+00:03:06.480 --> 00:03:09.990
+However, if this green action is actually bad,
+
+56
+00:03:09.990 --> 00:03:13.830
+then depending on how much is it worse than the orange one,
+
+57
+00:03:13.830 --> 00:03:18.310
+sooner or later it's going to get closer to this blue curve and we'll drop it,
+
+58
+00:03:18.310 --> 00:03:21.105
+we'll keep exploiting the orange one.
+
+59
+00:03:21.105 --> 00:03:22.965
+What's going to happen is,
+
+60
+00:03:22.965 --> 00:03:29.370
+if this green action is viciously bad, dramatically bad,
+
+61
+00:03:29.370 --> 00:03:31.245
+it's like minus 1000 bad,
+
+62
+00:03:31.245 --> 00:03:33.450
+then you'll only need, say,
+
+63
+00:03:33.450 --> 00:03:36.630
+two or three, or maybe even one attempt
+
+64
+00:03:36.630 --> 00:03:39.995
+at it to find out that it's actually bad and drop it completely.
+
+65
+00:03:39.995 --> 00:03:45.020
+It will just shrink and get as far to the left as you can imagine.
+
+66
+00:03:45.020 --> 00:03:48.310
+But if it's only slightly worse than the orange action,
+
+67
+00:03:48.310 --> 00:03:50.160
+it makes sounds that you have to exploit
+
+68
+00:03:50.160 --> 00:03:52.320
+more to find out which of them is actually better.
+
+69
+00:03:52.320 --> 00:03:55.470
+Because at this rate, you have to pick up a lot of samples.
+
+70
+00:03:55.470 --> 00:03:59.100
+And this is actually very convenient because, for free,
+
+71
+00:03:59.100 --> 00:04:02.730
+this algorithms allows you to find out which experiments,
+
+72
+00:04:02.730 --> 00:04:05.165
+which exploration is better and which is worse.
+
+73
+00:04:05.165 --> 00:04:08.520
+This case, it prefers exploration which it can not
+
+74
+00:04:08.520 --> 00:04:13.105
+yet decide which of the actions is better.
+
+75
+00:04:13.105 --> 00:04:15.865
+Of course there are two actions like the blue one,
+
+76
+00:04:15.865 --> 00:04:18.690
+which are close to each other but that simply will just
+
+77
+00:04:18.690 --> 00:04:21.860
+ignore them altogether because while it's something you wish with them is better,
+
+78
+00:04:21.860 --> 00:04:24.295
+and you don't care, only the best action.
+
+79
+00:04:24.295 --> 00:04:26.835
+In multi-step decision process,
+
+80
+00:04:26.835 --> 00:04:29.140
+this picture gets a little bit more complicated,
+
+81
+00:04:29.140 --> 00:04:31.380
+because now you have multiple states,
+
+82
+00:04:31.380 --> 00:04:32.940
+and for each one,
+
+83
+00:04:32.940 --> 00:04:35.200
+the cue value of action might be different.
+
+84
+00:04:35.200 --> 00:04:42.265
+At the worst case you have to maintain one block like this,
+
+85
+00:04:42.265 --> 00:04:46.265
+one set of beliefs for each state,
+
+86
+00:04:46.265 --> 00:04:47.590
+that there is continuously many state,
+
+87
+00:04:47.590 --> 00:04:52.265
+you have to approximate this thing with some particular machine learning model,
+
+88
+00:04:52.265 --> 00:04:54.140
+maybe a deep learning as usual.
+
+89
+00:04:54.140 --> 00:04:58.460
+These are all nice properties but so far we've ignored the elephant in the room.
+
+90
+00:04:58.460 --> 00:05:02.210
+We have for beauties those beliefs and if we know the belief distribution,
+
+91
+00:05:02.210 --> 00:05:07.370
+we can easily get some exploration that are strategy up and running, how do we get them?
+
+92
+00:05:07.370 --> 00:05:12.990
+How do we find those beliefs or their percentile or whatever.

@@ -1,0 +1,644 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.355
+[MUSIC]
+
+2
+00:00:03.355 --> 00:00:06.196
+Welcome to the last week of our
+reinforcement Llarning course.
+
+3
+00:00:06.196 --> 00:00:09.470
+Today, we're going to finally tackle one
+issue we've been carefully avoiding,
+
+4
+00:00:09.470 --> 00:00:12.418
+only covering at a minimal level in
+weeks one through five of the course.
+
+5
+00:00:12.418 --> 00:00:16.105
+Namely, the exploration versus
+exploitation problem as the title
+
+6
+00:00:16.105 --> 00:00:17.146
+kind of suggests.
+
+7
+00:00:17.146 --> 00:00:19.215
+We've already learned at least, well,
+
+8
+00:00:19.215 --> 00:00:22.178
+three major ways of how we can
+build [INAUDIBLE] algorithms.
+
+9
+00:00:22.178 --> 00:00:26.527
+Plus there are the black box
+methods like [INAUDIBLE] method,
+
+10
+00:00:26.527 --> 00:00:31.558
+[INAUDIBLE] strategies or any other
+method that basically tries to take
+
+11
+00:00:31.558 --> 00:00:36.676
+[INAUDIBLE] problem for [INAUDIBLE] or
+something similar tackles
+
+12
+00:00:36.676 --> 00:00:42.389
+at least two major algorithms in
+the so-called value-based family,
+
+13
+00:00:42.389 --> 00:00:45.732
+namely Q-learning, SARSA, valutration.
+
+14
+00:00:45.732 --> 00:00:49.070
+Actually, much more than
+in those I suggest.
+
+15
+00:00:49.070 --> 00:00:53.120
+We then have to approximate policies with,
+well, neural networks,
+
+16
+00:00:53.120 --> 00:00:55.200
+any other approximators.
+
+17
+00:00:55.200 --> 00:01:00.383
+And we finally learned how to perform
+direct optimization on the policy as it
+
+18
+00:01:00.383 --> 00:01:05.357
+to distribution in the previous week
+about reinforce and similar ones.
+
+19
+00:01:05.357 --> 00:01:08.682
+So all those algorithms
+have one common problem.
+
+20
+00:01:08.682 --> 00:01:13.762
+They only learn by trying actions,
+and seeing which of them work better.
+
+21
+00:01:13.762 --> 00:01:17.700
+So even Q-learning,
+you only speak the same action.
+
+22
+00:01:17.700 --> 00:01:19.676
+You're never going to learn anything.
+
+23
+00:01:19.676 --> 00:01:24.273
+So of course, we've learned with
+made up futuristics of how to
+
+24
+00:01:24.273 --> 00:01:28.625
+speed up this process like
+epsilon-greedy exploration.
+
+25
+00:01:28.625 --> 00:01:32.747
+And today, we going to, well,
+study a few more accuracies.
+
+26
+00:01:32.747 --> 00:01:36.730
+Although much more efficient and
+much better study, theoretically.
+
+27
+00:01:36.730 --> 00:01:38.790
+So exploration versus expectation.
+
+28
+00:01:38.790 --> 00:01:42.139
+Welcome to this week and the next thing
+we're going to do is we're going to
+
+29
+00:01:42.139 --> 00:01:45.750
+simplify our problem a little bit or
+quite a bit actually.
+
+30
+00:01:45.750 --> 00:01:48.041
+Instead of starting with
+the usual marketing issue and
+
+31
+00:01:48.041 --> 00:01:51.275
+process we've been dealing with from
+like week two to week five, this time,
+
+32
+00:01:51.275 --> 00:01:53.637
+we only going to consider
+a single step decision process.
+
+33
+00:01:53.637 --> 00:01:55.802
+Also known as multi-armed bandit.
+
+34
+00:01:55.802 --> 00:02:00.594
+The difference here is that your agent
+only sees one first observational state.
+
+35
+00:02:00.594 --> 00:02:01.359
+He picks an action.
+
+36
+00:02:01.359 --> 00:02:04.950
+He gets some feedback and then the whole
+sessions is bound to terminate.
+
+37
+00:02:04.950 --> 00:02:09.782
+The new session starts over and the next
+observation agencies in the new session is
+
+38
+00:02:09.782 --> 00:02:13.365
+completely independent of his
+actions in the previous one.
+
+39
+00:02:13.365 --> 00:02:14.398
+This is of course,
+
+40
+00:02:14.398 --> 00:02:17.573
+a grossly oversimplified view
+on any practical problem.
+
+41
+00:02:17.573 --> 00:02:22.338
+But for starters, it is very useful some
+times where you have to cut the corners in
+
+42
+00:02:22.338 --> 00:02:23.540
+your formulation.
+
+43
+00:02:23.540 --> 00:02:27.351
+And besides, it's much simpler to describe
+advanced exploration in this setting.
+
+44
+00:02:27.351 --> 00:02:29.225
+Formulas get much shorter.
+
+45
+00:02:29.225 --> 00:02:32.507
+We'll of course, get back to the modest
+ambition process later in this week.
+
+46
+00:02:32.507 --> 00:02:35.249
+But for now and
+until midway through this section,
+
+47
+00:02:35.249 --> 00:02:38.711
+consider everything we say about
+the modest ambition process.
+
+48
+00:02:38.711 --> 00:02:40.472
+So is have mission to you already,
+
+49
+00:02:40.472 --> 00:02:44.678
+those modest ambition processes usually
+go by the name of multi-armed bandits.
+
+50
+00:02:44.678 --> 00:02:48.603
+The story behind this theme is quite
+simple and weird at the same time.
+
+51
+00:02:48.603 --> 00:02:53.268
+The original multi-armed bandit
+is a situation like this.
+
+52
+00:02:53.268 --> 00:02:57.477
+Picturing in the middle a gaming club,
+gambling club actually.
+
+53
+00:02:57.477 --> 00:03:01.342
+And before you stand,
+six slot machines like this picture.
+
+54
+00:03:01.342 --> 00:03:05.063
+Should those slot machines have
+a different set of rules describing how do
+
+55
+00:03:05.063 --> 00:03:07.172
+they pay you and how much money they take?
+
+56
+00:03:07.172 --> 00:03:12.908
+And basically, whats the outcome or what
+distribution of the rewards they give you?
+
+57
+00:03:12.908 --> 00:03:14.852
+And your objective is to
+find the slot machine,
+
+58
+00:03:14.852 --> 00:03:16.757
+which gives you highest
+expenditure reward.
+
+59
+00:03:16.757 --> 00:03:19.059
+Of course,
+there might be from this firmly,
+
+60
+00:03:19.059 --> 00:03:21.576
+depending on what you want to
+achieve from this game club.
+
+61
+00:03:21.576 --> 00:03:23.486
+But for now, let's consider
+the expenditure reward program.
+
+62
+00:03:23.486 --> 00:03:26.015
+[INAUDIBLE] pick just one machine and
+stick to it.
+
+63
+00:03:26.015 --> 00:03:29.586
+Because well,
+God knows what other machine brings here.
+
+64
+00:03:29.586 --> 00:03:31.066
+But a rational person,
+
+65
+00:03:31.066 --> 00:03:35.218
+if he has a lot of money could try
+to explore some of those machines.
+
+66
+00:03:35.218 --> 00:03:38.573
+All of those machines first,
+get them a few tries and
+
+67
+00:03:38.573 --> 00:03:41.864
+only then convert to
+something that works better.
+
+68
+00:03:41.864 --> 00:03:45.298
+So of course,
+you are highly recommended not to apply
+
+69
+00:03:45.298 --> 00:03:48.440
+this strategy to an actual
+gambling situation.
+
+70
+00:03:48.440 --> 00:03:49.915
+Because in any real casino,
+
+71
+00:03:49.915 --> 00:03:52.930
+all those slot machines are going to
+be stacked against you.
+
+72
+00:03:52.930 --> 00:03:55.678
+Otherwise, the owners of
+casino would get no profits.
+
+73
+00:03:55.678 --> 00:04:00.016
+But in any real situation outside this
+gambling, it's often possible to reduce
+
+74
+00:04:00.016 --> 00:04:04.400
+the problem to something similar
+to the multi-armed bandit.
+
+75
+00:04:04.400 --> 00:04:07.177
+Now imagine you are not trying to gamble,
+but
+
+76
+00:04:07.177 --> 00:04:11.207
+instead you are solving an optimal
+banner ad placement program.
+
+77
+00:04:11.207 --> 00:04:15.810
+So have a user which is in this case,
+mapped to a gaming club and for
+
+78
+00:04:15.810 --> 00:04:18.585
+this user have ten potential banners.
+
+79
+00:04:18.585 --> 00:04:21.762
+Each of which he can either click or
+not click.
+
+80
+00:04:21.762 --> 00:04:25.006
+This case,
+if you show user a particular banner,
+
+81
+00:04:25.006 --> 00:04:28.492
+this snaps to you going to
+a particular slot machine.
+
+82
+00:04:28.492 --> 00:04:32.450
+And well, inserting a dollar in it and
+seeing what happens.
+
+83
+00:04:32.450 --> 00:04:36.742
+A dollar here is basically your time and
+electricity of the opportunity you have
+
+84
+00:04:36.742 --> 00:04:41.097
+lost or could have gained, then the user
+is either going to click which is similar
+
+85
+00:04:41.097 --> 00:04:45.157
+to a slot machine giving you a jackpot or
+whatever, giving you some money.
+
+86
+00:04:45.157 --> 00:04:47.371
+Or not click, which is the same as well,
+
+87
+00:04:47.371 --> 00:04:49.794
+you wasting your money
+on the slot machine.
+
+88
+00:04:49.794 --> 00:04:54.594
+And you have to find the policy of showing
+a particular user some set of banners, so
+
+89
+00:04:54.594 --> 00:04:57.934
+that it has the highest
+probability of clicking on them or
+
+90
+00:04:57.934 --> 00:05:01.780
+bringing your potential profit
+in the expectation, of course.
+
+91
+00:05:01.780 --> 00:05:04.497
+So of course, the multi-armed
+bandit formula systems are limited.
+
+92
+00:05:04.497 --> 00:05:08.529
+One, completely neglects the effects of
+agents action on his next observation.
+
+93
+00:05:08.529 --> 00:05:12.270
+Should be far from if you
+tried to play Atari or
+
+94
+00:05:12.270 --> 00:05:16.688
+make a self-driving car with
+this multi-armed bandit core.
+
+95
+00:05:16.688 --> 00:05:21.715
+It turns out [INAUDIBLE] products can
+be sold by them with almost no loss.
+
+96
+00:05:21.715 --> 00:05:25.433
+In this case, we're just going
+through the banner ad example
+
+97
+00:05:25.433 --> 00:05:29.661
+where the state was the user you
+are trying to get to click all your ads.
+
+98
+00:05:29.661 --> 00:05:33.343
+Your action was a peak of particular
+banner to show this user and
+
+99
+00:05:33.343 --> 00:05:36.747
+the reward was the expected revenue or
+just the revenue for
+
+100
+00:05:36.747 --> 00:05:40.650
+this particular case we
+are showing user this banner.
+
+101
+00:05:40.650 --> 00:05:43.150
+It's the cliff rate divided by the, or
+
+102
+00:05:43.150 --> 00:05:46.600
+multiplied by the amount of
+money you paid for clicks.
+
+103
+00:05:46.600 --> 00:05:50.090
+So with that, you can also try to solve
+the recommendation system problem.
+
+104
+00:05:50.090 --> 00:05:53.462
+Say you're an online store
+where users buy stuff and
+
+105
+00:05:53.462 --> 00:05:58.456
+you also suggest them to buy more stuff
+that they might be also interested in.
+
+106
+00:05:58.456 --> 00:06:03.593
+In this case, your state is also a used,
+or whatever entity buys stuff from you,
+
+107
+00:06:03.593 --> 00:06:08.449
+maybe it's a robot and the action to
+recommend this user a particular item.
+
+108
+00:06:08.449 --> 00:06:14.050
+In this case, what do you think
+the suitable version of feedback would be?
+
+109
+00:06:14.050 --> 00:06:18.706
+Yes, if it's an online store where you
+try to make as much money as possible,
+
+110
+00:06:18.706 --> 00:06:23.292
+it makes sense to measure feedback as
+basically the amount of profit you make
+
+111
+00:06:23.292 --> 00:06:26.392
+from items you have sold
+if users have bought them.
+
+112
+00:06:26.392 --> 00:06:29.817
+So again, you can simply
+compute this as an expectation.
+
+113
+00:06:29.817 --> 00:06:33.526
+If it's a different thing say,
+a free site like YouTube,
+
+114
+00:06:33.526 --> 00:06:38.296
+then you could consider instead to
+measure kind of user's satisfaction,
+
+115
+00:06:38.296 --> 00:06:42.628
+users retention on or any other
+complicated towards that measure.
+
+116
+00:06:42.628 --> 00:06:45.492
+How satisfied user is with your service?
+
+117
+00:06:45.492 --> 00:06:47.824
+In case of again, YouTube,
+
+118
+00:06:47.824 --> 00:06:52.975
+this would be the fraction of
+users that likes documentation or
+
+119
+00:06:52.975 --> 00:06:57.167
+that have wished the whole
+video from start to end.
+
+120
+00:06:57.167 --> 00:06:58.729
+Of course, in any practical illustration,
+
+121
+00:06:58.729 --> 00:07:00.298
+you can come up with
+more efficient methods.
+
+122
+00:07:00.298 --> 00:07:03.158
+But this is not the subject of our
+present lecture, so let's go on.
+
+123
+00:07:03.158 --> 00:07:06.369
+A few less of these problems
+are the problem of, for
+
+124
+00:07:06.369 --> 00:07:08.696
+example, information retrieval.
+
+125
+00:07:08.696 --> 00:07:10.264
+These too can be sold by bandits.
+
+126
+00:07:10.264 --> 00:07:13.008
+In this case,
+your state is user's query and
+
+127
+00:07:13.008 --> 00:07:17.706
+your action is to show user a particular
+set wow, search engine responses for
+
+128
+00:07:17.706 --> 00:07:22.114
+this query The feedback is whether
+a user was satisfied with the search,
+
+129
+00:07:22.114 --> 00:07:24.879
+whether he has found
+what he was looking for.
+
+130
+00:07:24.879 --> 00:07:29.590
+And again, it's not that [INAUDIBLE] to
+measure the user's satisfaction without
+
+131
+00:07:29.590 --> 00:07:30.760
+having [INAUDIBLE].
+
+132
+00:07:30.760 --> 00:07:34.685
+Of course, these are all huge
+problems to tackle in one lecture and
+
+133
+00:07:34.685 --> 00:07:36.237
+let's just go on with it.
+
+134
+00:07:36.237 --> 00:07:46.237
+[MUSIC]

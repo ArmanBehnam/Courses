@@ -1,0 +1,405 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:08.080
+So you already know by this time there are some basic strategies of exploration.
+
+2
+00:00:08.080 --> 00:00:10.265
+For example, the Q-learning,
+
+3
+00:00:10.265 --> 00:00:11.600
+and DQN and Sarsa,
+
+4
+00:00:11.600 --> 00:00:15.995
+and all those value based algorithms do exhibit.
+
+5
+00:00:15.995 --> 00:00:17.760
+They try to take
+
+6
+00:00:17.760 --> 00:00:22.765
+other best action probability one minus epsilon or random action probability epsilon.
+
+7
+00:00:22.765 --> 00:00:26.280
+And this basically, formally solves
+
+8
+00:00:26.280 --> 00:00:28.110
+the exploration problem because eventually they're going to
+
+9
+00:00:28.110 --> 00:00:30.870
+find the epsilon policy, or will we?
+
+10
+00:00:30.870 --> 00:00:33.790
+Another strategy which looked a bit more advanced,
+
+11
+00:00:33.790 --> 00:00:35.455
+although it's just as heuristical,
+
+12
+00:00:35.455 --> 00:00:37.420
+is the so-called Boltzmann exploration policy,
+
+13
+00:00:37.420 --> 00:00:39.250
+exploration strategy, again, I'm sorry.
+
+14
+00:00:39.250 --> 00:00:42.060
+In this case, you want to take your Q values and
+
+15
+00:00:42.060 --> 00:00:45.580
+make them into something that looks more like a probability.
+
+16
+00:00:45.580 --> 00:00:49.385
+In Deep Learning, you know that if you have some arbitrary values,
+
+17
+00:00:49.385 --> 00:00:52.075
+you can make them into probability by applying soft marks,
+
+18
+00:00:52.075 --> 00:00:56.410
+and multiplying or dividing them by some coefficient to account for
+
+19
+00:00:56.410 --> 00:01:01.785
+how ruthlessly do you want your agent to explore.
+
+20
+00:01:01.785 --> 00:01:04.410
+Let's look at some methods we've built in exploration.
+
+21
+00:01:04.410 --> 00:01:07.430
+For example, cross-entropy methods and the policy
+
+22
+00:01:07.430 --> 00:01:10.785
+gradient method family like reinforce or actor-critic,
+
+23
+00:01:10.785 --> 00:01:13.685
+they all learn the probability of taking action explicitly.
+
+24
+00:01:13.685 --> 00:01:15.375
+And you could, of course,
+
+25
+00:01:15.375 --> 00:01:19.785
+affect them with the regularization of entropy or something similar.
+
+26
+00:01:19.785 --> 00:01:23.340
+But in general, the algorithm decides this exploration policy for itself.
+
+27
+00:01:23.340 --> 00:01:25.780
+So now to see how all those exploration strategies
+
+28
+00:01:25.780 --> 00:01:28.405
+fare against our newly invented notion of regret,
+
+29
+00:01:28.405 --> 00:01:30.310
+let's begin with the simple one.
+
+30
+00:01:30.310 --> 00:01:33.080
+This time, we're going to explore the epsilon-greedy policy,
+
+31
+00:01:33.080 --> 00:01:35.655
+with epsilon precisely equal to 0.1.
+
+32
+00:01:35.655 --> 00:01:37.450
+This means that at any moment of time you have
+
+33
+00:01:37.450 --> 00:01:39.660
+10 percent probability of behaving randomly,
+
+34
+00:01:39.660 --> 00:01:42.550
+and 90 percent of picking whichever action is
+
+35
+00:01:42.550 --> 00:01:46.045
+maximizing the Q function you currently have, the imperfect one.
+
+36
+00:01:46.045 --> 00:01:48.100
+Why don't you answer me this question,
+
+37
+00:01:48.100 --> 00:01:51.340
+I have this notion of regret which can be treated as a function
+
+38
+00:01:51.340 --> 00:01:54.935
+of time up to which you add up those coefficients.
+
+39
+00:01:54.935 --> 00:01:59.100
+I want you tell me what's going to happen with regret for this epsilon-greedy strategy.
+
+40
+00:01:59.100 --> 00:02:01.710
+So, what's going to be the curve which
+
+41
+00:02:01.710 --> 00:02:05.795
+represents the stack difference between epsilon-greedy policy,
+
+42
+00:02:05.795 --> 00:02:08.865
+learning over time, and the optimal policy which
+
+43
+00:02:08.865 --> 00:02:13.125
+picks the action with highest return all the time.
+
+44
+00:02:13.125 --> 00:02:16.300
+Well, yes, unfortunately it's the worst possible case,
+
+45
+00:02:16.300 --> 00:02:17.410
+it's going to grow linearly.
+
+46
+00:02:17.410 --> 00:02:21.600
+And the reason here is that if you explore the constant epsilon of 0.1,
+
+47
+00:02:21.600 --> 00:02:27.080
+means that even if you have found true Q values,
+
+48
+00:02:27.080 --> 00:02:29.340
+you can still not get
+
+49
+00:02:29.340 --> 00:02:33.380
+the optimal policy out of it because the remainder of time you're going to explore,
+
+50
+00:02:33.380 --> 00:02:35.795
+and some of this exploration is going to be bad for you.
+
+51
+00:02:35.795 --> 00:02:41.460
+So, this basically means that your graph is going to grow linearly
+
+52
+00:02:41.460 --> 00:02:43.970
+because there's going to be some constant offset between
+
+53
+00:02:43.970 --> 00:02:47.125
+0.1 greedy strategy and the greedy one,
+
+54
+00:02:47.125 --> 00:02:50.340
+which is the optimal, which is going to stack and grow and
+
+55
+00:02:50.340 --> 00:02:54.235
+grow again until it reaches infinity, well, nearly.
+
+56
+00:02:54.235 --> 00:02:56.035
+So, this is a bad scenario,
+
+57
+00:02:56.035 --> 00:02:58.050
+and surely we're going to fix it with some of
+
+58
+00:02:58.050 --> 00:03:01.455
+the tactic we've been learning over the previous weeks.
+
+59
+00:03:01.455 --> 00:03:04.800
+How do we treat this Epsilon greedy policy better so that it converts
+
+60
+00:03:04.800 --> 00:03:09.450
+to a constant regret?
+
+61
+00:03:09.450 --> 00:03:11.520
+So, of course there's more than one way you can do that.
+
+62
+00:03:11.520 --> 00:03:14.045
+But, the general pattern is that you have to start
+
+63
+00:03:14.045 --> 00:03:17.020
+with suffixed epsilon and then decrease it over time.
+
+64
+00:03:17.020 --> 00:03:21.095
+And there is a notion of so-called greedy in the limit strategy,
+
+65
+00:03:21.095 --> 00:03:24.110
+which means that your exploration eventually converges
+
+66
+00:03:24.110 --> 00:03:30.135
+to an optimal greedy policy after infinite number of time steps.
+
+67
+00:03:30.135 --> 00:03:34.730
+For example, you can start with Epsilon equal one or whatever number you prefer,
+
+68
+00:03:34.730 --> 00:03:38.335
+and at every time step you can just multiply it by 0.99.
+
+69
+00:03:38.335 --> 00:03:41.905
+This constant is of course dependent on a particular setting,
+
+70
+00:03:41.905 --> 00:03:45.600
+but this means that at no fixed point of
+
+71
+00:03:45.600 --> 00:03:49.590
+time will your algorithm terminate the exploration get exploiting.
+
+72
+00:03:49.590 --> 00:03:52.060
+But formally, in the infinity,
+
+73
+00:03:52.060 --> 00:03:54.680
+it will asymptotically converge to a greedy policy.
+
+74
+00:03:54.680 --> 00:03:57.590
+This is theoretically good because it allows you
+
+75
+00:03:57.590 --> 00:04:02.705
+to babble about how your algorithm's regret is converging somewhere,
+
+76
+00:04:02.705 --> 00:04:07.725
+of course, provided that it is able to learn optimal policy in this region.
+
+77
+00:04:07.725 --> 00:04:10.025
+We've also seen some other mechanisms.
+
+78
+00:04:10.025 --> 00:04:12.829
+For example, the classical Deep Q Network, DQN,
+
+79
+00:04:12.829 --> 00:04:17.060
+uses not this multiplication by some constant which is near one,
+
+80
+00:04:17.060 --> 00:04:19.830
+but the linear trajectory where it subtracts
+
+81
+00:04:19.830 --> 00:04:23.820
+some constant value from espilon which is zero or some small constant value.
+
+82
+00:04:23.820 --> 00:04:29.715
+Theoretically, it's less than perfect because if you're using Epsilon,
+
+83
+00:04:29.715 --> 00:04:34.350
+then you should have reach zero Epsilon before you've gone to the optimal strategy.
+
+84
+00:04:34.350 --> 00:04:38.115
+Your grid is going to grow because you have not learned the optimal one so far.
+
+85
+00:04:38.115 --> 00:04:41.060
+But again in reality doesn't matter that much.
+
+86
+00:04:41.060 --> 00:04:43.785
+This is basically how regret works
+
+87
+00:04:43.785 --> 00:04:46.915
+in terms of the strategies you've already been using from which to.
+
+88
+00:04:46.915 --> 00:04:49.900
+You could also take say Boltzmann Exploration Policy,
+
+89
+00:04:49.900 --> 00:04:52.850
+you find out that if you use the same strategy with tau,
+
+90
+00:04:52.850 --> 00:04:55.825
+if you start with constant tau and then decrease it over time,
+
+91
+00:04:55.825 --> 00:04:58.395
+then you'll devise strategy which is
+
+92
+00:04:58.395 --> 00:05:01.650
+greedy in the limit in terms of this Boltzmann Exploration Policy.
+
+93
+00:05:01.650 --> 00:05:04.090
+We need better or worse than Epsilon greedy
+
+94
+00:05:04.090 --> 00:05:07.060
+depending on a particular environment and particular regime you're using.
+
+95
+00:05:07.060 --> 00:05:12.570
+So, this is basically duct tape challenge where the winner is not
+
+96
+00:05:12.570 --> 00:05:14.730
+that much of theoretically better algorithm but the one
+
+97
+00:05:14.730 --> 00:05:18.150
+that's just slightly better fits this particular problem.
+
+98
+00:05:18.150 --> 00:05:22.685
+Instead, I want you to focus on something, well, qualitatively different.
+
+99
+00:05:22.685 --> 00:05:26.160
+I want you to, and I'm going to get you through some of
+
+100
+00:05:26.160 --> 00:05:30.270
+the algorithms that explicitly pick actions that are most interesting to our agents.
+
+101
+00:05:30.270 --> 00:05:32.980
+This is precisely the topic of our next section.

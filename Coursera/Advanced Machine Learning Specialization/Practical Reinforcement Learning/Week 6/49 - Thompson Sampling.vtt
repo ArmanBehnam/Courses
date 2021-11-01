@@ -1,0 +1,393 @@
+WEBVTT
+
+1
+00:00:02.730 --> 00:00:07.825
+The one we're going to study now is the fact that the first option is unknown.
+
+2
+00:00:07.825 --> 00:00:10.530
+There is this new particle no one knows about it.
+
+3
+00:00:10.530 --> 00:00:13.915
+Well, the second one, it turns out most people have
+
+4
+00:00:13.915 --> 00:00:17.875
+tried doing this some time in their childhood years.
+
+5
+00:00:17.875 --> 00:00:21.340
+And they might not remember it
+
+6
+00:00:21.340 --> 00:00:25.510
+directly or this they may have read about it or have seen it in other person.
+
+7
+00:00:25.510 --> 00:00:27.340
+They probably know the outcome of
+
+8
+00:00:27.340 --> 00:00:33.655
+the second research opportunity pretty good to not try this at home anytime soon.
+
+9
+00:00:33.655 --> 00:00:36.070
+So, we want to partase actions that are uncertain
+
+10
+00:00:36.070 --> 00:00:39.080
+whose outcomes are not yet that well known to us.
+
+11
+00:00:39.080 --> 00:00:43.405
+And to actually implement this in any practical algorithm,
+
+12
+00:00:43.405 --> 00:00:47.125
+we won't just require the Q values themselves.
+
+13
+00:00:47.125 --> 00:00:49.420
+Just want the probability of Q value,
+
+14
+00:00:49.420 --> 00:00:50.920
+it is Bayesian sense.
+
+15
+00:00:50.920 --> 00:00:54.190
+So basically our belief expressed as a probability,
+
+16
+00:00:54.190 --> 00:00:57.300
+the the Q value is going to turn out to be this or that number.
+
+17
+00:00:57.300 --> 00:01:00.330
+In the plot here at the bottom of the slide,
+
+18
+00:01:00.330 --> 00:01:05.695
+in one particular stage you can see three probability distribution for actions,
+
+19
+00:01:05.695 --> 00:01:07.960
+that each should present, our belief about
+
+20
+00:01:07.960 --> 00:01:10.865
+each particular actions Q value in a particular state.
+
+21
+00:01:10.865 --> 00:01:14.130
+Again for the third time we emphasize it is a Bayesian probability.
+
+22
+00:01:14.130 --> 00:01:17.530
+It means that, the variance the breadth of
+
+23
+00:01:17.530 --> 00:01:21.365
+this curve doesn't represent the randomness in the action itself,
+
+24
+00:01:21.365 --> 00:01:22.595
+but only our belief.
+
+25
+00:01:22.595 --> 00:01:25.700
+It means that if the green action is
+
+26
+00:01:25.700 --> 00:01:29.205
+actually deterministic but we have never tried it yet so we have no idea,
+
+27
+00:01:29.205 --> 00:01:31.075
+or we've only tried it a few times,
+
+28
+00:01:31.075 --> 00:01:35.120
+then it means that is going be quite broad anyway.
+
+29
+00:01:35.120 --> 00:01:39.020
+While the orange action can actually be very noisy.
+
+30
+00:01:39.020 --> 00:01:41.465
+It can have very wide turn plus and minus 10.
+
+31
+00:01:41.465 --> 00:01:46.130
+What we are dead sure that it's expected to turn is going be what is it?
+
+32
+00:01:46.130 --> 00:01:48.535
+Point five or whatever, 0.6.
+
+33
+00:01:48.535 --> 00:01:50.190
+So it's our belief,
+
+34
+00:01:50.190 --> 00:01:51.785
+expressed as a probability distribution,
+
+35
+00:01:51.785 --> 00:01:55.240
+the same way you did in a Bayesian methods course at the beginning of the RFP.
+
+36
+00:01:55.240 --> 00:02:02.610
+And our challenge here is to pick an action not just given the action values,
+
+37
+00:02:02.610 --> 00:02:06.160
+but given the beliefs we have about them.
+
+38
+00:02:06.160 --> 00:02:07.890
+So now we're done with this.
+
+39
+00:02:07.890 --> 00:02:10.560
+We have this one state and three actions,
+
+40
+00:02:10.560 --> 00:02:11.940
+and the beliefs of
+
+41
+00:02:11.940 --> 00:02:15.060
+the Q values of those actions are represented with those distributions.
+
+42
+00:02:15.060 --> 00:02:18.955
+So these our actual beliefs of what the Q value is going to turn out.
+
+43
+00:02:18.955 --> 00:02:21.580
+Now I want you to tell me,
+
+44
+00:02:21.580 --> 00:02:24.790
+which actions of those three are even eligible?
+
+45
+00:02:24.790 --> 00:02:27.700
+Which of them it makes sense to pick,
+
+46
+00:02:27.700 --> 00:02:29.970
+regardless of what method we use?
+
+47
+00:02:29.970 --> 00:02:32.175
+Well, turns out yes.
+
+48
+00:02:32.175 --> 00:02:36.735
+Thing is, the blue action is oftenly mis-regardless of how we pick it.
+
+49
+00:02:36.735 --> 00:02:42.260
+Because the orange one dominates into expectation.
+
+50
+00:02:42.260 --> 00:02:44.970
+So if we want to exploit it would always be
+
+51
+00:02:44.970 --> 00:02:48.330
+the orange one not the blue one it's just better,
+
+52
+00:02:48.330 --> 00:02:51.900
+and if want to explore the blue action is dominated by the green one.
+
+53
+00:02:51.900 --> 00:02:54.520
+So, the green one has some chance of being better than the orange,
+
+54
+00:02:54.520 --> 00:02:59.850
+if we believe this belief distributions sorry for the totoligy.
+
+55
+00:02:59.850 --> 00:03:03.090
+But the blue one won't be any better.
+
+56
+00:03:03.090 --> 00:03:05.130
+So, either a green one,
+
+57
+00:03:05.130 --> 00:03:06.240
+or the orange one.
+
+58
+00:03:06.240 --> 00:03:09.650
+Depending on how you prefer to explore and exploit.
+
+59
+00:03:09.650 --> 00:03:12.480
+So now let's get to some algorithms that actually
+
+60
+00:03:12.480 --> 00:03:16.110
+decide what's the probability of picking the green action or the orange one,
+
+61
+00:03:16.110 --> 00:03:18.150
+and hopefully don't pick the blue one ever.
+
+62
+00:03:18.150 --> 00:03:20.265
+Lets begin with Thompson sampling.
+
+63
+00:03:20.265 --> 00:03:24.210
+This algorithm is actually a more general one,
+
+64
+00:03:24.210 --> 00:03:26.610
+but we are only going to study its simpler form for now.
+
+65
+00:03:26.610 --> 00:03:30.690
+Thompson sampling actually suggests that you take one sample,
+
+66
+00:03:30.690 --> 00:03:33.360
+from each of those distributions and assuming they are
+
+67
+00:03:33.360 --> 00:03:36.670
+normal distributions you can just take the sample and if they're imping distributions,
+
+68
+00:03:36.670 --> 00:03:38.020
+histograms you can just take,
+
+69
+00:03:38.020 --> 00:03:40.015
+MPR random sample or whatever.
+
+70
+00:03:40.015 --> 00:03:42.235
+And then you'll get three points,
+
+71
+00:03:42.235 --> 00:03:44.780
+three Q values of each action.
+
+72
+00:03:44.780 --> 00:03:47.190
+The Thompson sampling wants you to pick an action
+
+73
+00:03:47.190 --> 00:03:49.985
+whose sample Q value is going be largest.
+
+74
+00:03:49.985 --> 00:03:52.065
+The question to you is,
+
+75
+00:03:52.065 --> 00:03:54.375
+on average if you see those points,
+
+76
+00:03:54.375 --> 00:03:57.060
+which actions is going be picked the most,
+
+77
+00:03:57.060 --> 00:03:59.895
+which is going be picked the least, and which working?
+
+78
+00:03:59.895 --> 00:04:02.520
+What are the probabilities of taking each actions?
+
+79
+00:04:02.520 --> 00:04:08.110
+Of course there's more than one possible way to interpret those histograms,
+
+80
+00:04:08.110 --> 00:04:10.870
+but in general, you can more or less say that,
+
+81
+00:04:10.870 --> 00:04:12.580
+the blue one is going to have a lot of zero,
+
+82
+00:04:12.580 --> 00:04:14.890
+because regardless of what you sample from it,
+
+83
+00:04:14.890 --> 00:04:18.760
+there's a chance of one that's a sample from red one will be larger.
+
+84
+00:04:18.760 --> 00:04:20.975
+So, it's no longer needs to be explored.
+
+85
+00:04:20.975 --> 00:04:23.865
+Sample from red one is between say,
+
+86
+00:04:23.865 --> 00:04:27.975
+roughly 0.3 and say 0.8 or nine.
+
+87
+00:04:27.975 --> 00:04:30.444
+While the sample from green can be anywhere between
+
+88
+00:04:30.444 --> 00:04:33.710
+minus whatever two plus one and something.
+
+89
+00:04:33.710 --> 00:04:35.370
+This actually means that,
+
+90
+00:04:35.370 --> 00:04:38.530
+at some points you will actually pick the green one as
+
+91
+00:04:38.530 --> 00:04:42.000
+it is better for you to explore it,
+
+92
+00:04:42.000 --> 00:04:44.250
+and at other points you'll pick the orange.
+
+93
+00:04:44.250 --> 00:04:47.280
+Ofcourse you can also sample with some temperature use
+
+94
+00:04:47.280 --> 00:04:51.550
+importance sampling to skew this towards more exploration or more exploitation.
+
+95
+00:04:51.550 --> 00:04:53.215
+Flatten error thing and this time,
+
+96
+00:04:53.215 --> 00:04:55.480
+you're going be more exploring.
+
+97
+00:04:55.480 --> 00:05:01.100
+Or you can sample proportionally to square of each probability and it's be exploiting
+
+98
+00:05:09.770 --> 00:05:13.050
+all the time.

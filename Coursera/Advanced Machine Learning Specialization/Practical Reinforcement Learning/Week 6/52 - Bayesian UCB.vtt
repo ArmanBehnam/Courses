@@ -1,0 +1,901 @@
+WEBVTT
+
+1
+00:00:02.600 --> 00:00:05.280
+Now, if you tackle the problem of exploration versus
+
+2
+00:00:05.280 --> 00:00:07.545
+expectation from the perspective of Bayesian methods,
+
+3
+00:00:07.545 --> 00:00:10.105
+you probably will find yourself doing the exact same thing you've been taught
+
+4
+00:00:10.105 --> 00:00:12.690
+at the respective course for [inaudible].
+
+5
+00:00:12.690 --> 00:00:15.135
+Mainly you would start from some prior distribution.
+
+6
+00:00:15.135 --> 00:00:17.820
+In this case, distribution on the rewards in
+
+7
+00:00:17.820 --> 00:00:21.510
+bounded setting or the Q function in multi-step and the P setting.
+
+8
+00:00:21.510 --> 00:00:25.740
+Then you'll learn a posterior distribution of the same variable after observing the data.
+
+9
+00:00:25.740 --> 00:00:28.060
+Namely, the actions you've taken
+
+10
+00:00:28.060 --> 00:00:31.050
+in states and the rewards you've obtained for those actions.
+
+11
+00:00:31.050 --> 00:00:33.000
+After you've learned this distribution,
+
+12
+00:00:33.000 --> 00:00:36.090
+you can then simply take the percentile of this distribution,
+
+13
+00:00:36.090 --> 00:00:37.814
+say 95th or 99th,
+
+14
+00:00:37.814 --> 00:00:41.790
+and sort actions by this percentile to pick whichever is most interesting to you.
+
+15
+00:00:41.790 --> 00:00:47.310
+The rest comes naturally after you've done the update properly.
+
+16
+00:00:47.310 --> 00:00:49.190
+The only blank spot here is,
+
+17
+00:00:49.190 --> 00:00:51.440
+how do we actually learn those distributions?
+
+18
+00:00:51.440 --> 00:00:54.685
+How do we learn this P of Q given data?
+
+19
+00:00:54.685 --> 00:00:59.285
+And there are two main families of methods that can do that.
+
+20
+00:00:59.285 --> 00:01:02.645
+One approach here, is the so-called parametric Bayesian inference.
+
+21
+00:01:02.645 --> 00:01:04.950
+This basically means that you have to select some kind of
+
+22
+00:01:04.950 --> 00:01:08.980
+known probability distribution family to use as the P of Q given data.
+
+23
+00:01:08.980 --> 00:01:12.430
+One popular, if slightly two popular choices for this role,
+
+24
+00:01:12.430 --> 00:01:14.300
+is the normal distribution family,
+
+25
+00:01:14.300 --> 00:01:15.680
+which is franchised by,
+
+26
+00:01:15.680 --> 00:01:17.675
+in this case, Mu and Sigma squared.
+
+27
+00:01:17.675 --> 00:01:20.720
+First being the expected value and the other being the variance.
+
+28
+00:01:20.720 --> 00:01:25.260
+Once you've learned the Mu and Sigma squared for the P(Q) with Q given data for
+
+29
+00:01:25.260 --> 00:01:28.170
+each possible action in each possible state or
+
+30
+00:01:28.170 --> 00:01:31.995
+the P of Q given data for each action bounded setting,
+
+31
+00:01:31.995 --> 00:01:35.340
+you can then simply plug them into an easily global formula for the percentile,
+
+32
+00:01:35.340 --> 00:01:36.995
+which is the net pure in reading section,
+
+33
+00:01:36.995 --> 00:01:41.890
+to actually get the percentile then execute on your UCB policy.
+
+34
+00:01:41.890 --> 00:01:46.250
+Another way you could do the known UCB exploration is to get
+
+35
+00:01:46.250 --> 00:01:50.210
+those Mu and Sigmas and sample from them using normal distribution sample,
+
+36
+00:01:50.210 --> 00:01:53.040
+a standard function most math packages to
+
+37
+00:01:53.040 --> 00:01:56.130
+get samples and perform the forms and sampling strategy.
+
+38
+00:01:56.130 --> 00:01:59.325
+This approach is quite powerful but has its limitations.
+
+39
+00:01:59.325 --> 00:02:03.020
+The main limitation of Parametric Bayesian Inference is that,
+
+40
+00:02:03.020 --> 00:02:05.810
+it relies wholly on your choice of the distribution.
+
+41
+00:02:05.810 --> 00:02:08.015
+For example, if you choose the normal distribution,
+
+42
+00:02:08.015 --> 00:02:10.970
+it means that your distribution is, by definition, unimodels.
+
+43
+00:02:10.970 --> 00:02:14.450
+So there's one peak and the further you go from this peak,
+
+44
+00:02:14.450 --> 00:02:15.895
+the lower the probability is.
+
+45
+00:02:15.895 --> 00:02:18.360
+And the other problem is that,
+
+46
+00:02:18.360 --> 00:02:22.350
+the probability decays exponentially,
+
+47
+00:02:22.350 --> 00:02:25.410
+the exponent of the square lower from the distance.
+
+48
+00:02:25.410 --> 00:02:28.790
+And this might be useful in some cases but in other cases,
+
+49
+00:02:28.790 --> 00:02:29.880
+it might be detrimental.
+
+50
+00:02:29.880 --> 00:02:32.705
+It might even cause you to overestimate
+
+51
+00:02:32.705 --> 00:02:37.425
+some actions like it did before or underestimate and never learn the optimal policy.
+
+52
+00:02:37.425 --> 00:02:39.630
+But if I was to try more complicated family,
+
+53
+00:02:39.630 --> 00:02:42.515
+like a mixture of normal distributions or well,
+
+54
+00:02:42.515 --> 00:02:46.000
+anything else that suits your particular problem maybe a Gamma distribution,
+
+55
+00:02:46.000 --> 00:02:47.980
+maybe a Landau distribution,
+
+56
+00:02:47.980 --> 00:02:52.140
+or any other well, less popular choices.
+
+57
+00:02:52.140 --> 00:02:54.770
+But this is still limited because if you don't
+
+58
+00:02:54.770 --> 00:02:57.440
+have some expert knowledge of how they would look like,
+
+59
+00:02:57.440 --> 00:02:59.210
+then you have to simply,
+
+60
+00:02:59.210 --> 00:03:02.170
+well, leave what's currently there.
+
+61
+00:03:02.170 --> 00:03:04.580
+Now, alternative approach, which is slightly more
+
+62
+00:03:04.580 --> 00:03:07.670
+advanced and a whole lot more complicated,
+
+63
+00:03:07.670 --> 00:03:09.890
+is non-parametric Bayesian Inference.
+
+64
+00:03:09.890 --> 00:03:15.415
+In this case, we try to explain it on example of Bayesian neural networks.
+
+65
+00:03:15.415 --> 00:03:21.620
+Again, this is a rather complicated thing to explain in the scope of our course.
+
+66
+00:03:21.620 --> 00:03:25.745
+But if I had to squeeze it into a few sentences,
+
+67
+00:03:25.745 --> 00:03:29.600
+Bayesian neural networks would be a mechanism by which you learn a natural model that
+
+68
+00:03:29.600 --> 00:03:33.930
+predicts not just one value at its output, but a distribution.
+
+69
+00:03:33.930 --> 00:03:37.665
+It does so by having not just one weight at each connection,
+
+70
+00:03:37.665 --> 00:03:39.255
+but distribution and it's weight.
+
+71
+00:03:39.255 --> 00:03:40.680
+Now, think about it,
+
+72
+00:03:40.680 --> 00:03:45.010
+the regular neural networks have the neurons which are connected with those weights,
+
+73
+00:03:45.010 --> 00:03:47.000
+and each weight is just basically
+
+74
+00:03:47.000 --> 00:03:51.220
+a number anywhere between minus infinity to plus infinity.
+
+75
+00:03:51.220 --> 00:03:54.915
+And a Bayesian neural network,
+
+76
+00:03:54.915 --> 00:04:00.575
+and if expanded by saying that each neuron is not just one number but some distributions,
+
+77
+00:04:00.575 --> 00:04:01.960
+say a normal distribution,
+
+78
+00:04:01.960 --> 00:04:03.960
+and to infer from this network,
+
+79
+00:04:03.960 --> 00:04:07.520
+you have to sample those numbers from the distribution.
+
+80
+00:04:07.520 --> 00:04:09.310
+You have to sample weights each time and, of course,
+
+81
+00:04:09.310 --> 00:04:11.525
+each time you will have slightly different well,
+
+82
+00:04:11.525 --> 00:04:13.145
+probabilities of Q at the end.
+
+83
+00:04:13.145 --> 00:04:15.770
+Now, this approach is slightly more powerful than
+
+84
+00:04:15.770 --> 00:04:17.450
+the first one because it doesn't just take itself to
+
+85
+00:04:17.450 --> 00:04:19.655
+a particular formula for normal distribution.
+
+86
+00:04:19.655 --> 00:04:22.940
+Namely, it doesn't have to be unimodal,
+
+87
+00:04:22.940 --> 00:04:25.700
+or exponentially decaying as normal distribution,
+
+88
+00:04:25.700 --> 00:04:29.080
+but it can if so are the demands of this particular task.
+
+89
+00:04:29.080 --> 00:04:31.790
+Or condone some kind of trimodal,
+
+90
+00:04:31.790 --> 00:04:34.350
+or bimodal thing whether flat plate or
+
+91
+00:04:34.350 --> 00:04:37.555
+at the middle which might make sense in some cases.
+
+92
+00:04:37.555 --> 00:04:41.660
+Again, this is much more powerful but it comes at a price,
+
+93
+00:04:41.660 --> 00:04:44.000
+and in this case the prices that you don't get
+
+94
+00:04:44.000 --> 00:04:47.830
+the entire probability based from just one round of your method.
+
+95
+00:04:47.830 --> 00:04:50.100
+Namely if you have a Bayesian neural network,
+
+96
+00:04:50.100 --> 00:04:53.270
+then if you sample all those weights given,
+
+97
+00:04:53.270 --> 00:04:56.500
+so if you feed an input to this sample set of weights,
+
+98
+00:04:56.500 --> 00:04:58.995
+you only going to get one sample,
+
+99
+00:04:58.995 --> 00:05:01.895
+and if you sample it again,you'll get another outcome.
+
+100
+00:05:01.895 --> 00:05:03.050
+So to get the whole picture,
+
+101
+00:05:03.050 --> 00:05:05.450
+you have to repeat the sampling procedure many times
+
+102
+00:05:05.450 --> 00:05:08.980
+until you get enough data to [inaudible] the percentiles.
+
+103
+00:05:08.980 --> 00:05:11.360
+Of course, if you sample say a 1,000 times,
+
+104
+00:05:11.360 --> 00:05:15.560
+you can more or less reliably find the 90th percentile by just taking
+
+105
+00:05:15.560 --> 00:05:20.400
+sample number 900 ranked from the lowest to the highest one,
+
+106
+00:05:20.400 --> 00:05:24.565
+and this is how you can compute empirical percentiles in basic statistics.
+
+107
+00:05:24.565 --> 00:05:27.435
+And of course, chaining those networks is
+
+108
+00:05:27.435 --> 00:05:31.045
+another challenge in itself which takes a lot of well,
+
+109
+00:05:31.045 --> 00:05:32.920
+another set of prior distributions there,
+
+110
+00:05:32.920 --> 00:05:35.740
+only with those parameters and [inaudible] tricks
+
+111
+00:05:35.740 --> 00:05:38.690
+and all these stuff you've been learning throughout the Bayesian networks course.
+
+112
+00:05:38.690 --> 00:05:42.410
+So we are not including them into the compulsory part of our course.
+
+113
+00:05:42.410 --> 00:05:45.835
+So you can just read about them in more detail on the bonus section.
+
+114
+00:05:45.835 --> 00:05:48.270
+Okay so, the first approach is a rather simple,
+
+115
+00:05:48.270 --> 00:05:50.970
+the second approach is slightly less simple,
+
+116
+00:05:50.970 --> 00:05:54.300
+but potentially more powerful and has of course
+
+117
+00:05:54.300 --> 00:05:56.820
+other approaches which are also
+
+118
+00:05:56.820 --> 00:05:59.325
+non-parametric but doesn't have Bayesian neural networks in them.
+
+119
+00:05:59.325 --> 00:06:02.115
+So if you chose the Bayesian UCB over the frequency one,
+
+120
+00:06:02.115 --> 00:06:03.330
+the one based on inequality.
+
+121
+00:06:03.330 --> 00:06:04.830
+It means you've just traded
+
+122
+00:06:04.830 --> 00:06:06.600
+a few more added benefits for
+
+123
+00:06:06.600 --> 00:06:09.300
+a few more drawbacks that usually goes with any applied science.
+
+124
+00:06:09.300 --> 00:06:11.460
+On the plus side of the Bayesian methods,
+
+125
+00:06:11.460 --> 00:06:15.960
+get that they no longer depend on the inequality as the [inaudible] ones do.
+
+126
+00:06:15.960 --> 00:06:19.110
+This means that you no longer run at risk of having to
+
+127
+00:06:19.110 --> 00:06:22.110
+explore actions past the point that it become irrelevant,
+
+128
+00:06:22.110 --> 00:06:26.310
+just because you're inequality is slightly more optimistic than it should have been.
+
+129
+00:06:26.310 --> 00:06:30.070
+Instead you have a particular probability distribution with
+
+130
+00:06:30.070 --> 00:06:31.860
+an exact percentile that can measure that which makes
+
+131
+00:06:31.860 --> 00:06:33.840
+sense given your exact choice of prior.
+
+132
+00:06:33.840 --> 00:06:37.395
+And here we kind of stumble in the first major drawback,
+
+133
+00:06:37.395 --> 00:06:40.750
+the Bayesian Methods can be made or broken with a choice of prior.
+
+134
+00:06:40.750 --> 00:06:43.395
+And if you choose prior to,
+
+135
+00:06:43.395 --> 00:06:46.110
+well loosely it means that you're going to over explore,
+
+136
+00:06:46.110 --> 00:06:48.500
+and it means that you are not certain of anything,
+
+137
+00:06:48.500 --> 00:06:53.715
+and means that you might have to spend more time exploring at the very beginning.
+
+138
+00:06:53.715 --> 00:06:57.780
+Alternatively, if you choose a more, well,
+
+139
+00:06:57.780 --> 00:07:01.350
+steep prior the one that looks closer to a data function,
+
+140
+00:07:01.350 --> 00:07:05.760
+it means that your inference is going to be a bit more green than she'd have been.
+
+141
+00:07:05.760 --> 00:07:09.335
+And in the worst case it might not even learn the optimal policy.
+
+142
+00:07:09.335 --> 00:07:11.210
+Another benefit is that,
+
+143
+00:07:11.210 --> 00:07:15.130
+if you pick a more complicated probability distribution family,
+
+144
+00:07:15.130 --> 00:07:17.655
+say the one from Bayesian neural network,
+
+145
+00:07:17.655 --> 00:07:19.470
+or even a mixture of normal distribution,
+
+146
+00:07:19.470 --> 00:07:23.185
+you can engineer a particular formulation of
+
+147
+00:07:23.185 --> 00:07:28.170
+the distribution of this well [inaudible] previously of this,
+
+148
+00:07:28.170 --> 00:07:31.745
+the probability of a reward given a particular action,
+
+149
+00:07:31.745 --> 00:07:33.955
+and you can tailor this for
+
+150
+00:07:33.955 --> 00:07:37.405
+your particular problem given all the expert knowledge you have about it.
+
+151
+00:07:37.405 --> 00:07:40.810
+This is slightly complicated but you've probably been taught
+
+152
+00:07:40.810 --> 00:07:45.040
+a few tricks and how to do this in a setting of applied Bayesian methods.
+
+153
+00:07:45.040 --> 00:07:46.985
+Again previously not specialization.
+
+154
+00:07:46.985 --> 00:07:48.565
+So here it goes.
+
+155
+00:07:48.565 --> 00:07:50.830
+You have a more accurate estimate which
+
+156
+00:07:50.830 --> 00:07:53.545
+wholly depends on the prior and can turn for a task.
+
+157
+00:07:53.545 --> 00:07:56.230
+This is how Bayesian methods compared with the frequency ones.
+
+158
+00:07:56.230 --> 00:07:59.305
+So again, here's some motivational image that shows that
+
+159
+00:07:59.305 --> 00:08:02.200
+distributions should not be unimodal and so on and so forth.
+
+160
+00:08:02.200 --> 00:08:04.400
+This was learned with Bayesian neural networks.
+
+161
+00:08:04.400 --> 00:08:09.090
+So if you compare all the methods we just learned,
+
+162
+00:08:09.090 --> 00:08:10.829
+the thumbs of sampling, the UCB,
+
+163
+00:08:10.829 --> 00:08:14.400
+and the Bayesian UCB on a problem of information retrieval,
+
+164
+00:08:14.400 --> 00:08:19.270
+the one where you are band it tries to select lieges for a user to satisfy his query,
+
+165
+00:08:19.270 --> 00:08:22.290
+and you'll see that they compare one way or another.
+
+166
+00:08:22.290 --> 00:08:24.490
+This is they regret [inaudible] over time.
+
+167
+00:08:24.490 --> 00:08:27.880
+And you can see that basically, depending
+
+168
+00:08:27.880 --> 00:08:31.270
+on a choice of prior and depending on a particular inequality,
+
+169
+00:08:31.270 --> 00:08:32.935
+those methods can have different performance.
+
+170
+00:08:32.935 --> 00:08:34.930
+Of course that doesn't mean that you have
+
+171
+00:08:34.930 --> 00:08:36.940
+to just pick the one which loops the highest here,
+
+172
+00:08:36.940 --> 00:08:38.965
+but it means instead that
+
+173
+00:08:38.965 --> 00:08:42.730
+the performance methods depends on the particular problem and you better try all of them,
+
+174
+00:08:42.730 --> 00:08:47.760
+maybe have some library that gets all that implemented before picking a particular one.
+
+175
+00:08:47.760 --> 00:08:51.685
+Of course, if you have more domain knowledge than Bayesian method it's going to be
+
+176
+00:08:51.685 --> 00:08:56.190
+slightly more efficient as a rule of thumb than the frequent ones,
+
+177
+00:08:56.190 --> 00:08:58.880
+or if you have almost no domain knowledge,
+
+178
+00:08:58.880 --> 00:09:01.670
+and you're just about
+
+179
+00:09:01.670 --> 00:09:04.900
+to figure out priors from top of your hats then that means that you're
+
+180
+00:09:04.900 --> 00:09:07.115
+likely going to shoot yourself in the foot
+
+181
+00:09:07.115 --> 00:09:11.525
+by under exploring or over exploring with a wrong prior.
+
+182
+00:09:11.525 --> 00:09:13.660
+This concludes a section of our course where we
+
+183
+00:09:13.660 --> 00:09:15.790
+learn about the advanced exploration methods.
+
+184
+00:09:15.790 --> 00:09:17.830
+And by now we have learned a few,
+
+185
+00:09:17.830 --> 00:09:21.220
+or quite a lot actually of the details of how
+
+186
+00:09:21.220 --> 00:09:25.305
+the exploration methods are defined and how you can compare them against one another.
+
+187
+00:09:25.305 --> 00:09:27.555
+The first known thing with the notion of regret,
+
+188
+00:09:27.555 --> 00:09:31.985
+or how much rewards or money would your agent lose if
+
+189
+00:09:31.985 --> 00:09:34.540
+it's started exporting from random compared to
+
+190
+00:09:34.540 --> 00:09:38.360
+the agent that had the optimal policy from the get go.
+
+191
+00:09:38.360 --> 00:09:42.430
+And this is basically a universal measure of how
+
+192
+00:09:42.430 --> 00:09:46.565
+you can compare one choice of exploration versus the other.
+
+193
+00:09:46.565 --> 00:09:48.525
+We learned about the future regret,
+
+194
+00:09:48.525 --> 00:09:52.900
+which is regret that is measured from say now till 10 days into
+
+195
+00:09:52.900 --> 00:09:57.905
+the future and might make sense in some finite time horizon processes,
+
+196
+00:09:57.905 --> 00:09:59.550
+and the notion of infinite regret,
+
+197
+00:09:59.550 --> 00:10:04.060
+which basically sums the difference between your agent and the optional agent from
+
+198
+00:10:04.060 --> 00:10:09.340
+now until the moments when it reaches the optimal policy if at all.
+
+199
+00:10:09.340 --> 00:10:12.640
+And the infinite regret can grow algorithmically or it can grow
+
+200
+00:10:12.640 --> 00:10:16.205
+linearly or it can grow otherwise depending on the particular exploration policy.
+
+201
+00:10:16.205 --> 00:10:19.055
+We've also measured a few of extended
+
+202
+00:10:19.055 --> 00:10:22.555
+exploration strategies like Epsilon Greek exploration, [inaudible] dis-regret.
+
+203
+00:10:22.555 --> 00:10:26.200
+We figured out that unless you pick their parameters in a very particular way,
+
+204
+00:10:26.200 --> 00:10:29.800
+you can end up with something that never converges an optimal policy,
+
+205
+00:10:29.800 --> 00:10:31.795
+and has a linearly growing regret,
+
+206
+00:10:31.795 --> 00:10:34.535
+which is terrible, the worst thing you can get actually.
+
+207
+00:10:34.535 --> 00:10:37.485
+Now the other kind of
+
+208
+00:10:37.485 --> 00:10:42.210
+new batch of exploration methods we've learned are the ones bassed on uncertainty.
+
+209
+00:10:42.210 --> 00:10:44.370
+Those that are represented with two kinds of UCB.
+
+210
+00:10:44.370 --> 00:10:46.710
+The frequent is one based on [inaudible] equation
+
+211
+00:10:46.710 --> 00:10:49.200
+of inequality and the Bayesian one we just covered.
+
+212
+00:10:49.200 --> 00:10:52.185
+As it was the Thompson sampling which doesn't make
+
+213
+00:10:52.185 --> 00:10:55.260
+the percentile because they're just samples from the distributions.
+
+214
+00:10:55.260 --> 00:10:58.200
+Now those exploration methods only allow you to improve and
+
+215
+00:10:58.200 --> 00:11:01.515
+trade on your agents exploration in your contextual [inaudible] setting,
+
+216
+00:11:01.515 --> 00:11:04.170
+like a line Ads or recommendation systems,
+
+217
+00:11:04.170 --> 00:11:05.655
+or in information retrieval.
+
+218
+00:11:05.655 --> 00:11:08.790
+But we're not going to get it a little further, were going to extend
+
+219
+00:11:08.790 --> 00:11:12.255
+those exploration methods to a model-based multistep setting.
+
+220
+00:11:12.255 --> 00:11:15.600
+In other words, we're going to find out how we can employ
+
+221
+00:11:15.600 --> 00:11:19.310
+all those UCB like exploration methods based on uncertainty,
+
+222
+00:11:19.310 --> 00:11:21.840
+in order to improve how you plan in an environment where you
+
+223
+00:11:21.840 --> 00:11:24.555
+know the probability of next stage given state an action.
+
+224
+00:11:24.555 --> 00:11:29.665
+This is going to come right now at the next section by [inaudible] which I recommend you
+
+225
+00:11:29.665 --> 00:11:33.180
+to switch right now. Farewell.

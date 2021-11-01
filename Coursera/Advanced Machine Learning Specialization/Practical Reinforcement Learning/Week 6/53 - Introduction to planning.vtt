@@ -1,0 +1,1341 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.637
+[MUSIC]
+
+2
+00:00:03.637 --> 00:00:07.368
+In this video, we are going to talk
+about Monte Carlo Tree Search,
+
+3
+00:00:07.368 --> 00:00:11.260
+a method which is practical and
+useful for many purposes.
+
+4
+00:00:11.260 --> 00:00:14.850
+Exactly this algorithm was
+the crucial component of the AlphaGo,
+
+5
+00:00:14.850 --> 00:00:19.080
+the first algorithm that beated the best
+human player in the board game called Go.
+
+6
+00:00:20.560 --> 00:00:26.290
+So for now, you already know why we need
+to explore in reinforcement learning.
+
+7
+00:00:26.290 --> 00:00:30.700
+Put it simply, exploration is needed
+to find originally unknown actions and
+
+8
+00:00:30.700 --> 00:00:33.740
+states that lead to very large rewards.
+
+9
+00:00:33.740 --> 00:00:36.850
+And, yes, indeed,
+in a model-free setting, we don't know
+
+10
+00:00:36.850 --> 00:00:41.650
+how the environment will respond to our
+reactions and thus don't know the reward.
+
+11
+00:00:41.650 --> 00:00:46.090
+However, in a model based setting,
+this situation is a little bit different.
+
+12
+00:00:46.090 --> 00:00:49.653
+Let me quickly remind you the differences
+between the model-free and
+
+13
+00:00:49.653 --> 00:00:51.630
+model-based settings.
+
+14
+00:00:51.630 --> 00:00:53.830
+The key difference lies in their names.
+
+15
+00:00:53.830 --> 00:00:56.810
+In a model-free setting, we know
+nothing about environment dynamics.
+
+16
+00:00:56.810 --> 00:00:59.560
+That is about probabilities
+of the next state and
+
+17
+00:00:59.560 --> 00:01:01.588
+reward, given current state and action.
+
+18
+00:01:01.588 --> 00:01:03.400
+In a model-based setting,
+
+19
+00:01:03.400 --> 00:01:08.640
+however, we are given a model of
+the world in either of the two forms.
+
+20
+00:01:08.640 --> 00:01:12.410
+That is either as a distributional or
+a sample model.
+
+21
+00:01:12.410 --> 00:01:17.180
+Distributional model, also called explicit
+model, provides access to the whole
+
+22
+00:01:17.180 --> 00:01:21.560
+distribution of the next state in
+the word given current state and action.
+
+23
+00:01:21.560 --> 00:01:24.780
+It is doing so
+in a form of explicit probabilities.
+
+24
+00:01:25.780 --> 00:01:30.040
+Such distributional model allows
+access to explicit probabilities of
+
+25
+00:01:30.040 --> 00:01:34.900
+all the possible next states,
+s prime and rewards, r for any state and
+
+26
+00:01:34.900 --> 00:01:38.120
+action and agent might be currently in.
+
+27
+00:01:39.880 --> 00:01:43.195
+The environment can also be given
+in a form of a sample model.
+
+28
+00:01:43.195 --> 00:01:48.150
+That is out of this model, we can obtain
+only samples of the next state and
+
+29
+00:01:48.150 --> 00:01:50.420
+the reward given current state of action.
+
+30
+00:01:50.420 --> 00:01:53.580
+But we do not know the explicit
+probabilities of this sample.
+
+31
+00:01:55.070 --> 00:02:00.130
+That this next state in reward are sampled
+according to the same distribution
+
+32
+00:02:00.130 --> 00:02:04.600
+that is given by the distribution
+model but in the case of sample model,
+
+33
+00:02:04.600 --> 00:02:08.600
+we are just not allowed to see
+what these probabilities are.
+
+34
+00:02:09.630 --> 00:02:13.810
+Sample model is also called generative
+model in scientific literature.
+
+35
+00:02:13.810 --> 00:02:17.840
+Now think a little bit about
+an exploration in a model-based setting.
+
+36
+00:02:17.840 --> 00:02:23.340
+Do we need any if we already know what
+is their work condition on any state and
+
+37
+00:02:23.340 --> 00:02:23.966
+any action?
+
+38
+00:02:23.966 --> 00:02:29.630
+In a model-based learning,
+we already know everything, don't we?
+
+39
+00:02:29.630 --> 00:02:30.800
+Well, in fact, we don't.
+
+40
+00:02:31.960 --> 00:02:35.230
+What we know in a model-based
+setting are immediate towards
+
+41
+00:02:35.230 --> 00:02:39.090
+that follow arbitrary action
+might be in arbitrary state.
+
+42
+00:02:39.090 --> 00:02:43.370
+But our decisions should not be
+granted on immediate rewards but
+
+43
+00:02:43.370 --> 00:02:45.990
+rather on the global
+estimate of the return.
+
+44
+00:02:45.990 --> 00:02:49.630
+That is, for example, on the value or
+action value function.
+
+45
+00:02:49.630 --> 00:02:54.420
+So the problem here is that being locally
+optimal, that is really with respect to
+
+46
+00:02:54.420 --> 00:02:58.130
+immediate rewards,
+doesn't apply being optimal globally.
+
+47
+00:02:58.130 --> 00:03:02.600
+And we need to recover the global
+estimates of optimality, that is value or
+
+48
+00:03:02.600 --> 00:03:04.170
+action value function.
+
+49
+00:03:04.170 --> 00:03:05.660
+The solution seems simple.
+
+50
+00:03:05.660 --> 00:03:10.320
+That just recovers a globally optimal
+behavior by simply trying each action and
+
+51
+00:03:10.320 --> 00:03:13.940
+each state and recording the return
+obtained by every policy.
+
+52
+00:03:13.940 --> 00:03:17.610
+Well, in practice,
+such brute force approach is not feasible
+
+53
+00:03:17.610 --> 00:03:20.820
+because of possible large state and
+action spaces.
+
+54
+00:03:20.820 --> 00:03:25.119
+Thus, a more clever approaches are needed
+to solve the problem of recovering
+
+55
+00:03:25.119 --> 00:03:26.504
+given to model of the word.
+
+56
+00:03:27.550 --> 00:03:30.990
+These approaches to finding an optimal
+solution to sequential decision
+
+57
+00:03:30.990 --> 00:03:33.630
+making problem in a model-based setting
+
+58
+00:03:33.630 --> 00:03:38.380
+as fast as possible are called
+planning algorithms.
+
+59
+00:03:38.380 --> 00:03:42.710
+The word planning is a very compound word,
+so for the sake of clarity, we define
+
+60
+00:03:42.710 --> 00:03:48.345
+planning as any process by which the model
+of the world is transformed into a policy.
+
+61
+00:03:48.345 --> 00:03:52.420
+Know that planning algorithm can work
+with any form of the environment model.
+
+62
+00:03:53.822 --> 00:03:57.610
+This setup of planning may be
+very unfamiliar to you but
+
+63
+00:03:57.610 --> 00:04:02.010
+in fact it is not very much different
+from what you have already learned.
+
+64
+00:04:02.010 --> 00:04:06.696
+For example, any model-free algorithm you
+know can be used in a model-based setting
+
+65
+00:04:06.696 --> 00:04:09.776
+by threading the model at hand
+at the true environment and
+
+66
+00:04:09.776 --> 00:04:11.718
+letting an agent interact with it.
+
+67
+00:04:11.718 --> 00:04:17.290
+Really now but it forbids you to solve
+the problem with already familiar methods.
+
+68
+00:04:17.290 --> 00:04:21.880
+More to say, this approach to learning
+is actually used in many algorithms,
+
+69
+00:04:21.880 --> 00:04:25.390
+especially in the ones which learn
+their approximate model of the world
+
+70
+00:04:25.390 --> 00:04:27.210
+from interactions with the real world.
+
+71
+00:04:28.290 --> 00:04:31.980
+Nevertheless, you should know that
+there are some special algorithms for
+
+72
+00:04:31.980 --> 00:04:34.470
+planning which may be more efficient.
+
+73
+00:04:34.470 --> 00:04:38.140
+Algorithm differs a lot depending
+on the type of planning
+
+74
+00:04:38.140 --> 00:04:42.620
+which may be one of background
+planning and decision time planning.
+
+75
+00:04:42.620 --> 00:04:46.890
+Background planning is an approach of
+sampling from given environment model,
+
+76
+00:04:46.890 --> 00:04:49.470
+either true or approximate, and
+
+77
+00:04:49.470 --> 00:04:53.740
+learning from such samples
+with any model-free method.
+
+78
+00:04:53.740 --> 00:04:56.830
+And a good example of background
+planning is dynamic programming.
+
+79
+00:04:56.830 --> 00:04:59.490
+For example,
+when you are doing value iteration,
+
+80
+00:04:59.490 --> 00:05:04.230
+you cycle through the states to
+perform backup in each state.
+
+81
+00:05:04.230 --> 00:05:07.039
+And you are not focusing
+on any particular state.
+
+82
+00:05:08.050 --> 00:05:11.080
+The second type of planning
+is decision-time planning.
+
+83
+00:05:11.080 --> 00:05:16.000
+As its name suggests, algorithms from
+this category make decisions and
+
+84
+00:05:16.000 --> 00:05:18.570
+perform planning simultaneously sometimes.
+
+85
+00:05:18.570 --> 00:05:19.450
+To be precise,
+
+86
+00:05:19.450 --> 00:05:24.660
+in this method, planning is started
+after [INAUDIBLE] itself in a new state.
+
+87
+00:05:24.660 --> 00:05:29.270
+This planning is performed to select
+an optimal decision now in current state.
+
+88
+00:05:29.270 --> 00:05:33.490
+This focusing only on the current state
+and not trying to improve the policy
+
+89
+00:05:33.490 --> 00:05:38.170
+everywhere distinguishes decision-time
+planning from background planning.
+
+90
+00:05:38.170 --> 00:05:42.610
+Once the planning is over or
+time is up, an agent commits an action
+
+91
+00:05:42.610 --> 00:05:46.600
+based on the planning result and
+make a transition to the next state.
+
+92
+00:05:47.650 --> 00:05:48.230
+Usually, but
+
+93
+00:05:48.230 --> 00:05:52.890
+not always, new information is carried by
+the agent between the successive states.
+
+94
+00:05:52.890 --> 00:05:54.523
+That is after an action is made,
+
+95
+00:05:54.523 --> 00:05:57.435
+all the planning results may
+be thrown away completely.
+
+96
+00:05:57.435 --> 00:06:01.980
+In both variants of planning,
+however, the main idea is the same.
+
+97
+00:06:01.980 --> 00:06:06.862
+To obtain a perfect policy [INAUDIBLE] the
+return that will follow after any action
+
+98
+00:06:06.862 --> 00:06:09.170
+made in the state we are currently in.
+
+99
+00:06:10.240 --> 00:06:15.120
+To obtain such knowledge, we, in one form
+or another, always do the same thing.
+
+100
+00:06:15.120 --> 00:06:17.230
+We enroll the local dynamics in time and
+
+101
+00:06:17.230 --> 00:06:20.820
+accumulate the sequence of
+rewards in a single return.
+
+102
+00:06:20.820 --> 00:06:26.250
+Planning algorithms differ mostly on how
+and when such enrolls are performed.
+
+103
+00:06:26.250 --> 00:06:30.160
+Let's now discuss one of
+the simplest approaches to planning.
+
+104
+00:06:30.160 --> 00:06:33.930
+Well, the simplest approach is
+to perform exhaustive search.
+
+105
+00:06:33.930 --> 00:06:37.962
+That is, start from current status and
+roll the environment [INAUDIBLE] for
+
+106
+00:06:37.962 --> 00:06:39.946
+each possible action in this state,
+
+107
+00:06:39.946 --> 00:06:43.476
+obtaining the set of new possible
+states and immediate rewards.
+
+108
+00:06:43.476 --> 00:06:46.604
+Then for
+each of the next possible states, again,
+
+109
+00:06:46.604 --> 00:06:50.680
+do the similar [INAUDIBLE] enroll and
+so on and so forth.
+
+110
+00:06:50.680 --> 00:06:52.970
+But what if we aren't given
+enough computational resources?
+
+111
+00:06:52.970 --> 00:06:57.170
+We could continue this process until
+every single branch of the tree
+
+112
+00:06:57.170 --> 00:06:58.987
+reaches one of thermal states.
+
+113
+00:07:00.350 --> 00:07:02.500
+Then we could perform dynamic programming.
+
+114
+00:07:02.500 --> 00:07:06.818
+Start from the very bottom of this
+backup tree and propagate true value
+
+115
+00:07:06.818 --> 00:07:12.400
+functions to the very root of the free
+using Bellman Opthomology Equations.
+
+116
+00:07:12.400 --> 00:07:14.340
+However, this algorithm is not practical,
+
+117
+00:07:14.340 --> 00:07:19.900
+because it may require too much time to
+finish planning, even for a single state.
+
+118
+00:07:19.900 --> 00:07:20.700
+How can we do better?
+
+119
+00:07:21.740 --> 00:07:26.100
+Well, the simplest way to improve this
+algorithm is to stop enrolling as soon
+
+120
+00:07:26.100 --> 00:07:28.690
+as we have reached some
+prespecified depths.
+
+121
+00:07:29.760 --> 00:07:35.270
+Then perform back out from the leaves and
+the depths operate to the root.
+
+122
+00:07:35.270 --> 00:07:39.600
+This message seems a lot faster
+than the previous one, however,
+
+123
+00:07:39.600 --> 00:07:42.720
+it's myopic,
+because it does not account for
+
+124
+00:07:42.720 --> 00:07:46.640
+reward that the cure deeper that
+the depths we have stopped at.
+
+125
+00:07:47.670 --> 00:07:48.760
+And of this improvement for
+
+126
+00:07:48.760 --> 00:07:54.210
+this algorithm is to compute approximate
+function at the leaves of such three.
+
+127
+00:07:54.210 --> 00:07:58.140
+You can think about this approximation
+as applying approximate value function
+
+128
+00:07:58.140 --> 00:08:03.150
+at leaves and then propagating these
+approximate values backward to the top,
+
+129
+00:08:03.150 --> 00:08:06.050
+again, using the equation.
+
+130
+00:08:06.050 --> 00:08:10.570
+The good point is that this
+algorithm is a lot more practical.
+
+131
+00:08:10.570 --> 00:08:12.840
+But can we improve it even further?
+
+132
+00:08:12.840 --> 00:08:14.360
+Well, yes, in fact, we can.
+
+133
+00:08:16.130 --> 00:08:20.570
+What we can improve is the selection
+of nodes which we unroll or
+
+134
+00:08:20.570 --> 00:08:22.800
+expand on each iteration.
+
+135
+00:08:22.800 --> 00:08:25.990
+In the previous algorithm,
+this expansion was uniform.
+
+136
+00:08:25.990 --> 00:08:30.910
+That is the expansion was made for
+each and every action available.
+
+137
+00:08:30.910 --> 00:08:35.340
+However, we might not be interested in
+expanding branches that corresponds to
+
+138
+00:08:35.340 --> 00:08:36.840
+bad values.
+
+139
+00:08:36.840 --> 00:08:39.969
+That is making actions leading
+to the very bad returns.
+
+140
+00:08:41.408 --> 00:08:44.140
+The more [INAUDIBLE] bad action,
+
+141
+00:08:44.140 --> 00:08:47.720
+the more precise we are making
+the value estimate of this action.
+
+142
+00:08:47.720 --> 00:08:53.120
+Indeed, each action is obviously bad and
+other actions look a lot better.
+
+143
+00:08:53.120 --> 00:08:58.280
+We do not really need extra precision
+in bad action value estimate.
+
+144
+00:08:58.280 --> 00:09:02.810
+Remember, we are always blending
+between precision of estimates and
+
+145
+00:09:02.810 --> 00:09:04.708
+the computation time.
+
+146
+00:09:04.708 --> 00:09:08.200
+Instead, we require
+the precise estimate only for
+
+147
+00:09:08.200 --> 00:09:11.660
+the best or close to the best actions.
+
+148
+00:09:11.660 --> 00:09:16.630
+So to solve a planning task as
+fast as possible, we should
+
+149
+00:09:16.630 --> 00:09:21.560
+expand [INAUDIBLE] actions which are good
+candidates to become the best ones.
+
+150
+00:09:22.730 --> 00:09:28.420
+To give the expansion in the direction
+of most promising actions, we can use
+
+151
+00:09:28.420 --> 00:09:33.819
+any function which correlates with true
+returns that our policy's able to achieve.
+
+152
+00:09:34.950 --> 00:09:36.935
+In artificial intelligence community,
+
+153
+00:09:36.935 --> 00:09:40.200
+such function is usually
+called heuristic function.
+
+154
+00:09:40.200 --> 00:09:44.140
+And any planning method using
+such heuristic function
+
+155
+00:09:44.140 --> 00:09:45.941
+is called a heuristic search.
+
+156
+00:09:47.520 --> 00:09:50.480
+However, the heuristic function
+in artificial intelligence
+
+157
+00:09:50.480 --> 00:09:53.270
+is usually hardcoded and never changes.
+
+158
+00:09:53.270 --> 00:09:58.100
+For example, consider a task of planning
+the trip from one city to another
+
+159
+00:09:58.100 --> 00:09:59.860
+through a lattice of roads.
+
+160
+00:09:59.860 --> 00:10:03.910
+Each road connects to the cities and
+has a cost of traversing it.
+
+161
+00:10:03.910 --> 00:10:07.310
+Plan is needed to obtain the shortest
+possible path from the start
+
+162
+00:10:07.310 --> 00:10:08.190
+to the goal city.
+
+163
+00:10:09.220 --> 00:10:12.190
+In such a task,
+the heuristic function may be, for
+
+164
+00:10:12.190 --> 00:10:15.800
+example, the straight line
+distance to the target city.
+
+165
+00:10:15.800 --> 00:10:19.120
+It is surely impossible to drive
+in a straight line fashion.
+
+166
+00:10:19.120 --> 00:10:22.780
+But this heuristic somewhat correlates
+with the total driving distance
+
+167
+00:10:22.780 --> 00:10:28.040
+from the start to the end and thus may
+be a good guess in a search process.
+
+168
+00:10:28.040 --> 00:10:30.870
+The heuristic search in
+artificial intelligence community
+
+169
+00:10:30.870 --> 00:10:34.330
+is an umbrella term unifying
+many algorithms with an idea
+
+170
+00:10:34.330 --> 00:10:38.570
+of lookahead planning guided
+by heuristic function.
+
+171
+00:10:38.570 --> 00:10:43.890
+This function is used to prove unfruitful
+branches by estimating the total cost or
+
+172
+00:10:43.890 --> 00:10:48.400
+a worth that can be obtained from
+any single state [INAUDIBLE].
+
+173
+00:10:48.400 --> 00:10:51.750
+We are going to rely heavily on
+this idea of heuristic search.
+
+174
+00:10:51.750 --> 00:10:56.760
+But we'll use it for more specific purpose
+of planning in reinforcement learning.
+
+175
+00:10:56.760 --> 00:11:01.280
+In reinforcement learning, the heuristic
+function corresponds to the value function
+
+176
+00:11:01.280 --> 00:11:03.530
+and unlike the usual heuristic function,
+
+177
+00:11:03.530 --> 00:11:06.300
+we might want to refine our
+value function over time.
+
+178
+00:11:07.410 --> 00:11:10.715
+Application of the heuristic search to
+planning in reinforcement learning has
+
+179
+00:11:10.715 --> 00:11:11.510
+many advantages.
+
+180
+00:11:11.510 --> 00:11:15.924
+Basically resources are focused
+only on valuable path and
+
+181
+00:11:15.924 --> 00:11:19.814
+nearest states contribute
+the most to the return.
+
+182
+00:11:19.814 --> 00:11:24.090
+However, if we don't know
+the precise model of the world and
+
+183
+00:11:24.090 --> 00:11:27.600
+approximate it with some sort
+of function approximation,
+
+184
+00:11:27.600 --> 00:11:31.150
+the model can be in fact worse
+than the current value estimate.
+
+185
+00:11:31.150 --> 00:11:36.500
+In this case, the lookaheads based on
+approximate model can spoil the learning
+
+186
+00:11:36.500 --> 00:11:41.320
+and turn the estimates of a reliable
+value function to become less precise.
+
+187
+00:11:41.320 --> 00:11:45.340
+Remember, it only makes sense to perform
+planning in the model of the world
+
+188
+00:11:45.340 --> 00:11:48.356
+if more precise than the current
+value function estimates.
+
+189
+00:11:48.356 --> 00:11:48.932
+So beware.
+
+190
+00:11:48.932 --> 00:11:51.954
+Another disadvantage of using heuristic
+
+191
+00:11:51.954 --> 00:11:57.460
+search is that it obviously depends
+on the quality of heuristic.
+
+192
+00:11:57.460 --> 00:12:00.420
+We will talk about it a little bit later.
+
+193
+00:12:00.420 --> 00:12:05.550
+One way to obtain heuristic is to
+estimate the returns with Monte Carlo.
+
+194
+00:12:05.550 --> 00:12:09.780
+And I have previously said, if you limit
+the horizon of a lookahead search,
+
+195
+00:12:09.780 --> 00:12:14.780
+we should estimate the value of possible
+continuations from the leaves onward.
+
+196
+00:12:14.780 --> 00:12:19.820
+These leave node values can be computed
+with the help of function approximation.
+
+197
+00:12:19.820 --> 00:12:23.100
+We can learn the state values
+with function approximation
+
+198
+00:12:23.100 --> 00:12:25.900
+as we did it before in
+a model-free setting.
+
+199
+00:12:25.900 --> 00:12:30.210
+However, before today, we were not
+allowed to use the model of the world and
+
+200
+00:12:30.210 --> 00:12:32.750
+now we can try to make use of such a model
+
+201
+00:12:32.750 --> 00:12:35.850
+instead of relying on complex
+parametric function approximation.
+
+202
+00:12:37.170 --> 00:12:41.260
+More precisely, if we already know the
+true reward [INAUDIBLE] an action in each
+
+203
+00:12:41.260 --> 00:12:45.900
+and every state, probably the most
+natural approach is to use this
+
+204
+00:12:45.900 --> 00:12:50.610
+information by accumulating the reward
+along simulated trajectories.
+
+205
+00:12:50.610 --> 00:12:54.910
+That is we can estimate
+the value of any state or
+
+206
+00:12:54.910 --> 00:12:58.670
+state action [INAUDIBLE]
+with Monte Carlo returns.
+
+207
+00:12:58.670 --> 00:13:02.590
+In particular, while time permits,
+we start from state s and
+
+208
+00:13:02.590 --> 00:13:05.410
+send action a to our model of the world.
+
+209
+00:13:05.410 --> 00:13:10.670
+Obtain the next state and reward,
+then from that state onward,
+
+210
+00:13:10.670 --> 00:13:14.570
+we place the episode using fixed
+policy [INAUDIBLE] the episodes.
+
+211
+00:13:14.570 --> 00:13:19.450
+Such policy used to estimate the value
+by Monte Carlo trajectory sampling
+
+212
+00:13:19.450 --> 00:13:21.700
+is called rollout policy.
+
+213
+00:13:21.700 --> 00:13:25.540
+This name stems from playing out
+the game from the particular state many,
+
+214
+00:13:25.540 --> 00:13:26.540
+many times.
+
+215
+00:13:26.540 --> 00:13:29.810
+That is rolling the game out many times.
+
+216
+00:13:29.810 --> 00:13:32.250
+By performing such rollouts many,
+many times,
+
+217
+00:13:32.250 --> 00:13:36.320
+we can obtain a reliable estimate of
+q function, simply as average return
+
+218
+00:13:36.320 --> 00:13:41.960
+obtained by our rollout policy from
+state s after making action a.
+
+219
+00:13:43.030 --> 00:13:46.720
+The good point of Monte Carlo estimates
+is that it is not needed to use
+
+220
+00:13:46.720 --> 00:13:48.480
+any function approximation.
+
+221
+00:13:48.480 --> 00:13:51.940
+It is sufficient to rely only on
+the model of the world at hand.
+
+222
+00:13:52.970 --> 00:13:56.780
+Besides that, each rollout is
+totally independent of the others,
+
+223
+00:13:56.780 --> 00:14:01.310
+which should also perform many rollouts
+simultaneously on many CPU [INAUDIBLE].
+
+224
+00:14:01.310 --> 00:14:04.720
+However, the precision of
+the estimates obviously depends
+
+225
+00:14:04.720 --> 00:14:06.710
+on the number of returns average.
+
+226
+00:14:07.980 --> 00:14:11.940
+This is again the instance of
+a time versus aggressive trade-off.
+
+227
+00:14:11.940 --> 00:14:15.830
+Another instance of the same trade-off
+immediately when we use such
+
+228
+00:14:15.830 --> 00:14:19.135
+Monte Carlo estimates for
+action selection.
+
+229
+00:14:19.135 --> 00:14:21.780
+[INAUDIBLE] let us see
+how to select an action,
+
+230
+00:14:21.780 --> 00:14:25.440
+given Monte Carlo estimates of return for
+each action.
+
+231
+00:14:25.440 --> 00:14:28.720
+Probably the most straightforward
+idea is to select an action
+
+232
+00:14:28.720 --> 00:14:32.060
+that maximizes a Monte Carlo
+value estimate.
+
+233
+00:14:32.060 --> 00:14:36.390
+That is, to act [INAUDIBLE] with respect
+to estimates of action value function.
+
+234
+00:14:36.390 --> 00:14:40.880
+Actually, this is not only straightforward
+but also strikingly similar
+
+235
+00:14:40.880 --> 00:14:45.570
+to value iteration step applied to our
+allowed policy and the single state only.
+
+236
+00:14:46.670 --> 00:14:50.240
+This one step improvement only
+coupled with the fact that we don't
+
+237
+00:14:50.240 --> 00:14:55.120
+estimate any optimal action value
+function that is done estimate q*.
+
+238
+00:14:55.120 --> 00:14:58.140
+Results in an important conclusion.
+
+239
+00:14:58.140 --> 00:15:00.920
+If we want our policy
+prime to be optimal or
+
+240
+00:15:00.920 --> 00:15:05.950
+close to optimal, we should make our
+rollout policy as good as we can.
+
+241
+00:15:05.950 --> 00:15:10.420
+That is, we want our rollout policy to
+be only one policy improvement step
+
+242
+00:15:10.420 --> 00:15:11.889
+behind the optimal policy.
+
+243
+00:15:13.370 --> 00:15:15.600
+However, [INAUDIBLE] are not so easy.
+
+244
+00:15:15.600 --> 00:15:18.320
+If rollout policy is good,
+
+245
+00:15:18.320 --> 00:15:22.320
+that may mean it requires much time
+to decide what action to make.
+
+246
+00:15:22.320 --> 00:15:27.290
+And here emerges the second instance
+of the time versus accuracy trade-off.
+
+247
+00:15:27.290 --> 00:15:31.500
+If a policy is a very good one but
+a very slow one,
+
+248
+00:15:31.500 --> 00:15:35.410
+we will not have enough time to
+generate sufficiently many rollouts.
+
+249
+00:15:35.410 --> 00:15:39.910
+This in turn means that during
+one step of value iteration,
+
+250
+00:15:39.910 --> 00:15:44.930
+we will rely on the very noisy
+estimates of action-values.
+
+251
+00:15:44.930 --> 00:15:47.700
+And thus,
+the performance may also degrade.
+
+252
+00:15:48.850 --> 00:15:51.260
+So the disadvantage of such algorithm
+
+253
+00:15:51.260 --> 00:15:55.020
+is that it obviously relies
+on quality of rollout policy.
+
+254
+00:15:55.020 --> 00:15:57.200
+However, and more surprising,
+
+255
+00:15:57.200 --> 00:16:01.910
+such algorithm works really well even
+if the rollout policy is random.
+
+256
+00:16:01.910 --> 00:16:05.640
+Also I would like to know that this
+algorithm does not preserve any
+
+257
+00:16:05.640 --> 00:16:07.900
+estimates between successive states.
+
+258
+00:16:07.900 --> 00:16:10.720
+And this may not be the best thing to do.
+
+259
+00:16:10.720 --> 00:16:14.170
+Additionally, this algorithm does
+not care about uncertainty in its
+
+260
+00:16:14.170 --> 00:16:15.760
+action value estimates.
+
+261
+00:16:15.760 --> 00:16:19.700
+In fact, these two last drawbacks
+are the ones we are going to fix
+
+262
+00:16:19.700 --> 00:16:21.420
+in a couple of slides.
+
+263
+00:16:21.420 --> 00:16:24.760
+But for now, let us briefly summarize
+what we have learned so far.
+
+264
+00:16:25.820 --> 00:16:29.460
+We have talked about planning which
+is the process of obtaining a policy
+
+265
+00:16:29.460 --> 00:16:30.670
+out of the model of the world.
+
+266
+00:16:31.740 --> 00:16:36.390
+We have noted that in planning,
+we have a specific constraint, time.
+
+267
+00:16:36.390 --> 00:16:40.560
+And many algorithms are designed
+to respect this constraint.
+
+268
+00:16:40.560 --> 00:16:43.950
+We have also discussed that
+we may need some sort of
+
+269
+00:16:43.950 --> 00:16:47.140
+heuristic to make planning
+algorithm efficient.
+
+270
+00:16:47.140 --> 00:16:49.940
+This heuristic should measure approximate
+
+271
+00:16:49.940 --> 00:16:54.630
+cost of achieving the planning goal
+from any particular state onward.
+
+272
+00:16:55.672 --> 00:16:57.400
+In the case of reinforcement learning,
+
+273
+00:16:57.400 --> 00:17:02.240
+we have argued that Monte Carlo estimate
+of return may be an intuitive heuristic.
+
+274
+00:17:03.450 --> 00:17:06.930
+And we also can build a policy
+on top of such heuristic.
+
+275
+00:17:06.930 --> 00:17:11.560
+For example, we may act greedily with
+respect to Monte Carlo estimates
+
+276
+00:17:11.560 --> 00:17:14.340
+which will correspond to the one
+step of value iteration.
+
+277
+00:17:15.340 --> 00:17:20.281
+What we have not yet covered is how to
+preserve estimates between successive
+
+278
+00:17:20.281 --> 00:17:24.600
+timestamps, how to deal with
+uncertainty in estimates, and
+
+279
+00:17:24.600 --> 00:17:29.010
+how actually guide the search
+with heuristic in a smart way.
+
+280
+00:17:29.010 --> 00:17:33.173
+Now we are going to discuss this point
+through the example of Monte Carlo tree
+
+281
+00:17:33.173 --> 00:17:34.290
+search algorithm.
+
+282
+00:17:34.290 --> 00:17:44.290
+[MUSIC]

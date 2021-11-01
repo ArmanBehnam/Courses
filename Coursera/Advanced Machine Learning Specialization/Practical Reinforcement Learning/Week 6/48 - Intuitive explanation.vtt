@@ -1,0 +1,525 @@
+WEBVTT
+
+1
+00:00:02.630 --> 00:00:05.520
+For the next few minutes, I want you to get distracted
+
+2
+00:00:05.520 --> 00:00:07.500
+from all those banner ad placements and
+
+3
+00:00:07.500 --> 00:00:09.280
+small channel banners and consider
+
+4
+00:00:09.280 --> 00:00:12.650
+a more intuitive notion of how those exploration strategies work.
+
+5
+00:00:12.650 --> 00:00:14.160
+And as a result,
+
+6
+00:00:14.160 --> 00:00:16.840
+we'll finally find out how Epsilon-Greedy strategy
+
+7
+00:00:16.840 --> 00:00:20.405
+sucks not only at the theoretical level, but also practically.
+
+8
+00:00:20.405 --> 00:00:22.360
+Imagine you are solving this labyrinth,
+
+9
+00:00:22.360 --> 00:00:23.655
+the one on the slide,
+
+10
+00:00:23.655 --> 00:00:25.690
+and your initial state is here,
+
+11
+00:00:25.690 --> 00:00:27.150
+the bottom left corner,
+
+12
+00:00:27.150 --> 00:00:30.510
+while the terminal state at which you get positive reward is at the top right.
+
+13
+00:00:30.510 --> 00:00:33.360
+And let's say you're solving this mathematician process,
+
+14
+00:00:33.360 --> 00:00:35.125
+with discounted reward setting,
+
+15
+00:00:35.125 --> 00:00:37.220
+with gamma equals 0.99.
+
+16
+00:00:37.220 --> 00:00:42.035
+The only transition which actually gives you rewards is exiting this labyrinth.
+
+17
+00:00:42.035 --> 00:00:46.125
+So, getting out from this top right corner,
+
+18
+00:00:46.125 --> 00:00:47.820
+going upwards from the top right corner,
+
+19
+00:00:47.820 --> 00:00:49.675
+gives you a reward, say plus 100.
+
+20
+00:00:49.675 --> 00:00:53.780
+Let's also say that you get minus one if you bump into walls, but for now,
+
+21
+00:00:53.780 --> 00:00:59.545
+let's stick with this single non-zero rewards and all other actions are worth zero.
+
+22
+00:00:59.545 --> 00:01:03.470
+Of course, the optimal action is following the trajectory of
+
+23
+00:01:03.470 --> 00:01:08.135
+shortest path between the bottom left and top right corners,
+
+24
+00:01:08.135 --> 00:01:12.520
+but let's imagine how hard it is to learn this trajectory by trial and error.
+
+25
+00:01:12.520 --> 00:01:14.640
+Imagine you employ Q-learning here,
+
+26
+00:01:14.640 --> 00:01:18.260
+and using an Epsilon-Greedy strategy with any abstraction,
+
+27
+00:01:18.260 --> 00:01:19.505
+say Epsilon of one.
+
+28
+00:01:19.505 --> 00:01:21.440
+So you're always taking a random action,
+
+29
+00:01:21.440 --> 00:01:23.480
+you want to explore as fast as possible,
+
+30
+00:01:23.480 --> 00:01:28.945
+and you expect it to converge to this strategy where it follows optimal path.
+
+31
+00:01:28.945 --> 00:01:32.330
+The question is, how long does it take to learn this?
+
+32
+00:01:32.330 --> 00:01:34.190
+How long does it take to converge to some policy,
+
+33
+00:01:34.190 --> 00:01:37.080
+which gets at least non-zero reward?
+
+34
+00:01:37.130 --> 00:01:39.600
+Yes. Again, too bad.
+
+35
+00:01:39.600 --> 00:01:41.295
+It's a hell of a lot.
+
+36
+00:01:41.295 --> 00:01:42.960
+It's going to be comparatively too large,
+
+37
+00:01:42.960 --> 00:01:44.560
+saying the optimal path is,
+
+38
+00:01:44.560 --> 00:01:47.440
+okay the average path of random walk is going to be like,
+
+39
+00:01:47.440 --> 00:01:50.080
+say from the top of our head,
+
+40
+00:01:50.080 --> 00:01:52.810
+50 steps long and you have four actions.
+
+41
+00:01:52.810 --> 00:01:55.120
+It is going to be roughly four to the power of 50,
+
+42
+00:01:55.120 --> 00:01:57.085
+which is a terrible,
+
+43
+00:01:57.085 --> 00:02:02.570
+terrible, terrible number if you want to actually do this many explorations.
+
+44
+00:02:02.570 --> 00:02:06.150
+And this happens because if you're exploring randomly,
+
+45
+00:02:06.150 --> 00:02:08.450
+you have a high probability of repeating yourself,
+
+46
+00:02:08.450 --> 00:02:10.465
+you have a high probability of going backward,
+
+47
+00:02:10.465 --> 00:02:14.760
+of visiting the same corner twice, thrice and so on.
+
+48
+00:02:14.760 --> 00:02:19.260
+And then if you land on some trajectory that gets you to the end,
+
+49
+00:02:19.260 --> 00:02:22.055
+your Q-learning algorithm will need a lot of
+
+50
+00:02:22.055 --> 00:02:27.040
+repeated experience of getting there to actually run the full Q-function,
+
+51
+00:02:27.040 --> 00:02:29.415
+unless, of course, if you experience your play,
+
+52
+00:02:29.415 --> 00:02:31.290
+which kind of simplifies the problem.
+
+53
+00:02:31.290 --> 00:02:35.340
+But, nevertheless, in this simpler labyrinthine case, Epsilon-Greedy policy,
+
+54
+00:02:35.340 --> 00:02:37.260
+the idea of exploring brings you a lot
+
+55
+00:02:37.260 --> 00:02:39.860
+of repeated exploration that you don't really need.
+
+56
+00:02:39.860 --> 00:02:42.130
+So, you can go right, then go left,
+
+57
+00:02:42.130 --> 00:02:44.650
+then go right again because you just rolled
+
+58
+00:02:44.650 --> 00:02:48.930
+this epsilon again and the random action was right.
+
+59
+00:02:48.930 --> 00:02:50.745
+Now, this is, of course a labyrinth.
+
+60
+00:02:50.745 --> 00:02:53.445
+It has little to do with any practical case.
+
+61
+00:02:53.445 --> 00:02:57.145
+Let's get a little bit more practical, although not entirely.
+
+62
+00:02:57.145 --> 00:02:59.155
+Let's get to some video games in Atari.
+
+63
+00:02:59.155 --> 00:03:02.770
+There's this Atari game called the Montezuma's Revenge.
+
+64
+00:03:02.770 --> 00:03:07.510
+It's known for its tremendous difficulty and unforgiving setup,
+
+65
+00:03:07.510 --> 00:03:10.045
+in which your character, this red guy,
+
+66
+00:03:10.045 --> 00:03:18.415
+has to walk over all those ladders and not get caught by this apparently aimless cow,
+
+67
+00:03:18.415 --> 00:03:21.725
+and get the key and then move it somewhere, whatever.
+
+68
+00:03:21.725 --> 00:03:24.710
+It has to get some huge sequence of actions.
+
+69
+00:03:24.710 --> 00:03:29.005
+And to get reward it has to get all those actions done right.
+
+70
+00:03:29.005 --> 00:03:32.440
+So, it won't get reward even if it goes half the way to the key.
+
+71
+00:03:32.440 --> 00:03:35.875
+It's kind of reasonable. So, what did humans do?
+
+72
+00:03:35.875 --> 00:03:38.910
+Okay, I guess any human, well, A,
+
+73
+00:03:38.910 --> 00:03:42.670
+you're saying humans who have ever held a video game would eventually
+
+74
+00:03:42.670 --> 00:03:47.065
+understand what is it it has to explore and jump to the key right away.
+
+75
+00:03:47.065 --> 00:03:52.420
+But not the DQN or any other algorithm we've been using so far.
+
+76
+00:03:52.420 --> 00:03:59.705
+In fact, the DQN score at this game is exactly zero and this is not that good.
+
+77
+00:03:59.705 --> 00:04:02.545
+Again, it never reached the key at all.
+
+78
+00:04:02.545 --> 00:04:08.960
+This is bad because humans can easily solve it, but machines cannot.
+
+79
+00:04:08.960 --> 00:04:12.100
+This means that we're missing something in our reinforcement learning framework.
+
+80
+00:04:12.100 --> 00:04:15.190
+Well, it turns out there is a lot of more practical things that humans
+
+81
+00:04:15.190 --> 00:04:17.815
+are much better at than reinforcement learning algorithms.
+
+82
+00:04:17.815 --> 00:04:19.420
+For example, you guys,
+
+83
+00:04:19.420 --> 00:04:22.315
+if you are going through this specialization one course a time,
+
+84
+00:04:22.315 --> 00:04:25.915
+you've probably learned about variational autoencoders,
+
+85
+00:04:25.915 --> 00:04:27.970
+in duration of one session,
+
+86
+00:04:27.970 --> 00:04:33.910
+one life and you've learned them into a state where you can actually reproduce them,
+
+87
+00:04:33.910 --> 00:04:35.755
+code them, and make them run, hopefully.
+
+88
+00:04:35.755 --> 00:04:37.059
+Or if not autoencoders,
+
+89
+00:04:37.059 --> 00:04:40.060
+you probably learned to write or read and
+
+90
+00:04:40.060 --> 00:04:43.635
+do all those complex things with only a little experience available.
+
+91
+00:04:43.635 --> 00:04:47.590
+And, of course, you had to explore some stuff to do so.
+
+92
+00:04:47.590 --> 00:04:51.235
+Of course, when you were a child you've probably explored all kinds of stuff,
+
+93
+00:04:51.235 --> 00:04:53.875
+but at this point of time you still do some exploration.
+
+94
+00:04:53.875 --> 00:04:56.560
+For example, you've decided to take on this course,
+
+95
+00:04:56.560 --> 00:05:00.610
+which means that you're willing to explore the new kind of math.
+
+96
+00:05:00.610 --> 00:05:04.590
+Basically, let's imagine that you were Q-learning algorithm.
+
+97
+00:05:04.590 --> 00:05:07.820
+In order to learn variational autoencoders,
+
+98
+00:05:07.820 --> 00:05:10.805
+in order to learn how to write the paper about variational autoencoders,
+
+99
+00:05:10.805 --> 00:05:13.805
+you had to generate, okay,
+
+100
+00:05:13.805 --> 00:05:20.995
+some B whatever is in random sequences of numbers with Epsilon-Greedy policy,
+
+101
+00:05:20.995 --> 00:05:23.540
+until one of them just happened to be the exact text of
+
+102
+00:05:23.540 --> 00:05:27.365
+the variational autoencoder code or paper or whatever.
+
+103
+00:05:27.365 --> 00:05:30.785
+Which is not the way you want to learn it.
+
+104
+00:05:30.785 --> 00:05:33.400
+The trick here is that, unlike Q-learning,
+
+105
+00:05:33.400 --> 00:05:35.410
+unlike any other algorithm we've learned,
+
+106
+00:05:35.410 --> 00:05:38.305
+that humans don't explore with Epsilon-Greedy policy.
+
+107
+00:05:38.305 --> 00:05:41.580
+Neither the explorer with Boltzmann or anything.
+
+108
+00:05:41.580 --> 00:05:43.690
+We don't have those heuristics doing them.
+
+109
+00:05:43.690 --> 00:05:45.035
+They have some other heuristics.
+
+110
+00:05:45.035 --> 00:05:47.020
+Let us see how humans explore.
+
+111
+00:05:47.020 --> 00:05:50.250
+Maybe you're an Epsilon-Greedy human, I guess,
+
+112
+00:05:50.250 --> 00:05:53.920
+a human that has decided to explore and has two perspective options
+
+113
+00:05:53.920 --> 00:05:58.600
+to improve its knowledge about physics and get some cool stuff done in this area.
+
+114
+00:05:58.600 --> 00:05:59.740
+You have two options.
+
+115
+00:05:59.740 --> 00:06:04.360
+The first one is, you've just read that the day before yesterday
+
+116
+00:06:04.360 --> 00:06:07.630
+some cool physicists have announced that there's some new particle and
+
+117
+00:06:07.630 --> 00:06:10.975
+they'll run on their Large Hadron Collider and no one knows anything about it.
+
+118
+00:06:10.975 --> 00:06:13.420
+So, it's a complete black box for now.
+
+119
+00:06:13.420 --> 00:06:14.770
+They don't even know how it appears,
+
+120
+00:06:14.770 --> 00:06:16.820
+but they have it in the data.
+
+121
+00:06:16.820 --> 00:06:20.170
+Alternatively, you could try to solve another problem.
+
+122
+00:06:20.170 --> 00:06:25.225
+The problem is whether you can make yourself fly if you pull your hair up real strong.
+
+123
+00:06:25.225 --> 00:06:29.695
+So, that's still technically somewhat related to physics.
+
+124
+00:06:29.695 --> 00:06:32.190
+Which of those are you going to prefer if you had,
+
+125
+00:06:32.190 --> 00:06:35.480
+say, a year free for exploration.
+
+126
+00:06:35.480 --> 00:06:37.635
+Hopefully, the first one, of course.
+
+127
+00:06:37.635 --> 00:06:39.990
+Thing is, humans are not Epsilon-Greedy
+
+128
+00:06:39.990 --> 00:06:43.420
+and they are not indifferent to what they explore.
+
+129
+00:06:43.420 --> 00:06:46.340
+In this case, you can get a lot of, well,
+
+130
+00:06:46.340 --> 00:06:49.715
+there's a lot of different explanations on why you would pick the first one,
+
+131
+00:06:49.715 --> 00:06:52.530
+and we're only going to cover some of them.

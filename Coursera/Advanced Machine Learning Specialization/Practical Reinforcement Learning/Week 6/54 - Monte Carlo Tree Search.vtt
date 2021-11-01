@@ -1,0 +1,673 @@
+WEBVTT
+
+1
+00:00:03.230 --> 00:00:07.940
+At a glance, Monte Carlo Tree Search is nothing but a family of
+
+2
+00:00:07.940 --> 00:00:10.310
+decision-time planning algorithms which may
+
+3
+00:00:10.310 --> 00:00:13.300
+be viewed as distant relatives of heuristic search.
+
+4
+00:00:13.300 --> 00:00:15.770
+Note that Monte Carlo tree search is
+
+5
+00:00:15.770 --> 00:00:20.045
+a planning algorithm and it requires a fair amount of computation time.
+
+6
+00:00:20.045 --> 00:00:24.720
+In particular, algorithm of Monte Carlo tree search family heavily
+
+7
+00:00:24.720 --> 00:00:29.750
+relies on Monte Carlo rollout estimates of action or action-value function.
+
+8
+00:00:29.750 --> 00:00:33.940
+But usually, these algorithms do not throw such estimates away
+
+9
+00:00:33.940 --> 00:00:39.115
+after an action is made but preserve some of the estimates from state to state.
+
+10
+00:00:39.115 --> 00:00:44.275
+This slightly reduces the computation time needed for the algorithm to work well.
+
+11
+00:00:44.275 --> 00:00:46.350
+The main difference compared to
+
+12
+00:00:46.350 --> 00:00:49.740
+the previously discussed naive version of planning with Monte Carlo
+
+13
+00:00:49.740 --> 00:00:55.905
+estimates is presence of two policies: the Tree policy and the Rollout policy.
+
+14
+00:00:55.905 --> 00:01:00.645
+The latter is already familiar to us and in practice,
+
+15
+00:01:00.645 --> 00:01:03.910
+it should be as good and as fast as possible.
+
+16
+00:01:03.910 --> 00:01:07.540
+The former however, is yet unfamiliar to us.
+
+17
+00:01:07.540 --> 00:01:11.400
+The tree policy is a policy which actually determines
+
+18
+00:01:11.400 --> 00:01:15.925
+the direction of the search while respecting uncertainty of the estimates.
+
+19
+00:01:15.925 --> 00:01:18.270
+Let us now discover the main structure of
+
+20
+00:01:18.270 --> 00:01:23.860
+the Monte Carlo tree search algorithms and then discuss the details of the UCT algorithm,
+
+21
+00:01:23.860 --> 00:01:28.260
+the most popular representative of the Monte Carlo tree search family.
+
+22
+00:01:28.260 --> 00:01:30.080
+Monte Carlo tree search,
+
+23
+00:01:30.080 --> 00:01:32.915
+like the naive algorithm we have discussed previously,
+
+24
+00:01:32.915 --> 00:01:36.860
+uses Monte Carlo rollout to estimate the action values.
+
+25
+00:01:36.860 --> 00:01:40.290
+However, unlike the previously discussed alternatives,
+
+26
+00:01:40.290 --> 00:01:44.440
+Monte Carlo Tree search algorithms additionally build a tree.
+
+27
+00:01:44.440 --> 00:01:48.070
+This tree consists of the initial segments,
+
+28
+00:01:48.070 --> 00:01:53.430
+states and actions of trajectories that have obtained higher return previously.
+
+29
+00:01:53.430 --> 00:01:57.700
+In some sense, these beginnings of trajectories are the most interesting to
+
+30
+00:01:57.700 --> 00:02:02.980
+us because they are most likely to lead us to the best possible trajectory.
+
+31
+00:02:02.980 --> 00:02:06.720
+We will discuss how to build such a tree in a while.
+
+32
+00:02:06.720 --> 00:02:12.095
+For now, let's discuss the main scheme of Monte Carlo tree search algorithm.
+
+33
+00:02:12.095 --> 00:02:15.110
+Please look at the diagram on the slide.
+
+34
+00:02:15.110 --> 00:02:19.645
+On this diagram, empty circles represent states,
+
+35
+00:02:19.645 --> 00:02:22.740
+and the filled circles correspond to actions.
+
+36
+00:02:22.740 --> 00:02:25.500
+Typical Monte Carlo tree search algorithm can be
+
+37
+00:02:25.500 --> 00:02:28.450
+divided into four main phases: selection,
+
+38
+00:02:28.450 --> 00:02:31.565
+expansion, simulation and backup.
+
+39
+00:02:31.565 --> 00:02:33.560
+To produce meaningful decisions,
+
+40
+00:02:33.560 --> 00:02:37.800
+these phases should be repeated as many times as it is possible,
+
+41
+00:02:37.800 --> 00:02:40.580
+and when the time runs out,
+
+42
+00:02:40.580 --> 00:02:44.675
+algorithm is stopped and the best action for current state,
+
+43
+00:02:44.675 --> 00:02:47.380
+that is the root of the tree, is selected.
+
+44
+00:02:47.380 --> 00:02:51.460
+All of these phases describe how a single rollout is performed.
+
+45
+00:02:51.460 --> 00:02:53.815
+At first, during the selection phase,
+
+46
+00:02:53.815 --> 00:02:56.245
+the rollout starts from the root of the tree,
+
+47
+00:02:56.245 --> 00:02:57.625
+that is current status,
+
+48
+00:02:57.625 --> 00:03:02.190
+and sends down the tree selecting actions according to the tree policy.
+
+49
+00:03:02.190 --> 00:03:04.895
+Once such rollout enters the leaf of the tree,
+
+50
+00:03:04.895 --> 00:03:06.865
+the expansion phase is launched.
+
+51
+00:03:06.865 --> 00:03:08.695
+During the expansion phase,
+
+52
+00:03:08.695 --> 00:03:11.770
+a new node or nodes which are directly adjacent
+
+53
+00:03:11.770 --> 00:03:15.175
+to the current leaf node are added to the tree.
+
+54
+00:03:15.175 --> 00:03:18.920
+For example, a new node maybe the new state
+
+55
+00:03:18.920 --> 00:03:22.825
+an agent find itself in after making an action in the leaf state.
+
+56
+00:03:22.825 --> 00:03:25.980
+More typically however, the new state is
+
+57
+00:03:25.980 --> 00:03:29.740
+added to the tree with all actions available in that state.
+
+58
+00:03:29.740 --> 00:03:32.820
+Then when the simulation exits the tree,
+
+59
+00:03:32.820 --> 00:03:34.755
+the rollout policy takes control.
+
+60
+00:03:34.755 --> 00:03:38.860
+All the subsequent actions till the very end of the episode are made
+
+61
+00:03:38.860 --> 00:03:43.380
+according to rollout policy which may be completely random, for example.
+
+62
+00:03:43.380 --> 00:03:45.120
+When the episode is over,
+
+63
+00:03:45.120 --> 00:03:47.635
+the return on the rollout become available.
+
+64
+00:03:47.635 --> 00:03:51.220
+And this return should be propagated back to each of
+
+65
+00:03:51.220 --> 00:03:55.550
+the state action pairs that were visited by the current rollout.
+
+66
+00:03:55.550 --> 00:04:00.490
+This big propagation is performed by simply storing in each such state action node,
+
+67
+00:04:00.490 --> 00:04:05.470
+the cumulative discounted return from that node till the end of the episode.
+
+68
+00:04:05.470 --> 00:04:09.050
+Well, the last two phases should be already familiar to you,
+
+69
+00:04:09.050 --> 00:04:11.395
+but several things are still unclear.
+
+70
+00:04:11.395 --> 00:04:13.970
+First and most importantly,
+
+71
+00:04:13.970 --> 00:04:17.010
+what does the tree policy look like?
+
+72
+00:04:17.010 --> 00:04:21.520
+Second, what are the strategies of choosing the action once the time is up?
+
+73
+00:04:21.520 --> 00:04:24.070
+Well, because a Monte Carlo tree search is not
+
+74
+00:04:24.070 --> 00:04:26.470
+a single algorithm but a family of algorithms,
+
+75
+00:04:26.470 --> 00:04:29.775
+there are plenty of different choices of the tree policy.
+
+76
+00:04:29.775 --> 00:04:33.090
+However, we are going to cover only one choice,
+
+77
+00:04:33.090 --> 00:04:35.985
+mostly because it's effectiveness and popularity.
+
+78
+00:04:35.985 --> 00:04:40.565
+The Upper Confidence Bounds for Trees, abbreviated as UCT.
+
+79
+00:04:40.565 --> 00:04:45.150
+What should the tree policy do is to balance between exploitation, that is,
+
+80
+00:04:45.150 --> 00:04:49.320
+concentration on the directions of the search that seems most profitable,
+
+81
+00:04:49.320 --> 00:04:50.735
+and on the other hand,
+
+82
+00:04:50.735 --> 00:04:54.070
+it should also explore mostly because of the uncertainty
+
+83
+00:04:54.070 --> 00:04:57.540
+in current estimates and because of the large search space.
+
+84
+00:04:57.540 --> 00:05:00.540
+Indeed, there are multiple sources of uncertainty in
+
+85
+00:05:00.540 --> 00:05:04.085
+our estimates such as stochasticity in the environment,
+
+86
+00:05:04.085 --> 00:05:06.320
+finite sample estimate of the return,
+
+87
+00:05:06.320 --> 00:05:09.685
+and random action choice of the rollout policy.
+
+88
+00:05:09.685 --> 00:05:13.755
+The effective balance between exploration and exploitation,
+
+89
+00:05:13.755 --> 00:05:17.415
+there are a lot of approaches but the most simple one is to treat
+
+90
+00:05:17.415 --> 00:05:21.745
+each action selection as an independent multi-armed bandit problem.
+
+91
+00:05:21.745 --> 00:05:25.095
+This problem could be solved with many techniques.
+
+92
+00:05:25.095 --> 00:05:29.535
+For example, with upper confidence bound algorithm known as UCB.
+
+93
+00:05:29.535 --> 00:05:31.860
+The application of the UCB algorithm as
+
+94
+00:05:31.860 --> 00:05:35.995
+a tree policy is in fact what is called UCT algorithm.
+
+95
+00:05:35.995 --> 00:05:40.075
+So, the tree policy in the UCT algorithm is defined as
+
+96
+00:05:40.075 --> 00:05:44.810
+argmax over all actions of the expression with two agents.
+
+97
+00:05:44.810 --> 00:05:48.885
+First agent is an approximate action-value function which is defined
+
+98
+00:05:48.885 --> 00:05:52.865
+as an average Monte Carlo return gained by the simulation after making
+
+99
+00:05:52.865 --> 00:05:56.725
+action a in state s. This first term promotes
+
+100
+00:05:56.725 --> 00:05:59.230
+exploitation because it favors
+
+101
+00:05:59.230 --> 00:06:03.380
+actions which were previously shown to lead to large action value.
+
+102
+00:06:03.380 --> 00:06:08.200
+The second agent is the one that encourage exploration.
+
+103
+00:06:08.200 --> 00:06:14.050
+Let's see why the N of s in the numerator is the total number of simulations that
+
+104
+00:06:14.050 --> 00:06:19.955
+previously have visited the state s. The N of s and a in the denominator,
+
+105
+00:06:19.955 --> 00:06:23.840
+is a total number of simulations that have made action a in
+
+106
+00:06:23.840 --> 00:06:28.540
+state s. When the action a is made in the state s,
+
+107
+00:06:28.540 --> 00:06:31.540
+then the denominator increases,
+
+108
+00:06:31.540 --> 00:06:36.670
+and it increases faster than the numerator because of the logarithm.
+
+109
+00:06:36.670 --> 00:06:39.525
+That effectively decreases the contribution
+
+110
+00:06:39.525 --> 00:06:42.275
+of the whole exploration term for this action.
+
+111
+00:06:42.275 --> 00:06:47.450
+On the other hand, incrementing N of s and a after making action a in
+
+112
+00:06:47.450 --> 00:06:53.240
+state s effectively increases the exploration values of all other actions in that state.
+
+113
+00:06:53.240 --> 00:06:58.370
+That is so because N of s increases every time an agent finds itself in
+
+114
+00:06:58.370 --> 00:07:05.295
+state s. But N of s and a increases only for the action that was committed.
+
+115
+00:07:05.295 --> 00:07:10.540
+This exploration exploitation balance has not only good theoretical properties,
+
+116
+00:07:10.540 --> 00:07:15.280
+but it is also very simple to implement and has proven to be very effective in practice.
+
+117
+00:07:15.280 --> 00:07:18.905
+Please note that the constant C in front of a second term,
+
+118
+00:07:18.905 --> 00:07:21.235
+can be used to increase or decrease
+
+119
+00:07:21.235 --> 00:07:24.460
+the overall amount of exploration made by the tree policy.
+
+120
+00:07:24.460 --> 00:07:31.795
+Also, note that exploration term ensure that each action is chosen at least once.
+
+121
+00:07:31.795 --> 00:07:35.050
+That is so because either N of s and a is zero,
+
+122
+00:07:35.050 --> 00:07:37.185
+the second term will be infinite.
+
+123
+00:07:37.185 --> 00:07:41.080
+The last but certainly not the least topic we need to discuss about
+
+124
+00:07:41.080 --> 00:07:43.990
+Monte Carlo tree search is how to actually select
+
+125
+00:07:43.990 --> 00:07:47.340
+an action when planning is finished or interrupted.
+
+126
+00:07:47.340 --> 00:07:50.640
+Remember, an agent stands in the root of the tree build by
+
+127
+00:07:50.640 --> 00:07:54.445
+the Monte Carlo tree search and need to choose an action from that state.
+
+128
+00:07:54.445 --> 00:07:57.070
+In fact, there are many possible strategies to select
+
+129
+00:07:57.070 --> 00:08:00.165
+such action while making use of the planning result.
+
+130
+00:08:00.165 --> 00:08:02.710
+The most straightforward one is to select
+
+131
+00:08:02.710 --> 00:08:06.115
+the action which has the biggest estimate of action-value function.
+
+132
+00:08:06.115 --> 00:08:08.475
+Despite simple and usually effective,
+
+133
+00:08:08.475 --> 00:08:10.670
+this may not be the best strategy.
+
+134
+00:08:10.670 --> 00:08:13.555
+One case when it fails is the case of
+
+135
+00:08:13.555 --> 00:08:18.670
+very rare but also very large returns, outlier returns.
+
+136
+00:08:18.670 --> 00:08:22.300
+If such returns are possible in your environment,
+
+137
+00:08:22.300 --> 00:08:28.510
+you may benefit more from the robust strategy of selecting the most visited action,
+
+138
+00:08:28.510 --> 00:08:32.470
+that is, the one which has the greatest N of s and a.
+
+139
+00:08:32.470 --> 00:08:35.230
+You may also want to continue planning until
+
+140
+00:08:35.230 --> 00:08:38.275
+the first two strategies will select the same action.
+
+141
+00:08:38.275 --> 00:08:41.520
+This approach is called Max-robust strategy
+
+142
+00:08:41.520 --> 00:08:45.270
+and was shown to be particularly effective for the game of go.
+
+143
+00:08:45.270 --> 00:08:49.355
+Another strategy is called the Secure strategy.
+
+144
+00:08:49.355 --> 00:08:54.600
+It is about choosing the action that maximizes the lower confidence bound.
+
+145
+00:08:54.600 --> 00:08:57.790
+More specifically, that is,
+
+146
+00:08:57.790 --> 00:09:01.370
+maximizes the same expression as the tree policy but
+
+147
+00:09:01.370 --> 00:09:06.185
+changing the plus sign to the minus in front of the second agent.
+
+148
+00:09:06.185 --> 00:09:09.070
+That maybe the way to go if you are solving
+
+149
+00:09:09.070 --> 00:09:12.745
+a real life task with some expensive robot as an agent.
+
+150
+00:09:12.745 --> 00:09:18.220
+In that case, you may want to sacrifice some amount of reward favoring safe trajectories,
+
+151
+00:09:18.220 --> 00:09:23.060
+that is, the ones that will definitely not match an expensive robot.
+
+152
+00:09:23.060 --> 00:09:28.600
+Well, now let me conclude with what are the properties of Monte Carlo tree search.
+
+153
+00:09:28.600 --> 00:09:32.335
+Monte Carlo tree search is context independent,
+
+154
+00:09:32.335 --> 00:09:36.380
+that is, it does not require any hand designed heuristics.
+
+155
+00:09:36.380 --> 00:09:40.590
+It performs an asymmetric search which means that it allows us
+
+156
+00:09:40.590 --> 00:09:45.045
+to focus computations on the most promising directions of the search.
+
+157
+00:09:45.045 --> 00:09:49.040
+Monte Carlo tree search is also what called anytime algorithm.
+
+158
+00:09:49.040 --> 00:09:52.455
+That mean that you can stop the algorithm at
+
+159
+00:09:52.455 --> 00:09:57.225
+any single moment and it will output the best decision it has found so far.
+
+160
+00:09:57.225 --> 00:10:00.390
+Another benefit of Monte Carlo tree search is that it
+
+161
+00:10:00.390 --> 00:10:03.475
+saves a lot of computation time because it preserves
+
+162
+00:10:03.475 --> 00:10:06.490
+all the estimates of the sub tree in which
+
+163
+00:10:06.490 --> 00:10:10.275
+root an agent found itself in after committing an action.
+
+164
+00:10:10.275 --> 00:10:13.815
+It is also incredibly simple and easy to implement.
+
+165
+00:10:13.815 --> 00:10:17.670
+However, its performance depends on the quality of the rollout policy.
+
+166
+00:10:17.670 --> 00:10:21.285
+And also Monte Carlo tree search may be very computationally intensive.
+
+167
+00:10:21.285 --> 00:10:23.730
+Now is the last. Monte Carlo tree search is
+
+168
+00:10:23.730 --> 00:10:27.310
+a great algorithm which is very important to know about.
