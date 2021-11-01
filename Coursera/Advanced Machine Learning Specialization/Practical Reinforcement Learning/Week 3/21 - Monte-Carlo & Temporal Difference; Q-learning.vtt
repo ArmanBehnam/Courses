@@ -1,0 +1,669 @@
+WEBVTT
+
+1
+00:00:02.990 --> 00:00:07.775
+Let's now focus on how to use this ideas to actually learn the core function.
+
+2
+00:00:07.775 --> 00:00:09.850
+You can only now have access to trajectories and
+
+3
+00:00:09.850 --> 00:00:12.950
+not the whole set of possible states and action transitions.
+
+4
+00:00:12.950 --> 00:00:16.110
+Now, the most obvious but not the only approach you can try,
+
+5
+00:00:16.110 --> 00:00:18.340
+is you can sample the trajectories,
+
+6
+00:00:18.340 --> 00:00:22.050
+and then average over all the trajectories concerning a particular state.
+
+7
+00:00:22.050 --> 00:00:23.910
+So sampling breakouts.
+
+8
+00:00:23.910 --> 00:00:25.450
+And in this case,
+
+9
+00:00:25.450 --> 00:00:29.860
+let's say you've managed to sample a million sessions.
+
+10
+00:00:29.860 --> 00:00:33.290
+And of these million sessions you get 10 sessions where you are in
+
+11
+00:00:33.290 --> 00:00:37.000
+a stage where you're on the right and the ball comes from the left,
+
+12
+00:00:37.000 --> 00:00:39.560
+and see for that part of the brick wall is
+
+13
+00:00:39.560 --> 00:00:42.905
+destroyed and all those just keepers of the state match.
+
+14
+00:00:42.905 --> 00:00:46.860
+One of those states you might be lucky and you'd be able to bounce the ball off,
+
+15
+00:00:46.860 --> 00:00:50.200
+and hits two bricks before it bounces back.
+
+16
+00:00:50.200 --> 00:00:54.255
+Now, in another thing you might be less lucky you've probably missed the ball.
+
+17
+00:00:54.255 --> 00:00:57.340
+Sometimes you do because your age might be not perfect.
+
+18
+00:00:57.340 --> 00:01:02.180
+And you've probably lost a life and your average return for this session was lower.
+
+19
+00:01:02.180 --> 00:01:06.230
+You might have already gotten to the stage where you are super lucky and
+
+20
+00:01:06.230 --> 00:01:07.740
+you're able to boss the ball
+
+21
+00:01:07.740 --> 00:01:10.490
+behind the brick wall which gets you a lot of points and breakouts.
+
+22
+00:01:10.490 --> 00:01:12.530
+So if you're not familiar with rules of breakout,
+
+23
+00:01:12.530 --> 00:01:14.955
+just believe that there are many possible outcomes.
+
+24
+00:01:14.955 --> 00:01:19.010
+The idea is that for this particular state you have to average over those outcomes to get
+
+25
+00:01:19.010 --> 00:01:20.760
+an estimate out of this expectation of
+
+26
+00:01:20.760 --> 00:01:23.900
+possible outcomes that you get in the dynamic program formula.
+
+27
+00:01:23.900 --> 00:01:26.035
+Now, the niche here is that,
+
+28
+00:01:26.035 --> 00:01:28.010
+it does work technically.
+
+29
+00:01:28.010 --> 00:01:30.240
+The statistics say it isn't the best estimate and
+
+30
+00:01:30.240 --> 00:01:32.855
+it will converge provided you give a lot of samples,
+
+31
+00:01:32.855 --> 00:01:35.905
+but this amount of samples in practice might be unrealistic.
+
+32
+00:01:35.905 --> 00:01:38.860
+So while I have probably said in this example,
+
+33
+00:01:38.860 --> 00:01:40.155
+you take a million samples,
+
+34
+00:01:40.155 --> 00:01:43.020
+and out of a million samples that might be just 10 where you've ended up in
+
+35
+00:01:43.020 --> 00:01:44.750
+this particular state with this particular ornament of
+
+36
+00:01:44.750 --> 00:01:47.055
+bricks and your position and the ball position,
+
+37
+00:01:47.055 --> 00:01:50.580
+otherwise they are all just a little bit but they are different states nevertheless.
+
+38
+00:01:50.580 --> 00:01:54.560
+So again, if you're having a simple problem where you have not
+
+39
+00:01:54.560 --> 00:01:59.325
+that many states where there are some special exotic case that you can exploit this idea.
+
+40
+00:01:59.325 --> 00:02:01.995
+And if you are more or less,
+
+41
+00:02:01.995 --> 00:02:03.140
+basically if you know what you're doing,
+
+42
+00:02:03.140 --> 00:02:04.625
+you can apply this idea.
+
+43
+00:02:04.625 --> 00:02:06.865
+You can simply sample it out of times and average,
+
+44
+00:02:06.865 --> 00:02:10.990
+but we're actually going to find out that there is a better way,
+
+45
+00:02:10.990 --> 00:02:13.720
+a better way in terms of how it converts and more spectral problems.
+
+46
+00:02:13.720 --> 00:02:18.045
+So here it goes. Secondly is called the temporal difference.
+
+47
+00:02:18.045 --> 00:02:21.710
+The idea is that it's going to exploit the recurrent formula for Q values.
+
+48
+00:02:21.710 --> 00:02:27.400
+Have the Q value, and this left-hand side is what you currently know about the Q value,
+
+49
+00:02:27.400 --> 00:02:30.820
+while the right-hand side with the expectation of all the possible states again,
+
+50
+00:02:30.820 --> 00:02:33.230
+is the kind of free finds direction of Q value that you
+
+51
+00:02:33.230 --> 00:02:35.400
+would have used in your iteration,
+
+52
+00:02:35.400 --> 00:02:37.305
+in your dynamic program based methods.
+
+53
+00:02:37.305 --> 00:02:40.205
+What you can do is you can use this idea to
+
+54
+00:02:40.205 --> 00:02:43.345
+use your current estimate of the Q value on the right-hand side,
+
+55
+00:02:43.345 --> 00:02:45.135
+the maximum over those Q values,
+
+56
+00:02:45.135 --> 00:02:47.850
+to refine the Q value at a different stage.
+
+57
+00:02:47.850 --> 00:02:50.230
+And to do so, you only need
+
+58
+00:02:50.230 --> 00:02:54.470
+a state action or a reward at the next state. That's how this goes.
+
+59
+00:02:54.470 --> 00:02:55.835
+If the thing is clear let's
+
+60
+00:02:55.835 --> 00:02:59.225
+actually highlight some of the details that are hidden in the formula.
+
+61
+00:02:59.225 --> 00:03:01.340
+So you have this optimization term here,
+
+62
+00:03:01.340 --> 00:03:03.990
+you've probably noticed that this notation for Q Star,
+
+63
+00:03:03.990 --> 00:03:06.660
+or the action value for the optimal policy.
+
+64
+00:03:06.660 --> 00:03:10.110
+Since the optimal policy would take the action with highest Q value,
+
+65
+00:03:10.110 --> 00:03:12.675
+you would kind of replace the value
+
+66
+00:03:12.675 --> 00:03:15.435
+of the next state with maximization of all possible actions.
+
+67
+00:03:15.435 --> 00:03:18.175
+And then you'd obtain their current formula for your Q star.
+
+68
+00:03:18.175 --> 00:03:21.040
+That's more or less like copy paste from the previous week.
+
+69
+00:03:21.040 --> 00:03:25.275
+So another problem with this formula is you may have noticed this expectation here.
+
+70
+00:03:25.275 --> 00:03:28.635
+Basically it requires you to expect over the outcomes and so on.
+
+71
+00:03:28.635 --> 00:03:30.600
+In this case again,
+
+72
+00:03:30.600 --> 00:03:32.080
+we cannot compute it explicitly.
+
+73
+00:03:32.080 --> 00:03:35.315
+So, we have to do some other trick instead.
+
+74
+00:03:35.315 --> 00:03:38.995
+Which one? As usual,
+
+75
+00:03:38.995 --> 00:03:44.135
+the only way we can so far get away with something we can compute explicitly,
+
+76
+00:03:44.135 --> 00:03:46.145
+if it's an expectation we approximate it.
+
+77
+00:03:46.145 --> 00:03:47.410
+We approximate it by sampling.
+
+78
+00:03:47.410 --> 00:03:50.140
+In this case we can take C5 samples,
+
+79
+00:03:50.140 --> 00:03:52.920
+or its trajectories it may be the only option we
+
+80
+00:03:52.920 --> 00:03:56.235
+have to take one sample because there's no going back.
+
+81
+00:03:56.235 --> 00:03:58.135
+And we take this one sample from
+
+82
+00:03:58.135 --> 00:04:02.535
+our environment by blending in the action and seeing what happens,
+
+83
+00:04:02.535 --> 00:04:06.385
+to somehow estimate this expectation.
+
+84
+00:04:06.385 --> 00:04:09.860
+But we cannot use it as an actual Q value because it's so noisier.
+
+85
+00:04:09.860 --> 00:04:11.950
+The other important trick we can use here
+
+86
+00:04:11.950 --> 00:04:14.560
+is the so-called exponentially weighted moving average.
+
+87
+00:04:14.560 --> 00:04:16.645
+The basic formula is like this,
+
+88
+00:04:16.645 --> 00:04:24.030
+instead of this Q function by this noisy but unbiased value entirely.
+
+89
+00:04:24.030 --> 00:04:26.930
+So instead of assigning this noisy value to the Q function,
+
+90
+00:04:26.930 --> 00:04:30.300
+and forgetting everything there was before we updated the Q function.
+
+91
+00:04:30.300 --> 00:04:32.635
+You can use this smoother version of the update.
+
+92
+00:04:32.635 --> 00:04:35.120
+So take your updated noisier version,
+
+93
+00:04:35.120 --> 00:04:38.120
+this is the left part of the right-hand side.
+
+94
+00:04:38.120 --> 00:04:39.800
+Sorry for the description. And you
+
+95
+00:04:39.800 --> 00:04:42.330
+multiplied by say point one, this is the value of alpha.
+
+96
+00:04:42.330 --> 00:04:45.840
+So you take point one of your new noisier estimate,
+
+97
+00:04:45.840 --> 00:04:50.975
+and point nine one minus point one times the previous estimation you got.
+
+98
+00:04:50.975 --> 00:04:54.120
+So initially it will be a point one times your new estimate
+
+99
+00:04:54.120 --> 00:04:57.830
+plus point nine times zero because you start with zeroes.
+
+100
+00:04:57.830 --> 00:05:00.145
+Once you've got sum of the new estimate of Q function,
+
+101
+00:05:00.145 --> 00:05:04.375
+this moving average equal will prevent you from being noisy.
+
+102
+00:05:04.375 --> 00:05:07.060
+It will allow you to gradually converge to
+
+103
+00:05:07.060 --> 00:05:10.020
+the average because every time you take one sample,
+
+104
+00:05:10.020 --> 00:05:13.710
+you trust it on a little bit and you kind of average over time.
+
+105
+00:05:13.710 --> 00:05:20.490
+So, this is how you basically solve the problem of only one choice, only one trajectory.
+
+106
+00:05:20.490 --> 00:05:22.350
+So now you have this other form step by
+
+107
+00:05:22.350 --> 00:05:24.550
+step to give you a better idea how to implement it.
+
+108
+00:05:24.550 --> 00:05:27.050
+And spoiler alert, the implementation is part of your homework,
+
+109
+00:05:27.050 --> 00:05:28.635
+so please least your attention there.
+
+110
+00:05:28.635 --> 00:05:33.475
+What you require here is as usual have this trajectory of state action reward,
+
+111
+00:05:33.475 --> 00:05:35.015
+next state, next section so on.
+
+112
+00:05:35.015 --> 00:05:36.900
+And to train via Q learning to perform
+
+113
+00:05:36.900 --> 00:05:40.965
+one elementary update you only need a small section of the trajectory.
+
+114
+00:05:40.965 --> 00:05:43.805
+Then you need a state, an action,
+
+115
+00:05:43.805 --> 00:05:46.965
+a reward for this action the state immediate reward,
+
+116
+00:05:46.965 --> 00:05:50.035
+and the next state sampled from the decision process.
+
+117
+00:05:50.035 --> 00:05:53.265
+So these are in the s, a, r, s prime,
+
+118
+00:05:53.265 --> 00:05:58.060
+and to utilize them you simply block them into the formula we've just obtained.
+
+119
+00:05:58.060 --> 00:06:01.290
+So, first we need to obtain the value of the next state.
+
+120
+00:06:01.290 --> 00:06:04.910
+We want to find the Q value of next state part of the formula.
+
+121
+00:06:04.910 --> 00:06:07.105
+To do so, we have this next state,
+
+122
+00:06:07.105 --> 00:06:10.170
+we would probably know the set of all possible actions available because
+
+123
+00:06:10.170 --> 00:06:13.585
+that's how the set is usually a constant that we know it in advance.
+
+124
+00:06:13.585 --> 00:06:17.790
+What you do is you take all the known actions,
+
+125
+00:06:17.790 --> 00:06:19.965
+and we can put the Q value of those actions.
+
+126
+00:06:19.965 --> 00:06:22.020
+Since we trying to compute the Q star,
+
+127
+00:06:22.020 --> 00:06:23.900
+what we do is we take the maximum here.
+
+128
+00:06:23.900 --> 00:06:26.960
+So basically we take Q of s prime a1,
+
+129
+00:06:26.960 --> 00:06:30.085
+s prime a2, s prime a0 all the available actions.
+
+130
+00:06:30.085 --> 00:06:31.730
+And then we maximize.
+
+131
+00:06:31.730 --> 00:06:34.140
+This is basically the v star of the s
+
+132
+00:06:34.140 --> 00:06:37.255
+prime if you wish the mathematical way of saying it.
+
+133
+00:06:37.255 --> 00:06:39.570
+Now you multiply this by gamma,
+
+134
+00:06:39.570 --> 00:06:41.710
+because that's how these counter trays works ,
+
+135
+00:06:41.710 --> 00:06:43.415
+and you add the immediate reward.
+
+136
+00:06:43.415 --> 00:06:45.320
+This way you obtain one sample from
+
+137
+00:06:45.320 --> 00:06:48.545
+this expectation that was a part of our original formula.
+
+138
+00:06:48.545 --> 00:06:54.255
+Now you can update your Q function by getting a little nearer to this new sample,
+
+139
+00:06:54.255 --> 00:06:56.295
+via the exponentially with the moving average,
+
+140
+00:06:56.295 --> 00:06:58.405
+using the plug in the formula as usual.
+
+141
+00:06:58.405 --> 00:07:05.165
+So you have this reward plus gamma times the maximum over Q values for the next state,
+
+142
+00:07:05.165 --> 00:07:07.925
+and then you multiply it by say point one,
+
+143
+00:07:07.925 --> 00:07:12.905
+and after that you take your previous guess and multiply it by one minus point one,
+
+144
+00:07:12.905 --> 00:07:16.320
+point nine, add those things up and that's your new estimate of your Q function.
+
+145
+00:07:16.320 --> 00:07:19.380
+This algorithm has a number of super interesting consequences.
+
+146
+00:07:19.380 --> 00:07:23.810
+First, this session from partial experience from only this tuple of s,
+
+147
+00:07:23.810 --> 00:07:28.570
+a error spring, you can train your algorithm even before you've ended the first session.
+
+148
+00:07:28.570 --> 00:07:32.470
+So meaning you're training your loop or less loop to walk forward.
+
+149
+00:07:32.470 --> 00:07:36.440
+And what we should do is you're going to reward him from simply
+
+150
+00:07:36.440 --> 00:07:40.960
+moving forward even before he or she reaches this five minute threshold of a session.
+
+151
+00:07:40.960 --> 00:07:45.575
+What's going to happen then is mention that your Robert is well,
+
+152
+00:07:45.575 --> 00:07:48.600
+starting randomly, and regardless of what he does he's probably going to
+
+153
+00:07:48.600 --> 00:07:52.040
+end up with some kind of cycle because that's how walking usually happens.
+
+154
+00:07:52.040 --> 00:07:55.580
+So, even before it finishes going forward,
+
+155
+00:07:55.580 --> 00:07:57.920
+he's probably going to find itself in the same state at
+
+156
+00:07:57.920 --> 00:08:00.945
+least a few times per loop maybe once per loop.
+
+157
+00:08:00.945 --> 00:08:03.240
+So once per step,
+
+158
+00:08:03.240 --> 00:08:05.420
+you're going to find yourself with a position where say
+
+159
+00:08:05.420 --> 00:08:10.645
+your right leg is set up and you're about to make the step or something similar.
+
+160
+00:08:10.645 --> 00:08:14.210
+So even before you finish your very first trajectory,
+
+161
+00:08:14.210 --> 00:08:18.770
+you're probably gonna end up with something that is better than random of those Q values.
+
+162
+00:08:18.770 --> 00:08:22.010
+And this is super neat because sometimes you have infinite processing,
+
+163
+00:08:22.010 --> 00:08:24.640
+sometimes you want to walk forward indefinitely or you want to
+
+164
+00:08:24.640 --> 00:08:27.460
+optimize some ground forces with no apparent border for session.
+
+165
+00:08:27.460 --> 00:08:29.745
+And you can just feel it into Q-learning,
+
+166
+00:08:29.745 --> 00:08:33.890
+and Q-learning is going to train to in converse the optimal policy,
+
+167
+00:08:33.890 --> 00:08:38.980
+before it finishes and 12 without finishing even. How cool is that?

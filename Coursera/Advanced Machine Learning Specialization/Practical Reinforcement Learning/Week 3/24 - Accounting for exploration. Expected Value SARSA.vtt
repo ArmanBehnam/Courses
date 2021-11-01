@@ -1,0 +1,797 @@
+WEBVTT
+
+1
+00:00:02.630 --> 00:00:05.030
+Just think how Q-learning works.
+
+2
+00:00:05.030 --> 00:00:07.480
+How does all those cool stuff the thing is like,
+
+3
+00:00:07.480 --> 00:00:11.010
+trained from partial experience or being able to learn
+
+4
+00:00:11.010 --> 00:00:15.625
+an optimal policy even before the first environment session ends.
+
+5
+00:00:15.625 --> 00:00:17.220
+Now, let's see how Q-learning fails,
+
+6
+00:00:17.220 --> 00:00:19.360
+and it does fail ever so miserably.
+
+7
+00:00:19.360 --> 00:00:22.500
+To be begin with, let's consider this simple thought experiment.
+
+8
+00:00:22.500 --> 00:00:26.900
+Let's say you have an environment with an agent who's on one side of the cliff.
+
+9
+00:00:26.900 --> 00:00:28.820
+On another side there's this diamond,
+
+10
+00:00:28.820 --> 00:00:32.390
+that which is giving the agent a lot of reward once he reached it.
+
+11
+00:00:32.390 --> 00:00:34.940
+Anything else does not give agent any reward.
+
+12
+00:00:34.940 --> 00:00:37.520
+And to terminate, to finish session,
+
+13
+00:00:37.520 --> 00:00:42.175
+agent should either get to diamond or fall into this heat glow cliff here.
+
+14
+00:00:42.175 --> 00:00:45.585
+Now, the idea is that I got two roads here.
+
+15
+00:00:45.585 --> 00:00:48.555
+The first one, the first strategy is to go forward
+
+16
+00:00:48.555 --> 00:00:52.065
+as quick as possible using this short path.
+
+17
+00:00:52.065 --> 00:00:54.215
+Or alternatively, the agent can pick
+
+18
+00:00:54.215 --> 00:00:59.595
+the longer road which is on the other side of this great wall here.
+
+19
+00:00:59.595 --> 00:01:02.920
+So, that is that you can either go following
+
+20
+00:01:02.920 --> 00:01:07.980
+the shortest path or use the longer path which is kind of intuitively safer.
+
+21
+00:01:07.980 --> 00:01:11.615
+But for now, let's consider that an agent is
+
+22
+00:01:11.615 --> 00:01:15.915
+always capable of going the exact directions he wants to.
+
+23
+00:01:15.915 --> 00:01:19.535
+So, unless it explicitly tries to fall off a cliff,
+
+24
+00:01:19.535 --> 00:01:24.935
+it will go along the exact path it wants to and will reach the diamond.
+
+25
+00:01:24.935 --> 00:01:27.575
+So, if you look on this road from above,
+
+26
+00:01:27.575 --> 00:01:33.020
+you have this fiery abyss here at the bottom.
+
+27
+00:01:33.020 --> 00:01:38.290
+And there is a shorter path with red arrow and a longer path with a green arrow.
+
+28
+00:01:38.290 --> 00:01:41.760
+If you're trying to use the value iteration or
+
+29
+00:01:41.760 --> 00:01:45.090
+Q-learning or any value-based method on this particular world,
+
+30
+00:01:45.090 --> 00:01:50.325
+you'll probably end up with a situation where with a gamma below one,
+
+31
+00:01:50.325 --> 00:01:55.065
+you'll end up with a policy which prefers, which path again?
+
+32
+00:01:55.065 --> 00:02:00.235
+So, what would be the optimal policy from Q-learning?
+
+33
+00:02:00.235 --> 00:02:05.735
+Yeah. So, it's kind of intuitive that Q-learning will follow the shortest path.
+
+34
+00:02:05.735 --> 00:02:11.375
+Because it optimizes the rewards ended up with this discount with gamma.
+
+35
+00:02:11.375 --> 00:02:15.800
+And if you get the same rewards but like four sticks later,
+
+36
+00:02:15.800 --> 00:02:19.430
+it will be multiplied by gamma which is below one to the power of four,
+
+37
+00:02:19.430 --> 00:02:21.920
+which makes it kind of less appetizing.
+
+38
+00:02:21.920 --> 00:02:24.725
+Now, so we've just figured out that Q-learning
+
+39
+00:02:24.725 --> 00:02:27.750
+will follow the lower path, the shorter one.
+
+40
+00:02:27.750 --> 00:02:31.640
+But the issue here is that under our current setup,
+
+41
+00:02:31.640 --> 00:02:35.740
+there is something that prevents Q-learning from using this path optimally
+
+42
+00:02:35.740 --> 00:02:39.795
+which will cause him to sometimes fall down the cliff.
+
+43
+00:02:39.795 --> 00:02:44.280
+What is that? Yeah. So, technically,
+
+44
+00:02:44.280 --> 00:02:46.780
+we've just said that we use this exploration policy to
+
+45
+00:02:46.780 --> 00:02:49.815
+prevent our agent from converging to a local optima.
+
+46
+00:02:49.815 --> 00:02:52.890
+And the issue here is that if we keep this
+
+47
+00:02:52.890 --> 00:02:56.350
+epsilon-greedy or any other exploration policy on, and as long as it's on,
+
+48
+00:02:56.350 --> 00:03:00.170
+there is some probability that agent is going to fall off a cliff because, well,
+
+49
+00:03:00.170 --> 00:03:04.670
+there is always let's say 0.1 probability of taking a random action.
+
+50
+00:03:04.670 --> 00:03:08.240
+Now, the longer path doesn't exhibit this probability here,
+
+51
+00:03:08.240 --> 00:03:10.720
+or maybe it does but only on the first step.
+
+52
+00:03:10.720 --> 00:03:13.505
+So, the probability of falling of a cliff is much smaller.
+
+53
+00:03:13.505 --> 00:03:15.920
+But following the Q-learning route,
+
+54
+00:03:15.920 --> 00:03:18.385
+the algorithm will always prefer the lower path.
+
+55
+00:03:18.385 --> 00:03:21.100
+So, technically, what happens is your algorithm
+
+56
+00:03:21.100 --> 00:03:24.110
+will have a strategy which is not optimal,
+
+57
+00:03:24.110 --> 00:03:28.390
+so it will not get the best possible rewards provided that you are still exploring.
+
+58
+00:03:28.390 --> 00:03:30.620
+So, of course, once you get rid of epsilon,
+
+59
+00:03:30.620 --> 00:03:32.675
+you're golden, you'll find an optimum policy.
+
+60
+00:03:32.675 --> 00:03:33.890
+But as long as you don't,
+
+61
+00:03:33.890 --> 00:03:37.205
+you will find a policy which is not giving an optimal reward.
+
+62
+00:03:37.205 --> 00:03:42.610
+Now, this happens only because we have to turn the epsilon on.
+
+63
+00:03:42.610 --> 00:03:43.730
+But in some environments,
+
+64
+00:03:43.730 --> 00:03:46.130
+the problem is that you have to turn epsilon,
+
+65
+00:03:46.130 --> 00:03:51.430
+you can never get rid of it because the conditions of the environment might change.
+
+66
+00:03:51.430 --> 00:03:55.690
+See, if you're trying to optimize the advertising strategy,
+
+67
+00:03:55.690 --> 00:03:58.480
+you're trying to show the best possible banners to get
+
+68
+00:03:58.480 --> 00:04:02.360
+users or recommend the best possible movies to your users in a movie portal.
+
+69
+00:04:02.360 --> 00:04:04.770
+The problem here is that your user base constantly change,
+
+70
+00:04:04.770 --> 00:04:06.060
+so you have to keep exploring.
+
+71
+00:04:06.060 --> 00:04:08.895
+Otherwise, you freeze at some sub-optimal strategy.
+
+72
+00:04:08.895 --> 00:04:11.460
+Just to reach the conclusion that no matter how long you iterate,
+
+73
+00:04:11.460 --> 00:04:12.970
+how long you train your Q-learning algorithm,
+
+74
+00:04:12.970 --> 00:04:15.015
+it will always stay sub-optimal.
+
+75
+00:04:15.015 --> 00:04:17.245
+And in this particular epsilon, if it stays,
+
+76
+00:04:17.245 --> 00:04:20.000
+it will learn a policy that will sometimes fall off a cliff,
+
+77
+00:04:20.000 --> 00:04:22.700
+because it prefers the lower road because it believes that
+
+78
+00:04:22.700 --> 00:04:26.360
+the lower road is always better if you take optimal actions which you don't.
+
+79
+00:04:26.360 --> 00:04:28.395
+Now, the alternative idea,
+
+80
+00:04:28.395 --> 00:04:33.255
+the kind of solution would be to account for the epsilon, account for the exploration.
+
+81
+00:04:33.255 --> 00:04:35.065
+This way you would reason like this.
+
+82
+00:04:35.065 --> 00:04:40.565
+So, you know that you have this 10 percent probability of doing something stupid,
+
+83
+00:04:40.565 --> 00:04:44.430
+and to prevent your agent from doing stupid stuff to it's doom,
+
+84
+00:04:44.430 --> 00:04:50.380
+you will avoid the regions where exploration is most likely to be detrimental.
+
+85
+00:04:50.380 --> 00:04:53.710
+And to do so, you basically pick the upper road
+
+86
+00:04:53.710 --> 00:04:57.030
+which still brings you rewards in maybe a couple more steps.
+
+87
+00:04:57.030 --> 00:05:00.570
+But it has substantial lower probability of falling off a cliff.
+
+88
+00:05:00.570 --> 00:05:04.140
+And to actually incorporate this intuition to algorithm,
+
+89
+00:05:04.140 --> 00:05:05.810
+which we are going to do right now.
+
+90
+00:05:05.810 --> 00:05:10.925
+We have to revise how this update rule for Q-learning works.
+
+91
+00:05:10.925 --> 00:05:13.505
+To have this exponentially weighted moving average
+
+92
+00:05:13.505 --> 00:05:16.110
+which means that whenever we get a piece of experience,
+
+93
+00:05:16.110 --> 00:05:17.520
+a stayed action or reward,
+
+94
+00:05:17.520 --> 00:05:21.115
+next state tuple, we can update our Q-function based on
+
+95
+00:05:21.115 --> 00:05:26.585
+our current Q-function and this Bellman equation formulation for a better Q-function.
+
+96
+00:05:26.585 --> 00:05:29.450
+Is of Q-learning, the Q hat,
+
+97
+00:05:29.450 --> 00:05:31.475
+the new improved Q-function,
+
+98
+00:05:31.475 --> 00:05:35.500
+is obtained by adding up the immediate rewards and discount times
+
+99
+00:05:35.500 --> 00:05:40.160
+the maximum over actions of a Q-function in the next state.
+
+100
+00:05:40.160 --> 00:05:43.710
+Now, this is where the problem occurs.
+
+101
+00:05:43.710 --> 00:05:46.720
+There is one thing in this particular equation that you have to change to
+
+102
+00:05:46.720 --> 00:05:50.850
+account for the fact that your agent explores. What this thing is?
+
+103
+00:05:50.850 --> 00:05:57.150
+Well yes, you could replace the maximization which you don't get with the expectation.
+
+104
+00:05:57.150 --> 00:05:58.830
+This expectation should be done over
+
+105
+00:05:58.830 --> 00:06:02.230
+the probabilities denoted by epsilon-greedy exploration policy,
+
+106
+00:06:02.230 --> 00:06:06.690
+or any other exploration rule that you apply. Say the Boltz formula.
+
+107
+00:06:06.690 --> 00:06:08.725
+And this basically change,
+
+108
+00:06:08.725 --> 00:06:13.170
+what it does is it discounts the value of
+
+109
+00:06:13.170 --> 00:06:18.090
+those states on the shortest path because if you expect over all possible outcomes,
+
+110
+00:06:18.090 --> 00:06:22.590
+you'll get 10 percent by divided by number of action probability,
+
+111
+00:06:22.590 --> 00:06:25.590
+non-zero probability of falling off a cliff and this gives you a say a minus 10
+
+112
+00:06:25.590 --> 00:06:29.395
+reward or zero reward depending on how you define the immediate rewards.
+
+113
+00:06:29.395 --> 00:06:33.315
+And this immediately makes an agent,
+
+114
+00:06:33.315 --> 00:06:37.420
+it steers the agent towards the green road and solves our problem.
+
+115
+00:06:37.420 --> 00:06:39.935
+This algorithm is called SARSA.
+
+116
+00:06:39.935 --> 00:06:46.390
+It's kind of another case where technical people are bad at naming things,
+
+117
+00:06:46.390 --> 00:06:49.210
+and so you find out where the name SARSA comes.
+
+118
+00:06:49.210 --> 00:06:51.115
+Let's see how this algorithm performs.
+
+119
+00:06:51.115 --> 00:06:52.900
+So, we have this MDP trajectory,
+
+120
+00:06:52.900 --> 00:06:54.330
+a sequence of states and actions.
+
+121
+00:06:54.330 --> 00:06:56.060
+And as usual, for example, in Q-learning,
+
+122
+00:06:56.060 --> 00:06:58.100
+you only consider a small subsection of this thing.
+
+123
+00:06:58.100 --> 00:07:00.130
+These are exactly the slides we got
+
+124
+00:07:00.130 --> 00:07:02.655
+in the previous section where we explained how Q-learning works.
+
+125
+00:07:02.655 --> 00:07:04.475
+You take S, A, R,
+
+126
+00:07:04.475 --> 00:07:08.060
+S prime and you use it to compute
+
+127
+00:07:08.060 --> 00:07:13.390
+a better estimate of Q-function to improve your grid of Q values.
+
+128
+00:07:13.390 --> 00:07:17.025
+And the SARSA algorithm is going to be very similar to this one.
+
+129
+00:07:17.025 --> 00:07:21.490
+Basically, what you have to add is you have to consider one more step here,
+
+130
+00:07:21.490 --> 00:07:23.410
+have state, action, rewards,
+
+131
+00:07:23.410 --> 00:07:24.910
+S prime and A prime.
+
+132
+00:07:24.910 --> 00:07:27.645
+Now, guess why SARSA?
+
+133
+00:07:27.645 --> 00:07:32.825
+Yeah. Here's the name. And the difference here is that instead
+
+134
+00:07:32.825 --> 00:07:37.565
+of taking maximization over all possible actions maximizing the Q-function,
+
+135
+00:07:37.565 --> 00:07:40.000
+what you do is you basically get the expectation here.
+
+136
+00:07:40.000 --> 00:07:41.730
+You take one sample,
+
+137
+00:07:41.730 --> 00:07:44.690
+the action that you actually took and you
+
+138
+00:07:44.690 --> 00:07:47.430
+simply use the Q-function
+
+139
+00:07:47.430 --> 00:07:50.440
+of the next thing to that particular action, not the maximum one.
+
+140
+00:07:50.440 --> 00:07:52.080
+And the rest is the same,
+
+141
+00:07:52.080 --> 00:07:56.935
+so you simply are obtaining your better Q-function, Q cap here.
+
+142
+00:07:56.935 --> 00:08:01.420
+And you make a one step towards the exponential moving average.
+
+143
+00:08:01.420 --> 00:08:04.095
+And that's the whole thing, it's SARSA.
+
+144
+00:08:04.095 --> 00:08:06.330
+Now, this basically means that instead of trying to
+
+145
+00:08:06.330 --> 00:08:08.370
+compute an expectation over next actions,
+
+146
+00:08:08.370 --> 00:08:11.040
+what you do is you take the next action from your agents.
+
+147
+00:08:11.040 --> 00:08:13.560
+So, you remember what action you're agent did.
+
+148
+00:08:13.560 --> 00:08:16.705
+And you use this A prime to perform an update.
+
+149
+00:08:16.705 --> 00:08:20.330
+This is of course slightly problematic if there is a lot of actions.
+
+150
+00:08:20.330 --> 00:08:22.980
+And there is a different way you can approach this problem,
+
+151
+00:08:22.980 --> 00:08:26.180
+that actually involves you computing the expectation by hand.
+
+152
+00:08:26.180 --> 00:08:29.895
+The aim of that algorithm is the expected value of SARSA.
+
+153
+00:08:29.895 --> 00:08:34.075
+And the only difference is that instead of taking the E prime into this iteration,
+
+154
+00:08:34.075 --> 00:08:37.180
+you consider all possible actions in this case a0, a1,
+
+155
+00:08:37.180 --> 00:08:39.095
+a2 from the S prime,
+
+156
+00:08:39.095 --> 00:08:43.440
+and you're basically computing the average over Q (S prime,
+
+157
+00:08:43.440 --> 00:08:45.570
+a0), Q (S prime, a1), Q (S prime,
+
+158
+00:08:45.570 --> 00:08:48.525
+a2) with the probabilities denoted by your policy.
+
+159
+00:08:48.525 --> 00:08:52.440
+So if you have an epsilon-greedy policy and the probability of random action,
+
+160
+00:08:52.440 --> 00:08:54.080
+the epsilon is equal to 0.1.
+
+161
+00:08:54.080 --> 00:08:58.445
+This means that a probability of taking an action which is not an optimal one
+
+162
+00:08:58.445 --> 00:09:03.055
+is just basically epsilon 0.1 divided by amount of actions, in this case three.
+
+163
+00:09:03.055 --> 00:09:06.735
+So, it's a 0.1 divided by three.
+
+164
+00:09:06.735 --> 00:09:12.275
+An optimal action would have a probability of 0.9 which is one minus epsilon
+
+165
+00:09:12.275 --> 00:09:15.390
+plus 0.1 divided 0.3 because you can take
+
+166
+00:09:15.390 --> 00:09:19.615
+an optimal action either by only getting one minus epsilon,
+
+167
+00:09:19.615 --> 00:09:21.015
+by picking up some action,
+
+168
+00:09:21.015 --> 00:09:24.065
+or by picking a random action and just getting alike.
+
+169
+00:09:24.065 --> 00:09:28.390
+Now, this is how your probability is
+
+170
+00:09:28.390 --> 00:09:32.290
+defined and for any other exploration policy says a Boltzmann one, the softmax.
+
+171
+00:09:32.290 --> 00:09:34.950
+You would just obtain a different value for your probabilities which would
+
+172
+00:09:34.950 --> 00:09:38.090
+be basically softmax of your Q-values in that case.
+
+173
+00:09:38.090 --> 00:09:43.570
+You can simply enumerate all the actions and can meet this expectation explicitly.
+
+174
+00:09:43.570 --> 00:09:45.640
+Unless of course there's like bazillion of
+
+175
+00:09:45.640 --> 00:09:48.300
+possible actions or maybe a continuous space of them.
+
+176
+00:09:48.300 --> 00:09:51.300
+In which case you can probably sample,
+
+177
+00:09:51.300 --> 00:09:53.440
+but let's now consider a simpler way.
+
+178
+00:09:53.440 --> 00:09:56.190
+So, you have like three actions and you just get this expectation.
+
+179
+00:09:56.190 --> 00:09:58.640
+Again, you use this expectation to get
+
+180
+00:09:58.640 --> 00:10:01.200
+a better or more accurate version of your Q function and you make
+
+181
+00:10:01.200 --> 00:10:06.310
+one step of the exponential way of moving average to improve your Q-function.
+
+182
+00:10:06.310 --> 00:10:09.420
+So, here we go, we have the expected value SARSA.
+
+183
+00:10:09.420 --> 00:10:12.635
+We also studied the usual SARSA which takes the next action.
+
+184
+00:10:12.635 --> 00:10:15.805
+The Q-learning which maximizes over possible actions.
+
+185
+00:10:15.805 --> 00:10:19.130
+The difference here is that if you consider this cliff world than
+
+186
+00:10:19.130 --> 00:10:24.080
+the agent's performance under constant exploration would be rest different.
+
+187
+00:10:24.080 --> 00:10:28.445
+The Q-learning will come to a shorter path which sometimes leads into falling.
+
+188
+00:10:28.445 --> 00:10:31.850
+Therefore, it will have a larger probability of getting sub-optimal reward.
+
+189
+00:10:31.850 --> 00:10:35.940
+A SARSA, however, will run this longer path because this way,
+
+190
+00:10:35.940 --> 00:10:39.690
+it can deal with its own issues of exploration and therefore,
+
+191
+00:10:39.690 --> 00:10:41.930
+it will obtain a better policy.
+
+192
+00:10:41.930 --> 00:10:45.100
+Suppose a super simple example so, in this case,
+
+193
+00:10:45.100 --> 00:10:46.560
+there is no need for Q-learning or SARSA,
+
+194
+00:10:46.560 --> 00:10:48.960
+it could just trace the optimal path with your finger.
+
+195
+00:10:48.960 --> 00:10:51.390
+But if you're using something more complicated,
+
+196
+00:10:51.390 --> 00:10:54.650
+if you're solving a problem where you have to explore because of environment changes,
+
+197
+00:10:54.650 --> 00:10:57.360
+say it may be an online game or trading or anything,
+
+198
+00:10:57.360 --> 00:11:01.210
+in this case, this issue would be very, very influential.
+
+199
+00:11:01.210 --> 00:11:04.930
+So, you have to keep in mind the difference between Q-learning and SARSA.

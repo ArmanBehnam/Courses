@@ -1,0 +1,657 @@
+WEBVTT
+
+1
+00:00:02.640 --> 00:00:05.365
+Welcome back to our reinforcements coursera.
+
+2
+00:00:05.365 --> 00:00:08.430
+By the end of last week, you've learned one huge concept,
+
+3
+00:00:08.430 --> 00:00:12.025
+which is that if you know the value function or action value function,
+
+4
+00:00:12.025 --> 00:00:14.630
+then you can find optimal policy very easily.
+
+5
+00:00:14.630 --> 00:00:19.330
+We have also found at least one way to infer this value
+
+6
+00:00:19.330 --> 00:00:24.330
+or action value function by means of some way or kind of dynamic programming.
+
+7
+00:00:24.330 --> 00:00:27.350
+This is all nice and well, but now,
+
+8
+00:00:27.350 --> 00:00:29.960
+we're going to try to understand how this transfers to
+
+9
+00:00:29.960 --> 00:00:34.440
+practical problems and find out all the limitations that accompany it.
+
+10
+00:00:34.440 --> 00:00:37.340
+What I mean by practical problems is
+
+11
+00:00:37.340 --> 00:00:39.710
+basically any kind of problem that arises in the wild where
+
+12
+00:00:39.710 --> 00:00:44.915
+you don't have access to all the state action transition probabilities and so on.
+
+13
+00:00:44.915 --> 00:00:47.460
+The worst case as I have probably shown you already,
+
+14
+00:00:47.460 --> 00:00:50.200
+you have all the access you want to the agent,
+
+15
+00:00:50.200 --> 00:00:51.720
+you can implement anything there,
+
+16
+00:00:51.720 --> 00:00:54.520
+but the environment is mostly a black box that just responds to
+
+17
+00:00:54.520 --> 00:00:58.425
+your actions in some kind of hardly modellable way.
+
+18
+00:00:58.425 --> 00:01:01.930
+Think of environment as your Atari game or
+
+19
+00:01:01.930 --> 00:01:07.080
+maybe a robotic car or automatic pancake flipper for whatever measure.
+
+20
+00:01:07.080 --> 00:01:10.400
+Even the trivial kind of case of Go,
+
+21
+00:01:10.400 --> 00:01:12.160
+please don't blame me for calling it trivial.
+
+22
+00:01:12.160 --> 00:01:15.450
+Even this case, you don't know anything about how,
+
+23
+00:01:15.450 --> 00:01:17.140
+for example, your opponent going to react.
+
+24
+00:01:17.140 --> 00:01:18.800
+You can model it to some theory,
+
+25
+00:01:18.800 --> 00:01:23.155
+but you're never given accurate predictions of what is going to happen on the next turn.
+
+26
+00:01:23.155 --> 00:01:26.475
+So the first problem that arises here and actually a huge problem,
+
+27
+00:01:26.475 --> 00:01:27.810
+that you no longer have access to
+
+28
+00:01:27.810 --> 00:01:31.770
+these state transition probability distribution or the reward function as well.
+
+29
+00:01:31.770 --> 00:01:35.725
+You can sample states and rewards from the environment,
+
+30
+00:01:35.725 --> 00:01:38.335
+but you don't now the exact probabilities of them occurring.
+
+31
+00:01:38.335 --> 00:01:40.920
+So, in this case, of course you can not simply come with
+
+32
+00:01:40.920 --> 00:01:44.855
+the expectation of the action values with respect to possible outcomes.
+
+33
+00:01:44.855 --> 00:01:47.320
+And this prevents you from both training and using
+
+34
+00:01:47.320 --> 00:01:50.075
+your optimal policy given the value function.
+
+35
+00:01:50.075 --> 00:01:52.915
+So, what are you going to do to approach this problem?
+
+36
+00:01:52.915 --> 00:01:55.180
+Is there any trick of the trade from machine
+
+37
+00:01:55.180 --> 00:01:58.250
+learning that you do when you don't know probability distribution?
+
+38
+00:01:58.250 --> 00:02:01.195
+Oh, yeah, you kind of learn it.
+
+39
+00:02:01.195 --> 00:02:04.710
+This is what you do in machine learning when you have unknown dependency,
+
+40
+00:02:04.710 --> 00:02:08.640
+unknown slash in the data and you have a lot of samples to train and model.
+
+41
+00:02:08.640 --> 00:02:11.150
+Can train another network the tool for example take
+
+42
+00:02:11.150 --> 00:02:14.950
+your break car game and break the probability of the next state?
+
+43
+00:02:14.950 --> 00:02:17.370
+It would kind of sort of technically work,
+
+44
+00:02:17.370 --> 00:02:20.095
+but the problem here is that it's usually much harder to
+
+45
+00:02:20.095 --> 00:02:23.840
+learn how the environment works than to find an optimal policy in it.
+
+46
+00:02:23.840 --> 00:02:28.690
+In breakout, this transition function is actually an image to image problem,
+
+47
+00:02:28.690 --> 00:02:31.345
+and which you have to use probably a fully convolutional network
+
+48
+00:02:31.345 --> 00:02:34.040
+that will take an image and predict the next image,
+
+49
+00:02:34.040 --> 00:02:37.780
+which is super complicated comparing to simply picking an action.
+
+50
+00:02:37.780 --> 00:02:42.010
+In a more kind of leisured problem,
+
+51
+00:02:42.010 --> 00:02:45.330
+if you're trying to find whether or not you want a cup of coffee,
+
+52
+00:02:45.330 --> 00:02:48.365
+you're not required to find out how the coffee machine works,
+
+53
+00:02:48.365 --> 00:02:52.140
+or you can, but does a lot of spare work that you don't actually need.
+
+54
+00:02:52.140 --> 00:02:54.640
+Instead, what you want do is you want to design
+
+55
+00:02:54.640 --> 00:02:57.725
+a new algorithm that would get rid of this probability distribution.
+
+56
+00:02:57.725 --> 00:03:00.660
+So, it would do by only using samples from the environment.
+
+57
+00:03:00.660 --> 00:03:02.830
+So, let's add a bit more formulas,
+
+58
+00:03:02.830 --> 00:03:05.290
+a bit more details to this problem.
+
+59
+00:03:05.290 --> 00:03:07.420
+With your usual value iteration,
+
+60
+00:03:07.420 --> 00:03:11.215
+there are two missing links that two supposed you cannot complete explicitly.
+
+61
+00:03:11.215 --> 00:03:15.395
+First, you can not compute the maximum over all possible actions.
+
+62
+00:03:15.395 --> 00:03:19.295
+To do so, you would have to actually see the rewards for all actions.
+
+63
+00:03:19.295 --> 00:03:20.540
+And in model free setting,
+
+64
+00:03:20.540 --> 00:03:21.720
+in the black box setting,
+
+65
+00:03:21.720 --> 00:03:25.020
+this would take at least one attempt for each action.
+
+66
+00:03:25.020 --> 00:03:28.950
+So, to figure out whether your robot should do action A or action B,
+
+67
+00:03:28.950 --> 00:03:32.380
+should it, for example, jump forward or just make a single step forward.
+
+68
+00:03:32.380 --> 00:03:34.580
+It have to do both things and then see which one of
+
+69
+00:03:34.580 --> 00:03:37.930
+them will better work plus the value function.
+
+70
+00:03:37.930 --> 00:03:40.735
+This is kind of impossible because in real life,
+
+71
+00:03:40.735 --> 00:03:42.320
+if you're taking some particular action,
+
+72
+00:03:42.320 --> 00:03:43.480
+there is no undoing,
+
+73
+00:03:43.480 --> 00:03:45.440
+you can not get back in time.
+
+74
+00:03:45.440 --> 00:03:47.550
+Now, the problem of this expectation.
+
+75
+00:03:47.550 --> 00:03:50.770
+Here, actually I have to expect over all possible outcomes,
+
+76
+00:03:50.770 --> 00:03:52.245
+all possible next seats.
+
+77
+00:03:52.245 --> 00:03:56.110
+And this is another problem that you can not approach directly because in real life,
+
+78
+00:03:56.110 --> 00:04:00.235
+you're only going to see one outcome, one possible result.
+
+79
+00:04:00.235 --> 00:04:02.860
+So, if you're trying to use a slot machine.
+
+80
+00:04:02.860 --> 00:04:06.295
+If you're pulling a lever, then you are only going to see one outcome.
+
+81
+00:04:06.295 --> 00:04:09.345
+Not all the sets of outcomes with there respective probabilities.
+
+82
+00:04:09.345 --> 00:04:13.460
+Otherwise, you would be much better off in any gambling.
+
+83
+00:04:13.460 --> 00:04:16.585
+Now, what happens here is you have
+
+84
+00:04:16.585 --> 00:04:20.290
+basically a lot of expectations maximizations that you can take exactly.
+
+85
+00:04:20.290 --> 00:04:22.270
+So, let's find out what we actually can do to
+
+86
+00:04:22.270 --> 00:04:24.980
+see how we can approximate them and approach this problem.
+
+87
+00:04:24.980 --> 00:04:28.590
+The usual model free settings requires that you train
+
+88
+00:04:28.590 --> 00:04:32.390
+from not all the states and actions but the trajectories.
+
+89
+00:04:32.390 --> 00:04:36.000
+And trajectories basically a history of your age in playing a game,
+
+90
+00:04:36.000 --> 00:04:38.570
+either it is a history from state zero to the last state.
+
+91
+00:04:38.570 --> 00:04:40.620
+So, you begin playing break out, you take a few actions,
+
+92
+00:04:40.620 --> 00:04:45.620
+you get a few breaks and then you lose or you win or whatever depending on your agent.
+
+93
+00:04:45.620 --> 00:04:47.360
+Worse may be a partial session,
+
+94
+00:04:47.360 --> 00:04:49.730
+so you begin but maybe didn't finish yet.
+
+95
+00:04:49.730 --> 00:04:53.220
+So, this trajectory is basically a set of states,
+
+96
+00:04:53.220 --> 00:04:55.160
+actions, and rewards coming the sequence.
+
+97
+00:04:55.160 --> 00:04:57.100
+So, there's first state, first action,
+
+98
+00:04:57.100 --> 00:04:58.220
+first rewards, second stage,
+
+99
+00:04:58.220 --> 00:04:59.550
+second action, second reward, and so on.
+
+100
+00:04:59.550 --> 00:05:01.210
+Of course, you can sample all of
+
+101
+00:05:01.210 --> 00:05:03.520
+those trajectories and from many other times you need plenty of them.
+
+102
+00:05:03.520 --> 00:05:05.665
+But in many cases,
+
+103
+00:05:05.665 --> 00:05:07.905
+I mean practical application is most important here.
+
+104
+00:05:07.905 --> 00:05:10.755
+Each trajectory is particular expense on your side.
+
+105
+00:05:10.755 --> 00:05:12.110
+So, if you're training your robotic car,
+
+106
+00:05:12.110 --> 00:05:14.060
+you would actually have to consider
+
+107
+00:05:14.060 --> 00:05:17.440
+its expenses in the gasoline in maybe the amount of time
+
+108
+00:05:17.440 --> 00:05:23.385
+you spend on it to take just one session off the driving five minutes for a street.
+
+109
+00:05:23.385 --> 00:05:26.030
+Now, if we're talking about let's say, Atari games,
+
+110
+00:05:26.030 --> 00:05:29.060
+it's a little bit cheaper because you no longer need to spend money,
+
+111
+00:05:29.060 --> 00:05:30.510
+you just need to spend, in fact,
+
+112
+00:05:30.510 --> 00:05:32.990
+computer resources which do convert in money.
+
+113
+00:05:32.990 --> 00:05:37.430
+Now, those costs are different for each environment but they are usually none zero.
+
+114
+00:05:37.430 --> 00:05:39.790
+So you have to take that into consideration.
+
+115
+00:05:39.790 --> 00:05:46.510
+Now, the other issue is again we are not able to see all the possible outcomes,
+
+116
+00:05:46.510 --> 00:05:47.680
+so we only see one outcome,
+
+117
+00:05:47.680 --> 00:05:49.550
+you only try one action at a time.
+
+118
+00:05:49.550 --> 00:05:52.020
+So, to find all the possible outcomes,
+
+119
+00:05:52.020 --> 00:05:54.060
+you have to sample all the trajectories and
+
+120
+00:05:54.060 --> 00:05:56.900
+average over the different actions, different outcomes in them.
+
+121
+00:05:56.900 --> 00:05:59.170
+That can be quite costly.
+
+122
+00:05:59.170 --> 00:06:01.880
+So, once you have got those trajectories,
+
+123
+00:06:01.880 --> 00:06:04.250
+we have to somehow use them to train our algorithm.
+
+124
+00:06:04.250 --> 00:06:07.830
+And the first question is a question for you by the way is that,
+
+125
+00:06:07.830 --> 00:06:10.820
+which kind of value function would you prefer to train?
+
+126
+00:06:10.820 --> 00:06:12.340
+If you only have trajectories,
+
+127
+00:06:12.340 --> 00:06:13.660
+there's no probability distribution,
+
+128
+00:06:13.660 --> 00:06:16.070
+would be better if you had a perfect value function of
+
+129
+00:06:16.070 --> 00:06:20.910
+a state or an action value function of state and action? Which is better?
+
+130
+00:06:20.910 --> 00:06:24.340
+Well, right. As you probably don't remember,
+
+131
+00:06:24.340 --> 00:06:27.405
+if not, you might have guessed by using your common sense,
+
+132
+00:06:27.405 --> 00:06:30.580
+that is if you have state value function,
+
+133
+00:06:30.580 --> 00:06:31.960
+then to find an optimal policy,
+
+134
+00:06:31.960 --> 00:06:35.160
+you actually to average with probabilities that come from the environment.
+
+135
+00:06:35.160 --> 00:06:37.090
+So, you have to compute the expectation
+
+136
+00:06:37.090 --> 00:06:39.930
+over all the possible next state of this value function.
+
+137
+00:06:39.930 --> 00:06:42.925
+You don't get this thing unless you explicitly approximate it.
+
+138
+00:06:42.925 --> 00:06:46.460
+On the contrary, if you already have perfect Q-functions, action value functions,
+
+139
+00:06:46.460 --> 00:06:48.150
+you just speak the action with
+
+140
+00:06:48.150 --> 00:06:51.450
+highest action value and you're golden as your optimal policy.
+
+141
+00:06:51.450 --> 00:06:54.410
+So, the first decision here is that unless we're trying
+
+142
+00:06:54.410 --> 00:06:57.510
+something very specific and exotic would be
+
+143
+00:06:57.510 --> 00:06:59.780
+better off learning a perfect Q-function than
+
+144
+00:06:59.780 --> 00:07:04.050
+a V-function and even an imperfect Q-function will do.
+
+145
+00:07:04.050 --> 00:07:06.160
+Now, to keep it strict and formal,
+
+146
+00:07:06.160 --> 00:07:09.740
+let's complete on what action value is and how it is defined.
+
+147
+00:07:09.740 --> 00:07:12.425
+The definition for the last lecture that action value
+
+148
+00:07:12.425 --> 00:07:15.320
+is the expected amount of your different returns,
+
+149
+00:07:15.320 --> 00:07:18.855
+the reward plus gamma times next reward plus and so on,
+
+150
+00:07:18.855 --> 00:07:21.945
+that you would get if you start from state
+
+151
+00:07:21.945 --> 00:07:26.490
+S then take action A and both S and A are function prime just here.
+
+152
+00:07:26.490 --> 00:07:30.840
+And then you end up on the next state after which you follow your policy.
+
+153
+00:07:30.840 --> 00:07:32.610
+If this policy is an optimal policy,
+
+154
+00:07:32.610 --> 00:07:34.200
+this gives you Q star.
+
+155
+00:07:34.200 --> 00:07:36.135
+If it's your policy, it will be Q pi,
+
+156
+00:07:36.135 --> 00:07:37.865
+so far as the notation goes.
+
+157
+00:07:37.865 --> 00:07:42.190
+So, the good part about Q-function is that if you know this Q function,
+
+158
+00:07:42.190 --> 00:07:46.025
+by definition gives access to an optimal policy given as deterministic.
+
+159
+00:07:46.025 --> 00:07:49.835
+And the Q-function itself is very easy to express in terms of the V-function.
+
+160
+00:07:49.835 --> 00:07:54.040
+So, this formula if only with an expectation for success is here,
+
+161
+00:07:54.040 --> 00:07:57.930
+gives you a way to estimate Q-function and if you are kind of
+
+162
+00:07:57.930 --> 00:08:02.760
+on raw V term here as an expectation of action values over policy,
+
+163
+00:08:02.760 --> 00:08:04.805
+you'll get recurrent formal for Q-function.
+
+164
+00:08:04.805 --> 00:08:10.200
+This is old probably unknown information for you since you've gone for the last week.
