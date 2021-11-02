@@ -1,0 +1,345 @@
+WEBVTT
+
+1
+00:00:02.000 --> 00:00:06.160
+In this video, we will talk
+
+2
+00:00:06.160 --> 00:00:09.340
+about how to use a particle responses in
+
+3
+00:00:09.340 --> 00:00:13.905
+the detector systems for the particle type identification.
+
+4
+00:00:13.905 --> 00:00:19.100
+The goal of the particle identification is to identify a type of
+
+5
+00:00:19.100 --> 00:00:25.295
+a particle associated with a track using responses from different detector systems.
+
+6
+00:00:25.295 --> 00:00:28.005
+There are five particle types:
+
+7
+00:00:28.005 --> 00:00:32.955
+Electron, Proton, Kaon, Pion and Muon.
+
+8
+00:00:32.955 --> 00:00:37.710
+There are five different detector systems: Tracking system,
+
+9
+00:00:37.710 --> 00:00:39.875
+Ring Imaging Cherenkov detector,
+
+10
+00:00:39.875 --> 00:00:45.500
+Electromagnetic calorimeter and Hadron calorimeter and finally Muon Chambers.
+
+11
+00:00:45.500 --> 00:00:49.284
+The particle identification problem can be considered
+
+12
+00:00:49.284 --> 00:00:53.730
+as multi-classification problem in machine learning.
+
+13
+00:00:55.800 --> 00:01:02.850
+A particle track responses in the detector systems are used as inputs of a classifier.
+
+14
+00:01:02.850 --> 00:01:09.305
+For an example, tracking systems provide information about particle track parameters,
+
+15
+00:01:09.305 --> 00:01:13.140
+track fit quality, particle momentum and charge,
+
+16
+00:01:13.140 --> 00:01:21.090
+and also decay vertex coordinates. RICH detector gives a particle emission angle
+
+17
+00:01:21.090 --> 00:01:23.700
+or delta likelihood for
+
+18
+00:01:23.700 --> 00:01:30.135
+a different particle type hypotheses or quality of circles fit in the detector.
+
+19
+00:01:30.135 --> 00:01:34.060
+Calorimeters measure a particle energy and
+
+20
+00:01:34.060 --> 00:01:38.110
+number of responses for these particle for an example,
+
+21
+00:01:38.110 --> 00:01:45.600
+Muon system tells is a track has hits inside the system or not,
+
+22
+00:01:45.600 --> 00:01:50.305
+and how much active chambers correspond to the track.
+
+23
+00:01:50.305 --> 00:01:52.770
+There are many other features.
+
+24
+00:01:52.770 --> 00:01:56.250
+Outputs of the classifier are six labels.
+
+25
+00:01:56.250 --> 00:02:00.025
+Five of them correspond to five different particle types.
+
+26
+00:02:00.025 --> 00:02:04.740
+Muon, Kaon, Pion, Proton and Electron.
+
+27
+00:02:04.740 --> 00:02:08.930
+The last one corresponds to all other particle types,
+
+28
+00:02:08.930 --> 00:02:13.935
+and just noisy tracks that are called Ghosts.
+
+29
+00:02:13.935 --> 00:02:20.570
+Ghost is a track that was recognized by mistake by a track pattern recognition method,
+
+30
+00:02:20.570 --> 00:02:25.330
+and doesn't correspond to any real particle in the detector.
+
+31
+00:02:25.330 --> 00:02:29.640
+So, for each track recognized in the detector,
+
+32
+00:02:29.640 --> 00:02:36.110
+the classifier gives probabilities to belong to each of these particle types.
+
+33
+00:02:36.110 --> 00:02:39.825
+This problem can be solved in different modes.
+
+34
+00:02:39.825 --> 00:02:42.270
+In the multi-classification mode,
+
+35
+00:02:42.270 --> 00:02:50.880
+in one particle versus rest particles mode or in one particle versus one particle mode.
+
+36
+00:02:50.880 --> 00:02:55.650
+For an example, one particle versus rest mode means that you
+
+37
+00:02:55.650 --> 00:03:00.990
+train a classifier to separate one particle from all other particles.
+
+38
+00:03:00.990 --> 00:03:07.845
+Modern detectors in high energy physics provide high quality of particle identification.
+
+39
+00:03:07.845 --> 00:03:11.305
+In terms of the area under the ROC curve,
+
+40
+00:03:11.305 --> 00:03:20.450
+it corresponds to values in the range from 0.9 to 0.995 depending on the particle type.
+
+41
+00:03:20.450 --> 00:03:23.915
+In your programming assignment for this week,
+
+42
+00:03:23.915 --> 00:03:27.160
+you will be able to train your own classifier for
+
+43
+00:03:27.160 --> 00:03:31.515
+the particle identification using toy Monte Carlo sample,
+
+44
+00:03:31.515 --> 00:03:36.555
+you will estimate the quality of the identification for each particle type.
+
+45
+00:03:36.555 --> 00:03:38.595
+In the machine learning community,
+
+46
+00:03:38.595 --> 00:03:41.735
+ROC curve is plotted as a dependence of
+
+47
+00:03:41.735 --> 00:03:45.600
+the true positive rate from the false positive rate.
+
+48
+00:03:45.600 --> 00:03:48.925
+However, in the high energy physics,
+
+49
+00:03:48.925 --> 00:03:52.120
+ROC curve is plotted as the dependence of
+
+50
+00:03:52.120 --> 00:03:57.425
+the one minus false positive rate from true positive rate.
+
+51
+00:03:57.425 --> 00:04:00.975
+One minus false positive rate is called
+
+52
+00:04:00.975 --> 00:04:06.645
+Background Rejection and true positive rate is called Signal Efficiency.
+
+53
+00:04:06.645 --> 00:04:10.165
+Quality of the particle identification
+
+54
+00:04:10.165 --> 00:04:14.925
+depends on particle parameters such as its momentum,
+
+55
+00:04:14.925 --> 00:04:17.380
+transverse momentum or energy.
+
+56
+00:04:17.380 --> 00:04:23.670
+The figure on the slide demonstrates strong dependency of the area under the ROC curve
+
+57
+00:04:23.670 --> 00:04:30.605
+for a particle type separated from all other types from the particle momentum.
+
+58
+00:04:30.605 --> 00:04:36.805
+The quality significantly drops in the low and high momentum regions.
+
+59
+00:04:36.805 --> 00:04:41.580
+Moreover, it's preferable to have no such dependencies.
+
+60
+00:04:41.580 --> 00:04:44.310
+In other words, we would like to have
+
+61
+00:04:44.310 --> 00:04:47.250
+flat or uniform dependency of
+
+62
+00:04:47.250 --> 00:04:51.935
+the particle identification quality on the different particle parameters.
+
+63
+00:04:51.935 --> 00:04:54.185
+Consider one more example.
+
+64
+00:04:54.185 --> 00:05:00.585
+Consider a classifier that separates one particle type as a signal versus
+
+65
+00:05:00.585 --> 00:05:04.380
+the rest particle types as background.
+
+66
+00:05:04.380 --> 00:05:08.475
+Output of this classifier is shown at the bottom of the slide.
+
+67
+00:05:08.475 --> 00:05:13.560
+Let's select the classifier output threshold value that
+
+68
+00:05:13.560 --> 00:05:19.125
+corresponds to the 60 percent of the global signal efficiency.
+
+69
+00:05:19.125 --> 00:05:27.970
+It means that this threshold selects 60 percent of all signal particles in the sample.
+
+70
+00:05:27.970 --> 00:05:32.060
+However, in different particle transverse momentum regions,
+
+71
+00:05:32.060 --> 00:05:38.230
+the signal efficiency differs from the global one as it's demonstrated in the top figure.
+
+72
+00:05:38.230 --> 00:05:42.740
+In several regions, the efficiency is higher than 60 percent.
+
+73
+00:05:42.740 --> 00:05:46.105
+But also, there are a lot of regions where
+
+74
+00:05:46.105 --> 00:05:50.365
+the signal efficiency is much lower than 60 percent.
+
+75
+00:05:50.365 --> 00:05:56.055
+Such effects bring systematic uncertainties to physics analysis.
+
+76
+00:05:56.055 --> 00:06:01.205
+And it's preferable when the classifier selects the same ratio of
+
+77
+00:06:01.205 --> 00:06:06.735
+signal particles on each momentum or transverse momentum regions for example.
+
+78
+00:06:06.735 --> 00:06:12.275
+Similar dependencies are present is modern high energy physics experiments.
+
+79
+00:06:12.275 --> 00:06:20.285
+For an example, the figure shown on the slide is provided by the LHCb experiment.
+
+80
+00:06:20.285 --> 00:06:24.430
+The figure demonstrates dependencies of the power and
+
+81
+00:06:24.430 --> 00:06:29.900
+efficiency from its transverse momentum for two different classifiers,
+
+82
+00:06:29.900 --> 00:06:32.610
+and for three different global efficiencies:
+
+83
+00:06:32.610 --> 00:06:36.380
+60 percent, 80 percent and 90 percent.
+
+84
+00:06:36.380 --> 00:06:38.130
+In the next video,
+
+85
+00:06:38.130 --> 00:06:41.170
+we will consider several approaches how to train
+
+86
+00:06:41.170 --> 00:06:45.200
+a classifier to avoid such dependencies.

@@ -1,0 +1,743 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.727
+[MUSIC]
+
+2
+00:00:03.727 --> 00:00:09.347
+In this video, we'll talk about how to
+train a classifier to provide flat or
+
+3
+00:00:09.347 --> 00:00:14.472
+uniform dependency of signal
+efficiency on the particle parameters.
+
+4
+00:00:14.472 --> 00:00:19.546
+Firstly, let's consider how to train
+a boosting over decision trees
+
+5
+00:00:19.546 --> 00:00:24.200
+classifier to provide flat
+performance on the set of features.
+
+6
+00:00:24.200 --> 00:00:28.789
+This example is based on
+the AdaBoost classifier.
+
+7
+00:00:28.789 --> 00:00:33.886
+This classifier uses the loss
+function shown on this slide.
+
+8
+00:00:33.886 --> 00:00:41.410
+In this function, gamma is a true label
+of an event, and s is score obtained for
+
+9
+00:00:41.410 --> 00:00:47.575
+each event as the sum of predictions for
+all trees in the series.
+
+10
+00:00:47.575 --> 00:00:53.171
+To provide the flat classifier
+efficiency on a set of features,
+
+11
+00:00:53.171 --> 00:01:00.046
+we modify the loss function by adding
+a new term that is responsible for flatness.
+
+12
+00:01:00.046 --> 00:01:03.175
+Let's consider how this term works.
+
+13
+00:01:03.175 --> 00:01:09.810
+Suppose that we would like to provide flat
+signal efficiency on a particle momentum.
+
+14
+00:01:09.810 --> 00:01:14.606
+For that,
+we divide the momentum values into bins.
+
+15
+00:01:14.606 --> 00:01:18.811
+Then for each bin,
+we integrate the differences between
+
+16
+00:01:18.811 --> 00:01:23.893
+the cumulative distribution of
+the classifier output in that bin and
+
+17
+00:01:23.893 --> 00:01:28.633
+the global cumulative distribution
+of the classifier output.
+
+18
+00:01:28.633 --> 00:01:34.027
+And finally, we calculate
+the weighted sum over all bins.
+
+19
+00:01:34.027 --> 00:01:40.673
+Weight of a bin is a fraction
+of signal particles in this bin.
+
+20
+00:01:40.673 --> 00:01:44.179
+This term tries to
+minimize the differences
+
+21
+00:01:44.179 --> 00:01:49.104
+between the global distribution
+of the classifier output and
+
+22
+00:01:49.104 --> 00:01:54.707
+the output distribution in the bins
+during the classifier training.
+
+23
+00:01:54.707 --> 00:01:59.853
+In case of the ideal flatness,
+this term is close to zero.
+
+24
+00:01:59.853 --> 00:02:04.330
+The modified loss function
+provides a trade-off between
+
+25
+00:02:04.330 --> 00:02:08.179
+classifier quality and
+classifier output flatness.
+
+26
+00:02:08.179 --> 00:02:13.715
+The better flatness the worse quality
+of particle type identification.
+
+27
+00:02:13.715 --> 00:02:20.063
+And the balance is determined
+by the problem requirements
+
+28
+00:02:20.063 --> 00:02:23.639
+you solve using such modification.
+
+29
+00:02:23.639 --> 00:02:28.585
+This is just one possible modification
+of the loss function described in
+
+30
+00:02:28.585 --> 00:02:32.410
+the original paper provided
+at the bottom of the slide.
+
+31
+00:02:32.410 --> 00:02:35.504
+Consider results of these modifications.
+
+32
+00:02:35.504 --> 00:02:39.575
+The figure on the slide is
+provided by the original paper.
+
+33
+00:02:39.575 --> 00:02:45.033
+It demonstrates dependencies of signal
+efficiency from a selected feature,
+
+34
+00:02:45.033 --> 00:02:48.267
+minimum distance from
+the corner in our case.
+
+35
+00:02:48.267 --> 00:02:51.956
+For several classifiers for
+
+36
+00:02:51.956 --> 00:02:56.880
+the same global efficiency of 50%.
+
+37
+00:02:56.880 --> 00:03:01.769
+This global efficiency is
+illustrated as a gray line.
+
+38
+00:03:01.769 --> 00:03:06.763
+Black curve in a figure corresponds
+to conventional AdaBoost classifier
+
+39
+00:03:06.763 --> 00:03:11.571
+without any modifications
+of its loss function.
+
+40
+00:03:11.571 --> 00:03:16.402
+This classifier has strong
+dependency of signal efficiency from
+
+41
+00:03:16.402 --> 00:03:18.169
+the selected feature.
+
+42
+00:03:18.169 --> 00:03:22.440
+The second curve,
+with the name kNNAda,
+
+43
+00:03:22.440 --> 00:03:29.749
+is also represents a non-flat AdaBoost
+classifier but with other loss function.
+
+44
+00:03:29.749 --> 00:03:35.949
+All other curves correspond to different
+flat modifications of AdaBoost classifier.
+
+45
+00:03:35.949 --> 00:03:40.718
+The results for
+the modification described in the previous
+
+46
+00:03:40.718 --> 00:03:43.934
+slide are shown as the first red curve.
+
+47
+00:03:43.934 --> 00:03:49.827
+It demonstrates much better flatness
+compared with conventional AdaBoost.
+
+48
+00:03:49.827 --> 00:03:54.103
+Consider how it works in
+the particle modification.
+
+49
+00:03:54.103 --> 00:04:01.286
+This figure shows the dependencies
+of the pion efficiency from
+
+50
+00:04:01.286 --> 00:04:07.664
+its transverse momentum at
+the LHCb experiment at CERN.
+
+51
+00:04:07.664 --> 00:04:12.835
+The figure compares two classifiers for
+three different
+
+52
+00:04:12.835 --> 00:04:17.691
+global efficiencies: 60%, 80% and 90%.
+
+53
+00:04:17.691 --> 00:04:21.507
+The blue curves correspond
+to the uniform boosting,
+
+54
+00:04:21.507 --> 00:04:24.115
+which is a AdaBoost classifier,
+
+55
+00:04:24.115 --> 00:04:27.352
+modified as it was
+described previously.
+
+56
+00:04:27.352 --> 00:04:32.184
+And the green curves
+correspond to the non-modified
+
+57
+00:04:32.184 --> 00:04:36.811
+gradient boosting classifier
+on decision trees.
+
+58
+00:04:36.811 --> 00:04:40.360
+The uniform boosting provides
+significantly better
+
+59
+00:04:40.360 --> 00:04:45.101
+flatness of the signal efficiency for
+all three global efficiencies.
+
+60
+00:04:45.101 --> 00:04:49.764
+And the trade-off between
+the uniform boosting flatness and
+
+61
+00:04:49.764 --> 00:04:55.779
+quality was tuned to provide the same
+quality as for the non-flat classifier.
+
+62
+00:04:55.779 --> 00:04:59.727
+In the paper provided at
+the bottom of the slide,
+
+63
+00:04:59.727 --> 00:05:03.398
+you can find plots for
+other particle types.
+
+64
+00:05:03.398 --> 00:05:08.966
+We considered how to modify loss
+function for an AdaBoost classifier
+
+65
+00:05:08.966 --> 00:05:14.343
+to provide flatness of its signal
+efficiency on a set of features.
+
+66
+00:05:14.343 --> 00:05:20.752
+Now let's consider a method which allows
+to train a neural network with flat
+
+67
+00:05:20.752 --> 00:05:27.177
+signal efficiency without any special
+modifications of its loss function.
+
+68
+00:05:27.177 --> 00:05:33.668
+This method is called decorrelation
+using adversarial neural network.
+
+69
+00:05:33.668 --> 00:05:38.022
+The network in this approach
+consists of two parts.
+
+70
+00:05:38.022 --> 00:05:42.795
+The first one, is a classifier
+that is trained to predict
+
+71
+00:05:42.795 --> 00:05:45.488
+a particle type for an example.
+
+72
+00:05:45.488 --> 00:05:51.444
+This classifier has its own loss
+function used for the training.
+
+73
+00:05:51.444 --> 00:05:56.212
+For an example, binary or
+categorical cross-entropy.
+
+74
+00:05:56.212 --> 00:06:02.435
+So this is just a usual neural network
+without any special modifications.
+
+75
+00:06:02.435 --> 00:06:06.440
+The second part of the network
+is an adversary network.
+
+76
+00:06:06.440 --> 00:06:11.902
+It takes outputs of the classifier for
+a particle as inputs and
+
+77
+00:06:11.902 --> 00:06:16.366
+predicts a particle momentum value,
+for example.
+
+78
+00:06:16.366 --> 00:06:21.080
+The momentum prediction is performed
+to using multiclassification
+
+79
+00:06:21.080 --> 00:06:23.851
+problem instead of the regression one.
+
+80
+00:06:23.851 --> 00:06:28.969
+For that all particle momentum values
+are divided into bins.
+
+81
+00:06:28.969 --> 00:06:34.208
+And each bin represents a separate class.
+
+82
+00:06:34.208 --> 00:06:40.772
+Adversary network predicts a bin for
+each output of the classifier.
+
+83
+00:06:40.772 --> 00:06:45.164
+Adversary network also uses
+its own loss function, and
+
+84
+00:06:45.164 --> 00:06:49.094
+in this case, it can be
+categorical cross entropy.
+
+85
+00:06:49.094 --> 00:06:52.829
+To provide flat output of the classifier,
+
+86
+00:06:52.829 --> 00:06:57.397
+we should minimize concurrently
+two loss functions
+
+87
+00:06:57.397 --> 00:07:02.288
+shown in the slide during
+the neural network training.
+
+88
+00:07:02.288 --> 00:07:05.236
+In case of the particle identification,
+
+89
+00:07:05.236 --> 00:07:09.954
+the first loss function represents
+quality of a particle momentum
+
+90
+00:07:09.954 --> 00:07:14.771
+reconstruction based on the classifier
+output for this particle.
+
+91
+00:07:14.771 --> 00:07:19.569
+The second loss function represents
+quality of the classifier.
+
+92
+00:07:19.569 --> 00:07:25.139
+But also this function penalizes
+the classifier if it's possible
+
+93
+00:07:25.139 --> 00:07:30.121
+to reconstruct the particle
+momentum based on its output.
+
+94
+00:07:30.121 --> 00:07:35.131
+The lambda in the loss function,
+is an adjustable parameter which
+
+95
+00:07:35.131 --> 00:07:40.506
+defines the trade-off between
+the classifier flatness and quality.
+
+96
+00:07:40.506 --> 00:07:43.124
+Consider how this approach works.
+
+97
+00:07:43.124 --> 00:07:47.057
+The figure on the slide is
+taken from the original paper.
+
+98
+00:07:47.057 --> 00:07:52.795
+And it demonstrates outputs for
+the decorrelated adversarial network,
+
+99
+00:07:52.795 --> 00:07:56.415
+compared to the traditional
+neural network.
+
+100
+00:07:56.415 --> 00:08:01.202
+Black curve corresponds to the
+decorrelated network, and the red curve
+
+101
+00:08:01.202 --> 00:08:06.238
+corresponds to the traditional neural
+network without adversary part.
+
+102
+00:08:06.238 --> 00:08:10.177
+The decorrelated network
+shows much flatter
+
+103
+00:08:10.177 --> 00:08:15.081
+dependency of its output
+from the jet invariant mass.
+
+104
+00:08:15.081 --> 00:08:21.451
+These two methods of uniform classifiers
+were developed for high energy physics.
+
+105
+00:08:21.451 --> 00:08:26.476
+However, these approaches
+can be used in other fields
+
+106
+00:08:26.476 --> 00:08:33.590
+where dependency of a classifier output
+on a set of features is undesirable.
+
+107
+00:08:33.590 --> 00:08:38.179
+It was last example of flat or
+uniform classifiers,
+
+108
+00:08:38.179 --> 00:08:41.215
+let's make summary of this week.
+
+109
+00:08:41.215 --> 00:08:45.442
+So we considered an example
+of a particle decay and
+
+110
+00:08:45.442 --> 00:08:51.081
+learned that mass of the mother
+particle depends on the energies,
+
+111
+00:08:51.081 --> 00:08:55.223
+momentum and
+masses of the daughter particles.
+
+112
+00:08:55.223 --> 00:09:00.206
+Tracks of the daughter particles
+are needed to check that the particles
+
+113
+00:09:00.206 --> 00:09:04.534
+originate from the same point,
+and belong to the same decay.
+
+114
+00:09:04.534 --> 00:09:09.449
+Detectors in high energy physics,
+and the different systems,
+
+115
+00:09:09.449 --> 00:09:13.835
+are needed to estimate
+a particle trajectory, momentum,
+
+116
+00:09:13.835 --> 00:09:18.572
+energy, and its type to be able
+to recognize particle decays and
+
+117
+00:09:18.572 --> 00:09:22.108
+reconstruct parameters
+of mother particles.
+
+118
+00:09:22.108 --> 00:09:26.800
+We also considered several of
+the most common detector systems
+
+119
+00:09:26.800 --> 00:09:28.733
+in high energy physics.
+
+120
+00:09:28.733 --> 00:09:33.613
+The systems are tracking system,
+ring-imaging Cherenkov detector,
+
+121
+00:09:33.613 --> 00:09:37.843
+electromagnetic and
+hadron calorimeters and muon system.
+
+122
+00:09:37.843 --> 00:09:41.206
+All these systems recognize particles,
+
+123
+00:09:41.206 --> 00:09:46.498
+measure their energy and
+momentum and identify their types.
+
+124
+00:09:46.498 --> 00:09:50.296
+All charge particles have
+responses in the tracking
+
+125
+00:09:50.296 --> 00:09:55.138
+system to reconstruct their tracks and
+measures their momentum.
+
+126
+00:09:55.138 --> 00:09:59.856
+Ring-imaging Cherenkov
+detector identify particle
+
+127
+00:09:59.856 --> 00:10:03.505
+type based on it's track and momentum.
+
+128
+00:10:03.505 --> 00:10:08.720
+Electrons and photons are stopped by the
+electromagnetic calorimeter, which also
+
+129
+00:10:08.720 --> 00:10:13.947
+measures their energies, other particles
+fly farther to the hadron calorimeter.
+
+130
+00:10:13.947 --> 00:10:18.079
+And hadron calorimeter stops protons,
+neutrons and
+
+131
+00:10:18.079 --> 00:10:23.326
+other particles containing quarks and
+estimates their energies.
+
+132
+00:10:23.326 --> 00:10:28.234
+Muons pass all detector systems and
+are detected in the muon system.
+
+133
+00:10:28.234 --> 00:10:32.789
+Also we saw different cases in high
+energy physics experiments where
+
+134
+00:10:32.789 --> 00:10:35.075
+machine learning can be applied.
+
+135
+00:10:35.075 --> 00:10:39.275
+Machine learning can be used for
+particle tracks pattern
+
+136
+00:10:39.275 --> 00:10:43.659
+recognition among detector hits and
+reject ghost tracks.
+
+137
+00:10:43.659 --> 00:10:48.015
+Combining tracks into vertices
+to recognize particle decays and
+
+138
+00:10:48.015 --> 00:10:51.109
+to estimate properties
+of mother particles.
+
+139
+00:10:51.109 --> 00:10:56.574
+Machine learning can help to increase
+precision of particle momentum
+
+140
+00:10:56.574 --> 00:11:01.948
+estimation in tracking systems or
+to improve ring image recognition
+
+141
+00:11:01.948 --> 00:11:06.873
+in RICH subdetectors for
+better particle type identification.
+
+142
+00:11:06.873 --> 00:11:12.536
+Particle energy estimation and
+neutral particle identification
+
+143
+00:11:12.536 --> 00:11:18.105
+based on calorimeter responses
+are also examples of such cases.
+
+144
+00:11:18.105 --> 00:11:23.701
+We detailed discussed how different
+classifiers can be used for global
+
+145
+00:11:23.701 --> 00:11:30.334
+particle identification based on responses
+of different systems of the detector.
+
+146
+00:11:30.334 --> 00:11:35.608
+And how to train them to provide
+flatness of signal efficiency on
+
+147
+00:11:35.608 --> 00:11:41.869
+a set of features like particle momentum,
+transverse momentum or energy.
+
+148
+00:11:41.869 --> 00:11:46.440
+Finally, if you would like to get
+more information about machine
+
+149
+00:11:46.440 --> 00:11:50.941
+learning in the high energy physics,
+this slide will help you.
+
+150
+00:11:50.941 --> 00:11:55.513
+It provides a list of references
+to different articles and
+
+151
+00:11:55.513 --> 00:11:58.320
+talks about successful examples.
+
+152
+00:11:58.320 --> 00:12:01.930
+Thank you very much for
+your attention and see you next week.
+
+153
+00:12:03.451 --> 00:12:09.662
+[MUSIC]
