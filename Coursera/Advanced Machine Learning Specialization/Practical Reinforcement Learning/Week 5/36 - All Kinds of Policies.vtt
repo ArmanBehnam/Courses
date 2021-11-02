@@ -1,0 +1,341 @@
+WEBVTT
+
+1
+00:00:02.840 --> 00:00:06.390
+Now, to make a recap. We need to learn an optimal policy.
+
+2
+00:00:06.390 --> 00:00:08.715
+To do so, we need to define our policy,
+
+3
+00:00:08.715 --> 00:00:09.870
+initialize it's main bit random,
+
+4
+00:00:09.870 --> 00:00:12.930
+and then we need some kind of algorithm that improves this policy,
+
+5
+00:00:12.930 --> 00:00:14.585
+explain the policy part.
+
+6
+00:00:14.585 --> 00:00:17.440
+We have to define the kind of the behavior.
+
+7
+00:00:17.440 --> 00:00:19.635
+We have to define how algorithm takes actions.
+
+8
+00:00:19.635 --> 00:00:23.095
+There is two general approaches to how you do this.
+
+9
+00:00:23.095 --> 00:00:26.015
+The first, the simplest one, is you learn an algorithm
+
+10
+00:00:26.015 --> 00:00:29.005
+that takes your state and predicts one action.
+
+11
+00:00:29.005 --> 00:00:31.530
+So basically, it doesn't learn anything but for the number
+
+12
+00:00:31.530 --> 00:00:34.685
+of action or maybe the value of action if it's continuous.
+
+13
+00:00:34.685 --> 00:00:38.790
+The second kind is the idea that you can learn a probabilistic distributions.
+
+14
+00:00:38.790 --> 00:00:42.465
+So you can learn to predict the probabilities of taking each possible action.
+
+15
+00:00:42.465 --> 00:00:45.270
+Those two approaches are kind of
+
+16
+00:00:45.270 --> 00:00:47.640
+different in the way that what algorithms they work with,
+
+17
+00:00:47.640 --> 00:00:48.810
+and they're presenting method,
+
+18
+00:00:48.810 --> 00:00:51.115
+for example, can only work the stochastic policy.
+
+19
+00:00:51.115 --> 00:00:53.590
+Now, let's try to compare those two approaches.
+
+20
+00:00:53.590 --> 00:00:56.610
+Let's say that you have two algorithms with first one learns
+
+21
+00:00:56.610 --> 00:00:59.580
+the deterministic policy and second learn stochastic policy sum distribution,
+
+22
+00:00:59.580 --> 00:01:02.745
+and you try to compare them across different games.
+
+23
+00:01:02.745 --> 00:01:05.670
+Is there maybe some case in which stochastic policy will learn
+
+24
+00:01:05.670 --> 00:01:10.570
+an optimal policy and deterministic policy will fail? Any ideas?
+
+25
+00:01:10.570 --> 00:01:15.240
+For example, let's say you have some kind of game where you have an adversary.
+
+26
+00:01:15.240 --> 00:01:18.340
+You have an opponent which tries to get you to lose.
+
+27
+00:01:18.340 --> 00:01:20.670
+See how you play rock-paper-scissors.
+
+28
+00:01:20.670 --> 00:01:24.460
+Idea here is that the optimal policy in rock-paper-scissors,
+
+29
+00:01:24.460 --> 00:01:26.415
+if you're playing against your recent opponent,
+
+30
+00:01:26.415 --> 00:01:29.050
+is to pick all possible actions at random.
+
+31
+00:01:29.050 --> 00:01:31.100
+If you only have one action,
+
+32
+00:01:31.100 --> 00:01:32.495
+if you're using deterministic policy,
+
+33
+00:01:32.495 --> 00:01:34.700
+the opponent is going to adapt and always show
+
+34
+00:01:34.700 --> 00:01:37.240
+the item that will beat your current policy.
+
+35
+00:01:37.240 --> 00:01:40.240
+And this way, you won't be able to learn anything.
+
+36
+00:01:40.240 --> 00:01:45.900
+Now, the stochastic policy will be able to converge to a probability of one over three,
+
+37
+00:01:45.900 --> 00:01:47.235
+in this case, one-third.
+
+38
+00:01:47.235 --> 00:01:51.865
+And this way, it will very much better than a deterministic policy.
+
+39
+00:01:51.865 --> 00:01:58.165
+Another feature of stochastic policy that kind of takes care of exploration for you.
+
+40
+00:01:58.165 --> 00:02:01.365
+Remember in Q learning, you had to pick the optimal action
+
+41
+00:02:01.365 --> 00:02:05.610
+but you had to throw or flip a coin and with probability action,
+
+42
+00:02:05.610 --> 00:02:07.825
+you have to pick a random action as the optimal one.
+
+43
+00:02:07.825 --> 00:02:13.080
+And to do so, to explore the space of possible strategy, space of actions.
+
+44
+00:02:13.080 --> 00:02:16.020
+And this time, you won't have to do this
+
+45
+00:02:16.020 --> 00:02:19.980
+because you already have stochastic policy that which simples actions at random.
+
+46
+00:02:19.980 --> 00:02:22.180
+Now, deterministic policy, of course,
+
+47
+00:02:22.180 --> 00:02:25.990
+you has a requirement of sampling exploration strategy.
+
+48
+00:02:25.990 --> 00:02:29.890
+It cannot be seen as a pure boon of stochastic policies because sometimes,
+
+49
+00:02:29.890 --> 00:02:33.645
+you do want to explicitly see what kind of exploration you want,
+
+50
+00:02:33.645 --> 00:02:37.550
+and stochastic policy methods like [inaudible] method doesn't allow you to do so explicitly.
+
+51
+00:02:37.550 --> 00:02:40.445
+Instead, it relies on some kind of penalties and regulations.
+
+52
+00:02:40.445 --> 00:02:43.365
+There's one thing we have not discussed about the stochastic policies.
+
+53
+00:02:43.365 --> 00:02:45.500
+The idea is that if you have, say, five actions,
+
+54
+00:02:45.500 --> 00:02:47.685
+you're solving Atari and the actions have buttons,
+
+55
+00:02:47.685 --> 00:02:50.700
+this kind of symbol to decide how to define probability distribution.
+
+56
+00:02:50.700 --> 00:02:53.300
+You simply memorize the probability of each action,
+
+57
+00:02:53.300 --> 00:02:54.895
+make sure they sum to one.
+
+58
+00:02:54.895 --> 00:02:59.905
+Now, the different cases where you have a continuous value for actions.
+
+59
+00:02:59.905 --> 00:03:02.180
+Say you are controlling a robot, and your action is
+
+60
+00:03:02.180 --> 00:03:05.095
+what kind of voltage do you want to apply to the joint, to the motor there.
+
+61
+00:03:05.095 --> 00:03:08.110
+In this case, you cannot simply memorize all possible outcomes,
+
+62
+00:03:08.110 --> 00:03:10.935
+their probabilities, because there is continuous amount of them.
+
+63
+00:03:10.935 --> 00:03:16.060
+How did you find the probabilistic policy in case of continuous actions? Any ideas?
+
+64
+00:03:16.060 --> 00:03:19.300
+In this kind of thing, you could try some kind of distribution.
+
+65
+00:03:19.300 --> 00:03:22.255
+For continuous variable, a normal distribution would do.
+
+66
+00:03:22.255 --> 00:03:24.625
+Or maybe, if you have a bound that contiues forever,
+
+67
+00:03:24.625 --> 00:03:26.810
+you could try some kind of better distribution or
+
+68
+00:03:26.810 --> 00:03:29.445
+something similar that relates to your particular problem.
+
+69
+00:03:29.445 --> 00:03:32.605
+The methods we're going to study right now are so-called policy based methods.
+
+70
+00:03:32.605 --> 00:03:35.545
+There are two kinds of main families of methods in reinforcement learning.
+
+71
+00:03:35.545 --> 00:03:38.130
+There are the value based methods and the policy based ones.
+
+72
+00:03:38.130 --> 00:03:40.330
+The value based methods rely on, first,
+
+73
+00:03:40.330 --> 00:03:41.780
+learning some kind of value function,
+
+74
+00:03:41.780 --> 00:03:44.235
+V or Q or whatever.
+
+75
+00:03:44.235 --> 00:03:47.200
+And then, they infer policy given the value function.
+
+76
+00:03:47.200 --> 00:03:49.520
+Remember, if you have all perfect Q values,
+
+77
+00:03:49.520 --> 00:03:53.080
+then you can simply find the optimal ones,
+
+78
+00:03:53.080 --> 00:03:55.480
+the maximum Q function in this particular state,
+
+79
+00:03:55.480 --> 00:03:57.435
+and this would be your optimal action.
+
+80
+00:03:57.435 --> 00:04:00.450
+However, if you don't know you have some error in Q values,
+
+81
+00:04:00.450 --> 00:04:02.125
+your policy would be sub-optimal.
+
+82
+00:04:02.125 --> 00:04:04.690
+Policy based methods don't rely on this thing.
+
+83
+00:04:04.690 --> 00:04:08.240
+They try to explicitly learn probability or deterministic policy,
+
+84
+00:04:08.240 --> 00:04:10.440
+and they adjust them to implicitly
+
+85
+00:04:10.440 --> 00:04:14.210
+maximize the expected reward or some other kind of objective.

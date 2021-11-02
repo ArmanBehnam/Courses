@@ -1,0 +1,756 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.142
+[SOUND] Now of course,
+algorithm would have to
+
+2
+00:00:05.142 --> 00:00:10.041
+use the second Monte Carlo
+version of our formula.
+
+3
+00:00:10.041 --> 00:00:12.460
+This is because in any
+particular environment,
+
+4
+00:00:12.460 --> 00:00:14.291
+you'd only get access to sessions.
+
+5
+00:00:14.291 --> 00:00:17.971
+You could only sample trajectories and
+record your states, actions, rewards,
+
+6
+00:00:17.971 --> 00:00:20.919
+next states, next actions, and
+so on, until the session ends.
+
+7
+00:00:22.040 --> 00:00:27.420
+So the algorithm we appear at, it looks
+very close what we had in the method.
+
+8
+00:00:27.420 --> 00:00:29.550
+We start by defining our policy.
+
+9
+00:00:29.550 --> 00:00:32.290
+This will be your table or
+your neural network or
+
+10
+00:00:32.290 --> 00:00:36.930
+maybe a random forest if you feel
+itchy for something tree-based.
+
+11
+00:00:36.930 --> 00:00:38.980
+Now, we try this at random or
+
+12
+00:00:38.980 --> 00:00:41.660
+use any domain specific initials
+[INAUDIBLE] you can think of.
+
+13
+00:00:41.660 --> 00:00:46.210
+And then we sample sessions by
+following this particular policy.
+
+14
+00:00:46.210 --> 00:00:50.630
+So at our example you will initialize
+the weight of your convolution matrix with
+
+15
+00:00:50.630 --> 00:00:52.700
+random numbers,
+then you'll play a few games.
+
+16
+00:00:53.760 --> 00:00:57.440
+Now after you finish playing a game you'll
+have this trajectory which goes from state
+
+17
+00:00:57.440 --> 00:01:01.020
+0 up to the n state, the state whatever,
+
+18
+00:01:01.020 --> 00:01:04.220
+state 10,000 if that's how long it
+took for you to finish the game.
+
+19
+00:01:05.350 --> 00:01:09.070
+Now, if you have this full set of states,
+actions and rewards,
+
+20
+00:01:09.070 --> 00:01:12.620
+you can actually use the rewards to
+compute this discounted commodity of game,
+
+21
+00:01:12.620 --> 00:01:15.650
+the commodity of returns, so called.
+
+22
+00:01:15.650 --> 00:01:20.180
+If you take your immediate rewards, the r0
+r1 and so on until the session ends,
+
+23
+00:01:20.180 --> 00:01:23.460
+then you just add them up from
+the last one up to the first one.
+
+24
+00:01:23.460 --> 00:01:26.970
+You add them up with the coefficients
+defined by your discount, gamma.
+
+25
+00:01:26.970 --> 00:01:31.602
+You will obtain the estimate
+of your your g.
+
+26
+00:01:31.602 --> 00:01:34.842
+And this is some kind of estimate for
+the q function.
+
+27
+00:01:34.842 --> 00:01:38.274
+Now what you do next,
+is you use the policy gradient formula,
+
+28
+00:01:38.274 --> 00:01:40.591
+you have obtained a few chapters before.
+
+29
+00:01:40.591 --> 00:01:44.980
+To compute the estimate of the gradient
+of your expected reward with respect to
+
+30
+00:01:44.980 --> 00:01:47.450
+policy given just this one single session.
+
+31
+00:01:48.790 --> 00:01:52.120
+Now this is a simple
+step after which you can
+
+32
+00:01:52.120 --> 00:01:55.230
+perform a gradient ascend
+restrict policy parameters.
+
+33
+00:01:55.230 --> 00:01:58.290
+Suppose if you use some kind of neural
+network you would not only have to compute
+
+34
+00:01:58.290 --> 00:01:59.630
+the gradient with respect to policy but
+
+35
+00:01:59.630 --> 00:02:02.530
+also with the respect to
+the weight of your neural network.
+
+36
+00:02:03.620 --> 00:02:07.180
+So here is how the algorithm is
+formulated, first initialize,
+
+37
+00:02:07.180 --> 00:02:08.740
+then sample sessions.
+
+38
+00:02:08.740 --> 00:02:12.629
+Then use the session you
+obtained to compute both the and
+
+39
+00:02:12.629 --> 00:02:14.871
+then update the brand of the policy.
+
+40
+00:02:14.871 --> 00:02:17.625
+You can then repeat the steps
+from sampling more sessions and
+
+41
+00:02:17.625 --> 00:02:20.330
+getting more updates to improve
+your policy even further.
+
+42
+00:02:20.330 --> 00:02:24.120
+Now we have just learned on
+the definition for reinforce algorithms.
+
+43
+00:02:24.120 --> 00:02:25.770
+Now, let's see what kind of
+properties does it show and
+
+44
+00:02:25.770 --> 00:02:27.830
+how does it compare to other
+algorithms we already know.
+
+45
+00:02:28.830 --> 00:02:31.820
+To start, let's consider
+the on-policy versus off-policy.
+
+46
+00:02:31.820 --> 00:02:34.507
+Remember we had the on-policy
+algorithms like SARSA, and
+
+47
+00:02:34.507 --> 00:02:36.399
+the off-policy ones like Q-learning.
+
+48
+00:02:36.399 --> 00:02:39.420
+Now I want you to answer,
+what kind of algorithm reinforce is.
+
+49
+00:02:39.420 --> 00:02:42.126
+Is it on-policy or off-policy?
+
+50
+00:02:42.126 --> 00:02:45.974
+Session send, as you have probably
+guessed, reinforce is on-policy, and
+
+51
+00:02:45.974 --> 00:02:49.410
+it's this very first step of
+the loop that betrays it.
+
+52
+00:02:49.410 --> 00:02:53.445
+In this step, it's required that
+the REINFORCE sample the trajectories for
+
+53
+00:02:53.445 --> 00:02:55.318
+training from its current policy.
+
+54
+00:02:55.318 --> 00:02:58.571
+So it would be kind of legal if you just
+replace this policy with something else
+
+55
+00:02:58.571 --> 00:03:01.590
+like human expert or
+an experienced samples.
+
+56
+00:03:01.590 --> 00:03:04.440
+Now, another very important
+concept REINFORCE, that there is
+
+57
+00:03:04.440 --> 00:03:07.760
+actually a way to improve it using
+what you've learned about q functions,
+
+58
+00:03:07.760 --> 00:03:10.430
+v functions, and other functions like.
+
+59
+00:03:10.430 --> 00:03:12.720
+To begin with,
+let's consider this example.
+
+60
+00:03:12.720 --> 00:03:17.380
+You're training your agent to
+perform well in a breakout game in
+
+61
+00:03:17.380 --> 00:03:18.800
+the Atari environment for example.
+
+62
+00:03:19.800 --> 00:03:24.300
+This case you have either states where
+the ball is on the opposite side of your
+
+63
+00:03:24.300 --> 00:03:27.870
+field, and you're earning a lot
+of points really quickly.
+
+64
+00:03:27.870 --> 00:03:31.100
+And you'll still have more
+complicated states where you're
+
+65
+00:03:31.100 --> 00:03:34.050
+very close to missing a bowl and there
+is just one action that saves you and
+
+66
+00:03:34.050 --> 00:03:36.640
+the rest is more or
+less a guaranteed defeat.
+
+67
+00:03:37.730 --> 00:03:40.900
+In this case, the Q faction you're
+going to get from different states of
+
+68
+00:03:40.900 --> 00:03:44.160
+random are going to be significantly
+different from one another.
+
+69
+00:03:44.160 --> 00:03:47.090
+The problem here is that if
+you use those Q functions,
+
+70
+00:03:47.090 --> 00:03:52.260
+if you actually multiply your gradients
+by those Q functions [INAUDIBLE] formula,
+
+71
+00:03:52.260 --> 00:03:55.690
+the easiest things where your agent
+already gets all the points, but
+
+72
+00:03:55.690 --> 00:03:59.580
+it doesn't actually do anything right
+now to increase the amount of points.
+
+73
+00:03:59.580 --> 00:04:02.350
+They'll get upweighted,
+they'll have large weights.
+
+74
+00:04:02.350 --> 00:04:04.561
+The difficult states
+will have low weights,
+
+75
+00:04:04.561 --> 00:04:07.482
+because your agent kind of gets
+small rewards in this case.
+
+76
+00:04:07.482 --> 00:04:10.507
+This is also true about pretty much
+any practical problem with any
+
+77
+00:04:10.507 --> 00:04:12.110
+complexity to it.
+
+78
+00:04:12.110 --> 00:04:15.339
+Let's say you are teaching your
+agent to translate sentences,
+
+79
+00:04:15.339 --> 00:04:18.109
+translate a natural language
+from English to French.
+
+80
+00:04:18.109 --> 00:04:20.617
+In this case,
+that'd be many kind of sentences.
+
+81
+00:04:20.617 --> 00:04:23.222
+The simple example with large
+rewards would be a sentence like,
+
+82
+00:04:23.222 --> 00:04:24.770
+how do I get to the library?
+
+83
+00:04:24.770 --> 00:04:27.706
+Or Jon Snow or whichever.
+
+84
+00:04:27.706 --> 00:04:30.920
+Those sentences can be translated very
+efficiently and your agent will almost
+
+85
+00:04:30.920 --> 00:04:34.630
+suddenly get a perfect score,
+say out of 100 for translating them,
+
+86
+00:04:34.630 --> 00:04:38.250
+even if it is not strictly the optimal
+translator for this sentence.
+
+87
+00:04:39.320 --> 00:04:42.230
+Now, the other kind of sentence
+is a super complicated one.
+
+88
+00:04:42.230 --> 00:04:46.230
+Let's say you have maybe
+a transcript of this lecture or
+
+89
+00:04:46.230 --> 00:04:50.030
+some kind of excerpt from maybe
+a constitution of some sort.
+
+90
+00:04:50.030 --> 00:04:53.610
+In this case, the sentence will be
+overloaded with a lot of adjectives,
+
+91
+00:04:53.610 --> 00:04:54.750
+a lot of clauses.
+
+92
+00:04:54.750 --> 00:04:58.300
+And it's really hard to translate
+it by any known translation system.
+
+93
+00:04:59.460 --> 00:05:02.320
+Now, the problem is that
+in this difficult sentence,
+
+94
+00:05:02.320 --> 00:05:07.400
+any improvement agent makes is actually
+going to affect the score much better
+
+95
+00:05:07.400 --> 00:05:10.180
+than any improvement in
+this Jon Snow example.
+
+96
+00:05:10.180 --> 00:05:11.770
+But the reinforce algorithm,
+
+97
+00:05:11.770 --> 00:05:16.320
+the policy gradient information we've
+just derived, kind of stays the opposite.
+
+98
+00:05:16.320 --> 00:05:18.885
+This case you would multiply
+your simple sentences,
+
+99
+00:05:18.885 --> 00:05:20.603
+the gradient of simple sentences.
+
+100
+00:05:20.603 --> 00:05:22.948
+But the slash you want is plus 100, and
+
+101
+00:05:22.948 --> 00:05:27.170
+your more complicated sentences with
+whatever the agent gets, say 20.
+
+102
+00:05:27.170 --> 00:05:31.220
+This is kind of where, this is not
+the kind of behavior you want to exhibit.
+
+103
+00:05:31.220 --> 00:05:33.436
+On the contrary,
+you want to encourage your agent for
+
+104
+00:05:33.436 --> 00:05:36.230
+doing things that aren't not
+just good by themselves.
+
+105
+00:05:36.230 --> 00:05:39.330
+Not just good because there is just
+a simple task to perform this time.
+
+106
+00:05:39.330 --> 00:05:42.800
+But you want to reward the things that
+our goods are in comparison to how your
+
+107
+00:05:42.800 --> 00:05:44.565
+agent usually performs here.
+
+108
+00:05:44.565 --> 00:05:48.200
+So if you on average perform
+very poor on these sentences,
+
+109
+00:05:48.200 --> 00:05:50.050
+you'll say you'll get
+a reward of 10 out of 100.
+
+110
+00:05:50.050 --> 00:05:53.399
+Now, you've just got a reward for,
+say, 30.
+
+111
+00:05:53.399 --> 00:05:54.870
+This is a very good improvement.
+
+112
+00:05:54.870 --> 00:05:56.150
+You have to capitalize on it.
+
+113
+00:05:56.150 --> 00:05:59.595
+You have to actually make sure
+that agents learn this and
+
+114
+00:05:59.595 --> 00:06:02.097
+learns to repeat this thing more often.
+
+115
+00:06:02.097 --> 00:06:08.327
+And if it says Jon Snow perfectly,
+just like during previous 100 iterations,
+
+116
+00:06:08.327 --> 00:06:12.768
+it's not a big deal,
+even though it gets a perfect score.
+
+117
+00:06:12.768 --> 00:06:14.206
+Now this basically translates,
+
+118
+00:06:14.206 --> 00:06:17.690
+that you have baseline in
+the reinforcement learning algorithm.
+
+119
+00:06:17.690 --> 00:06:20.812
+Now the idea here is that you want
+to reward not the Q function,
+
+120
+00:06:20.812 --> 00:06:24.314
+as is written in this formula, but
+something called the advantage.
+
+121
+00:06:24.314 --> 00:06:28.410
+So the advantage is, how good does your
+algorithm perform to what it usually does?
+
+122
+00:06:28.410 --> 00:06:32.160
+It's like the advantage
+versus the usual performance.
+
+123
+00:06:32.160 --> 00:06:34.150
+And this leads us to a bit more math here.
+
+124
+00:06:35.190 --> 00:06:38.160
+Now, let's define advantage
+as the difference between
+
+125
+00:06:38.160 --> 00:06:41.770
+the Q function of a particular action and
+the V function.
+
+126
+00:06:41.770 --> 00:06:44.530
+The situation here is
+that the advantage for
+
+127
+00:06:44.530 --> 00:06:49.070
+kind of average, okay,
+action is going to be near zero.
+
+128
+00:06:49.070 --> 00:06:50.480
+The advantage of something remarkable,
+
+129
+00:06:50.480 --> 00:06:55.260
+which has accidentally gotten much more
+utility, much more cumulative gain,
+
+130
+00:06:55.260 --> 00:06:59.130
+much more Q than you expected,
+would be a high positive number.
+
+131
+00:06:59.130 --> 00:07:02.969
+In case of a very simple situation, where
+your agent routinely gets large rewards.
+
+132
+00:07:02.969 --> 00:07:07.994
+Even small detrimental change,
+even if you shift from 100 to plus 90,
+
+133
+00:07:07.994 --> 00:07:10.438
+you'd get the negative advantage.
+
+134
+00:07:10.438 --> 00:07:12.163
+Because this is the case for
+
+135
+00:07:12.163 --> 00:07:15.840
+your current Q value is smaller
+than the expected Q value.
+
+136
+00:07:17.360 --> 00:07:18.570
+Now what you actually want to do,
+
+137
+00:07:18.570 --> 00:07:20.960
+you want to replace the Q
+value here with the advantage.
+
+138
+00:07:20.960 --> 00:07:25.260
+You want to encourage the actions that
+are better with respect to the average.
+
+139
+00:07:25.260 --> 00:07:26.730
+I think we can do that.
+
+140
+00:07:26.730 --> 00:07:30.170
+From mathematical point of view,
+what we do is we simply take the original
+
+141
+00:07:30.170 --> 00:07:35.070
+formulation and from every Q function here
+we subtract something called the baseline.
+
+142
+00:07:35.070 --> 00:07:38.125
+Now, baseline is just some function
+which is only dependent on the state, so
+
+143
+00:07:38.125 --> 00:07:40.340
+it does not depend on the action.
+
+144
+00:07:40.340 --> 00:07:43.727
+Mathematically we can actually do so
+without changing the optimal policy.
+
+145
+00:07:43.727 --> 00:07:47.380
+The main intuitive explanation is
+that let's say you have two actions.
+
+146
+00:07:47.380 --> 00:07:50.238
+The first gives you a reward of plus 100.
+
+147
+00:07:50.238 --> 00:07:52.642
+The second gives you
+the reward of plus 90.
+
+148
+00:07:52.642 --> 00:07:57.623
+And if you subtract 90 from both of those
+actions, you'll get the Q values of,
+
+149
+00:07:57.623 --> 00:07:58.880
+well, 10 and 0.
+
+150
+00:07:58.880 --> 00:08:04.509
+If you subtract 110,
+you'd actually get rewards of -10 and -20.
+
+151
+00:08:04.509 --> 00:08:08.470
+In both those cases, the optimal
+action is going to be the first one,
+
+152
+00:08:08.470 --> 00:08:10.610
+because it has the highest Q value.
+
+153
+00:08:10.610 --> 00:08:13.410
+The same applies for
+situations with many states.
+
+154
+00:08:13.410 --> 00:08:15.870
+Just for each state you have some
+
+155
+00:08:15.870 --> 00:08:20.300
+particular function [INAUDIBLE] from
+all the Q functions that you find for
+
+156
+00:08:20.300 --> 00:08:22.780
+this state that you won't change
+your [INAUDIBLE] policy here.
+
+157
+00:08:22.780 --> 00:08:26.853
+Because every option is being
+adjusted by the same amount.
+
+158
+00:08:26.853 --> 00:08:33.719
+[SOUND]
+
+159
+00:08:33.719 --> 00:08:38.825
+[MUSIC]

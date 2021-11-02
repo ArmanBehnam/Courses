@@ -1,0 +1,329 @@
+WEBVTT
+
+1
+00:00:02.810 --> 00:00:06.375
+So let's get to the second part of our material for this week.
+
+2
+00:00:06.375 --> 00:00:10.500
+This time we're going to study a more advanced analysis of the ramifications of what it
+
+3
+00:00:10.500 --> 00:00:12.320
+takes to train by policy-based methods in
+
+4
+00:00:12.320 --> 00:00:15.005
+comparison to the stuff we already know, the value-based ones.
+
+5
+00:00:15.005 --> 00:00:18.170
+Now, instead of trying to give you yet another list of many things,
+
+6
+00:00:18.170 --> 00:00:19.545
+I want you to analyze,
+
+7
+00:00:19.545 --> 00:00:21.415
+I want you to make some of the conclusions.
+
+8
+00:00:21.415 --> 00:00:23.960
+Remember, there are some key differences in terms of what
+
+9
+00:00:23.960 --> 00:00:26.430
+value-based methods learn and what policy-based methods learn.
+
+10
+00:00:26.430 --> 00:00:30.910
+And I want you to guess what are the possible conclusions of this difference.
+
+11
+00:00:30.910 --> 00:00:34.040
+Yes. Actions overall.
+
+12
+00:00:34.040 --> 00:00:37.870
+Yes, there is definitely more than the one thing in which we differ.
+
+13
+00:00:37.870 --> 00:00:39.790
+And the most kind of,
+
+14
+00:00:39.790 --> 00:00:41.980
+the most important advantage of
+
+15
+00:00:41.980 --> 00:00:45.980
+the policy-based methods is that they kind of learn the simple problem.
+
+16
+00:00:45.980 --> 00:00:48.800
+We'll see how this difference in approaches gives you
+
+17
+00:00:48.800 --> 00:00:51.040
+better average rewards later on when we
+
+18
+00:00:51.040 --> 00:00:53.790
+cover particular implementation of policy-based algorithms.
+
+19
+00:00:53.790 --> 00:00:56.390
+Now, another huge point here is that,
+
+20
+00:00:56.390 --> 00:00:58.190
+the value-based and policy-based algorithms,
+
+21
+00:00:58.190 --> 00:01:01.180
+they have different kind of ideal how they explore.
+
+22
+00:01:01.180 --> 00:01:02.900
+Value-based methods, If you remember,
+
+23
+00:01:02.900 --> 00:01:06.040
+you have to specify the explicit kind of exploration strategy,
+
+24
+00:01:06.040 --> 00:01:10.595
+with epsilon-greedy strategy or Boltzmann softmax strategy.
+
+25
+00:01:10.595 --> 00:01:13.435
+Basically, you have your Q-values and you determine the probabilities of
+
+26
+00:01:13.435 --> 00:01:17.205
+actions given those Q-values and any other parameter you want.
+
+27
+00:01:17.205 --> 00:01:20.235
+Now, in policy-based methods, you don't have this thing.
+
+28
+00:01:20.235 --> 00:01:22.725
+Instead, you have to sample from your policy.
+
+29
+00:01:22.725 --> 00:01:25.750
+And this is both a boon and a quirk basically.
+
+30
+00:01:25.750 --> 00:01:28.010
+So, what you have is, in policy-based methods,
+
+31
+00:01:28.010 --> 00:01:32.520
+you cannot explicitly tell the algorithm that should over or under explore.
+
+32
+00:01:32.520 --> 00:01:34.850
+But instead, you have this kind of,
+
+33
+00:01:34.850 --> 00:01:36.600
+you have algorithm decide for itself,
+
+34
+00:01:36.600 --> 00:01:41.605
+whether it wants to explore more at this stage because it's kind of not sure what to do,
+
+35
+00:01:41.605 --> 00:01:45.855
+or it wants to take the opposite direction because it's obviously straight from offset.
+
+36
+00:01:45.855 --> 00:01:48.010
+So, you can of course,
+
+37
+00:01:48.010 --> 00:01:50.595
+affect how the policy-based algorithms explore.
+
+38
+00:01:50.595 --> 00:01:52.685
+Work out this just in a few slides.
+
+39
+00:01:52.685 --> 00:01:55.570
+Now, finally you can point out some of the areas where
+
+40
+00:01:55.570 --> 00:01:57.800
+the current scientific progress has better
+
+41
+00:01:57.800 --> 00:02:00.640
+developed for the value-based methods or the policy-based ones.
+
+42
+00:02:00.640 --> 00:02:04.370
+For value-based methods, their main strength is that, instead of value-based,
+
+43
+00:02:04.370 --> 00:02:08.645
+they give you this free estimate of how good this particular state is.
+
+44
+00:02:08.645 --> 00:02:11.560
+You can use it for some kind of seeing the charts and
+
+45
+00:02:11.560 --> 00:02:15.350
+for other algorithms that rely on this value-based approach.
+
+46
+00:02:15.350 --> 00:02:18.310
+Finally, value-based methods, have this, well,
+
+47
+00:02:18.310 --> 00:02:22.435
+more kind of more mechanisms designed to train off-policy.
+
+48
+00:02:22.435 --> 00:02:26.030
+For example, both Q-learning and expected value SARSA simple algorithms,
+
+49
+00:02:26.030 --> 00:02:28.465
+may be trained on session sampled from
+
+50
+00:02:28.465 --> 00:02:31.630
+experience cheaply just as well as their own sessions.
+
+51
+00:02:31.630 --> 00:02:33.370
+The main advantage here is that,
+
+52
+00:02:33.370 --> 00:02:34.815
+since you can train off-policy,
+
+53
+00:02:34.815 --> 00:02:37.820
+you increase this property of simple efficiency.
+
+54
+00:02:37.820 --> 00:02:41.040
+The idea is that, your algorithm requires less training data,
+
+55
+00:02:41.040 --> 00:02:44.330
+less actual playing to converge to the optimal strategy.
+
+56
+00:02:44.330 --> 00:02:46.060
+Now, of course there are similar ways you
+
+57
+00:02:46.060 --> 00:02:49.130
+can take class actions for policy-based methods.
+
+58
+00:02:49.130 --> 00:02:53.260
+But, they are slightly harder to grasp and even harder to implement.
+
+59
+00:02:53.260 --> 00:02:57.420
+Speaking of the advantages of policy-based methods,
+
+60
+00:02:57.420 --> 00:03:02.285
+first you have this innate ability to work with any kind of probability distribution.
+
+61
+00:03:02.285 --> 00:03:05.530
+For example, if you have actions that are not discrete but continuous,
+
+62
+00:03:05.530 --> 00:03:07.830
+you can specify a multi-dimensional normal distribution
+
+63
+00:03:07.830 --> 00:03:11.390
+or Laplacian distribution or anything you want for your particular task.
+
+64
+00:03:11.390 --> 00:03:13.000
+And, you can just plug it to
+
+65
+00:03:13.000 --> 00:03:15.680
+the policy algorithm or formula and it will work like a blaze.
+
+66
+00:03:15.680 --> 00:03:20.520
+Now, basically this allows you to train
+
+67
+00:03:20.520 --> 00:03:26.145
+not actually terrible on the continuous action basis and,
+
+68
+00:03:26.145 --> 00:03:28.180
+of course you can do better with special case algorithms
+
+69
+00:03:28.180 --> 00:03:30.430
+that we're going to cover in the reading section.
+
+70
+00:03:30.430 --> 00:03:34.865
+But however, considered, it is a strong argument towards using policy-based methods.
+
+71
+00:03:34.865 --> 00:03:38.330
+Finally, since policy-based methods learn the policy,
+
+72
+00:03:38.330 --> 00:03:41.070
+the probability of taking action in a state,
+
+73
+00:03:41.070 --> 00:03:43.450
+have one super neat idea.
+
+74
+00:03:43.450 --> 00:03:45.600
+They are, they train exactly the stuff
+
+75
+00:03:45.600 --> 00:03:48.100
+you need when you train supervised learning methods.
+
+76
+00:03:48.100 --> 00:03:50.500
+This basically means that, you can transfer between,
+
+77
+00:03:50.500 --> 00:03:52.900
+policy-based enforcement learning and supervised learning,
+
+78
+00:03:52.900 --> 00:03:54.535
+without changing anything in your model.
+
+79
+00:03:54.535 --> 00:03:58.670
+So, you have a neural network and you can train it as a classifier and convert
+
+80
+00:03:58.670 --> 00:04:03.160
+it as a policy of an agent trained by reinforcer, actor-critic.
+
+81
+00:04:03.160 --> 00:04:06.115
+You might have to train another head for actor-critic,
+
+82
+00:04:06.115 --> 00:04:10.550
+but this is not as hard as retraining the whole set of Q-values.

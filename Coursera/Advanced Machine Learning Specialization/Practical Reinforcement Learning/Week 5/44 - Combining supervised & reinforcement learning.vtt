@@ -1,0 +1,541 @@
+WEBVTT
+
+1
+00:00:02.300 --> 00:00:04.520
+There's one more detail about
+
+2
+00:00:04.520 --> 00:00:06.685
+the policy-based methods that I want you to get acquainted with.
+
+3
+00:00:06.685 --> 00:00:08.310
+It's the fact that, remember when we had
+
+4
+00:00:08.310 --> 00:00:11.205
+the comparison of value-based and policy-based methods,
+
+5
+00:00:11.205 --> 00:00:13.040
+we stated that the policy-based methods have
+
+6
+00:00:13.040 --> 00:00:16.465
+a more direct compatibility with the supervisory.
+
+7
+00:00:16.465 --> 00:00:19.160
+We'll use this property right now to our advantage to actually train
+
+8
+00:00:19.160 --> 00:00:21.980
+reinforcement learning for something to solve super complicated problems.
+
+9
+00:00:21.980 --> 00:00:25.900
+The issue is that, imagine you are solving a super complicated video game,
+
+10
+00:00:25.900 --> 00:00:27.645
+or maybe a more practical problem.
+
+11
+00:00:27.645 --> 00:00:29.900
+Say you're trying to solve the machine translation or a chatbot.
+
+12
+00:00:29.900 --> 00:00:34.405
+If you do so by starting from an initial guess of random policy here,
+
+13
+00:00:34.405 --> 00:00:37.360
+you'll probably have your algorithm tactically converged,
+
+14
+00:00:37.360 --> 00:00:40.070
+but other tool converge to a poor local optima,
+
+15
+00:00:40.070 --> 00:00:41.970
+or to converge by the time you have your grand,
+
+16
+00:00:41.970 --> 00:00:43.935
+grand, grand, grand, grand, grandsons.
+
+17
+00:00:43.935 --> 00:00:47.820
+And that's not acceptable. The issue here is that you start from random.
+
+18
+00:00:47.820 --> 00:00:49.450
+On many complicated problems,
+
+19
+00:00:49.450 --> 00:00:51.595
+you'll have a situation where you won't get
+
+20
+00:00:51.595 --> 00:00:54.885
+a good reward even if you're super lucky with your random policy.
+
+21
+00:00:54.885 --> 00:00:58.025
+You still need some kind of initial bias to
+
+22
+00:00:58.025 --> 00:01:01.955
+shift to the region where the policies are not that bad.
+
+23
+00:01:01.955 --> 00:01:04.900
+You can of course do so by constraining
+
+24
+00:01:04.900 --> 00:01:08.025
+your agent by using some heuristics onto another agent,
+
+25
+00:01:08.025 --> 00:01:09.280
+but instead, let's try to use
+
+26
+00:01:09.280 --> 00:01:12.295
+this supervised plus reinforcement learning based combination.
+
+27
+00:01:12.295 --> 00:01:14.030
+When you're solving a practical problem,
+
+28
+00:01:14.030 --> 00:01:16.780
+chances are, you'll have one of those three guys available to you.
+
+29
+00:01:16.780 --> 00:01:20.380
+Either a problem is solved not only by machines, but also by humans,
+
+30
+00:01:20.380 --> 00:01:22.385
+which is the key say for machine translation,
+
+31
+00:01:22.385 --> 00:01:24.720
+which keys you have out of pre-recorded human experience,
+
+32
+00:01:24.720 --> 00:01:26.585
+the data sets from machine translation.
+
+33
+00:01:26.585 --> 00:01:29.885
+Other way is, if you are doing something for a web service,
+
+34
+00:01:29.885 --> 00:01:32.650
+before we had some kind of previous iteration of a system which
+
+35
+00:01:32.650 --> 00:01:36.165
+doesn't use policy gradient or any reinforcement learning methods,
+
+36
+00:01:36.165 --> 00:01:38.425
+or maybe it only relies on heuristics,
+
+37
+00:01:38.425 --> 00:01:42.805
+but it does some kind of better than random decision making built in it.
+
+38
+00:01:42.805 --> 00:01:45.050
+What you can do is, you can try to initialize
+
+39
+00:01:45.050 --> 00:01:47.280
+your reinforced learning agent with
+
+40
+00:01:47.280 --> 00:01:50.985
+this prior knowledge about the problem. That's how we can do that.
+
+41
+00:01:50.985 --> 00:01:54.790
+So, one way you can actually take advantage of the fact you have some extra knowledge,
+
+42
+00:01:54.790 --> 00:01:56.950
+you can rely on supervised learning to yield you
+
+43
+00:01:56.950 --> 00:02:00.220
+a good initial guess from which you can then go on reinforcement learning.
+
+44
+00:02:00.220 --> 00:02:02.820
+Then if here is that, if you're having a neural network for example,
+
+45
+00:02:02.820 --> 00:02:03.960
+that does machine translation,
+
+46
+00:02:03.960 --> 00:02:06.920
+you can pre-train this neural network on the existing data,
+
+47
+00:02:06.920 --> 00:02:08.465
+on say human translations.
+
+48
+00:02:08.465 --> 00:02:10.250
+Then you can follow up by using
+
+49
+00:02:10.250 --> 00:02:13.475
+policy gradient to actually improve the advantage you're after.
+
+50
+00:02:13.475 --> 00:02:15.830
+Then if here is that the methods that are
+
+51
+00:02:15.830 --> 00:02:18.055
+used for both supervising policy gradient methods,
+
+52
+00:02:18.055 --> 00:02:19.805
+they require very similar things.
+
+53
+00:02:19.805 --> 00:02:22.480
+In this case, they require a probability of making
+
+54
+00:02:22.480 --> 00:02:26.090
+a particular decision in a particular situation.
+
+55
+00:02:26.090 --> 00:02:29.870
+This can be either this static probability from supervised learning, in this case,
+
+56
+00:02:29.870 --> 00:02:32.180
+it's like algorithm optimization or
+
+57
+00:02:32.180 --> 00:02:34.820
+[inaudible] or it can be your policy in case of reinforcement learning.
+
+58
+00:02:34.820 --> 00:02:40.050
+If you just substitute the Y and X for reinforcement learning iteration,
+
+59
+00:02:40.050 --> 00:02:41.525
+what you get is this.
+
+60
+00:02:41.525 --> 00:02:45.190
+Basically, you're having this in-policy used in supervised learning,
+
+61
+00:02:45.190 --> 00:02:47.010
+and then the reinforcement learning setting.
+
+62
+00:02:47.010 --> 00:02:50.215
+What you do is, you basically initialize your policies at random,
+
+63
+00:02:50.215 --> 00:02:52.460
+then you take a few say,
+
+64
+00:02:52.460 --> 00:02:54.365
+apex, in case of neural networks,
+
+65
+00:02:54.365 --> 00:02:58.685
+to train your policy to maximize the probability of either human sessions,
+
+66
+00:02:58.685 --> 00:03:00.865
+or whatever the heuristic does,
+
+67
+00:03:00.865 --> 00:03:03.670
+or any kind of initial maybe imperfect,
+
+68
+00:03:03.670 --> 00:03:06.280
+but better than random system that you have before.
+
+69
+00:03:06.280 --> 00:03:11.265
+What you should have done is, once you have converted to something better than random,
+
+70
+00:03:11.265 --> 00:03:14.080
+you then log your algorithm to train for
+
+71
+00:03:14.080 --> 00:03:18.290
+a few more iterations in the policy gradient mode to get even better reward.
+
+72
+00:03:18.290 --> 00:03:22.380
+In this case, even if your initial guess was imperfect and somebody go sends,
+
+73
+00:03:22.380 --> 00:03:25.495
+you can correct this later on by training with the policy gradient.
+
+74
+00:03:25.495 --> 00:03:27.995
+By this time you've probably noticed that despite the fact that we are
+
+75
+00:03:27.995 --> 00:03:31.220
+combining algorithms from a largely different areas of machine learning,
+
+76
+00:03:31.220 --> 00:03:32.970
+in this case, supervised and reinforcement learning,
+
+77
+00:03:32.970 --> 00:03:36.455
+those algorithms look very similar in terms of what formulas are behind them.
+
+78
+00:03:36.455 --> 00:03:39.280
+Most cases, we're following a gradient, and in most cases,
+
+79
+00:03:39.280 --> 00:03:42.795
+the gradient is defined as the expectation of states and actions,
+
+80
+00:03:42.795 --> 00:03:44.805
+the expectation of the derivative of
+
+81
+00:03:44.805 --> 00:03:48.430
+the log policy with respect to the branch of this policy.
+
+82
+00:03:48.430 --> 00:03:52.110
+And in the latter case, you also multiply the policy by the action value,
+
+83
+00:03:52.110 --> 00:03:54.805
+the Q term here in the policy gradient.
+
+84
+00:03:54.805 --> 00:03:57.355
+Now, despite those formulas looking very similar,
+
+85
+00:03:57.355 --> 00:04:00.300
+there is actually a huge difference between how you collect those gradients,
+
+86
+00:04:00.300 --> 00:04:02.190
+how you obtain them in a practical environment.
+
+87
+00:04:02.190 --> 00:04:04.665
+I want you to find this difference.
+
+88
+00:04:04.665 --> 00:04:07.115
+This value, yes. Of course,
+
+89
+00:04:07.115 --> 00:04:09.180
+you can point this Q function here,
+
+90
+00:04:09.180 --> 00:04:11.315
+but this is not the only difference.
+
+91
+00:04:11.315 --> 00:04:12.900
+Another super important part,
+
+92
+00:04:12.900 --> 00:04:16.390
+is that despite those expectations looking kind of similar,
+
+93
+00:04:16.390 --> 00:04:19.810
+they sample from entirely different things.
+
+94
+00:04:19.810 --> 00:04:24.100
+First case, you only allow your algorithm to sample to train on the reference sessions.
+
+95
+00:04:24.100 --> 00:04:27.860
+So, you don't ever let it to actually do something and see what happens.
+
+96
+00:04:27.860 --> 00:04:30.160
+Instead, you train it with sessions generated by
+
+97
+00:04:30.160 --> 00:04:33.410
+human experts or whatever other source of data you're using.
+
+98
+00:04:33.410 --> 00:04:36.510
+We've just discussed one way you can greatly improve the performance of
+
+99
+00:04:36.510 --> 00:04:40.450
+your policy-based agent by pre-training it using the pre-existing supervised knowledge,
+
+100
+00:04:40.450 --> 00:04:42.220
+or how do you usually solve the problem.
+
+101
+00:04:42.220 --> 00:04:44.550
+This is a cool stuff, but it doesn't conclude the list of
+
+102
+00:04:44.550 --> 00:04:46.970
+cool stuff you can do with the policy-based methods.
+
+103
+00:04:46.970 --> 00:04:50.440
+For one, there's more than one way you can actually define policy gradient.
+
+104
+00:04:50.440 --> 00:04:54.080
+You remember we had this formulation with nabla logarithm policy times the reward,
+
+105
+00:04:54.080 --> 00:04:57.655
+or times the Q value depending on what kind of process you're trying to optimize.
+
+106
+00:04:57.655 --> 00:05:00.435
+In this case, it's one of the simplest ones.
+
+107
+00:05:00.435 --> 00:05:03.955
+But there is also its modification called the Trust Region Policy optimization.
+
+108
+00:05:03.955 --> 00:05:06.090
+But we will not be able to cover it in
+
+109
+00:05:06.090 --> 00:05:08.620
+detail in the scope of this lecture because it's so huge,
+
+110
+00:05:08.620 --> 00:05:10.910
+but you can expect it in the reading section,
+
+111
+00:05:10.910 --> 00:05:13.785
+and we will try to cover it as explicitly as possible.
+
+112
+00:05:13.785 --> 00:05:16.200
+But in general, the intuition behind
+
+113
+00:05:16.200 --> 00:05:18.560
+Trust Region Policy optimization that what you can do is,
+
+114
+00:05:18.560 --> 00:05:21.730
+you can try to improve policy not just by defining the policy gradient,
+
+115
+00:05:21.730 --> 00:05:26.510
+but by kind of constraining it to improve in a narrow window in the policy space.
+
+116
+00:05:26.510 --> 00:05:30.735
+So, you don't want to make huge leaps in the probabilities of taking action at once,
+
+117
+00:05:30.735 --> 00:05:34.125
+which is very easy to do if you're using a neural network.
+
+118
+00:05:34.125 --> 00:05:36.600
+Again, if you legalize it in this way,
+
+119
+00:05:36.600 --> 00:05:40.980
+if you constrain your network from making large leaps in the policy space,
+
+120
+00:05:40.980 --> 00:05:43.895
+you can expect a much more stable learning curve,
+
+121
+00:05:43.895 --> 00:05:46.830
+which will not have those large drops
+
+122
+00:05:46.830 --> 00:05:50.185
+in it each time the algorithm has just forgotten something important.
+
+123
+00:05:50.185 --> 00:05:52.760
+The cool thing is the deterministic policy gradient.
+
+124
+00:05:52.760 --> 00:05:55.450
+Again, you can expect a detailed description in the reading section,
+
+125
+00:05:55.450 --> 00:05:57.370
+but for the purpose of this conclusion,
+
+126
+00:05:57.370 --> 00:06:01.490
+deterministic policy gradient allows you the off-policy training of policy-based methods.
+
+127
+00:06:01.490 --> 00:06:04.480
+Finally, there's a lot of other stuff we can't even hope to
+
+128
+00:06:04.480 --> 00:06:07.800
+mention in this scope because there's just so much out there.
+
+129
+00:06:07.800 --> 00:06:10.550
+We have the bonus materials in the reading section this time,
+
+130
+00:06:10.550 --> 00:06:15.210
+so we highly encourage you to get there and see if something clicks,
+
+131
+00:06:15.210 --> 00:06:17.610
+if something is interesting to you because
+
+132
+00:06:17.610 --> 00:06:20.290
+all those areas are highly resourced right now,
+
+133
+00:06:20.290 --> 00:06:22.100
+and maybe you'll be able to contribute to
+
+134
+00:06:22.100 --> 00:06:25.160
+this research by your own ideas, by your own papers.
+
+135
+00:06:25.160 --> 00:06:28.290
+And this is how the reinforcement learning gets developed.

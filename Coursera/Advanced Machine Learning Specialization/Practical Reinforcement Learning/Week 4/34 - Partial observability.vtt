@@ -1,0 +1,1281 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.760
+So, once we're done fighting those fire-specific digital architecture,
+
+2
+00:00:05.760 --> 00:00:09.560
+I want to direct your attention to the elephant in the room.
+
+3
+00:00:09.560 --> 00:00:11.450
+This elephant that we have promptly ignored
+
+4
+00:00:11.450 --> 00:00:13.855
+since the second week of our course and right until now.
+
+5
+00:00:13.855 --> 00:00:18.785
+The elephant is the fact that in almost any practicals reinforcement learning problem,
+
+6
+00:00:18.785 --> 00:00:22.775
+the environment doesn't strictly abide by the Markov Decision Process rules.
+
+7
+00:00:22.775 --> 00:00:25.075
+The main issue for now is the fact that,
+
+8
+00:00:25.075 --> 00:00:26.670
+in almost no case,
+
+9
+00:00:26.670 --> 00:00:28.290
+your agent will have a direct access to
+
+10
+00:00:28.290 --> 00:00:31.590
+the environment's state like it was supposed in the MDP.
+
+11
+00:00:31.590 --> 00:00:35.445
+The environment states in MDPs basically over is to know about the environment.
+
+12
+00:00:35.445 --> 00:00:40.475
+Strictly speaking, if you're navigating a robotic car through city streets,
+
+13
+00:00:40.475 --> 00:00:44.160
+then you not only need to know what's the camera image of this robot.
+
+14
+00:00:44.160 --> 00:00:48.650
+You need to know the exact positions of all your surroundings, and quite frankly,
+
+15
+00:00:48.650 --> 00:00:50.960
+you have to know all the properties of
+
+16
+00:00:50.960 --> 00:00:53.855
+all the quantum particles in the known universe because,
+
+17
+00:00:53.855 --> 00:00:57.680
+technically, that's the only possible scenario
+
+18
+00:00:57.680 --> 00:01:00.565
+for which the Markov property holds exactly.
+
+19
+00:01:00.565 --> 00:01:04.270
+So, it's an issue that you cannot solve exactly.
+
+20
+00:01:04.270 --> 00:01:07.130
+It's an issue that you cannot simply ignore
+
+21
+00:01:07.130 --> 00:01:10.780
+because there's loads of stuff that prevents you from learning optional policy.
+
+22
+00:01:10.780 --> 00:01:15.010
+So, we have to somehow mitigate the fact that our agent's observations are imperfect.
+
+23
+00:01:15.010 --> 00:01:18.830
+For robotic car, we would very much like to know what's happening right
+
+24
+00:01:18.830 --> 00:01:22.820
+behind us even though our camera might only be facing forwards.
+
+25
+00:01:22.820 --> 00:01:24.940
+For example, we want to take into account the fact
+
+26
+00:01:24.940 --> 00:01:26.980
+that if there is someone beeping behind us,
+
+27
+00:01:26.980 --> 00:01:30.005
+then there's probably a car even though we might not see directly.
+
+28
+00:01:30.005 --> 00:01:34.750
+The same is true for any other practical related situation.
+
+29
+00:01:34.750 --> 00:01:39.340
+For example, if you're trying to trade your stocks or anything,
+
+30
+00:01:39.340 --> 00:01:43.915
+then you might benefit from knowing the history of how this asset traded over last month,
+
+31
+00:01:43.915 --> 00:01:45.785
+not just this current variation.
+
+32
+00:01:45.785 --> 00:01:48.150
+Finally, within Atari games,
+
+33
+00:01:48.150 --> 00:01:52.330
+you don't know a lot of variables like the velocity of objects on your game fields.
+
+34
+00:01:52.330 --> 00:01:55.840
+This brings a lot of complications even for a usual DQN.
+
+35
+00:01:55.840 --> 00:01:58.730
+The complication that we have mitigated through duct tape so far.
+
+36
+00:01:58.730 --> 00:02:00.600
+Now, to mitigate this issue,
+
+37
+00:02:00.600 --> 00:02:04.465
+the first thing we have to do is we have to redefine the way our decision process works.
+
+38
+00:02:04.465 --> 00:02:06.640
+The usual Markov Decision Process looks like this.
+
+39
+00:02:06.640 --> 00:02:08.565
+We have an agent and our environment,
+
+40
+00:02:08.565 --> 00:02:11.735
+and environments sends state to an agent,
+
+41
+00:02:11.735 --> 00:02:15.639
+which in turn gives his policy to predict his action,
+
+42
+00:02:15.639 --> 00:02:19.095
+and the action gets fed back into the environment to get the next state.
+
+43
+00:02:19.095 --> 00:02:23.400
+We assume that there is some probability of getting to the next step ST plus 1,
+
+44
+00:02:23.400 --> 00:02:26.175
+and up thing or our work r given
+
+45
+00:02:26.175 --> 00:02:30.585
+the particular state and action we were at the previous step.
+
+46
+00:02:30.585 --> 00:02:34.410
+We probably assume that in any practical case,
+
+47
+00:02:34.410 --> 00:02:37.545
+we don't know the distribution explicitly,
+
+48
+00:02:37.545 --> 00:02:39.930
+but we can estimate it from samples if we wish.
+
+49
+00:02:39.930 --> 00:02:42.310
+[inaudible] algorithm is mitigated
+
+50
+00:02:42.310 --> 00:02:45.050
+But nevertheless, since well,
+
+51
+00:02:45.050 --> 00:02:46.910
+we don't know the probability distribution,
+
+52
+00:02:46.910 --> 00:02:48.960
+we do have direct access to those states.
+
+53
+00:02:48.960 --> 00:02:53.310
+We know the state can devise our policy based on the state.
+
+54
+00:02:53.310 --> 00:02:57.585
+However, the situation will look much closer to this scheme here.
+
+55
+00:02:57.585 --> 00:03:00.920
+Don't freak out, it's always a bit more complicated.
+
+56
+00:03:00.920 --> 00:03:04.355
+The difference here is that while in previous situations,
+
+57
+00:03:04.355 --> 00:03:07.530
+the agent received environments state directly here,
+
+58
+00:03:07.530 --> 00:03:09.070
+now we have this observation function,
+
+59
+00:03:09.070 --> 00:03:11.260
+the O of S on the left here.
+
+60
+00:03:11.260 --> 00:03:16.430
+The observation function is basically some function which limits what agent can see,
+
+61
+00:03:16.430 --> 00:03:17.825
+and what he cannot see.
+
+62
+00:03:17.825 --> 00:03:19.875
+So, there is a hidden state in the environment,
+
+63
+00:03:19.875 --> 00:03:21.840
+this S here in a circle,
+
+64
+00:03:21.840 --> 00:03:24.135
+and technically it exists.
+
+65
+00:03:24.135 --> 00:03:28.390
+There even is next stage you include it in the next distribution.
+
+66
+00:03:28.390 --> 00:03:31.450
+But you never see not just the probability distinction,
+
+67
+00:03:31.450 --> 00:03:34.025
+but the entire state as it is as well.
+
+68
+00:03:34.025 --> 00:03:38.315
+So, you don't get to see the state you only see a sequence of observations,
+
+69
+00:03:38.315 --> 00:03:40.580
+and you may somehow judge
+
+70
+00:03:40.580 --> 00:03:43.290
+what happens inside the environment based on those observations,
+
+71
+00:03:43.290 --> 00:03:45.425
+but it's the best thing you can count on.
+
+72
+00:03:45.425 --> 00:03:49.635
+So, to actually solve this new process called,
+
+73
+00:03:49.635 --> 00:03:53.100
+Partially Observable Markov Decision Process because of this observation function,
+
+74
+00:03:53.100 --> 00:03:55.600
+we need to introduce something else to an agent,
+
+75
+00:03:55.600 --> 00:03:58.105
+which helps him operate in the situation.
+
+76
+00:03:58.105 --> 00:04:00.850
+What would help you to for example,
+
+77
+00:04:00.850 --> 00:04:05.930
+not forget about the person that you are not seeing right now directly?
+
+78
+00:04:05.930 --> 00:04:08.180
+If you've just looked away from a person,
+
+79
+00:04:08.180 --> 00:04:11.975
+what would help you to still keep him in mind?
+
+80
+00:04:11.975 --> 00:04:14.640
+Well yes. What we want to introduce is,
+
+81
+00:04:14.640 --> 00:04:17.830
+there should be some kind of agents persistent memory.
+
+82
+00:04:17.830 --> 00:04:22.825
+The memory cell where he can store some information between iterations.
+
+83
+00:04:22.825 --> 00:04:27.110
+So, there is some kind of this hidden variable h,
+
+84
+00:04:27.110 --> 00:04:31.930
+which is yet another vector or any other set of numbers, and on every iteration,
+
+85
+00:04:31.930 --> 00:04:33.730
+agent can update his memory,
+
+86
+00:04:33.730 --> 00:04:37.060
+his new h given his observation and the previous memory.
+
+87
+00:04:37.060 --> 00:04:41.470
+There is of course a bunch of different ways you can actually implement this memory cell,
+
+88
+00:04:41.470 --> 00:04:43.910
+and we'll discuss them in just a few minutes,
+
+89
+00:04:43.910 --> 00:04:46.675
+but so far let's find out why this thing is useful.
+
+90
+00:04:46.675 --> 00:04:50.270
+Now, one way you can think about it is that this memory state,
+
+91
+00:04:50.270 --> 00:04:52.325
+the h here is a tool for an agent to
+
+92
+00:04:52.325 --> 00:04:54.890
+approximate what's happening in the hidden environment state.
+
+93
+00:04:54.890 --> 00:04:58.250
+This S which is now hidden under the blue cloud at the bottom.
+
+94
+00:04:58.250 --> 00:05:02.480
+So, there is some hidden variable you could use your h to
+
+95
+00:05:02.480 --> 00:05:07.385
+learn how to reverse engineer this hidden variable from from a sequence of observations,
+
+96
+00:05:07.385 --> 00:05:10.865
+and then use this our such new variable to alter your policy.
+
+97
+00:05:10.865 --> 00:05:15.824
+For example, if you have a robotic car example where currently,
+
+98
+00:05:15.824 --> 00:05:18.780
+you're approaching say, a traffic light,
+
+99
+00:05:18.780 --> 00:05:20.840
+and in this case,
+
+100
+00:05:20.840 --> 00:05:24.200
+your current observation is just the current state of this traffic light.
+
+101
+00:05:24.200 --> 00:05:26.080
+It's either blue or whatever.
+
+102
+00:05:26.080 --> 00:05:28.785
+green or red or yellow, in most cases,
+
+103
+00:05:28.785 --> 00:05:32.915
+and let's say it doesn't have a timer or any other additional information sources.
+
+104
+00:05:32.915 --> 00:05:36.560
+Now, for your usual MDPs agent,
+
+105
+00:05:36.560 --> 00:05:39.295
+this information is insufficient for many situations.
+
+106
+00:05:39.295 --> 00:05:42.455
+For example, if you know that the traffic light is green,
+
+107
+00:05:42.455 --> 00:05:44.810
+but it's going turn red in just say,
+
+108
+00:05:44.810 --> 00:05:47.870
+three seconds, then you want to speed up to get
+
+109
+00:05:47.870 --> 00:05:51.400
+past the traffic light before switches to get to your destination faster.
+
+110
+00:05:51.400 --> 00:05:53.960
+That's where our memory comes into play.
+
+111
+00:05:53.960 --> 00:05:57.710
+Basically, your memory is updated based on the signals of observation.
+
+112
+00:05:57.710 --> 00:06:00.230
+So, your agent can learn to, for example,
+
+113
+00:06:00.230 --> 00:06:05.540
+count the amount of seconds since the traffic lights switched on last time, and this way,
+
+114
+00:06:05.540 --> 00:06:09.080
+it can basically introduce
+
+115
+00:06:09.080 --> 00:06:11.135
+information about what's going to happen next because
+
+116
+00:06:11.135 --> 00:06:13.250
+it understands how the hidden variable,
+
+117
+00:06:13.250 --> 00:06:16.855
+the hidden traffic light timer operates and basically reverse-engineers it.
+
+118
+00:06:16.855 --> 00:06:21.050
+It seems true about a lot of other cases, and of course,
+
+119
+00:06:21.050 --> 00:06:24.095
+you won't get a drastic increase in performance just
+
+120
+00:06:24.095 --> 00:06:27.920
+given this one ability to recognize traffic light properties.
+
+121
+00:06:27.920 --> 00:06:31.160
+But if you add up all the influences for the situations
+
+122
+00:06:31.160 --> 00:06:34.610
+that you can kind of reverse-engineer with this memory,
+
+123
+00:06:34.610 --> 00:06:36.260
+you'll get a huge boon.
+
+124
+00:06:36.260 --> 00:06:41.330
+But of course, this memory is only useful if an agent can effectively operate with it.
+
+125
+00:06:41.330 --> 00:06:44.320
+In fact, there's one thing which technically qualifies as
+
+126
+00:06:44.320 --> 00:06:47.500
+memory although it's not learned or anything, it's not that complicated,
+
+127
+00:06:47.500 --> 00:06:51.010
+which we use for a usual Deep Q-Network to work with Atari efficiently,
+
+128
+00:06:51.010 --> 00:06:54.790
+to be able to get some information about object velocity here.
+
+129
+00:06:54.790 --> 00:06:59.040
+What kind of memory was this one? Well, yes.
+
+130
+00:06:59.040 --> 00:07:01.530
+Basically for the Atari games,
+
+131
+00:07:01.530 --> 00:07:04.840
+we just use the frame buffer heuristic.
+
+132
+00:07:04.840 --> 00:07:11.040
+Basically, we said that we cannot get the state variables exactly,
+
+133
+00:07:11.040 --> 00:07:14.430
+but we can get almost everything we need if we just stack say,
+
+134
+00:07:14.430 --> 00:07:18.840
+last four observations or any other amount of observations because it's useful.
+
+135
+00:07:18.840 --> 00:07:22.050
+Now technically, this gives us all the information we need for Atari,
+
+136
+00:07:22.050 --> 00:07:23.820
+but it has a number of flaws.
+
+137
+00:07:23.820 --> 00:07:25.320
+For instance, this week,
+
+138
+00:07:25.320 --> 00:07:27.240
+we cannot remember anything which happens
+
+139
+00:07:27.240 --> 00:07:30.105
+more than four turns before this particular step.
+
+140
+00:07:30.105 --> 00:07:32.925
+If you want to monitor something more complex,
+
+141
+00:07:32.925 --> 00:07:34.800
+then four turns is not going to be enough.
+
+142
+00:07:34.800 --> 00:07:38.655
+In Atari, the effect of this heuristic is so
+
+143
+00:07:38.655 --> 00:07:40.200
+great only because most of
+
+144
+00:07:40.200 --> 00:07:42.480
+the hidden information just velocity and maybe acceleration for objects,
+
+145
+00:07:42.480 --> 00:07:45.410
+which are traceable from two and three terms respectively.
+
+146
+00:07:45.410 --> 00:07:50.530
+So, the architecture we used for the Deep Q-Network
+
+147
+00:07:50.530 --> 00:07:55.205
+with the frame buffer was basically this neat scheme here.
+
+148
+00:07:55.205 --> 00:08:00.310
+The difference between the one-frame DQN and this one is that we have the frame buffer,
+
+149
+00:08:00.310 --> 00:08:04.450
+which contains four images: the image for current time frame, previous one,
+
+150
+00:08:04.450 --> 00:08:06.545
+the one before previous one, and so on,
+
+151
+00:08:06.545 --> 00:08:10.300
+and together they use to estimate the kind of the motion,
+
+152
+00:08:10.300 --> 00:08:12.340
+the dynamics of things via
+
+153
+00:08:12.340 --> 00:08:15.750
+all those convolutions that they are fed into as different channels.
+
+154
+00:08:15.750 --> 00:08:18.420
+Now, this kind of stuck here,
+
+155
+00:08:18.420 --> 00:08:20.055
+the [inaudible] Q here,
+
+156
+00:08:20.055 --> 00:08:25.815
+the first in first out structure is in a way a simplified agent memory.
+
+157
+00:08:25.815 --> 00:08:27.765
+Of course, its not again, that complicated,
+
+158
+00:08:27.765 --> 00:08:30.705
+but it's something which persists between the iterations.
+
+159
+00:08:30.705 --> 00:08:34.145
+Technically, it solves our problem to some limited extent.
+
+160
+00:08:34.145 --> 00:08:37.500
+However, there's a much more powerful approach here.
+
+161
+00:08:37.500 --> 00:08:43.139
+Well, the overall idea is that we're trying to train some architecture,
+
+162
+00:08:43.139 --> 00:08:46.330
+which assumes that there is some human process there, basically,
+
+163
+00:08:46.330 --> 00:08:48.225
+there is hidden process of the environment state,
+
+164
+00:08:48.225 --> 00:08:50.580
+and that you can only see some observation,
+
+165
+00:08:50.580 --> 00:08:52.980
+some visible part which is not entire process.
+
+166
+00:08:52.980 --> 00:08:55.120
+You want to draw on those hidden state.
+
+167
+00:08:55.120 --> 00:08:56.860
+There's actually one architecture in
+
+168
+00:08:56.860 --> 00:08:59.530
+deep learning which works with these exact assumptions,
+
+169
+00:08:59.530 --> 00:09:03.265
+and use them rather well. What I'm talking about?
+
+170
+00:09:03.265 --> 00:09:06.645
+Yeah. Recurrent Neural Networks.
+
+171
+00:09:06.645 --> 00:09:08.390
+Of course, there's a bunch of those guys,
+
+172
+00:09:08.390 --> 00:09:11.290
+but generally, here is that you have a vector of numbers,
+
+173
+00:09:11.290 --> 00:09:14.880
+and you learn a transformation which transforms previous vector of numbers,
+
+174
+00:09:14.880 --> 00:09:16.425
+your previous memory state.
+
+175
+00:09:16.425 --> 00:09:20.180
+Your current observation, your current
+
+176
+00:09:20.180 --> 00:09:24.100
+time frame in a tally or anything into a new vector of the same amount
+
+177
+00:09:24.100 --> 00:09:26.560
+of numbers so that you can then apply
+
+178
+00:09:26.560 --> 00:09:31.810
+this transformation iteratively to oneself for as many traces as you want.
+
+179
+00:09:31.810 --> 00:09:34.810
+So, now I'm just going to repeat you all the information you've already been
+
+180
+00:09:34.810 --> 00:09:37.730
+taught at the very first course of advanced machine learning specialization.
+
+181
+00:09:37.730 --> 00:09:39.735
+Namely, The Introduction to Deep Learning.
+
+182
+00:09:39.735 --> 00:09:42.380
+There, at the final link by Caterina Lebachaure,
+
+183
+00:09:42.380 --> 00:09:46.350
+we've been taught about how recurrent neural networks operate and how they're trained.
+
+184
+00:09:46.350 --> 00:09:49.220
+You basically initialize those weights here,
+
+185
+00:09:49.220 --> 00:09:53.645
+the blue squares with random values,
+
+186
+00:09:53.645 --> 00:09:58.244
+and then you simply apply this transformation to basically oneself,
+
+187
+00:09:58.244 --> 00:10:00.495
+as many traces as you want.
+
+188
+00:10:00.495 --> 00:10:04.420
+For example, you can take your observations from 10 steps ago.
+
+189
+00:10:04.420 --> 00:10:07.970
+So, 10 Markov decision process tree which is before you get this observation,
+
+190
+00:10:07.970 --> 00:10:12.700
+and you feed it into your recurrent neural network from bottom,
+
+191
+00:10:12.700 --> 00:10:14.605
+from this yellow triangle.
+
+192
+00:10:14.605 --> 00:10:18.335
+You initialize the initial hidden states,
+
+193
+00:10:18.335 --> 00:10:22.670
+the old state here on the picture, at say zero.
+
+194
+00:10:22.670 --> 00:10:27.965
+Some fixed value that defines that the network has no prior information.
+
+195
+00:10:27.965 --> 00:10:30.390
+Then you simply apply the first arbitral of
+
+196
+00:10:30.390 --> 00:10:35.180
+those weights and then the second arbitral feeding now the next frame.
+
+197
+00:10:35.180 --> 00:10:36.810
+So the first one was 10 traces ago,
+
+198
+00:10:36.810 --> 00:10:38.570
+this one is nine traces ago.
+
+199
+00:10:38.570 --> 00:10:41.600
+Then third frame and fourth frame and so on until you
+
+200
+00:10:41.600 --> 00:10:44.645
+get the current frame where now you're instate,
+
+201
+00:10:44.645 --> 00:10:50.565
+your age depends on all the previous frames starting from minus 10 frames ago,
+
+202
+00:10:50.565 --> 00:10:52.775
+or potentially for as many frames as you want.
+
+203
+00:10:52.775 --> 00:10:55.330
+You may start from say a million frames ago,
+
+204
+00:10:55.330 --> 00:10:57.900
+it would only take you say a few years to train.
+
+205
+00:10:57.900 --> 00:11:00.180
+Now, after this whole process,
+
+206
+00:11:00.180 --> 00:11:04.105
+your final hidden state is used to evaluate the Q function.
+
+207
+00:11:04.105 --> 00:11:05.590
+Just as usual, you could use
+
+208
+00:11:05.590 --> 00:11:10.590
+either usual Q-learning or maybe dual link Q-learning or any other hack if you want,
+
+209
+00:11:10.590 --> 00:11:12.710
+to train your network to predict Q values
+
+210
+00:11:12.710 --> 00:11:14.905
+with temporal difference error just like before.
+
+211
+00:11:14.905 --> 00:11:19.210
+Now, a closer look to those formula would reveal the fact that the only thing that
+
+212
+00:11:19.210 --> 00:11:24.415
+changed since our usual DQN is that we normally depend on states directly.
+
+213
+00:11:24.415 --> 00:11:28.060
+Whenever we have the state here is replaced with this O of S,
+
+214
+00:11:28.060 --> 00:11:30.320
+the observation of the state.
+
+215
+00:11:30.320 --> 00:11:33.545
+Instead of taking just one state, the current ST,
+
+216
+00:11:33.545 --> 00:11:37.270
+we instead consider all the states from say ST
+
+217
+00:11:37.270 --> 00:11:41.235
+minus 10 or some state in the past till this current state.
+
+218
+00:11:41.235 --> 00:11:45.905
+So, it might be a huge sequence if you're going to train it for enough time.
+
+219
+00:11:45.905 --> 00:11:49.275
+The way it does so, is by learning this recurring formula.
+
+220
+00:11:49.275 --> 00:11:52.290
+So basically, the Q function is as usual
+
+221
+00:11:52.290 --> 00:11:55.405
+just a dense layer with one unit per action in your activation.
+
+222
+00:11:55.405 --> 00:11:57.030
+Q depends on each T,
+
+223
+00:11:57.030 --> 00:11:59.090
+which depends on HT minus 1, HT minus 2,
+
+224
+00:11:59.090 --> 00:12:03.280
+HT minus 3, yada yada yada until HT minus some fixed amount of time,
+
+225
+00:12:03.280 --> 00:12:04.970
+which you've decided to stop at.
+
+226
+00:12:04.970 --> 00:12:09.430
+In which HT in turn depends on it's observation.
+
+227
+00:12:09.430 --> 00:12:12.020
+So, HT depends on observation of ST,
+
+228
+00:12:12.020 --> 00:12:16.335
+HT minus 1 depends of observation of ST minus 1.
+
+229
+00:12:16.335 --> 00:12:19.530
+This is how it works, it's just a huge differential formula.
+
+230
+00:12:19.530 --> 00:12:22.650
+Now, this formula has some parameters, namely those weights.
+
+231
+00:12:22.650 --> 00:12:24.660
+The weights, the blue matrices here.
+
+232
+00:12:24.660 --> 00:12:30.140
+The weights from previous scheme state to initial state and from input to Newton state.
+
+233
+00:12:30.140 --> 00:12:32.860
+How to train those weights? How do you actually tune
+
+234
+00:12:32.860 --> 00:12:35.810
+them to make your Q function as accurate as possible?
+
+235
+00:12:35.810 --> 00:12:38.080
+How do you do that?
+
+236
+00:12:38.080 --> 00:12:39.615
+Yes, you back propagate.
+
+237
+00:12:39.615 --> 00:12:43.855
+While this formula might scare all the courage out of you,
+
+238
+00:12:43.855 --> 00:12:47.800
+it will most definitely be much easier a job for
+
+239
+00:12:47.800 --> 00:12:51.990
+Tensor Flow or Tiano or PyTorch and any other automatic differentiation framework,
+
+240
+00:12:51.990 --> 00:12:55.295
+which will just take the formula and then just
+
+241
+00:12:55.295 --> 00:12:58.800
+T of gradients of it to get the necessary gradients.
+
+242
+00:12:58.800 --> 00:13:00.975
+Then you can use Adam or LMS prop
+
+243
+00:13:00.975 --> 00:13:07.680
+or any method you prefer to tune the weights just as you did for the convolutionary work.
+
+244
+00:13:07.680 --> 00:13:09.965
+So here's how it happens.
+
+245
+00:13:09.965 --> 00:13:17.150
+Unless you're going to use some huge time frames or train it very extensively,
+
+246
+00:13:17.150 --> 00:13:21.430
+it will to some extent learn how to use the previous states.
+
+247
+00:13:21.430 --> 00:13:24.580
+It will learn to remember some useful information and forget the useless one.
+
+248
+00:13:24.580 --> 00:13:27.390
+But recurrent neural networks have a lot of nasty properties.
+
+249
+00:13:27.390 --> 00:13:30.650
+For example, if you train neural networks for a long time spans,
+
+250
+00:13:30.650 --> 00:13:32.810
+if not 10 but say 100 previous stages,
+
+251
+00:13:32.810 --> 00:13:34.790
+which might make sense in a lot of situations,
+
+252
+00:13:34.790 --> 00:13:38.290
+there are two problems; gradient vanishing and gradient explosion.
+
+253
+00:13:38.290 --> 00:13:42.010
+Gradient vanishing is when by multiplying those gradients,
+
+254
+00:13:42.010 --> 00:13:45.390
+you run at risk of getting something very close to zero.
+
+255
+00:13:45.390 --> 00:13:54.875
+Because if just one of the products of those DHT by DHT minus 1 is getting near zero,
+
+256
+00:13:54.875 --> 00:13:58.365
+then the entire product is going to be close to zero as well.
+
+257
+00:13:58.365 --> 00:14:01.235
+The opposite problem is the gradient explosion,
+
+258
+00:14:01.235 --> 00:14:04.520
+which is when you multiply a lot of logic against and you get
+
+259
+00:14:04.520 --> 00:14:11.025
+some cosmic shift in your ways which basically throw them on the other side of floor 32.
+
+260
+00:14:11.025 --> 00:14:14.080
+Those problems employ other training quite a bit,
+
+261
+00:14:14.080 --> 00:14:17.440
+so to fight them you know a lot of tricks and a lot of
+
+262
+00:14:17.440 --> 00:14:21.290
+architectures that have some kind of workarounds there.
+
+263
+00:14:21.290 --> 00:14:25.550
+For gradient inflation, there are LSTM and given the current units.
+
+264
+00:14:25.550 --> 00:14:28.405
+For gradient explosion, there's clipping.
+
+265
+00:14:28.405 --> 00:14:31.050
+You probably know more than one way you can do so.
+
+266
+00:14:31.050 --> 00:14:33.930
+Actually if you're more into theoretical deep learning,
+
+267
+00:14:33.930 --> 00:14:36.440
+you also know that there is unitary neural networks,
+
+268
+00:14:36.440 --> 00:14:37.805
+unitary current neural networks,
+
+269
+00:14:37.805 --> 00:14:41.180
+that have neither of those problems by construction.
+
+270
+00:14:41.180 --> 00:14:42.850
+So here's how it goes.
+
+271
+00:14:42.850 --> 00:14:47.660
+You simply introduce new architecture which has to be trained not just on SE Arus prime.
+
+272
+00:14:47.660 --> 00:14:54.955
+So it has to be trained on observation,
+
+273
+00:14:54.955 --> 00:14:58.035
+action, rewards and nice observations.
+
+274
+00:14:58.035 --> 00:15:02.730
+But this time it has to access all the observations from
+
+275
+00:15:02.730 --> 00:15:08.020
+say 100 or 10 steps ago till now and all the current neural network.
+
+276
+00:15:08.020 --> 00:15:10.590
+Here's how it's going to work. Now, there's
+
+277
+00:15:10.590 --> 00:15:15.835
+one very popular implementation of DQN with this current neural network,
+
+278
+00:15:15.835 --> 00:15:20.515
+which differs from our previous picture in just a few ways.
+
+279
+00:15:20.515 --> 00:15:24.330
+First, the significant current neural network recuses LSTM because of course it does.
+
+280
+00:15:24.330 --> 00:15:29.310
+Since LSTM is basically the version of RNM which
+
+281
+00:15:29.310 --> 00:15:31.370
+doesn't suffer from variation gradients and has
+
+282
+00:15:31.370 --> 00:15:35.180
+all those nice almost interpretable properties with forgets,
+
+283
+00:15:35.180 --> 00:15:36.945
+updates and so on,
+
+284
+00:15:36.945 --> 00:15:41.530
+and as usual, it just takes the output of LSTM,
+
+285
+00:15:41.530 --> 00:15:44.875
+the kind of public recurring state,
+
+286
+00:15:44.875 --> 00:15:48.115
+the non-cell, the H of LSTM,
+
+287
+00:15:48.115 --> 00:15:52.000
+and it computes Q values densely based on those guys.
+
+288
+00:15:52.000 --> 00:15:54.575
+Okay, like I've just mentioned,
+
+289
+00:15:54.575 --> 00:15:56.750
+you have to train this network in a special way.
+
+290
+00:15:56.750 --> 00:16:00.475
+Just so you can simply assemble trajectories.
+
+291
+00:16:00.475 --> 00:16:04.510
+You can sample not just single SAR sprantuple but subsequents
+
+292
+00:16:04.510 --> 00:16:09.175
+of those tuples that come one after another.
+
+293
+00:16:09.175 --> 00:16:11.680
+Here's when one problem occurs.
+
+294
+00:16:11.680 --> 00:16:15.710
+The problem is that if you sample those trajectories in a special way,
+
+295
+00:16:15.710 --> 00:16:18.735
+then you no longer get independent and identically distributed data.
+
+296
+00:16:18.735 --> 00:16:22.290
+So, technically you're sampling your new make
+
+297
+00:16:22.290 --> 00:16:26.405
+optimization is going to be slightly less efficient in this case.
+
+298
+00:16:26.405 --> 00:16:29.090
+Sometimes those DRQN are even known to diverge
+
+299
+00:16:29.090 --> 00:16:33.150
+because there's so much that can go wrong and something eventually goes.
+
+300
+00:16:33.150 --> 00:16:37.090
+So, basically if you compare the DRQN
+
+301
+00:16:37.090 --> 00:16:41.345
+vs the usual DQN on the known benchmarks, you'll get something like this.
+
+302
+00:16:41.345 --> 00:16:43.430
+Sometimes it's better, sometime it's way better.
+
+303
+00:16:43.430 --> 00:16:47.120
+Like here. But in some cases you can also see
+
+304
+00:16:47.120 --> 00:16:51.375
+that the DRQN is not better but also worse than the original DQN.
+
+305
+00:16:51.375 --> 00:16:55.535
+This is because it is much harder to actually train,
+
+306
+00:16:55.535 --> 00:16:57.930
+much more complicated for conversions.
+
+307
+00:16:57.930 --> 00:17:00.580
+We'll also study some tricks to improve this performance
+
+308
+00:17:00.580 --> 00:17:03.445
+during the next week when we use policy mixed methods.
+
+309
+00:17:03.445 --> 00:17:07.160
+Because there is a method which is specific and very convenient to them which
+
+310
+00:17:07.160 --> 00:17:10.995
+also solves the NRM problem just as a side quest.
+
+311
+00:17:10.995 --> 00:17:16.395
+Until now, you can still train DRQN with experience and play with some efficiency.
+
+312
+00:17:16.395 --> 00:17:20.110
+So here's how you mitigate the problem of POMDP,
+
+313
+00:17:20.110 --> 00:17:22.100
+the partially observable decision processes.
+
+314
+00:17:22.100 --> 00:17:23.730
+Of course there's much more to it.
+
+315
+00:17:23.730 --> 00:17:26.080
+There are special architectures like
+
+316
+00:17:26.080 --> 00:17:28.630
+the deep neural network equivalent
+
+317
+00:17:28.630 --> 00:17:32.540
+of planning model that allows your agent to think proactively.
+
+318
+00:17:32.540 --> 00:17:36.410
+There is a lot of cool stuff when you have a model based planning.
+
+319
+00:17:36.410 --> 00:17:39.560
+Room to reduce all the flinks about it in the reading section so that the
+
+320
+00:17:39.560 --> 00:17:44.540
+curious of you would have their curiosity satisfied. Until next week.

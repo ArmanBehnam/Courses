@@ -1,0 +1,445 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.340
+So, I just learned about this cool architecture,
+
+2
+00:00:05.340 --> 00:00:08.090
+the deep [inaudible] called [inaudible].
+
+3
+00:00:08.090 --> 00:00:10.410
+By now, you probably are convinced that,
+
+4
+00:00:10.410 --> 00:00:12.840
+it's capable of doing all those cool things like finding
+
+5
+00:00:12.840 --> 00:00:17.410
+an optimal policy in an Atari game or other video game to give [inaudible] feet.
+
+6
+00:00:17.410 --> 00:00:19.030
+In particular, D.Q.
+
+7
+00:00:19.030 --> 00:00:20.730
+Network is just Q-learning,
+
+8
+00:00:20.730 --> 00:00:22.680
+which uses neural networks as a policy and features
+
+9
+00:00:22.680 --> 00:00:25.470
+a couple of dirty hacks like experience,
+
+10
+00:00:25.470 --> 00:00:27.165
+play, and target networks.
+
+11
+00:00:27.165 --> 00:00:29.880
+The dirty hacks but hacks, nevertheless.
+
+12
+00:00:29.880 --> 00:00:34.920
+The network itself is basically just convolutional network,
+
+13
+00:00:34.920 --> 00:00:39.570
+which thinks your image pixels in particular for last images,
+
+14
+00:00:39.570 --> 00:00:43.050
+and then feeds into a set of convolutional of yours here on
+
+15
+00:00:43.050 --> 00:00:47.080
+the network board in the model and the blue square
+
+16
+00:00:47.080 --> 00:00:51.480
+then uses those features from the body from the blue square to compute
+
+17
+00:00:51.480 --> 00:00:56.155
+the Q-values by yet another densed layer without knowing the [inaudible] of course.
+
+18
+00:00:56.155 --> 00:00:58.650
+Now, this particular network is trained by minimizing the
+
+19
+00:00:58.650 --> 00:01:01.385
+squared [inaudible] as [inaudible] has already told you.
+
+20
+00:01:01.385 --> 00:01:04.105
+The scorched air between its current Q-values
+
+21
+00:01:04.105 --> 00:01:07.360
+and B and refined Q-values that are considered constant.
+
+22
+00:01:07.360 --> 00:01:09.955
+This key is a reward plus gamma times maximum of the,
+
+23
+00:01:09.955 --> 00:01:12.100
+basically next state value.
+
+24
+00:01:12.100 --> 00:01:17.085
+You do the immunization by following some kind of [inaudible] batch growing dissent.
+
+25
+00:01:17.085 --> 00:01:19.650
+Would it be usual growing dissent,
+
+26
+00:01:19.650 --> 00:01:21.780
+sarcastic varying dissent or Adam,
+
+27
+00:01:21.780 --> 00:01:24.300
+or animals proper other new make algorithm
+
+28
+00:01:24.300 --> 00:01:27.450
+that improves convergence given this minibus context.
+
+29
+00:01:27.450 --> 00:01:31.560
+Now, this is how it works and now we're going
+
+30
+00:01:31.560 --> 00:01:35.625
+to going to study a few peculiar things about how it doesn't work sometimes.
+
+31
+00:01:35.625 --> 00:01:39.260
+To begin with, we have this right hand side of the lost function.
+
+32
+00:01:39.260 --> 00:01:43.830
+We'll have reward plus gamma times maximum of Q-values and
+
+33
+00:01:43.830 --> 00:01:49.140
+the first thing you've properly learned by now is that to actually reform immunization,
+
+34
+00:01:49.140 --> 00:01:50.880
+you consider this thing constant.
+
+35
+00:01:50.880 --> 00:01:52.560
+So, you do not propagate [inaudible] through it,
+
+36
+00:01:52.560 --> 00:01:56.010
+you just instruct your [inaudible] floor [inaudible]
+
+37
+00:01:56.010 --> 00:02:00.370
+to consider it as a constant value for this particular iteration.
+
+38
+00:02:00.370 --> 00:02:04.695
+This is probably explained to you.
+
+39
+00:02:04.695 --> 00:02:06.090
+But this particular formula,
+
+40
+00:02:06.090 --> 00:02:08.010
+the reward plus gamma times maximum compression
+
+41
+00:02:08.010 --> 00:02:10.820
+has a number of other problems that we have not yet covered.
+
+42
+00:02:10.820 --> 00:02:13.110
+For instance, consider the following situation,
+
+43
+00:02:13.110 --> 00:02:15.330
+between your network and in a particular state,
+
+44
+00:02:15.330 --> 00:02:18.225
+here S prime, you have three possible actions.
+
+45
+00:02:18.225 --> 00:02:19.780
+These are a zero,
+
+46
+00:02:19.780 --> 00:02:21.515
+a one and a two respectively.
+
+47
+00:02:21.515 --> 00:02:25.780
+In fact, each action can be stochastic due to a number of causes.
+
+48
+00:02:25.780 --> 00:02:30.500
+So each action will yield you action various that's range, that's vary overtime.
+
+49
+00:02:30.500 --> 00:02:35.750
+For starters, you network will have some approximation error and due to Bergin dissent,
+
+50
+00:02:35.750 --> 00:02:39.680
+you will have some perturbations in those Q of s prime, a zero,
+
+51
+00:02:39.680 --> 00:02:43.060
+a one, a two just because neutral trains and between the durations,
+
+52
+00:02:43.060 --> 00:02:44.670
+it's vary changes lightly.
+
+53
+00:02:44.670 --> 00:02:49.659
+Another issue here is that the outcomes are often stochastic,
+
+54
+00:02:49.659 --> 00:02:52.975
+and therefore the Q of s prime,
+
+55
+00:02:52.975 --> 00:02:55.160
+a and so on may vary as well.
+
+56
+00:02:55.160 --> 00:02:58.900
+Now, the issue with those stochastic parts is that once
+
+57
+00:02:58.900 --> 00:03:02.300
+we actually apply the formula we use for Q-learning,
+
+58
+00:03:02.300 --> 00:03:04.480
+we get some of the unintended effects.
+
+59
+00:03:04.480 --> 00:03:06.760
+So, let's say we have three Q-values,
+
+60
+00:03:06.760 --> 00:03:09.220
+this is a thinking breakout, and the Q-value,
+
+61
+00:03:09.220 --> 00:03:11.750
+the actual value of all possible actions are equal to,
+
+62
+00:03:11.750 --> 00:03:14.870
+say 10, with some sum of deviation of say, one.
+
+63
+00:03:14.870 --> 00:03:17.770
+So, these are three bell-curve-like,
+
+64
+00:03:17.770 --> 00:03:19.910
+Gaussian-like effect may be in distribution.
+
+65
+00:03:19.910 --> 00:03:24.920
+But let's say they are Gaussian just for the sake of a need display here.
+
+66
+00:03:24.920 --> 00:03:27.880
+So, have those three things and what you want to do is
+
+67
+00:03:27.880 --> 00:03:30.890
+want to compute the value of the state,
+
+68
+00:03:30.890 --> 00:03:33.110
+the maximum of action values.
+
+69
+00:03:33.110 --> 00:03:35.130
+Now, since those action values,
+
+70
+00:03:35.130 --> 00:03:38.070
+the true action values are in fact all equal,
+
+71
+00:03:38.070 --> 00:03:41.370
+equal to 10, the state value is equal to 10 as well.
+
+72
+00:03:41.370 --> 00:03:43.120
+But what you'll find out is that,
+
+73
+00:03:43.120 --> 00:03:46.989
+if you actually only access one sample from those distributions,
+
+74
+00:03:46.989 --> 00:03:50.810
+if you only get one outcome and you'll choose C,
+
+75
+00:03:50.810 --> 00:03:56.110
+is you'll see that you don't beat the maximum expectation.
+
+76
+00:03:56.110 --> 00:04:00.040
+You beat the maximum over samples and you basically expect over
+
+77
+00:04:00.040 --> 00:04:04.820
+those situations and you train your- The question to you is, have those two situations,
+
+78
+00:04:04.820 --> 00:04:09.250
+you have the maximum of expectations which is obviously equal to 10,
+
+79
+00:04:09.250 --> 00:04:12.730
+as all the expectations are equal to 10,
+
+80
+00:04:12.730 --> 00:04:15.390
+and you have just the maximum,
+
+81
+00:04:15.390 --> 00:04:19.105
+and I want you just to meet the expectation on this maximum,
+
+82
+00:04:19.105 --> 00:04:22.750
+will it be equal to 10 or will it be smaller or larger?
+
+83
+00:04:22.750 --> 00:04:26.535
+What kind of value would you expect? Well, right.
+
+84
+00:04:26.535 --> 00:04:31.215
+Based [inaudible] tells us that it should be higher in it's expectation again.
+
+85
+00:04:31.215 --> 00:04:36.920
+If you consider those three actions here and the original,
+
+86
+00:04:36.920 --> 00:04:39.295
+the kind of the expected,
+
+87
+00:04:39.295 --> 00:04:42.750
+the maximum over expected action of values is
+
+88
+00:04:42.750 --> 00:04:46.315
+this blue curve on the left in the new picture.
+
+89
+00:04:46.315 --> 00:04:48.720
+Then, if you take maximum over samples and
+
+90
+00:04:48.720 --> 00:04:52.195
+computes those maximum over respective samples,
+
+91
+00:04:52.195 --> 00:04:54.510
+you'll get the green color, which is not equal.
+
+92
+00:04:54.510 --> 00:04:56.175
+It's quite optimistic.
+
+93
+00:04:56.175 --> 00:04:59.040
+This happens because if you draw three samples from one distribution,
+
+94
+00:04:59.040 --> 00:05:01.410
+their maximum is probably going to be to the right,
+
+95
+00:05:01.410 --> 00:05:03.315
+it's going to be larger because maximum.
+
+96
+00:05:03.315 --> 00:05:05.380
+You can, of course,
+
+97
+00:05:05.380 --> 00:05:09.450
+get a more formal deviation in any statistics book who will
+
+98
+00:05:09.450 --> 00:05:14.070
+introduce some explanation linked to the Wikipedia grading section.
+
+99
+00:05:14.070 --> 00:05:15.570
+General idea is that,
+
+100
+00:05:15.570 --> 00:05:18.930
+if you use this maximization over samples,
+
+101
+00:05:18.930 --> 00:05:22.790
+you'll get something which is larger than what you actually want.
+
+102
+00:05:22.790 --> 00:05:27.140
+Therefore, if you have some particular states in which your value is filtrate,
+
+103
+00:05:27.140 --> 00:05:29.465
+for example, network is still trying to learn it.
+
+104
+00:05:29.465 --> 00:05:31.200
+Then your network will be overoptimistic,
+
+105
+00:05:31.200 --> 00:05:34.760
+it will over-appreciate being
+
+106
+00:05:34.760 --> 00:05:38.835
+in this state although this only happened due to the statistical error.
+
+107
+00:05:38.835 --> 00:05:43.840
+So, this is the problem which causes actual DQ and
+
+108
+00:05:43.840 --> 00:05:48.540
+to get as optimistic as it actually explodes.
+
+109
+00:05:48.540 --> 00:05:51.100
+So the Q-values become larger and larger over time on
+
+110
+00:05:51.100 --> 00:05:53.820
+some games and sometimes they never get back.
+
+111
+00:05:53.820 --> 00:05:57.370
+So, they are being optimistic all the time.

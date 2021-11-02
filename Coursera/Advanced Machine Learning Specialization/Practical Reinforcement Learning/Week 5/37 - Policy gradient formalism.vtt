@@ -1,0 +1,712 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.336
+[MUSIC]
+
+2
+00:00:03.336 --> 00:00:05.436
+Now our main protagonist for this and
+
+3
+00:00:05.436 --> 00:00:09.107
+a couple of next sections will be the so
+called policy gradient.
+
+4
+00:00:09.107 --> 00:00:13.646
+The idea behind this is that instead of
+trying to do some cunning heavy wizardry
+
+5
+00:00:13.646 --> 00:00:17.774
+methods, like picking top sessions,
+calling them elites for
+
+6
+00:00:17.774 --> 00:00:21.300
+some reason and
+just trying to with those sessions.
+
+7
+00:00:21.300 --> 00:00:26.544
+Maybe you'd be better of if you just tried
+to write down what you want to optimize,
+
+8
+00:00:26.544 --> 00:00:30.420
+complete the of this thing,
+and then follow through
+
+9
+00:00:30.420 --> 00:00:34.617
+with via gradient dissent or
+back propagation neural networks.
+
+10
+00:00:34.617 --> 00:00:37.950
+Let's try to see how it
+works one step at a time.
+
+11
+00:00:37.950 --> 00:00:41.124
+Let's begin by introducing the notion
+of so called expected reward.
+
+12
+00:00:41.124 --> 00:00:44.115
+You'd probably used this thing on
+more than one occasion actually.
+
+13
+00:00:44.115 --> 00:00:47.300
+But this time we're going to have
+to explicitly write it down and
+
+14
+00:00:47.300 --> 00:00:49.699
+make some mathematical
+derivations with it.
+
+15
+00:00:49.699 --> 00:00:53.173
+So they yield of expected reward is
+that it is, well, what it seems to be.
+
+16
+00:00:53.173 --> 00:00:57.149
+It is an expectation over the rewards that
+you're going to get if you play a lot of
+
+17
+00:00:57.149 --> 00:00:59.530
+sessions with your agent.
+
+18
+00:00:59.530 --> 00:01:03.114
+Now, during our first week,
+we had an expected reward without gammas,
+
+19
+00:01:03.114 --> 00:01:04.182
+without discounts.
+
+20
+00:01:04.182 --> 00:01:07.770
+And this was just an expected
+sum of rewards of our session.
+
+21
+00:01:07.770 --> 00:01:11.201
+Now, there's also the expected
+discounted reward.
+
+22
+00:01:11.201 --> 00:01:14.847
+Follows the notion of discounted reward
+from weeks two and three, and Q-learning,
+
+23
+00:01:14.847 --> 00:01:16.570
+value iteration and so on.
+
+24
+00:01:16.570 --> 00:01:21.383
+And simply a sum of your rewards
+multiplied by gamma to the power of
+
+25
+00:01:21.383 --> 00:01:24.732
+how much time has passed
+since this moment of time.
+
+26
+00:01:24.732 --> 00:01:29.161
+The idea here is that you can
+try to maximize the average
+
+27
+00:01:29.161 --> 00:01:31.865
+discounted reward over states.
+
+28
+00:01:31.865 --> 00:01:36.100
+Or you can try to maximize the discounted
+reward you get from the first state on.
+
+29
+00:01:36.100 --> 00:01:40.013
+So let's start with the undiscounted
+version of our rewards because it produces
+
+30
+00:01:40.013 --> 00:01:40.768
+simpler math.
+
+31
+00:01:40.768 --> 00:01:41.522
+Even further,
+
+32
+00:01:41.522 --> 00:01:45.477
+let's simplify our problem by planning
+that there is only one step per session.
+
+33
+00:01:45.477 --> 00:01:49.633
+So your agent gets born
+in some random state.
+
+34
+00:01:49.633 --> 00:01:50.354
+It takes one action.
+
+35
+00:01:50.354 --> 00:01:53.146
+It observes the reward,
+it may trade on this reward.
+
+36
+00:01:53.146 --> 00:01:54.562
+And then a new session begins.
+
+37
+00:01:54.562 --> 00:01:56.924
+So there is no continuation
+in one session.
+
+38
+00:01:56.924 --> 00:02:01.303
+So if we write down what's actually
+hiding behind this need expectation,
+
+39
+00:02:01.303 --> 00:02:03.953
+you'll see the nasty double integral here.
+
+40
+00:02:03.953 --> 00:02:06.870
+So there is an integral
+over all possible states.
+
+41
+00:02:06.870 --> 00:02:09.411
+They are permissible for
+visiting the state.
+
+42
+00:02:09.411 --> 00:02:12.703
+Then integral over actions and
+probabilities of taking this action, and
+
+43
+00:02:12.703 --> 00:02:14.839
+then you will multiply
+the state by the reward.
+
+44
+00:02:14.839 --> 00:02:17.217
+This is how a mathematical
+expectation works for
+
+45
+00:02:17.217 --> 00:02:20.760
+the general case where you have
+infinite continuous amount of options.
+
+46
+00:02:21.760 --> 00:02:25.221
+Now, of course, if you have,
+say, five or six actions,
+
+47
+00:02:25.221 --> 00:02:28.271
+then it's okay to replace
+the integral with a sum.
+
+48
+00:02:28.271 --> 00:02:33.430
+If you're still feeling lost, let's
+walk through this formula step by step.
+
+49
+00:02:34.620 --> 00:02:36.523
+The first thing here is
+the state visitation frequency.
+
+50
+00:02:36.523 --> 00:02:40.570
+We have a provision of visiting state s.
+
+51
+00:02:40.570 --> 00:02:43.708
+And in this case, so
+far it's not dependent on an agent.
+
+52
+00:02:43.708 --> 00:02:47.645
+However, if you use a more complicated
+notion of multiple step process,
+
+53
+00:02:47.645 --> 00:02:50.893
+then visiting state is something
+that agent can influence.
+
+54
+00:02:50.893 --> 00:02:54.187
+So this would be also
+dependent on agent's policy.
+
+55
+00:02:54.187 --> 00:02:58.693
+The second thing is that the pi factor is
+the probability of agent taking the action
+
+56
+00:02:58.693 --> 00:02:59.930
+E in the state.
+
+57
+00:02:59.930 --> 00:03:02.951
+And this is what your agent
+actually influences here.
+
+58
+00:03:02.951 --> 00:03:05.048
+This is the unilateral prediction or
+
+59
+00:03:05.048 --> 00:03:10.900
+maybe they're of the table of all possible
+probabilities of all action probabilities.
+
+60
+00:03:10.900 --> 00:03:12.500
+Now the final term is the reward.
+
+61
+00:03:12.500 --> 00:03:16.205
+In this case you can use any notion,
+it's still just one time step.
+
+62
+00:03:16.205 --> 00:03:18.549
+Now remember this is the thing
+we're trying to maximize.
+
+63
+00:03:18.549 --> 00:03:23.370
+But so far, it's hard to even compute,
+not talking about any optimization at all.
+
+64
+00:03:23.370 --> 00:03:28.232
+So if you try to explicitly estimate the
+value of this J, you'll have to sum over
+
+65
+00:03:28.232 --> 00:03:32.165
+all possible breakout frames,
+sum over all possible actions.
+
+66
+00:03:32.165 --> 00:03:34.624
+If there's continuous amount of actions,
+you're screwed.
+
+67
+00:03:34.624 --> 00:03:37.237
+And then compute the rewards for the whole
+session if you're starting from there.
+
+68
+00:03:37.237 --> 00:03:40.817
+So surely there is a simple way
+you can estimate this thing,
+
+69
+00:03:40.817 --> 00:03:42.470
+although approximately.
+
+70
+00:03:42.470 --> 00:03:45.170
+How would you do that?
+
+71
+00:03:45.170 --> 00:03:49.516
+To even compute this, if you remember,
+this is still a mathematical expectation.
+
+72
+00:03:49.516 --> 00:03:52.624
+And instead of trying to
+compute expectation exactly,
+
+73
+00:03:52.624 --> 00:03:55.540
+you can simply approximate
+it with sampling.
+
+74
+00:03:55.540 --> 00:03:58.541
+So you play, let's say, 1,000 games, and
+
+75
+00:03:58.541 --> 00:04:02.912
+your average over all the states and
+actions you have met in those games.
+
+76
+00:04:02.912 --> 00:04:04.363
+So finally some good news have arrived.
+
+77
+00:04:04.363 --> 00:04:08.037
+You can at least approximately
+estimate the value of this J by
+
+78
+00:04:08.037 --> 00:04:10.640
+using the Monte Carlo sampling like this.
+
+79
+00:04:10.640 --> 00:04:12.620
+Now let's go to the second stage.
+
+80
+00:04:12.620 --> 00:04:13.818
+We want to optimize the J,
+
+81
+00:04:13.818 --> 00:04:17.471
+we want to compute the gradient of J with
+respect to the branches of your policy.
+
+82
+00:04:17.471 --> 00:04:20.697
+And to do so we need to compute
+the gradient of the sample's approximate
+
+83
+00:04:20.697 --> 00:04:23.280
+version because we can't
+deduce the regional version,
+
+84
+00:04:23.280 --> 00:04:24.540
+it's too hard to compute.
+
+85
+00:04:24.540 --> 00:04:28.644
+The question is, remember we had
+all the those cool frameworks for
+
+86
+00:04:28.644 --> 00:04:30.998
+neural networks, like TensorFlow.
+
+87
+00:04:30.998 --> 00:04:32.395
+Can we use them now?
+
+88
+00:04:32.395 --> 00:04:37.329
+Can we maybe use TensorFlow to explicitly
+compute the gradients of this formulation
+
+89
+00:04:37.329 --> 00:04:40.328
+of J respect to the theta,
+the value of the policy.
+
+90
+00:04:40.328 --> 00:04:42.455
+Or maybe there's something that
+prevents us from doing so.
+
+91
+00:04:44.485 --> 00:04:47.809
+Well right, so the problem with TensorFlow
+here is that it can only compute
+
+92
+00:04:47.809 --> 00:04:50.784
+the derivatives with respect to
+something that is in the formula.
+
+93
+00:04:50.784 --> 00:04:55.889
+And if you take a closer look at this
+particular version of Monte Carlo sample
+
+94
+00:04:55.889 --> 00:05:01.020
+J, you'll notice that it has no place for
+parameters, for thetas, here.
+
+95
+00:05:01.020 --> 00:05:06.318
+The problem is that this sample
+definition, it does depend on parameters,
+
+96
+00:05:06.318 --> 00:05:09.983
+on policy, but
+it depends on them in the summation.
+
+97
+00:05:09.983 --> 00:05:13.620
+So you have sampled
+the sessions from your policy.
+
+98
+00:05:13.620 --> 00:05:15.329
+But you don't remember the values,
+
+99
+00:05:15.329 --> 00:05:17.769
+you don't remember
+the probabilities any longer.
+
+100
+00:05:17.769 --> 00:05:20.323
+So no, TensorFlow won't be able
+to compute this thing for us.
+
+101
+00:05:20.323 --> 00:05:25.007
+And in fact, not only TensorFlow, but any
+mathematician, if you give him the second
+
+102
+00:05:25.007 --> 00:05:29.255
+formula only, will probably call you
+a jerk if you ask him to differentiate.
+
+103
+00:05:29.255 --> 00:05:31.766
+Okay, so we have to do something else.
+
+104
+00:05:31.766 --> 00:05:37.101
+The answer will go here,
+we have to estimate the gradient of J.
+
+105
+00:05:37.101 --> 00:05:40.606
+Now some simple, so-called duct tape
+approaches you could try to employ are,
+
+106
+00:05:40.606 --> 00:05:42.920
+for example,
+the so-called finite differences.
+
+107
+00:05:42.920 --> 00:05:46.900
+So instead of trying to compute
+the derivative, you can just pretend that
+
+108
+00:05:46.900 --> 00:05:50.943
+the infinitely small value in the
+deficient of the derivative is equal to,
+
+109
+00:05:50.943 --> 00:05:54.113
+say, 10 to the power of minus five,
+this epsilon here.
+
+110
+00:05:54.113 --> 00:05:57.803
+You can compute something that
+looks like a derivative, but
+
+111
+00:05:57.803 --> 00:06:01.796
+it's not derivative because
+the value is not infinitely small.
+
+112
+00:06:01.796 --> 00:06:03.260
+This will technically work.
+
+113
+00:06:03.260 --> 00:06:07.101
+It will require you to,
+well get the J on the compost by sampling.
+
+114
+00:06:07.101 --> 00:06:11.910
+And then change this policy ever so
+slightly by this small value of epsilon.
+
+115
+00:06:11.910 --> 00:06:16.233
+And then find the new value of
+the policy by sampling more sessions.
+
+116
+00:06:16.233 --> 00:06:18.911
+Now another way that you are probably
+more familiar with by now,
+
+117
+00:06:18.911 --> 00:06:20.259
+is use cross-entropy method.
+
+118
+00:06:20.259 --> 00:06:25.197
+What it does is it tries to somewhat
+maximize something that looks
+
+119
+00:06:25.197 --> 00:06:27.997
+like J by sampling a lot of sessions.
+
+120
+00:06:27.997 --> 00:06:32.966
+And then taking those in which
+the J from a particular session was
+
+121
+00:06:32.966 --> 00:06:35.826
+higher than that of other sessions.
+
+122
+00:06:35.826 --> 00:06:38.357
+So the expected reward was larger.
+
+123
+00:06:38.357 --> 00:06:44.480
+And both of those methods will technically
+work, although they have some problems.
+
+124
+00:06:44.480 --> 00:06:46.645
+Now this time I would ask you
+to criticize those methods.
+
+125
+00:06:46.645 --> 00:06:51.118
+So while those two methods do work in
+theory, in practice they have an issue
+
+126
+00:06:51.118 --> 00:06:55.450
+of being very hard to efficiently
+estimate in any practical situation.
+
+127
+00:06:55.450 --> 00:06:56.246
+For example,
+
+128
+00:06:56.246 --> 00:07:00.823
+if you are trying to solve breakout via
+these finite differences method, it would
+
+129
+00:07:00.823 --> 00:07:05.357
+actually take you to play say 100 games
+to estimate this first J plus epsilon.
+
+130
+00:07:05.357 --> 00:07:09.409
+And then it'll take you another 100
+games to estimate the second J.
+
+131
+00:07:09.409 --> 00:07:13.209
+And even then the amount of noise you
+introduce by sampling would be still much
+
+132
+00:07:13.209 --> 00:07:15.898
+larger than the difference
+between the two policies,
+
+133
+00:07:15.898 --> 00:07:17.900
+especially if J is sufficiently small.
+
+134
+00:07:17.900 --> 00:07:21.612
+And if you use large values of J
+your gradient would be useless for
+
+135
+00:07:21.612 --> 00:07:26.171
+anything more complicated than a linear
+model, or maybe a table in this case.
+
+136
+00:07:26.171 --> 00:07:30.371
+Stochastic optimization, like the
+crossentropy method is in this case much
+
+137
+00:07:30.371 --> 00:07:32.902
+more practical in terms
+of how to use samples.
+
+138
+00:07:32.902 --> 00:07:34.313
+But it still has some problems.
+
+139
+00:07:34.313 --> 00:07:37.490
+For example, remember,
+if you have some innate randomness.
+
+140
+00:07:37.490 --> 00:07:40.077
+For example, you have a slot
+machine in your environment or
+
+141
+00:07:40.077 --> 00:07:42.003
+there are some physically random process.
+
+142
+00:07:42.003 --> 00:07:46.004
+In this case you'll have to use your
+crossentropy method with some tweaks to
+
+143
+00:07:46.004 --> 00:07:50.005
+prevent it from favoring the lucky
+outcomes, from believing that the elite
+
+144
+00:07:50.005 --> 00:07:54.025
+sessions are elite because they have
+some way of tricking the slot machine.
+
+145
+00:07:54.025 --> 00:07:58.789
+The method we are going to study next will
+mitigate both these problems by the way it
+
+146
+00:07:58.789 --> 00:08:00.597
+computes the derivative of J.
+
+147
+00:08:00.597 --> 00:08:02.486
+It won't use any high wizardry.
+
+148
+00:08:02.486 --> 00:08:08.473
+Instead it will try to find
+an analytical derivative
+
+149
+00:08:08.473 --> 00:08:14.199
+of J which is easily
+approximated with sampling.
+
+150
+00:08:14.199 --> 00:08:19.962
+[SOUND]

@@ -1,0 +1,657 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.325
+[MUSIC]
+
+2
+00:00:04.325 --> 00:00:09.094
+So now let's speak about how we can solve
+some of the instability problems discussed
+
+3
+00:00:09.094 --> 00:00:11.390
+in the previous video.
+
+4
+00:00:11.390 --> 00:00:15.140
+In particular, DQN has some
+tweaks against three problems.
+
+5
+00:00:15.140 --> 00:00:19.530
+The first is sequential correlated data,
+which may hurt convergence and
+
+6
+00:00:19.530 --> 00:00:20.570
+performance.
+
+7
+00:00:20.570 --> 00:00:25.750
+The second is instability of data
+distribution due to policy changes,
+
+8
+00:00:25.750 --> 00:00:28.820
+because policy may diverge and oscillate.
+
+9
+00:00:29.870 --> 00:00:34.170
+And the third one is the general
+program of unstable gradients.
+
+10
+00:00:34.170 --> 00:00:40.200
+And this error in part of,
+because of differentiable
+
+11
+00:00:40.200 --> 00:00:44.895
+Q function and unknown scale of rewards.
+
+12
+00:00:44.895 --> 00:00:48.690
+So how does DQN deal with these problems?
+
+13
+00:00:50.110 --> 00:00:55.793
+Sequential correlated data are embedded
+with the so-called experience replay.
+
+14
+00:00:55.793 --> 00:00:59.884
+And instability of data distribution due
+to policy changes is overcome by using
+
+15
+00:00:59.884 --> 00:01:01.760
+target networks.
+
+16
+00:01:01.760 --> 00:01:06.920
+The last unstable gradients are almost
+eliminated with reward clipping.
+
+17
+00:01:06.920 --> 00:01:12.640
+These three techniques are rather
+influential, especially the first two.
+
+18
+00:01:12.640 --> 00:01:17.671
+And now let me go into to detail
+about each of these techniques.
+
+19
+00:01:17.671 --> 00:01:19.382
+The experience replay and
+
+20
+00:01:19.382 --> 00:01:23.978
+give you an intuition of why does
+it help against correlated samples.
+
+21
+00:01:23.978 --> 00:01:26.170
+Let's first look at the Q-learning update.
+
+22
+00:01:27.500 --> 00:01:32.535
+Please note that to make such update,
+we need only tuple S, A, R, and
+
+23
+00:01:32.535 --> 00:01:37.020
+S', that is the next state,
+nothing more nothing less.
+
+24
+00:01:37.020 --> 00:01:40.610
+If the essence of the problem comes
+from the usage of consequent samples for
+
+25
+00:01:40.610 --> 00:01:41.680
+model update,
+
+26
+00:01:41.680 --> 00:01:46.224
+let's correlate the sequence by weighing
+the model using the correlated data.
+
+27
+00:01:46.224 --> 00:01:49.760
+That is, we can collect tuples S,
+A, R, and S'.
+
+28
+00:01:50.900 --> 00:01:54.130
+Then for
+training sample from such collection,
+
+29
+00:01:55.480 --> 00:02:00.830
+some amount of such tuples, and perform
+updates according to a sample mini-batch.
+
+30
+00:02:00.830 --> 00:02:04.397
+That is the complete idea
+of experience replay.
+
+31
+00:02:04.397 --> 00:02:07.730
+So to illustrate,
+the algorithm is as follows.
+
+32
+00:02:07.730 --> 00:02:14.910
+We first store some tuples S, A,
+and R in a pool, then we sample
+
+33
+00:02:14.910 --> 00:02:21.470
+some number of tuples from
+that pool say at random.
+
+34
+00:02:21.470 --> 00:02:25.290
+And update the model of
+Q-function using this mini-batch.
+
+35
+00:02:26.960 --> 00:02:31.311
+Then we act into environment,
+we interact with environment using
+
+36
+00:02:31.311 --> 00:02:36.370
+epsilon-greedy policy with respect
+to current estimates of Q-function.
+
+37
+00:02:37.400 --> 00:02:42.119
+We're updating some new tuples,
+S, A, R, and S'.
+
+38
+00:02:42.119 --> 00:02:45.680
+And we add these tuples into the pool.
+
+39
+00:02:47.242 --> 00:02:52.840
+And we repeat this in a loop
+until we are sure that
+
+40
+00:02:52.840 --> 00:02:57.720
+we want to terminate
+the learning processes.
+
+41
+00:02:59.090 --> 00:03:01.800
+Very simple, but why does it help?
+
+42
+00:03:01.800 --> 00:03:06.470
+Well, if the pool is sufficiently large,
+then we effectively de-correlate the data
+
+43
+00:03:06.470 --> 00:03:11.110
+by taking, in the update, different pieces
+of possibly different trajectories.
+
+44
+00:03:11.110 --> 00:03:13.160
+What can possibly go wrong here?
+
+45
+00:03:15.220 --> 00:03:19.870
+Well, such experience replay is
+possible only for off-policy learning.
+
+46
+00:03:19.870 --> 00:03:25.510
+That is so because on-policy models
+implies that only new, fresh
+
+47
+00:03:25.510 --> 00:03:30.490
+data coming from policy with the latest
+parameters is considered for learning.
+
+48
+00:03:30.490 --> 00:03:36.450
+And our current parameters are different
+to those used to generate the old samples.
+
+49
+00:03:39.190 --> 00:03:41.580
+Experience replay is
+a very powerful technique.
+
+50
+00:03:41.580 --> 00:03:46.280
+It is used almost everywhere it can
+be used because of its properties.
+
+51
+00:03:46.280 --> 00:03:49.370
+It smooths out learning and
+prevents oscillations or
+
+52
+00:03:49.370 --> 00:03:51.430
+divergence in the parameters.
+
+53
+00:03:51.430 --> 00:03:55.120
+Experience replay not only
+helps against correlations, but
+
+54
+00:03:55.120 --> 00:03:58.880
+also increases sample efficiency and
+reduces variance of updates.
+
+55
+00:03:58.880 --> 00:04:03.080
+It also is very easy to use for
+training on distributed architectures.
+
+56
+00:04:03.080 --> 00:04:05.820
+That is, on cluster of machines.
+
+57
+00:04:05.820 --> 00:04:09.270
+Another interesting observation is that
+the experience replay could be viewed
+
+58
+00:04:09.270 --> 00:04:12.560
+as an analog of sample
+based model of the world.
+
+59
+00:04:12.560 --> 00:04:15.620
+This view partially explains
+the effectiveness of this technique.
+
+60
+00:04:16.720 --> 00:04:21.630
+However, experience replay is not
+completely free of disadvantages.
+
+61
+00:04:21.630 --> 00:04:24.370
+It is very memory intensive.
+
+62
+00:04:24.370 --> 00:04:25.510
+In the original paper, for
+
+63
+00:04:25.510 --> 00:04:31.290
+example, authors used around 1 million
+of interactions, and that is a lot.
+
+64
+00:04:31.290 --> 00:04:35.820
+Also, the random sampling from a pool is
+not the most efficient method of sampling.
+
+65
+00:04:35.820 --> 00:04:40.380
+We might want to more frequently select
+the latest experience than the old one.
+
+66
+00:04:41.420 --> 00:04:44.100
+Or we might want to use
+
+67
+00:04:44.100 --> 00:04:48.980
+the samples from which our current
+policy will learn the most.
+
+68
+00:04:50.090 --> 00:04:54.920
+This and other ideas were developed only
+afterwards by different researchers.
+
+69
+00:04:54.920 --> 00:04:58.768
+So far, we have discussed the problem
+of policy oscillations, and
+
+70
+00:04:58.768 --> 00:05:02.625
+have noted that experience replay
+partially solves this problem.
+
+71
+00:05:02.625 --> 00:05:05.765
+Nonetheless, the instability problem
+is not eliminated completely with
+
+72
+00:05:05.765 --> 00:05:07.400
+experience replay.
+
+73
+00:05:07.400 --> 00:05:10.180
+Targets still depend on the parameters and
+
+74
+00:05:10.180 --> 00:05:14.440
+error made in any target immediately
+propagates to other estimates.
+
+75
+00:05:14.440 --> 00:05:18.730
+This dependence of target on parameters
+could easily broke the learning by
+
+76
+00:05:18.730 --> 00:05:21.581
+introducing oscillations and
+positive feedback cycles.
+
+77
+00:05:22.600 --> 00:05:26.230
+For example, we might want to update
+more the parameters responsible for
+
+78
+00:05:26.230 --> 00:05:30.600
+low Q value estimate that
+corresponds to high target value.
+
+79
+00:05:30.600 --> 00:05:34.900
+But by doing so and because of
+sharing the approximation parameters,
+
+80
+00:05:34.900 --> 00:05:36.820
+we might also increase
+the value of the target.
+
+81
+00:05:37.940 --> 00:05:40.780
+This in turn may increase
+the gradients to eliminate
+
+82
+00:05:40.780 --> 00:05:44.050
+the increasing gap between estimates and
+target.
+
+83
+00:05:44.050 --> 00:05:45.768
+However, in positive feedback loop,
+
+84
+00:05:45.768 --> 00:05:49.410
+these large gradients will
+only make things worse.
+
+85
+00:05:49.410 --> 00:05:53.570
+So how can we break the ties between
+targets and network parameters?
+
+86
+00:05:55.240 --> 00:05:58.440
+The idea against such
+positive feedback loops
+
+87
+00:05:58.440 --> 00:06:02.480
+proposed in the DQN paper was
+both simple and effective.
+
+88
+00:06:02.480 --> 00:06:05.920
+Let just split the parameters
+of Q values and
+
+89
+00:06:05.920 --> 00:06:10.240
+targets from the parameters of currently
+learning Q-function approximation.
+
+90
+00:06:10.240 --> 00:06:12.920
+To highlight the fact that
+the parameters of target and
+
+91
+00:06:12.920 --> 00:06:14.930
+approximation networks are different,
+
+92
+00:06:14.930 --> 00:06:19.994
+we will refer to the former as target
+network, and the latter as a Q-network.
+
+93
+00:06:21.070 --> 00:06:24.960
+Target network has precisely the same
+architecture as Q-network but has
+
+94
+00:06:24.960 --> 00:06:30.840
+a different set of parameters, which are
+denoted by W to the minus on the slide.
+
+95
+00:06:30.840 --> 00:06:35.810
+However, we cannot be satisfied with
+a simple distinction between parameters.
+
+96
+00:06:35.810 --> 00:06:39.448
+That is so
+because if the target parameters, that is,
+
+97
+00:06:39.448 --> 00:06:42.928
+W to the minus on the slide
+are not properly updated,
+
+98
+00:06:42.928 --> 00:06:48.580
+an agent obviously will learn wrong
+action value function estimates.
+
+99
+00:06:48.580 --> 00:06:52.190
+Thus, in the core of
+the target network break
+
+100
+00:06:52.190 --> 00:06:56.270
+lies another crucial concept related
+to updating these parameters.
+
+101
+00:06:56.270 --> 00:06:59.640
+In fact, they can be updated
+in either of the two ways.
+
+102
+00:06:59.640 --> 00:07:02.410
+The first way that was
+actually used in the paper
+
+103
+00:07:02.410 --> 00:07:05.920
+is to update these parameters
+in the so-called hard way.
+
+104
+00:07:05.920 --> 00:07:10.420
+That is, once in a while, say,
+every 10,000 time stamps,
+
+105
+00:07:10.420 --> 00:07:14.610
+assign the parameters of current Q
+network to parameters of target network.
+
+106
+00:07:15.790 --> 00:07:20.690
+You can think about this type of updates
+as about creating snapshots of Q network,
+
+107
+00:07:20.690 --> 00:07:23.620
+and updating these snapshots
+from time to time.
+
+108
+00:07:23.620 --> 00:07:28.930
+Another way to update target network is to
+update the weights at every time step but
+
+109
+00:07:28.930 --> 00:07:31.510
+use a very small update rate.
+
+110
+00:07:31.510 --> 00:07:34.640
+In the simplest form, this idea
+corresponds to the parameter of the target
+
+111
+00:07:34.640 --> 00:07:39.530
+network being the exponential moving
+average of the Q-network parameters.
+
+112
+00:07:39.530 --> 00:07:43.010
+This type of updates allows it
+to learn a little bit faster but
+
+113
+00:07:43.010 --> 00:07:45.869
+is not completely free of
+policy oscillation problems.
+
+114
+00:07:47.000 --> 00:07:49.430
+Well, now you know two of
+
+115
+00:07:49.430 --> 00:07:53.330
+the most important tricks to improve
+stability of neural Q-learning.
+
+116
+00:07:53.330 --> 00:07:54.990
+Now let discuss the last trick.
+
+117
+00:07:56.060 --> 00:08:00.381
+The last trick introduced in
+the DQN paper was reward clipping.
+
+118
+00:08:00.381 --> 00:08:04.280
+This trick was designed against
+the problem of unstable gradients.
+
+119
+00:08:04.280 --> 00:08:07.420
+This problem is in part inherent
+to reinforcement learning
+
+120
+00:08:07.420 --> 00:08:11.160
+because of average changes
+of action value function.
+
+121
+00:08:11.160 --> 00:08:16.530
+In addition, in any environment, we don't
+know the scale of rewards beforehand.
+
+122
+00:08:16.530 --> 00:08:19.290
+And this scale may vary across states and
+
+123
+00:08:19.290 --> 00:08:23.686
+actions significantly,
+contributing to the gradient instability.
+
+124
+00:08:23.686 --> 00:08:27.850
+The trick proposed was in clipping
+the rewards to the range from -1 to 1,
+
+125
+00:08:27.850 --> 00:08:33.290
+which turned Q-values to be less peaky and
+stabilized gradients a bit.
+
+126
+00:08:33.290 --> 00:08:37.655
+However, this trick also introduced
+a rather crucial drawback.
+
+127
+00:08:37.655 --> 00:08:40.853
+When clipping rewards to
+the range of -1 to 1,
+
+128
+00:08:40.853 --> 00:08:45.221
+an agent loses an ability to
+differentiate between a good reward,
+
+129
+00:08:45.221 --> 00:08:49.591
+say a reward of 1, and
+a very good reward, say a reward of 100.
+
+130
+00:08:49.591 --> 00:08:53.498
+It is also worth to mention that
+this trick, unlike the previous two,
+
+131
+00:08:53.498 --> 00:08:58.020
+wasn't adopted by future researchers
+because of its drawbacks.
+
+132
+00:08:58.020 --> 00:09:00.700
+Nevertheless, sometimes it may be helpful.
+
+133
+00:09:01.790 --> 00:09:07.160
+So now you know all the details
+of the DQN algorithm,
+
+134
+00:09:07.160 --> 00:09:10.690
+and to conclude, let us now see
+the results of applying this algorithm to
+
+135
+00:09:10.690 --> 00:09:14.150
+the famous Atari game
+called Space Invaders.
+
+136
+00:09:14.150 --> 00:09:15.365
+Aren't they impressive?
+
+137
+00:09:37.280 --> 00:09:47.280
+[MUSIC]

@@ -1,0 +1,557 @@
+WEBVTT
+
+1
+00:00:02.440 --> 00:00:06.300
+Now, this leads us to another familiar for Reinforcement algorithms,
+
+2
+00:00:06.300 --> 00:00:08.990
+they called it, Actor-critic algorithms.
+
+3
+00:00:08.990 --> 00:00:11.620
+The idea behind Actor-critic is that it learns pretty
+
+4
+00:00:11.620 --> 00:00:14.220
+much everything you're able to run by this moment in course.
+
+5
+00:00:14.220 --> 00:00:15.835
+It has a value-based part,
+
+6
+00:00:15.835 --> 00:00:17.910
+where it tries to approximate the value function,
+
+7
+00:00:17.910 --> 00:00:20.200
+but it also uses the policy function here,
+
+8
+00:00:20.200 --> 00:00:22.420
+which can also be approximated the same way.
+
+9
+00:00:22.420 --> 00:00:26.115
+The idea is that by combining value function policy function,
+
+10
+00:00:26.115 --> 00:00:28.170
+they can obtain a better learning performance and some of
+
+11
+00:00:28.170 --> 00:00:30.900
+the properties that say, reinforce algorithm Lax.
+
+12
+00:00:30.900 --> 00:00:33.005
+Now let's push back to the veil of mystery a little bit,
+
+13
+00:00:33.005 --> 00:00:35.525
+and next we describe all of those algorithms in more detail.
+
+14
+00:00:35.525 --> 00:00:38.360
+This time we're going to focus on the Advantage actor-critic.
+
+15
+00:00:38.360 --> 00:00:40.650
+Some of you that developed sense of intuition have probably
+
+16
+00:00:40.650 --> 00:00:43.100
+noticed that it has this advantage term here,
+
+17
+00:00:43.100 --> 00:00:44.885
+and as your intuition suggests,
+
+18
+00:00:44.885 --> 00:00:47.840
+this advantage is, after the idea that we are going to learn this,
+
+19
+00:00:47.840 --> 00:00:52.015
+differences between your current key function and the average performance in this state.
+
+20
+00:00:52.015 --> 00:00:56.345
+So again, this algorithm learns both your policy and the value function,
+
+21
+00:00:56.345 --> 00:01:01.140
+and it actually learns a value function to improve the performance of policy training.
+
+22
+00:01:01.140 --> 00:01:02.750
+To understand how this is possible,
+
+23
+00:01:02.750 --> 00:01:04.490
+I want you to answer a question for me.
+
+24
+00:01:04.490 --> 00:01:07.475
+Say you've just sampled this State- Action-Reward
+
+25
+00:01:07.475 --> 00:01:09.235
+and next state tuple from the environment,
+
+26
+00:01:09.235 --> 00:01:10.895
+and you've also learn the V-function,
+
+27
+00:01:10.895 --> 00:01:15.615
+so for every stage you're able to get the exact amount of expected discounted returns.
+
+28
+00:01:15.615 --> 00:01:17.390
+The idea here is that,
+
+29
+00:01:17.390 --> 00:01:21.095
+you want to use this information to compute the advantage,
+
+30
+00:01:21.095 --> 00:01:23.790
+so you want to either produce the advantage itself or get
+
+31
+00:01:23.790 --> 00:01:27.425
+some kind of unbiased estimate of it, how would you do that?
+
+32
+00:01:27.425 --> 00:01:29.680
+Well, it turns out that,
+
+33
+00:01:29.680 --> 00:01:32.590
+if you remember the properties of the functions of Q and V,
+
+34
+00:01:32.590 --> 00:01:33.940
+it's kind of easy,
+
+35
+00:01:33.940 --> 00:01:36.215
+just requires three lines of math.
+
+36
+00:01:36.215 --> 00:01:38.465
+You start by writing out the advantage,
+
+37
+00:01:38.465 --> 00:01:40.650
+as a difference between your action value function,
+
+38
+00:01:40.650 --> 00:01:43.480
+the Q function, and the expectation of value function.
+
+39
+00:01:43.480 --> 00:01:47.310
+Now, this expectation of value function is just the Q function for the simplicity.
+
+40
+00:01:47.310 --> 00:01:50.760
+To kind of make this formula easier to compute,
+
+41
+00:01:50.760 --> 00:01:56.730
+you have to remember that the Q function can be rewritten as a reward,
+
+42
+00:01:56.730 --> 00:02:00.780
+plus gamma the discount times the value function of the next state.
+
+43
+00:02:00.780 --> 00:02:04.185
+This of course requires expectation over all possible next states,
+
+44
+00:02:04.185 --> 00:02:06.260
+but you can take just one sample from the environment,
+
+45
+00:02:06.260 --> 00:02:07.950
+just like you did in Q-learning.
+
+46
+00:02:07.950 --> 00:02:10.310
+Now, the advantage becomes,
+
+47
+00:02:10.310 --> 00:02:13.060
+the difference between the Q function and the V function, which is,
+
+48
+00:02:13.060 --> 00:02:14.960
+as this line suggests,
+
+49
+00:02:14.960 --> 00:02:16.425
+is just the difference between the,
+
+50
+00:02:16.425 --> 00:02:18.880
+reward plus gamma times the value of s prime,
+
+51
+00:02:18.880 --> 00:02:21.280
+minus the value of s. Now,
+
+52
+00:02:21.280 --> 00:02:24.580
+this is how you can use just the V function to estimate your advantage,
+
+53
+00:02:24.580 --> 00:02:26.700
+and presumably learn better.
+
+54
+00:02:26.700 --> 00:02:28.340
+And this allows us to do
+
+55
+00:02:28.340 --> 00:02:30.690
+this very simple substitutional formulae
+
+56
+00:02:30.690 --> 00:02:33.200
+which actually brings a lot of improvements to us.
+
+57
+00:02:33.200 --> 00:02:36.525
+We just take the Q function and place it with the Q minus C,
+
+58
+00:02:36.525 --> 00:02:38.420
+also known as the advantage function.
+
+59
+00:02:38.420 --> 00:02:41.330
+So the [inaudible] changed ever so slightly,
+
+60
+00:02:41.330 --> 00:02:44.930
+but this allows us to use this idea that want to encourage
+
+61
+00:02:44.930 --> 00:02:48.570
+the difference between how agent performed now and how it usually performs.
+
+62
+00:02:48.570 --> 00:02:50.860
+And even in a strich with agent got
+
+63
+00:02:50.860 --> 00:02:54.395
+poor reward but that is way higher than what it usually gets in the state,
+
+64
+00:02:54.395 --> 00:02:56.200
+you would encourage this improvement rather than
+
+65
+00:02:56.200 --> 00:02:58.845
+discourage it and in comparison to other situations.
+
+66
+00:02:58.845 --> 00:03:01.575
+The only question remaining is how do we get this V function?
+
+67
+00:03:01.575 --> 00:03:04.845
+So know that's if we get this V function everything is great,
+
+68
+00:03:04.845 --> 00:03:08.415
+now we have to somehow estimate this function for your particular environment.
+
+69
+00:03:08.415 --> 00:03:09.990
+Think Atari for now,
+
+70
+00:03:09.990 --> 00:03:11.680
+let's say you applying a breakout and you want to
+
+71
+00:03:11.680 --> 00:03:14.620
+estimate the V function, how do you do that?
+
+72
+00:03:15.090 --> 00:03:17.415
+Yeah, you would approximate,
+
+73
+00:03:17.415 --> 00:03:21.570
+or use some other tricks but these tricks are usually specific to an environment.
+
+74
+00:03:21.570 --> 00:03:24.620
+So what you do is you train a natrobey that has those two outputs.
+
+75
+00:03:24.620 --> 00:03:28.285
+First, it has to learn a policy because otherwise there is no point to do anything else.
+
+76
+00:03:28.285 --> 00:03:31.085
+The second part is that it estimates the very function.
+
+77
+00:03:31.085 --> 00:03:32.970
+Speaking on a deep learning language,
+
+78
+00:03:32.970 --> 00:03:36.870
+the policy is a layer that has as a many units as you have actions,
+
+79
+00:03:36.870 --> 00:03:40.855
+and it uses soft marks to return a valid from both distribution.
+
+80
+00:03:40.855 --> 00:03:44.060
+The key thing here is just a single unit,
+
+81
+00:03:44.060 --> 00:03:47.050
+it's so densely with one neuron, which is non-linearity,
+
+82
+00:03:47.050 --> 00:03:51.015
+just like you have with Q learning functions with the DQN for example,
+
+83
+00:03:51.015 --> 00:03:53.230
+you then have to perform two kinds of updates.
+
+84
+00:03:53.230 --> 00:03:54.800
+First, you have to update the policy,
+
+85
+00:03:54.800 --> 00:03:58.660
+in this case you believe that your V is good enough and you use
+
+86
+00:03:58.660 --> 00:04:02.755
+your V function to provide this better estimate for the policy gradient.
+
+87
+00:04:02.755 --> 00:04:05.665
+You then ascend this policy gradient over your new other parameters.
+
+88
+00:04:05.665 --> 00:04:09.105
+The second important task, that you have to refine your value function,
+
+89
+00:04:09.105 --> 00:04:12.210
+this is done in a similar way as you have done in deep Q-learning,
+
+90
+00:04:12.210 --> 00:04:15.210
+the deep SARSA or any other approximate value-based algorithms.
+
+91
+00:04:15.210 --> 00:04:16.950
+You just compute the mean squared error,
+
+92
+00:04:16.950 --> 00:04:20.290
+over all the tuples of SA errors as prime that you get,
+
+93
+00:04:20.290 --> 00:04:23.155
+and this way you can dosh the expectation of the value function.
+
+94
+00:04:23.155 --> 00:04:28.080
+And of course, make some improvements based on the kind of DQN enhancements,
+
+95
+00:04:28.080 --> 00:04:31.140
+but those are usually slightly hard and they
+
+96
+00:04:31.140 --> 00:04:34.710
+don't bring as much reward here as they bring in the DQN keys.
+
+97
+00:04:34.710 --> 00:04:37.660
+What you do is, you simply learn those two functions interchangeably,
+
+98
+00:04:37.660 --> 00:04:40.740
+so you compute the gradient of this number J ascendant,
+
+99
+00:04:40.740 --> 00:04:44.060
+then you compute the gradient of this mean squared error and you
+
+100
+00:04:44.060 --> 00:04:47.985
+descend it over the parameters of your value function the critic.
+
+101
+00:04:47.985 --> 00:04:49.280
+Now, another important part is that,
+
+102
+00:04:49.280 --> 00:04:51.175
+you have to refine your V function as well.
+
+103
+00:04:51.175 --> 00:04:55.065
+This case you use an algorithm which is very similar to how you train DQN before.
+
+104
+00:04:55.065 --> 00:04:57.790
+You simply take your Sa error as prime tuples,
+
+105
+00:04:57.790 --> 00:05:00.190
+you can compute the temporal difference error, in this case,
+
+106
+00:05:00.190 --> 00:05:01.900
+it means squared error, you minimize it
+
+107
+00:05:01.900 --> 00:05:04.200
+by following the back propagation for the neural network.
+
+108
+00:05:04.200 --> 00:05:06.030
+The deal here is that, if you take a lot of
+
+109
+00:05:06.030 --> 00:05:08.170
+samples you'll convert a mathematical expectation,
+
+110
+00:05:08.170 --> 00:05:10.590
+this way you'll get the kind of true V function.
+
+111
+00:05:10.590 --> 00:05:13.890
+So, it's also important to know that in this case you're not
+
+112
+00:05:13.890 --> 00:05:17.605
+that much reliant on the V on the value-based part of your network,
+
+113
+00:05:17.605 --> 00:05:20.050
+as you were in the DQN, because even though
+
+114
+00:05:20.050 --> 00:05:24.505
+your value function is not very accurate at the beginning, you can still subtract it.
+
+115
+00:05:24.505 --> 00:05:27.420
+Remember you can subtract anything which is not dependent on your action,
+
+116
+00:05:27.420 --> 00:05:28.885
+and V function is definitely not,
+
+117
+00:05:28.885 --> 00:05:30.935
+by its definition by the design of your neural network.
+
+118
+00:05:30.935 --> 00:05:32.685
+In this case,
+
+119
+00:05:32.685 --> 00:05:34.530
+even a poorly trained value function will bring you
+
+120
+00:05:34.530 --> 00:05:37.595
+some improvement on how your agent trains.
+
+121
+00:05:37.595 --> 00:05:41.330
+As I've already mentioned, this other FFM is called the acro-critic algorithms.
+
+122
+00:05:41.330 --> 00:05:44.030
+This case you have to cast the actor and the critic.
+
+123
+00:05:44.030 --> 00:05:46.325
+The first hat the blue one is the actor.
+
+124
+00:05:46.325 --> 00:05:47.810
+It picks the actions,
+
+125
+00:05:47.810 --> 00:05:49.830
+it just models the probability of picking action a,
+
+126
+00:05:49.830 --> 00:05:52.150
+and state s, and this is your policy.
+
+127
+00:05:52.150 --> 00:05:53.795
+The second hat is the critic.
+
+128
+00:05:53.795 --> 00:05:55.060
+The idea of critic is, basically,
+
+129
+00:05:55.060 --> 00:05:57.930
+it estimates how good your particular state is,
+
+130
+00:05:57.930 --> 00:06:01.190
+it basically it's used to help training your network.
+
+131
+00:06:01.190 --> 00:06:04.240
+The idea is that if you train your actor and critic hats interchangeably,
+
+132
+00:06:04.240 --> 00:06:07.360
+you'll not only obtain this value-based hat as a side quest,
+
+133
+00:06:07.360 --> 00:06:09.320
+that allows you to measure the value,
+
+134
+00:06:09.320 --> 00:06:11.810
+you'll also obtain algorithm that improves
+
+135
+00:06:11.810 --> 00:06:14.435
+the convergence of your policy based particular actor,
+
+136
+00:06:14.435 --> 00:06:16.145
+by using an order of managers.
+
+137
+00:06:16.145 --> 00:06:17.620
+We'll see how those two methods,
+
+138
+00:06:17.620 --> 00:06:19.340
+the reinforce and the actor-critic compare on
+
+139
+00:06:19.340 --> 00:06:22.530
+practical problems later on in this lecture.

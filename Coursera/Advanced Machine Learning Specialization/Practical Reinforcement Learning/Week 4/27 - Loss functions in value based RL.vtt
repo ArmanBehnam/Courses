@@ -1,0 +1,685 @@
+WEBVTT
+
+1
+00:00:02.780 --> 00:00:06.255
+Well, now let's proceed with the loss.
+
+2
+00:00:06.255 --> 00:00:08.020
+Once we have defined the loss,
+
+3
+00:00:08.020 --> 00:00:10.250
+we might want to minimize it.
+
+4
+00:00:10.250 --> 00:00:13.480
+One of the most simple and most widespread method of
+
+5
+00:00:13.480 --> 00:00:17.230
+minimizing the loss is by a means of gradient descent.
+
+6
+00:00:17.230 --> 00:00:22.490
+That is where differentiate our loss with respect to parameters w
+
+7
+00:00:22.490 --> 00:00:28.325
+and change our parameters in the direction of minus gradient with some stepsize of alpha.
+
+8
+00:00:28.325 --> 00:00:30.300
+Why minus gradient?
+
+9
+00:00:30.300 --> 00:00:35.425
+Well, because the gradient is defined as direction of the fastest function increase.
+
+10
+00:00:35.425 --> 00:00:37.740
+The opposite direction that is minus
+
+11
+00:00:37.740 --> 00:00:40.990
+a gradient shows the fastest decrease of the function.
+
+12
+00:00:40.990 --> 00:00:44.130
+And this allows us to change the parameters w so
+
+13
+00:00:44.130 --> 00:00:47.635
+that our loss function decreases in the fastest way possible.
+
+14
+00:00:47.635 --> 00:00:51.280
+However, to update parameters w with gradients descent,
+
+15
+00:00:51.280 --> 00:00:54.545
+again we should differentiate the whole loss.
+
+16
+00:00:54.545 --> 00:00:58.390
+And we know that we actually cannot even compute the loss.
+
+17
+00:00:58.390 --> 00:01:01.025
+We have only is sample-based estimate.
+
+18
+00:01:01.025 --> 00:01:04.105
+Well, in fact, what we can do we can
+
+19
+00:01:04.105 --> 00:01:07.625
+approximate a true gradient with it's Stochastic estimate.
+
+20
+00:01:07.625 --> 00:01:12.290
+That is we approximate the full sum with one component of that sum.
+
+21
+00:01:12.290 --> 00:01:16.055
+And this leads us to Stochastic gradient descent.
+
+22
+00:01:16.055 --> 00:01:19.675
+In SGD, Stochastic gradient descent,
+
+23
+00:01:19.675 --> 00:01:22.340
+we approximate the full gradient with it's
+
+24
+00:01:22.340 --> 00:01:26.020
+estimate in particular state and action as a day.
+
+25
+00:01:26.020 --> 00:01:29.195
+This state in action just in the same way
+
+26
+00:01:29.195 --> 00:01:32.015
+as we have discussed previously are sampled from
+
+27
+00:01:32.015 --> 00:01:38.570
+rho pi or rho behavior policy depending on whether we learn on or off policy.
+
+28
+00:01:38.570 --> 00:01:42.785
+To reiterate, sampling state and action from rho,
+
+29
+00:01:42.785 --> 00:01:45.910
+is in practice done with picking state and action
+
+30
+00:01:45.910 --> 00:01:49.350
+from Asian's experience of direction with an environment.
+
+31
+00:01:49.350 --> 00:01:53.355
+In practice, however, one place is one sample estimate
+
+32
+00:01:53.355 --> 00:01:57.325
+of the gradient with more stable estimate using a couple of samples,
+
+33
+00:01:57.325 --> 00:01:59.440
+not only the single one.
+
+34
+00:01:59.440 --> 00:02:03.625
+For now, we have talked about a gradient but have not showed how to compute it.
+
+35
+00:02:03.625 --> 00:02:06.000
+In fact, for application of SGD,
+
+36
+00:02:06.000 --> 00:02:11.180
+we should only know how to compute gradient of L supp s
+
+37
+00:02:11.180 --> 00:02:16.515
+and a which is a square root difference between the goal and our current estimate of it.
+
+38
+00:02:16.515 --> 00:02:18.290
+Why are we talking about it?
+
+39
+00:02:18.290 --> 00:02:22.610
+It isn't the square root difference easy to differentiate? Well, it is.
+
+40
+00:02:22.610 --> 00:02:29.295
+What is more tricky here is the dependence of goal on parameters w. These goals,
+
+41
+00:02:29.295 --> 00:02:33.265
+as I have mentioned, are simple numbers in case of Monte Carlo targets.
+
+42
+00:02:33.265 --> 00:02:38.310
+But there are a function of parameters w in case of temporal difference targets.
+
+43
+00:02:38.310 --> 00:02:43.180
+And we should differentiate them with respect to parameters w. This is
+
+44
+00:02:43.180 --> 00:02:45.950
+mathematically correct way to the learning but
+
+45
+00:02:45.950 --> 00:02:49.590
+it interferes with natural understanding of the task.
+
+46
+00:02:49.590 --> 00:02:53.075
+If it differentiate goals with respect to parameters,
+
+47
+00:02:53.075 --> 00:02:56.645
+we'll kind of change the natural flow of time.
+
+48
+00:02:56.645 --> 00:03:00.880
+That is, we will not only make value estimate of current state and
+
+49
+00:03:00.880 --> 00:03:05.170
+action look more similar to our target as a cumulative for war.
+
+50
+00:03:05.170 --> 00:03:08.060
+But we also will make the subsequent estimate of
+
+51
+00:03:08.060 --> 00:03:11.625
+return be dependent on the previous rewards.
+
+52
+00:03:11.625 --> 00:03:14.335
+That is not what we want in general.
+
+53
+00:03:14.335 --> 00:03:18.500
+Thus, we introduce a so-called semi grading methods which treat
+
+54
+00:03:18.500 --> 00:03:23.070
+goal as fixed and this for any particular type of goal,
+
+55
+00:03:23.070 --> 00:03:27.935
+that is the gradient of goal with respect to the parameters is equal to zero.
+
+56
+00:03:27.935 --> 00:03:32.690
+This semi-gradient approach is very similar to what is going on in usual
+
+57
+00:03:32.690 --> 00:03:37.830
+supervised learning where the goals are almost always fixed numbers.
+
+58
+00:03:37.830 --> 00:03:39.510
+Bootstrapping methods such as
+
+59
+00:03:39.510 --> 00:03:44.615
+temporal difference learning are not in fact instances of true gradient descent.
+
+60
+00:03:44.615 --> 00:03:47.115
+They include only part of the gradient.
+
+61
+00:03:47.115 --> 00:03:50.660
+Accordingly, we call them semi-gradient methods.
+
+62
+00:03:50.660 --> 00:03:52.430
+But on the other hand,
+
+63
+00:03:52.430 --> 00:03:57.745
+they simplify math alot and are shown to work well in many practical tasks.
+
+64
+00:03:57.745 --> 00:04:02.410
+Let me now summarize what are the properties of semi-gradient methods.
+
+65
+00:04:02.410 --> 00:04:08.330
+The essence of the semi-gradient update is that it treats goals g(s,
+
+66
+00:04:08.330 --> 00:04:10.865
+a ) as fixed numbers.
+
+67
+00:04:10.865 --> 00:04:13.070
+Like gradient update, this kind of
+
+68
+00:04:13.070 --> 00:04:17.490
+update change parameters in a way that moves estimates closer to targets.
+
+69
+00:04:17.490 --> 00:04:19.515
+But unlike gradient update,
+
+70
+00:04:19.515 --> 00:04:23.060
+it completely ignores effect of update on the target.
+
+71
+00:04:23.060 --> 00:04:26.605
+And because of this semi-gradient is a proper gradient.
+
+72
+00:04:26.605 --> 00:04:31.400
+It doesn't possess the convergent properties of Stochastic gradient descent,
+
+73
+00:04:31.400 --> 00:04:34.170
+but it convergences reliably in most cases.
+
+74
+00:04:34.170 --> 00:04:39.600
+It is also more computationally efficient and faster than true SGD.
+
+75
+00:04:39.600 --> 00:04:41.460
+Having said all this,
+
+76
+00:04:41.460 --> 00:04:44.050
+semi-gradient base are meaningful thing to do
+
+77
+00:04:44.050 --> 00:04:46.710
+because there are a type of parameter of update correspond
+
+78
+00:04:46.710 --> 00:04:52.455
+to symmetric structure of the task that is the time always goes only forward.
+
+79
+00:04:52.455 --> 00:04:55.430
+Let now return to the target definitions.
+
+80
+00:04:55.430 --> 00:04:59.640
+In fact, targets are deeply connected with the algorithm names.
+
+81
+00:04:59.640 --> 00:05:03.875
+More to say, these targets define what estimate do we learn and thus,
+
+82
+00:05:03.875 --> 00:05:05.705
+are very important to understand.
+
+83
+00:05:05.705 --> 00:05:09.830
+In SARSA, our target is current rewards,
+
+84
+00:05:09.830 --> 00:05:12.175
+that is immediate R(s,
+
+85
+00:05:12.175 --> 00:05:15.500
+a ) and gamma times our estimate
+
+86
+00:05:15.500 --> 00:05:20.230
+of actual value function in the next state and the next action.
+
+87
+00:05:20.230 --> 00:05:25.800
+This next action is basically sample from our policy pi.
+
+88
+00:05:26.390 --> 00:05:32.410
+In expected SARSA, we see almost the same update.
+
+89
+00:05:32.410 --> 00:05:34.960
+That is the same error of s and a.
+
+90
+00:05:34.960 --> 00:05:40.465
+But now the second term is an expected actual value function in the next state.
+
+91
+00:05:40.465 --> 00:05:45.255
+Whereas expectation is taken with respect to our policy probabilities.
+
+92
+00:05:45.255 --> 00:05:51.320
+In Q-learning, we see that our goal is a little bit different.
+
+93
+00:05:51.320 --> 00:05:58.785
+We have the first term is the same as in SARSA and Expected SARSA but the second term
+
+94
+00:05:58.785 --> 00:06:06.670
+is a maximum over all actions of actual value estimate of the next state an action.
+
+95
+00:06:06.670 --> 00:06:11.680
+Note that g(s, a ) in each of
+
+96
+00:06:11.680 --> 00:06:18.305
+these cases is a a random variable because it depends on the next state S_t+1.
+
+97
+00:06:18.305 --> 00:06:24.185
+And additionally, on a_t+1 in case of SARSA.
+
+98
+00:06:24.185 --> 00:06:28.950
+These doubles Stochastity of SARSA target is not a good thing, obviously.
+
+99
+00:06:28.950 --> 00:06:32.040
+And this is the main reason for why I suggest
+
+100
+00:06:32.040 --> 00:06:35.355
+using Expected SARSA instead of SARSA when it is possible.
+
+101
+00:06:35.355 --> 00:06:37.670
+Now, let's look a bit closer to each of
+
+102
+00:06:37.670 --> 00:06:41.325
+these targets and elaborate a bit on their origins.
+
+103
+00:06:41.325 --> 00:06:44.760
+You have already seen that tabular version of SARSA.
+
+104
+00:06:44.760 --> 00:06:49.600
+SARSA algorithm is an example of application of Bellman expectation equation.
+
+105
+00:06:49.600 --> 00:06:52.330
+However, in Bellman expectation equation,
+
+106
+00:06:52.330 --> 00:06:54.690
+we do what is called full-width backup.
+
+107
+00:06:54.690 --> 00:06:58.700
+That is we account for all the possible next states that we could find
+
+108
+00:06:58.700 --> 00:07:02.540
+ourselves in after committing action a instead of s. And
+
+109
+00:07:02.540 --> 00:07:06.700
+we also account for all possible actions our policy could take in each
+
+110
+00:07:06.700 --> 00:07:11.360
+of these states by taking an expectation with respect to our policy probabilities.
+
+111
+00:07:11.360 --> 00:07:15.370
+In the real world, we could not take an expectation with respect to
+
+112
+00:07:15.370 --> 00:07:19.335
+model dynamics because we don't usually know the transition probabilities.
+
+113
+00:07:19.335 --> 00:07:24.355
+However, we could estimate this expectation with Monte Carlo by taking samples.
+
+114
+00:07:24.355 --> 00:07:28.600
+That is by observing in what state do we end up after making action
+
+115
+00:07:28.600 --> 00:07:33.425
+a instead of s. We also could estimate the lower level expectation with samples.
+
+116
+00:07:33.425 --> 00:07:37.595
+That is the expectation or Stochasticity of our policy in the next state.
+
+117
+00:07:37.595 --> 00:07:41.745
+These are two self-sources of randomness we haven't garnered on previous slide.
+
+118
+00:07:41.745 --> 00:07:44.805
+Now, look at the approximates or sub date rule.
+
+119
+00:07:44.805 --> 00:07:49.540
+Well, these approximate SARSA looks pretty much the same as it's
+
+120
+00:07:49.540 --> 00:07:54.680
+tabular counterpart with the only difference is a loss multiplicative gradient term.
+
+121
+00:07:54.680 --> 00:07:58.555
+So, cool. Now, you know what is approximate SARSA
+
+122
+00:07:58.555 --> 00:08:05.680
+and that this approximate SARSA is very much similar to the standard tabular updates.
+
+123
+00:08:05.680 --> 00:08:08.680
+Well, as I have already mentioned,
+
+124
+00:08:08.680 --> 00:08:13.405
+the sources of randomness in this SARSA goal is usually not a good idea.
+
+125
+00:08:13.405 --> 00:08:17.735
+Can we really move some Stochasticity out of the goal estimate?
+
+126
+00:08:17.735 --> 00:08:19.440
+Well, yes.
+
+127
+00:08:19.440 --> 00:08:24.915
+And this leads us to the SARSA's closest cousin called Expected SARSA.
+
+128
+00:08:24.915 --> 00:08:30.035
+If we abandon the approximation on the bottom layer of the backup tree,
+
+129
+00:08:30.035 --> 00:08:33.390
+we will obtain the Expected SARSA algorithm as a machine
+
+130
+00:08:33.390 --> 00:08:37.185
+or as a backup is precisely the same as for SARSA algorithm.
+
+131
+00:08:37.185 --> 00:08:42.870
+The only thing that changes is form of update in the on the bottom level.
+
+132
+00:08:42.870 --> 00:08:45.760
+Now, it includes the expectation of
+
+133
+00:08:45.760 --> 00:08:50.125
+actions coming from both pi in the next state S prime.
+
+134
+00:08:50.125 --> 00:08:54.000
+Contrasted with SARSA where there were no expectation at
+
+135
+00:08:54.000 --> 00:08:58.300
+the bottom level but only a sample-based estimate of this expectation.
+
+136
+00:08:58.300 --> 00:09:01.200
+Expected SARSA obviously improves upon SARSA
+
+137
+00:09:01.200 --> 00:09:04.205
+because it gets raised off additional approximation.
+
+138
+00:09:04.205 --> 00:09:05.595
+And because of this fact,
+
+139
+00:09:05.595 --> 00:09:10.480
+I usually recommend using Expected SARSA instead of SARSA whenever possible.
+
+140
+00:09:10.480 --> 00:09:14.990
+The update of an Expected SARSA is almost the same as for SARSA and
+
+141
+00:09:14.990 --> 00:09:20.900
+algorithm differs only in the form of goals that current estimates are aggressed on.
+
+142
+00:09:20.900 --> 00:09:26.020
+Now, what will happen is the policy with respect to which we take an expectation on
+
+143
+00:09:26.020 --> 00:09:30.880
+the lower level of full-width backup is really one.
+
+144
+00:09:30.880 --> 00:09:33.350
+That is assigns all the probabilities as
+
+145
+00:09:33.350 --> 00:09:37.250
+an action which has a maximum Q value of the next state.
+
+146
+00:09:37.250 --> 00:09:42.195
+In fact, that is precisely the way Q-learning can be derived from.
+
+147
+00:09:42.195 --> 00:09:45.720
+Let us now revisit our Q-learning a little bit.
+
+148
+00:09:45.720 --> 00:09:49.250
+Please note that expected SARSA is based on
+
+149
+00:09:49.250 --> 00:09:51.590
+the Bellman expectation equation while
+
+150
+00:09:51.590 --> 00:09:55.340
+the Q-learning is based on the Bellman optimality equation.
+
+151
+00:09:55.340 --> 00:09:58.490
+Again, we witness that two of these concepts are
+
+152
+00:09:58.490 --> 00:10:01.440
+deeply interconnected and we can seamlessly interplay between
+
+153
+00:10:01.440 --> 00:10:04.850
+them by making an arbitrary policy pi to
+
+154
+00:10:04.850 --> 00:10:08.655
+become greedy with respect to current estimates of actual value function.
+
+155
+00:10:08.655 --> 00:10:10.290
+On the slide, you can see the form of
+
+156
+00:10:10.290 --> 00:10:14.310
+full-width backup and sample-based estimate of this backup.
+
+157
+00:10:14.310 --> 00:10:18.340
+Again, what do we see here is that we replay
+
+158
+00:10:18.340 --> 00:10:23.055
+the full-width backup of Bellman optimality equation with it's sample-based analog.
+
+159
+00:10:23.055 --> 00:10:27.360
+We do so to obtain an approximate semi-gradient Q-learning.
+
+160
+00:10:27.360 --> 00:10:28.850
+Also as a form of
+
+161
+00:10:28.850 --> 00:10:33.170
+approximate Q-learning update doesn't differ much from the tabular setting.
+
+162
+00:10:33.170 --> 00:10:38.060
+Well, the schema for replacing the full-width backup with
+
+163
+00:10:38.060 --> 00:10:44.150
+a sample-based analog is almost the same for all methods which we have discussed for now.
+
+164
+00:10:44.150 --> 00:10:46.700
+And I hope you got the idea.
+
+165
+00:10:46.700 --> 00:10:51.450
+What if we have discussed for now is a pure theory of different algorithms.
+
+166
+00:10:51.450 --> 00:10:54.755
+But we have not talked about application for approximate learning
+
+167
+00:10:54.755 --> 00:10:58.625
+in practice and practice is also very important.
+
+168
+00:10:58.625 --> 00:11:01.560
+In the next videos, you will get familiar to some of
+
+169
+00:11:01.560 --> 00:11:04.040
+the most important problems mostly coming from
+
+170
+00:11:04.040 --> 00:11:07.010
+practical application of reinforcement learning methods.
+
+171
+00:11:07.010 --> 00:11:09.230
+So, stay tuned.

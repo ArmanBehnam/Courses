@@ -1,0 +1,513 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.230
+Now, let's see how
+
+2
+00:00:04.230 --> 00:00:07.755
+all those upsize and downsize convert into an actual learning algorithm.
+
+3
+00:00:07.755 --> 00:00:09.850
+There is this super popular implementation of
+
+4
+00:00:09.850 --> 00:00:13.025
+advantage actor-critic called the asynchronous advantage actor-critic.
+
+5
+00:00:13.025 --> 00:00:15.820
+We'll cover this asynchronous part in a moment.
+
+6
+00:00:15.820 --> 00:00:18.370
+Now, since it's an actor-critic method,
+
+7
+00:00:18.370 --> 00:00:20.350
+it has a few ramifications that prevented
+
+8
+00:00:20.350 --> 00:00:22.525
+from using some of the tricks of studies so far.
+
+9
+00:00:22.525 --> 00:00:26.105
+For example, it's basically restricted from using the experience replay.
+
+10
+00:00:26.105 --> 00:00:28.109
+Since actor-critic is on-policy,
+
+11
+00:00:28.109 --> 00:00:32.160
+you have to train on the actions taken under it's current policy.
+
+12
+00:00:32.160 --> 00:00:36.035
+You feed it actions that are sample from experience replays says,
+
+13
+00:00:36.035 --> 00:00:38.005
+actions actually played an hour ago.
+
+14
+00:00:38.005 --> 00:00:40.850
+You will probably have a situation where you feel that with
+
+15
+00:00:40.850 --> 00:00:44.050
+actions that are not the same particular strategically,
+
+16
+00:00:44.050 --> 00:00:47.450
+not following the same idea that it has learnt over this hour.
+
+17
+00:00:47.450 --> 00:00:49.060
+For example, if an hour ago,
+
+18
+00:00:49.060 --> 00:00:51.955
+your agent was not able to say,
+
+19
+00:00:51.955 --> 00:00:54.310
+float in the Seaquest Atari game,
+
+20
+00:00:54.310 --> 00:00:57.400
+we will not see your algorithm improving on this particular aspect until
+
+21
+00:00:57.400 --> 00:01:02.210
+those actions gets thrown away from the experience replayed before.
+
+22
+00:01:02.210 --> 00:01:04.450
+Now, as this become to your experience replay,
+
+23
+00:01:04.450 --> 00:01:07.780
+we have to somehow mitigate the problem of having sessions that are
+
+24
+00:01:07.780 --> 00:01:11.580
+not identically distributed and independent of each other.
+
+25
+00:01:11.580 --> 00:01:14.365
+And this is an analogical study to which basically
+
+26
+00:01:14.365 --> 00:01:17.170
+says that if you have enough parallel sessions,
+
+27
+00:01:17.170 --> 00:01:19.025
+you can pretend that they are ideal.
+
+28
+00:01:19.025 --> 00:01:25.480
+The situation here is that you have to expand and see 10 clones of your agent,
+
+29
+00:01:25.480 --> 00:01:26.920
+which only is the same set of ways,
+
+30
+00:01:26.920 --> 00:01:29.995
+but they play independent replicas of your environment.
+
+31
+00:01:29.995 --> 00:01:34.360
+And of course, they have to take actions by sampling from the policy independently.
+
+32
+00:01:34.360 --> 00:01:37.465
+If you go and play like this for say 1000 situations,
+
+33
+00:01:37.465 --> 00:01:41.080
+you'll probably faces situations where of your independent replicas,
+
+34
+00:01:41.080 --> 00:01:44.125
+they are in completely different states in the environment.
+
+35
+00:01:44.125 --> 00:01:47.865
+This happens because at every particular junction, at every step,
+
+36
+00:01:47.865 --> 00:01:51.760
+you have to pick an action and you pick actions for older replicas independently.
+
+37
+00:01:51.760 --> 00:01:56.845
+So, you're very likely to divert at least some action if you play for long enough.
+
+38
+00:01:56.845 --> 00:01:58.960
+This will result in the fact that some agents will
+
+39
+00:01:58.960 --> 00:02:00.615
+probably have to terminate early because
+
+40
+00:02:00.615 --> 00:02:03.995
+they've taken inferior actions and they are terminated with a failure,
+
+41
+00:02:03.995 --> 00:02:05.925
+like when they've lost an Atari game.
+
+42
+00:02:05.925 --> 00:02:08.770
+And now, they are starting over and they're at the very beginning.
+
+43
+00:02:08.770 --> 00:02:13.195
+Other more likely agents will be at the middle or the later years of the game.
+
+44
+00:02:13.195 --> 00:02:18.240
+And since the games usually have different particular states in which you can finish,
+
+45
+00:02:18.240 --> 00:02:21.610
+they'll probably be in a different trajectories as well.
+
+46
+00:02:21.610 --> 00:02:25.780
+So, you'll have for more or less not particularly independent,
+
+47
+00:02:25.780 --> 00:02:29.050
+but at least more or less that is distributed sample from the environment
+
+48
+00:02:29.050 --> 00:02:33.190
+and this is how on-policy methods deal with the problem of IAT.
+
+49
+00:02:33.190 --> 00:02:36.115
+To think faster, this algorithm actually uses
+
+50
+00:02:36.115 --> 00:02:39.665
+another idea from the field of distributed parallel computing.
+
+51
+00:02:39.665 --> 00:02:42.280
+Should those independent replicas of the environment,
+
+52
+00:02:42.280 --> 00:02:45.535
+since they are not required to interact that often,
+
+53
+00:02:45.535 --> 00:02:47.635
+they assign to different processes.
+
+54
+00:02:47.635 --> 00:02:52.510
+This basically means that you have your multi CPU or your multi GPU machine that
+
+55
+00:02:52.510 --> 00:02:57.220
+has the same twinge of 30 CPU cores and basically,
+
+56
+00:02:57.220 --> 00:03:00.855
+you're on a parallel instance of an agent on a game in each core.
+
+57
+00:03:00.855 --> 00:03:06.415
+Now, then you can update the weights of your agents using this particular core.
+
+58
+00:03:06.415 --> 00:03:10.280
+And then, synchronize them periodically to prevent them from diverging too far.
+
+59
+00:03:10.280 --> 00:03:13.220
+Another peculiarity of this A3C algorithm,
+
+60
+00:03:13.220 --> 00:03:17.870
+let's use some of the booms from the parallel computing to speed up the training process.
+
+61
+00:03:17.870 --> 00:03:21.610
+Basically, you can assume that if you're training on more than a server,
+
+62
+00:03:21.610 --> 00:03:23.335
+what you have is you have say,
+
+63
+00:03:23.335 --> 00:03:27.520
+30 or even more CPU cores that are available for you to train in parallel.
+
+64
+00:03:27.520 --> 00:03:29.560
+What you can do then is you can say,
+
+65
+00:03:29.560 --> 00:03:35.980
+you can take your 30 or whatever amount you have of parallel playing sessions,
+
+66
+00:03:35.980 --> 00:03:37.285
+each consisting of an agent,
+
+67
+00:03:37.285 --> 00:03:38.710
+it's weights in an environment.
+
+68
+00:03:38.710 --> 00:03:41.795
+You can assign all of those sessions to different core.
+
+69
+00:03:41.795 --> 00:03:45.480
+Think of simply training all those cores in parallel,
+
+70
+00:03:45.480 --> 00:03:48.160
+you can use the pocket version of
+
+71
+00:03:48.160 --> 00:03:51.400
+A2C and then check actor-critic on each particular core.
+
+72
+00:03:51.400 --> 00:03:53.110
+Then, you'll have to periodically synchronize
+
+73
+00:03:53.110 --> 00:03:55.685
+weights to make sure that they don't diverge too far.
+
+74
+00:03:55.685 --> 00:04:00.070
+So, this is what makes A3C have a lot of independent processes.
+
+75
+00:04:00.070 --> 00:04:01.645
+You have them trained a little bit.
+
+76
+00:04:01.645 --> 00:04:04.540
+And then, in some fixed or well,
+
+77
+00:04:04.540 --> 00:04:07.040
+in some limited time bills,
+
+78
+00:04:07.040 --> 00:04:09.070
+you basically take ways from all the cores and you
+
+79
+00:04:09.070 --> 00:04:12.540
+synchronize them to make sure that they are still doing the same thing.
+
+80
+00:04:12.540 --> 00:04:17.485
+Now, the final and the part which is yet under explore within the scope of our course,
+
+81
+00:04:17.485 --> 00:04:23.810
+the fact A3C is very famous for the particular condition called A3C plus LSTM.
+
+82
+00:04:23.810 --> 00:04:26.145
+As you might have guessed from the beginner course,
+
+83
+00:04:26.145 --> 00:04:30.365
+this basically means that the agent here uses some recurrent memory.
+
+84
+00:04:30.365 --> 00:04:33.950
+The generality behind the recurrent memory is that they'll ask
+
+85
+00:04:33.950 --> 00:04:36.770
+your agent to memorize some of the observations,
+
+86
+00:04:36.770 --> 00:04:40.580
+so that it can improve it's policy based not only what it can see right now,
+
+87
+00:04:40.580 --> 00:04:42.575
+but what it have seen previously.
+
+88
+00:04:42.575 --> 00:04:45.320
+So, it's not to be significant from solitary games and we'll
+
+89
+00:04:45.320 --> 00:04:49.295
+cover this in more detail in the final section of this week.
+
+90
+00:04:49.295 --> 00:04:53.325
+Schedules, the asynchronous advantage actor-critic.
+
+91
+00:04:53.325 --> 00:04:56.640
+Now, in the original article that was proposed and the authors compared
+
+92
+00:04:56.640 --> 00:05:00.230
+this method to other value based methods which are original.
+
+93
+00:05:00.230 --> 00:05:03.830
+All those methods were training the same parallel asynchronous way.
+
+94
+00:05:03.830 --> 00:05:07.520
+So, basically, you have parallel workers that do either actor-critic updates,
+
+95
+00:05:07.520 --> 00:05:09.155
+or queued learning updates, or whatever,
+
+96
+00:05:09.155 --> 00:05:11.215
+and they synchronize ways time to time.
+
+97
+00:05:11.215 --> 00:05:12.905
+So, in this case,
+
+98
+00:05:12.905 --> 00:05:15.610
+what you can see is that in many environments,
+
+99
+00:05:15.610 --> 00:05:19.240
+the asynchronous actor-critic has tendency to both converge faster in
+
+100
+00:05:19.240 --> 00:05:24.370
+the initial phase and sometimes get the better final performance.
+
+101
+00:05:24.370 --> 00:05:26.540
+So, it not only does stuff faster,
+
+102
+00:05:26.540 --> 00:05:29.060
+but it also does stuff better in the long run.
+
+103
+00:05:29.060 --> 00:05:31.670
+They knew that all those implementations,
+
+104
+00:05:31.670 --> 00:05:34.685
+they have one common benefit.
+
+105
+00:05:34.685 --> 00:05:40.159
+What they do is they really train much faster than the usual principally,
+
+106
+00:05:40.159 --> 00:05:41.640
+probably that you have say,
+
+107
+00:05:41.640 --> 00:05:43.715
+tens or maybe hundreds of cores.
+
+108
+00:05:43.715 --> 00:05:45.670
+Even if you use a modern server,
+
+109
+00:05:45.670 --> 00:05:47.860
+this is not a far stretch hypothesis.
+
+110
+00:05:47.860 --> 00:05:49.000
+Sometimes you have say,
+
+111
+00:05:49.000 --> 00:05:53.900
+dual whatever high end processors that have say 64 cores.
+
+112
+00:05:53.900 --> 00:05:57.650
+Now, what this allows you to do is it allows you to do super fast training,
+
+113
+00:05:57.650 --> 00:05:59.995
+but this doesn't apply to all possible sessions.
+
+114
+00:05:59.995 --> 00:06:03.540
+In entire games, it's very cheap to simulate all those environments,
+
+115
+00:06:03.540 --> 00:06:05.965
+but make sure you're doing something more ambitious.
+
+116
+00:06:05.965 --> 00:06:09.000
+So, you are actually trying to train a physical robot.
+
+117
+00:06:09.000 --> 00:06:12.485
+So, you have this piece of hardware which runs around
+
+118
+00:06:12.485 --> 00:06:15.310
+the special polygon and you want to
+
+119
+00:06:15.310 --> 00:06:18.910
+apply this parallel asynchronous knowledge actor-critic approach to it.
+
+120
+00:06:18.910 --> 00:06:20.800
+The issue here is that if you do so,
+
+121
+00:06:20.800 --> 00:06:22.990
+you'll have to train all the parallel sessions
+
+122
+00:06:22.990 --> 00:06:24.580
+and each of them requires a parallel robot,
+
+123
+00:06:24.580 --> 00:06:27.025
+so it will be much more expensive to do so.
+
+124
+00:06:27.025 --> 00:06:29.340
+But in Atari since the simulation is very cheap,
+
+125
+00:06:29.340 --> 00:06:32.830
+this method is basically the almost the state of the art so far.
+
+126
+00:06:32.830 --> 00:06:35.650
+It is the state of the art if you exclude the methods that are super
+
+127
+00:06:35.650 --> 00:06:39.350
+complicated and adapted to a particular super details,
+
+128
+00:06:39.350 --> 00:06:42.100
+super special case issues.

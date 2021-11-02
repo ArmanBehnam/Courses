@@ -1,0 +1,289 @@
+WEBVTT
+
+1
+00:00:02.710 --> 00:00:06.685
+To begin with, I want you to answer this simple mathematical quiz.
+
+2
+00:00:06.685 --> 00:00:09.995
+Let's say that you have a task to compute a derivative,
+
+3
+00:00:09.995 --> 00:00:14.220
+and you want to compute a derivative of logarithm of F of X or in this case,
+
+4
+00:00:14.220 --> 00:00:15.430
+logarithm of p of Z.
+
+5
+00:00:15.430 --> 00:00:17.110
+How do you do that?
+
+6
+00:00:17.110 --> 00:00:19.540
+How do you simplify the derivative?
+
+7
+00:00:19.540 --> 00:00:22.640
+Well, as a break,
+
+8
+00:00:22.640 --> 00:00:24.470
+we've probably been taught at school,
+
+9
+00:00:24.470 --> 00:00:27.610
+is to simply find the table of derivatives and use the chain rule.
+
+10
+00:00:27.610 --> 00:00:31.010
+So in this case, you can say that the derivative logarithm of
+
+11
+00:00:31.010 --> 00:00:34.500
+F of X is a product of derivative of the logarithm,
+
+12
+00:00:34.500 --> 00:00:36.525
+and the derivative of the function itself.
+
+13
+00:00:36.525 --> 00:00:40.995
+Now the derivative of the logarithm is one over whatever is there under the logarithm,
+
+14
+00:00:40.995 --> 00:00:44.030
+and then multiplied by the derivative of the phi,
+
+15
+00:00:44.030 --> 00:00:47.290
+or F in your abstract case.
+
+16
+00:00:47.290 --> 00:00:50.440
+Now, if you take the one over phi of Z and move it
+
+17
+00:00:50.440 --> 00:00:53.360
+from right to the left inverting it of course,
+
+18
+00:00:53.360 --> 00:00:55.120
+then you'll see this other formula,
+
+19
+00:00:55.120 --> 00:00:57.885
+you have the equation which holds for,
+
+20
+00:00:57.885 --> 00:01:00.210
+derivative of some function is equal to
+
+21
+00:01:00.210 --> 00:01:02.880
+this function times the derivative of its logarithm.
+
+22
+00:01:02.880 --> 00:01:08.065
+It's kind of a universal truth that comes from basic properties of derivatives.
+
+23
+00:01:08.065 --> 00:01:10.945
+And now we are going to apply this equation to
+
+24
+00:01:10.945 --> 00:01:14.635
+our formula to make it more convenient for approximation.
+
+25
+00:01:14.635 --> 00:01:17.650
+Now remember, we want to compute the derivative of our expected reward,
+
+26
+00:01:17.650 --> 00:01:19.340
+the so-called nabla G here.
+
+27
+00:01:19.340 --> 00:01:22.000
+This problem can be used to computing this derivative,
+
+28
+00:01:22.000 --> 00:01:25.795
+because the outer integration does not depend on policy in our case.
+
+29
+00:01:25.795 --> 00:01:28.800
+To do this in a more approximate manner,
+
+30
+00:01:28.800 --> 00:01:30.350
+let's first plug in our formula,
+
+31
+00:01:30.350 --> 00:01:36.685
+let's replace the nabla P here with our P times nabla log P formula we've just derived.
+
+32
+00:01:36.685 --> 00:01:38.990
+Results are going to be pretty much as you'd expect to get.
+
+33
+00:01:38.990 --> 00:01:41.070
+So you'll have this same integration,
+
+34
+00:01:41.070 --> 00:01:42.670
+but now in the inner integral,
+
+35
+00:01:42.670 --> 00:01:44.570
+you'll have first not a derivative,
+
+36
+00:01:44.570 --> 00:01:49.285
+but just the phi itself times the nabla logarithm of phi times your reward.
+
+37
+00:01:49.285 --> 00:01:51.265
+The unique part about this formula,
+
+38
+00:01:51.265 --> 00:01:53.200
+is that unlike your original formula,
+
+39
+00:01:53.200 --> 00:01:55.780
+which requires you to explicitly compute the integrals,
+
+40
+00:01:55.780 --> 00:01:58.080
+so the nabla phi is not a probability density,
+
+41
+00:01:58.080 --> 00:01:59.850
+so this is not a mathematical expectation.
+
+42
+00:01:59.850 --> 00:02:03.495
+The second formula allows you to approximate it via sampling.
+
+43
+00:02:03.495 --> 00:02:07.125
+In this case, you can sample over states and sample over actions.
+
+44
+00:02:07.125 --> 00:02:08.470
+And then over those samples,
+
+45
+00:02:08.470 --> 00:02:10.420
+you'll have to compute the thing
+
+46
+00:02:10.420 --> 00:02:14.015
+that is left in this formula, which is not an expectation.
+
+47
+00:02:14.015 --> 00:02:17.615
+Now, how would this formula change if you substitute the integrals with expectation,
+
+48
+00:02:17.615 --> 00:02:20.735
+as it was originally written?
+
+49
+00:02:20.735 --> 00:02:21.820
+Yes, right.
+
+50
+00:02:21.820 --> 00:02:24.710
+This is your expectation, and then it would be just the expectation over
+
+51
+00:02:24.710 --> 00:02:28.470
+states and action of nabla logarithm of policy times the reward.
+
+52
+00:02:28.470 --> 00:02:29.930
+The final thing we'll have to do,
+
+53
+00:02:29.930 --> 00:02:34.130
+is we want to find out how this thing translates to a multiple step decision process.
+
+54
+00:02:34.130 --> 00:02:38.120
+It's not cool if you can only solve one step process in this case.
+
+55
+00:02:38.120 --> 00:02:40.480
+The exact derivations of
+
+56
+00:02:40.480 --> 00:02:44.960
+the final formula are going to be a little bit more complicated than the original ones,
+
+57
+00:02:44.960 --> 00:02:46.995
+so we'll avoid derivation this time.
+
+58
+00:02:46.995 --> 00:02:50.345
+The final results are going to be unsurprising again,
+
+59
+00:02:50.345 --> 00:02:54.080
+what you going to have is instead of having a single reward here,
+
+60
+00:02:54.080 --> 00:02:55.260
+you use this discounted reward.
+
+61
+00:02:55.260 --> 00:02:57.890
+So if you want to maximize the expected discounted reward,
+
+62
+00:02:57.890 --> 00:03:00.535
+what you can do is you can sample states and actions,
+
+63
+00:03:00.535 --> 00:03:03.360
+and you can compute, this way,
+
+64
+00:03:03.360 --> 00:03:05.800
+you can approximate the expectation of derivative of
+
+65
+00:03:05.800 --> 00:03:08.440
+logarithm policy times the discounted reward,
+
+66
+00:03:08.440 --> 00:03:10.650
+times your G or the optimal Q,
+
+67
+00:03:10.650 --> 00:03:12.350
+whatever you'd prefer to name it.
+
+68
+00:03:12.350 --> 00:03:16.770
+And this is how you apply the policy gradient to breakouts,
+
+69
+00:03:16.770 --> 00:03:19.245
+to remote control, to any complicated process.
+
+70
+00:03:19.245 --> 00:03:22.245
+Next section, we'll see how this idea, the policy gradient,
+
+71
+00:03:22.245 --> 00:03:24.790
+is reduced to a practical algorithm called reinforce,
+
+72
+00:03:24.790 --> 00:03:28.280
+how this algorithm can be used to solve practical problems.

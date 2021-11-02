@@ -1,0 +1,353 @@
+WEBVTT
+
+1
+00:00:02.210 --> 00:00:05.440
+Speaking of those policy-based algorithm we've just learned,
+
+2
+00:00:05.440 --> 00:00:08.950
+there's more than one way you can actually tune them to be more efficient or run
+
+3
+00:00:08.950 --> 00:00:12.925
+smoother by using the intuitive approach, introducing some heuristics.
+
+4
+00:00:12.925 --> 00:00:15.380
+You've probably learned about some of them already,
+
+5
+00:00:15.380 --> 00:00:18.930
+discover them again just to make sure that you've got them.
+
+6
+00:00:18.930 --> 00:00:21.460
+First, if your'e using the at actor critic method,
+
+7
+00:00:21.460 --> 00:00:22.990
+let's say adventure critic,
+
+8
+00:00:22.990 --> 00:00:26.500
+have to leverage the importance of two losses it has.
+
+9
+00:00:26.500 --> 00:00:29.680
+The first loss is the policy-based loss, the policy gradient,
+
+10
+00:00:29.680 --> 00:00:31.375
+the second one is that you have
+
+11
+00:00:31.375 --> 00:00:35.080
+to train your critic to minimize the temporal difference loss.
+
+12
+00:00:35.080 --> 00:00:40.090
+The idea here is that kind of more or less in the majority of cases,
+
+13
+00:00:40.090 --> 00:00:41.830
+you can assume the value-based loss,
+
+14
+00:00:41.830 --> 00:00:44.335
+the temporal difference loss to be less important.
+
+15
+00:00:44.335 --> 00:00:47.585
+This is because if your'e having a perfect critic,
+
+16
+00:00:47.585 --> 00:00:49.100
+but a terrible actor,
+
+17
+00:00:49.100 --> 00:00:53.680
+you are still having a critic which estimates how well does a random agent performs.
+
+18
+00:00:53.680 --> 00:00:57.405
+But if you have a good actor and some random critic,
+
+19
+00:00:57.405 --> 00:01:00.895
+you still have an algorithm which is at least as good as the reinforce.
+
+20
+00:01:00.895 --> 00:01:04.290
+The idea is that you can express this intuition by
+
+21
+00:01:04.290 --> 00:01:07.620
+reducing the comparative weight of the value-based loss.
+
+22
+00:01:07.620 --> 00:01:10.265
+You can just multiply it by some number less than one.
+
+23
+00:01:10.265 --> 00:01:12.760
+To another important part is that whenever you try
+
+24
+00:01:12.760 --> 00:01:14.895
+to apply policy-based methods in practice,
+
+25
+00:01:14.895 --> 00:01:20.370
+you might end up with a situation whereby some particular query can be a policy.
+
+26
+00:01:20.370 --> 00:01:23.080
+If say, the gradient of explosion if you are using neural networks,
+
+27
+00:01:23.080 --> 00:01:25.110
+we end up with algorithm that completely
+
+28
+00:01:25.110 --> 00:01:28.195
+abandons one action in at least a subset of situations.
+
+29
+00:01:28.195 --> 00:01:32.630
+This is basically a vicious circle because in this case,
+
+30
+00:01:32.630 --> 00:01:35.840
+you'll probably have your algorithm only train on
+
+31
+00:01:35.840 --> 00:01:39.920
+the actions it has just produced because most them are on-policy here,
+
+32
+00:01:39.920 --> 00:01:45.120
+and this case, you won't be able to learn to dig this action ever again.
+
+33
+00:01:45.120 --> 00:01:46.600
+So, you if you have abandoned an action,
+
+34
+00:01:46.600 --> 00:01:50.630
+you're no longer receiving samples consisting of this action in some particular state.
+
+35
+00:01:50.630 --> 00:01:53.390
+You are no longer able to kind of
+
+36
+00:01:53.390 --> 00:01:56.445
+forgive the notion that this action might be optimal sometimes.
+
+37
+00:01:56.445 --> 00:02:00.015
+Of course, if you're dead sure that this action is useless, it's okay to drop it,
+
+38
+00:02:00.015 --> 00:02:01.700
+but in other cases, you have to,
+
+39
+00:02:01.700 --> 00:02:05.480
+in the future algorithm that it should not completely give up on actions.
+
+40
+00:02:05.480 --> 00:02:10.410
+As we had already done in the cross entropy method section the very first week,
+
+41
+00:02:10.410 --> 00:02:13.120
+there is a way to do so with neural networks by introducing
+
+42
+00:02:13.120 --> 00:02:16.350
+a loss that kind of regularizes the policy.
+
+43
+00:02:16.350 --> 00:02:19.020
+This case, you can use for example, the negative entropy.
+
+44
+00:02:19.020 --> 00:02:22.270
+What you want to do is, you want to encourage your agent
+
+45
+00:02:22.270 --> 00:02:25.520
+to increase the entropiness policy here with of course,
+
+46
+00:02:25.520 --> 00:02:27.200
+some very small coefficient.
+
+47
+00:02:27.200 --> 00:02:29.060
+And if you remember entropy works,
+
+48
+00:02:29.060 --> 00:02:30.880
+this is basically resulting your agent
+
+49
+00:02:30.880 --> 00:02:33.840
+preferring to not give a probability of zero to anything.
+
+50
+00:02:33.840 --> 00:02:37.315
+Of course, this requires you to change to another parameter,
+
+51
+00:02:37.315 --> 00:02:39.350
+but as long as is safe to assume that if you have
+
+52
+00:02:39.350 --> 00:02:44.450
+a sufficiently small but non-zero coefficient between multiplied by the entropy,
+
+53
+00:02:44.450 --> 00:02:48.375
+you'll probably have your agent kind of forget
+
+54
+00:02:48.375 --> 00:02:51.140
+this malicious policy of not taking
+
+55
+00:02:51.140 --> 00:02:54.625
+an action after at least some large fixed amount of iterations.
+
+56
+00:02:54.625 --> 00:02:55.950
+This is the weak guarantee,
+
+57
+00:02:55.950 --> 00:03:00.045
+but you're probably not going to get anything better with approximate methods.
+
+58
+00:03:00.045 --> 00:03:03.235
+Another thing, as we have already discussed in the [inaudible] section,
+
+59
+00:03:03.235 --> 00:03:05.835
+you can take advantage of the fact that in the modern world,
+
+60
+00:03:05.835 --> 00:03:10.115
+almost anything including a smartphone probably has more than one CPU core in it.
+
+61
+00:03:10.115 --> 00:03:12.685
+The idea here is that if you have parallel sessions,
+
+62
+00:03:12.685 --> 00:03:14.210
+you can parallelorize the sampling procedure.
+
+63
+00:03:14.210 --> 00:03:17.160
+You can basically train your algorithm on
+
+64
+00:03:17.160 --> 00:03:20.950
+sessions that are obtained by relying on such environments and such a parallel course.
+
+65
+00:03:20.950 --> 00:03:25.710
+Or you can go even further by training in parallel and averaging core basically,
+
+66
+00:03:25.710 --> 00:03:27.720
+synchronizing weights as it was done in the A3C.
+
+67
+00:03:27.720 --> 00:03:31.280
+Finally, just a very tiny, teeny,
+
+68
+00:03:31.280 --> 00:03:33.235
+technical query concerning neural networks only,
+
+69
+00:03:33.235 --> 00:03:35.555
+or well, neural network correlated the most.
+
+70
+00:03:35.555 --> 00:03:39.660
+Using policy gradient, you probably required to construct a formula which uses
+
+71
+00:03:39.660 --> 00:03:42.080
+the logarithm of the probability of taking
+
+72
+00:03:42.080 --> 00:03:45.715
+an action eigen state S multiplied by your advantage,
+
+73
+00:03:45.715 --> 00:03:47.900
+or a word depending on what logarithm use,
+
+74
+00:03:47.900 --> 00:03:50.040
+and in deep learning framework,
+
+75
+00:03:50.040 --> 00:03:54.015
+you probably have to do so a bit more carefully than your otherwise can.
+
+76
+00:03:54.015 --> 00:03:57.105
+Especially here is that, if you seem to take the probability here,
+
+77
+00:03:57.105 --> 00:03:59.875
+and then take the logarithm of this probability here,
+
+78
+00:03:59.875 --> 00:04:03.075
+other frameworks can get this probability in a very inefficient way.
+
+79
+00:04:03.075 --> 00:04:05.285
+Basically, if you use for such a deep precision,
+
+80
+00:04:05.285 --> 00:04:08.480
+you may end up with a probability which rounds up to almost zero,
+
+81
+00:04:08.480 --> 00:04:11.620
+and the logarithm of almost zero is almost negative infinity.
+
+82
+00:04:11.620 --> 00:04:14.840
+You can mitigate this with the logsoftmax formula.
+
+83
+00:04:14.840 --> 00:04:17.960
+The need here is that you, if you explicitly write down
+
+84
+00:04:17.960 --> 00:04:21.590
+the formula of the logarithm of your softmax non linearity,
+
+85
+00:04:21.590 --> 00:04:23.630
+you will end up with a formula which is much simpler
+
+86
+00:04:23.630 --> 00:04:27.360
+than if you just take a multiple other derivatives.
+
+87
+00:04:27.360 --> 00:04:30.890
+Now, this is what you are going to do in the practice session,
+
+88
+00:04:30.890 --> 00:04:36.390
+so don't worry if you have not addressed this concept entirely from the first attempt.

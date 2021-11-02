@@ -1,0 +1,453 @@
+WEBVTT
+
+1
+00:00:02.480 --> 00:00:07.620
+Now, one popular solution to this problem of optimism is the so-called double Q-learning.
+
+2
+00:00:07.620 --> 00:00:09.635
+What it says is basically that,
+
+3
+00:00:09.635 --> 00:00:11.465
+if you cannot trust one Q function,
+
+4
+00:00:11.465 --> 00:00:13.535
+Double Q-learning could make you learn two of them,
+
+5
+00:00:13.535 --> 00:00:15.060
+to train one another.
+
+6
+00:00:15.060 --> 00:00:16.825
+You have this Q1 and Q2.
+
+7
+00:00:16.825 --> 00:00:19.560
+Those are two independent estimates of the actual value function.
+
+8
+00:00:19.560 --> 00:00:21.150
+So in Double Q-learning,
+
+9
+00:00:21.150 --> 00:00:23.115
+those are just two independent tables,
+
+10
+00:00:23.115 --> 00:00:25.980
+and in deep Q network case,
+
+11
+00:00:25.980 --> 00:00:29.095
+those are two neural networks that have several sets of weights.
+
+12
+00:00:29.095 --> 00:00:32.490
+What happens is, you update them one after the other,
+
+13
+00:00:32.490 --> 00:00:36.460
+and you use one Q function to train the other one, and vice versa.
+
+14
+00:00:36.460 --> 00:00:38.570
+Let's take a closer look to that bit rule.
+
+15
+00:00:38.570 --> 00:00:41.475
+We have the Q1,
+
+16
+00:00:41.475 --> 00:00:44.385
+we just update it by following the rule.
+
+17
+00:00:44.385 --> 00:00:50.660
+You take the rewards to Gamma times maximum of Q of the next state,
+
+18
+00:00:50.660 --> 00:00:54.070
+but this time you do this maximization in a very cunning way.
+
+19
+00:00:54.070 --> 00:00:57.565
+You take an action which Q1 deems optimal,
+
+20
+00:00:57.565 --> 00:01:00.450
+and you take this action from Q2,
+
+21
+00:01:00.450 --> 00:01:03.410
+or you can interchange those two terms.
+
+22
+00:01:03.410 --> 00:01:05.680
+You can take the action which is deemed optimal by Q2
+
+23
+00:01:05.680 --> 00:01:09.105
+and take the action value of this action from Q1.
+
+24
+00:01:09.105 --> 00:01:13.320
+Now, this defeats this over optimism because here is what happens,
+
+25
+00:01:13.320 --> 00:01:17.580
+you have your Q functions that may be over optimistic,
+
+26
+00:01:17.580 --> 00:01:18.690
+or pessimistic, or whatever,
+
+27
+00:01:18.690 --> 00:01:21.705
+just because of the noise and how they are trained.
+
+28
+00:01:21.705 --> 00:01:25.230
+Maybe one of the Q functions is likely to
+
+29
+00:01:25.230 --> 00:01:28.920
+have several updates where it's getting good next states and therefore,
+
+30
+00:01:28.920 --> 00:01:32.060
+it's too optimistic due to the moving errors that they form.
+
+31
+00:01:32.060 --> 00:01:34.355
+Now, the idea here is that,
+
+32
+00:01:34.355 --> 00:01:39.420
+if you take an action which is optimal by that being one of this first Q function,
+
+33
+00:01:39.420 --> 00:01:41.220
+where say action one is optimal,
+
+34
+00:01:41.220 --> 00:01:45.045
+because it's just Q of that weight for randomness,
+
+35
+00:01:45.045 --> 00:01:50.430
+then there is no connection between this overoptimism for action one and Q1,
+
+36
+00:01:50.430 --> 00:01:52.565
+and the same overoptimism in Q2.
+
+37
+00:01:52.565 --> 00:01:54.825
+In fact, the same action in Q2,
+
+38
+00:01:54.825 --> 00:01:57.110
+is more or less independent.
+
+39
+00:01:57.110 --> 00:02:03.910
+It can be overoptimistic or overpessimistic and it can be exactly the true value.
+
+40
+00:02:03.910 --> 00:02:09.420
+The idea here is that, the noise in Q2 is independent of the noise in Q1.
+
+41
+00:02:09.420 --> 00:02:11.260
+And if you update them that way,
+
+42
+00:02:11.260 --> 00:02:16.260
+then you take the maximization which will take account of the sampling error.
+
+43
+00:02:16.260 --> 00:02:20.185
+If all Q functions are equal for example,
+
+44
+00:02:20.185 --> 00:02:23.700
+than the maximum of say
+
+45
+00:02:23.700 --> 00:02:27.665
+Q2 is going to be just basically a random action because of how noise works.
+
+46
+00:02:27.665 --> 00:02:34.040
+If you take the expectation of basically Q value of random action from Q1,
+
+47
+00:02:34.040 --> 00:02:39.860
+you'll get exactly the maximum of expectations in the limit of course,
+
+48
+00:02:39.860 --> 00:02:41.320
+if you take all those samples.
+
+49
+00:02:41.320 --> 00:02:43.065
+You do the same thing with Q2.
+
+50
+00:02:43.065 --> 00:02:47.630
+Basically, you take the Q2 and you use Q1 to help it to update itself.
+
+51
+00:02:47.630 --> 00:02:50.350
+So you maximize by one Q network
+
+52
+00:02:50.350 --> 00:02:54.205
+and take the action value for this maximal action from the other one.
+
+53
+00:02:54.205 --> 00:02:55.600
+And here's how it works.
+
+54
+00:02:55.600 --> 00:02:57.080
+Basically you're trying two networks,
+
+55
+00:02:57.080 --> 00:02:59.570
+and since they are more or less decorrelated,
+
+56
+00:02:59.570 --> 00:03:02.060
+they have different kinds of noises, not talking,
+
+57
+00:03:02.060 --> 00:03:04.620
+one noise but different realizations of this noise,
+
+58
+00:03:04.620 --> 00:03:07.010
+then the overoptimism disappears.
+
+59
+00:03:07.010 --> 00:03:10.195
+Now lets see how we can apply this to a DQN more efficiently.
+
+60
+00:03:10.195 --> 00:03:12.740
+Just as a reminder, DQN is again just an
+
+61
+00:03:12.740 --> 00:03:15.570
+unilateral convolutional one with experience replay,
+
+62
+00:03:15.570 --> 00:03:17.765
+and target networks to stabilize training.
+
+63
+00:03:17.765 --> 00:03:21.570
+Now by default, you could of course train two Q networks.
+
+64
+00:03:21.570 --> 00:03:25.565
+The Q1 and Q2 but this will effectively double the convergence time.
+
+65
+00:03:25.565 --> 00:03:27.980
+So if it is previously converged one week on GPU,
+
+66
+00:03:27.980 --> 00:03:30.410
+then now it is going to converge over two weeks and
+
+67
+00:03:30.410 --> 00:03:33.465
+that's kind of unacceptable in the scope of our course.
+
+68
+00:03:33.465 --> 00:03:37.000
+Instead I want you to think up of some smarter way.
+
+69
+00:03:37.000 --> 00:03:42.275
+You could use the current state of DQN to get the same effect.
+
+70
+00:03:42.275 --> 00:03:43.880
+In fact what we need is,
+
+71
+00:03:43.880 --> 00:03:49.795
+we need some way to maximize over one network and take the value over the other network,
+
+72
+00:03:49.795 --> 00:03:53.700
+and this basically requires that you have two networks that are kind of decorrelated.
+
+73
+00:03:53.700 --> 00:03:56.330
+They are not statistically speaking absolutely independent,
+
+74
+00:03:56.330 --> 00:04:00.565
+but they are expected to have different kinds of local noise here.
+
+75
+00:04:00.565 --> 00:04:04.870
+Now can we find some pair of networks to do this trick in
+
+76
+00:04:04.870 --> 00:04:09.450
+DQN without us having to retrain another network from scratch. How do we do that?
+
+77
+00:04:09.450 --> 00:04:11.420
+Well, yes.
+
+78
+00:04:11.420 --> 00:04:18.210
+One way you could try to solve this problem and the way the actual article,
+
+79
+00:04:18.210 --> 00:04:20.190
+introduced this method suggested,
+
+80
+00:04:20.190 --> 00:04:22.170
+is that you use the target network,
+
+81
+00:04:22.170 --> 00:04:24.960
+the older snapshot of your network as
+
+82
+00:04:24.960 --> 00:04:28.500
+the source of independent randomness as the other Q network.
+
+83
+00:04:28.500 --> 00:04:30.330
+So you only train your Q1,
+
+84
+00:04:30.330 --> 00:04:35.190
+but instead of using the other Q network to get this smart,
+
+85
+00:04:35.190 --> 00:04:37.510
+maximizing and taking the action value,
+
+86
+00:04:37.510 --> 00:04:41.900
+you just take the action value of your old Q network,
+
+87
+00:04:41.900 --> 00:04:46.580
+the target network that corresponds to an action optimal on the reoccurring Q network.
+
+88
+00:04:46.580 --> 00:04:49.000
+Let's walk through this step by step.
+
+89
+00:04:49.000 --> 00:04:50.920
+In your usual DQN,
+
+90
+00:04:50.920 --> 00:04:52.070
+you have this update rules,
+
+91
+00:04:52.070 --> 00:04:55.410
+the first rule here which just takes the reward plus Gamma
+
+92
+00:04:55.410 --> 00:04:59.745
+times the maximum over the target networks action values.
+
+93
+00:04:59.745 --> 00:05:03.539
+You can rewrite this mathematically by simply replacing
+
+94
+00:05:03.539 --> 00:05:08.295
+maximization over action values by taking the actual value of the maximal action.
+
+95
+00:05:08.295 --> 00:05:10.890
+So basically, substituting mass with auto mass here.
+
+96
+00:05:10.890 --> 00:05:12.760
+What we're going to do next,
+
+97
+00:05:12.760 --> 00:05:14.020
+is we're going to assign
+
+98
+00:05:14.020 --> 00:05:18.205
+those two Q functions on the right hand side to different networks.
+
+99
+00:05:18.205 --> 00:05:22.610
+So we have first Q function which we use to take the action value,
+
+100
+00:05:22.610 --> 00:05:27.620
+we use the target Q network for this one because once stability is here and so on.
+
+101
+00:05:27.620 --> 00:05:30.010
+The other Q network, which is used to maximize
+
+102
+00:05:30.010 --> 00:05:33.390
+our action is our own trainable Q network. The main one.
+
+103
+00:05:33.390 --> 00:05:36.640
+Therefore, we take old Q networks Q values,
+
+104
+00:05:36.640 --> 00:05:40.720
+corresponding to actions that are optimal under our current Q network,
+
+105
+00:05:40.720 --> 00:05:42.400
+which are going to be more or less independent,
+
+106
+00:05:42.400 --> 00:05:45.860
+provided that we update our target network too rarely.
+
+107
+00:05:45.860 --> 00:05:48.730
+And of course in our usual DQN,
+
+108
+00:05:48.730 --> 00:05:51.280
+the updates happen every say 100,000 iterations
+
+109
+00:05:51.280 --> 00:05:55.040
+so the dependencies there are more or less negligible.
+
+110
+00:05:55.040 --> 00:05:58.060
+Sincerely speaking it's more or less a humanistic which doesn't
+
+111
+00:05:58.060 --> 00:06:01.285
+guarantee anything but it's very unlikely that it fails.
+
+112
+00:06:01.285 --> 00:06:05.020
+So it's a practical algorithm which uses some duct tape and some black magic to
+
+113
+00:06:05.020 --> 00:06:10.310
+get efficient results without training another set of parameters from scratch.

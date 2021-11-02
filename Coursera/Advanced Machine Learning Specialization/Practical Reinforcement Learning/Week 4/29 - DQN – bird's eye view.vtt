@@ -1,0 +1,529 @@
+WEBVTT
+
+1
+00:00:03.210 --> 00:00:07.640
+In this video, we are going to talk about the major breakthrough,
+
+2
+00:00:07.640 --> 00:00:10.780
+the start of deep reinforcement learning era.
+
+3
+00:00:10.780 --> 00:00:13.875
+In particular, we are going to talk about DQN.
+
+4
+00:00:13.875 --> 00:00:20.810
+Deep Q-network, introduced in 2013 by Google DeepMind.
+
+5
+00:00:20.810 --> 00:00:25.250
+Despite the fact that it was not the first work that was shown to be
+
+6
+00:00:25.250 --> 00:00:29.555
+successful in playing Atari games using neural networks,
+
+7
+00:00:29.555 --> 00:00:32.890
+it is a good didactic example of various practical tricks
+
+8
+00:00:32.890 --> 00:00:37.015
+which became standard for many generations of algorithms.
+
+9
+00:00:37.015 --> 00:00:41.285
+In fact, DQN is the first successful application of learning
+
+10
+00:00:41.285 --> 00:00:46.550
+directly from raw visual inputs in the same fashion as humans do,
+
+11
+00:00:46.550 --> 00:00:49.525
+and in the wide variety of environments.
+
+12
+00:00:49.525 --> 00:00:55.080
+The main component of a DQN was the deep convolutional network which
+
+13
+00:00:55.080 --> 00:01:00.590
+worked on raw images without any hand-designed features.
+
+14
+00:01:00.590 --> 00:01:03.960
+And algorithmically, DQN is no more than
+
+15
+00:01:03.960 --> 00:01:08.625
+standard Q-learning stuffed with various stability tricks.
+
+16
+00:01:08.625 --> 00:01:12.280
+Why have you chosen to present this algorithm?
+
+17
+00:01:12.280 --> 00:01:14.550
+Well, mostly because two reasons,
+
+18
+00:01:14.550 --> 00:01:17.595
+it is simple and very useful to learn,
+
+19
+00:01:17.595 --> 00:01:19.750
+and it is very influential.
+
+20
+00:01:19.750 --> 00:01:23.470
+In deep reinforcement learning so much is going on nowadays,
+
+21
+00:01:23.470 --> 00:01:29.230
+but very many different algorithms are in some sense inspired by the DQN work.
+
+22
+00:01:29.230 --> 00:01:35.925
+So, it is worse to know this basic and very practical algorithm in detail.
+
+23
+00:01:35.925 --> 00:01:41.670
+I have already mentioned that the basic algorithm used in DQN was Q-learning,
+
+24
+00:01:41.670 --> 00:01:44.385
+and we are not going to present it again.
+
+25
+00:01:44.385 --> 00:01:49.860
+Instead, we will concentrate more on tricks and tips introduced in the DQN paper.
+
+26
+00:01:49.860 --> 00:01:53.095
+So, let's start with one of the most important things
+
+27
+00:01:53.095 --> 00:01:56.900
+where the architecture of the Q-network.
+
+28
+00:01:56.900 --> 00:02:00.380
+The architecture was composed of three convolutional layers,
+
+29
+00:02:00.380 --> 00:02:02.275
+one on top of another,
+
+30
+00:02:02.275 --> 00:02:06.460
+and one dense layer on top of the last convolutional one.
+
+31
+00:02:06.460 --> 00:02:11.795
+Well, the architecture is rather standard for processing images.
+
+32
+00:02:11.795 --> 00:02:14.215
+But what was the input?
+
+33
+00:02:14.215 --> 00:02:16.240
+That is a little bit tricky.
+
+34
+00:02:16.240 --> 00:02:18.010
+In the simplest case,
+
+35
+00:02:18.010 --> 00:02:22.050
+it should be the screen of Atari game, but it is not.
+
+36
+00:02:22.050 --> 00:02:24.470
+Well, in any practical application,
+
+37
+00:02:24.470 --> 00:02:27.240
+the first thing you should consider to do is to
+
+38
+00:02:27.240 --> 00:02:30.000
+reduce the complexity of the task as much as you
+
+39
+00:02:30.000 --> 00:02:36.040
+could before starting any attempts to solve this task.
+
+40
+00:02:36.040 --> 00:02:38.825
+In the reinforcement learning world,
+
+41
+00:02:38.825 --> 00:02:43.895
+it mostly means reducing the space of states as much as you could.
+
+42
+00:02:43.895 --> 00:02:47.370
+Reducing the state's base in the context of Atari games
+
+43
+00:02:47.370 --> 00:02:51.885
+basically consist in gray-scaling, downsampling, and cropping.
+
+44
+00:02:51.885 --> 00:02:55.425
+All these operations were performed in the original approach.
+
+45
+00:02:55.425 --> 00:03:00.980
+At first, a colored Atari screen image which is 210 wide and
+
+46
+00:03:00.980 --> 00:03:11.290
+160 pixels high was gray-scaled and downscaled to 110 by 84.
+
+47
+00:03:11.290 --> 00:03:17.830
+Then it was cropped to a square region of 84 by 84 pixels.
+
+48
+00:03:17.830 --> 00:03:19.345
+And in the end,
+
+49
+00:03:19.345 --> 00:03:21.790
+an interesting transformation was reformed.
+
+50
+00:03:21.790 --> 00:03:26.540
+Four consecutive pre-processed frames were stacked while on top of
+
+51
+00:03:26.540 --> 00:03:32.440
+another forming at denser of 84 by 84 by 4.
+
+52
+00:03:32.440 --> 00:03:39.835
+That denser with four stacked images was fitted into a four layered neural network that
+
+53
+00:03:39.835 --> 00:03:48.620
+predicted Q-values for all of the possible actions which number varied between 4 and 18.
+
+54
+00:03:49.110 --> 00:03:52.640
+After each action performed,
+
+55
+00:03:52.640 --> 00:03:55.900
+the four layer denser of observation was changed.
+
+56
+00:03:55.900 --> 00:03:58.510
+The oldest frame was thrown away,
+
+57
+00:03:58.510 --> 00:04:02.370
+and the most recent one that is a new observation was added.
+
+58
+00:04:02.370 --> 00:04:08.305
+And there is an interesting moment which is worth discussing concerns poolings.
+
+59
+00:04:08.305 --> 00:04:10.395
+As you might know, poolings,
+
+60
+00:04:10.395 --> 00:04:12.755
+especially max poolings are
+
+61
+00:04:12.755 --> 00:04:16.745
+ubiquitous in neural network architectures designed to work with images.
+
+62
+00:04:16.745 --> 00:04:18.500
+But in this architecture,
+
+63
+00:04:18.500 --> 00:04:20.635
+you don't see any pooling layers.
+
+64
+00:04:20.635 --> 00:04:24.530
+What is the reason for this? What do you think?
+
+65
+00:04:24.740 --> 00:04:29.870
+In general, pooling layers don't have any parameters but they consume
+
+66
+00:04:29.870 --> 00:04:35.135
+computational resources and more importantly, they require time.
+
+67
+00:04:35.135 --> 00:04:38.000
+And time is a very valuable resource.
+
+68
+00:04:38.000 --> 00:04:40.335
+If you train on many games,
+
+69
+00:04:40.335 --> 00:04:47.495
+the algorithm which requires very many interactions with the environment, time do matter.
+
+70
+00:04:47.495 --> 00:04:51.405
+In fact, in the original approach on each environment,
+
+71
+00:04:51.405 --> 00:04:56.030
+DQN was trained for 10 million of iterate in directions.
+
+72
+00:04:56.030 --> 00:04:59.120
+Well, authors throw away the pooling layers,
+
+73
+00:04:59.120 --> 00:05:00.990
+but to achieve the same rate of
+
+74
+00:05:00.990 --> 00:05:07.230
+dimensional reduction they introduce stride in the first two convolutional layers.
+
+75
+00:05:07.230 --> 00:05:10.865
+These strides in convolutional layers effectively combines
+
+76
+00:05:10.865 --> 00:05:14.615
+in one layer was convolutional layer and sort of pooling.
+
+77
+00:05:14.615 --> 00:05:18.090
+While not introducing additional computation on demand
+
+78
+00:05:18.090 --> 00:05:22.365
+on operations which do not have any learnable parameters.
+
+79
+00:05:22.365 --> 00:05:25.385
+Well, that is rather interesting idea.
+
+80
+00:05:25.385 --> 00:05:27.900
+But what about an input in the neural network?
+
+81
+00:05:27.900 --> 00:05:32.740
+Why do authors require four stack images as an input to the neural network?
+
+82
+00:05:32.740 --> 00:05:36.365
+The answer to this lies in what one image represents.
+
+83
+00:05:36.365 --> 00:05:39.725
+Imagine for a moment that you are playing the Brick Out game,
+
+84
+00:05:39.725 --> 00:05:45.705
+and on the next time tick you obtain the image plotted on the left.
+
+85
+00:05:45.705 --> 00:05:47.845
+Look at the left image.
+
+86
+00:05:47.845 --> 00:05:50.005
+What are you going to perform right now?
+
+87
+00:05:50.005 --> 00:05:52.525
+What action is the best in this state?
+
+88
+00:05:52.525 --> 00:05:55.005
+What direction should you move the paddle?
+
+89
+00:05:55.005 --> 00:05:56.840
+To the left or to the right?
+
+90
+00:05:56.840 --> 00:06:00.810
+Well, that is a question which has no right answer.
+
+91
+00:06:00.810 --> 00:06:06.800
+Decision based solely on the one image plotted on the left isn't optimal because
+
+92
+00:06:06.800 --> 00:06:09.600
+no one can infer the direction and speed with
+
+93
+00:06:09.600 --> 00:06:14.040
+which the ball is moving solely from that one picture.
+
+94
+00:06:14.140 --> 00:06:20.380
+This lack of comprehensive information in an observation is called partial observability.
+
+95
+00:06:20.380 --> 00:06:25.935
+An environment with incomplete information in an observations is called POMDP,
+
+96
+00:06:25.935 --> 00:06:29.990
+that is a partially observable Markov decision process.
+
+97
+00:06:29.990 --> 00:06:35.490
+The tasks which require this model which works with
+
+98
+00:06:35.490 --> 00:06:40.615
+partial observability are very interesting to research,
+
+99
+00:06:40.615 --> 00:06:47.040
+and POMDP is in fact standalone array of research in the reinforcement learning.
+
+100
+00:06:47.040 --> 00:06:50.855
+Techniques and algorithms developed for dealing with
+
+101
+00:06:50.855 --> 00:06:54.685
+partial observable Markov decision processes are a lot more
+
+102
+00:06:54.685 --> 00:06:58.495
+involved than the analects dealing with Markov decision processes.
+
+103
+00:06:58.495 --> 00:07:02.360
+And this is one of the reasons why we are
+
+104
+00:07:02.360 --> 00:07:06.625
+not going into detail about partial observable Markov decision processes.
+
+105
+00:07:06.625 --> 00:07:09.680
+However, we are going to discuss this trick
+
+106
+00:07:09.680 --> 00:07:13.400
+of stacking four images in a row a little bit further.
+
+107
+00:07:13.400 --> 00:07:15.790
+In the simple case of Atari games,
+
+108
+00:07:15.790 --> 00:07:20.645
+it was shown that stacking four images in a raw completely removes partial observability.
+
+109
+00:07:20.645 --> 00:07:22.375
+And it is clear why,
+
+110
+00:07:22.375 --> 00:07:26.640
+if you are given two or three images in a row,
+
+111
+00:07:26.640 --> 00:07:29.915
+images of a Brick Out Atari games screen,
+
+112
+00:07:29.915 --> 00:07:35.140
+you can easily just determine which direction the ball is flying,
+
+113
+00:07:35.140 --> 00:07:41.995
+and possibly make some guess about with what speed that do so.
+
+114
+00:07:41.995 --> 00:07:45.575
+These tricks works well for velocity, acceleration,
+
+115
+00:07:45.575 --> 00:07:50.390
+and various things that depends on very small amount of recent images.
+
+116
+00:07:50.390 --> 00:07:56.585
+However, this trick fails for anything that depends on number of frames longer than four.
+
+117
+00:07:56.585 --> 00:07:58.290
+More to see in practice,
+
+118
+00:07:58.290 --> 00:08:02.395
+nobody knows how many frames are needed to be included in observational denser.
+
+119
+00:08:02.395 --> 00:08:05.515
+And even if one do know this number,
+
+120
+00:08:05.515 --> 00:08:09.400
+it may quickly becoming practical for very large numbers.
+
+121
+00:08:09.400 --> 00:08:16.580
+Because of that, in the case when you don't know and nobody tell you what
+
+122
+00:08:16.580 --> 00:08:23.300
+is a perfect number of images you should stack in the observation denser,
+
+123
+00:08:23.300 --> 00:08:24.960
+I recommend to resort to
+
+124
+00:08:24.960 --> 00:08:28.880
+partially observable Markov design process theory and algorithms.
+
+125
+00:08:28.880 --> 00:08:32.500
+However, this trick of four stacked frames can be also
+
+126
+00:08:32.500 --> 00:08:36.575
+interpreted as an assumption of first-order Markov property.
+
+127
+00:08:36.575 --> 00:08:39.110
+That is the next state and next reward
+
+128
+00:08:39.110 --> 00:08:42.890
+coming depend not only on the previous state and action,
+
+129
+00:08:42.890 --> 00:08:47.695
+but also on the state and action at luck one, two, and three.
+
+130
+00:08:47.695 --> 00:08:55.305
+However, when we stack only observations and do not include the previous sections done,
+
+131
+00:08:55.305 --> 00:08:58.320
+we effectively model the assumptions that next
+
+132
+00:08:58.320 --> 00:09:02.140
+state and what does not depend on previous sections.
