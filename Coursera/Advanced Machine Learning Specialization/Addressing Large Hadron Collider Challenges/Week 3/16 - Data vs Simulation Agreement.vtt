@@ -1,0 +1,361 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:03.207
+[MUSIC]
+
+2
+00:00:03.207 --> 00:00:08.754
+One more constraint that we have to take
+into account is grounded in the fact
+
+3
+00:00:08.754 --> 00:00:14.950
+that classifier is trained for
+simulated signal versus real background.
+
+4
+00:00:14.950 --> 00:00:19.480
+And not all features
+are perfectly simulated.
+
+5
+00:00:19.480 --> 00:00:23.040
+Monte Carlo and
+real data have different distributions,
+
+6
+00:00:23.040 --> 00:00:25.530
+or as they say, they disagree.
+
+7
+00:00:25.530 --> 00:00:27.280
+Look at the plots below.
+
+8
+00:00:27.280 --> 00:00:33.146
+So if we train on classifier
+that picks this difference,
+
+9
+00:00:33.146 --> 00:00:39.392
+and we get over-estimated efficiency for
+the classifier.
+
+10
+00:00:39.392 --> 00:00:47.150
+So the approach to check for
+such over-estimation is the following.
+
+11
+00:00:47.150 --> 00:00:50.370
+So we pick a control channel
+of similar topology.
+
+12
+00:00:50.370 --> 00:00:54.242
+So for example,
+in the case of tau to three muons,
+
+13
+00:00:54.242 --> 00:00:57.853
+it is D sub s into phi pi,
+and phi goes to muons.
+
+14
+00:00:57.853 --> 00:01:04.300
+So you'll get three particles that
+have to come through a single point.
+
+15
+00:01:04.300 --> 00:01:10.760
+And this channel is known pretty well,
+and it can be extracted from the data.
+
+16
+00:01:10.760 --> 00:01:16.060
+And then we compare performance
+of classifier on simulated and
+
+17
+00:01:16.060 --> 00:01:19.480
+real data samples using one of the metric.
+
+18
+00:01:19.480 --> 00:01:21.770
+For example, Kolmogorov-Smirnov test.
+
+19
+00:01:21.770 --> 00:01:25.940
+So we compare cdf's of one
+
+20
+00:01:25.940 --> 00:01:30.160
+distribution of the classifier output and
+the second distribution classifier output.
+
+21
+00:01:30.160 --> 00:01:36.100
+And then we demand that the distance
+to be below certain margin.
+
+22
+00:01:36.100 --> 00:01:41.970
+So the question is, how can we include
+these criteria in the training loop?
+
+23
+00:01:41.970 --> 00:01:47.860
+One of the approach suggested by
+Vicens Gaitan is called data doping.
+
+24
+00:01:47.860 --> 00:01:49.840
+So here is the scheme.
+
+25
+00:01:49.840 --> 00:01:54.140
+So we have Monte Carlo simulated
+sample and real data, and
+
+26
+00:01:54.140 --> 00:01:57.828
+there are analysis channel and
+control channel,
+
+27
+00:01:57.828 --> 00:02:03.370
+and there are labels ABCD for
+those parts of data that we consider.
+
+28
+00:02:03.370 --> 00:02:11.070
+And we want our classifier to
+discriminate A from B, but not C from D.
+
+29
+00:02:11.070 --> 00:02:14.420
+And the solution is pretty elegant.
+
+30
+00:02:14.420 --> 00:02:17.990
+So we add fraction of simulated signal C
+
+31
+00:02:19.010 --> 00:02:24.920
+to the training sample with background
+label, and this approach is called doping.
+
+32
+00:02:24.920 --> 00:02:29.390
+So you can follow the link to
+see presentation by Vicens to
+
+33
+00:02:29.390 --> 00:02:30.499
+get more details.
+
+34
+00:02:31.630 --> 00:02:34.090
+And this approach works pretty nicely.
+
+35
+00:02:34.090 --> 00:02:36.840
+I'll show you figures in next slide.
+
+36
+00:02:36.840 --> 00:02:43.510
+I just want to show additional idea
+that can be applied to this case, so
+
+37
+00:02:44.790 --> 00:02:51.730
+it is grounded at the paper by Ulyanov and
+Kaligs,
+
+38
+00:02:51.730 --> 00:02:57.680
+that this is called Gradient Reversal or
+Domain Adaptation with Gradient Reversal.
+
+39
+00:02:57.680 --> 00:03:01.140
+So the neural network
+consists of three parts.
+
+40
+00:03:01.140 --> 00:03:04.920
+The green one, it is a feature extractor
+
+41
+00:03:04.920 --> 00:03:08.490
+that builds meaningful
+representation of the features.
+
+42
+00:03:09.580 --> 00:03:13.760
+And there are two ends or
+two tails of this neural network.
+
+43
+00:03:13.760 --> 00:03:18.530
+The blue one is trying to discriminate
+between signal and background.
+
+44
+00:03:18.530 --> 00:03:23.939
+And there is a red one that is learned
+to discriminate between Monte Carlo and
+
+45
+00:03:23.939 --> 00:03:24.794
+real data.
+
+46
+00:03:24.794 --> 00:03:30.325
+So the loss function of this
+red part is inversed when
+
+47
+00:03:30.325 --> 00:03:35.950
+it's sent down the green
+head of this network.
+
+48
+00:03:35.950 --> 00:03:41.376
+So it means that this feature
+extractor should build
+
+49
+00:03:41.376 --> 00:03:47.296
+as meaningful representation
+as possible for the data,
+
+50
+00:03:47.296 --> 00:03:53.216
+such that you can discriminate
+signal from background,
+
+51
+00:03:53.216 --> 00:03:59.402
+but you can not discriminate
+Monte Carlo from real sample.
+
+52
+00:03:59.402 --> 00:04:04.027
+So on this slide we'll see how those two
+techniques compare, so data doping and
+
+53
+00:04:04.027 --> 00:04:08.307
+domain adaption, so you see that
+sensitivity or area on the ROC curve for
+
+54
+00:04:08.307 --> 00:04:10.742
+those classifiers are roughly the same.
+
+55
+00:04:10.742 --> 00:04:15.411
+But Kolmogorov-Smirnov test and
+Cramer-von Mises test for
+
+56
+00:04:15.411 --> 00:04:19.458
+domain adaptation approach
+are a little bit better.
+
+57
+00:04:19.458 --> 00:04:24.925
+It is due to the fact that for
+the main adaptation you can tune learning
+
+58
+00:04:24.925 --> 00:04:31.460
+rates of those two heads, or actually
+all those three parts of the network.
+
+59
+00:04:31.460 --> 00:04:37.770
+So you can get a tradeoff between
+quality of the classifier and
+
+60
+00:04:37.770 --> 00:04:40.690
+quality in terms of domain adaptation.
+
+61
+00:04:42.100 --> 00:04:47.460
+So more details you can find
+following the link below.
+
+62
+00:04:47.460 --> 00:04:49.900
+So we're coming to conclusion.
+
+63
+00:04:50.930 --> 00:04:55.697
+We have tipped strategies for
+searching for the new physics approaches
+
+64
+00:04:55.697 --> 00:04:59.518
+that can be applied in some
+of the collider experiments.
+
+65
+00:04:59.518 --> 00:05:05.869
+Discovery of anything beyond Standard
+model is pretty tough challenge.
+
+66
+00:05:05.869 --> 00:05:10.060
+Those chess figures are pretty stubborn.
+
+67
+00:05:10.060 --> 00:05:14.310
+We have examined what kind
+of constraints are used and
+
+68
+00:05:14.310 --> 00:05:18.250
+what are the essential approaches
+used to deal with those.
+
+69
+00:05:18.250 --> 00:05:21.830
+And how machine learning
+techniques could be used to cope
+
+70
+00:05:21.830 --> 00:05:24.680
+with imposed restrictions.
+
+71
+00:05:24.680 --> 00:05:28.380
+I hope the machine learning
+techniques described here
+
+72
+00:05:28.380 --> 00:05:32.130
+are applicable to other contexts as well.
+
+73
+00:05:32.130 --> 00:05:36.564
+For example, ethical machine learning
+theme is mostly about making
+
+74
+00:05:36.564 --> 00:05:41.161
+classifier predictions flat,
+with regards to some ethical feature.
+
+75
+00:05:41.161 --> 00:05:45.178
+You will have a chance to play
+with those on your own, and
+
+76
+00:05:45.178 --> 00:05:48.610
+I hope you will have some
+fun with these as well.
