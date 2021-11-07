@@ -1,0 +1,633 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.449
+[NOISE] In this example,
+
+2
+00:00:03.449 --> 00:00:08.110
+we will see linear regression.
+
+3
+00:00:08.110 --> 00:00:12.034
+But before we start,
+we need to define the multivariate and
+
+4
+00:00:12.034 --> 00:00:14.476
+univariate normal distributions.
+
+5
+00:00:14.476 --> 00:00:19.632
+The univariate normal distribution has the
+following probability density function.
+
+6
+00:00:19.632 --> 00:00:22.262
+It has two parameters, mu and sigma.
+
+7
+00:00:22.262 --> 00:00:27.485
+The mu is a mean of the random variable,
+and the sigma squared is its variance.
+
+8
+00:00:27.485 --> 00:00:29.728
+Its functional form is given as follows.
+
+9
+00:00:29.728 --> 00:00:34.367
+It is some normalization constant
+that ensures that this probability
+
+10
+00:00:34.367 --> 00:00:39.256
+density function integrates to 1,
+times the exponent of the parabola.
+
+11
+00:00:39.256 --> 00:00:43.808
+The maximum value of this
+parabola is at point mu.
+
+12
+00:00:43.808 --> 00:00:49.243
+And so the mode of the distribution
+would also be the point mu.
+
+13
+00:00:49.243 --> 00:00:56.101
+If we vary the parameter mu, we will
+get different probability densities.
+
+14
+00:00:56.101 --> 00:01:00.715
+For example, for the green one,
+we'll have the mu equal to -4, and for
+
+15
+00:01:00.715 --> 00:01:03.256
+the red one, we'll have mu equal to 4.
+
+16
+00:01:03.256 --> 00:01:06.274
+If we vary the parameter sigma squared,
+
+17
+00:01:06.274 --> 00:01:09.840
+we will get either sharp distribution or
+wide.
+
+18
+00:01:09.840 --> 00:01:14.400
+The blue curve has
+the variance equal to 1, and
+
+19
+00:01:14.400 --> 00:01:18.774
+the red one has variance equal to 9.
+
+20
+00:01:18.774 --> 00:01:21.970
+The multivariate case
+looks exactly the same.
+
+21
+00:01:21.970 --> 00:01:25.348
+We have two parameters, mu and sigma.
+
+22
+00:01:25.348 --> 00:01:29.705
+The mu is the mean vector, and
+the sigma is a covariance matrix.
+
+23
+00:01:29.705 --> 00:01:34.363
+We, again, have some normalization
+constant, to ensure that the probability
+
+24
+00:01:34.363 --> 00:01:39.102
+density function integrates to 1, and
+some quadratic term under the exponent.
+
+25
+00:01:39.102 --> 00:01:44.295
+Again, the maximum value of
+the probability density function is at mu,
+
+26
+00:01:44.295 --> 00:01:48.310
+and so the mode of distribution
+will also be equal to mu.
+
+27
+00:01:48.310 --> 00:01:51.982
+In neural networks, for example,
+where we have a lot of parameters.
+
+28
+00:01:51.982 --> 00:01:55.738
+Let's note the number of parameters as t.
+
+29
+00:01:55.738 --> 00:02:00.651
+The sigma matrix has a lot of parameters,
+about D squared.
+
+30
+00:02:00.651 --> 00:02:07.077
+Actually, since sigma is symmetric,
+we need D (D+1) / 2 parameters.
+
+31
+00:02:07.077 --> 00:02:11.639
+It may be really costly to store such
+matrix, so we can use approximation.
+
+32
+00:02:11.639 --> 00:02:14.630
+For example, we can use diagonal matrices.
+
+33
+00:02:14.630 --> 00:02:20.097
+In this case, all elements that
+are not on the diagonal will be zero,
+
+34
+00:02:20.097 --> 00:02:23.316
+and then we will have only D parameters.
+
+35
+00:02:23.316 --> 00:02:26.247
+An even more simple case
+has only one parameter,
+
+36
+00:02:26.247 --> 00:02:29.118
+it is called a spherical
+normal distribution.
+
+37
+00:02:29.118 --> 00:02:34.806
+In this case, the signal matrix equals to
+some scalar times the identity matrix.
+
+38
+00:02:34.806 --> 00:02:37.305
+Now let's talk about linear regression.
+
+39
+00:02:37.305 --> 00:02:41.502
+In linear regression,
+we want to fit a straight line into data.
+
+40
+00:02:41.502 --> 00:02:44.135
+We fit it in the following way.
+
+41
+00:02:44.135 --> 00:02:47.919
+You want to minimize the errors,
+and those are,
+
+42
+00:02:47.919 --> 00:02:53.376
+the red line is the prediction and
+the blue points are the true values.
+
+43
+00:02:53.376 --> 00:02:57.695
+And you want, somehow,
+to minimize those black lines.
+
+44
+00:02:57.695 --> 00:03:02.720
+The line is usually found with
+so-called least squares problem.
+
+45
+00:03:02.720 --> 00:03:06.485
+Our straight line is parameterized
+by weights, vector, and w.
+
+46
+00:03:06.485 --> 00:03:11.568
+The prediction of each point is
+computed as w transposed times xi,
+
+47
+00:03:11.568 --> 00:03:13.305
+where xi is our point.
+
+48
+00:03:13.305 --> 00:03:15.971
+Then, we compute the total sum squares,
+that is,
+
+49
+00:03:15.971 --> 00:03:19.454
+the difference between the prediction and
+the true value square.
+
+50
+00:03:19.454 --> 00:03:24.705
+And we try to find the vector w
+that minimizes this function.
+
+51
+00:03:24.705 --> 00:03:28.267
+Let's see how this one works for
+the Bayesian perspective.
+
+52
+00:03:28.267 --> 00:03:29.346
+Here's our model.
+
+53
+00:03:29.346 --> 00:03:35.135
+We have three random variables,
+the weights, the data, and the target.
+
+54
+00:03:35.135 --> 00:03:39.927
+We're actually not interested in modeling
+the data, so we can write down the joint
+
+55
+00:03:39.927 --> 00:03:43.428
+probability of the weights and
+the target, given the data.
+
+56
+00:03:43.428 --> 00:03:45.530
+This will be given by
+the following formula.
+
+57
+00:03:45.530 --> 00:03:49.216
+It would be the probability of target
+given the weights of the data, and
+
+58
+00:03:49.216 --> 00:03:50.942
+the probability of the weights.
+
+59
+00:03:50.942 --> 00:03:53.812
+Now we need to define
+these two distributions.
+
+60
+00:03:53.812 --> 00:03:56.107
+Let's assume them to be normal.
+
+61
+00:03:56.107 --> 00:03:59.292
+The probability of target
+given the weights and
+
+62
+00:03:59.292 --> 00:04:04.545
+data would be a Gaussian centered as
+a prediction that is double transposed X,
+
+63
+00:04:04.545 --> 00:04:09.100
+and the variance equal to sigma
+squared times the identity matrix.
+
+64
+00:04:09.100 --> 00:04:15.359
+Finally, the probability of the weights
+would be a Gaussian centered around zero,
+
+65
+00:04:15.359 --> 00:04:20.310
+with the covariance matrix sigma
+squared times identity matrix.
+
+66
+00:04:22.079 --> 00:04:28.273
+All right, so here are our formulas, and
+now let's train the linear regression.
+
+67
+00:04:28.273 --> 00:04:30.750
+So we'll do this in the following way.
+
+68
+00:04:30.750 --> 00:04:36.129
+Let's compute the posterior probability
+over the weights, given the data.
+
+69
+00:04:36.129 --> 00:04:43.194
+So this would be probability
+of parameters given and
+
+70
+00:04:43.194 --> 00:04:47.375
+the data, so those are y and x.
+
+71
+00:04:47.375 --> 00:04:51.158
+So using a definition of
+
+72
+00:04:51.158 --> 00:04:56.265
+the conditional probability,
+
+73
+00:04:56.265 --> 00:05:00.802
+we can write that it is P (y,
+
+74
+00:05:00.802 --> 00:05:04.407
+w | X) / P (y | x).
+
+75
+00:05:04.407 --> 00:05:09.715
+So let's try not to compute the full
+posterior distribution, but
+
+76
+00:05:09.715 --> 00:05:16.184
+to compute the value at which there is
+a maximum of this posterior distribution.
+
+77
+00:05:16.184 --> 00:05:22.855
+So we'll try to maximize this
+with respect to the weights.
+
+78
+00:05:22.855 --> 00:05:28.050
+We can notice that the denominator
+does not depend on the weights,
+
+79
+00:05:28.050 --> 00:05:33.172
+and so we can maximize only the numerator,
+so we can cross it out.
+
+80
+00:05:33.172 --> 00:05:38.915
+All right, so now we should
+
+81
+00:05:38.915 --> 00:05:44.419
+maximize P (y, w | X).
+
+82
+00:05:44.419 --> 00:05:47.969
+And this actually given by our model.
+
+83
+00:05:47.969 --> 00:05:53.325
+So we can plug in this formula,
+
+84
+00:05:53.325 --> 00:05:59.716
+this would be P (y | X, w) p (w).
+
+85
+00:06:01.914 --> 00:06:08.426
+And we want to maximize it
+with respect to the weights.
+
+86
+00:06:08.426 --> 00:06:11.770
+All right, we can take
+the logarithm of this part, and
+
+87
+00:06:11.770 --> 00:06:16.589
+since the logarithm is concave, the
+position of the maximum will not change.
+
+88
+00:06:16.589 --> 00:06:21.475
+So we can take the logarithm
+of theta here,
+
+89
+00:06:21.475 --> 00:06:24.337
+and the logarithm here.
+
+90
+00:06:27.128 --> 00:06:31.762
+And so this will be equivalent
+to the previous problem.
+
+91
+00:06:31.762 --> 00:06:37.810
+All right, now we can plug in the formulas
+and try to solve the optimization problem.
+
+92
+00:06:40.127 --> 00:06:45.171
+So we have
+
+93
+00:06:45.171 --> 00:06:52.737
+log P (y | X,
+
+94
+00:06:52.737 --> 00:06:57.782
+w) + log
+
+95
+00:06:57.782 --> 00:07:02.831
+P (w).
+
+96
+00:07:04.343 --> 00:07:08.007
+We can plug in the formulas for
+the normal distribution and
+
+97
+00:07:08.007 --> 00:07:09.965
+obtain the following result.
+
+98
+00:07:09.965 --> 00:07:15.772
+So it will be log of some normalization
+
+99
+00:07:15.772 --> 00:07:21.038
+constant C1 x exp(-1/2).
+
+100
+00:07:21.038 --> 00:07:24.970
+So the mean is w transposed x, so
+
+101
+00:07:24.970 --> 00:07:29.632
+this would be (y- w transposed x),
+
+102
+00:07:29.632 --> 00:07:35.182
+times the inverse of
+the covariance matrix.
+
+103
+00:07:35.182 --> 00:07:42.431
+So it would be sigma squared I inversed,
+
+104
+00:07:42.431 --> 00:07:48.626
+and finally, y- w transposed x.
+
+105
+00:07:48.626 --> 00:07:53.033
+And we have to close all the brackets,
+right?
+
+106
+00:07:53.033 --> 00:07:59.474
+And in a similar way,
+we can write down the second term,
+
+107
+00:07:59.474 --> 00:08:04.545
+so this would be log C2 x exp(-1/2),
+
+108
+00:08:04.545 --> 00:08:09.753
+and this would be w
+transposed gamma squared I
+
+109
+00:08:09.753 --> 00:08:14.982
+inverse w transposed, since the mean is 0.
+
+110
+00:08:14.982 --> 00:08:21.093
+All right, so we can take the constants
+out of the logarithm, and
+
+111
+00:08:21.093 --> 00:08:26.997
+also the logarithm of the exponent
+is just identity function.
+
+112
+00:08:26.997 --> 00:08:33.846
+So what we'll have left is minus one-half.
+
+113
+00:08:33.846 --> 00:08:37.750
+The inverse of identity
+matrix is identity matrix,
+
+114
+00:08:37.750 --> 00:08:42.198
+and the inverse of sigma squared
+is one over sigma squared.
+
+115
+00:08:42.198 --> 00:08:45.489
+So we'll have something like this.
+
+116
+00:08:45.489 --> 00:08:53.627
+Y- w transposed x transposed
+x y- w transposed x.
+
+117
+00:08:53.627 --> 00:08:58.808
+And finally, we'll have a term-
+
+118
+00:08:58.808 --> 00:09:04.531
+1 / 2 gamma squared w transposed w.
+
+119
+00:09:04.531 --> 00:09:12.089
+This thing is actually a norm, so
+we'll have a norm of w squared.
+
+120
+00:09:12.089 --> 00:09:15.735
+This is w squared.
+
+121
+00:09:15.735 --> 00:09:20.841
+And this is also a norm of y-
+
+122
+00:09:20.841 --> 00:09:25.503
+w transposed x squared.
+
+123
+00:09:25.503 --> 00:09:32.214
+So we try to maximize this thing,
+with respect to w.
+
+124
+00:09:32.214 --> 00:09:36.655
+It will multiply it by- 1 and
+
+125
+00:09:36.655 --> 00:09:42.705
+also to sigma, times to sigma squared.
+
+126
+00:09:42.705 --> 00:09:47.182
+We'll count to the minimization
+problem from the maximization problem.
+
+127
+00:09:47.182 --> 00:09:54.686
+And finally, the formula would be
+the norm of this thing squared,
+
+128
+00:09:54.686 --> 00:09:59.912
+plus some constant lambda
+that equals to sigma
+
+129
+00:09:59.912 --> 00:10:06.482
+squared over gamma squared,
+times norm of the w squared.
+
+130
+00:10:06.482 --> 00:10:12.378
+And since we multiplied by 1,
+it is a minimization problem.
+
+131
+00:10:12.378 --> 00:10:18.136
+So actually,
+the first term is sum of squares.
+
+132
+00:10:18.136 --> 00:10:21.803
+So we solved the least squares problem.
+
+133
+00:10:21.803 --> 00:10:25.264
+And the second term is a L2 regularizer.
+
+134
+00:10:25.264 --> 00:10:32.663
+And so
+by adding a normal prior on the weights,
+
+135
+00:10:32.663 --> 00:10:37.977
+we turned from this quest problem
+
+136
+00:10:37.977 --> 00:10:45.011
+to the L2 regularized linear regression.
+
+137
+00:10:45.011 --> 00:10:47.738
+[SOUND]
+
+138
+00:10:47.738 --> 00:10:49.179
+[MUSIC]

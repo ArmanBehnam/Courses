@@ -1,0 +1,197 @@
+WEBVTT
+
+1
+00:00:03.330 --> 00:00:08.190
+>>In this video, we'll see how to define a probabilistic model.
+
+2
+00:00:08.190 --> 00:00:13.330
+The most convenient way to do this is called the Bayesian Network. It is a graph.
+
+3
+00:00:13.330 --> 00:00:18.840
+Its nodes are random variables and edges are direct impact.
+
+4
+00:00:18.840 --> 00:00:21.495
+For example, here we have two random variables,
+
+5
+00:00:21.495 --> 00:00:23.745
+rain and the fact that the grass is wet.
+
+6
+00:00:23.745 --> 00:00:29.130
+And these edge shows as if there is rain,
+
+7
+00:00:29.130 --> 00:00:32.835
+if it's raining, then the grass will be wet for sure.
+
+8
+00:00:32.835 --> 00:00:35.310
+We can see a more complex graph.
+
+9
+00:00:35.310 --> 00:00:40.420
+For example, here we added another random variable called sprinkler,
+
+10
+00:00:40.420 --> 00:00:46.020
+and the grass maybe wet either because the sprinkler is working or because it is raining.
+
+11
+00:00:46.020 --> 00:00:49.245
+Also the sprinkler will not work if there is rain.
+
+12
+00:00:49.245 --> 00:00:53.220
+From the graph, we can write down the probabilistic model.
+
+13
+00:00:53.220 --> 00:00:58.265
+The probabilistic model is a joint probability over all random variables.
+
+14
+00:00:58.265 --> 00:01:00.710
+It can be written using the following formula.
+
+15
+00:01:00.710 --> 00:01:05.385
+The joint probability over all variables equals to the product for each variable,
+
+16
+00:01:05.385 --> 00:01:08.925
+is probability given all the parents.
+
+17
+00:01:08.925 --> 00:01:11.070
+On this graph, for example,
+
+18
+00:01:11.070 --> 00:01:16.005
+the parents of the node grass are sprinkler and the rain.
+
+19
+00:01:16.005 --> 00:01:21.300
+Let's try to write down the probabilistic model for this graph.
+
+20
+00:01:21.300 --> 00:01:24.825
+So the joint probability of sprinkler,
+
+21
+00:01:24.825 --> 00:01:29.510
+rain, and the grass equals to the product of two terms.
+
+22
+00:01:29.510 --> 00:01:34.580
+The first one is the probability of grass is worse given the sprinkler and the rain.
+
+23
+00:01:34.580 --> 00:01:36.502
+Those are the parents of this node.
+
+24
+00:01:36.502 --> 00:01:41.770
+Next, multiplier is the probability of the sprinkler given the rain.
+
+25
+00:01:41.770 --> 00:01:44.465
+The rain is the only parent of this node.
+
+26
+00:01:44.465 --> 00:01:48.170
+And finally, we write down the probability of the rain.
+
+27
+00:01:48.170 --> 00:01:51.427
+Since this node doesn't have any parents,
+
+28
+00:01:51.427 --> 00:01:54.195
+we just write down the probability of the rain.
+
+29
+00:01:54.195 --> 00:01:57.115
+And this is our final model.
+
+30
+00:01:57.115 --> 00:01:59.725
+We can see a bit more complex ones.
+
+31
+00:01:59.725 --> 00:02:02.895
+For example, you all know the Naive Bayes classifier.
+
+32
+00:02:02.895 --> 00:02:05.165
+It's graphical model looks as follows.
+
+33
+00:02:05.165 --> 00:02:06.585
+We have a class,
+
+34
+00:02:06.585 --> 00:02:10.800
+C that directly impacts the values of the features,
+
+35
+00:02:10.800 --> 00:02:12.890
+that is for different classes.
+
+36
+00:02:12.890 --> 00:02:15.655
+The distribution of the features may be different.
+
+37
+00:02:15.655 --> 00:02:19.970
+And the joint distribution can be written using the following formula.
+
+38
+00:02:19.970 --> 00:02:25.091
+It is the probability of the class times the product over all features,
+
+39
+00:02:25.091 --> 00:02:27.760
+the probability of the current feature given the class.
+
+40
+00:02:27.760 --> 00:02:35.190
+However, this notation is a bit interesting since we have a lot of equal sub-graphs.
+
+41
+00:02:35.190 --> 00:02:41.670
+A bit more convenient way to write down this graph is called a plate notation.
+
+42
+00:02:41.670 --> 00:02:45.240
+It is written as follows.
+
+43
+00:02:45.240 --> 00:02:48.520
+So we have a random variable that corresponds to the class,
+
+44
+00:02:48.520 --> 00:02:51.065
+that directly impacts the features.
+
+45
+00:02:51.065 --> 00:02:55.605
+And this works around this random variable with a number of
+
+46
+00:02:55.605 --> 00:02:58.595
+repetitions such that we have to repeat this sub-graph
+
+47
+00:02:58.595 --> 00:03:02.455
+that is contained inside this box and times.
+
+48
+00:03:02.455 --> 00:03:05.790
+And so this is exactly Kuhn's graphical model,
+
+49
+00:03:05.790 --> 00:03:10.450
+the one we saw on the previous slide.

@@ -1,0 +1,237 @@
+WEBVTT
+
+1
+00:00:03.860 --> 00:00:10.055
+In this video, we will see that there are many problems with Bayesian inference.
+
+2
+00:00:10.055 --> 00:00:13.560
+Let's see what happens. Here's our Bayes formula.
+
+3
+00:00:13.560 --> 00:00:16.680
+We have the likelihood times the prior over the evidence.
+
+4
+00:00:16.680 --> 00:00:19.325
+However, what is the evidence?
+
+5
+00:00:19.325 --> 00:00:22.095
+Imagine that we are working with images.
+
+6
+00:00:22.095 --> 00:00:26.655
+For example, working with images of Van Gogh.
+
+7
+00:00:26.655 --> 00:00:28.020
+You will have, for example,
+
+8
+00:00:28.020 --> 00:00:31.010
+a Starry night, the Starry night over the Rhone.
+
+9
+00:00:31.010 --> 00:00:32.940
+And if you model the probability of these images,
+
+10
+00:00:32.940 --> 00:00:38.285
+you would also be able to draw new paintings that Van Gogh could have drawn.
+
+11
+00:00:38.285 --> 00:00:41.530
+And so modelling this distribution is usually really hard.
+
+12
+00:00:41.530 --> 00:00:42.925
+And in this module,
+
+13
+00:00:42.925 --> 00:00:47.280
+we'll try to come up with ideas how we can avoid computing the evidence.
+
+14
+00:00:47.280 --> 00:00:50.005
+It is called a Maximum a posteriori principle.
+
+15
+00:00:50.005 --> 00:00:55.355
+We try to find the value of the parameters that maximizes the posterior probability.
+
+16
+00:00:55.355 --> 00:00:57.240
+If we apply the Bayes formula,
+
+17
+00:00:57.240 --> 00:01:00.240
+we will see that on the posterior probability equals to
+
+18
+00:01:00.240 --> 00:01:03.325
+the product of the likelihood on the prior over the evidence.
+
+19
+00:01:03.325 --> 00:01:06.705
+However, note that evidence does not depend on theta.
+
+20
+00:01:06.705 --> 00:01:09.075
+And so we can remove it.
+
+21
+00:01:09.075 --> 00:01:11.465
+And so, by computing the Maximum a posteriori,
+
+22
+00:01:11.465 --> 00:01:17.185
+we avoid conputing the evidence.
+
+23
+00:01:17.185 --> 00:01:19.545
+Also, it is an optimization problem,
+
+24
+00:01:19.545 --> 00:01:23.775
+and it can be done efficiently using numerical methods.
+
+25
+00:01:23.775 --> 00:01:29.520
+However, Maximum a posteriori estimation has a lot of problems.
+
+26
+00:01:29.520 --> 00:01:33.855
+And the major one is that it is not invariant to reparametrization.
+
+27
+00:01:33.855 --> 00:01:36.923
+If for example we had a Gaussian distribution,
+
+28
+00:01:36.923 --> 00:01:40.110
+and then you apply the sigmoid function to the random variable,
+
+29
+00:01:40.110 --> 00:01:42.695
+you get a blue distribution.
+
+30
+00:01:42.695 --> 00:01:46.015
+Note that the position of the maximum changed,
+
+31
+00:01:46.015 --> 00:01:49.410
+and this is a really big problem.
+
+32
+00:01:49.410 --> 00:01:54.860
+Next problem is that we can't use as a prior.
+
+33
+00:01:54.860 --> 00:02:01.950
+If we try to apply the Maximum a posteriori estimation as a prior to the next step,
+
+34
+00:02:01.950 --> 00:02:07.755
+we will get again a delta function of the maximum a posteriori estimation.
+
+35
+00:02:07.755 --> 00:02:11.070
+And so we'll not get any new information.
+
+36
+00:02:11.070 --> 00:02:16.035
+Another problem is that Maximum a posteriori estimation is actually untypical point.
+
+37
+00:02:16.035 --> 00:02:21.165
+Since there are may be not enough probus dense around it.
+
+38
+00:02:21.165 --> 00:02:24.390
+It also equals to the result of the minimization of
+
+39
+00:02:24.390 --> 00:02:29.505
+the indicator that you do not end up in the true ideal parameter value.
+
+40
+00:02:29.505 --> 00:02:31.880
+We could use either an object of functions.
+
+41
+00:02:31.880 --> 00:02:35.890
+For example, the squared error or the absolute error.
+
+42
+00:02:35.890 --> 00:02:40.970
+Those would lead to the mean of the posterior distribution or the median.
+
+43
+00:02:40.970 --> 00:02:43.890
+However, you will choose those functions.
+
+44
+00:02:43.890 --> 00:02:45.923
+We will have to estimate the evidence,
+
+45
+00:02:45.923 --> 00:02:49.620
+and this is exactly what we try to avoid.
+
+46
+00:02:49.620 --> 00:02:53.190
+Finally, we can't compute credible equations.
+
+47
+00:02:53.190 --> 00:02:59.475
+If you estimate the maximum probability theta to be equal to 12.53,
+
+48
+00:02:59.475 --> 00:03:03.390
+we cannot say how confident should we be about this prediction.
+
+49
+00:03:03.390 --> 00:03:07.920
+It can be 12.53 plus minus 1000,
+
+50
+00:03:07.920 --> 00:03:11.060
+as well plus minus 1000.
+
+51
+00:03:11.060 --> 00:03:17.495
+So to summarize it, it is really easy to compute the Maximum a posteriori estimation.
+
+52
+00:03:17.495 --> 00:03:19.885
+However, it has a lot of problems.
+
+53
+00:03:19.885 --> 00:03:22.100
+It is not invariant to reparametrization.
+
+54
+00:03:22.100 --> 00:03:23.720
+We can't use it as a prior.
+
+55
+00:03:23.720 --> 00:03:25.750
+It is also an untypical point.
+
+56
+00:03:25.750 --> 00:03:28.130
+And finally, we can't compute credible regions.
+
+57
+00:03:28.130 --> 00:03:29.740
+And in the next video,
+
+58
+00:03:29.740 --> 00:03:33.767
+we will see another approach to avoid the evidence.
+
+59
+00:03:33.767 --> 00:03:37.440
+It is called the conjugate distributions.
