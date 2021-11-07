@@ -1,0 +1,245 @@
+WEBVTT
+
+1
+00:00:02.000 --> 00:00:07.770
+In this video, we start to talk about the Bayesian optimization.
+
+2
+00:00:07.770 --> 00:00:11.185
+So, what is Bayesian optimization?
+
+3
+00:00:11.185 --> 00:00:17.720
+Bayesian optimization is a method of finding the optimum of expensive cost function.
+
+4
+00:00:17.720 --> 00:00:24.600
+This cost function is also called objective function and denoted as f. It's
+
+5
+00:00:24.600 --> 00:00:31.760
+supposed that calculation of the objective function at one point is expensive.
+
+6
+00:00:31.760 --> 00:00:36.300
+The derivatives of objective functions are unknown.
+
+7
+00:00:36.300 --> 00:00:40.490
+The goal of Bayesian optimization is to find the optimum of
+
+8
+00:00:40.490 --> 00:00:46.555
+the objective function using as small number of the function calculations as possible.
+
+9
+00:00:46.555 --> 00:00:51.865
+Consider an example with the following objective function f.
+
+10
+00:00:51.865 --> 00:00:57.940
+The goal is to find minimum of this function using the Bayesian optimization.
+
+11
+00:00:57.940 --> 00:01:02.310
+Optimization algorithm is following.
+
+12
+00:01:02.310 --> 00:01:08.765
+The first, find the object function approximation using previously calculated values,
+
+13
+00:01:08.765 --> 00:01:11.300
+solving a regression problem.
+
+14
+00:01:11.300 --> 00:01:13.790
+Then, using the approximation,
+
+15
+00:01:13.790 --> 00:01:17.745
+find the optimum point of an acquisition function.
+
+16
+00:01:17.745 --> 00:01:25.120
+Then, sample the objective function in the next point and repeat these steps.
+
+17
+00:01:25.120 --> 00:01:29.400
+Acquisition function is used during Bayesian optimization
+
+18
+00:01:29.400 --> 00:01:33.865
+to estimate the next point of the objective function calculation.
+
+19
+00:01:33.865 --> 00:01:37.350
+There are variety of acquisition functions.
+
+20
+00:01:37.350 --> 00:01:43.090
+One of them is a Lower Confidence Bound shown on the slide.
+
+21
+00:01:43.090 --> 00:01:45.200
+In this objective function,
+
+22
+00:01:45.200 --> 00:01:50.505
+mu is the mean value of approximation of the given objective function.
+
+23
+00:01:50.505 --> 00:01:54.615
+Sigma is standard deviation of the approximation
+
+24
+00:01:54.615 --> 00:01:59.465
+and k is adjustable parameter of this function.
+
+25
+00:01:59.465 --> 00:02:04.510
+There are also Upper Confidence Bound for the objective function maximization.
+
+26
+00:02:04.510 --> 00:02:07.040
+Consider how
+
+27
+00:02:07.040 --> 00:02:11.795
+the optimization works for the following objective function shown on the slide.
+
+28
+00:02:11.795 --> 00:02:16.110
+Let's start the optimization from three observations.
+
+29
+00:02:16.110 --> 00:02:19.150
+At the first step of the Bayesian optimization,
+
+30
+00:02:19.150 --> 00:02:22.300
+find approximation of the objective function f,
+
+31
+00:02:22.300 --> 00:02:26.615
+using Gaussian processes and known observations.
+
+32
+00:02:26.615 --> 00:02:30.180
+This approximation is shown as
+
+33
+00:02:30.180 --> 00:02:35.420
+a green line with 3 sigmas confidence region of the approximation.
+
+34
+00:02:35.420 --> 00:02:41.645
+In this example, the Lower Confidence Bound is used as the acquisition function.
+
+35
+00:02:41.645 --> 00:02:46.710
+This acquisition function is shown as the blue line in the figure.
+
+36
+00:02:46.710 --> 00:02:49.500
+At the second step of the Bayesian optimization,
+
+37
+00:02:49.500 --> 00:02:54.650
+find minimum point x_4 of the acquisition function.
+
+38
+00:02:54.650 --> 00:02:58.305
+This minimum is shown as a blue dot on the figure.
+
+39
+00:02:58.305 --> 00:03:01.785
+At the third step of the Bayesian optimization,
+
+40
+00:03:01.785 --> 00:03:06.120
+sample the objective function at the found point x_4.
+
+41
+00:03:06.120 --> 00:03:08.975
+These steps are repeated several times.
+
+42
+00:03:08.975 --> 00:03:14.245
+Let's consider how the function approximation changes with iterations.
+
+43
+00:03:14.245 --> 00:03:18.315
+This is approximation after the second iteration.
+
+44
+00:03:18.315 --> 00:03:21.425
+This is after the third iteration,
+
+45
+00:03:21.425 --> 00:03:23.845
+after the 4th iteration.
+
+46
+00:03:23.845 --> 00:03:30.860
+This after the 10th iteration, after the 15th iteration,
+
+47
+00:03:30.860 --> 00:03:37.490
+and finally, after 20 iterations the minimum of the objective function is found.
+
+48
+00:03:37.490 --> 00:03:40.970
+The Gaussian processes approximate the function very well,
+
+49
+00:03:40.970 --> 00:03:42.905
+especially in the minimum region.
+
+50
+00:03:42.905 --> 00:03:46.880
+Also pay your attention that there are larger number of
+
+51
+00:03:46.880 --> 00:03:51.505
+observations in the minimum regions than in other regions.
+
+52
+00:03:51.505 --> 00:03:53.310
+In the end of this video,
+
+53
+00:03:53.310 --> 00:03:57.830
+I would like to remind you the Bayesian optimization algorithm.
+
+54
+00:03:57.830 --> 00:04:01.850
+As a first step, find the objective function approximation
+
+55
+00:04:01.850 --> 00:04:06.310
+using previously calculated values and solving the regression problem.
+
+56
+00:04:06.310 --> 00:04:09.200
+As a second step, using the approximation,
+
+57
+00:04:09.200 --> 00:04:12.680
+find optimum point of an acquisition function.
+
+58
+00:04:12.680 --> 00:04:21.260
+After that, sample the objective function at this new point and repeat all these steps.
+
+59
+00:04:21.260 --> 00:04:23.160
+In the next video,
+
+60
+00:04:23.160 --> 00:04:25.635
+we'll talk about the exploration-exploitation
+
+61
+00:04:25.635 --> 00:04:29.860
+trade of the Bayesian optimization.

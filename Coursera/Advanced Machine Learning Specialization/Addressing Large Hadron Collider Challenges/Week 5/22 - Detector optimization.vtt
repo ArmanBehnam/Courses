@@ -1,0 +1,377 @@
+WEBVTT
+
+1
+00:00:03.140 --> 00:00:05.640
+Hello. On this week,
+
+2
+00:00:05.640 --> 00:00:11.525
+we will talk about detector design optimization in high energy physics experiments.
+
+3
+00:00:11.525 --> 00:00:17.100
+But firstly, let's consider why the design optimization is so important.
+
+4
+00:00:17.100 --> 00:00:18.760
+From the previous weeks,
+
+5
+00:00:18.760 --> 00:00:21.700
+we have learned that the detectors in
+
+6
+00:00:21.700 --> 00:00:25.725
+high energy physics experiments are sophisticated and expensive.
+
+7
+00:00:25.725 --> 00:00:30.030
+These detectors consist of different parts: tracking system,
+
+8
+00:00:30.030 --> 00:00:32.085
+Ring Image Cherenkov detector,
+
+9
+00:00:32.085 --> 00:00:36.005
+electromagnetic and hadronic calorimeters, and muon system.
+
+10
+00:00:36.005 --> 00:00:39.515
+Each of these parts have thousands of sensors,
+
+11
+00:00:39.515 --> 00:00:44.250
+which register particles, and measure their momentum and energy.
+
+12
+00:00:44.250 --> 00:00:47.570
+Layout of these sensors affects precision,
+
+13
+00:00:47.570 --> 00:00:50.465
+efficiency, and cost of these detectors.
+
+14
+00:00:50.465 --> 00:00:53.155
+Let's consider several examples.
+
+15
+00:00:53.155 --> 00:00:56.950
+The first example is the LHCb detector.
+
+16
+00:00:56.950 --> 00:01:03.650
+This is forward-arm detector and registers particles flying only in one direction.
+
+17
+00:01:03.650 --> 00:01:08.425
+In this example, particles fly from left to right,
+
+18
+00:01:08.425 --> 00:01:12.930
+and size of the detector systems also increases in same direction.
+
+19
+00:01:12.930 --> 00:01:19.045
+This solution allows to detect as much particles as possible,
+
+20
+00:01:19.045 --> 00:01:22.070
+and reduce the detector cost.
+
+21
+00:01:22.070 --> 00:01:25.830
+The second example is the CMS detector at CERN.
+
+22
+00:01:25.830 --> 00:01:31.455
+This is a cilindrical detector and registers particles in all directions.
+
+23
+00:01:31.455 --> 00:01:34.280
+Let's consider a cross-section of this detector.
+
+24
+00:01:34.280 --> 00:01:40.015
+This slide shows location and size of different systems of the detector.
+
+25
+00:01:40.015 --> 00:01:44.730
+For example, there are twelve layers in the tracking system.
+
+26
+00:01:44.730 --> 00:01:47.615
+But why not five or 20?
+
+27
+00:01:47.615 --> 00:01:55.895
+How to choose the optimal number or why there are only four layers of the muon chambers?
+
+28
+00:01:55.895 --> 00:01:58.110
+Probably, it's possible to provide
+
+29
+00:01:58.110 --> 00:02:02.205
+the same detector performance with smaller number of layers.
+
+30
+00:02:02.205 --> 00:02:06.045
+One more example is the ATLAS detector at CERN.
+
+31
+00:02:06.045 --> 00:02:10.260
+It has similar structure as the CMS detector.
+
+32
+00:02:10.260 --> 00:02:15.280
+This slide shows just overview of the detector.
+
+33
+00:02:15.280 --> 00:02:17.425
+And if you look closer,
+
+34
+00:02:17.425 --> 00:02:25.025
+you will find two persons in the figure that help to estimate the detector size.
+
+35
+00:02:25.025 --> 00:02:27.360
+But, in this example,
+
+36
+00:02:27.360 --> 00:02:32.260
+we will only consider the ATLAS inner tracking system.
+
+37
+00:02:32.260 --> 00:02:35.605
+The ATLAS inner tracking system consists of
+
+38
+00:02:35.605 --> 00:02:38.840
+three different parts of different sensor types.
+
+39
+00:02:38.840 --> 00:02:44.165
+The system consists of three different parts with different sensor types.
+
+40
+00:02:44.165 --> 00:02:48.815
+The most inner part has three layers of silicon pixel sensors.
+
+41
+00:02:48.815 --> 00:02:53.860
+These sensors provide the highest precision of particle track reconstruction.
+
+42
+00:02:53.860 --> 00:02:59.665
+The middle of this system has four layers of the silicon strip sensors.
+
+43
+00:02:59.665 --> 00:03:03.995
+And the outer part consists of drift straw tubes.
+
+44
+00:03:03.995 --> 00:03:09.725
+How can we estimate the number of layers and their locations in the system?
+
+45
+00:03:09.725 --> 00:03:15.040
+On these questions, we will try to find answers on this week.
+
+46
+00:03:15.040 --> 00:03:18.790
+Now, let's consider the detector optimization workflow.
+
+47
+00:03:18.790 --> 00:03:21.570
+The goal of the detector optimization is to
+
+48
+00:03:21.570 --> 00:03:25.000
+find optimal layout of sensors in the detector.
+
+49
+00:03:25.000 --> 00:03:30.160
+To do this, an objective function for the optimization must be defined.
+
+50
+00:03:30.160 --> 00:03:36.075
+This function aggregates key values needed to be optimized: cost of the detector,
+
+51
+00:03:36.075 --> 00:03:39.140
+track resolution, track reconstruction efficiency,
+
+52
+00:03:39.140 --> 00:03:43.250
+precision of the momentum and efficiency reconstruction, and so on.
+
+53
+00:03:43.250 --> 00:03:48.090
+Then, a set of parameters that define the sensor layout
+
+54
+00:03:48.090 --> 00:03:52.505
+and affect the objective function values must be selected.
+
+55
+00:03:52.505 --> 00:03:55.390
+And finally, search for the parameters
+
+56
+00:03:55.390 --> 00:03:58.985
+values correspond to the optimum of the objective function.
+
+57
+00:03:58.985 --> 00:04:02.640
+For an example, consider a simple tracking system.
+
+58
+00:04:02.640 --> 00:04:07.190
+The goal of this example is to find optimal geometry of the system.
+
+59
+00:04:07.190 --> 00:04:12.685
+And this geometry can be defined by the set of shifts between the layers.
+
+60
+00:04:12.685 --> 00:04:17.920
+A possible objective function is the number of hits per one track.
+
+61
+00:04:17.920 --> 00:04:20.935
+In your programming assignment for this week,
+
+62
+00:04:20.935 --> 00:04:25.090
+you will be able to find optimal geometry for this tracking system.
+
+63
+00:04:25.090 --> 00:04:30.810
+More difficult example is the muon shield optimization in the SHiP experiment at CERN.
+
+64
+00:04:30.810 --> 00:04:35.740
+The goal of the shield is to deflect as much muons as possible.
+
+65
+00:04:35.740 --> 00:04:38.390
+The shield consist of eight magnets,
+
+66
+00:04:38.390 --> 00:04:42.640
+and each magnet is parameterized by seven values.
+
+67
+00:04:42.640 --> 00:04:46.460
+So, there are 42 parameters to optimize.
+
+68
+00:04:46.460 --> 00:04:53.895
+The objective function depends on the physical performance of the shield and its weight.
+
+69
+00:04:53.895 --> 00:04:59.160
+We will consider how the shield was optimized in the next videos.
+
+70
+00:04:59.160 --> 00:05:05.065
+But, which methods can be used for the detector design optimization?
+
+71
+00:05:05.065 --> 00:05:09.870
+One of the most popular and the simplest method is grid search.
+
+72
+00:05:09.870 --> 00:05:13.225
+It defines a grid of the parameter values and
+
+73
+00:05:13.225 --> 00:05:18.450
+calculates the objective function values for each node in the grid.
+
+74
+00:05:18.450 --> 00:05:25.430
+The node with the highest or least function value is taken as the optimum.
+
+75
+00:05:25.430 --> 00:05:28.970
+Consider how it works on a 2D example.
+
+76
+00:05:28.970 --> 00:05:34.355
+In this example, a function with two parameters is optimized.
+
+77
+00:05:34.355 --> 00:05:38.685
+For this, the parameter values are divided into the grid.
+
+78
+00:05:38.685 --> 00:05:44.090
+And the node with the highest function value is considered as the optimum.
+
+79
+00:05:44.090 --> 00:05:48.545
+However, this method has a range of disadvantages.
+
+80
+00:05:48.545 --> 00:05:54.240
+The first of them is that grid search is reasonable to use when the number of
+
+81
+00:05:54.240 --> 00:05:57.270
+parameters is small and the grid size
+
+82
+00:05:57.270 --> 00:06:01.370
+exponentially grows with number of parameters to optimize.
+
+83
+00:06:01.370 --> 00:06:07.070
+It became more important when the objective function is expensive to evaluate.
+
+84
+00:06:07.070 --> 00:06:11.240
+Thus, the grid search requires to large computational resources.
+
+85
+00:06:11.240 --> 00:06:14.440
+Detectors optimization in high energy physics
+
+86
+00:06:14.440 --> 00:06:19.055
+requires to run Monte-Carlo simulation of these detectors.
+
+87
+00:06:19.055 --> 00:06:25.255
+Thus, the optimization in high energy physics requires large computational resources.
+
+88
+00:06:25.255 --> 00:06:29.295
+On this week, we'll learn about the Bayesian optimization.
+
+89
+00:06:29.295 --> 00:06:35.445
+Bayesian optimization is a method of finding the optimum of an expensive function.
+
+90
+00:06:35.445 --> 00:06:39.430
+The goal of the Bayesian optimization is to find the optimum of
+
+91
+00:06:39.430 --> 00:06:45.580
+the objective function using a small number of function calculations as possible.
+
+92
+00:06:45.580 --> 00:06:50.175
+But before we'll talk about the Bayesian optimization,
+
+93
+00:06:50.175 --> 00:06:52.600
+I do like to remind you key properties of
+
+94
+00:06:52.600 --> 00:06:58.970
+normal distribution and to talk about the Gaussian processes for regression.

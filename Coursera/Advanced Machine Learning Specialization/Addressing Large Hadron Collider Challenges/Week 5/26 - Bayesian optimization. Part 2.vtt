@@ -1,0 +1,333 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.793
+[MUSIC]
+
+2
+00:00:03.793 --> 00:00:08.336
+In this video, we will talk about
+the exploration-exploitation trade-off of
+
+3
+00:00:08.336 --> 00:00:10.430
+the Bayesian optimization.
+
+4
+00:00:10.430 --> 00:00:15.560
+But firstly, let me remind you key
+points about the Bayesian optimization.
+
+5
+00:00:15.560 --> 00:00:20.600
+So the Bayesian optimization is
+a method of finding the optimum
+
+6
+00:00:20.600 --> 00:00:22.490
+of expensive cost functions.
+
+7
+00:00:23.490 --> 00:00:28.170
+This cost function is also called
+objective function and denoted as f.
+
+8
+00:00:29.200 --> 00:00:34.810
+It supposed that calculation of
+f at one point is expensive.
+
+9
+00:00:34.810 --> 00:00:38.840
+And the derivatives of these
+functions are unknown.
+
+10
+00:00:40.440 --> 00:00:45.040
+The goal of Bayesian optimization is to
+find the optimum of the objective function
+
+11
+00:00:45.040 --> 00:00:50.280
+using as small number of the function
+calculations as possible.
+
+12
+00:00:50.280 --> 00:00:52.950
+The optimization algorithm is follow.
+
+13
+00:00:52.950 --> 00:00:56.946
+And the first step finds the objective
+function approximation using previously
+
+14
+00:00:56.946 --> 00:01:00.490
+calculated values, and
+solving the regression problem.
+
+15
+00:01:00.490 --> 00:01:06.770
+Then using the approximation find optimum
+point of an acquisition function.
+
+16
+00:01:07.850 --> 00:01:13.650
+Then, after that, sample the objective
+function in this new point,
+
+17
+00:01:13.650 --> 00:01:15.950
+and repeat all the steps.
+
+18
+00:01:15.950 --> 00:01:21.080
+There are variety of acquisition
+functions, and one of them used in this
+
+19
+00:01:21.080 --> 00:01:27.040
+video is Lower Confidence Bound for
+the object function minimization.
+
+20
+00:01:27.040 --> 00:01:31.970
+The Bayesian optimization with Gaussian
+processes allows to balance between
+
+21
+00:01:31.970 --> 00:01:36.290
+exploration and
+exploitation of the objective function.
+
+22
+00:01:36.290 --> 00:01:39.930
+Exploration is when you choose a point
+
+23
+00:01:39.930 --> 00:01:43.640
+with high variance at each
+iteration of the optimization.
+
+24
+00:01:43.640 --> 00:01:48.970
+And exploitation,
+it's when you choose a point with high or
+
+25
+00:01:48.970 --> 00:01:52.950
+low mean at each iteration
+of the optimization.
+
+26
+00:01:52.950 --> 00:01:56.260
+Adjustable parameters of
+the acquisition functions
+
+27
+00:01:56.260 --> 00:01:59.859
+provide trade-off between exploration and
+exploitation.
+
+28
+00:02:01.430 --> 00:02:06.210
+To study the exploration-exploitation
+properties of the Bayesian optimization,
+
+29
+00:02:06.210 --> 00:02:09.580
+consider the following
+objective function f.
+
+30
+00:02:09.580 --> 00:02:12.540
+The goal in this example
+is to find its minimum.
+
+31
+00:02:13.570 --> 00:02:16.829
+Let's start the optimization
+from three observations.
+
+32
+00:02:17.980 --> 00:02:21.420
+Firstly, consider
+the exploitation property.
+
+33
+00:02:21.420 --> 00:02:27.120
+Exploitation can be achieved
+with a small values of k
+
+34
+00:02:27.120 --> 00:02:30.210
+parameter in lower
+confidence bound function.
+
+35
+00:02:31.340 --> 00:02:36.932
+After ten iterations, we have almost
+all observations in the local minimum.
+
+36
+00:02:36.932 --> 00:02:42.175
+And there are just few observations
+in other regions of the function.
+
+37
+00:02:42.175 --> 00:02:47.915
+After 20 iterations, we again have almost
+all observations in the minima regions,
+
+38
+00:02:47.915 --> 00:02:51.920
+and there are just few
+observations in other regions.
+
+39
+00:02:51.920 --> 00:02:57.500
+This is the exploitation property of
+the Bayesian optimization with Gaussian
+
+40
+00:02:57.500 --> 00:02:59.010
+processes.
+
+41
+00:02:59.010 --> 00:03:02.550
+The key features of
+the exploitation are follow.
+
+42
+00:03:02.550 --> 00:03:07.610
+So exploitation takes a new
+point at each iteration
+
+43
+00:03:07.610 --> 00:03:10.500
+close to found optimum of
+the objective function.
+
+44
+00:03:12.200 --> 00:03:15.540
+There is no guarantee that
+this optimum is global.
+
+45
+00:03:16.650 --> 00:03:22.080
+Other regions of the objective
+function are not explored, and
+
+46
+00:03:22.080 --> 00:03:28.780
+it needs less iterations that for
+exploration to find the optimum.
+
+47
+00:03:28.780 --> 00:03:33.810
+Now consider the exploration property
+of the Bayesian optimization.
+
+48
+00:03:33.810 --> 00:03:38.260
+Exploration can be achieved
+with large values of k
+
+49
+00:03:38.260 --> 00:03:40.526
+in lower confidence bound function.
+
+50
+00:03:40.526 --> 00:03:49.390
+In the exploration case all observations
+are distributed through the whole region.
+
+51
+00:03:49.390 --> 00:03:54.200
+The target function is explored
+during the Bayesian optimization.
+
+52
+00:03:54.200 --> 00:03:55.890
+After twenty iterations,
+
+53
+00:03:55.890 --> 00:04:00.350
+all observations are again
+distributed through the whole region.
+
+54
+00:04:00.350 --> 00:04:04.200
+And this is exploration property
+of the Bayesian optimization with
+
+55
+00:04:04.200 --> 00:04:05.990
+Gaussian processes.
+
+56
+00:04:05.990 --> 00:04:12.340
+So during the exploration,
+it's taken a new point at each iteration
+
+57
+00:04:12.340 --> 00:04:16.550
+where the variance of the approximation
+of the objective function is large.
+
+58
+00:04:17.590 --> 00:04:21.800
+All regions of the objective
+functions are explored.
+
+59
+00:04:21.800 --> 00:04:25.430
+It's more likely that
+the found optimum is global.
+
+60
+00:04:25.430 --> 00:04:31.060
+And it needs more iterations than for
+exploitation to find the optimum.
+
+61
+00:04:31.060 --> 00:04:34.830
+Finally, we have learned
+the Bayesian optimization.
+
+62
+00:04:34.830 --> 00:04:39.752
+Bayesian optimization is a method of
+finding the optimum of expensive cost
+
+63
+00:04:39.752 --> 00:04:40.620
+functions.
+
+64
+00:04:41.640 --> 00:04:48.390
+We know how it works and how to use
+the exploration-exploitation trade-off during the optimization.
+
+65
+00:04:48.390 --> 00:04:52.700
+In high energy physics, Bayesian
+optimization with Gaussian processes
+
+66
+00:04:52.700 --> 00:04:55.930
+can be used for
+detector design optimization.
+
+67
+00:04:55.930 --> 00:04:57.477
+In the next video,
+
+68
+00:04:57.477 --> 00:05:03.194
+we consider two examples of
+the optimization in high energy physics.
+
+69
+00:05:03.194 --> 00:05:09.335
+[MUSIC]
