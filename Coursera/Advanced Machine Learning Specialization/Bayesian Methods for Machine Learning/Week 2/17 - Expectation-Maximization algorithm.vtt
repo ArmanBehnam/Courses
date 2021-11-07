@@ -1,0 +1,715 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.442
+[MUSIC]
+
+2
+00:00:03.442 --> 00:00:08.107
+We finally have all the tools we may
+need to build the general form of
+
+3
+00:00:08.107 --> 00:00:11.359
+the expectation maximization algorithm, so
+
+4
+00:00:11.359 --> 00:00:14.962
+let's start with
+the formulation of the program.
+
+5
+00:00:14.962 --> 00:00:17.110
+Say we have a latent variable model, so
+
+6
+00:00:17.110 --> 00:00:20.964
+we have latent variables t which
+are not observed, which are latent.
+
+7
+00:00:20.964 --> 00:00:24.100
+And variables x which we observe, and
+
+8
+00:00:24.100 --> 00:00:28.512
+we have marginal likelihood
+p of x given parameters.
+
+9
+00:00:28.512 --> 00:00:33.979
+Which can be expressed in terms
+of the model, the likelihood,
+
+10
+00:00:33.979 --> 00:00:39.859
+and the parameter, as summing the full
+joint distribution p of x and
+
+11
+00:00:39.859 --> 00:00:44.317
+t given theta,
+with respect to all the values of t.
+
+12
+00:00:44.317 --> 00:00:49.620
+So marginalizing out t, and
+we can write down this full
+
+13
+00:00:49.620 --> 00:00:55.974
+joint likelihood as a product of the p
+of x and t and the prior p of t.
+
+14
+00:00:55.974 --> 00:01:02.407
+So this is how the marginal likelihood
+looks like, and we would like to maximize.
+
+15
+00:01:02.407 --> 00:01:08.805
+So our problem here is to maximize
+the likelihood of our data set.
+
+16
+00:01:08.805 --> 00:01:12.863
+The density of the data set,
+the parameters with respect to parameters.
+
+17
+00:01:12.863 --> 00:01:18.424
+And this is marginal likelihood because
+we don't have zero latent variables,
+
+18
+00:01:18.424 --> 00:01:21.080
+so we have to marginalize the amount.
+
+19
+00:01:21.080 --> 00:01:25.198
+First step, as it usually happens
+in these kind of problems,
+
+20
+00:01:25.198 --> 00:01:28.296
+let's take the logarithm
+of our likelihood.
+
+21
+00:01:28.296 --> 00:01:31.651
+Because it will churn
+products into summations, and
+
+22
+00:01:31.651 --> 00:01:33.821
+make life easier because of that.
+
+23
+00:01:33.821 --> 00:01:38.100
+Next step is to assume that our
+dataset consists of n objects,
+
+24
+00:01:38.100 --> 00:01:41.313
+which are independent
+given the parameters,
+
+25
+00:01:41.313 --> 00:01:45.531
+which is kind of standard in
+all machine learning problems.
+
+26
+00:01:45.531 --> 00:01:46.485
+And finally,
+
+27
+00:01:46.485 --> 00:01:51.583
+we can churn product into summation by
+using the property of the logarithm.
+
+28
+00:01:51.583 --> 00:01:54.136
+And we have a function like this,
+
+29
+00:01:54.136 --> 00:01:58.978
+which we want to maximize with
+respect to parameters, right?
+
+30
+00:01:58.978 --> 00:02:03.592
+One more step, we can substitute
+the marginal likelihood of
+
+31
+00:02:03.592 --> 00:02:06.487
+the data object xi by its definition,
+
+32
+00:02:06.487 --> 00:02:11.566
+which is sum of the joint distribution
+respect to the values of ti.
+
+33
+00:02:11.566 --> 00:02:17.351
+[COUGH] And finally, we have a function
+like this which you want to maximize.
+
+34
+00:02:17.351 --> 00:02:22.622
+And as we have discussed in the previous
+module, on the Gauss [INAUDIBLE] model
+
+35
+00:02:22.622 --> 00:02:27.827
+case, it can be in principle maximized
+with stochastic gradient descent.
+
+36
+00:02:27.827 --> 00:02:30.787
+But sometimes it's not
+the optimal choice to do,
+
+37
+00:02:30.787 --> 00:02:34.251
+so we're going to do something else,
+something better.
+
+38
+00:02:34.251 --> 00:02:39.012
+Well, the general idea would be as
+follows, let's build a lower bound for
+
+39
+00:02:39.012 --> 00:02:42.048
+this thing by using
+the Jensen's Inequality.
+
+40
+00:02:42.048 --> 00:02:46.653
+I don't give you details here,
+they will come in the next few slides, but
+
+41
+00:02:46.653 --> 00:02:49.551
+let's assume that we can
+lower down this thing
+
+42
+00:02:49.551 --> 00:02:52.322
+by some function which
+is easy to optimize.
+
+43
+00:02:52.322 --> 00:02:56.845
+In this case, instead of maximizing
+this original margin of likelihood,
+
+44
+00:02:56.845 --> 00:03:01.600
+we can maximize its lower bound instead,
+and we can get the picture like this.
+
+45
+00:03:01.600 --> 00:03:06.735
+So this is our margin of likelihood,
+let's imagine that it looks like this,
+
+46
+00:03:06.735 --> 00:03:10.456
+and here we assume that it
+has just one parameter theta.
+
+47
+00:03:10.456 --> 00:03:15.655
+So the parameters are one dimensional,
+which in practice is usually not the case,
+
+48
+00:03:15.655 --> 00:03:18.191
+so you can have millions of parameters.
+
+49
+00:03:18.191 --> 00:03:21.896
+But it's much easier for
+demonstration purposes, so
+
+50
+00:03:21.896 --> 00:03:25.690
+it's much easier to plot some
+graphs in one dimension.
+
+51
+00:03:25.690 --> 00:03:30.170
+And the marginal likelihood has
+the optimal parameter theta star, which we
+
+52
+00:03:30.170 --> 00:03:34.800
+would like to obtain, but as we have
+already discussed, it's going to be hard.
+
+53
+00:03:34.800 --> 00:03:39.808
+So we cannot hope to obtain this
+theta star in reasonable time,
+
+54
+00:03:39.808 --> 00:03:45.199
+so we'll be happy to find at least
+a local maximum of this function.
+
+55
+00:03:45.199 --> 00:03:50.270
+Now we can lower bound this function,
+so we can find a function l,
+
+56
+00:03:50.270 --> 00:03:55.987
+which is less than or equal to our
+module of likelihood at any given point,
+
+57
+00:03:55.987 --> 00:04:00.716
+and it will build it in such
+a way that it's easy to maximize.
+
+58
+00:04:00.716 --> 00:04:07.335
+So we can find its maximum theta star, and
+use that maximum as kind of a proxy for
+
+59
+00:04:07.335 --> 00:04:12.268
+the maximum of the original
+likelihood of the blue curve.
+
+60
+00:04:12.268 --> 00:04:13.747
+Well, it's kind of reasonable, but
+
+61
+00:04:13.747 --> 00:04:16.024
+it turns out that actually we
+don't have any guarantees.
+
+62
+00:04:16.024 --> 00:04:22.379
+The theta hat,
+the optional of the lower bound,
+
+63
+00:04:22.379 --> 00:04:28.123
+can be arbitrarily
+[INAUDIBLE] to the curve.
+
+64
+00:04:28.123 --> 00:04:33.499
+Here, for example,
+the theta hat almost appears
+
+65
+00:04:33.499 --> 00:04:38.491
+in the local minimum of
+the local likelihood,
+
+66
+00:04:38.491 --> 00:04:41.821
+and it's really bad, right.
+
+67
+00:04:41.821 --> 00:04:45.982
+Like, we wanted to maximize the blue
+curve, and we found something
+
+68
+00:04:45.982 --> 00:04:50.663
+which we'd like to use as its approximate
+maximum, it's a local minimum.
+
+69
+00:04:50.663 --> 00:04:55.022
+So we have to do something better,
+have to do something else, well,
+
+70
+00:04:55.022 --> 00:04:57.970
+let's revise this idea of lower-bounding.
+
+71
+00:04:57.970 --> 00:05:02.885
+Instead of one lower bound, let's try
+to build a family of lower bounds.
+
+72
+00:05:02.885 --> 00:05:08.085
+And then we'll be able to choose among
+these lower bounds, the one that suits
+
+73
+00:05:08.085 --> 00:05:13.131
+us best at this current iteration or
+moment, or whatever, so how to do it?
+
+74
+00:05:13.131 --> 00:05:16.100
+Well, let's introduce some weights,
+
+75
+00:05:16.100 --> 00:05:21.264
+some lever which we'll be able to change,
+to change our lower bound.
+
+76
+00:05:21.264 --> 00:05:27.920
+So let's introduce some some any q
+on the latent variable t we want,
+
+77
+00:05:27.920 --> 00:05:32.715
+and let's multiply and
+divide our function by this q.
+
+78
+00:05:32.715 --> 00:05:38.573
+It doesn't change anything, right, because
+we just like multiplied this thing by 1.
+
+79
+00:05:38.573 --> 00:05:43.513
+But now we can treat this q as
+weights in the Jensen's inequality.
+
+80
+00:05:43.513 --> 00:05:49.005
+So we can treat this q as alphas,
+and we can treat the joint
+
+81
+00:05:49.005 --> 00:05:54.628
+distribution v of x and t,
+joined by q, as the points as v.
+
+82
+00:05:54.628 --> 00:05:58.167
+And now we can apply
+Jensen's inequality for
+
+83
+00:05:58.167 --> 00:06:02.465
+the logarithm to this function
+to build a lower bound.
+
+84
+00:06:02.465 --> 00:06:07.459
+Which will look like this, and
+notice that it now depends on q, right, so
+
+85
+00:06:07.459 --> 00:06:08.838
+we kind of succeed.
+
+86
+00:06:08.838 --> 00:06:13.895
+We built a lower bond,
+which depends both on the theta along q,
+
+87
+00:06:13.895 --> 00:06:18.582
+which we can now change to
+obtain different lower bounds.
+
+88
+00:06:18.582 --> 00:06:23.969
+To choose the lower bound we would
+like to use on this current iteration,
+
+89
+00:06:23.969 --> 00:06:25.571
+or whatever we have.
+
+90
+00:06:25.571 --> 00:06:29.273
+So now the picture looks like this,
+we have, again,
+
+91
+00:06:29.273 --> 00:06:32.334
+our marginal likelihood of the blue curve.
+
+92
+00:06:32.334 --> 00:06:37.006
+And we also have a family of lower bounds,
+like the orange, the red, and
+
+93
+00:06:37.006 --> 00:06:41.156
+the green one, and we can choose
+among them to find the best one.
+
+94
+00:06:41.156 --> 00:06:46.186
+For example, we can choose the red one and
+maximize it with respect to theta.
+
+95
+00:06:46.186 --> 00:06:51.032
+And its theta hat will be a reasonably
+good approximation of the maximum
+
+96
+00:06:51.032 --> 00:06:52.335
+of the blue curve.
+
+97
+00:06:52.335 --> 00:06:55.653
+It will be somewhere in a good position,
+so
+
+98
+00:06:55.653 --> 00:07:00.638
+how can we use this,
+this family of lower bounds, in practice?
+
+99
+00:07:00.638 --> 00:07:05.008
+Well, let's use this kind
+of iterative approach, so
+
+100
+00:07:05.008 --> 00:07:07.954
+let's start with any point theta k.
+
+101
+00:07:07.954 --> 00:07:11.412
+So the point from the previous iteration,
+or
+
+102
+00:07:11.412 --> 00:07:17.057
+maybe from initialization, and
+let's try to prove it in one iteration.
+
+103
+00:07:17.057 --> 00:07:22.789
+So we have a family of lower bounds,
+let's, among this family,
+
+104
+00:07:22.789 --> 00:07:28.745
+find the lower bound which is maximum
+at this current point theta k.
+
+105
+00:07:28.745 --> 00:07:33.610
+Which means, let's find q such
+that the value of a lower
+
+106
+00:07:33.610 --> 00:07:37.450
+bound l of the point theta k and
+q is maximum.
+
+107
+00:07:37.450 --> 00:07:42.972
+And ideally, if we are able to
+maximize this thing to the optimum,
+
+108
+00:07:42.972 --> 00:07:45.744
+we'll get something like this.
+
+109
+00:07:45.744 --> 00:07:49.088
+Because this red curve,
+the red lower bound,
+
+110
+00:07:49.088 --> 00:07:51.844
+cannot be higher than the blue curve.
+
+111
+00:07:51.844 --> 00:07:55.895
+So the best possible thing we could
+hope for is that they attach,
+
+112
+00:07:55.895 --> 00:08:00.110
+that the lower bond becomes accurate
+at the current point theta k.
+
+113
+00:08:00.110 --> 00:08:03.660
+And now we can go the maximum
+of this lower bound,
+
+114
+00:08:03.660 --> 00:08:08.431
+so to the point theta k plus 1,
+which is maximum of the red curve.
+
+115
+00:08:08.431 --> 00:08:12.402
+And we hope that the lower
+bound is easier to maximize, so
+
+116
+00:08:12.402 --> 00:08:15.400
+it can easily do the steps and iterations.
+
+117
+00:08:15.400 --> 00:08:20.027
+And also, you can interpret
+the same thing we have just
+
+118
+00:08:20.027 --> 00:08:23.758
+discussed in kind of sense manner.
+
+119
+00:08:23.758 --> 00:08:27.387
+So on the first sub step,
+we're fixing theta k, and
+
+120
+00:08:27.387 --> 00:08:33.010
+we're maximizing our lower bound to
+respect of q with respect to distribution.
+
+121
+00:08:33.010 --> 00:08:35.554
+On the next half step,
+we fix this best q and
+
+122
+00:08:35.554 --> 00:08:38.607
+we maximize our lower bound
+with respect to theta.
+
+123
+00:08:38.607 --> 00:08:44.039
+So we fix one, we optimize with respect
+to the rest, that makes sense, right?
+
+124
+00:08:44.039 --> 00:08:48.627
+Because we have lower bound
+that depends on theta and q, so
+
+125
+00:08:48.627 --> 00:08:53.794
+let's find its maximum with respect
+to both sets of parameters.
+
+126
+00:08:53.794 --> 00:09:00.023
+And how to do it, well,
+why not to use block coordinate intercept,
+
+127
+00:09:00.023 --> 00:09:05.397
+why not to do iterations like fix one,
+optimize the rest?
+
+128
+00:09:05.397 --> 00:09:09.833
+And also note that this thing,
+this l, this lower bound,
+
+129
+00:09:09.833 --> 00:09:15.376
+is sometimes called variational lower
+bound, because you can vary it.
+
+130
+00:09:15.376 --> 00:09:20.067
+It depends on some parameter q, which
+we didn't have in the original model.
+
+131
+00:09:20.067 --> 00:09:25.632
+You can do another step of this iteration,
+so now we're at the point theta k plus 1.
+
+132
+00:09:25.632 --> 00:09:29.953
+And we can also find the best lower
+bound at this particular point, and
+
+133
+00:09:29.953 --> 00:09:34.872
+hopefully we'll find a lower bound which
+touches the blue curve at this point.
+
+134
+00:09:34.872 --> 00:09:39.122
+Then we can go to the maximum
+of this red curve, so
+
+135
+00:09:39.122 --> 00:09:42.657
+to obtain the next point theta k plus 2.
+
+136
+00:09:42.657 --> 00:09:47.546
+So to summarize,
+expectation maximization suggests you, so
+
+137
+00:09:47.546 --> 00:09:52.352
+first of all, we built a lower
+bound on the local likelihood.
+
+138
+00:09:52.352 --> 00:09:57.041
+Which depends both on the theta which
+one to maximize, the blue curve,
+
+139
+00:09:57.041 --> 00:10:02.529
+the local likelihood, and the parameter
+q which is something we just introduced.
+
+140
+00:10:02.529 --> 00:10:06.764
+And it's also sometimes called
+the variational parameters, and
+
+141
+00:10:06.764 --> 00:10:11.754
+it suggests you to optimize this lower
+bound in iterations by repeating the two
+
+142
+00:10:11.754 --> 00:10:13.505
+steps until convergence.
+
+143
+00:10:13.505 --> 00:10:17.265
+On the E-step, fix theta and
+maximize with respect to q,
+
+144
+00:10:17.265 --> 00:10:20.125
+maximize the lower bound
+with respect to q.
+
+145
+00:10:20.125 --> 00:10:25.599
+And on the M-step, fix q and maximize
+the lower bound with respect of theta.
+
+146
+00:10:25.599 --> 00:10:29.769
+So this is the general view of
+the expectation maximization.
+
+147
+00:10:29.769 --> 00:10:36.822
+In the next videos, we will discuss how to
+obtain these E and M steps efficiently.
+
+148
+00:10:36.822 --> 00:10:46.822
+[MUSIC]

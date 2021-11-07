@@ -1,0 +1,687 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:00.930
+[MUSIC]
+
+2
+00:00:00.930 --> 00:00:06.554
+In the previous video we
+decided to solve the clustering
+
+3
+00:00:06.554 --> 00:00:11.951
+problem by making a probabilistic
+model of our data.
+
+4
+00:00:11.951 --> 00:00:13.718
+But how?
+How can we model our
+
+5
+00:00:13.718 --> 00:00:16.193
+data probabilistically?
+
+6
+00:00:16.193 --> 00:00:19.030
+Well we don't know that
+many distributions so far.
+
+7
+00:00:19.030 --> 00:00:21.419
+But we know Gaussians, right?
+
+8
+00:00:21.419 --> 00:00:25.711
+So in week one we learned how to
+fit the parameters of the Gaussian
+
+9
+00:00:25.711 --> 00:00:27.904
+distribution into the data set.
+
+10
+00:00:27.904 --> 00:00:31.596
+And we can do it here,
+it's a reasonable thing to do.
+
+11
+00:00:31.596 --> 00:00:36.470
+But it turns out that Gaussian is not
+the very best model for this kind of data.
+
+12
+00:00:36.470 --> 00:00:41.230
+Recall that we decided that our
+data consist of several clusters or
+
+13
+00:00:41.230 --> 00:00:44.471
+groups which may be far
+away from each other.
+
+14
+00:00:44.471 --> 00:00:49.479
+And even with this simple example,
+we can see that Gaussian has
+
+15
+00:00:49.479 --> 00:00:54.502
+to model all the data points as
+one big circle or maybe ellipse.
+
+16
+00:00:54.502 --> 00:00:59.239
+And in this case, it just has to
+assign hyper probability to the center of
+
+17
+00:00:59.239 --> 00:01:02.273
+the circle, it's the way Gaussians works.
+
+18
+00:01:02.273 --> 00:01:07.552
+And you can see here that the center
+of the Gaussian kind of fall into
+
+19
+00:01:07.552 --> 00:01:13.691
+the region in between the clusters where
+there are not that many data points.
+
+20
+00:01:13.691 --> 00:01:18.337
+And this is the problem with modeling
+this kind of data with one Gaussian.
+
+21
+00:01:18.337 --> 00:01:22.235
+We have to model everything
+with one big circle, and
+
+22
+00:01:22.235 --> 00:01:28.004
+we have some regions in between the
+clusters where there are few data points.
+
+23
+00:01:28.004 --> 00:01:31.312
+But the Gaussian just has to assign
+probability to these regions.
+
+24
+00:01:31.312 --> 00:01:34.042
+So, what else can we do?
+
+25
+00:01:34.042 --> 00:01:38.150
+Are there any better probabilistic
+models we can use here?
+
+26
+00:01:38.150 --> 00:01:43.709
+Well, if one Gaussian doesn't work, let's
+use several of them, like three for
+
+27
+00:01:43.709 --> 00:01:44.487
+example.
+
+28
+00:01:44.487 --> 00:01:50.099
+So in this case we are kind of assuming
+that each data point came from one of
+
+29
+00:01:50.099 --> 00:01:56.447
+the three Gaussians, and each Gaussian
+explains one cluster of the data points.
+
+30
+00:01:56.447 --> 00:02:01.429
+Or if you put it more formally, then
+the density of each data point
+
+31
+00:02:01.429 --> 00:02:06.223
+equals to the weighted sum of
+three Gaussian densities, and
+
+32
+00:02:06.223 --> 00:02:10.077
+the weights pi are some
+non-negative number which sum
+
+33
+00:02:10.077 --> 00:02:14.327
+up to 1 to make an actual
+probability distribution.
+
+34
+00:02:14.327 --> 00:02:18.333
+So the parameters theta
+here are the weights pi.
+
+35
+00:02:18.333 --> 00:02:23.437
+And three groups of parameters
+of the three Gaussians.
+
+36
+00:02:23.437 --> 00:02:28.096
+Their locations, the mu vectors,
+and their shapes, or
+
+37
+00:02:28.096 --> 00:02:31.017
+their covariance matrices sigma.
+
+38
+00:02:31.017 --> 00:02:37.030
+Note that if we succeed in fitting
+this kind of model into our data,
+
+39
+00:02:37.030 --> 00:02:40.150
+we will solve clustering problem.
+
+40
+00:02:40.150 --> 00:02:42.788
+Because for each data point,
+
+41
+00:02:42.788 --> 00:02:48.286
+we may now find from which Gaussian
+this data point came from.
+
+42
+00:02:48.286 --> 00:02:54.010
+And this is exactly the alternative
+to finding the cluster index.
+
+43
+00:02:54.010 --> 00:02:57.929
+So we may say that all
+the points that came from one
+
+44
+00:02:57.929 --> 00:03:02.047
+Gaussian are the points of
+one particular cluster.
+
+45
+00:03:02.047 --> 00:03:06.860
+This model is sometimes called
+Gaussian Mixture Model, or GMM for short.
+
+46
+00:03:06.860 --> 00:03:12.804
+So great, we have found model
+which we would like to use.
+
+47
+00:03:12.804 --> 00:03:16.761
+What are some positive and
+negative features of this model,
+
+48
+00:03:16.761 --> 00:03:19.490
+compared to just plain one Gaussian?
+
+49
+00:03:19.490 --> 00:03:23.200
+Well obviously,
+Gaussian is much less flexible.
+
+50
+00:03:23.200 --> 00:03:29.747
+So Gaussian Mixture Model allowed us
+to fit our complicated dataset, and
+
+51
+00:03:29.747 --> 00:03:35.556
+it actually turns out that you may
+fit just almost any probability
+
+52
+00:03:35.556 --> 00:03:42.433
+distribution with Gaussian Mixture Model
+with arbitrarily high accuracy.
+
+53
+00:03:42.433 --> 00:03:46.734
+Well of course as always happens with this
+kind of theorems, in the worst case you
+
+54
+00:03:46.734 --> 00:03:50.783
+may have to use exponentially many
+Gaussians, so it's not a very practical
+
+55
+00:03:50.783 --> 00:03:55.236
+theorem, but anyway Gaussian Mixture Model
+is very powerful and flexible model.
+
+56
+00:03:55.236 --> 00:03:59.225
+The downside is obviously
+the number of parameters.
+
+57
+00:03:59.225 --> 00:04:02.445
+So, as you increase the number
+of Gaussians you use for
+
+58
+00:04:02.445 --> 00:04:06.864
+your data, you increase the number of
+parameters by the same factor right?
+
+59
+00:04:06.864 --> 00:04:08.249
+Okay great.
+
+60
+00:04:08.249 --> 00:04:11.781
+We decided to use this kind
+of Gaussian mixture model.
+
+61
+00:04:11.781 --> 00:04:13.337
+But how can we fit it?
+
+62
+00:04:13.337 --> 00:04:15.768
+How can we find its parameters?
+
+63
+00:04:15.768 --> 00:04:19.683
+So it's pi, mu and
+sigma vectors and matrices.
+
+64
+00:04:19.683 --> 00:04:24.278
+Well the simplest way to fit
+a probability distribution is to use
+
+65
+00:04:24.278 --> 00:04:27.182
+maximum likelihood estimation right?
+
+66
+00:04:27.182 --> 00:04:33.090
+So we want to find the values of
+parameters which maximise the likelihood,
+
+67
+00:04:33.090 --> 00:04:37.708
+which is the density of our
+data set given the parameters.
+
+68
+00:04:37.708 --> 00:04:41.840
+And we want to maximise this thing
+with respect to the parameters.
+
+69
+00:04:41.840 --> 00:04:47.438
+As usually in machine learning,
+we will assume that the data set consists
+
+70
+00:04:47.438 --> 00:04:52.327
+of N data points, which
+are independent given our parameters.
+
+71
+00:04:52.327 --> 00:04:56.021
+Which basically means that we
+can factorize the likelihood.
+
+72
+00:04:56.021 --> 00:04:59.880
+So the likelihood equals to the product
+of likelihoods of individual objects.
+
+73
+00:05:02.061 --> 00:05:06.412
+Well, one more thing we can do to
+
+74
+00:05:06.412 --> 00:05:10.841
+simplify this expression,
+to understand how to maximize it,
+
+75
+00:05:10.841 --> 00:05:15.771
+is to substitute the definition of
+the marginal likelihood of xi given
+
+76
+00:05:15.771 --> 00:05:20.385
+the parameters, by using the definition
+from a few slides before.
+
+77
+00:05:20.385 --> 00:05:25.468
+So each data point density is a mixture
+of Gaussian densities, right?
+
+78
+00:05:25.468 --> 00:05:29.594
+Okay, so now we have this optimization problem.
+
+79
+00:05:29.594 --> 00:05:34.165
+And just one more thing we forgot here, is
+that we have some constraints, right?
+
+80
+00:05:34.165 --> 00:05:39.946
+We have to say that the weights pi are
+non-negative, and that they sum up to 1.
+
+81
+00:05:39.946 --> 00:05:43.690
+Because otherwise, it will not be
+an actual probability distribution.
+
+82
+00:05:43.690 --> 00:05:46.614
+But now it seems like we're good to go.
+
+83
+00:05:46.614 --> 00:05:51.611
+Now we may use your favorite stochastic
+optimization algorithm from TensorFlow,
+
+84
+00:05:51.611 --> 00:05:54.329
+like Adam or
+whatever you would like to use,
+
+85
+00:05:54.329 --> 00:05:58.752
+and we can optimize this thing to
+find the optimal parameters, right?
+
+86
+00:05:58.752 --> 00:06:04.171
+Well, it turns out that we kind of forgot
+one important set of constraints here.
+
+87
+00:06:04.171 --> 00:06:07.940
+The covariance matrices sigma cannot be arbitrary.
+
+88
+00:06:07.940 --> 00:06:09.609
+Imagine
+
+89
+00:06:09.609 --> 00:06:15.626
+that your optimization algorithm propose
+to use covariance matrix with all zeros.
+
+90
+00:06:15.626 --> 00:06:18.733
+It just doesn't work.
+It doesn't define a proper Gaussian
+
+91
+00:06:18.733 --> 00:06:19.956
+distribution.
+
+92
+00:06:19.956 --> 00:06:24.750
+Because in the Gaussian distribution
+definition you have to invert this matrix,
+
+93
+00:06:24.750 --> 00:06:28.391
+and you have to compute its determinant,
+and divide by it.
+
+94
+00:06:28.391 --> 00:06:30.484
+So if you have a matrix which is all 0s,
+
+95
+00:06:30.484 --> 00:06:34.365
+you will have lots of problems like
+division by 0, and stuff like that.
+
+96
+00:06:34.365 --> 00:06:40.633
+So it's not a good idea to assume that
+the covariance matrix can be anything.
+
+97
+00:06:40.633 --> 00:06:48.640
+And actually, the set valid covariance
+matrices is something called positive semi-definite matrices.
+
+98
+00:06:48.640 --> 00:06:52.247
+Don't worry if you don't know what it is,
+it's not the important right now.
+
+99
+00:06:52.247 --> 00:06:57.134
+The important part is that it's
+a really hard constraint to follow,
+
+100
+00:06:57.134 --> 00:07:01.766
+so it's hard to adapt your favorite
+stochastic gradient descent algorithm to
+
+101
+00:07:01.766 --> 00:07:04.729
+always follow this constraint.
+
+102
+00:07:04.729 --> 00:07:09.513
+So to maintain this property that
+the matrices are always positive
+
+103
+00:07:09.513 --> 00:07:15.206
+semi-definite. I don't know how to do it
+efficiently, so we have a problem here,
+
+104
+00:07:15.206 --> 00:07:21.244
+we don't know how to optimize this thing,
+at least with stochastic gradient descent.
+
+105
+00:07:21.244 --> 00:07:26.105
+Well, it turns out that even
+if you get this constraint, so
+
+106
+00:07:26.105 --> 00:07:28.750
+if you consider a simpler model, for
+
+107
+00:07:28.750 --> 00:07:33.956
+example if you say that all the covariance
+matrices are diagonal, which
+
+108
+00:07:33.956 --> 00:07:39.794
+means that the ellipsoids that correspond
+to the Gaussians cannot be rotated.
+
+109
+00:07:39.794 --> 00:07:42.269
+They have to be aligned with the axes.
+
+110
+00:07:42.269 --> 00:07:46.081
+In this case it's much easier
+to maintain this constraint.
+
+111
+00:07:46.081 --> 00:07:48.857
+And you can actually use some
+stochastic optimization here.
+
+112
+00:07:48.857 --> 00:07:52.291
+So for example,
+in this example I used Adam and
+
+113
+00:07:52.291 --> 00:07:55.911
+I tuned its learning rate
+to optimize this thing.
+
+114
+00:07:55.911 --> 00:08:00.133
+And you can see that it's
+doing a reasonable job here.
+
+115
+00:08:00.133 --> 00:08:06.595
+So the blue curve is the,
+performance of the Adam here.
+
+116
+00:08:06.595 --> 00:08:12.214
+On the x-axis we see epochs, and
+on the y-axis we see log likelihood,
+
+117
+00:08:12.214 --> 00:08:14.842
+which we are trying to maximize.
+
+118
+00:08:14.842 --> 00:08:16.902
+And so, Adam is doing a good job, right?
+
+119
+00:08:16.902 --> 00:08:23.761
+In like 10 epochs it optimized this
+thing to something reasonable.
+
+120
+00:08:23.761 --> 00:08:28.535
+And the green line here is the ground truth
+which came from ... because I know
+
+121
+00:08:28.535 --> 00:08:32.770
+from which probability distribution
+I generated this data, so,
+
+122
+00:08:32.770 --> 00:08:35.938
+I know the optimal value for
+the log-likelihood.
+
+123
+00:08:35.938 --> 00:08:41.196
+But it turns out that even in this case
+where we don't have this very complicated
+
+124
+00:08:41.196 --> 00:08:46.862
+constraints you can do so much better by
+exploiting the structure of your problem.
+
+125
+00:08:46.862 --> 00:08:50.821
+And this is something we're going
+to discuss in the rest of the week,
+
+126
+00:08:50.821 --> 00:08:53.910
+is something called
+the expectation maximization (EM) algorithm.
+
+127
+00:08:53.910 --> 00:08:57.310
+And if you apply it here,
+it just works so much better.
+
+128
+00:08:57.310 --> 00:09:00.234
+In a few iterations
+it found the value,
+
+129
+00:09:00.234 --> 00:09:05.054
+which is better than the Ground Truth,
+which probably is overfitting,
+
+130
+00:09:05.054 --> 00:09:08.070
+but anyway it works good
+on the test set as well.
+
+131
+00:09:08.070 --> 00:09:12.906
+So to summarize,
+we may have two reasons to not
+
+132
+00:09:12.906 --> 00:09:17.870
+to use this stochastic
+gradient descent here.
+
+133
+00:09:17.870 --> 00:09:22.572
+First of all, it may be hard to follow
+some constraints which you may care about,
+
+134
+00:09:22.572 --> 00:09:25.634
+like positive semi-definite
+covariance matrices.
+
+135
+00:09:25.634 --> 00:09:30.049
+And second of all,
+expectation maximization algorithm,
+
+136
+00:09:30.049 --> 00:09:33.756
+which can exploit
+the structure of your problem,
+
+137
+00:09:33.756 --> 00:09:37.210
+sometimes is much faster and more
+efficient.
+
+138
+00:09:37.210 --> 00:09:42.809
+So as a general summary: we discussed that
+the Gaussian mixture model is a flexible
+
+139
+00:09:42.809 --> 00:09:47.835
+probability distribution,
+which can solve the clustering problem for
+
+140
+00:09:47.835 --> 00:09:51.888
+you if you fit your data into
+this Gaussian mixture model.
+
+141
+00:09:51.888 --> 00:09:56.423
+And sometimes it's hard to optimize with stochastic gradient descent, but
+
+142
+00:09:56.423 --> 00:10:00.359
+there is this alternative which
+we'll talk about in the next video.
+
+143
+00:10:01.792 --> 00:10:11.792
+[MUSIC]

@@ -1,0 +1,439 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.200
+[MUSIC]
+
+2
+00:00:04.083 --> 00:00:08.910
+In this video, we are going to discuss a latent variable model for
+clustering.
+
+3
+00:00:08.955 --> 00:00:11.005
+So what is clustering?
+
+4
+00:00:11.005 --> 00:00:15.947
+Imagine that you own a bank, and
+you have a bunch of customers,
+
+5
+00:00:15.947 --> 00:00:19.592
+and each of them has some income and
+some debt.
+
+6
+00:00:19.592 --> 00:00:21.976
+And you want from this data, so
+
+7
+00:00:21.976 --> 00:00:27.956
+you can represent each of your customers
+on a two dimensional plane as a point.
+
+8
+00:00:27.956 --> 00:00:29.401
+And from this data,
+
+9
+00:00:29.401 --> 00:00:34.430
+you want to decompose your customers
+into three different clusters.
+
+10
+00:00:34.430 --> 00:00:34.960
+Why?
+
+11
+00:00:34.960 --> 00:00:40.122
+Well, for example, you want to find
+people who spend money on cars and
+
+12
+00:00:40.122 --> 00:00:45.214
+make some promotions for them,
+some car related loan or something.
+
+13
+00:00:45.214 --> 00:00:50.136
+This can be useful for
+different retail companies and banks, and
+
+14
+00:00:50.136 --> 00:00:51.846
+companies like that.
+
+15
+00:00:51.846 --> 00:00:56.912
+So find meaningful subset
+of customers to work with.
+
+16
+00:00:56.912 --> 00:01:01.259
+And this is an unsupervised problem,
+so we don't have any labels,
+
+17
+00:01:01.259 --> 00:01:03.408
+we just have raw data, raw x-ses.
+
+18
+00:01:03.408 --> 00:01:07.628
+Usually clustering is done in a hard way,
+so for
+
+19
+00:01:07.628 --> 00:01:10.907
+each data point we assign it a color.
+
+20
+00:01:10.907 --> 00:01:14.537
+This data point is orange, so
+it belongs to the orange cluster and
+
+21
+00:01:14.537 --> 00:01:15.531
+this one is blue.
+
+22
+00:01:15.531 --> 00:01:18.571
+Sometimes, people do soft clustering.
+
+23
+00:01:18.571 --> 00:01:22.641
+So instead of assigning each
+data point a particular cluster,
+
+24
+00:01:22.641 --> 00:01:27.803
+we will assign each data point a
+probability distribution over clusters.
+
+25
+00:01:27.803 --> 00:01:33.219
+So for example, the orange points on the
+top of this picture are certainly orange.
+
+26
+00:01:33.219 --> 00:01:38.366
+And they have a probability
+distribution like almost 100%
+
+27
+00:01:38.366 --> 00:01:44.007
+to belong to their orange cluster and
+almost 0% to belong to the rest.
+
+28
+00:01:44.007 --> 00:01:49.565
+But the points on the border between
+orange and blue, they are kind of not settled.
+
+29
+00:01:49.565 --> 00:01:54.318
+They have for example, 40% probability
+to belong to the blue cluster, and
+
+30
+00:01:54.318 --> 00:01:58.794
+60% probability to belong to
+the orange cluster, and 0% to the green.
+
+31
+00:01:58.794 --> 00:02:03.020
+And we don't know which cluster
+at this point actually belong to.
+
+32
+00:02:03.020 --> 00:02:08.350
+So instead of just assigning each data
+point a particular cluster, we assume that
+
+33
+00:02:08.350 --> 00:02:13.853
+each data point belongs to every cluster,
+but with some different probabilities.
+
+34
+00:02:13.853 --> 00:02:18.164
+And to build a clustering
+methods with this property,
+
+35
+00:02:18.164 --> 00:02:21.921
+we will treat everything
+probabilistically.
+
+36
+00:02:21.921 --> 00:02:23.354
+Why can we want that?
+
+37
+00:02:23.354 --> 00:02:25.183
+Well, there are several reasons.
+
+38
+00:02:25.183 --> 00:02:30.342
+First of all, we may want to again
+handle missing data naturally.
+
+39
+00:02:30.342 --> 00:02:34.775
+And another reason,
+that we may want to consider clustering
+
+40
+00:02:34.775 --> 00:02:38.763
+in probabilistic way,
+is to tune hyperparamters.
+
+41
+00:02:39.963 --> 00:02:46.065
+So usually, then you want to tune
+hyperparameters, you do a plot like this.
+
+42
+00:02:46.069 --> 00:02:48.847
+You consider a bunch of different values,
+for
+
+43
+00:02:48.861 --> 00:02:52.317
+example, for
+the hyperparameter "number of clusters".
+
+44
+00:02:52.360 --> 00:02:55.856
+So on the previous image,
+we had free clusters, but
+
+45
+00:02:55.566 --> 00:02:58.672
+we can try some different amount like 5 or
+4.
+
+46
+00:02:58.672 --> 00:03:01.781
+And for each of these
+particular values of number of
+
+47
+00:03:01.798 --> 00:03:06.018
+clusters we may train
+our clustering model.
+
+48
+00:03:06.178 --> 00:03:10.788
+Which is called GMM and
+we'll discuss it later in details.
+
+49
+00:03:10.893 --> 00:03:15.789
+So we're going to plot the training
+performance here like on the blue line and
+
+50
+00:03:15.813 --> 00:03:21.705
+here I'm plotting the log likelihood,
+so the higher the better.
+
+51
+00:03:21.941 --> 00:03:27.513
+And we can see that whenever we
+increase the number of clusters,
+
+52
+00:03:27.527 --> 00:03:31.802
+the actually performance in
+the training set improves.
+
+53
+00:03:32.152 --> 00:03:35.869
+Which kind of the usual
+thing with hyperparameters.
+
+54
+00:03:35.869 --> 00:03:41.526
+The more clusters you have, the model
+thinks its better, but it's actually not.
+
+55
+00:03:41.526 --> 00:03:45.920
+So, for example, if you put one cluster
+per each data point, the model loss
+
+56
+00:03:45.920 --> 00:03:50.330
+will be optimal, but it's not a meaningful
+solution to the problem at all.
+
+57
+00:03:51.830 --> 00:03:55.921
+So if you consider the validation
+performance of your model,
+
+58
+00:03:55.921 --> 00:04:00.484
+then it increases, then you start
+to increase a number of clusters,
+
+59
+00:04:00.484 --> 00:04:04.356
+then it stagnates somehow and
+then it starts to decrease.
+
+60
+00:04:04.356 --> 00:04:06.099
+And this is the usual picture for
+tuning hyperparameters.
+
+61
+00:04:06.099 --> 00:04:08.444
+You tune a bunch of models and
+
+62
+00:04:08.444 --> 00:04:11.658
+you chose the one that performs to
+the best in the validation set.
+
+63
+00:04:12.366 --> 00:04:15.513
+So this was probabilistic model for
+clustering, but
+
+64
+00:04:15.533 --> 00:04:19.939
+it turns out that you cann't do this
+thing for hard assignment clustering.
+
+65
+00:04:20.069 --> 00:04:23.457
+Well, at least it's not
+obvious how to do it.
+
+66
+00:04:23.654 --> 00:04:28.560
+So if you train one of the popular
+hard clustering algorithmic k-means,
+
+67
+00:04:28.711 --> 00:04:31.760
+it will think that the more
+clusters you have, the better,
+
+68
+00:04:31.790 --> 00:04:34.830
+both in training and on validation loss.
+
+69
+00:04:34.920 --> 00:04:40.770
+So it doesn't have any meaningful
+way to understand which number
+
+70
+00:04:40.808 --> 00:04:45.836
+of clusters do we want judging by
+the performance on the validation set.
+
+71
+00:04:45.906 --> 00:04:50.944
+The probabilistic way of dealing
+with clustering is also not ideal.
+
+72
+00:04:51.584 --> 00:04:56.496
+So for example here, we're not sure
+whether we want 20 clusters or
+
+73
+00:04:56.496 --> 00:05:01.839
+60 or 80, but it gives at least something,
+you have some boundaries
+
+74
+00:05:00.509 --> 00:05:05.700
+On what is the reasonable value
+from this hyperparmeter.
+
+75
+00:05:05.920 --> 00:05:08.191
+So this was the first reason why we may
+
+76
+00:05:08.250 --> 00:05:11.171
+want to consider probabilistic
+approach to clustering.
+
+77
+00:05:11.180 --> 00:05:16.507
+And the second one is that we may want
+to build a generative model of our data.
+
+78
+00:05:16.548 --> 00:05:19.944
+So if we treat everything
+probabilistically,
+
+79
+00:05:20.231 --> 00:05:26.930
+we may sample new data points
+from our model of the data.
+
+80
+00:05:27.783 --> 00:05:33.767
+And in the case of customers, it will mean
+sample new points on the 2-dimensional grid,
+
+81
+00:05:34.417 --> 00:05:38.430
+that look like the points we used
+to have in the training set.
+
+82
+00:05:38.430 --> 00:05:44.044
+And if you're points are, for
+example, images of celebrity faces,
+
+83
+00:05:44.044 --> 00:05:48.216
+then sampling new images from
+the same probability distribution
+
+84
+00:05:48.251 --> 00:05:52.016
+means generating fake celebrities and
+their images from scratch.
+
+85
+00:05:52.319 --> 00:05:57.743
+And this is kind of a fun application of
+building probabilistic model for data.
+
+86
+00:05:58.053 --> 00:06:05.597
+So to summarize, we will want to build
+a probabilistic model for clustering.
+
+87
+00:06:05.937 --> 00:06:08.660
+And this may help us in two ways.
+
+88
+00:06:08.920 --> 00:06:11.788
+First of all,
+it may allow us to tune hyper parameters.
+
+89
+00:06:12.015 --> 00:06:15.281
+And it may give us a generative
+model of the data.
+
+90
+00:06:15.442 --> 00:06:19.929
+So in the next video, we'll build
+a latent variable model for clustering.
+
+91
+00:06:20.246 --> 00:06:27.632
+[MUSIC]

@@ -1,0 +1,701 @@
+WEBVTT
+
+1
+00:00:03.330 --> 00:00:05.870
+In the previous module,
+
+2
+00:00:05.870 --> 00:00:10.155
+we derived the general form of Expectation-Maximization Algorithm.
+
+3
+00:00:10.155 --> 00:00:11.910
+In this module, we'll consider
+
+4
+00:00:11.910 --> 00:00:15.480
+a few concrete latent variable models and
+
+5
+00:00:15.480 --> 00:00:20.790
+discuss the details how to apply the Expectation-Maximization Algorithm to them.
+
+6
+00:00:20.790 --> 00:00:25.380
+To start with, let's revisit the Gaussian Mixture Model and see how
+
+7
+00:00:25.380 --> 00:00:28.365
+the algorithm which we derived from some kind of
+
+8
+00:00:28.365 --> 00:00:33.090
+intuitive considerations fits into this general framework of EM.
+
+9
+00:00:33.090 --> 00:00:36.195
+I recall that in Gaussian Mixture Model,
+
+10
+00:00:36.195 --> 00:00:38.700
+we have a dataset of points and we want to
+
+11
+00:00:38.700 --> 00:00:41.730
+model them with a mixture of Gaussians naturally.
+
+12
+00:00:41.730 --> 00:00:44.505
+So, the density of each data point is
+
+13
+00:00:44.505 --> 00:00:48.852
+a weighted sum of several different Gaussian densities.
+
+14
+00:00:48.852 --> 00:00:51.390
+And we have three types of parameters,
+
+15
+00:00:51.390 --> 00:00:53.655
+the weights, the Gaussian locations,
+
+16
+00:00:53.655 --> 00:00:55.990
+and the Gaussian covariance matrices.
+
+17
+00:00:55.990 --> 00:01:00.300
+On the E-step of the Expectation-Maximization Algorithm,
+
+18
+00:01:00.300 --> 00:01:02.880
+if we apply to this Gaussian Mixture Model,
+
+19
+00:01:02.880 --> 00:01:10.440
+we'll have to assign q to be the posterior distribution on the latent variable t,
+
+20
+00:01:10.440 --> 00:01:13.230
+given the data and the parameters.
+
+21
+00:01:13.230 --> 00:01:15.390
+It turns out that we did the same,
+
+22
+00:01:15.390 --> 00:01:17.610
+the exactly the same thing in the Gaussian Mixture Model,
+
+23
+00:01:17.610 --> 00:01:20.560
+just from intuitive considerations.
+
+24
+00:01:20.560 --> 00:01:23.850
+The E-step is the same as in the first subtype of
+
+25
+00:01:23.850 --> 00:01:28.310
+each iteration of GMM of EM applied to Gaussian Mixture Model.
+
+26
+00:01:28.310 --> 00:01:30.635
+Okay, so what about the M-step?
+
+27
+00:01:30.635 --> 00:01:33.930
+Well, on the M-step in the EM algorithm,
+
+28
+00:01:33.930 --> 00:01:38.082
+we have to maximize the expected value of
+
+29
+00:01:38.082 --> 00:01:42.520
+the joint log likelihood with their respective parameters,
+
+30
+00:01:42.520 --> 00:01:46.905
+while fixing q, while fixing q to be the posterior from the previous iteration.
+
+31
+00:01:46.905 --> 00:01:49.048
+And in the Gaussian Mixture Model,
+
+32
+00:01:49.048 --> 00:01:52.155
+we decided to use this kind of formulas so, for example,
+
+33
+00:01:52.155 --> 00:01:55.680
+mean of the first Gaussian will be a weighted average of
+
+34
+00:01:55.680 --> 00:02:00.540
+the data points with weights being the posterior distributions,
+
+35
+00:02:00.540 --> 00:02:05.725
+or q, in limitation of the EM algorithm divided by some normalization.
+
+36
+00:02:05.725 --> 00:02:08.525
+How does this to collect it?
+
+37
+00:02:08.525 --> 00:02:15.625
+Well, let's use the blackboard to derive the connection.
+
+38
+00:02:15.625 --> 00:02:20.634
+To the proof that the maximization of this expected theory of logarithm,
+
+39
+00:02:20.634 --> 00:02:23.675
+which EM algorithm asks us to do,
+
+40
+00:02:23.675 --> 00:02:29.030
+is the same as the formulas we kind of intuitively derived for the GMM.
+
+41
+00:02:29.030 --> 00:02:32.010
+Let's look at how can we apply the general form of
+
+42
+00:02:32.010 --> 00:02:36.610
+the Expectation-Maximization Algorithm to Gaussian Mixture Model.
+
+43
+00:02:36.610 --> 00:02:45.595
+On the M-step of the expectation maximization, applied to GMM,
+
+44
+00:02:45.595 --> 00:02:54.870
+Gaussian Mixture Model, who would like to maximize the full expression?
+
+45
+00:02:54.870 --> 00:03:00.095
+We want to maximize the sum with respect to objects,
+
+46
+00:03:00.095 --> 00:03:03.790
+maximize with respect to parameters, by the way.
+
+47
+00:03:03.790 --> 00:03:07.765
+Sum with respect to objects in the dataset,
+
+48
+00:03:07.765 --> 00:03:15.382
+then expected value with respect to the Hive operational distribution,
+
+49
+00:03:15.382 --> 00:03:16.710
+which we found on the E-step,
+
+50
+00:03:16.710 --> 00:03:19.450
+of the logarithm of the joint distribution,
+
+51
+00:03:19.450 --> 00:03:28.058
+logarithm of probability or density of x_i and t_i, our given parameters.
+
+52
+00:03:28.058 --> 00:03:32.188
+Let's look closer at this expression in the case of Gaussian Mixture Model.
+
+53
+00:03:32.188 --> 00:03:40.280
+This thing equals to the sum with respect to objects,
+
+54
+00:03:40.280 --> 00:03:47.585
+again, and then we write the expected value by the definitions,
+
+55
+00:03:47.585 --> 00:03:51.355
+so expected value is just sum with respect to all of the values.
+
+56
+00:03:51.355 --> 00:03:54.425
+If we have three Gaussians it will be from one to three,
+
+57
+00:03:54.425 --> 00:03:57.445
+of weights, of probabilities,
+
+58
+00:03:57.445 --> 00:04:01.870
+from the operational distribution q,
+
+59
+00:04:01.870 --> 00:04:05.605
+there's this log joint likelihood.
+
+60
+00:04:05.605 --> 00:04:10.736
+This logarithm of the joint likelihood is actually equals to the x_i given t_i,
+
+61
+00:04:10.736 --> 00:04:13.720
+which is a Gaussian.
+
+62
+00:04:13.720 --> 00:04:19.630
+So, we have our normalization for this Gaussian times exponent,
+
+63
+00:04:19.630 --> 00:04:22.790
+and let's say that we have one dimensional data,
+
+64
+00:04:22.790 --> 00:04:24.646
+so in this case, we have one dimensional Gaussian,
+
+65
+00:04:24.646 --> 00:04:30.350
+which looks like this, back sign minus mu_c.
+
+66
+00:04:30.350 --> 00:04:33.601
+The center of the cluster number c of
+
+67
+00:04:33.601 --> 00:04:38.950
+the Gaussian number c divided by two times the variance of the Gaussian number c,
+
+68
+00:04:38.950 --> 00:04:41.070
+and that's the prior,
+
+69
+00:04:41.070 --> 00:04:42.823
+times the probability of t_i equals to c,
+
+70
+00:04:42.823 --> 00:04:47.625
+which is by c. It's also a parameter which we won't optimize for.
+
+71
+00:04:47.625 --> 00:04:54.765
+Let's write this expression even more.
+
+72
+00:04:54.765 --> 00:04:56.485
+This will be, again,
+
+73
+00:04:56.485 --> 00:04:58.710
+sum with respect to objects.
+
+74
+00:04:58.710 --> 00:05:02.255
+Sum with respect to the values of a latent variable,
+
+75
+00:05:02.255 --> 00:05:12.505
+the weights times the logarithm of pi_c divided by z,
+
+76
+00:05:12.505 --> 00:05:19.775
+minus the logarithm of exponent of minus something,
+
+77
+00:05:19.775 --> 00:05:22.058
+which is just this something.
+
+78
+00:05:22.058 --> 00:05:27.215
+So, it's x_i minus Mu_c, oh I'm sorry,
+
+79
+00:05:27.215 --> 00:05:28.698
+I forgot the squared here,
+
+80
+00:05:28.698 --> 00:05:35.865
+squared, divided by two times the variance.
+
+81
+00:05:35.865 --> 00:05:39.230
+And let's optimize this expression,
+
+82
+00:05:39.230 --> 00:05:43.130
+for example, with respect to Mu_1.
+
+83
+00:05:43.130 --> 00:05:53.375
+The gradient of this whole function with respect to Mu_1 will be,
+
+84
+00:05:53.375 --> 00:05:54.615
+so first of all,
+
+85
+00:05:54.615 --> 00:05:56.220
+its sum with respect to objects,
+
+86
+00:05:56.220 --> 00:06:00.390
+as always, so we can push the gradient inside the sum.
+
+87
+00:06:00.390 --> 00:06:03.550
+Then we'll have sum with respect to the Gaussians,
+
+88
+00:06:03.550 --> 00:06:08.185
+but note that the only Gaussian that depends on Mu_1 is the first one.
+
+89
+00:06:08.185 --> 00:06:12.081
+All old terms corresponding to c equals two or c
+
+90
+00:06:12.081 --> 00:06:16.470
+equals three will have zero gradient with respect to Mu_1.
+
+91
+00:06:16.470 --> 00:06:19.860
+We'll have, we don't have any summation with respect to c here.
+
+92
+00:06:19.860 --> 00:06:24.750
+Instead, we assume that t_i equals to one because otherwise,
+
+93
+00:06:24.750 --> 00:06:25.766
+the gradient will be zero,
+
+94
+00:06:25.766 --> 00:06:27.830
+and we don't care,
+
+95
+00:06:27.830 --> 00:06:34.335
+times gradient of this expression with respect to Mu_1, which is zero,
+
+96
+00:06:34.335 --> 00:06:36.935
+because pi_c doesn't depend on new one,
+
+97
+00:06:36.935 --> 00:06:39.475
+and the normalization constant of the normal distribution,
+
+98
+00:06:39.475 --> 00:06:41.478
+of the Gaussian distribution,
+
+99
+00:06:41.478 --> 00:06:43.020
+also doesn't depend on the location,
+
+100
+00:06:43.020 --> 00:06:45.200
+on the mean value.
+
+101
+00:06:45.200 --> 00:06:49.100
+So, this would be zero minus,
+
+102
+00:06:49.100 --> 00:06:52.067
+well, here we have this expression.
+
+103
+00:06:52.067 --> 00:06:54.950
+First of all, we'll have the same normalization,
+
+104
+00:06:54.950 --> 00:06:57.733
+it's a constant, with respect to Mu_1,
+
+105
+00:06:57.733 --> 00:06:59.655
+and then times the gradient of this expression,
+
+106
+00:06:59.655 --> 00:07:04.070
+which is two times x_i minus Mu_c,
+
+107
+00:07:04.070 --> 00:07:05.833
+and times minus one.
+
+108
+00:07:05.833 --> 00:07:12.056
+It's a gradient of the complete of the, basically the general.
+
+109
+00:07:12.056 --> 00:07:17.900
+And we want to set this gradient to zero to find the optimal value of Mu_1.
+
+110
+00:07:17.900 --> 00:07:24.895
+This, two and two one-ish,
+
+111
+00:07:24.895 --> 00:07:31.380
+we can basically divide by two in numerator and denominator and finally,
+
+112
+00:07:31.380 --> 00:07:34.676
+we can multiply this whole expression by,
+
+113
+00:07:34.676 --> 00:07:43.328
+which should be, Mu_1 here and Sigma_1 because we assume that c is one.
+
+114
+00:07:43.328 --> 00:07:48.285
+We can multiply this whole expression by the variance of the first Gaussian,
+
+115
+00:07:48.285 --> 00:07:49.365
+which we actually don't know,
+
+116
+00:07:49.365 --> 00:07:51.020
+but since it's not zero,
+
+117
+00:07:51.020 --> 00:07:55.780
+we can multiply by it and so it will vanish.
+
+118
+00:07:55.780 --> 00:07:58.010
+And this way, we'll have finally,
+
+119
+00:07:58.010 --> 00:08:02.885
+the full length expression of this gradient equals to,
+
+120
+00:08:02.885 --> 00:08:06.515
+this gradient multiply it by Sigma_1 squared,
+
+121
+00:08:06.515 --> 00:08:14.345
+equals to the sum of the objects, the weights.
+
+122
+00:08:14.345 --> 00:08:21.510
+The third term here will be minus x_i so it will be minus x_i,
+
+123
+00:08:21.510 --> 00:08:26.476
+minus times minus give plus,
+
+124
+00:08:26.476 --> 00:08:28.095
+so it will be plus x_i,
+
+125
+00:08:28.095 --> 00:08:31.610
+and minus the second term,
+
+126
+00:08:31.610 --> 00:08:36.725
+sum with respect to objects, the weights,
+
+127
+00:08:36.725 --> 00:08:42.300
+so we're basically decomposing these two terms into two separate expressions,
+
+128
+00:08:42.300 --> 00:08:47.700
+times Mu_1, and this thing equals to zero.
+
+129
+00:08:47.700 --> 00:08:49.740
+You can note that here,
+
+130
+00:08:49.740 --> 00:08:51.940
+Mu_1 doesn't depend on i,
+
+131
+00:08:51.940 --> 00:08:54.470
+so we can put brackets here like this.
+
+132
+00:08:54.470 --> 00:08:58.180
+And finally, it's a linear expression with respect to Mu_1,
+
+133
+00:08:58.180 --> 00:09:06.515
+so we can write down that Mu_1 equals to large ratio.
+
+134
+00:09:06.515 --> 00:09:11.570
+This term, sum with respect to objects,
+
+135
+00:09:11.570 --> 00:09:20.410
+weights, and x_i's divided by sum normalization,
+
+136
+00:09:20.410 --> 00:09:26.770
+basically, sum with respect to all objects of all the weights.
+
+137
+00:09:28.050 --> 00:09:32.990
+This is the expression for Mu_1 and you can
+
+138
+00:09:32.990 --> 00:09:37.030
+[inaudible] in the same expression for Mu_2 and Mu_3, and actually,
+
+139
+00:09:37.030 --> 00:09:43.564
+you can also obtain a similar expression for Sigma_c for example,
+
+140
+00:09:43.564 --> 00:09:46.860
+by doing the same thing.
+
+141
+00:09:46.860 --> 00:09:52.435
+Differentiating with respect to Sigma_C and setting this gradient to zero.
+
+142
+00:09:52.435 --> 00:10:01.660
+This will be sum with respect to the dataset of x_i minus Mu_c,
+
+143
+00:10:01.660 --> 00:10:03.890
+which we have just computed,
+
+144
+00:10:03.890 --> 00:10:08.965
+divided by the square times the weights,
+
+145
+00:10:08.965 --> 00:10:13.219
+of course, divided by normalization,
+
+146
+00:10:13.219 --> 00:10:16.970
+divided by the sum of all weights.
+
+147
+00:10:18.740 --> 00:10:28.010
+And also, you can solve this maximization problem for the prior weights of pi.
+
+148
+00:10:28.010 --> 00:10:30.520
+It's a little bit more trickier because
+
+149
+00:10:30.520 --> 00:10:33.895
+you have to take into consideration the constraint.
+
+150
+00:10:33.895 --> 00:10:43.110
+You have to make sure that pi_c is non-negative and that they all sum up to one,
+
+151
+00:10:43.110 --> 00:10:47.205
+so it makes a proper prior distribution,
+
+152
+00:10:47.205 --> 00:10:52.555
+so, pi_1 plus pi_2 plus pi_3 equals to one.
+
+153
+00:10:52.555 --> 00:10:55.015
+And so it's a little tricky to take
+
+154
+00:10:55.015 --> 00:10:59.035
+this constraint into consideration and you maximizing,
+
+155
+00:10:59.035 --> 00:11:02.830
+but you can do that and you will get the full length expression.
+
+156
+00:11:02.830 --> 00:11:09.430
+Pi_c is basically just the fraction
+
+157
+00:11:09.430 --> 00:11:10.960
+of the points that were assigned to
+
+158
+00:11:10.960 --> 00:11:14.965
+the Gaussian number c. And since our assignments are solved,
+
+159
+00:11:14.965 --> 00:11:18.460
+we'll have just the fraction of the weights assigned to it.
+
+160
+00:11:18.460 --> 00:11:21.935
+The sum of all weights corresponding to
+
+161
+00:11:21.935 --> 00:11:28.440
+the Gaussian number c divided by the normalization,
+
+162
+00:11:28.440 --> 00:11:30.865
+which is just the number of objects.
+
+163
+00:11:30.865 --> 00:11:36.630
+And so we can see here that the formulas for,
+
+164
+00:11:36.630 --> 00:11:40.180
+when you apply the general form of the Expectation-Maximization Algorithm to
+
+165
+00:11:40.180 --> 00:11:44.315
+Gaussian Mixture Model is basically coincide with what we got,
+
+166
+00:11:44.315 --> 00:11:49.135
+then we applied some intuitive considerations to derive these kind of formulas.
+
+167
+00:11:49.135 --> 00:11:51.190
+To summarize,
+
+168
+00:11:51.190 --> 00:11:57.130
+the Expectation-Maximization Algorithm apply to Gaussian Mixture Model if you use
+
+169
+00:11:57.130 --> 00:12:00.930
+the general form of the expectation maximization using
+
+170
+00:12:00.930 --> 00:12:05.710
+exactly the same formulas as we have derived in the first module.
+
+171
+00:12:05.710 --> 00:12:10.275
+By just trying to do something reasonable.
+
+172
+00:12:10.275 --> 00:12:14.570
+In this case, we proved that this kind of
+
+173
+00:12:14.570 --> 00:12:16.060
+intuitive way of thinking about
+
+174
+00:12:16.060 --> 00:12:20.175
+Gaussian Mixture Model is just a special case of the EM algorithm.
+
+175
+00:12:20.175 --> 00:12:24.390
+In the next video, we will apply EM to some other problems.

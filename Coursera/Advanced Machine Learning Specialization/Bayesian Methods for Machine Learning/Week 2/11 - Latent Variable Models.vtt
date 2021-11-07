@@ -1,0 +1,705 @@
+WEBVTT
+
+1
+00:00:03.530 --> 00:00:08.195
+Welcome to week two of practical Bayesian methods.
+
+2
+00:00:08.195 --> 00:00:12.765
+I'm Alexander Novikov and this week we're going to cover the Latent Variable Models.
+
+3
+00:00:12.765 --> 00:00:13.820
+So what is the latent variables?
+
+4
+00:00:13.820 --> 00:00:15.480
+Why do we need them?
+
+5
+00:00:15.480 --> 00:00:18.045
+And how to apply them to real problems?
+
+6
+00:00:18.045 --> 00:00:20.490
+And the second topic for this week,
+
+7
+00:00:20.490 --> 00:00:23.715
+is the Expectation Maximization algorithm,
+
+8
+00:00:23.715 --> 00:00:26.550
+which is the key topic of
+
+9
+00:00:26.550 --> 00:00:30.600
+our course and this is a method to train latent variable models.
+
+10
+00:00:30.600 --> 00:00:32.820
+We will see numerous extensions of
+
+11
+00:00:32.820 --> 00:00:36.960
+this expectation maximization algorithm in the following weeks.
+
+12
+00:00:36.960 --> 00:00:40.270
+So, let's get started with the latent variable models.
+
+13
+00:00:40.270 --> 00:00:43.845
+Latent variable is just a random variable
+
+14
+00:00:43.845 --> 00:00:49.820
+which is unobservable to you nor in training nor in test phase.
+
+15
+00:00:49.820 --> 00:00:57.275
+So, latent is just hidden from Latin and as an example of those you can think.
+
+16
+00:00:57.275 --> 00:01:02.040
+So for example, some phenomenons like heights or lengths
+
+17
+00:01:02.040 --> 00:01:07.125
+or maybe speed can measure directly and some others can not.
+
+18
+00:01:07.125 --> 00:01:12.185
+For example, incidences or altruism.
+
+19
+00:01:12.185 --> 00:01:19.190
+You can't just measure altruism with some quantitative scale.
+
+20
+00:01:19.190 --> 00:01:22.700
+And so these variables are usually called latent.
+
+21
+00:01:22.700 --> 00:01:28.135
+And to motivate why do we need to introduce this concept into probabilistic modeling.
+
+22
+00:01:28.135 --> 00:01:30.902
+Let's consider the following example,
+
+23
+00:01:30.902 --> 00:01:36.341
+see you have an IT company and you want to hire an employee,
+
+24
+00:01:36.341 --> 00:01:38.605
+so you have a bunch of candidates,
+
+25
+00:01:38.605 --> 00:01:41.695
+and for each candidate, you have some data on them.
+
+26
+00:01:41.695 --> 00:01:46.515
+So for example, for all of them you have their average high school grades,
+
+27
+00:01:46.515 --> 00:01:49.545
+for some of them you have their university grades
+
+28
+00:01:49.545 --> 00:01:54.705
+and maybe some of them took IQ tests and stuff like that.
+
+29
+00:01:54.705 --> 00:01:58.575
+And you also conducted a phone screening interview.
+
+30
+00:01:58.575 --> 00:02:03.090
+So, your HR manager called each of them and ask them a bunch of simple questions
+
+31
+00:02:03.090 --> 00:02:08.765
+to make sure that they understand what your company is about.
+
+32
+00:02:08.765 --> 00:02:13.636
+Now, you want to bring these people onsite to make an actual technical interview,
+
+33
+00:02:13.636 --> 00:02:17.400
+but the problem is that you have too many candidates.
+
+34
+00:02:17.400 --> 00:02:20.395
+You can't invite all of them because it's expensive.
+
+35
+00:02:20.395 --> 00:02:21.720
+You have to pay for their flights,
+
+36
+00:02:21.720 --> 00:02:24.390
+for their hotels and stuff like that.
+
+37
+00:02:24.390 --> 00:02:25.692
+So, natural idea arises,
+
+38
+00:02:25.692 --> 00:02:29.900
+let's predict the onsite interview performance for each of
+
+39
+00:02:29.900 --> 00:02:34.307
+them and bring only those who are predicted to be good enough,
+
+40
+00:02:34.307 --> 00:02:37.035
+so how to predict to be a good fit for our company.
+
+41
+00:02:37.035 --> 00:02:39.390
+Well, if you're in the business for a while,
+
+42
+00:02:39.390 --> 00:02:41.420
+you may have some historical data.
+
+43
+00:02:41.420 --> 00:02:43.680
+So, for a bunch of other people,
+
+44
+00:02:43.680 --> 00:02:49.265
+you can know their features like their grades and their IQ scores,
+
+45
+00:02:49.265 --> 00:02:55.500
+and you know their onsite performs because you have already conducted these interviews.
+
+46
+00:02:55.500 --> 00:02:58.290
+Now, you have a standard regression problem.
+
+47
+00:02:58.290 --> 00:03:01.043
+You have a training data set of circle data,
+
+48
+00:03:01.043 --> 00:03:03.825
+and for new people you want to predict their onsite performance,
+
+49
+00:03:03.825 --> 00:03:07.737
+and you want to bring on their onsite interviews only
+
+50
+00:03:07.737 --> 00:03:13.615
+those whose predicted onsite performance is good.
+
+51
+00:03:13.615 --> 00:03:16.950
+However, there are two main problems why we can't apply
+
+52
+00:03:16.950 --> 00:03:22.475
+here the standard regression methods from machine learning.
+
+53
+00:03:22.475 --> 00:03:25.581
+So first of all, we have missing values.
+
+54
+00:03:25.581 --> 00:03:28.290
+For example, we don't know university grades for all of
+
+55
+00:03:28.290 --> 00:03:31.305
+them because Jack didn't attend university.
+
+56
+00:03:31.305 --> 00:03:33.955
+And it doesn't mean that he is not a good fit for your company.
+
+57
+00:03:33.955 --> 00:03:36.965
+Maybe he is but he just never bothered to attend one.
+
+58
+00:03:36.965 --> 00:03:39.684
+So we didn't want to ignore Jack but we want to
+
+59
+00:03:39.684 --> 00:03:44.885
+anyway predict for him some meaningful onsite and field performance score.
+
+60
+00:03:44.885 --> 00:03:48.030
+And the second reason why we don't want to use
+
+61
+00:03:48.030 --> 00:03:52.560
+some standard regression methods like linear regression or neural networks,
+
+62
+00:03:52.560 --> 00:03:57.175
+is that we may want to quantify uncertainty in our predictions.
+
+63
+00:03:57.175 --> 00:04:00.135
+So, imagine that for some people,
+
+64
+00:04:00.135 --> 00:04:04.160
+we may predict that their performance is really good and we
+
+65
+00:04:04.160 --> 00:04:09.655
+certainly want to bring them onsite and maybe even want to hire them right away.
+
+66
+00:04:09.655 --> 00:04:12.655
+But for others, the predict performance is not good.
+
+67
+00:04:12.655 --> 00:04:17.640
+And for someone, the predict performance can be for example of 50,
+
+68
+00:04:17.640 --> 00:04:21.805
+which may mean that this person is not a good fit for your company.
+
+69
+00:04:21.805 --> 00:04:26.453
+But it may also mean that we're just not sure about him.
+
+70
+00:04:26.453 --> 00:04:30.240
+So, we don't know anything about him and you asked the algorithm to predict
+
+71
+00:04:30.240 --> 00:04:35.935
+his performance and he returned you some number but it doesn't mean anything.
+
+72
+00:04:35.935 --> 00:04:37.410
+So in this case,
+
+73
+00:04:37.410 --> 00:04:42.130
+we may want to quantify the uncertainty of the algorithm in the predictions.
+
+74
+00:04:42.130 --> 00:04:45.465
+So, if the algorithm is quite sure that this person
+
+75
+00:04:45.465 --> 00:04:49.830
+will perform at a level of 50 out of 100 for example,
+
+76
+00:04:49.830 --> 00:04:52.810
+then we may not want to bring him onsite.
+
+77
+00:04:52.810 --> 00:04:56.880
+On the other hand, if some other guy predicted performance is also
+
+78
+00:04:56.880 --> 00:05:01.836
+50 but we're really uncertain about his performance,
+
+79
+00:05:01.836 --> 00:05:07.535
+then we may want to bring him anyway and see maybe we just don't know anything about him.
+
+80
+00:05:07.535 --> 00:05:10.630
+So, he may be good after all.
+
+81
+00:05:10.630 --> 00:05:13.205
+And the reason for this uncertainty may be for example that,
+
+82
+00:05:13.205 --> 00:05:18.350
+he has lots of missing values or maybe his data is a little bit contradictory or
+
+83
+00:05:18.350 --> 00:05:25.110
+maybe our algorithms just aren't used to see people like that.
+
+84
+00:05:25.110 --> 00:05:27.050
+So these two reasons,
+
+85
+00:05:27.050 --> 00:05:31.070
+having missing values and wanting to quantify uncertainty,
+
+86
+00:05:31.070 --> 00:05:36.690
+bring us to the needs of for probabilistic modelling of the data.
+
+87
+00:05:36.690 --> 00:05:38.510
+And as we discussed in week one,
+
+88
+00:05:38.510 --> 00:05:43.910
+one of the usual way to build probabilistic model is to start
+
+89
+00:05:43.910 --> 00:05:45.140
+with drawing some random variables
+
+90
+00:05:45.140 --> 00:05:51.020
+and then understanding what are the connections between these random variables.
+
+91
+00:05:51.020 --> 00:05:56.140
+So, which random variables correlate with each other in some way?
+
+92
+00:05:56.140 --> 00:05:58.010
+And in this particular case,
+
+93
+00:05:58.010 --> 00:06:01.180
+it looks like everything is connected to everything.
+
+94
+00:06:01.180 --> 00:06:05.555
+Like if a person's university grades are high,
+
+95
+00:06:05.555 --> 00:06:08.420
+it directly influences our beliefs about
+
+96
+00:06:08.420 --> 00:06:14.915
+his high school grades or his IQ score and this is true for any pair of variables here.
+
+97
+00:06:14.915 --> 00:06:19.565
+And the station where we have all possible edges,
+
+98
+00:06:19.565 --> 00:06:21.410
+like everything is connected to everything,
+
+99
+00:06:21.410 --> 00:06:26.430
+means that we've failed to capture the structure of our probabilistic model.
+
+100
+00:06:26.430 --> 00:06:29.180
+So we end up with the most flexible and
+
+101
+00:06:29.180 --> 00:06:32.705
+the least structured model that we can possibly have.
+
+102
+00:06:32.705 --> 00:06:35.040
+And in this situation,
+
+103
+00:06:35.040 --> 00:06:37.670
+we have to assume.
+
+104
+00:06:37.670 --> 00:06:40.820
+So to build up a probabilistic model of our data now,
+
+105
+00:06:40.820 --> 00:06:46.285
+we have to assign probability to each possible combination of our features.
+
+106
+00:06:46.285 --> 00:06:52.310
+So there are exponentially many combinations of different university grades,
+
+107
+00:06:52.310 --> 00:06:54.410
+different IQ scores and stuff like that.
+
+108
+00:06:54.410 --> 00:06:57.000
+And for each of them we have to assign a probability.
+
+109
+00:06:57.000 --> 00:07:00.300
+And this tables of probability
+
+110
+00:07:00.300 --> 00:07:03.923
+has been billions of entries and it's just impractical to treat as parameters,
+
+111
+00:07:03.923 --> 00:07:07.635
+to treat these probabilities as parameters.
+
+112
+00:07:07.635 --> 00:07:13.740
+So, we have to do something else but we always can assume some parametric model, right?
+
+113
+00:07:13.740 --> 00:07:18.189
+We can say that we have these five random variables
+
+114
+00:07:18.189 --> 00:07:23.240
+and that probability for any combination of them is some simple function.
+
+115
+00:07:23.240 --> 00:07:26.828
+For example, exponent of linear function divided by normalization constant.
+
+116
+00:07:26.828 --> 00:07:31.250
+In this case, you reduce your model complexity by a lot.
+
+117
+00:07:31.250 --> 00:07:35.185
+Now, we have just like five parameters which we want to train.
+
+118
+00:07:35.185 --> 00:07:38.795
+But the problem here is with the normalization constant.
+
+119
+00:07:38.795 --> 00:07:40.670
+So, to normalize this thing,
+
+120
+00:07:40.670 --> 00:07:45.800
+so it will be a proper probability and it will sum up to one,
+
+121
+00:07:45.800 --> 00:07:48.920
+we have to consider the normalization constant which
+
+122
+00:07:48.920 --> 00:07:52.815
+is the sum of all possible configurations.
+
+123
+00:07:52.815 --> 00:07:54.725
+And this is a gigantic sum.
+
+124
+00:07:54.725 --> 00:07:59.485
+We have to consider all billions of possible configurations to
+
+125
+00:07:59.485 --> 00:08:05.690
+compute it and this means that the training and inference will be impractical.
+
+126
+00:08:05.690 --> 00:08:07.600
+So what else can we do here?
+
+127
+00:08:07.600 --> 00:08:11.250
+Well, it turns out that you can introduce a new variable
+
+128
+00:08:11.250 --> 00:08:15.305
+which you don't actually have in your model of the world,
+
+129
+00:08:15.305 --> 00:08:17.675
+which is called intelligence.
+
+130
+00:08:17.675 --> 00:08:20.370
+So you can assume that each person has
+
+131
+00:08:20.370 --> 00:08:24.315
+some internal and hidden property of him
+
+132
+00:08:24.315 --> 00:08:29.560
+which we will call intelligence and for example measure on the scale from one to 100.
+
+133
+00:08:29.560 --> 00:08:32.700
+This intelligence directly causes each of
+
+134
+00:08:32.700 --> 00:08:37.340
+these IQ scores and university grades and stuff like that.
+
+135
+00:08:37.340 --> 00:08:40.665
+Of course, this connection is non-deterministic.
+
+136
+00:08:40.665 --> 00:08:46.195
+So an intelligent person can have a bad day and write test poorly.
+
+137
+00:08:46.195 --> 00:08:48.636
+But this is direct causation,
+
+138
+00:08:48.636 --> 00:08:51.925
+so intelligence directly causes all these observations.
+
+139
+00:08:51.925 --> 00:08:53.820
+And if I assume such a model,
+
+140
+00:08:53.820 --> 00:08:57.240
+then we reduce the model complexity by a lot.
+
+141
+00:08:57.240 --> 00:09:03.400
+We raised lots of features and now our model is much simpler to work with.
+
+142
+00:09:03.400 --> 00:09:05.175
+So now, we're going to write
+
+143
+00:09:05.175 --> 00:09:09.840
+our probabilistic model by using the rule of sum of probabilities,
+
+144
+00:09:09.840 --> 00:09:13.035
+it's the sum of
+
+145
+00:09:13.035 --> 00:09:18.825
+all possible configurations given the intelligence times the prior probability.
+
+146
+00:09:18.825 --> 00:09:22.815
+And these are conditional probability
+
+147
+00:09:22.815 --> 00:09:28.820
+factorizes into product of small probabilities because of the structure of our model.
+
+148
+00:09:28.820 --> 00:09:35.865
+So now, instead of one huge table with all the combinations for five different features,
+
+149
+00:09:35.865 --> 00:09:39.960
+we have just five small tables that assigns probabilities
+
+150
+00:09:39.960 --> 00:09:47.000
+to a pair of like IQ score given intelligence.
+
+151
+00:09:47.000 --> 00:09:51.730
+This means that they're able to reduce the model complexity and now to model
+
+152
+00:09:51.730 --> 00:09:58.280
+without reducing the flexibility of them all.
+
+153
+00:09:58.280 --> 00:10:05.095
+So to summarize, introducing latent variables may simplify our model.
+
+154
+00:10:05.095 --> 00:10:09.634
+So it can reduce the number of phases we have.
+
+155
+00:10:09.634 --> 00:10:12.870
+And as a consequence of that,
+
+156
+00:10:12.870 --> 00:10:15.745
+we can reduce the number of parameters.
+
+157
+00:10:15.745 --> 00:10:20.475
+And some other positive feature of latent variables,
+
+158
+00:10:20.475 --> 00:10:23.653
+is that they are sometimes interpretable.
+
+159
+00:10:23.653 --> 00:10:27.750
+So for example, these intelligence variable, we can,
+
+160
+00:10:27.750 --> 00:10:30.660
+for a new person we can estimate his intelligence on the scale from
+
+161
+00:10:30.660 --> 00:10:34.330
+one to 100 and for example it can be 80.
+
+162
+00:10:34.330 --> 00:10:35.700
+What does that mean?
+
+163
+00:10:35.700 --> 00:10:38.310
+Well, it's not obvious because you don't know
+
+164
+00:10:38.310 --> 00:10:40.950
+what the scale means and you're not even sure that
+
+165
+00:10:40.950 --> 00:10:43.634
+this intelligence means actual intelligence
+
+166
+00:10:43.634 --> 00:10:47.205
+because they never told you model that these variables should be intelligence,
+
+167
+00:10:47.205 --> 00:10:51.330
+you just said that there should be some variable here.
+
+168
+00:10:51.330 --> 00:10:55.260
+But anyway, this variable can be interpretable and you can compare
+
+169
+00:10:55.260 --> 00:10:59.830
+intelligence according to this scale of different people in your data set.
+
+170
+00:10:59.830 --> 00:11:06.035
+And some downside of latent variable models is that they can be harder to work with.
+
+171
+00:11:06.035 --> 00:11:07.875
+So, training latent variable model,
+
+172
+00:11:07.875 --> 00:11:11.250
+you have to rely on a lot math.
+
+173
+00:11:11.250 --> 00:11:15.040
+And this math is,
+
+174
+00:11:15.040 --> 00:11:16.830
+what this week is all about.
+
+175
+00:11:16.830 --> 00:11:18.130
+So in the next videos,
+
+176
+00:11:18.130 --> 00:11:22.000
+we will discuss methods for training latent variable models.

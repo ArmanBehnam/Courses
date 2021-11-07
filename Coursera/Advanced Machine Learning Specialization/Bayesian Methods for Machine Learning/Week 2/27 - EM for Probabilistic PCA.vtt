@@ -1,0 +1,475 @@
+WEBVTT
+
+1
+00:00:00.288 --> 00:00:05.294
+[SOUND] So in this video,
+we are going to discuss,
+
+2
+00:00:05.294 --> 00:00:12.372
+not in full details, but in some kind
+of hand wavy way of how to apply
+
+3
+00:00:12.372 --> 00:00:19.111
+Algorithm to the probabilistic
+principal component analysis.
+
+4
+00:00:19.111 --> 00:00:22.006
+So let's look at the E-step first.
+
+5
+00:00:22.006 --> 00:00:26.763
+On E-step we have to set
+q to be the Gaussian
+
+6
+00:00:26.763 --> 00:00:31.266
+distribution on our latent variable t.
+
+7
+00:00:31.266 --> 00:00:32.598
+So ti given xi and theta.
+
+8
+00:00:32.598 --> 00:00:40.643
+And in general, it's proportional
+to what the join distribution.
+
+9
+00:00:40.643 --> 00:00:46.594
+So to the x,q and t times q of t
+divide by some normalization constant.
+
+10
+00:00:46.594 --> 00:00:50.603
+And in general this normalization
+constant is hard to
+
+11
+00:00:50.603 --> 00:00:54.531
+compute because it's
+an integral of respect to xi.
+
+12
+00:00:54.531 --> 00:00:59.603
+But in this case It will not
+cause us any trouble because
+
+13
+00:00:59.603 --> 00:01:06.014
+we were able to compute normal
+values because everything is normal.
+
+14
+00:01:06.014 --> 00:01:11.629
+Everything is conjugate and
+this link will also be normal and
+
+15
+00:01:11.629 --> 00:01:16.487
+you can look up the formulas for
+mutil in Wikipedia.
+
+16
+00:01:16.487 --> 00:01:17.667
+So E-step is easy.
+
+17
+00:01:17.667 --> 00:01:19.447
+We can easily find
+everything analytically.
+
+18
+00:01:19.447 --> 00:01:22.751
+What about the M-step?
+
+19
+00:01:22.751 --> 00:01:27.352
+On the M-step we're trying to
+maximize the expected value of
+
+20
+00:01:27.352 --> 00:01:30.547
+the logarithm of the joint distribution.
+
+21
+00:01:30.547 --> 00:01:35.047
+So we can rewrite this formula as,
+we can swap summation and
+
+22
+00:01:35.047 --> 00:01:40.540
+expected value, and
+we'll get some respect to in the data set.
+
+23
+00:01:40.540 --> 00:01:44.433
+Expected value, respect of q of qi,
+
+24
+00:01:44.433 --> 00:01:49.466
+of logarithm of our p of x and
+q of i, times q of i.
+
+25
+00:01:49.466 --> 00:01:50.824
+What is this?
+
+26
+00:01:50.824 --> 00:01:53.823
+Well, p of q,
+q of i is some normalization,
+
+27
+00:01:53.823 --> 00:01:58.372
+times normal distribution,
+which is something on the exponent.
+
+28
+00:01:58.372 --> 00:02:02.490
+And p of j is also some
+normalization times exponent and
+
+29
+00:02:02.490 --> 00:02:04.648
+some normal distribution.
+
+30
+00:02:04.648 --> 00:02:11.214
+So first of all we can notice that since
+logarithm of product is sum of logarithms,
+
+31
+00:02:11.214 --> 00:02:16.734
+and since the normalization constant
+z doesn't depend on qi at all,
+
+32
+00:02:16.734 --> 00:02:19.518
+then we can rewrite it as follows.
+
+33
+00:02:19.518 --> 00:02:25.248
+So we don't have to find the expected
+value of logarithm of 1 divided by z.
+
+34
+00:02:25.248 --> 00:02:28.164
+Because it doesn't depend on qi, and
+
+35
+00:02:28.164 --> 00:02:34.102
+it's expected value just equals to
+logarithm 1 divided by itself, right?
+
+36
+00:02:34.102 --> 00:02:39.393
+Then the second term here is expected
+value of logarithm of sum exponents.
+
+37
+00:02:39.393 --> 00:02:42.076
+And the second exponent is the prior.
+
+38
+00:02:42.076 --> 00:02:45.066
+It's minus 2i squared by 2, divided by 2.
+
+39
+00:02:45.066 --> 00:02:51.427
+In the one dimensional case,
+so if qi is one dimensional.
+
+40
+00:02:51.427 --> 00:02:56.755
+And the first exponent is some
+quadratic function of qi,
+
+41
+00:02:56.755 --> 00:03:03.193
+which basically mirrors the distance
+between the actual point xi and
+
+42
+00:03:03.193 --> 00:03:08.188
+the projection of the ti into
+two dimensional space or
+
+43
+00:03:08.188 --> 00:03:11.630
+most dimensional space in general.
+
+44
+00:03:11.630 --> 00:03:15.075
+So, this thing if you calculate it,
+
+45
+00:03:15.075 --> 00:03:19.863
+it's some quadratic function
+with respect to Gi.
+
+46
+00:03:19.863 --> 00:03:26.248
+So logarithm of this exponent products is
+quadratic function with respect to gi.
+
+47
+00:03:26.248 --> 00:03:30.016
+And in general, computing
+the expected value here can be hard.
+
+48
+00:03:30.016 --> 00:03:34.551
+But in practice,
+q is normal distribution, and
+
+49
+00:03:34.551 --> 00:03:38.975
+expected value of some
+quadratic function with
+
+50
+00:03:38.975 --> 00:03:43.748
+respect to a normal
+distribution is not that hard.
+
+51
+00:03:43.748 --> 00:03:45.932
+So we're going to easily analyze and
+compute this expected value.
+
+52
+00:03:45.932 --> 00:03:50.710
+Then what is left is some actually concave
+
+53
+00:03:50.710 --> 00:03:54.946
+function in respect to parameters.
+
+54
+00:03:54.946 --> 00:03:57.199
+Because from this expected value of qi,
+
+55
+00:03:57.199 --> 00:04:01.986
+or expected value of gi squared we'll get
+some just constant respect to parameters.
+
+56
+00:04:01.986 --> 00:04:06.413
+And we'll have to maximize in
+respect to parameter's data.
+
+57
+00:04:06.413 --> 00:04:09.212
+And this can be done analytically so
+
+58
+00:04:09.212 --> 00:04:14.732
+we can just compute the gradient and
+set it to 0 and compute the theta.
+
+59
+00:04:14.732 --> 00:04:21.737
+So this was kind of hand wavy explanation
+why Is not hard in this case.
+
+60
+00:04:21.737 --> 00:04:24.187
+And as we already discussed,
+
+61
+00:04:24.187 --> 00:04:30.272
+this probabilistic formulation of PCA
+allows you to do a few cool things.
+
+62
+00:04:30.272 --> 00:04:36.572
+So first of all you can extend you mole
+to be able to handle missing data.
+
+63
+00:04:36.572 --> 00:04:41.815
+Might just computing this missing
+values to be latent tables and
+
+64
+00:04:41.815 --> 00:04:47.736
+then applying this And you have to
+just extend the scheme a little bit,
+
+65
+00:04:47.736 --> 00:04:50.955
+to handle these new latent variables.
+
+66
+00:04:50.955 --> 00:04:55.391
+While second of all, it gives you
+a straightforward way to build
+
+67
+00:04:55.391 --> 00:04:58.364
+an iterative scheme, to compute the PCA.
+
+68
+00:04:58.364 --> 00:05:01.945
+So even if you don't have missing values,
+in some cases,
+
+69
+00:05:01.945 --> 00:05:06.421
+if you have for example,
+really high-dimensional space originally.
+
+70
+00:05:06.421 --> 00:05:10.304
+And you want to project into
+a really small dimensional space,
+
+71
+00:05:10.304 --> 00:05:14.933
+the PCA can be slow and it can be fostered
+to use into some iterative scheme.
+
+72
+00:05:14.933 --> 00:05:18.099
+And of course there are several
+iterative schemes for
+
+73
+00:05:18.099 --> 00:05:20.709
+doing PCA from linear algebra coming into.
+
+74
+00:05:20.709 --> 00:05:25.452
+But it's resulted, well you have to
+know linear algebra to derive them.
+
+75
+00:05:25.452 --> 00:05:30.340
+You have to think carefully and
+it's not that straightforward.
+
+76
+00:05:30.340 --> 00:05:33.542
+But expectation maximization just gave you
+
+77
+00:05:33.542 --> 00:05:37.792
+a straightforward way to
+compute some iterative scheme.
+
+78
+00:05:37.792 --> 00:05:43.712
+Which can be more efficient than the
+original PCA in some cases, like when you
+
+79
+00:05:43.712 --> 00:05:49.928
+have much general amount of the original
+data than the lower general soft space.
+
+80
+00:05:49.928 --> 00:05:56.054
+So you don't have to think that much, you
+can just apply the And see what happens.
+
+81
+00:05:56.054 --> 00:06:01.004
+Another cool feature of probabilistic
+PCA is now that you have this base
+
+82
+00:06:01.004 --> 00:06:04.963
+line probabilistic model,
+you can do a mixture of them,
+
+83
+00:06:04.963 --> 00:06:08.771
+if the flexibility of your
+original PCA is not enough.
+
+84
+00:06:08.771 --> 00:06:12.494
+So you can easily extend your
+model to be more flexible, and
+
+85
+00:06:12.494 --> 00:06:15.480
+then everything is not
+on the display any more.
+
+86
+00:06:15.480 --> 00:06:18.502
+But you're still going to still apply And
+compute some solutions, so
+
+87
+00:06:18.502 --> 00:06:19.300
+string the model.
+
+88
+00:06:19.300 --> 00:06:23.163
+And finally, and
+it's sometimes helps with tuning
+
+89
+00:06:23.163 --> 00:06:27.653
+hyperparameters to treat
+everything probabilistically.
+
+90
+00:06:27.653 --> 00:06:33.151
+Because it allows you to tune
+the hyperparameters by tracking the low
+
+91
+00:06:33.151 --> 00:06:38.462
+likelihood recommendation set,
+which is sometimes not feasible
+
+92
+00:06:38.462 --> 00:06:43.607
+with non-probabilistic models
+with unsupervised data sets.
+
+93
+00:06:43.607 --> 00:06:49.240
+And for example you can choose within
+using the full covariance matrix sigma and
+
+94
+00:06:49.240 --> 00:06:52.447
+using just diagonal approximation of that.
+
+95
+00:06:52.447 --> 00:06:57.873
+So they have much different,
+very different number of parameters.
+
+96
+00:06:57.873 --> 00:07:02.108
+And you can choose between these
+two by just considering the local
+
+97
+00:07:02.108 --> 00:07:04.264
+likelihood on the relation set.
+
+98
+00:07:04.264 --> 00:07:09.657
+And in principle you can
+
+99
+00:07:09.657 --> 00:07:14.780
+improve your solution
+
+100
+00:07:14.780 --> 00:07:22.067
+to this unsupervised problem.
+
+101
+00:07:22.067 --> 00:07:24.699
+[SOUND]

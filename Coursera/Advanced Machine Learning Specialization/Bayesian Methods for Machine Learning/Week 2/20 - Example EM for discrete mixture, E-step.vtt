@@ -1,0 +1,481 @@
+WEBVTT
+
+1
+00:00:03.700 --> 00:00:08.450
+In this video, we're going to go through an example of
+
+2
+00:00:08.450 --> 00:00:13.055
+a blank an expectation-maximization algorithm to a particular problem.
+
+3
+00:00:13.055 --> 00:00:21.300
+So, let's say that you have a data set with the following histogram.
+
+4
+00:00:21.300 --> 00:00:30.750
+You have discrete data which can take only three values,
+
+5
+00:00:30.750 --> 00:00:32.075
+one, two, or three.
+
+6
+00:00:32.075 --> 00:00:38.182
+And you have approximately 30% of ones, 20% of twos,
+
+7
+00:00:38.182 --> 00:00:47.550
+and 50% of threes and you want to fit some distribution into this data.
+
+8
+00:00:47.550 --> 00:00:50.878
+Well obviously, if you want to fit any distribution,
+
+9
+00:00:50.878 --> 00:00:53.390
+you can just use this histogram as the best fit.
+
+10
+00:00:53.390 --> 00:00:58.630
+But, since we want to see how EM algorithm applies to these kind of problems,
+
+11
+00:00:58.630 --> 00:01:03.310
+let's say that we know that these data came from a mixture,
+
+12
+00:01:03.310 --> 00:01:06.645
+and we want to find the parameters of this mixture.
+
+13
+00:01:06.645 --> 00:01:12.630
+So let's say that this actual data was generated from the following data,
+
+14
+00:01:12.630 --> 00:01:14.720
+from the following mixture.
+
+15
+00:01:14.720 --> 00:01:23.335
+The probability of x_i is equals to a mixture of two distributions,
+
+16
+00:01:23.335 --> 00:01:31.565
+alpha times P1 plus one minus alpha times P2.
+
+17
+00:01:31.565 --> 00:01:36.550
+So, P1 and P2 are probability distributions and alpha
+
+18
+00:01:36.550 --> 00:01:42.620
+and one minus alpha are the weights, and alpha is a parameter.
+
+19
+00:01:42.620 --> 00:01:49.850
+And here, I will not write conditioning on the parameters alpha and gamma et cetera,
+
+20
+00:01:49.850 --> 00:01:56.860
+anywhere just to forcibly stand to write a little bit fewer symbols.
+
+21
+00:01:56.860 --> 00:01:59.960
+But, the condition on the parameters is everywhere.
+
+22
+00:01:59.960 --> 00:02:04.290
+And let's say that the mixture components,
+
+23
+00:02:04.290 --> 00:02:06.095
+P1 and P2 looks as follows.
+
+24
+00:02:06.095 --> 00:02:11.845
+So we have P1 which equals to one,
+
+25
+00:02:11.845 --> 00:02:14.665
+two, and three with probabilities alpha,
+
+26
+00:02:14.665 --> 00:02:17.748
+one minus alpha, and zero.
+
+27
+00:02:17.748 --> 00:02:22.865
+Why? Well, because if we use some distribution which can take in
+
+28
+00:02:22.865 --> 00:02:29.735
+any of these three numbers with any probability,
+
+29
+00:02:29.735 --> 00:02:36.745
+then we can just use this histogram as the best fit for P1 and just forget about P2.
+
+30
+00:02:36.745 --> 00:02:40.330
+Let's forbid P1 and P2 to take some of the waitlist so
+
+31
+00:02:40.330 --> 00:02:45.205
+they have to cooperate to explain these data well.
+
+32
+00:02:45.205 --> 00:02:48.990
+Let's say that P2 has one parameter,
+
+33
+00:02:48.990 --> 00:02:54.355
+beta, and it takes values two and three with some probabilities which we don't know.
+
+34
+00:02:54.355 --> 00:02:57.010
+Let's try to estimate this alpha, beta,
+
+35
+00:02:57.010 --> 00:02:59.750
+and gamma by using the expectation maximization algorithm.
+
+36
+00:02:59.750 --> 00:03:05.580
+So, for expectation maximization algorithm, we need two things.
+
+37
+00:03:05.580 --> 00:03:08.305
+First of all, we need the initialization of our parameters.
+
+38
+00:03:08.305 --> 00:03:12.930
+Let's say, that we initialized them to be alpha0 equals to
+
+39
+00:03:12.930 --> 00:03:20.260
+beta0 equals to gamma0 equals 2.5.
+
+40
+00:03:20.260 --> 00:03:24.640
+Just for concreteness. And also,
+
+41
+00:03:24.640 --> 00:03:28.180
+we need to define the latent variable model because
+
+42
+00:03:28.180 --> 00:03:31.840
+expectation maximization is something that works good,
+
+43
+00:03:31.840 --> 00:03:35.485
+that was invented for latent variable models.
+
+44
+00:03:35.485 --> 00:03:40.390
+So, let's say that we introduced latent variable t_i for
+
+45
+00:03:40.390 --> 00:03:46.730
+each data point x_i which will say from which of these two components x_i came from.
+
+46
+00:03:46.730 --> 00:03:53.270
+So, we'll have a picture like this,
+
+47
+00:03:53.950 --> 00:04:01.620
+x_i is caused by t_i.
+
+48
+00:04:02.260 --> 00:04:06.995
+And t_i can they can take two values,
+
+49
+00:04:06.995 --> 00:04:10.987
+one or two with some probabilities.
+
+50
+00:04:10.987 --> 00:04:14.880
+This way, the prior probability of t_i
+
+51
+00:04:14.880 --> 00:04:23.635
+being one for example, is just gamma.
+
+52
+00:04:23.635 --> 00:04:26.863
+So, it's the weight of the first component of
+
+53
+00:04:26.863 --> 00:04:32.443
+mixture and the probability of t_i being two is just one minus gamma,
+
+54
+00:04:32.443 --> 00:04:36.215
+and you can easily define the conditional probability.
+
+55
+00:04:36.215 --> 00:04:42.625
+Probability of x_i unit for example,
+
+56
+00:04:42.625 --> 00:04:45.195
+t_i equals two, is
+
+57
+00:04:45.195 --> 00:04:50.140
+just the probability according to the second component of the mixture, that's P2 of x_i.
+
+58
+00:04:50.140 --> 00:04:56.490
+Now, we have everything defined and we can
+
+59
+00:04:56.490 --> 00:05:02.840
+use the expectation maximization algorithm to find the best values of parameters alpha,
+
+60
+00:05:02.840 --> 00:05:07.150
+beta, and gamma we can find with this kind of algorithms.
+
+61
+00:05:07.150 --> 00:05:17.230
+Let's start with the E-step or expectation step.
+
+62
+00:05:17.230 --> 00:05:25.580
+On the E-step, we want to find the posterior distribution on the latent variable t_i.
+
+63
+00:05:25.580 --> 00:05:35.260
+So we want to find q of t_i which equals to the posterior distribution,
+
+64
+00:05:35.260 --> 00:05:45.405
+P of t_i, given P of t_i equals to c for example and we can put c here.
+
+65
+00:05:45.405 --> 00:05:49.365
+Given the data point x_i and the parameters but I will
+
+66
+00:05:49.365 --> 00:05:53.845
+omit them as z usually in this video.
+
+67
+00:05:53.845 --> 00:05:57.520
+Let's see how can we do it.
+
+68
+00:05:57.520 --> 00:06:06.255
+Let's start with probability of t_i equals to one,
+
+69
+00:06:06.255 --> 00:06:10.080
+if we know that x_i equals to one.
+
+70
+00:06:10.080 --> 00:06:15.290
+So we can find this expression by using the base rule.
+
+71
+00:06:15.290 --> 00:06:18.450
+Let's think equals the full ratio so it's
+
+72
+00:06:18.450 --> 00:06:22.620
+proportional to the joint likelihood of the joint distribution,
+
+73
+00:06:22.620 --> 00:06:29.625
+P of t_i and x_i which equals to the P of of x_i equals one.
+
+74
+00:06:29.625 --> 00:06:35.130
+Given t_i equals one times the parameter distribution
+
+75
+00:06:35.130 --> 00:06:39.685
+P of t_i equals one divided by the same thing,
+
+76
+00:06:39.685 --> 00:06:42.595
+batch of four t_i equals 1 and t_i equals two.
+
+77
+00:06:42.595 --> 00:06:46.097
+So, sum with respect to all the waitlist of a latent variable.
+
+78
+00:06:46.097 --> 00:06:52.055
+Probability of x_i equals one and given, t_i equals one,
+
+79
+00:06:52.055 --> 00:07:00.450
+so the same thing as in the numerator times the prior plus the same thing,
+
+80
+00:07:00.450 --> 00:07:03.105
+but four t_i equals two.
+
+81
+00:07:03.105 --> 00:07:06.850
+So, P of x_i equals one given,
+
+82
+00:07:06.850 --> 00:07:12.075
+t_i equals two times the prior,
+
+83
+00:07:12.075 --> 00:07:16.675
+P of t_i equals two.
+
+84
+00:07:16.675 --> 00:07:20.800
+And we can complete this thing for our model and so we
+
+85
+00:07:20.800 --> 00:07:24.345
+know our current values of parameters of alpha, beta, and gamma.
+
+86
+00:07:24.345 --> 00:07:31.065
+This conditional distribution is just P1 of x cycles one,
+
+87
+00:07:31.065 --> 00:07:37.415
+so it's alpha times the prior which is gamma,
+
+88
+00:07:37.415 --> 00:07:43.060
+the probability for t_i equals one divided by the same thing,
+
+89
+00:07:43.060 --> 00:07:50.035
+alpha times gamma plus probability that this particular point came from
+
+90
+00:07:50.035 --> 00:07:53.305
+the second component of the mixture which is zero because
+
+91
+00:07:53.305 --> 00:07:58.000
+the second component of the mixture never generates us ones,
+
+92
+00:07:58.000 --> 00:08:01.756
+times its proper beta1 minus gamma,
+
+93
+00:08:01.756 --> 00:08:04.325
+which is just one.
+
+94
+00:08:04.325 --> 00:08:08.042
+And this totally makes sense, right?
+
+95
+00:08:08.042 --> 00:08:13.345
+Since we know that the second component of mixture can never generate you number one,
+
+96
+00:08:13.345 --> 00:08:17.410
+it just means that if we see number one data set,
+
+97
+00:08:17.410 --> 00:08:22.900
+it will certainly generated by t_i equals one by the first component.
+
+98
+00:08:22.900 --> 00:08:25.047
+And we can compute the same thing,
+
+99
+00:08:25.047 --> 00:08:31.041
+we can compute the same thing for other values of t_i and x_i.
+
+100
+00:08:31.041 --> 00:08:40.290
+For example, t_i equals one given, x_i equals two.
+
+101
+00:08:40.290 --> 00:08:43.185
+We'll be using the same reasoning,
+
+102
+00:08:43.185 --> 00:08:46.140
+the conditional distribution which is one minus
+
+103
+00:08:46.140 --> 00:08:52.250
+alpha times the prior distribution which is gamma,
+
+104
+00:08:52.250 --> 00:08:56.300
+divided by the same thing,
+
+105
+00:08:56.300 --> 00:08:59.345
+one minus alpha times gamma plus
+
+106
+00:08:59.345 --> 00:09:01.875
+the same thing assuming that
+
+107
+00:09:01.875 --> 00:09:04.370
+this data point came from the second component of the mixture.
+
+108
+00:09:04.370 --> 00:09:09.995
+So, one minus beta times one minus gamma,
+
+109
+00:09:09.995 --> 00:09:13.940
+the prior distribution for the second component of mixture.
+
+110
+00:09:13.940 --> 00:09:18.360
+And this thing, if you substitute here the numbers from our initialization,
+
+111
+00:09:18.360 --> 00:09:29.091
+it will be just 0.5 times 0.5 divided by 0.5 times
+
+112
+00:09:29.091 --> 00:09:33.345
+0.5 plus the same thing
+
+113
+00:09:33.345 --> 00:09:41.910
+because of our particular values for the initialization and this is just 0.5 in total.
+
+114
+00:09:41.910 --> 00:09:46.330
+So, we've found our posterior distribution t_i given x_i,
+
+115
+00:09:46.330 --> 00:09:51.420
+then we can do the same thing for other values of t_i and x_i.
+
+116
+00:09:51.420 --> 00:09:54.920
+This way, we can compute the E-step of
+
+117
+00:09:54.920 --> 00:09:58.550
+the expectation-maximization algorithm for this particular model.
+
+118
+00:09:58.550 --> 00:10:00.360
+In the next video, we will discuss the M-step,
+
+119
+00:10:00.360 --> 00:10:03.755
+so how to update the values of parameters by using
+
+120
+00:10:03.755 --> 00:10:10.410
+these computed conditional distributions on the latent variable.

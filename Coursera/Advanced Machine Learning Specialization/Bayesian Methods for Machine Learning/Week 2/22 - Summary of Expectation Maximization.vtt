@@ -1,0 +1,427 @@
+WEBVTT
+
+1
+00:00:01.807 --> 00:00:07.944
+Congratulations, you made
+it to the end of the form
+
+2
+00:00:07.944 --> 00:00:12.745
+of the expectation maximization algorithm.
+
+3
+00:00:12.745 --> 00:00:18.834
+So let's summarize some of the properties
+and thinks about this Algorithm.
+
+4
+00:00:18.834 --> 00:00:25.874
+First of all, Algorithm is a method for
+training latent variable models.
+
+5
+00:00:25.874 --> 00:00:28.897
+So if your model has
+both latent variables, so
+
+6
+00:00:28.897 --> 00:00:31.696
+not observed, and observed variables x.
+
+7
+00:00:31.696 --> 00:00:37.611
+Then you can apply Algorithm to
+train it sometimes more efficiently
+
+8
+00:00:37.611 --> 00:00:44.940
+than some general purpose optimizational
+rhythms like stochastic gradient decent.
+
+9
+00:00:44.940 --> 00:00:49.829
+Well one of the nice properties
+about the Is that it allows you
+
+10
+00:00:49.829 --> 00:00:51.775
+to handle missing data.
+
+11
+00:00:51.775 --> 00:00:55.667
+And sometimes it allows you
+to do it with your favorite
+
+12
+00:00:55.667 --> 00:01:00.090
+machine learning algorithms
+which are not probabilistic.
+
+13
+00:01:00.090 --> 00:01:04.641
+So in this case, sometimes it's
+possible to treat your machine
+
+14
+00:01:04.641 --> 00:01:07.940
+learning algorithm in probabilistic terms.
+
+15
+00:01:07.940 --> 00:01:14.669
+And then you can say that, for example, if
+you do not observe your variable x to 3,
+
+16
+00:01:14.669 --> 00:01:19.495
+for example, so
+you don't know the value of this feature.
+
+17
+00:01:19.495 --> 00:01:20.440
+You can say that it's a latent variable.
+
+18
+00:01:20.440 --> 00:01:25.242
+So all over x's are observed,
+but this one is latent.
+
+19
+00:01:25.242 --> 00:01:29.298
+And then you can apply To train
+this model with latent variables,
+
+20
+00:01:29.298 --> 00:01:31.870
+to get a reasonable solution in this case.
+
+21
+00:01:31.870 --> 00:01:36.931
+Well, of course you can always use some
+heuristics to treat missing values.
+
+22
+00:01:36.931 --> 00:01:40.394
+For example, you can just throw
+away some of the columns and
+
+23
+00:01:40.394 --> 00:01:42.618
+rows to get rid of the missing values.
+
+24
+00:01:42.618 --> 00:01:47.869
+Or maybe you can substitute the missing
+values with zeros or some averages.
+
+25
+00:01:47.869 --> 00:01:52.506
+But in a heuristic sense,
+really none of this will work.
+
+26
+00:01:52.506 --> 00:01:57.174
+So although Is not like
+guarantees you to always work,
+
+27
+00:01:57.174 --> 00:02:03.398
+usually in practice if you can apply
+it to your problem with missing values,
+
+28
+00:02:03.398 --> 00:02:08.942
+is better than just to substitute
+your missing values with zeroes or
+
+29
+00:02:08.942 --> 00:02:11.400
+to throw away a bunch of data.
+
+30
+00:02:11.400 --> 00:02:16.450
+The main idea of the expectation
+maximization algorithm is
+
+31
+00:02:16.450 --> 00:02:22.513
+that you want to maximize your margin
+log likelihood, but it's hard.
+
+32
+00:02:22.513 --> 00:02:25.779
+It's a hard optimization problem.
+
+33
+00:02:25.779 --> 00:02:29.875
+So instead of that,
+you build a variation lower bound,
+
+34
+00:02:29.875 --> 00:02:35.366
+which depends both on the original
+parameters theta and on the variational
+
+35
+00:02:35.366 --> 00:02:40.615
+parameters q which is some of
+distributions you have just introduced.
+
+36
+00:02:40.615 --> 00:02:45.134
+And then you're trying to maximize
+this lower bond with respect to both
+
+37
+00:02:45.134 --> 00:02:45.972
+theta and q.
+
+38
+00:02:45.972 --> 00:02:47.941
+In kind of low core and professional.
+
+39
+00:02:47.941 --> 00:02:52.045
+So in durations you are fix one,
+you fix q for example and
+
+40
+00:02:52.045 --> 00:02:54.503
+maximize with respect to theta.
+
+41
+00:02:54.503 --> 00:02:58.578
+And then you fix theta and
+maximize with respect to q.
+
+42
+00:02:58.578 --> 00:03:04.155
+And this way you're, instead of your
+original complicated optimization problem,
+
+43
+00:03:04.155 --> 00:03:08.803
+you're solving a sequence of some
+different optimization problems,
+
+44
+00:03:08.803 --> 00:03:13.000
+which are in some,
+in practical cases sometimes much simpler.
+
+45
+00:03:13.000 --> 00:03:16.791
+So for example, in Gaussian mixture model,
+
+46
+00:03:16.791 --> 00:03:21.782
+you can solve each of
+the substep's optimization programs
+
+47
+00:03:21.782 --> 00:03:26.893
+analytically with almost no
+timing condition complexity.
+
+48
+00:03:26.893 --> 00:03:31.629
+The Expectation Maximization Algorithm
+encourages you to converge to some
+
+49
+00:03:31.629 --> 00:03:36.587
+critical point maybe not optimal, but
+at least local maximum or settle point.
+
+50
+00:03:36.587 --> 00:03:43.647
+And sometimes, it helps you to
+handle some complicated constraints.
+
+51
+00:03:43.647 --> 00:03:47.979
+So in the original problem,
+you may had a constraint like
+
+52
+00:03:47.979 --> 00:03:52.229
+your matrix sigma should
+be positive semi-definite.
+
+53
+00:03:52.229 --> 00:03:55.624
+So it can represent a valid
+covariance matrix, right?
+
+54
+00:03:55.624 --> 00:03:59.875
+And it's hard to apply,
+it's hard to force this constraint on
+
+55
+00:03:59.875 --> 00:04:04.541
+your favorite stochastic gradient descent,
+or some other method.
+
+56
+00:04:04.541 --> 00:04:06.075
+But, in Algorithm,
+
+57
+00:04:06.075 --> 00:04:11.000
+you're substituting your original
+problem by a sequence of simpler ones.
+
+58
+00:04:11.000 --> 00:04:16.792
+And on the nth step you will, of course,
+also have to enforce this constraint.
+
+59
+00:04:16.792 --> 00:04:21.600
+But since the optimization task is so
+much simpler, it's usually much simpler to
+
+60
+00:04:21.600 --> 00:04:26.002
+enforce these constraints on the nth step,
+than in the original problem.
+
+61
+00:04:26.002 --> 00:04:30.794
+So in the Gaussian mixture model case,
+for example, on the nth step, we have
+
+62
+00:04:30.794 --> 00:04:35.839
+some concave optimization, which is
+really much easier than the original one.
+
+63
+00:04:35.839 --> 00:04:40.601
+And adding this nontrivial positive
+semi-definitive constraint doesn't
+
+64
+00:04:40.601 --> 00:04:42.877
+make the problems that much harder.
+
+65
+00:04:42.877 --> 00:04:46.677
+So we can still solve
+the nth step analytically.
+
+66
+00:04:46.677 --> 00:04:51.167
+The expectation maximization
+algorithm has numerous extensions.
+
+67
+00:04:51.167 --> 00:04:55.081
+And we will talk about some
+of them later in this course.
+
+68
+00:04:55.081 --> 00:04:57.445
+So If your distribution q, so
+
+69
+00:04:57.445 --> 00:05:02.934
+your Pasteur distribution on
+the latent variables given the data and
+
+70
+00:05:02.934 --> 00:05:08.817
+the parameters is too hard to work with,
+you may do some approximations.
+
+71
+00:05:08.817 --> 00:05:14.362
+First of all, you can restrict the set
+of possible qs, restrict the set of
+
+72
+00:05:14.362 --> 00:05:19.657
+qs you consider, and find the best
+q In this kind of strategic family.
+
+73
+00:05:19.657 --> 00:05:24.981
+We'll see a small example of
+this in the next module but
+
+74
+00:05:24.981 --> 00:05:30.665
+mostly this will be what week three and
+week five is about.
+
+75
+00:05:30.665 --> 00:05:36.912
+Also if you don't want to approximate,
+if you want something,
+
+76
+00:05:36.912 --> 00:05:42.129
+at least expect it to be,
+at least occurs on average.
+
+77
+00:05:42.129 --> 00:05:45.717
+In this case you can use sampling.
+And instead of working with the Pasteur
+
+78
+00:05:45.717 --> 00:05:50.760
+distribution directly,
+you can try to sample points from it.
+
+79
+00:05:50.760 --> 00:05:56.543
+And then approximate the expected value
+on the M-step and solve it approximately.
+
+80
+00:05:56.543 --> 00:06:00.194
+And this is what week four is about.
+
+81
+00:06:00.194 --> 00:06:03.109
+How to sample from
+complicated distributions.
+
+82
+00:06:03.109 --> 00:06:07.909
+So some negative features of the Is
+that it gives you a local maximum not
+
+83
+00:06:07.909 --> 00:06:09.020
+the global one.
+
+84
+00:06:09.020 --> 00:06:13.313
+But it's kind of expected
+because it's an problem and
+
+85
+00:06:13.313 --> 00:06:18.423
+you can't expect anyone to give you
+optimal solution in reasonable time.
+
+86
+00:06:18.423 --> 00:06:23.425
+And also it requires a little bit of
+math which you have to get used to.
+
+87
+00:06:23.425 --> 00:06:28.934
+But, after you do, after you, kind of,
+make yourself familiar with these kind of
+
+88
+00:06:28.934 --> 00:06:34.385
+durations, it becomes very natural to do
+in your applications and new problems.
+
+89
+00:06:34.385 --> 00:06:44.385
+[MUSIC]

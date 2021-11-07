@@ -1,0 +1,369 @@
+WEBVTT
+
+1
+00:00:03.740 --> 00:00:07.350
+In this video, we'll discuss a little bit of
+
+2
+00:00:07.350 --> 00:00:10.950
+details about the M-step or maximization step.
+
+3
+00:00:10.950 --> 00:00:14.655
+Recall that on the previous video,
+
+4
+00:00:14.655 --> 00:00:19.275
+we derived variational lower bound for our marginal log likelihood.
+
+5
+00:00:19.275 --> 00:00:22.080
+So, we wanted to maximize marginal log likelihood,
+
+6
+00:00:22.080 --> 00:00:25.640
+but instead we are going to maximize this lower bound.
+
+7
+00:00:25.640 --> 00:00:27.440
+And, on the M-step, we want to maximize
+
+8
+00:00:27.440 --> 00:00:31.920
+this lower bound with respect to theta or parameters.
+
+9
+00:00:31.920 --> 00:00:34.250
+And the lower bound looks like this.
+
+10
+00:00:34.250 --> 00:00:38.346
+So, it's some with respect to the objects in the data set,
+
+11
+00:00:38.346 --> 00:00:41.625
+then some with respect to the values of the late variable G,
+
+12
+00:00:41.625 --> 00:00:47.710
+and then some weighted logarithms of the ratios.
+
+13
+00:00:47.710 --> 00:00:49.685
+Now, we can use the property of the logarithm,
+
+14
+00:00:49.685 --> 00:00:53.210
+that logarithm of the ratio is difference between logarithms,
+
+15
+00:00:53.210 --> 00:00:55.745
+and we'll get something like this.
+
+16
+00:00:55.745 --> 00:00:58.590
+And note that this second term in this expression,
+
+17
+00:00:58.590 --> 00:01:01.255
+it is constant with respect to theta,
+
+18
+00:01:01.255 --> 00:01:03.425
+so it doesn't depend on theta at all.
+
+19
+00:01:03.425 --> 00:01:06.170
+Which means that then we can start
+
+20
+00:01:06.170 --> 00:01:09.745
+concerned about maximizing this value with respect to theta.
+
+21
+00:01:09.745 --> 00:01:13.255
+We can throw this term away and nothing will change.
+
+22
+00:01:13.255 --> 00:01:18.245
+So we can just ignore this and it will not change our M-step,
+
+23
+00:01:18.245 --> 00:01:26.305
+which means that we can maximize the first term instead of the full lower bound.
+
+24
+00:01:26.305 --> 00:01:30.565
+And the first term you can rewrite by using the following connotation,
+
+25
+00:01:30.565 --> 00:01:33.380
+just an expected value of
+
+26
+00:01:33.380 --> 00:01:41.876
+the Joint Distribution P of X and T with respect to the variational distribution Q.
+
+27
+00:01:41.876 --> 00:01:46.640
+One more thing to notice here is that
+
+28
+00:01:46.640 --> 00:01:48.680
+this function which we are trying to maximize
+
+29
+00:01:48.680 --> 00:01:52.075
+with respect to theta on the M-step is concave.
+
+30
+00:01:52.075 --> 00:02:00.845
+Maybe not always, but usually you choose your P of X given T and P of T yourself,
+
+31
+00:02:00.845 --> 00:02:06.710
+so you can choose this function to be such that the [inaudible] would fit is a concave function.
+
+32
+00:02:06.710 --> 00:02:10.250
+Which means that it's easy to maximize and note that
+
+33
+00:02:10.250 --> 00:02:14.740
+expect that the value of the concave function is still a concave function.
+
+34
+00:02:14.740 --> 00:02:18.350
+So, for example in the Gaussian [inaudible] case,
+
+35
+00:02:18.350 --> 00:02:26.450
+this joint probability pure factor T is Gaussian and logarithm of Gaussian is
+
+36
+00:02:26.450 --> 00:02:31.155
+just some linear function with respect to parameters minus-
+
+37
+00:02:31.155 --> 00:02:33.960
+at least you can prove that
+
+38
+00:02:33.960 --> 00:02:37.625
+logarithm of the Gaussian is concave for respect to parameters.
+
+39
+00:02:37.625 --> 00:02:39.590
+Which means that first of all,
+
+40
+00:02:39.590 --> 00:02:42.295
+this function has just unique global optimum.
+
+41
+00:02:42.295 --> 00:02:45.230
+Well, at least all local maximas are the same as
+
+42
+00:02:45.230 --> 00:02:48.650
+global maxima and maybe really easy to maximize.
+
+43
+00:02:48.650 --> 00:02:52.460
+And usually you can even derive the analytical expression of this M-step because
+
+44
+00:02:52.460 --> 00:02:57.275
+this program is so much easier than the original one in most cases.
+
+45
+00:02:57.275 --> 00:03:02.310
+So, to summarize the expectation maximization algorithm
+
+46
+00:03:02.310 --> 00:03:06.870
+repeats the following two steps in iterations until convergence.
+
+47
+00:03:06.870 --> 00:03:12.230
+So, first of all, the E-step where we are trying to minimize
+
+48
+00:03:12.230 --> 00:03:14.720
+the KL distance between
+
+49
+00:03:14.720 --> 00:03:17.030
+the variation distribution Q and
+
+50
+00:03:17.030 --> 00:03:21.405
+the posterior distribution P of T U in the data and the parameters.
+
+51
+00:03:21.405 --> 00:03:26.270
+And this is the same as just setting Q to be the posterior distribution itself.
+
+52
+00:03:26.270 --> 00:03:27.823
+And then the M-step,
+
+53
+00:03:27.823 --> 00:03:31.220
+where we're maximizing the expected value of
+
+54
+00:03:31.220 --> 00:03:36.620
+the logarithm of the joint distribution with respect to parameters theta.
+
+55
+00:03:36.620 --> 00:03:42.735
+So, now let's say a few words about the convergence properties of this EM algorithm.
+
+56
+00:03:42.735 --> 00:03:45.740
+It turns out that we can prove that it converges to
+
+57
+00:03:45.740 --> 00:03:51.065
+a local maximum or maybe at least to a critical point.
+
+58
+00:03:51.065 --> 00:03:54.050
+So, to see it, let's look at the following picture.
+
+59
+00:03:54.050 --> 00:03:55.910
+On the previous situation theta K,
+
+60
+00:03:55.910 --> 00:04:03.110
+we have chosen among all the family of lower bounds.
+
+61
+00:04:03.110 --> 00:04:06.125
+We have chosen the best lower bound at the current point,
+
+62
+00:04:06.125 --> 00:04:08.185
+which is accurate at the current point.
+
+63
+00:04:08.185 --> 00:04:11.480
+So, on the next M-step,
+
+64
+00:04:11.480 --> 00:04:13.520
+we went to the maximum of this lower bound,
+
+65
+00:04:13.520 --> 00:04:16.970
+of this red curve, to get theta K plus one.
+
+66
+00:04:16.970 --> 00:04:20.385
+Let's look how the marginal log likelihood
+
+67
+00:04:20.385 --> 00:04:25.379
+changed after switching from theta K to theta K plus one.
+
+68
+00:04:25.379 --> 00:04:30.935
+So, marginal log likelihood at the point theta K plus one is greater than or equal to
+
+69
+00:04:30.935 --> 00:04:37.350
+the lower bound at the point theta K plus one just because its lower bound,
+
+70
+00:04:37.350 --> 00:04:40.010
+so it should always hold for any point, right?
+
+71
+00:04:40.010 --> 00:04:43.760
+Then we can say that the value of
+
+72
+00:04:43.760 --> 00:04:48.440
+this lower bound at the current point, the theta K plus one,
+
+73
+00:04:48.440 --> 00:04:54.360
+is greater than or equal to the value of the lower bound at the previous point,
+
+74
+00:04:54.360 --> 00:04:59.645
+just because theta K plus one is the maximum of the lower bound with respect to theta.
+
+75
+00:04:59.645 --> 00:05:07.605
+So it's greater than or equal to the value of the lower bound at any other point, right?
+
+76
+00:05:07.605 --> 00:05:15.980
+And finally, because we have chosen Q to be such that the lower bound is optimal in
+
+77
+00:05:15.980 --> 00:05:20.490
+the point theta K then this lower bound at the point theta K
+
+78
+00:05:20.490 --> 00:05:25.200
+just equals to the log likelihood at the point theta K. So,
+
+79
+00:05:25.200 --> 00:05:30.900
+finally, we obtained such an equation that tells us that
+
+80
+00:05:30.900 --> 00:05:39.115
+the marginal log likelihood never decreases during an iteration of the EM algorithm.
+
+81
+00:05:39.115 --> 00:05:44.815
+Which basically means that the EM algorithm never make things worse.
+
+82
+00:05:44.815 --> 00:05:50.310
+And so there are two outcomes of this observation.
+
+83
+00:05:50.310 --> 00:05:53.370
+First of all, it's a really useful debugging tool.
+
+84
+00:05:53.370 --> 00:05:56.628
+So if you ever see in your implementation of the EM,
+
+85
+00:05:56.628 --> 00:05:59.460
+that the marginal log likelihood decreases,
+
+86
+00:05:59.460 --> 00:06:02.915
+then you have a bug and you have to fix it somehow.
+
+87
+00:06:02.915 --> 00:06:08.895
+And second of all, by using this kind of considerations,
+
+88
+00:06:08.895 --> 00:06:12.725
+you can prove that the EM algorithm always converge.
+
+89
+00:06:12.725 --> 00:06:14.155
+It may be a local maximum,
+
+90
+00:06:14.155 --> 00:06:15.735
+it maybe some other critical point,
+
+91
+00:06:15.735 --> 00:06:19.260
+but at least it's not worse than the gradient descent in this respect.
+
+92
+00:06:19.260 --> 00:06:22.260
+So, it's always converses at some critical point.

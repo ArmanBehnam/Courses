@@ -1,0 +1,652 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.156
+[SOUND] In the previous model,
+we covered the expectation
+
+2
+00:00:06.156 --> 00:00:12.067
+maximization algorithm for
+Gaussian mixture model.
+
+3
+00:00:12.067 --> 00:00:17.499
+In this module, we'll talk about the
+general form of expectation maximization,
+
+4
+00:00:17.499 --> 00:00:22.710
+which will allow you to train almost any
+latent variable model you can think of.
+
+5
+00:00:22.710 --> 00:00:27.716
+So it's going to be intense, but
+going to be worth it in the end.
+
+6
+00:00:27.716 --> 00:00:32.679
+But to start, we will need a few
+mathematical tools to work
+
+7
+00:00:32.679 --> 00:00:36.444
+with inequalities we're going to derive.
+
+8
+00:00:36.444 --> 00:00:41.028
+So the first tool is
+connected to concavity.
+
+9
+00:00:41.028 --> 00:00:43.122
+And is called Jensen's inequality.
+
+10
+00:00:43.122 --> 00:00:44.487
+What is concave function?
+
+11
+00:00:44.487 --> 00:00:50.282
+Well a concave function f is
+a function for any two points, a and b.
+
+12
+00:00:50.282 --> 00:00:55.875
+And for any point in between them,
+it has a property that the value
+
+13
+00:00:55.875 --> 00:01:01.468
+of the function in this point,
+the blue point, is greater than or
+
+14
+00:01:01.468 --> 00:01:07.292
+equal to the value on the segment
+that connects f(a) and f(b).
+
+15
+00:01:07.292 --> 00:01:08.915
+So the orange point.
+
+16
+00:01:08.915 --> 00:01:13.933
+Or if you put it more formally,
+for any two points a and b
+
+17
+00:01:13.933 --> 00:01:17.533
+and for any weight alpha from 0 to 1,
+
+18
+00:01:17.533 --> 00:01:22.881
+if you mix these two data points
+with the weight alpha,
+
+19
+00:01:22.881 --> 00:01:26.072
+you will get a point in between them.
+
+20
+00:01:26.072 --> 00:01:33.048
+And f of this mixture has to be greater
+than or equal to the mixture of f's, so
+
+21
+00:01:33.048 --> 00:01:39.051
+the blue point has to be greater than or
+equal to the orange point.
+
+22
+00:01:39.051 --> 00:01:43.025
+Or yet in other words,
+for any two points a and b,
+
+23
+00:01:43.025 --> 00:01:47.332
+the whole segment
+that connects f(a) and f(b)
+
+24
+00:01:47.332 --> 00:01:51.099
+should lay below the function f.
+
+25
+00:01:51.099 --> 00:01:55.653
+So if you have a concave function
+like logarithm for example,
+
+26
+00:01:55.653 --> 00:02:00.655
+then you can prove the same
+property but for more points.
+
+27
+00:02:00.655 --> 00:02:04.987
+So for example for any three points,
+and for any three weights alpha,
+
+28
+00:02:04.987 --> 00:02:07.655
+which are non-negative and sum up to 1.
+
+29
+00:02:07.655 --> 00:02:12.884
+We can prove that this concave function,
+so f of mixture of these three
+
+30
+00:02:12.884 --> 00:02:18.667
+points with weights alpha, is greater
+than or equal to the mixture of f's.
+
+31
+00:02:18.667 --> 00:02:23.272
+And you can generalize this thing.
+
+32
+00:02:23.272 --> 00:02:28.103
+So first of all, you can call these
+alphas probablities because why not.
+
+33
+00:02:28.103 --> 00:02:30.878
+They are non-negative and sum up to 1.
+
+34
+00:02:30.878 --> 00:02:35.952
+Let's say that there is a random
+variable t which takes three values,
+
+35
+00:02:35.952 --> 00:02:39.221
+a1, a2 and a3 with probabilities alpha.
+
+36
+00:02:39.221 --> 00:02:44.123
+And now we can rewrite this inequality.
+
+37
+00:02:44.123 --> 00:02:49.512
+Saying that f of the expected
+value of t is greater than or
+
+38
+00:02:49.512 --> 00:02:53.153
+equal to the expected value of f of t.
+
+39
+00:02:53.153 --> 00:02:56.203
+This is just the same thing:
+the definition of the expected value.
+
+40
+00:02:56.203 --> 00:03:00.928
+So the average with weights
+being the probabilities.
+
+41
+00:03:00.928 --> 00:03:05.559
+And this is something
+called Jensen's inequality.
+
+42
+00:03:05.559 --> 00:03:12.218
+Which if you summarize everything, [COUGH]
+states that for any concave function f and
+
+43
+00:03:12.218 --> 00:03:17.279
+for any probabilistic distribution p of t,
+the f of the expected
+
+44
+00:03:17.279 --> 00:03:22.368
+value of t is greater than or
+equal to the expected value of f of t.
+
+45
+00:03:22.368 --> 00:03:27.468
+And this holds true even
+if you have three points.
+
+46
+00:03:27.468 --> 00:03:31.536
+Or if your t takes arbitrary
+many points like infinitely many.
+
+47
+00:03:31.536 --> 00:03:36.720
+And in this case,
+your summation can turn out to be an integral,
+
+48
+00:03:36.720 --> 00:03:39.752
+but the inequality still holds.
+
+49
+00:03:39.752 --> 00:03:44.644
+So, f of the expected value is greater
+than or equal to, expect a value of f for
+
+50
+00:03:44.644 --> 00:03:46.244
+any concave function f.
+
+51
+00:03:46.244 --> 00:03:50.633
+And the final mathematical concept
+we will need is something called
+
+52
+00:03:50.633 --> 00:03:52.867
+Kullback-Leibler divergence,
+
+53
+00:03:52.867 --> 00:03:58.114
+which is a way to measure difference
+between two probabilistic distributions.
+
+54
+00:03:58.114 --> 00:04:00.277
+So say you have two Gaussians.
+
+55
+00:04:00.277 --> 00:04:04.965
+One of them is located at 0, and
+the other one is located at 1.
+
+56
+00:04:04.965 --> 00:04:08.785
+And both has variance 1, okay?
+
+57
+00:04:08.785 --> 00:04:12.617
+So how to measure how different
+these two Gaussians are?
+
+58
+00:04:12.617 --> 00:04:18.402
+Well a natural think is to measure
+the distance between their parameters,
+
+59
+00:04:18.402 --> 00:04:22.898
+and it's 1 here, because
+the variances are the same, and
+
+60
+00:04:22.898 --> 00:04:25.678
+the locations differ by 1.
+
+61
+00:04:25.678 --> 00:04:29.107
+Well it may be a reasonable
+measure of distance here, why not?
+
+62
+00:04:29.107 --> 00:04:35.629
+But let's consider another pair of Gaussians
+which have the same locations,
+
+63
+00:04:35.629 --> 00:04:39.660
+0 and 1, but they have variances 100.
+
+64
+00:04:39.660 --> 00:04:43.313
+Both of them have variance 100.
+
+65
+00:04:43.313 --> 00:04:46.311
+In this case, the difference
+between parameters is the same.
+
+66
+00:04:46.311 --> 00:04:46.900
+It's 1.
+
+67
+00:04:46.900 --> 00:04:51.098
+But intuitively, it seems like
+these two Gaussians, the green and
+
+68
+00:04:51.098 --> 00:04:54.941
+the red one, are much closer to
+each other than the first two.
+
+69
+00:04:54.941 --> 00:05:00.236
+So can we build a better way to measure
+difference between Gaussians or
+
+70
+00:05:00.236 --> 00:05:03.480
+between any probability distributions?
+
+71
+00:05:03.480 --> 00:05:06.591
+Well, Kullback-Leibler divergence
+is something which tries to solve
+
+72
+00:05:06.591 --> 00:05:07.255
+this problem.
+
+73
+00:05:07.255 --> 00:05:12.345
+And for example, for
+this particular distributions.
+
+74
+00:05:12.345 --> 00:05:15.192
+The KL divergence between
+the first two ones,
+
+75
+00:05:15.192 --> 00:05:18.185
+the blue and
+the orange Gaussian will be 0.5.
+
+76
+00:05:18.185 --> 00:05:24.332
+And the KL divergence within the green and
+red one will be 0.005.
+
+77
+00:05:24.332 --> 00:05:29.014
+So it reflects our intuition that
+the second set of Gaussians are much
+
+78
+00:05:29.014 --> 00:05:30.413
+closer to each other.
+
+79
+00:05:30.413 --> 00:05:33.924
+So let's look at the definition of
+the Kullback-Leibler divergence.
+
+80
+00:05:33.924 --> 00:05:37.685
+It may look scary a little bit but
+the idea is really simple.
+
+81
+00:05:37.685 --> 00:05:39.463
+So what do I have here?
+
+82
+00:05:39.463 --> 00:05:45.330
+It's an integral of q(x)
+times logarithm of something.
+
+83
+00:05:45.330 --> 00:05:51.095
+Well integral of q(x) is just
+an expected value of this function.
+
+84
+00:05:51.095 --> 00:05:55.576
+So here we have an expected value
+of logarithm of the ratio, right?
+
+85
+00:05:55.576 --> 00:06:00.748
+And logarithm of the ratio is trying
+to measure how different these
+
+86
+00:06:00.748 --> 00:06:05.565
+two distributions are at the current
+point x in the log scale.
+
+87
+00:06:05.565 --> 00:06:11.840
+So what we have here is basically how
+different these two distributions are at
+
+88
+00:06:11.840 --> 00:06:16.852
+any data point, at any point of
+the x-axis in the log scale.
+
+89
+00:06:16.852 --> 00:06:19.645
+And then we're taking an expected
+value of this quantity.
+
+90
+00:06:19.645 --> 00:06:23.392
+So we're kind of averaging
+across the whole space,
+
+91
+00:06:23.392 --> 00:06:26.978
+across the whole line,
+the line of real numbers.
+
+92
+00:06:26.978 --> 00:06:31.670
+And we're getting something like
+the mean difference between
+
+93
+00:06:31.670 --> 00:06:33.712
+these two distributions.
+
+94
+00:06:33.712 --> 00:06:40.052
+So again the definition of
+the Kullback-Leibler divergence.
+
+95
+00:06:40.052 --> 00:06:44.458
+And it has a few properties which
+we'll use in the following videos.
+
+96
+00:06:44.458 --> 00:06:47.422
+So, first of all it's non-symmetric,
+right?
+
+97
+00:06:47.422 --> 00:06:51.836
+If you swap p and q,
+then you'll have a different expression.
+
+98
+00:06:51.836 --> 00:06:55.586
+And this is one of the reasons
+why it's not a proper distance
+
+99
+00:06:55.586 --> 00:06:59.340
+between distributions in
+the strict mathematical sense.
+
+100
+00:06:59.340 --> 00:07:02.491
+But anyway it's useful to measure
+some kind of a distance or
+
+101
+00:07:02.491 --> 00:07:04.517
+difference between distributions.
+
+102
+00:07:04.517 --> 00:07:10.800
+Other property we may need is [COUGH] that for
+any two distributions that coincide,
+
+103
+00:07:10.800 --> 00:07:15.480
+that are the same,
+the KL distance between them is 0.
+
+104
+00:07:15.480 --> 00:07:18.454
+And this is really easy to see because,
+
+105
+00:07:18.454 --> 00:07:22.510
+if you substitute p with q,
+in the expression above,
+
+106
+00:07:22.510 --> 00:07:27.034
+you will have expected value of
+logarithm of q divided by q.
+
+107
+00:07:27.034 --> 00:07:30.653
+And q divided by q is 1 at each point.
+
+108
+00:07:30.653 --> 00:07:31.970
+The logarithm of that is 0.
+
+109
+00:07:31.970 --> 00:07:35.526
+So we have an expected
+value of 0 which is also 0.
+
+110
+00:07:35.526 --> 00:07:41.711
+So Kullback-Leibler divergence
+between a distribution and itself is 0.
+
+111
+00:07:41.711 --> 00:07:46.728
+And finally, the KL divergence is
+non-negative for any of the distributions.
+
+112
+00:07:46.728 --> 00:07:50.650
+And that's kind of easy to prove because
+you can use minus KL divergence.
+
+113
+00:07:50.650 --> 00:07:55.602
+We can look at the minus KL divergence
+which equals to the expected
+
+114
+00:07:55.602 --> 00:07:58.403
+value of the logarithm of the ratio.
+
+115
+00:07:58.403 --> 00:08:01.888
+And we can put minus
+inside the expected value,
+
+116
+00:08:01.888 --> 00:08:04.776
+because expected value is something linear.
+
+117
+00:08:04.776 --> 00:08:10.805
+And finally we can use
+the property that 
+
+118
+00:08:10.805 --> 00:08:14.490
+minus logarithm of something is
+the logarithm of the inverse.
+
+119
+00:08:14.490 --> 00:08:18.214
+And now we have expected
+value of the logarithm.
+
+120
+00:08:18.214 --> 00:08:24.032
+And as you may know,
+the logarithm is concave function.
+
+121
+00:08:24.032 --> 00:08:25.343
+It's kind of easy to prove.
+
+122
+00:08:25.343 --> 00:08:30.096
+You can look it up in Wikipedia or
+so, or just believe me.
+
+123
+00:08:30.096 --> 00:08:34.951
+But anyway, this means that we can
+apply Jensen's inequality here.
+
+124
+00:08:34.951 --> 00:08:39.183
+And Jensen's inequality will
+say that expected value of
+
+125
+00:08:39.183 --> 00:08:44.377
+logarithm is less than or equal to
+the logarithm of the expected value.
+
+126
+00:08:44.377 --> 00:08:49.361
+And finally, the expected value of
+p divided by q is just equal to
+
+127
+00:08:49.361 --> 00:08:54.545
+the integral of q times p divided by q,
+where the q vanishes.
+
+128
+00:08:54.545 --> 00:08:57.733
+And integral of p is always 1 for
+any distribution p,
+
+129
+00:08:57.733 --> 00:09:00.862
+because it's a property
+of the distribution.
+
+130
+00:09:00.862 --> 00:09:03.456
+And finally logarithm of this 1 is 0, so
+
+131
+00:09:03.456 --> 00:09:07.783
+we have just proved that minus KL
+divergence is always non-positive,
+
+132
+00:09:07.783 --> 00:09:11.333
+which means that KL divergence
+itself is non-negative.
+
+133
+00:09:11.333 --> 00:09:18.251
+To summarize, KL divergence is some way to
+compare two distributions to each other.
+
+134
+00:09:18.251 --> 00:09:19.656
+It's non-symmetric.
+
+135
+00:09:19.656 --> 00:09:25.411
+It equals to 0 when we compare
+the distribution to itself,
+
+136
+00:09:25.411 --> 00:09:28.875
+and it's always non-negative.
+
+137
+00:09:28.875 --> 00:09:35.052
+[SOUND]
+
+138
+00:09:35.052 --> 00:09:40.779
+[MUSIC]

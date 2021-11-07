@@ -1,0 +1,505 @@
+WEBVTT
+
+1
+00:00:03.580 --> 00:00:09.860
+Now let's look at the popular algorithm for hard clustering called
+
+2
+00:00:09.860 --> 00:00:17.060
+K-means and see if we can connect it to the general form of the expectation maximization.
+
+3
+00:00:17.060 --> 00:00:19.085
+So, it would be really cool to drive,
+
+4
+00:00:19.085 --> 00:00:23.765
+it is a special case of EM and to feed it in the general framework.
+
+5
+00:00:23.765 --> 00:00:25.410
+So hard clustering.
+
+6
+00:00:25.410 --> 00:00:29.075
+We have a data set of points and if we want to assign each data point to
+
+7
+00:00:29.075 --> 00:00:33.080
+some of the clusters and now we can't say that suddenly the point,
+
+8
+00:00:33.080 --> 00:00:36.030
+it belongs to several clusters simultaneously.
+
+9
+00:00:36.030 --> 00:00:43.155
+Now which data point should be assigned to one and just one cluster, okay?
+
+10
+00:00:43.155 --> 00:00:47.390
+The K-means algorithm suggest
+
+11
+00:00:47.390 --> 00:00:52.340
+you to solve this hard clustering problem in the following way.
+
+12
+00:00:52.340 --> 00:00:56.435
+First of all, let's initialize the parameters randomly.
+
+13
+00:00:56.435 --> 00:01:01.550
+And here are the parameters are just means so the locations of the cluster.
+
+14
+00:01:01.550 --> 00:01:04.565
+We don't have weights by and we don't have
+
+15
+00:01:04.565 --> 00:01:10.455
+some shapes for the clusters Sigma, just locations.
+
+16
+00:01:10.455 --> 00:01:12.850
+And then in iterations,
+
+17
+00:01:12.850 --> 00:01:15.830
+we're repeating two sub steps until convergence.
+
+18
+00:01:15.830 --> 00:01:18.835
+So the first sub step is to find for each data point,
+
+19
+00:01:18.835 --> 00:01:24.710
+find the closest cluster and assign these data points to this cluster.
+
+20
+00:01:24.710 --> 00:01:29.185
+So each data point is assigned to belong to the closest cluster to it.
+
+21
+00:01:29.185 --> 00:01:35.285
+And by closest, I mean according to Euclidean distance.
+
+22
+00:01:35.285 --> 00:01:36.950
+And on the next sub step,
+
+23
+00:01:36.950 --> 00:01:42.800
+K-means suggest you to update the parameters by finding,
+
+24
+00:01:42.800 --> 00:01:45.000
+so for example, to update the first Gaussian,
+
+25
+00:01:45.000 --> 00:01:48.090
+the first cluster centroid Mu_1
+
+26
+00:01:48.090 --> 00:01:52.220
+we'll have to find all the data points which we are assigned
+
+27
+00:01:52.220 --> 00:01:55.880
+to the first cluster on the first sub step and
+
+28
+00:01:55.880 --> 00:01:59.600
+then find their average which will be the center of this cluster,
+
+29
+00:01:59.600 --> 00:02:03.955
+updated center and then we repeat these two things until convergence.
+
+30
+00:02:03.955 --> 00:02:07.055
+So if you look carefully at this algorithm,
+
+31
+00:02:07.055 --> 00:02:10.940
+it looks really similar to the EM, right?
+
+32
+00:02:10.940 --> 00:02:15.245
+We also have random initializations and then we in iterations repeat
+
+33
+00:02:15.245 --> 00:02:20.855
+two steps which also look really close to the stuff we had in the EM.
+
+34
+00:02:20.855 --> 00:02:24.710
+First of all, we compute some property for
+
+35
+00:02:24.710 --> 00:02:29.460
+each data point and then we update the parameters by using these properties.
+
+36
+00:02:29.460 --> 00:02:38.435
+Let's see if we can somehow convert our Gaussian Mixture Model and EM applied to it,
+
+37
+00:02:38.435 --> 00:02:42.375
+so to obtain exactly this K-means algorithm.
+
+38
+00:02:42.375 --> 00:02:45.950
+So to prove that the K-means is just a special case of
+
+39
+00:02:45.950 --> 00:02:51.100
+this EM algorithm applied to Gaussian Mixture Model or maybe to some other model.
+
+40
+00:02:51.100 --> 00:02:56.775
+So first of all, we have to say that we don't have these additional parameters, right?
+
+41
+00:02:56.775 --> 00:03:00.680
+So let's say that the covariance matrices of the shapes are all
+
+42
+00:03:00.680 --> 00:03:05.180
+identical matrices which means that all the shapes of each Gaussian is
+
+43
+00:03:05.180 --> 00:03:14.585
+just uniform circle with fixed radius and the prior weights pi are all uniform also.
+
+44
+00:03:14.585 --> 00:03:18.800
+So they equal to one divided by the number of clusters.
+
+45
+00:03:18.800 --> 00:03:24.025
+This way we will have only Mu as the parameter of our Gaussian Mixture Model or kind of
+
+46
+00:03:24.025 --> 00:03:26.615
+restricted Gaussian Mixture Model and then
+
+47
+00:03:26.615 --> 00:03:31.970
+the density of each data point given that we know the cluster,
+
+48
+00:03:31.970 --> 00:03:34.215
+now looks like this.
+
+49
+00:03:34.215 --> 00:03:38.085
+So, it's some normalization times exponent of
+
+50
+00:03:38.085 --> 00:03:43.810
+point five times the Euclidean distance between x1 and Mu_c where Mu_c
+
+51
+00:03:43.810 --> 00:03:49.640
+is the center of the Gaussian number c. You can prove that
+
+52
+00:03:49.640 --> 00:03:56.085
+this is exactly the formula for multidimensional Gaussian, multivarian Gaussian.
+
+53
+00:03:56.085 --> 00:04:00.920
+If you have identical covariance matrix sigma,
+
+54
+00:04:00.920 --> 00:04:05.460
+if it equals to identical matrix.
+
+55
+00:04:05.460 --> 00:04:09.945
+Now, let's look at the E and M steps of this restricted Gaussian Mixture Model.
+
+56
+00:04:09.945 --> 00:04:12.940
+On the E -step, the expectation-maximization algorithm suggests you
+
+57
+00:04:12.940 --> 00:04:17.240
+to find the minimum of the KL divergence
+
+58
+00:04:17.240 --> 00:04:20.810
+between the variational distribution q
+
+59
+00:04:20.810 --> 00:04:25.205
+and the posterior distribution p(t) given data and parameters.
+
+60
+00:04:25.205 --> 00:04:27.560
+And if we are going to do it,
+
+61
+00:04:27.560 --> 00:04:33.515
+we will find not hard assignments but soft assignments, right?
+
+62
+00:04:33.515 --> 00:04:38.165
+As we obtained in the Gaussian Mixture Model.
+
+63
+00:04:38.165 --> 00:04:41.450
+So for each data point this q will say with
+
+64
+00:04:41.450 --> 00:04:47.190
+which probability it belongs to one cluster or another or one Gaussian or another.
+
+65
+00:04:47.190 --> 00:04:48.935
+And this is not what we want.
+
+66
+00:04:48.935 --> 00:04:53.750
+We want to derive K-means from this model.
+
+67
+00:04:53.750 --> 00:04:57.085
+So we want this step to be hard clustering.
+
+68
+00:04:57.085 --> 00:04:59.770
+How can we do it? Well, let's find
+
+69
+00:04:59.770 --> 00:05:05.090
+not the best optimal q but q among some family of simple qs.
+
+70
+00:05:05.090 --> 00:05:10.435
+So let's look at the q among all delta functions.
+
+71
+00:05:10.435 --> 00:05:15.215
+Where delta function means that this probability distribution takes
+
+72
+00:05:15.215 --> 00:05:20.115
+one value of probability one and all the other values with probability zero.
+
+73
+00:05:20.115 --> 00:05:24.245
+It's really certain about what the outcome will be.
+
+74
+00:05:24.245 --> 00:05:28.260
+So, let's imagine that the posterior distribution looks like this.
+
+75
+00:05:28.260 --> 00:05:32.810
+So our data point belongs to the cluster number two with probability
+
+76
+00:05:32.810 --> 00:05:38.355
+like 0.6 and cluster number one with probability 0.4. What do you think?
+
+77
+00:05:38.355 --> 00:05:43.490
+What the delta function approximation will be?
+
+78
+00:05:43.490 --> 00:05:47.110
+So what will be the closest q to it according to
+
+79
+00:05:47.110 --> 00:05:52.605
+KL distance among the family of delta functions?
+
+80
+00:05:52.605 --> 00:05:55.660
+Well, it will be a distribution like this.
+
+81
+00:05:55.660 --> 00:05:59.960
+It will put all the probability mass into the class that
+
+82
+00:05:59.960 --> 00:06:05.930
+had the highest probability according to our posterior.
+
+83
+00:06:05.930 --> 00:06:09.950
+So by restricting the set of possible qs on the E-step,
+
+84
+00:06:09.950 --> 00:06:17.760
+we're actually approximating the actual posterior distribution with delta functions.
+
+85
+00:06:17.760 --> 00:06:23.850
+And this way the optimal q on the E-step will look like this, right?
+
+86
+00:06:23.850 --> 00:06:25.920
+It's some delta function.
+
+87
+00:06:25.920 --> 00:06:32.020
+So it's probability one then t_i equals to some predefined value and zero otherwise.
+
+88
+00:06:32.020 --> 00:06:35.760
+And what is c_i? What does this predefined value?
+
+89
+00:06:35.760 --> 00:06:40.730
+Well, it's the most probable configuration according to our posterior distribution.
+
+90
+00:06:40.730 --> 00:06:44.460
+So, we have to find c_i which maximizes
+
+91
+00:06:44.460 --> 00:06:50.890
+the posterior probability of latent variable t_i given the data and the parameters theta.
+
+92
+00:06:50.890 --> 00:06:56.230
+Recall that the posterior distribution itself
+
+93
+00:06:56.230 --> 00:07:01.150
+is proportional to the full joint distribution which is x,
+
+94
+00:07:01.150 --> 00:07:04.100
+u and t as p of t and
+
+95
+00:07:04.100 --> 00:07:08.150
+parameters and we also have some normalization constant but we don't care about it
+
+96
+00:07:08.150 --> 00:07:11.590
+because we want to maximize this thing with respect to
+
+97
+00:07:11.590 --> 00:07:16.445
+t_i or with respect to c which like respect to the value of t_i.
+
+98
+00:07:16.445 --> 00:07:18.460
+So normalization doesn't change anything.
+
+99
+00:07:18.460 --> 00:07:20.270
+And if you recall,
+
+100
+00:07:20.270 --> 00:07:26.820
+this thing equals to normalization times the x given t which is exponent of
+
+101
+00:07:26.820 --> 00:07:30.555
+minus 0.5 times Euclidean distance and times
+
+102
+00:07:30.555 --> 00:07:34.340
+the prior and we agree that the prior will be just uniform.
+
+103
+00:07:34.340 --> 00:07:39.920
+So it doesn't depend on c and we also don't care about when we maximize this thing.
+
+104
+00:07:39.920 --> 00:07:44.480
+So finally, we want to maximize this expression with respect to
+
+105
+00:07:44.480 --> 00:07:49.770
+the value of t_i and we have normalization one divided by Z and we have.
+
+106
+00:07:49.770 --> 00:07:55.475
+pi of c which both actually doesn't depend on c. So,
+
+107
+00:07:55.475 --> 00:07:59.245
+we can throw it away and will not change anything.
+
+108
+00:07:59.245 --> 00:08:05.975
+And maximizing the exponent of minus something is the same as minimizing something.
+
+109
+00:08:05.975 --> 00:08:11.215
+So we can just minimize 0.5 times Euclidean distance.
+
+110
+00:08:11.215 --> 00:08:14.045
+And finally, we have an expression like this.
+
+111
+00:08:14.045 --> 00:08:24.495
+So our optimal q from the E-step is the same as,
+
+112
+00:08:24.495 --> 00:08:31.725
+is just a delta function which takes the value of arg minimum of the Euclidean distance.
+
+113
+00:08:31.725 --> 00:08:35.235
+So the closest cluster center with probability
+
+114
+00:08:35.235 --> 00:08:40.320
+one and it has probability zero to be anything else.
+
+115
+00:08:40.320 --> 00:08:42.470
+Okay?
+
+116
+00:08:42.470 --> 00:08:47.008
+So, this is exactly like we have in K-means,
+
+117
+00:08:47.008 --> 00:08:53.820
+which means that this restricted Gaussian Mixture Model if you apply EM to it
+
+118
+00:08:53.820 --> 00:08:57.105
+and if you restrict your possible values
+
+119
+00:08:57.105 --> 00:09:01.260
+of the variational distribution q on the E- step to be delta functions,
+
+120
+00:09:01.260 --> 00:09:06.905
+you will get exactly the same first sub step of the iteration.
+
+121
+00:09:06.905 --> 00:09:11.885
+So now, let's derive the formula for
+
+122
+00:09:11.885 --> 00:09:15.735
+the M-step on the blackboard and see how it's connected,
+
+123
+00:09:15.735 --> 00:09:20.570
+how does the formula for the second sub step of K-means and x to
+
+124
+00:09:20.570 --> 00:09:25.660
+the M-step of the expectation maximization
+
+125
+00:09:25.660 --> 00:09:28.190
+apply to this restricted Gaussian Mixture Model with
+
+126
+00:09:28.190 --> 00:09:32.230
+this particular choice of q which is delta function.

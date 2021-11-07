@@ -1,0 +1,645 @@
+WEBVTT
+
+1
+00:00:03.230 --> 00:00:05.715
+In the previous video,
+
+2
+00:00:05.715 --> 00:00:10.748
+we discussed that we want to build an expectation-maximization algorithm,
+
+3
+00:00:10.748 --> 00:00:14.995
+for this simple discrete probabilistic fitting problem.
+
+4
+00:00:14.995 --> 00:00:21.285
+And we finished the E-step which is summarized in the bottom of this desk.
+
+5
+00:00:21.285 --> 00:00:26.240
+So now, let's go ahead and proceed with the M-step.
+
+6
+00:00:26.240 --> 00:00:27.375
+So, on the M-step,
+
+7
+00:00:27.375 --> 00:00:34.155
+we want to maximize the expected value,
+
+8
+00:00:34.155 --> 00:00:36.600
+maximized with respect to the parameters.
+
+9
+00:00:36.600 --> 00:00:37.670
+So in this case, alpha, beta,
+
+10
+00:00:37.670 --> 00:00:45.830
+and gamma with respect
+
+11
+00:00:45.830 --> 00:00:50.115
+to the objects in the data set of expected values,
+
+12
+00:00:50.115 --> 00:00:54.767
+with respect to q(ti) of joint distributions,
+
+13
+00:00:54.767 --> 00:00:59.630
+logarithms of the joint p(ti),
+
+14
+00:00:59.630 --> 00:01:04.055
+and (xi) which we can rewrite as a product of
+
+15
+00:01:04.055 --> 00:01:12.680
+p(xi/ti) times and again,
+
+16
+00:01:12.680 --> 00:01:15.434
+given the parameters, but I will omit them everywhere,
+
+17
+00:01:15.434 --> 00:01:18.500
+that's the prior of p(ti).
+
+18
+00:01:18.500 --> 00:01:22.280
+And we can rewrite this thing by using the definition of
+
+19
+00:01:22.280 --> 00:01:30.195
+the expected value which is sum with respect to all possible variables for (ti).
+
+20
+00:01:30.195 --> 00:01:32.325
+And there are two possible variables for (ti), here.
+
+21
+00:01:32.325 --> 00:01:34.570
+So, it will be sum,
+
+22
+00:01:34.570 --> 00:01:38.140
+the first term will be, corresponding to (ti=1).
+
+23
+00:01:38.140 --> 00:01:42.950
+So, for data points that are coming
+
+24
+00:01:42.950 --> 00:01:48.180
+from the first component of the mixture, here'll be logarithm,
+
+25
+00:01:48.180 --> 00:01:56.400
+here'll be the weight, probability (ti=1) times
+
+26
+00:01:56.400 --> 00:02:01.171
+the logarithm of
+
+27
+00:02:01.171 --> 00:02:08.396
+(xi/ti=1) times the prior,
+
+28
+00:02:08.396 --> 00:02:10.505
+and the prior here is just gamma.
+
+29
+00:02:10.505 --> 00:02:12.183
+So probability of (ti=1),
+
+30
+00:02:12.183 --> 00:02:17.337
+plus the second term
+
+31
+00:02:17.337 --> 00:02:25.470
+which is the same thing, but for (ti=1).
+
+32
+00:02:25.470 --> 00:02:28.890
+So, again sum with respect to all the objects in data set.
+
+33
+00:02:28.890 --> 00:02:32.873
+The variations fusion Q (ti=2) times
+
+34
+00:02:32.873 --> 00:02:40.560
+the logarithm of the joint distribution which is a logarithm of p(xi/ti=2),
+
+35
+00:02:40.560 --> 00:02:46.227
+just p2(xi) and times the prior which one minus gamma.
+
+36
+00:02:46.227 --> 00:02:51.095
+And we want to maximize this thing with respect to parameters.
+
+37
+00:02:51.095 --> 00:02:52.510
+So, with respect to alpha, beta, and gamma.
+
+38
+00:02:52.510 --> 00:02:58.785
+Let's rewrite this expression by using the definition of Q,
+
+39
+00:02:58.785 --> 00:03:01.900
+using the one we derived from the E-step,
+
+40
+00:03:01.900 --> 00:03:05.895
+and also substituting the definition of p1 and p2.
+
+41
+00:03:05.895 --> 00:03:10.530
+So here, we'll get something like this.
+
+42
+00:03:10.530 --> 00:03:15.630
+To start with, let's make more concrete, which data we have.
+
+43
+00:03:15.630 --> 00:03:19.280
+So, let's say that we observed
+
+44
+00:03:19.280 --> 00:03:26.580
+30 objects equals to xi=1.
+
+45
+00:03:26.580 --> 00:03:32.510
+So, N1=30, It's number of observations xi which
+
+46
+00:03:32.510 --> 00:03:40.998
+are equal to one, N2=20, and N3=60.
+
+47
+00:03:40.998 --> 00:03:44.255
+So this is a complete definition of our data set.
+
+48
+00:03:44.255 --> 00:03:46.500
+We have 31 and et cetera.
+
+49
+00:03:46.500 --> 00:03:49.595
+And now, we can proceed with this fitting algorithm.
+
+50
+00:03:49.595 --> 00:03:53.900
+So, now we're going to write this thing,
+
+51
+00:03:53.900 --> 00:03:58.215
+and instead of writing everywhere sum with respect to objects,
+
+52
+00:03:58.215 --> 00:04:00.885
+let's decompose this thing into free terms.
+
+53
+00:04:00.885 --> 00:04:05.355
+First of them, corresponding to the xi=1, and et cetera.
+
+54
+00:04:05.355 --> 00:04:07.110
+So the first term will be,
+
+55
+00:04:07.110 --> 00:04:10.106
+there will be 30 terms equals to each
+
+56
+00:04:10.106 --> 00:04:14.695
+other that corresponds to that xi that are equal to one.
+
+57
+00:04:14.695 --> 00:04:16.530
+Right? And so, q(ti=1).
+
+58
+00:04:16.530 --> 00:04:24.701
+In this case, will be just p ti=1 given that xi=.
+
+59
+00:04:24.701 --> 00:04:27.661
+So, it's the terms corresponding to xi=1, right?
+
+60
+00:04:27.661 --> 00:04:32.730
+And this thing is just one.
+
+61
+00:04:32.730 --> 00:04:36.120
+If we look up our results from the E-step.
+
+62
+00:04:36.120 --> 00:04:44.130
+This is one and times the logarithm of the joint distributions.
+
+63
+00:04:44.130 --> 00:04:50.768
+So, logarithm of p1 of one which is alpha,
+
+64
+00:04:50.768 --> 00:04:53.885
+times the prior which is gamma.
+
+65
+00:04:53.885 --> 00:05:00.690
+So, permuted that ti=1 is the first term of the first term here.
+
+66
+00:05:00.690 --> 00:05:04.070
+The second term will correspond to xi=2.
+
+67
+00:05:04.070 --> 00:05:07.340
+So there will be 20 of them.
+
+68
+00:05:07.340 --> 00:05:11.310
+The probability of q(ti),
+
+69
+00:05:11.310 --> 00:05:13.785
+in this case will be 0.5 from here.
+
+70
+00:05:13.785 --> 00:05:17.703
+So it will be times 0.5 times the logarithm of
+
+71
+00:05:17.703 --> 00:05:26.510
+the joint distribution which is one minus alpha times the prior.
+
+72
+00:05:26.510 --> 00:05:29.010
+It's p1 of two,
+
+73
+00:05:29.010 --> 00:05:34.751
+plus the third term.
+
+74
+00:05:34.751 --> 00:05:38.720
+So there will be 60,
+
+75
+00:05:38.720 --> 00:05:43.800
+xi=3, and the probability, this q(ti) will be zero.
+
+76
+00:05:43.800 --> 00:05:50.960
+So, this will be zero,
+
+77
+00:05:50.960 --> 00:05:55.850
+times logarithm of also zero which may look like a problem,
+
+78
+00:05:55.850 --> 00:06:03.735
+but actually, it's usually considered that zero times logarithm of zero is zero.
+
+79
+00:06:03.735 --> 00:06:09.289
+So, even if you do it carefully it will be okay.
+
+80
+00:06:09.289 --> 00:06:12.380
+You just kind of ignore this term in maximization problem.
+
+81
+00:06:12.380 --> 00:06:17.380
+This thing is ignored because it's zero.
+
+82
+00:06:17.380 --> 00:06:21.025
+Plus the terms corresponding to this part.
+
+83
+00:06:21.025 --> 00:06:23.400
+So, plus the terms corresponding to
+
+84
+00:06:23.400 --> 00:06:26.980
+the xi that came from the second component of the mixture.
+
+85
+00:06:26.980 --> 00:06:29.740
+Again, there will be 30,
+
+86
+00:06:29.740 --> 00:06:37.270
+xi=1 times the variation probability of q(ti=1).
+
+87
+00:06:37.270 --> 00:06:38.845
+And this thing could be.
+
+88
+00:06:38.845 --> 00:06:41.797
+p(ti=2).
+
+89
+00:06:41.797 --> 00:06:44.855
+So, second component of the mixture,
+
+90
+00:06:44.855 --> 00:06:47.830
+given xi is 1,
+
+91
+00:06:47.830 --> 00:06:50.215
+and this is zero, right?
+
+92
+00:06:50.215 --> 00:06:55.495
+So, we assume that no one's came from the second component of the mixture.
+
+93
+00:06:55.495 --> 00:06:57.590
+So again, it was times logarithm of zero,
+
+94
+00:06:57.590 --> 00:07:00.180
+but anyway, we ignored this part.
+
+95
+00:07:00.180 --> 00:07:06.510
+This is zero, and plus the final two terms which
+
+96
+00:07:06.510 --> 00:07:13.690
+is 20 times 0.5 which is q,
+
+97
+00:07:13.690 --> 00:07:17.137
+times logarithm of one minus beta,
+
+98
+00:07:17.137 --> 00:07:20.044
+times one minus alpha,
+
+99
+00:07:20.044 --> 00:07:26.405
+or one minus gamma which is prior probability for the second component of the mixture.
+
+100
+00:07:26.405 --> 00:07:31.995
+And this last term is
+
+101
+00:07:31.995 --> 00:07:39.976
+60 times 1 times logarithm of beta,
+
+102
+00:07:39.976 --> 00:07:46.595
+times the prior probability for second component which is one minus gamma.
+
+103
+00:07:46.595 --> 00:07:48.870
+So finally, we have this expression,
+
+104
+00:07:48.870 --> 00:07:53.140
+and we want to maximize it with respect to alpha, beta, and gamma.
+
+105
+00:07:53.140 --> 00:07:58.035
+So, let's try to simplify it a little bit.
+
+106
+00:07:58.035 --> 00:07:59.395
+So, get lid of the zeros,
+
+107
+00:07:59.395 --> 00:08:03.400
+and things like that that can make things harder for us.
+
+108
+00:08:03.400 --> 00:08:06.610
+And also, move all the bar sets,
+
+109
+00:08:06.610 --> 00:08:09.345
+it depends on the same parameter together.
+
+110
+00:08:09.345 --> 00:08:15.527
+So let's start with maximizing but with respect to alpha for example.
+
+111
+00:08:15.527 --> 00:08:19.360
+Let's identify the terms that depend on alpha.
+
+112
+00:08:19.360 --> 00:08:21.890
+So this thing will equal to...
+
+113
+00:08:21.890 --> 00:08:30.076
+So, this part does depend on alpha.
+
+114
+00:08:30.076 --> 00:08:35.672
+It will be 30 times logarithm of alpha,
+
+115
+00:08:35.672 --> 00:08:38.919
+plus 30 times logarithm of gamma,
+
+116
+00:08:38.919 --> 00:08:40.930
+but we don't care about it,
+
+117
+00:08:40.930 --> 00:08:43.940
+because it's a cost with respect to alpha.
+
+118
+00:08:43.940 --> 00:08:47.000
+And now, we want to maximize with respect alpha.
+
+119
+00:08:47.000 --> 00:08:55.734
+So, plus 10 times logarithm of one minus alpha,
+
+120
+00:08:55.734 --> 00:09:00.010
+and there are no alphas anywhere else.
+
+121
+00:09:00.010 --> 00:09:01.734
+So, plus constant with respect to alpha.
+
+122
+00:09:01.734 --> 00:09:12.280
+And we want to maximize this expression.
+
+123
+00:09:12.280 --> 00:09:14.800
+How can we do it? Well, let's take the gradient,
+
+124
+00:09:14.800 --> 00:09:17.110
+and set it to zero as usually.
+
+125
+00:09:17.110 --> 00:09:21.420
+So, the gradient of this expression with respect to alpha will be
+
+126
+00:09:21.420 --> 00:09:30.153
+30 times gradient of logarithm of alpha which is one divided by alpha,
+
+127
+00:09:30.153 --> 00:09:36.634
+plus 10 times gradient of logarithm of one minus alpha,
+
+128
+00:09:36.634 --> 00:09:43.310
+it's one divided by one minus alpha, minus one.
+
+129
+00:09:43.310 --> 00:09:47.395
+And this thing, equals to zero.
+
+130
+00:09:47.395 --> 00:09:51.365
+And finally, we can solve this equation by now,
+
+131
+00:09:51.365 --> 00:09:53.850
+we're just writing down this ratio.
+
+132
+00:09:53.850 --> 00:09:55.600
+30 divided by alpha,
+
+133
+00:09:55.600 --> 00:09:58.725
+equals to 10 divided by one minus alpha,
+
+134
+00:09:58.725 --> 00:10:02.350
+and by multiplying each part by one minus alpha, and alpha,
+
+135
+00:10:02.350 --> 00:10:07.110
+we can get that, well,
+
+136
+00:10:07.110 --> 00:10:10.320
+30 minus 30 alpha,
+
+137
+00:10:10.320 --> 00:10:13.195
+equals to 10 alpha.
+
+138
+00:10:13.195 --> 00:10:23.470
+And finally, which means that alpha equals to 30 divided by 40.
+
+139
+00:10:23.470 --> 00:10:28.353
+So, we found our alpha after the M-step.
+
+140
+00:10:28.353 --> 00:10:33.965
+So we updated the parameters of our alpha variable model.
+
+141
+00:10:33.965 --> 00:10:36.530
+We started from the initialization,
+
+142
+00:10:36.530 --> 00:10:39.390
+alpha equals beta, equals gamma, equals 0.5,
+
+143
+00:10:39.390 --> 00:10:42.927
+and after one step of the expectation maximization algorithm,
+
+144
+00:10:42.927 --> 00:10:46.335
+alpha started to be three divided by four.
+
+145
+00:10:46.335 --> 00:10:55.865
+So, we can solve the same optimization problem with respect to beta and gamma,
+
+146
+00:10:55.865 --> 00:10:59.175
+and get the following numbers.
+
+147
+00:10:59.175 --> 00:11:04.440
+So, beta will be six divided by seven,
+
+148
+00:11:04.440 --> 00:11:12.445
+and gamma will be four divided by 11.
+
+149
+00:11:12.445 --> 00:11:16.020
+So, we found our parameters, and actually,
+
+150
+00:11:16.020 --> 00:11:20.895
+it turns out that if you repeat this expectation maximization steps a few more times,
+
+151
+00:11:20.895 --> 00:11:23.075
+you will not update the parameters anymore.
+
+152
+00:11:23.075 --> 00:11:27.437
+So, we have already converge up to one iteration of expectation maximization.
+
+153
+00:11:27.437 --> 00:11:30.360
+And this parameter kind of make sense.
+
+154
+00:11:30.360 --> 00:11:35.770
+They say that the first component of a mixture mostly focus on [inaudible] ones.
+
+155
+00:11:35.770 --> 00:11:39.840
+So, the probability of changing one is three divided by four.
+
+156
+00:11:39.840 --> 00:11:41.530
+It's larger than 0.5,
+
+157
+00:11:41.530 --> 00:11:45.615
+and the second component of the mixture focus on number threes.
+
+158
+00:11:45.615 --> 00:11:50.790
+And we're a little bit less in terms of the first component and of the second one,
+
+159
+00:11:50.790 --> 00:11:54.030
+because there are less one's and three's.
+
+160
+00:11:54.030 --> 00:11:57.940
+So, last week, consult in details
+
+161
+00:11:57.940 --> 00:12:04.220
+this one step of the expectation maximization algorithm for a discrete mixture model.

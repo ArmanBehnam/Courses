@@ -1,0 +1,661 @@
+WEBVTT
+
+1
+00:00:03.420 --> 00:00:05.620
+In the previous video,
+
+2
+00:00:05.620 --> 00:00:09.540
+we decided to use Gaussian Mixture Model to fit
+
+3
+00:00:09.540 --> 00:00:14.880
+our dataset and to solve the clustering problem, but how?
+
+4
+00:00:14.880 --> 00:00:21.040
+How can we do better than the generals that castigate and descent?
+
+5
+00:00:21.040 --> 00:00:24.480
+In this video, we will discuss some intuition that leads
+
+6
+00:00:24.480 --> 00:00:29.890
+to expectation maximization algorithm for this particular case.
+
+7
+00:00:29.890 --> 00:00:34.170
+To recall that the density of each data point in
+
+8
+00:00:34.170 --> 00:00:38.425
+our Gaussian Mixture Model is a weighted sum of three or,
+
+9
+00:00:38.425 --> 00:00:42.585
+in general, as many as you want, Gaussians divisions.
+
+10
+00:00:42.585 --> 00:00:46.380
+To start with, we will need to introduce a latent variable
+
+11
+00:00:46.380 --> 00:00:52.080
+here because it will make the reasoning about our model much easier.
+
+12
+00:00:52.080 --> 00:00:57.595
+What can we correlate more variable here?
+
+13
+00:00:57.595 --> 00:00:59.625
+Well, we can do something like this.
+
+14
+00:00:59.625 --> 00:01:03.915
+We can say that each data point was generated
+
+15
+00:01:03.915 --> 00:01:09.108
+by using some information from latent variable T, which exists.
+
+16
+00:01:09.108 --> 00:01:15.120
+It's like we have one latent variable T for each data point X and it causes X.
+
+17
+00:01:15.120 --> 00:01:17.523
+It explains something about X,
+
+18
+00:01:17.523 --> 00:01:24.375
+and the reasonable thing to assume about T here is that it takes 3 radius,
+
+19
+00:01:24.375 --> 00:01:32.160
+1, 2 or 3 and it shows us from which Gaussian this particular data point came from.
+
+20
+00:01:32.160 --> 00:01:35.390
+We actually don't know for any data point,
+
+21
+00:01:35.390 --> 00:01:37.850
+we don't know from which Gaussian came from.
+
+22
+00:01:37.850 --> 00:01:39.395
+It's a latent variable, right?
+
+23
+00:01:39.395 --> 00:01:42.685
+We doesn't observe this,
+
+24
+00:01:42.685 --> 00:01:46.313
+never nor in training nor in testing,
+
+25
+00:01:46.313 --> 00:01:49.790
+but these can be helpful so if we know the latent variables,
+
+26
+00:01:49.790 --> 00:01:54.420
+it can be helpful to understand something about our model.
+
+27
+00:01:54.420 --> 00:01:58.825
+Later, then with fit the Gaussian mixture model into our data.
+
+28
+00:01:58.825 --> 00:02:03.090
+We may find the distribution on the latent variable even the data.
+
+29
+00:02:03.090 --> 00:02:07.875
+We may ask how will the question,
+
+30
+00:02:07.875 --> 00:02:09.276
+how do you think,
+
+31
+00:02:09.276 --> 00:02:14.050
+what is the value for latent variable T for these particular data point?
+
+32
+00:02:14.050 --> 00:02:18.660
+The answer to this question will be basically the clustering, right?
+
+33
+00:02:18.660 --> 00:02:25.665
+It gives us the beliefs from which Gaussian these data point came from.
+
+34
+00:02:25.665 --> 00:02:29.205
+If we decided to use this kind of latent variable model,
+
+35
+00:02:29.205 --> 00:02:34.530
+then it is reasonable to assume that latent variable T has prior distribution pi,
+
+36
+00:02:34.530 --> 00:02:38.250
+so it's exactly the weights of our Gaussians.
+
+37
+00:02:38.250 --> 00:02:42.448
+The latent variable T equals to some cluster number,
+
+38
+00:02:42.448 --> 00:02:46.570
+for example one, with probability pi one and the likelihood.
+
+39
+00:02:46.570 --> 00:02:49.380
+The density of the data point X,
+
+40
+00:02:49.380 --> 00:02:53.320
+given that we know from which Gaussian came from,
+
+41
+00:02:53.320 --> 00:02:56.710
+is just Gaussian distribution because it came from the Gaussian.
+
+42
+00:02:56.710 --> 00:03:02.220
+Each data point, if we know that it came from the Gaussian number C,
+
+43
+00:03:02.220 --> 00:03:05.935
+it's density just these Gaussian things do with the parameters of
+
+44
+00:03:05.935 --> 00:03:11.960
+the Gaussian number C. When we introduce this kind of latent variable model,
+
+45
+00:03:11.960 --> 00:03:18.405
+we may now look at what will P of X given theta represent in this model.
+
+46
+00:03:18.405 --> 00:03:23.490
+We change our model and we now have to check that it still gives
+
+47
+00:03:23.490 --> 00:03:29.530
+you the same general results as our original model.
+
+48
+00:03:29.530 --> 00:03:31.670
+If you write down P of X given theta,
+
+49
+00:03:31.670 --> 00:03:35.735
+given parameters and this latent variable model, we will get this.
+
+50
+00:03:35.735 --> 00:03:40.290
+It's just a rule of sum for probabilities and it says
+
+51
+00:03:40.290 --> 00:03:47.157
+that a P of X given theta equals to sum with respect to T. So we are marginalizing T,
+
+52
+00:03:47.157 --> 00:03:51.470
+with the respect to all possible values for T, from 1-3,
+
+53
+00:03:51.470 --> 00:03:55.095
+and were assigning the join distribution P of X and T,
+
+54
+00:03:55.095 --> 00:03:58.500
+which equals to the likelihood times the prior.
+
+55
+00:03:58.500 --> 00:04:04.155
+If you substitute the definition of the prior and likelihood into this summation,
+
+56
+00:04:04.155 --> 00:04:07.920
+you can understand that this last formula on this slide
+
+57
+00:04:07.920 --> 00:04:11.961
+is exactly equal to the first formula.
+
+58
+00:04:11.961 --> 00:04:14.810
+We introduced some latent variable in
+
+59
+00:04:14.810 --> 00:04:19.310
+such a way that we when we marginalized out this variable,
+
+60
+00:04:19.310 --> 00:04:22.180
+we get exactly what we had before.
+
+61
+00:04:22.180 --> 00:04:25.445
+Which means that we now can use this latent variable model,
+
+62
+00:04:25.445 --> 00:04:28.445
+train it with observed data X,
+
+63
+00:04:28.445 --> 00:04:31.445
+and it will gives us exactly the same results
+
+64
+00:04:31.445 --> 00:04:36.220
+as we would get if we use the original model.
+
+65
+00:04:36.220 --> 00:04:42.495
+Let's now try to build some intuition about how to train this latent variable model.
+
+66
+00:04:42.495 --> 00:04:45.200
+So say we have a dataset and now,
+
+67
+00:04:45.200 --> 00:04:46.395
+say it's one dimensional.
+
+68
+00:04:46.395 --> 00:04:53.860
+Each data point from 1 to N is just one number for sublist of illustration.
+
+69
+00:04:53.860 --> 00:04:58.115
+How could our goal for finding the maximum likelihood estimation,
+
+70
+00:04:58.115 --> 00:05:00.370
+is finding the parameters, right?
+
+71
+00:05:00.370 --> 00:05:02.290
+How can we find the parameters?
+
+72
+00:05:02.290 --> 00:05:05.015
+Well, it turns out that if we know the sources,
+
+73
+00:05:05.015 --> 00:05:08.840
+if we know the values of the latent variables for each data point,
+
+74
+00:05:08.840 --> 00:05:13.440
+then finding the parameters sigma is easy.
+
+75
+00:05:13.440 --> 00:05:20.240
+Because you're going to say that all the blue data points here is the data points for
+
+76
+00:05:20.240 --> 00:05:23.390
+which we know that they came from the first Gaussian and
+
+77
+00:05:23.390 --> 00:05:26.915
+we can look at them separately from the older orange data points,
+
+78
+00:05:26.915 --> 00:05:30.020
+and just fit them into one Gaussian,
+
+79
+00:05:30.020 --> 00:05:32.885
+which we already know how to do because it's just
+
+80
+00:05:32.885 --> 00:05:37.020
+fitting some data set of blue point into a Gaussian distribution.
+
+81
+00:05:37.020 --> 00:05:40.355
+You can see the formulas on the bottom of the slide,
+
+82
+00:05:40.355 --> 00:05:43.985
+but it's something we have already done in week one,
+
+83
+00:05:43.985 --> 00:05:46.250
+which means that if we know the sources,
+
+84
+00:05:46.250 --> 00:05:49.040
+if we know the values of the latent variables,
+
+85
+00:05:49.040 --> 00:05:51.875
+it's easy to estimate the parameters data.
+
+86
+00:05:51.875 --> 00:05:56.195
+Actually, if we don't have this hard assignments,
+
+87
+00:05:56.195 --> 00:06:01.440
+but rather have soft assignments so some posterior distribution on T,
+
+88
+00:06:01.440 --> 00:06:04.110
+which means that for each data point.
+
+89
+00:06:04.110 --> 00:06:07.476
+We don't assume that it belongs to just one cluster,
+
+90
+00:06:07.476 --> 00:06:10.100
+but rather we assume that it belongs
+
+91
+00:06:10.100 --> 00:06:14.340
+to all clusters simultaneously, all Gaussian simultaneously.
+
+92
+00:06:14.340 --> 00:06:19.400
+What will some different probabilities being posterior P of T,
+
+93
+00:06:19.400 --> 00:06:21.775
+given X and parameters.
+
+94
+00:06:21.775 --> 00:06:23.775
+If we have these probabilities,
+
+95
+00:06:23.775 --> 00:06:26.400
+it is also easy to estimate the parameters.
+
+96
+00:06:26.400 --> 00:06:29.285
+So instead of just signing with respect to all blue points,
+
+97
+00:06:29.285 --> 00:06:34.310
+and averaging their position to get the location of the blue Gaussian,
+
+98
+00:06:34.310 --> 00:06:39.090
+we'll have to sum all the points but with weights.
+
+99
+00:06:39.090 --> 00:06:43.430
+If the posterior P of T = 1,
+
+100
+00:06:43.430 --> 00:06:46.030
+is 1 for some data point?
+
+101
+00:06:46.030 --> 00:06:50.100
+It means that this particular data point is completely blue.
+
+102
+00:06:50.100 --> 00:06:53.375
+It certainly belongs to the blue Gaussian,
+
+103
+00:06:53.375 --> 00:07:01.475
+and it will be used as just blue data point in the averaging with weight 1.
+
+104
+00:07:01.475 --> 00:07:03.110
+If for some data point,
+
+105
+00:07:03.110 --> 00:07:05.730
+P of T = 1 is 0,
+
+106
+00:07:05.730 --> 00:07:08.405
+it means that these data point is certainly orange,
+
+107
+00:07:08.405 --> 00:07:14.507
+and we will just don't use it in the computing the blue Gaussian mean at all,
+
+108
+00:07:14.507 --> 00:07:18.465
+but if the data point is for example,
+
+109
+00:07:18.465 --> 00:07:21.340
+P of T = 1 is 0.8,
+
+110
+00:07:21.340 --> 00:07:24.565
+it just means that this data point is kind of not certain.
+
+111
+00:07:24.565 --> 00:07:31.240
+It thinks that it belongs to the blue Gaussian but it's not sure.
+
+112
+00:07:31.240 --> 00:07:33.800
+It will highly affect the position of
+
+113
+00:07:33.800 --> 00:07:37.490
+the blue Gaussian and a little bit affect the position of the orange Gaussian.
+
+114
+00:07:37.490 --> 00:07:44.556
+We'll direct this kind of formulas later from more strict considerations,
+
+115
+00:07:44.556 --> 00:07:49.385
+but now, just believe me that if you know the posterior probably on T,
+
+116
+00:07:49.385 --> 00:07:52.060
+you could easily estimate the parameters this way.
+
+117
+00:07:52.060 --> 00:07:57.050
+The bottom line here is that if we know the sources,
+
+118
+00:07:57.050 --> 00:08:00.512
+no matter soft segments or hard segments,
+
+119
+00:08:00.512 --> 00:08:04.705
+then we can easily estimate the parameters of our Gaussian mixture model.
+
+120
+00:08:04.705 --> 00:08:07.250
+But on practice, we don't, right?
+
+121
+00:08:07.250 --> 00:08:08.400
+We don't know the sources,
+
+122
+00:08:08.400 --> 00:08:12.110
+so how can we estimate the sources?
+
+123
+00:08:12.110 --> 00:08:16.205
+Well, it turns out that if we know the parameters, so the Gaussians,
+
+124
+00:08:16.205 --> 00:08:18.665
+their locations and their variances,
+
+125
+00:08:18.665 --> 00:08:24.165
+then we can easily estimate the sources because we can use just the Bayes' rule to do it.
+
+126
+00:08:24.165 --> 00:08:26.798
+And by the Bayes' rule, the soft assignment,
+
+127
+00:08:26.798 --> 00:08:29.030
+the posterior probability of T equals to,
+
+128
+00:08:29.030 --> 00:08:30.735
+for example, blue Gaussian,
+
+129
+00:08:30.735 --> 00:08:32.810
+for some particle data point,
+
+130
+00:08:32.810 --> 00:08:37.245
+is just proportional to the join probability,
+
+131
+00:08:37.245 --> 00:08:39.065
+which is likelihood times prior.
+
+132
+00:08:39.065 --> 00:08:41.630
+And if we know the parameters theta,
+
+133
+00:08:41.630 --> 00:08:44.345
+we can easily compute these likelihood and prior at
+
+134
+00:08:44.345 --> 00:08:47.595
+any given point so we can easily to compute this posterior probability,
+
+135
+00:08:47.595 --> 00:08:51.950
+which is basically sources,
+
+136
+00:08:51.950 --> 00:08:54.935
+which is basically assignments for each data point for the clusters,
+
+137
+00:08:54.935 --> 00:09:01.040
+soft assignments, and we think that the normalization constant here can be problematic,
+
+138
+00:09:01.040 --> 00:09:03.875
+but it turns out that we have just two values here.
+
+139
+00:09:03.875 --> 00:09:05.455
+Two probabilities.
+
+140
+00:09:05.455 --> 00:09:10.635
+The distribution P of T given some data and theta,
+
+141
+00:09:10.635 --> 00:09:13.250
+can think just two possible values.
+
+142
+00:09:13.250 --> 00:09:16.460
+We can explicitly normalize this think by signing with
+
+143
+00:09:16.460 --> 00:09:19.900
+respect to two unnormalized probabilities. It's no big deal.
+
+144
+00:09:19.900 --> 00:09:23.480
+To summarize, we have kind of a chicken and egg problem.
+
+145
+00:09:23.480 --> 00:09:26.200
+If we know the Gaussian parameters,
+
+146
+00:09:26.200 --> 00:09:28.250
+we can easily estimate the sources.
+
+147
+00:09:28.250 --> 00:09:29.690
+If we know the sources,
+
+148
+00:09:29.690 --> 00:09:32.075
+we can easily estimate and Gaussian parameters.
+
+149
+00:09:32.075 --> 00:09:34.410
+What can we do in this case?
+
+150
+00:09:34.410 --> 00:09:37.625
+Well, the expectation maximisation algorithm,
+
+151
+00:09:37.625 --> 00:09:39.374
+in this particular case,
+
+152
+00:09:39.374 --> 00:09:42.155
+suggests us to do a very natural thing.
+
+153
+00:09:42.155 --> 00:09:43.760
+Let's, first of all,
+
+154
+00:09:43.760 --> 00:09:49.390
+internalize the parameter somehow randomly and then in iterations in the loop,
+
+155
+00:09:49.390 --> 00:09:53.405
+let's repeat two steps until convergence.
+
+156
+00:09:53.405 --> 00:09:57.145
+First of all, let's fix the parameters.
+
+157
+00:09:57.145 --> 00:09:59.035
+Assume that they are the true ones,
+
+158
+00:09:59.035 --> 00:10:00.925
+and they estimate the sources.
+
+159
+00:10:00.925 --> 00:10:02.670
+On the next sub-step,
+
+160
+00:10:02.670 --> 00:10:06.171
+let's use the sources to re-estimate the parameters,
+
+161
+00:10:06.171 --> 00:10:08.625
+to update the beliefs about the parameters.
+
+162
+00:10:08.625 --> 00:10:14.480
+This way, after repeating this two steps for long enough,
+
+163
+00:10:14.480 --> 00:10:18.340
+we will hopefully obtain a reasonable solution
+
+164
+00:10:18.340 --> 00:10:24.165
+to our probability distribution fitting problem.
+
+165
+00:10:24.165 --> 00:10:29.160
+We will be able to fit Gaussian mixture model into our data.

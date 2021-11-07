@@ -1,0 +1,637 @@
+WEBVTT
+
+1
+00:00:03.560 --> 00:00:05.620
+So, let's look into
+
+2
+00:00:05.620 --> 00:00:11.045
+the details of the E-step or expectations step as people usually call it.
+
+3
+00:00:11.045 --> 00:00:13.422
+Recall that on the previous video,
+
+4
+00:00:13.422 --> 00:00:15.930
+with direct variation lower bound,
+
+5
+00:00:15.930 --> 00:00:19.810
+which is a lower bound for the log likelihood which
+
+6
+00:00:19.810 --> 00:00:23.351
+we want to maximize at any given point theta,
+
+7
+00:00:23.351 --> 00:00:25.865
+and it also depend on the variational parameter Q,
+
+8
+00:00:25.865 --> 00:00:27.960
+which itself is a distribution.
+
+9
+00:00:27.960 --> 00:00:29.390
+And on the E-step,
+
+10
+00:00:29.390 --> 00:00:32.910
+we want to maximize this lower bound with respect Q,
+
+11
+00:00:32.910 --> 00:00:38.520
+while fixing theta to be some particular value.
+
+12
+00:00:38.520 --> 00:00:41.100
+So, we can illustrate this situation like this.
+
+13
+00:00:41.100 --> 00:00:42.485
+We have our blue curve,
+
+14
+00:00:42.485 --> 00:00:47.820
+the log likelihood, and we have family of low bounds depending on different Q,
+
+15
+00:00:47.820 --> 00:00:50.790
+and we want to choose the one that has the highest value
+
+16
+00:00:50.790 --> 00:00:53.965
+of the particular current point theta K,
+
+17
+00:00:53.965 --> 00:00:56.610
+which basically means that we want to minimize
+
+18
+00:00:56.610 --> 00:01:00.300
+the gap between the lower bound and the blue curve.
+
+19
+00:01:00.300 --> 00:01:07.560
+So, let's derive an expression for this gap by using a blackboard.
+
+20
+00:01:07.560 --> 00:01:10.200
+So, let's look closer into this gap between
+
+21
+00:01:10.200 --> 00:01:13.670
+the marginal log likelihood and the lower bound.
+
+22
+00:01:13.670 --> 00:01:16.590
+First of all, we can decompose the marginal log likelihood
+
+23
+00:01:16.590 --> 00:01:20.725
+with respect to individual objects as we usually do.
+
+24
+00:01:20.725 --> 00:01:23.280
+So, we assume that the data-set consists
+
+25
+00:01:23.280 --> 00:01:28.530
+of the objects that are independent given the parameters.
+
+26
+00:01:28.530 --> 00:01:29.983
+We have this thing,
+
+27
+00:01:29.983 --> 00:01:32.925
+and then we can recall the definition of the lower bound,
+
+28
+00:01:32.925 --> 00:01:35.665
+which we have just derived in the previous video.
+
+29
+00:01:35.665 --> 00:01:41.020
+So, this marginal lower bound is sum with respect to objects.
+
+30
+00:01:41.020 --> 00:01:45.525
+Then sum with respect to the various latent variable,
+
+31
+00:01:45.525 --> 00:01:47.415
+for example, from one to three,
+
+32
+00:01:47.415 --> 00:01:49.095
+in the case of three Gaussians.
+
+33
+00:01:49.095 --> 00:01:54.525
+Then the variational distribution Q of ti equals to the value,
+
+34
+00:01:54.525 --> 00:01:58.215
+and times the logarithm of the ratio.
+
+35
+00:01:58.215 --> 00:02:05.120
+Then join distribution P of xi and ti,
+
+36
+00:02:05.120 --> 00:02:14.530
+given the parameters, and the variational distribution Q.
+
+37
+00:02:14.530 --> 00:02:19.265
+So, let's look how can we simplify this expression.
+
+38
+00:02:19.265 --> 00:02:20.535
+Well, first of all,
+
+39
+00:02:20.535 --> 00:02:22.835
+we may notice that sum with respect to the objects,
+
+40
+00:02:22.835 --> 00:02:26.975
+it appears in both terms of this expression,
+
+41
+00:02:26.975 --> 00:02:30.910
+so we can took the sum outside of the terms.
+
+42
+00:02:30.910 --> 00:02:34.084
+It'll look like this. So, sum with respect to the objects,
+
+43
+00:02:34.084 --> 00:02:36.150
+there's a big break.
+
+44
+00:02:36.150 --> 00:02:41.730
+Then when we try to also push these logarithm
+
+45
+00:02:41.730 --> 00:02:43.461
+of the marginal log likelihood of
+
+46
+00:02:43.461 --> 00:02:47.220
+individual object inside the summation respect to C. So,
+
+47
+00:02:47.220 --> 00:02:49.800
+to put logarithms close together.
+
+48
+00:02:49.800 --> 00:02:54.005
+And to do that, let's multiply this logarithm by one.
+
+49
+00:02:54.005 --> 00:03:01.935
+Basically, by the sum of the probabilities of the variation distribution Q.
+
+50
+00:03:01.935 --> 00:03:09.235
+So, this expression is just one because it's variant probability distribution.
+
+51
+00:03:09.235 --> 00:03:12.580
+This thing always equals to one.
+
+52
+00:03:12.580 --> 00:03:17.490
+And now, since logarithm of the marginal log likelihood doesn't depend on C,
+
+53
+00:03:17.490 --> 00:03:22.650
+we can put this thing inside the summation.
+
+54
+00:03:22.650 --> 00:03:27.465
+So, we can put it here.
+
+55
+00:03:27.465 --> 00:03:31.515
+And, this will not change anything.
+
+56
+00:03:31.515 --> 00:03:36.090
+And finally, we can rewrite the second part, the second term,
+
+57
+00:03:36.090 --> 00:03:39.884
+the sum with respect to the variance,
+
+58
+00:03:39.884 --> 00:03:48.820
+times again Q, and that's the logarithm of the ratio.
+
+59
+00:03:50.480 --> 00:03:55.565
+And then, we can put this summation with respect to the values of the
+
+60
+00:03:55.565 --> 00:03:58.740
+latent variable outside of all the expression,
+
+61
+00:03:58.740 --> 00:04:02.110
+so we'll have sum with respect to the objects in the data-set,
+
+62
+00:04:02.110 --> 00:04:08.165
+sum with respect to the values of latent variables from one to three for example,
+
+63
+00:04:08.165 --> 00:04:16.000
+the weights from the variation distribution times the difference between the logarithms.
+
+64
+00:04:16.000 --> 00:04:24.791
+So, logarithm of the marginal log likelihood
+
+65
+00:04:24.791 --> 00:04:27.930
+minus logarithm of the ratio
+
+66
+00:04:27.930 --> 00:04:36.530
+of the joint distribution,
+
+67
+00:04:36.530 --> 00:04:42.795
+xi and ti divided by the variation distribution Q.
+
+68
+00:04:42.795 --> 00:04:48.940
+And, since the logarithm has the property that
+
+69
+00:04:48.940 --> 00:04:54.460
+difference between the logarithms is logarithm of the ratio,
+
+70
+00:04:54.460 --> 00:04:58.105
+we can rewrite this whole expression like this.
+
+71
+00:04:58.105 --> 00:05:03.325
+So, it equals to the sum with respect to objects,
+
+72
+00:05:03.325 --> 00:05:07.220
+sum with respect to the values,
+
+73
+00:05:07.410 --> 00:05:13.975
+getting weights from the variation distribution Q,
+
+74
+00:05:13.975 --> 00:05:20.550
+times the logarithm of the ratio.
+
+75
+00:05:20.550 --> 00:05:27.060
+So, logarithm of the marginal likelihood P of xi,
+
+76
+00:05:27.060 --> 00:05:31.870
+given parameters theta, divided by this ratio.
+
+77
+00:05:31.870 --> 00:05:38.100
+So, divided by the joint distribution P of xi and ti,
+
+78
+00:05:38.100 --> 00:05:42.361
+given parameters and this thing should be divided by Q,
+
+79
+00:05:42.361 --> 00:05:44.239
+but we can put this Q in numerator,
+
+80
+00:05:44.239 --> 00:05:51.635
+because it's like division twice.
+
+81
+00:05:51.635 --> 00:05:53.835
+So, now to simplify this thing,
+
+82
+00:05:53.835 --> 00:05:56.895
+we can notice that, by the definition of conditional probability,
+
+83
+00:05:56.895 --> 00:06:05.555
+this part equals to probability of ti equals C given the data,
+
+84
+00:06:05.555 --> 00:06:10.525
+given xi and theta,
+
+85
+00:06:10.525 --> 00:06:16.540
+times the prior distribution P
+
+86
+00:06:16.540 --> 00:06:23.250
+of xi, given theta.
+
+87
+00:06:23.470 --> 00:06:32.770
+And so, these two terms vanish because they appear both in numerator and denominator.
+
+88
+00:06:32.770 --> 00:06:36.780
+And finally, we have an expression like this.
+
+89
+00:06:36.780 --> 00:06:39.240
+I have sum with respect to the objects,
+
+90
+00:06:39.240 --> 00:06:50.633
+sum with respect to the values of latent variable,
+
+91
+00:06:50.633 --> 00:06:56.480
+the variance of the variational distribution Q, times logarithm of Q,
+
+92
+00:06:56.480 --> 00:07:06.765
+divided
+
+93
+00:07:06.765 --> 00:07:09.960
+by the distribution of ti.
+
+94
+00:07:09.960 --> 00:07:16.990
+So, probability of ti given C equals to C, given that the data-point xi,
+
+95
+00:07:16.990 --> 00:07:20.750
+and the parameter theta.
+
+96
+00:07:20.750 --> 00:07:23.850
+So, look closer to this final expression.
+
+97
+00:07:23.850 --> 00:07:31.045
+This thing exactly equals to the cubicle labor diversions between the two distributions.
+
+98
+00:07:31.045 --> 00:07:36.806
+So, this is a KL-divergence
+
+99
+00:07:36.806 --> 00:07:45.580
+between Q of ti,
+
+100
+00:07:45.580 --> 00:07:52.120
+and the posterior distribution P of ti given C equals to C,
+
+101
+00:07:52.120 --> 00:07:56.640
+given xi and theta.
+
+102
+00:07:56.640 --> 00:08:01.180
+So, to summarize what we have just derived,
+
+103
+00:08:01.180 --> 00:08:03.760
+the gap between the marginal log likelihood and
+
+104
+00:08:03.760 --> 00:08:09.900
+the lower bound equals to the sum of Kullback-Leibler divergences.
+
+105
+00:08:09.900 --> 00:08:15.250
+So, this thing could be sum with respect to the objects in
+
+106
+00:08:15.250 --> 00:08:25.805
+the data-set of KL divergences between Q of ti,
+
+107
+00:08:25.805 --> 00:08:36.332
+and the posterior distribution.
+
+108
+00:08:36.332 --> 00:08:40.830
+And, we want to maximize this lower bound with respect to theta.
+
+109
+00:08:40.830 --> 00:08:46.956
+So, we want to push this lower bound as high as possible,
+
+110
+00:08:46.956 --> 00:08:53.095
+maximize it with respect to, I'm sorry, not theta but Q.
+
+111
+00:08:53.095 --> 00:08:56.820
+Maximizing this expression with respect to Q,
+
+112
+00:08:56.820 --> 00:08:59.720
+is the same as minimizing the minuses expression, right?
+
+113
+00:08:59.720 --> 00:09:06.427
+So, it's the same as minimizing this thing.
+
+114
+00:09:06.427 --> 00:09:11.695
+And, note that the marginal log likelihood doesn't depend on Q at all.
+
+115
+00:09:11.695 --> 00:09:14.650
+So, we can as well minimize this difference.
+
+116
+00:09:14.650 --> 00:09:20.408
+So, maximizing the lower bound is the same as minimizing this whole difference,
+
+117
+00:09:20.408 --> 00:09:23.210
+and minimizing this difference is the same as minimizing this sum of KL-divergences
+
+118
+00:09:23.210 --> 00:09:27.055
+because this is what this difference is.
+
+119
+00:09:27.055 --> 00:09:31.590
+So, maximizing the lower bound is the same as minimizing
+
+120
+00:09:31.590 --> 00:09:37.570
+the sum of the KL-divergences with respect to Q.
+
+121
+00:09:37.570 --> 00:09:42.400
+And, recall that KL-divergences has two main properties.
+
+122
+00:09:42.400 --> 00:09:44.590
+So, first of all, they are always non-negative,
+
+123
+00:09:44.590 --> 00:09:51.565
+and second, for they equal to zero whenever the distribution coincides.
+
+124
+00:09:51.565 --> 00:09:56.635
+So, whenever, this and this two distributions are the same which means that we,
+
+125
+00:09:56.635 --> 00:10:00.005
+by setting Q to be the posterior distribution,
+
+126
+00:10:00.005 --> 00:10:12.892
+so Q of ti equals to the posterior,
+
+127
+00:10:12.892 --> 00:10:15.680
+we will optimize this,
+
+128
+00:10:15.680 --> 00:10:19.298
+we'll minimize this sum to zero,
+
+129
+00:10:19.298 --> 00:10:20.735
+so to the global optimal.
+
+130
+00:10:20.735 --> 00:10:26.025
+This sum cannot be ever lower than zero.
+
+131
+00:10:26.025 --> 00:10:27.345
+So, whenever we are at zero,
+
+132
+00:10:27.345 --> 00:10:28.880
+we found the global optimal,
+
+133
+00:10:28.880 --> 00:10:32.810
+which means we maximize the lower bound to the global optimal as well.
+
+134
+00:10:32.810 --> 00:10:35.285
+So, to solve the problem on the E-step,
+
+135
+00:10:35.285 --> 00:10:39.290
+we just have to set the variation distribution Q to be
+
+136
+00:10:39.290 --> 00:10:44.000
+the posterior distribution on the latent variable ti given the data and the parameters.
+
+137
+00:10:44.000 --> 00:10:49.280
+So, to summarize, the gap between the log likelihood and the lower bound where
+
+138
+00:10:49.280 --> 00:10:55.590
+half equals to the sum of Kullback-Leibler divergences within the distribution Q,
+
+139
+00:10:55.590 --> 00:10:58.880
+in the posterior distribution P of ti
+
+140
+00:10:58.880 --> 00:11:02.630
+of the latent variable given the data we have and the parameters we have.
+
+141
+00:11:02.630 --> 00:11:04.310
+Which basically means that,
+
+142
+00:11:04.310 --> 00:11:06.980
+if you want to maximize this lower bound,
+
+143
+00:11:06.980 --> 00:11:10.230
+it's the same as minimizing minus lower bound,
+
+144
+00:11:10.230 --> 00:11:13.796
+and since log likelihood doesn't depend on Q,
+
+145
+00:11:13.796 --> 00:11:16.289
+it's the same as minimizing this difference,
+
+146
+00:11:16.289 --> 00:11:18.422
+the left hand side of the expression,
+
+147
+00:11:18.422 --> 00:11:22.975
+and finally it's same as minimizing this sum of Kullback-Leibler divergences.
+
+148
+00:11:22.975 --> 00:11:26.530
+And as we know, Kullback-Leibler divergences are non-negative,
+
+149
+00:11:26.530 --> 00:11:30.000
+and they equal to zero whenever the distributions coincide,
+
+150
+00:11:30.000 --> 00:11:32.625
+whenever they are the same,
+
+151
+00:11:32.625 --> 00:11:37.530
+which means that we can minimize this thing to the optimal value by
+
+152
+00:11:37.530 --> 00:11:42.610
+just setting Q to be the posterior distribution of ti given the data.
+
+153
+00:11:42.610 --> 00:11:47.295
+So, this is our optimal solution to the E-step.
+
+154
+00:11:47.295 --> 00:11:52.905
+So just use, just set Q to be posterior with the current values of the parameters,
+
+155
+00:11:52.905 --> 00:11:56.155
+and it minimizes the gap to be zero,
+
+156
+00:11:56.155 --> 00:11:58.406
+because KL distance now is zero,
+
+157
+00:11:58.406 --> 00:12:02.055
+and so the lower bound becomes accurate at the current point.
+
+158
+00:12:02.055 --> 00:12:03.395
+The gap is zero,
+
+159
+00:12:03.395 --> 00:12:08.220
+so the value of the lower bound equals to the value of the log likelihood.
