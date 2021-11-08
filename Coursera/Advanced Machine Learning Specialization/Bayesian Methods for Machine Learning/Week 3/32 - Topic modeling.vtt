@@ -1,0 +1,329 @@
+WEBVTT
+
+1
+00:00:04.040 --> 00:00:08.006
+In this module, we will see a really useful model,
+
+2
+00:00:08.006 --> 00:00:11.185
+called latent dirichlet allocation.
+
+3
+00:00:11.185 --> 00:00:15.325
+It is used for topic modeling.
+
+4
+00:00:15.325 --> 00:00:19.970
+In this video, we will see what topic modeling is.
+
+5
+00:00:19.970 --> 00:00:23.660
+For example, you want to build a recommender system.
+
+6
+00:00:23.660 --> 00:00:25.065
+You want to recommend books.
+
+7
+00:00:25.065 --> 00:00:28.140
+For example, if I read the Sherlock Holmes books,
+
+8
+00:00:28.140 --> 00:00:30.325
+the system would recommend me,
+
+9
+00:00:30.325 --> 00:00:34.090
+for example, equatorial books.
+
+10
+00:00:34.090 --> 00:00:35.985
+Let's see how we can do this.
+
+11
+00:00:35.985 --> 00:00:40.195
+We would like to extract features from the book.
+
+12
+00:00:40.195 --> 00:00:45.510
+For example, we would like the features to correspond to topics.
+
+13
+00:00:45.510 --> 00:00:48.660
+We would have a topic about detectives,
+
+14
+00:00:48.660 --> 00:00:51.925
+we can have a topic about adventures, and horror.
+
+15
+00:00:51.925 --> 00:00:54.900
+I would try to decompose the book into topics.
+
+16
+00:00:54.900 --> 00:01:00.090
+For example, the Sherlock Holmes book would be 60% detective book,
+
+17
+00:01:00.090 --> 00:01:06.585
+30% adventure, and maybe a 10% horror if you read the Mysteries Dark book.
+
+18
+00:01:06.585 --> 00:01:12.740
+We can define the document as a distributional topics.
+
+19
+00:01:12.740 --> 00:01:16.200
+We will have a document and for each,
+
+20
+00:01:16.200 --> 00:01:21.310
+we will assign the probability to meet the topic.
+
+21
+00:01:21.310 --> 00:01:26.310
+For example, here we'll meet a detective topic with
+
+22
+00:01:26.310 --> 00:01:32.540
+probability of 0.6 and adventure topic with probability 0.3.
+
+23
+00:01:32.540 --> 00:01:35.385
+Now, let's see what topics are.
+
+24
+00:01:35.385 --> 00:01:39.100
+For example, if we have a topic related to sports,
+
+25
+00:01:39.100 --> 00:01:41.935
+we would expect there be words like football, hockey,
+
+26
+00:01:41.935 --> 00:01:43.545
+golf, score, and so on,
+
+27
+00:01:43.545 --> 00:01:46.520
+to appear the most in this topic.
+
+28
+00:01:46.520 --> 00:01:49.920
+You will have a topic about the economy and we expect Money,
+
+29
+00:01:49.920 --> 00:01:52.380
+Dollar, Euro, Bank and so on,
+
+30
+00:01:52.380 --> 00:01:55.470
+to be the most popular words, and finally,
+
+31
+00:01:55.470 --> 00:01:57.240
+for politics, we'll have President, USA, Union,
+
+32
+00:01:57.240 --> 00:01:59.570
+Law, you name it.
+
+33
+00:01:59.570 --> 00:02:04.800
+Let's see how we can use these topics to generate a text.
+
+34
+00:02:04.800 --> 00:02:06.640
+For example, we want to generate the sentence,
+
+35
+00:02:06.640 --> 00:02:10.870
+football player from USA has salary in dollars.
+
+36
+00:02:10.870 --> 00:02:14.913
+The words football, clearly is from the topic sports,
+
+37
+00:02:14.913 --> 00:02:22.065
+the words USA is from the topic politics and the word dollars is from the topic economy.
+
+38
+00:02:22.065 --> 00:02:24.720
+We will define a topic,
+
+39
+00:02:24.720 --> 00:02:26.930
+as a distribution over words.
+
+40
+00:02:26.930 --> 00:02:29.740
+For each word in the vocabulary,
+
+41
+00:02:29.740 --> 00:02:35.355
+we will assign a probability to meet this exact word in a sentence.
+
+42
+00:02:35.355 --> 00:02:38.790
+For example, here are the words football in the topic sports,
+
+43
+00:02:38.790 --> 00:02:46.125
+happens in 20 percent of cases and all other words have lower probability.
+
+44
+00:02:46.125 --> 00:02:49.905
+This definition is actually useful for interpreting topics.
+
+45
+00:02:49.905 --> 00:02:55.270
+The matter that we will see and does not generate the labels for topics.
+
+46
+00:02:55.270 --> 00:02:59.400
+It will just generate the distribution over words.
+
+47
+00:02:59.400 --> 00:03:03.370
+If we will see the most frequent words,
+
+48
+00:03:03.370 --> 00:03:07.495
+we will be able to assign the labels to the topics.
+
+49
+00:03:07.495 --> 00:03:13.728
+For example, if I didn't show you that the first words are from the topic of sports,
+
+50
+00:03:13.728 --> 00:03:20.310
+you can clearly say that since the words football and hockey are very frequent,
+
+51
+00:03:20.310 --> 00:03:24.150
+the topic is probably about sports.
+
+52
+00:03:24.150 --> 00:03:31.265
+After we would find the topics in the document,
+
+53
+00:03:31.265 --> 00:03:34.450
+we will try to convey some similarity to say whether
+
+54
+00:03:34.450 --> 00:03:38.610
+this book is similar to the one that you read, or not.
+
+55
+00:03:38.610 --> 00:03:42.150
+We will assign a vector for each book.
+
+56
+00:03:42.150 --> 00:03:43.990
+For example, for the Sherlock Holmes book,
+
+57
+00:03:43.990 --> 00:03:46.180
+will have a vector with 0.6, 0.3,
+
+58
+00:03:46.180 --> 00:03:49.306
+and 0.1 corresponding to the probabilities
+
+59
+00:03:49.306 --> 00:03:52.887
+of the topics in this document. We will call this vector A.
+
+60
+00:03:52.887 --> 00:03:58.060
+Similar way, we can compute the vector for the equatorial book.
+
+61
+00:03:58.060 --> 00:03:59.440
+Now, we have two vectors,
+
+62
+00:03:59.440 --> 00:04:03.550
+we can compute the distance or the similarity between them.
+
+63
+00:04:03.550 --> 00:04:07.965
+We can use, for example, Euclidean distance or Cosine similarity.
+
+64
+00:04:07.965 --> 00:04:13.300
+What to do next, is you rank the books according to similarity for example,
+
+65
+00:04:13.300 --> 00:04:15.610
+and recommend the most similar books.
+
+66
+00:04:15.610 --> 00:04:21.855
+In our case, we'll have recommendations for the people who read the Sherlock Holmes book,
+
+67
+00:04:21.855 --> 00:04:24.970
+we will recommend them a equatorial book, for example.
+
+68
+00:04:24.970 --> 00:04:28.030
+We have two goals.
+
+69
+00:04:28.030 --> 00:04:30.965
+The first is to construct topics.
+
+70
+00:04:30.965 --> 00:04:33.630
+So, from the collection of the documents,
+
+71
+00:04:33.630 --> 00:04:37.615
+we want to find which topics are present in them.
+
+72
+00:04:37.615 --> 00:04:39.460
+We want to do this automatically,
+
+73
+00:04:39.460 --> 00:04:41.560
+in fully unsupervised way.
+
+74
+00:04:41.560 --> 00:04:43.360
+Just from the collection of the text,
+
+75
+00:04:43.360 --> 00:04:45.340
+we want to find the topics,
+
+76
+00:04:45.340 --> 00:04:47.740
+and the probabilities in them.
+
+77
+00:04:47.740 --> 00:04:49.270
+This is our first goal,
+
+78
+00:04:49.270 --> 00:04:52.255
+and the second goal is to assign the topics to the texts.
+
+79
+00:04:52.255 --> 00:04:58.630
+We would like to decompose an arbitrary book into the distribution over topics.
+
+80
+00:04:58.630 --> 00:05:01.207
+For example here, we do compose the Sherlock Holmes
+
+81
+00:05:01.207 --> 00:05:04.635
+into three topics with such probabilities.
+
+82
+00:05:04.635 --> 00:05:08.620
+This is exactly what we will do, throughout this module.

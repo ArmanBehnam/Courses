@@ -1,0 +1,382 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.700
+[SOUND] In this video,
+
+2
+00:00:02.700 --> 00:00:08.710
+we'll finally see
+the Latent Dirichlet Allocation.
+
+3
+00:00:08.710 --> 00:00:12.345
+Let me remind you what
+topics are in documents.
+
+4
+00:00:12.345 --> 00:00:15.079
+So a document is
+a distribution over topics.
+
+5
+00:00:15.079 --> 00:00:20.363
+For example, we can assign for
+a document, a distribution like this.
+
+6
+00:00:20.363 --> 00:00:23.666
+So 80% cats and 20% dogs.
+
+7
+00:00:23.666 --> 00:00:26.215
+Another topic is
+a distribution over words.
+
+8
+00:00:26.215 --> 00:00:31.556
+For example, the topic cats would
+have 40% times the word cats and
+
+9
+00:00:31.556 --> 00:00:35.607
+the word meow 30% and
+the other words like dogs and
+
+10
+00:00:35.607 --> 00:00:40.140
+words like and
+these on will have really low probability.
+
+11
+00:00:40.140 --> 00:00:43.551
+The topic about dogs would have dog and
+
+12
+00:00:43.551 --> 00:00:48.356
+woof words whereas with and
+others with low.
+
+13
+00:00:48.356 --> 00:00:55.532
+Let's see how we can generate the for
+example the cat meowed on the dog.
+
+14
+00:00:55.532 --> 00:01:01.378
+The first word,
+the cat word is taken from the topic cats.
+
+15
+00:01:01.378 --> 00:01:05.756
+And with 40% probability we
+could sample the word cat.
+
+16
+00:01:05.756 --> 00:01:10.214
+The second word, meow,
+is also from the topic cats.
+
+17
+00:01:10.214 --> 00:01:15.208
+And it's sampled with 30%
+probability from the topic cats.
+
+18
+00:01:15.208 --> 00:01:19.834
+And finally, the word dog is
+from the topic on dogs, and
+
+19
+00:01:19.834 --> 00:01:23.581
+with 40% probability we could sample it.
+
+20
+00:01:23.581 --> 00:01:26.578
+So here's our model.
+
+21
+00:01:26.578 --> 00:01:31.224
+We have a distribution of our topics for
+the document number d,
+
+22
+00:01:31.224 --> 00:01:32.990
+we will call it theta d.
+
+23
+00:01:32.990 --> 00:01:36.173
+Then, for each word in the document,
+
+24
+00:01:36.173 --> 00:01:41.354
+we assign the probability,
+we assign the topic of each word.
+
+25
+00:01:41.354 --> 00:01:49.605
+For example, Zed D1, would respond to
+the topic of the first word in document D.
+
+26
+00:01:49.605 --> 00:01:55.244
+And finally, for example,
+the little variable Zed DN,
+
+27
+00:01:55.244 --> 00:02:00.775
+would respond to the Topic of
+the nth word in document d.
+
+28
+00:02:00.775 --> 00:02:05.256
+Each latent variable can
+take the values from 1 to T,
+
+29
+00:02:05.256 --> 00:02:10.949
+where T is the number of topics that
+we will try to find in our corpus.
+
+30
+00:02:10.949 --> 00:02:14.660
+The corpus is a collection
+of the documents.
+
+31
+00:02:14.660 --> 00:02:20.732
+So learn from the corresponding
+topics we can sample the words.
+
+32
+00:02:20.732 --> 00:02:24.140
+So we'll sample the word, for
+
+33
+00:02:24.140 --> 00:02:28.605
+example, WD1 from the topic that D!.
+
+34
+00:02:28.605 --> 00:02:33.950
+And the words, we can take values from 1
+to V, where V is the size of a category.
+
+35
+00:02:33.950 --> 00:02:40.341
+So what I draw now is
+actually a Bayesian network.
+
+36
+00:02:40.341 --> 00:02:44.289
+We can draw it using
+[INAUDIBLE] as follows.
+
+37
+00:02:44.289 --> 00:02:48.568
+So here's our Bayesian
+network in a [INAUDIBLE].
+
+38
+00:02:48.568 --> 00:02:50.096
+We have theta.
+
+39
+00:02:50.096 --> 00:02:53.575
+Those are, top rebuild is for document and
+
+40
+00:02:53.575 --> 00:02:58.220
+we repeat it three times,
+that means for each document.
+
+41
+00:02:58.220 --> 00:03:02.669
+The theater in part Z is
+the other topics of the words and
+
+42
+00:03:02.669 --> 00:03:06.561
+finally from the topics
+we generate the words.
+
+43
+00:03:06.561 --> 00:03:11.506
+And we repeat it N times and
+of course corresponding to each word.
+
+44
+00:03:11.506 --> 00:03:17.091
+The probability over w z and
+theta is written below.
+
+45
+00:03:17.091 --> 00:03:20.023
+Let's try to interpret
+each component of it.
+
+46
+00:03:20.023 --> 00:03:22.616
+The first says that for each document,
+
+47
+00:03:22.616 --> 00:03:27.103
+we generate topic probabilities
+from the probability p of theta d.
+
+48
+00:03:27.103 --> 00:03:31.439
+Then for
+each work in this document we select
+
+49
+00:03:31.439 --> 00:03:36.366
+a topic with probability p of Z D N,
+given theta D.
+
+50
+00:03:36.366 --> 00:03:41.406
+And finally when we have
+a topic we start a word from
+
+51
+00:03:41.406 --> 00:03:46.447
+this topic,
+this is probability of the word WDN,
+
+52
+00:03:46.447 --> 00:03:53.255
+given that DN And so
+here's our final model.
+
+53
+00:03:53.255 --> 00:03:56.733
+So now we need to define
+these three probabilities.
+
+54
+00:03:56.733 --> 00:04:01.973
+The probability of theta,
+there's Z theta and.
+
+55
+00:04:01.973 --> 00:04:07.474
+The probability or theta, is modelled as I
+just said, the distribution with some of
+
+56
+00:04:07.474 --> 00:04:12.511
+the parameter of alpha Here's actual
+initial choice, since the components
+
+57
+00:04:12.511 --> 00:04:17.255
+of theta should sum up to one, and
+we need some distribution [INAUDIBLE].
+
+58
+00:04:17.255 --> 00:04:21.519
+And now we've only seen
+the [INAUDIBLE] distribution.
+
+59
+00:04:21.519 --> 00:04:26.109
+The probability of the topics
+given the theta would actually
+
+60
+00:04:26.109 --> 00:04:29.982
+be equal to the component
+of this structure theta.
+
+61
+00:04:29.982 --> 00:04:33.859
+The component theta d is that idea.
+
+62
+00:04:33.859 --> 00:04:40.088
+So, this narration is bit complex but
+actually it is quite logical.
+
+63
+00:04:40.088 --> 00:04:44.408
+So we just take the component
+of the vector of d,
+
+64
+00:04:44.408 --> 00:04:47.540
+responding to the current topic.
+
+65
+00:04:47.540 --> 00:04:50.641
+All right, and
+finally we need to select the words.
+
+66
+00:04:50.641 --> 00:04:51.987
+And to select the words,
+
+67
+00:04:51.987 --> 00:04:56.039
+we need to know the probabilities of
+the words in the corresponding topic.
+
+68
+00:04:56.039 --> 00:05:00.109
+That is,
+we should somehow find the topics.
+
+69
+00:05:00.109 --> 00:05:04.855
+We will sort those probabilities
+in the matrix file and
+
+70
+00:05:04.855 --> 00:05:10.836
+the corresponding probability can be
+found in the Row number Z ten and
+
+71
+00:05:10.836 --> 00:05:12.604
+column number WGM.
+
+72
+00:05:12.604 --> 00:05:15.373
+And so actually our goal
+would be to find this matrix.
+
+73
+00:05:15.373 --> 00:05:20.770
+We have a few constraints on this so
+first of all it should be non-negative
+
+74
+00:05:20.770 --> 00:05:25.919
+since we're modeling probabilities and
+also it should sum up to one.
+
+75
+00:05:25.919 --> 00:05:30.384
+All right, so here are four variables.
+
+76
+00:05:30.384 --> 00:05:32.594
+We have the data that is known,
+
+77
+00:05:32.594 --> 00:05:37.185
+we have a matrix file that is unknown and
+we want to try to find it.
+
+78
+00:05:37.185 --> 00:05:40.573
+And also we have latent variables zee and
+theta.
+
+79
+00:05:40.573 --> 00:05:44.455
+We'll also try to find
+distribution to them.
+
+80
+00:05:44.455 --> 00:05:54.455
+[SOUND]

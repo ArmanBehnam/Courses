@@ -1,0 +1,507 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.340
+In the last video, we described what is
+
+2
+00:00:02.340 --> 00:00:04.890
+a deep L-layer neural network
+and also talked
+
+3
+00:00:04.890 --> 00:00:07.785
+about the notation we use to
+describe such networks.
+
+4
+00:00:07.785 --> 00:00:11.100
+In this video, you see how you can
+perform forward propagation,
+
+5
+00:00:11.100 --> 00:00:12.450
+in a deep network.
+
+6
+00:00:12.450 --> 00:00:15.270
+As usual, let's first go over
+
+7
+00:00:15.270 --> 00:00:19.590
+what forward propagation will look like
+for a single training example x,
+
+8
+00:00:19.590 --> 00:00:22.470
+and then later on we'll talk about
+the vectorized version,
+
+9
+00:00:22.470 --> 00:00:24.630
+where you want to carry out
+forward propagation
+
+10
+00:00:24.630 --> 00:00:26.595
+on the entire training set
+at the same time.
+
+11
+00:00:26.595 --> 00:00:30.480
+But given a single training example x,
+
+12
+00:00:30.480 --> 00:00:34.005
+here's how you compute the
+activations of the first layer.
+
+13
+00:00:34.005 --> 00:00:35.640
+So for this first layer,
+
+14
+00:00:35.640 --> 00:00:39.629
+you compute z1 equals
+
+15
+00:00:39.629 --> 00:00:45.905
+w1 times x plus b1.
+
+16
+00:00:45.905 --> 00:00:52.040
+So w1 and b1 are the parameters that
+affect the activations in layer one.
+
+17
+00:00:52.040 --> 00:00:55.225
+This is layer one of the neural network,
+
+18
+00:00:55.225 --> 00:01:03.520
+and then you compute the activations
+for that layer to be equal to g of z1.
+
+19
+00:01:03.520 --> 00:01:07.025
+The activation function g
+depends on what layer you're at and
+
+20
+00:01:07.025 --> 00:01:10.415
+maybe what index set as the
+activation function from layer one.
+
+21
+00:01:10.415 --> 00:01:13.430
+So if you do that, you've now computed
+the activations for layer one.
+
+22
+00:01:13.430 --> 00:01:17.850
+How about layer two? Say that layer.
+
+23
+00:01:17.850 --> 00:01:22.440
+Well, you would then compute z2 equals
+
+24
+00:01:22.440 --> 00:01:30.450
+w2 a1 plus b2.
+
+25
+00:01:30.450 --> 00:01:36.230
+Then, so the activation of layer two is
+the y matrix times the outputs of layer one.
+
+26
+00:01:36.230 --> 00:01:38.175
+So, it's that value,
+
+27
+00:01:38.175 --> 00:01:42.775
+plus the bias vector for layer two.
+
+28
+00:01:42.775 --> 00:01:51.270
+Then a2 equals the activation function
+applied to z2.
+
+29
+00:01:51.270 --> 00:01:54.960
+Okay? So that's it for layer two,
+
+30
+00:01:54.960 --> 00:01:56.700
+and so on and so forth.
+
+31
+00:01:56.700 --> 00:01:59.775
+Until you get to the upper layer,
+that's layer four.
+
+32
+00:01:59.775 --> 00:02:04.260
+Where you would have that z4 is equal
+
+33
+00:02:04.260 --> 00:02:11.745
+to the parameters for that layer times
+the activations from the previous layer,
+
+34
+00:02:11.745 --> 00:02:14.145
+plus that bias vector.
+
+35
+00:02:14.145 --> 00:02:23.625
+Then similarly, a4 equals g of z4.
+
+36
+00:02:23.625 --> 00:02:28.475
+So, that's how you compute your
+estimated output, y hat.
+
+37
+00:02:28.475 --> 00:02:30.455
+So, just one thing to notice,
+
+38
+00:02:30.455 --> 00:02:34.835
+x here is also equal to a0,
+
+39
+00:02:34.835 --> 00:02:39.950
+because the input feature vector x is
+also the activations of layer zero.
+
+40
+00:02:39.950 --> 00:02:41.630
+So we scratch out x.
+
+41
+00:02:41.630 --> 00:02:44.855
+When I cross out x and put a0 here,
+
+42
+00:02:44.855 --> 00:02:49.120
+then all of these equations
+basically look the same.
+
+43
+00:02:49.120 --> 00:02:54.105
+The general rule is that zl is equal to
+
+44
+00:02:54.105 --> 00:03:00.670
+wl times a of l minus 1 plus bl.
+
+45
+00:03:01.100 --> 00:03:04.110
+It's one there. And then,
+
+46
+00:03:04.110 --> 00:03:07.810
+the activations for that layer is
+
+47
+00:03:07.810 --> 00:03:15.150
+the activation function
+applied to the values of z.
+
+48
+00:03:15.150 --> 00:03:18.845
+So, that's the general
+forward propagation equation.
+
+49
+00:03:18.845 --> 00:03:23.360
+So, we've done all this for a
+single training example.
+
+50
+00:03:23.360 --> 00:03:30.450
+How about for doing it in a vectorized way
+for the whole training set at the same time?
+
+51
+00:03:30.450 --> 00:03:33.590
+The equations look quite similar as before.
+
+52
+00:03:33.590 --> 00:03:38.885
+For the first layer, you would
+have capital Z1 equals
+
+53
+00:03:38.885 --> 00:03:45.470
+w1 times capital X plus b1.
+
+54
+00:03:45.470 --> 00:03:52.290
+Then, A1 equals g of Z1.
+
+55
+00:03:52.580 --> 00:03:56.995
+Bear in mind that X is equal to A0.
+
+56
+00:03:56.995 --> 00:04:00.995
+These are just the training examples
+stacked in different columns.
+
+57
+00:04:00.995 --> 00:04:03.665
+You could take this, let me scratch out X,
+
+58
+00:04:03.665 --> 00:04:06.355
+they can put A0 there.
+
+59
+00:04:06.355 --> 00:04:08.790
+Then for the next layer, looks similar,
+
+60
+00:04:08.790 --> 00:04:12.029
+Z2 equals w2
+
+61
+00:04:12.029 --> 00:04:21.855
+A1 plus b2 and A2 equals g of Z2.
+
+62
+00:04:21.855 --> 00:04:26.325
+We're just taking these
+vectors z or a and so on,
+
+63
+00:04:26.325 --> 00:04:28.005
+and stacking them up.
+
+64
+00:04:28.005 --> 00:04:30.840
+This is z vector for the
+first training example,
+
+65
+00:04:30.840 --> 00:04:35.160
+z vector for the
+second training example,
+
+66
+00:04:35.160 --> 00:04:38.370
+and so on, down to the
+nth training example,
+
+67
+00:04:38.370 --> 00:04:43.195
+stacking these and columns
+and calling this capital Z.
+
+68
+00:04:43.195 --> 00:04:46.425
+Similarly, for capital A,
+
+69
+00:04:46.425 --> 00:04:48.075
+just as capital X.
+
+70
+00:04:48.075 --> 00:04:51.755
+All the training examples are
+column vectors stack left to right.
+
+71
+00:04:51.755 --> 00:04:59.480
+In this process, you end up with
+y hat which is equal to g of Z4,
+
+72
+00:04:59.480 --> 00:05:02.480
+this is also equal to A4.
+
+73
+00:05:02.480 --> 00:05:07.280
+That's the predictions on all of your
+training examples stacked horizontally.
+
+74
+00:05:07.280 --> 00:05:09.680
+So just to summarize on notation,
+
+75
+00:05:09.680 --> 00:05:11.870
+I'm going to modify this up here.
+
+76
+00:05:11.870 --> 00:05:19.200
+A notation allows us to replace lowercase z
+and a with the uppercase counterparts,
+
+77
+00:05:19.200 --> 00:05:21.310
+is that already looks like a capital Z.
+
+78
+00:05:21.310 --> 00:05:23.630
+That gives you the vectorized version of
+
+79
+00:05:23.630 --> 00:05:27.575
+forward propagation that you carry out
+on the entire training set at a time,
+
+80
+00:05:27.575 --> 00:05:31.575
+where A0 is X.
+
+81
+00:05:31.575 --> 00:05:34.910
+Now, if you look at this
+implementation of vectorization,
+
+82
+00:05:34.910 --> 00:05:38.570
+it looks like that there is
+going to be a For loop here.
+
+83
+00:05:38.570 --> 00:05:43.130
+So therefore l equals 1-4.
+
+84
+00:05:43.130 --> 00:05:48.290
+For L equals 1 through capital L. Then you
+have to compute the activations for layer one,
+
+85
+00:05:48.290 --> 00:05:50.150
+then layer two, then for layer three,
+
+86
+00:05:50.150 --> 00:05:51.560
+and then the layer four.
+
+87
+00:05:51.560 --> 00:05:54.620
+So, seems that there is a For loop here.
+
+88
+00:05:54.620 --> 00:05:57.290
+I know that when implementing
+neural networks,
+
+89
+00:05:57.290 --> 00:05:59.750
+we usually want to get rid of
+explicit For loops.
+
+90
+00:05:59.750 --> 00:06:02.570
+But this is one place where I don't think
+
+91
+00:06:02.570 --> 00:06:05.660
+there's any way to implement this
+without an explicit For loop.
+
+92
+00:06:05.660 --> 00:06:07.399
+So when implementing forward propagation,
+
+93
+00:06:07.399 --> 00:06:11.630
+it is perfectly okay to have a For loop
+to compute the activations for layer one,
+
+94
+00:06:11.630 --> 00:06:14.240
+then layer two, then layer three,
+then layer four.
+
+95
+00:06:14.240 --> 00:06:18.380
+No one knows, and I don't think
+there is any way to do
+
+96
+00:06:18.380 --> 00:06:22.410
+this without a For loop that
+goes from one to capital L,
+
+97
+00:06:22.410 --> 00:06:25.625
+from one through the total number of
+layers in the neural network.
+
+98
+00:06:25.625 --> 00:06:29.950
+So, in this place, it's perfectly
+okay to have an explicit For loop.
+
+99
+00:06:29.950 --> 00:06:33.755
+So, that's it for the notation
+for deep neural networks,
+
+100
+00:06:33.755 --> 00:06:37.340
+as well as how to do forward propagation
+in these networks.
+
+101
+00:06:37.340 --> 00:06:40.750
+If the pieces we've seen so far
+looks a little bit familiar to you,
+
+102
+00:06:40.750 --> 00:06:45.755
+that's because what we're seeing is taking
+a piece very similar to what you've seen in
+
+103
+00:06:45.755 --> 00:06:51.110
+the neural network with a single hidden
+layer and just repeating that more times.
+
+104
+00:06:51.110 --> 00:06:54.380
+Now, it turns out that we implement
+a deep neural network,
+
+105
+00:06:54.380 --> 00:06:58.820
+one of the ways to increase your
+odds of having a bug-free implementation
+
+106
+00:06:58.820 --> 00:07:00.410
+is to think very systematic and
+
+107
+00:07:00.410 --> 00:07:03.380
+carefully about the matrix
+dimensions you're working with.
+
+108
+00:07:03.380 --> 00:07:05.330
+So, when I'm trying to debug my own code,
+
+109
+00:07:05.330 --> 00:07:07.040
+I'll often pull a piece of paper,
+
+110
+00:07:07.040 --> 00:07:08.615
+and just think carefully through,
+
+111
+00:07:08.615 --> 00:07:12.070
+so the dimensions of the
+matrix I'm working with.
+
+112
+00:07:12.070 --> 00:07:15.270
+Let's see how you could
+do that in the next video.

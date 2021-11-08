@@ -1,0 +1,313 @@
+WEBVTT
+
+1
+00:00:03.650 --> 00:00:06.410
+All right. In this final video,
+
+2
+00:00:06.410 --> 00:00:08.170
+let's see some extensions of
+
+3
+00:00:08.170 --> 00:00:13.495
+latent dirichlet allocation and also summarize what we've seen in this week.
+
+4
+00:00:13.495 --> 00:00:18.140
+Here is our joint distribution over W,
+
+5
+00:00:18.140 --> 00:00:23.400
+Z, and theta and let's try to find out the interpretation for alpha.
+
+6
+00:00:23.400 --> 00:00:25.769
+If alpha is high,
+
+7
+00:00:25.769 --> 00:00:29.490
+then we'll have more topics for each document.
+
+8
+00:00:29.490 --> 00:00:31.630
+However, if alpha is small,
+
+9
+00:00:31.630 --> 00:00:35.320
+we'll have only few topics in each document.
+
+10
+00:00:35.320 --> 00:00:43.670
+By varying alpha, we can obtain either sparse or dense topics, or dense documents.
+
+11
+00:00:43.670 --> 00:00:47.897
+Alpha can also be selected using maximum likelihood principle,
+
+12
+00:00:47.897 --> 00:00:53.110
+that is, you will try to maximize the probability of the data given alpha.
+
+13
+00:00:53.110 --> 00:00:56.932
+You have the sparsity of the document.
+
+14
+00:00:56.932 --> 00:01:00.280
+We can also think about sparsity of the topics.
+
+15
+00:01:00.280 --> 00:01:05.770
+To have this, we should make the matrix,
+
+16
+00:01:05.770 --> 00:01:07.955
+phi, a random variable.
+
+17
+00:01:07.955 --> 00:01:11.374
+It won't be a parameter anymore,
+
+18
+00:01:11.374 --> 00:01:13.885
+but we will try to model it.
+
+19
+00:01:13.885 --> 00:01:17.275
+For this, we will have to add an extra term,
+
+20
+00:01:17.275 --> 00:01:19.600
+the product over all topics distributes on
+
+21
+00:01:19.600 --> 00:01:22.540
+the corresponding distribution and we can
+
+22
+00:01:22.540 --> 00:01:26.240
+model this using the dirichlet distribution again.
+
+23
+00:01:26.240 --> 00:01:30.595
+Now, the parameter beta would show how to sparse other topics.
+
+24
+00:01:30.595 --> 00:01:33.121
+For example, if topics are really sparse,
+
+25
+00:01:33.121 --> 00:01:35.335
+we will have only a few words in this topic.
+
+26
+00:01:35.335 --> 00:01:38.507
+For example, we'll have the topic about football,
+
+27
+00:01:38.507 --> 00:01:41.035
+we'll have about hockey,
+
+28
+00:01:41.035 --> 00:01:43.715
+and if beta would be a bit larger,
+
+29
+00:01:43.715 --> 00:01:46.525
+we'll have the topic about sports and we'll have
+
+30
+00:01:46.525 --> 00:01:50.743
+the football hockey board saying it with like equal probabilities.
+
+31
+00:01:50.743 --> 00:01:55.440
+The second extension is called correlated topic model.
+
+32
+00:01:55.440 --> 00:01:58.012
+In the dirichlet distribution,
+
+33
+00:01:58.012 --> 00:02:02.260
+we can't model such beautiful correlations between the topics.
+
+34
+00:02:02.260 --> 00:02:05.335
+However, for some cases, it is really useful.
+
+35
+00:02:05.335 --> 00:02:08.605
+For example, if you see a topic about lasers,
+
+36
+00:02:08.605 --> 00:02:12.250
+the document would probably also be about physics a bit.
+
+37
+00:02:12.250 --> 00:02:14.945
+Here is some correlation.
+
+38
+00:02:14.945 --> 00:02:21.580
+Some topics appear more frequently with another ones and then the others.
+
+39
+00:02:21.580 --> 00:02:27.575
+This can be done using so-called logistic normal distribution.
+
+40
+00:02:27.575 --> 00:02:30.360
+I will not define it fully.
+
+41
+00:02:30.360 --> 00:02:32.370
+I will just show you some pictures.
+
+42
+00:02:32.370 --> 00:02:36.220
+By varying the covariance matrix sigma,
+
+43
+00:02:36.220 --> 00:02:43.675
+we can have a correlation between different objects as shown on these pictures.
+
+44
+00:02:43.675 --> 00:02:47.707
+Finally, on the dynamics topic model.
+
+45
+00:02:47.707 --> 00:02:54.100
+If, for example, we model some collectional documents from old time.
+
+46
+00:02:54.100 --> 00:02:57.470
+Some words can be used more frequently in the past,
+
+47
+00:02:57.470 --> 00:03:00.280
+but now they are not used very frequently.
+
+48
+00:03:00.280 --> 00:03:03.625
+However, there are some synonyms that are used from then now.
+
+49
+00:03:03.625 --> 00:03:08.890
+For example here the word nerve was frequently used in 1880's,
+
+50
+00:03:08.890 --> 00:03:13.225
+however now, it is used really rarely.
+
+51
+00:03:13.225 --> 00:03:18.010
+However the word neuron is used very often.
+
+52
+00:03:18.010 --> 00:03:22.745
+To model this, we can use the following trick.
+
+53
+00:03:22.745 --> 00:03:25.192
+We'll have some extra random variable B,
+
+54
+00:03:25.192 --> 00:03:30.490
+left on be actually obtains using the normal distribution.
+
+55
+00:03:30.490 --> 00:03:32.530
+We state at some position B,
+
+56
+00:03:32.530 --> 00:03:35.890
+and then we add the Gaussian noise is times 10.
+
+57
+00:03:35.890 --> 00:03:40.030
+So we do a random work in this space of B.
+
+58
+00:03:40.030 --> 00:03:42.053
+Then for each concept,
+
+59
+00:03:42.053 --> 00:03:46.220
+we obtain phi as the softmax of B.
+
+60
+00:03:46.220 --> 00:03:51.760
+We apply softmax just to get a probability distributions and using this,
+
+61
+00:03:51.760 --> 00:03:54.595
+we'll have a dynamic values for phi.
+
+62
+00:03:54.595 --> 00:03:59.575
+We will be able to track the dynamics of the words,
+
+63
+00:03:59.575 --> 00:04:01.840
+of the topics throughout the time.
+
+64
+00:04:01.840 --> 00:04:04.100
+All right.
+
+65
+00:04:04.100 --> 00:04:06.280
+We've seen a latent dirichlet allocation this module.
+
+66
+00:04:06.280 --> 00:04:08.938
+It has a lot of a pro's and con's.
+
+67
+00:04:08.938 --> 00:04:13.655
+The main pro is that the topics that are generated
+
+68
+00:04:13.655 --> 00:04:19.430
+are really interpretable and it is really useful for interpreting the models.
+
+69
+00:04:19.430 --> 00:04:21.860
+For example, if you trimmed the collection of the documents,
+
+70
+00:04:21.860 --> 00:04:25.380
+you can find out what this collection was about.
+
+71
+00:04:25.380 --> 00:04:27.320
+For example, if you see that,
+
+72
+00:04:27.320 --> 00:04:29.370
+there are lot of topics about adventure,
+
+73
+00:04:29.370 --> 00:04:33.000
+maybe you had a collection of adventure books.
+
+74
+00:04:33.000 --> 00:04:37.145
+Also, this model works well for rare words.
+
+75
+00:04:37.145 --> 00:04:40.411
+It is also fast for even huge text collections.
+
+76
+00:04:40.411 --> 00:04:49.595
+It has a really good implementation that allows for multicore and distributed trainings,
+
+77
+00:04:49.595 --> 00:04:52.790
+and also, many features that are
+
+78
+00:04:52.790 --> 00:04:57.320
+useful can be added with extensions as we've seen before.

@@ -1,0 +1,373 @@
+WEBVTT
+
+1
+00:00:03.690 --> 00:00:05.850
+All right, in this video,
+
+2
+00:00:05.850 --> 00:00:08.070
+we will see a variational Bayes EM,
+
+3
+00:00:08.070 --> 00:00:11.895
+and also summarize methods that we have seen until now.
+
+4
+00:00:11.895 --> 00:00:16.895
+Let me remind you what Expectation Maximization Algorithm means.
+
+5
+00:00:16.895 --> 00:00:19.300
+We try to maximize the margin of likelihood,
+
+6
+00:00:19.300 --> 00:00:21.295
+the logarithm of it actually.
+
+7
+00:00:21.295 --> 00:00:25.430
+It would be a logarithm of P of your data, given the parameters.
+
+8
+00:00:25.430 --> 00:00:28.310
+We also derive the variation lower bound for it,
+
+9
+00:00:28.310 --> 00:00:32.620
+and it is actually an expectation over some distribution Q of T times the logarithm
+
+10
+00:00:32.620 --> 00:00:38.245
+of the ratio between the joint distribution over the latent variable set of data,
+
+11
+00:00:38.245 --> 00:00:41.480
+given the parameters, and this distribution Q of T,
+
+12
+00:00:41.480 --> 00:00:44.865
+that is distribution over the lesson variables.
+
+13
+00:00:44.865 --> 00:00:48.443
+And we try to maximize the variation lower bound,
+
+14
+00:00:48.443 --> 00:00:52.560
+we do this in an iterative way.
+
+15
+00:00:52.560 --> 00:00:57.690
+On E-step, we maximize the lower bond with respect to Q and,
+
+16
+00:00:57.690 --> 00:01:01.155
+on abstract, we'll maximize it with respect to Theta.
+
+17
+00:01:01.155 --> 00:01:04.258
+We also proved that on E-step,
+
+18
+00:01:04.258 --> 00:01:09.210
+the maximization of the lower bound with respect to Q is equivalent to
+
+19
+00:01:09.210 --> 00:01:14.825
+minimizing the curl divergence between the Q and the posterior on the learning variables,
+
+20
+00:01:14.825 --> 00:01:17.230
+given the parameters and the data.
+
+21
+00:01:17.230 --> 00:01:19.150
+And on the M-step,
+
+22
+00:01:19.150 --> 00:01:25.140
+we can maximize the expected value of the logarithm of the joint distribution.
+
+23
+00:01:25.140 --> 00:01:30.125
+Actually, we do this since the denominator of the variational lower bound,
+
+24
+00:01:30.125 --> 00:01:33.285
+the Q of T, does not depend on Theta, and so we can drop it.
+
+25
+00:01:33.285 --> 00:01:35.535
+Let's see an E-step more carefully.
+
+26
+00:01:35.535 --> 00:01:40.236
+We minimize the curl divergence between the variational distribution Q of T,
+
+27
+00:01:40.236 --> 00:01:43.270
+and the posterior distribution over the latent variables,
+
+28
+00:01:43.270 --> 00:01:45.055
+given data and parameters,
+
+29
+00:01:45.055 --> 00:01:48.095
+and we do this minimization with respect to Q.
+
+30
+00:01:48.095 --> 00:01:52.860
+In week two, we've shown that the minimum of
+
+31
+00:01:52.860 --> 00:01:57.255
+this curl divergence actually is the second distribution,
+
+32
+00:01:57.255 --> 00:02:02.865
+that is, the Q of T equals to probability of T given X and Theta.
+
+33
+00:02:02.865 --> 00:02:05.025
+However, for many models,
+
+34
+00:02:05.025 --> 00:02:08.660
+it is not the case that we can compute for posterior exactly.
+
+35
+00:02:08.660 --> 00:02:09.930
+For example, in the next model,
+
+36
+00:02:09.930 --> 00:02:13.950
+module C and model called Latent Dirichlet allocation.
+
+37
+00:02:13.950 --> 00:02:19.140
+And for it, it seems to be impossible to compute the full posterior exactly.
+
+38
+00:02:19.140 --> 00:02:23.345
+So, we can try to use a variational inference in this case.
+
+39
+00:02:23.345 --> 00:02:27.060
+The new E-step would be as follows.
+
+40
+00:02:27.060 --> 00:02:30.840
+We minimize the curl divergence in some variational family.
+
+41
+00:02:30.840 --> 00:02:34.185
+We can use a meaningful approximation, for example, here.
+
+42
+00:02:34.185 --> 00:02:36.513
+And this method, where on E-step,
+
+43
+00:02:36.513 --> 00:02:41.305
+we perform a variational inference is called a variational EM.
+
+44
+00:02:41.305 --> 00:02:45.190
+All right, we've seen a lot of models.
+
+45
+00:02:45.190 --> 00:02:47.180
+Now, let's summarize them.
+
+46
+00:02:47.180 --> 00:02:49.050
+Here's our notation again.
+
+47
+00:02:49.050 --> 00:02:52.335
+We have data that is known we denoted as X,
+
+48
+00:02:52.335 --> 00:02:53.504
+we have parameters, Theta,
+
+49
+00:02:53.504 --> 00:02:55.284
+that are unknown and also,
+
+50
+00:02:55.284 --> 00:02:58.725
+latent variable is T that are also unknown.
+
+51
+00:02:58.725 --> 00:03:02.750
+I have two criterions here.
+
+52
+00:03:02.750 --> 00:03:06.783
+First is accurate and inaccurate.
+
+53
+00:03:06.783 --> 00:03:09.350
+The methods that are higher are more
+
+54
+00:03:09.350 --> 00:03:13.410
+accurate and the methods that are lower are more inaccurate.
+
+55
+00:03:13.410 --> 00:03:16.050
+In the meantime, on the right,
+
+56
+00:03:16.050 --> 00:03:17.350
+we have another criterion,
+
+57
+00:03:17.350 --> 00:03:18.730
+the slow and the fast.
+
+58
+00:03:18.730 --> 00:03:21.295
+The first methods would be quite slow,
+
+59
+00:03:21.295 --> 00:03:23.955
+and the last ones would be really fast.
+
+60
+00:03:23.955 --> 00:03:28.605
+You have to compromise between accuracy and speed.
+
+61
+00:03:28.605 --> 00:03:30.900
+The first algorithm is a full inference,
+
+62
+00:03:30.900 --> 00:03:34.145
+we'll try to find the full distribution,
+
+63
+00:03:34.145 --> 00:03:38.965
+the full joint distribution over the latent variables and parameters, given the data.
+
+64
+00:03:38.965 --> 00:03:45.110
+It is actually very accurate since it is exact inference,
+
+65
+00:03:45.110 --> 00:03:50.485
+however, for minimums, it is really slow.
+
+66
+00:03:50.485 --> 00:03:52.970
+Sometimes, we can do Mean field.
+
+67
+00:03:52.970 --> 00:03:55.160
+For mean fields, we will find
+
+68
+00:03:55.160 --> 00:04:00.790
+the posterior distribution approximated by the product of two distributions,
+
+69
+00:04:00.790 --> 00:04:08.275
+the distribution over the latent variables and distribution over parameters.
+
+70
+00:04:08.275 --> 00:04:11.620
+We can use EM algorithm.
+
+71
+00:04:11.620 --> 00:04:18.050
+In EM algorithm, we'll find only a point wise estimation of the parameters.
+
+72
+00:04:18.050 --> 00:04:21.965
+We will still have a distribution over T, however,
+
+73
+00:04:21.965 --> 00:04:27.230
+the Theta would be equal to the maximum of posterior estimation of it.
+
+74
+00:04:27.230 --> 00:04:29.930
+All right, but it turns out that for many cases,
+
+75
+00:04:29.930 --> 00:04:32.705
+it is still not the case that we can use the EM algorithm.
+
+76
+00:04:32.705 --> 00:04:35.546
+And then we can use a variational EM.
+
+77
+00:04:35.546 --> 00:04:37.910
+In variational EM, we apply, for example,
+
+78
+00:04:37.910 --> 00:04:41.690
+a meaningful approximation and factorize the probability over
+
+79
+00:04:41.690 --> 00:04:46.600
+the latent variables into probabilities for each dimension.
+
+80
+00:04:46.600 --> 00:04:50.525
+And so, we'll find the factorized distribution of latent variables,
+
+81
+00:04:50.525 --> 00:04:54.950
+and a point estimate of the parameters.
+
+82
+00:04:54.950 --> 00:04:56.270
+All right, and finally,
+
+83
+00:04:56.270 --> 00:04:59.875
+if we can do anything, we can use a Crisp EM.
+
+84
+00:04:59.875 --> 00:05:06.975
+In Crisp EM, we approximate the latent variables and the parameters with point estimate.
+
+85
+00:05:06.975 --> 00:05:09.140
+We'll do in an interesting way,
+
+86
+00:05:09.140 --> 00:05:14.435
+we'll find the maximum probability value for the lesser variables and on the next step,
+
+87
+00:05:14.435 --> 00:05:19.778
+we'll estimate the maximum probability of estimate all of the parameters.
+
+88
+00:05:19.778 --> 00:05:22.390
+You should be familiar with such methods,
+
+89
+00:05:22.390 --> 00:05:28.485
+it is used for k-means clusterization.
+
+90
+00:05:28.485 --> 00:05:29.755
+So, we've seen the methods,
+
+91
+00:05:29.755 --> 00:05:31.680
+we've seen the variational inference,
+
+92
+00:05:31.680 --> 00:05:32.920
+and in the next module,
+
+93
+00:05:32.920 --> 00:05:39.410
+well see an application of variational inference for the Latent Dirichlet allocation.

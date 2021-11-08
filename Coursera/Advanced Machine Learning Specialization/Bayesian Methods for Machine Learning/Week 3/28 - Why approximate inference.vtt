@@ -1,0 +1,339 @@
+WEBVTT
+
+1
+00:00:00.146 --> 00:00:06.541
+[SOUND]
+Hi, welcome to week three.
+
+2
+00:00:06.541 --> 00:00:10.663
+This time we will see an algorithm
+called variational inference.
+
+3
+00:00:10.663 --> 00:00:15.646
+This is an algorithm for computing
+the posterior probability approximately.
+
+4
+00:00:15.646 --> 00:00:16.751
+But first of all,
+
+5
+00:00:16.751 --> 00:00:21.181
+let's see why do we even care about
+computing approximate posterior.
+
+6
+00:00:21.181 --> 00:00:25.974
+So here we see base formula that
+helps us to compute the posterior
+
+7
+00:00:25.974 --> 00:00:29.010
+on the latent variables given the data.
+
+8
+00:00:29.010 --> 00:00:34.284
+We will denote the posterior probability,
+f, as p*(z).
+
+9
+00:00:34.284 --> 00:00:37.814
+So when the prior is
+conjugate to the likelihood,
+
+10
+00:00:37.814 --> 00:00:40.931
+it is really easy to
+compute the posterior.
+
+11
+00:00:40.931 --> 00:00:45.421
+However, for most of the other cases,
+it is really hard.
+
+12
+00:00:45.421 --> 00:00:50.490
+One important case is called
+the variational autoencoders and
+
+13
+00:00:50.490 --> 00:00:52.694
+we will see it in week five.
+
+14
+00:00:52.694 --> 00:00:57.514
+In variational autoencoders, we model
+the likelihood as neural networks.
+
+15
+00:00:57.514 --> 00:01:01.930
+So it would be a normal
+distribution of the data given that
+
+16
+00:01:01.930 --> 00:01:05.058
+the mean is some neural
+network mu of z and
+
+17
+00:01:05.058 --> 00:01:10.124
+the variance is some other neural
+networks, sigma squared of z.
+
+18
+00:01:10.124 --> 00:01:13.258
+And in this case, there's no conjugacy and
+
+19
+00:01:13.258 --> 00:01:17.334
+we can't compute the posterior
+using Bayes' formula.
+
+20
+00:01:17.334 --> 00:01:20.897
+But do we actually need
+the exact posterior?
+
+21
+00:01:20.897 --> 00:01:24.012
+For example, here is some distribution and
+
+22
+00:01:24.012 --> 00:01:28.736
+it doesn't seem to belong to some
+known family of distributions.
+
+23
+00:01:28.736 --> 00:01:33.080
+However, we could approximate
+it using the Gaussian and for
+
+24
+00:01:33.080 --> 00:01:38.890
+most of the practical considerations,
+it will really be a good approximation.
+
+25
+00:01:38.890 --> 00:01:43.576
+For example, it would match the mean,
+the variance and [INAUDIBLE] the shape.
+
+26
+00:01:43.576 --> 00:01:48.348
+And so through out this week,
+we'll see a method that will help us to
+
+27
+00:01:48.348 --> 00:01:52.054
+find the best approximation
+of the full posterior.
+
+28
+00:01:52.054 --> 00:01:56.532
+It works as follows, first of all,
+we select some family distribution as Q.
+
+29
+00:01:56.532 --> 00:01:59.379
+We'll call this a variational family.
+
+30
+00:01:59.379 --> 00:02:04.378
+For example, this could be family
+of normal distributions with some
+
+31
+00:02:04.378 --> 00:02:09.562
+arbitrary mean, and the coherence
+matrix that will be a diagonal one.
+
+32
+00:02:09.562 --> 00:02:14.841
+What we do next is we try to
+approximate the full posterior,
+
+33
+00:02:14.841 --> 00:02:20.224
+the star of z, with some
+variational distribution, q of z,
+
+34
+00:02:20.224 --> 00:02:26.371
+and we find the best matching
+distribution using the KL divergence.
+
+35
+00:02:26.371 --> 00:02:30.722
+So we try to minimize the KL
+divergence between the q and
+
+36
+00:02:30.722 --> 00:02:34.231
+the p* in the family of distributions, q.
+
+37
+00:02:36.638 --> 00:02:41.560
+So depending on which Q is left,
+we can obtain different results.
+
+38
+00:02:41.560 --> 00:02:46.125
+If Q's too small, then the true
+posterior will not lie in it and
+
+39
+00:02:46.125 --> 00:02:51.308
+we'll have some distribution that
+does not match the full posterior.
+
+40
+00:02:51.308 --> 00:02:54.471
+And the distance between
+the full posterior and
+
+41
+00:02:54.471 --> 00:02:59.069
+the distribution we approximated
+would be exactly a KL divergence.
+
+42
+00:02:59.069 --> 00:03:03.728
+We selected a larger Q than the posterior
+
+43
+00:03:03.728 --> 00:03:08.941
+could match the approximate distribution.
+
+44
+00:03:08.941 --> 00:03:16.575
+However, for larger Qs, it is harder
+to compute the variational inference.
+
+45
+00:03:16.575 --> 00:03:22.065
+For example, if we select a Q as
+a family of all possible distributions,
+
+46
+00:03:22.065 --> 00:03:26.475
+the only possible way to compute
+the posterior would be for
+
+47
+00:03:26.475 --> 00:03:31.612
+example the base formula, and
+we've already seen that it is hard.
+
+48
+00:03:31.612 --> 00:03:35.078
+There's one problem in this approach.
+
+49
+00:03:35.078 --> 00:03:40.753
+As we'll see later, we'll have to
+compute the z star at some point.
+
+50
+00:03:40.753 --> 00:03:45.727
+However, we can't compute even at one
+point because we'll have to compute
+
+51
+00:03:45.727 --> 00:03:48.174
+the evidence, the p of x.
+
+52
+00:03:48.174 --> 00:03:50.771
+It is sometimes really hard.
+
+53
+00:03:50.771 --> 00:03:55.888
+However, there is a nice property of
+KL divergence that we'll see now.
+
+54
+00:03:55.888 --> 00:03:58.469
+So here's our optimization objective.
+
+55
+00:03:58.469 --> 00:04:02.350
+Here's a KL divergence between
+our variational distribution and
+
+56
+00:04:02.350 --> 00:04:03.881
+a normalized posterior.
+
+57
+00:04:03.881 --> 00:04:10.561
+So we'll denote it as p hat over
+some z that equals to the evidence.
+
+58
+00:04:10.561 --> 00:04:15.051
+So KL divergence is by definition is
+an integral of K of Z times the logarithm
+
+59
+00:04:15.051 --> 00:04:18.702
+of the ratio between the first
+distribution and the second.
+
+60
+00:04:18.702 --> 00:04:22.791
+Note here that we can take
+the z out of an integral.
+
+61
+00:04:22.791 --> 00:04:24.331
+We will get the following formula.
+
+62
+00:04:24.331 --> 00:04:29.035
+We get two integrals, first is KL
+divergence between the variational
+
+63
+00:04:29.035 --> 00:04:33.590
+distribution and a normalized
+distribution, and some integral.
+
+64
+00:04:33.590 --> 00:04:39.498
+Actually we can see that we can take
+a logarithm from z out of an integral and
+
+65
+00:04:39.498 --> 00:04:44.853
+the thing that will have left is
+the integral of q of z, [INAUDIBLE].
+
+66
+00:04:44.853 --> 00:04:48.790
+So finally we'll have a KL
+divergence plus some constant.
+
+67
+00:04:48.790 --> 00:04:51.637
+And since we optimized the subjective,
+we can remove
+
+68
+00:04:51.637 --> 00:04:55.509
+the constant since it does not depend
+on the variational distribution.
+
+69
+00:04:55.509 --> 00:04:58.219
+And so here is out [INAUDIBLE] objective.
+
+70
+00:04:58.219 --> 00:05:02.915
+And in the next video, we'll see a method
+called mean-field approximation.
+
+71
+00:05:02.915 --> 00:05:12.915
+[SOUND]

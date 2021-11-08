@@ -1,0 +1,632 @@
+WEBVTT
+
+1
+00:00:00.028 --> 00:00:04.605
+When implementing a deep neural network,
+one of the debugging tools I often use to
+
+2
+00:00:04.605 --> 00:00:08.118
+check the correctness of my code
+is to pull a piece of paper, and
+
+3
+00:00:08.118 --> 00:00:11.727
+just work through the dimensions and
+matrix I'm working with.
+
+4
+00:00:11.727 --> 00:00:15.895
+So let me show you how to do that,
+since I hope this will make it easier for
+
+5
+00:00:15.895 --> 00:00:18.275
+you to implement your deep nets as well.
+
+6
+00:00:18.275 --> 00:00:23.174
+Capital L is equal to 5, right, counting
+quickly, not counting the input layer,
+
+7
+00:00:23.174 --> 00:00:27.390
+there are five layers here, so
+four hidden layers and one output layer.
+
+8
+00:00:27.390 --> 00:00:34.878
+And so
+if you implement forward propagation,
+
+9
+00:00:34.878 --> 00:00:41.408
+the first step will be z1 = w1x + b1.
+
+10
+00:00:41.408 --> 00:00:48.144
+So let's ignore the bias terms b for
+now, and focus on the parameters w.
+
+11
+00:00:48.144 --> 00:00:54.501
+Now this first hidden layer has three
+hidden units, so this is layer 0,
+
+12
+00:00:54.501 --> 00:00:59.517
+layer 1, layer 2, layer 3,
+layer 4, and layer 5.
+
+13
+00:00:59.517 --> 00:01:05.741
+So using the notation we had from
+the previous video, we have that n1,
+
+14
+00:01:05.741 --> 00:01:11.265
+which is the number of hidden
+units in layer 1, is equal to 3.
+
+15
+00:01:11.265 --> 00:01:16.202
+And here we would have
+the n2 is equal to 5,
+
+16
+00:01:16.202 --> 00:01:23.018
+n3 is equal to 4, n4 is equal to 2,
+and n5 is equal to 1.
+
+17
+00:01:23.018 --> 00:01:27.715
+And so far we've only seen neural networks
+with a single output unit, but in later
+
+18
+00:01:27.715 --> 00:01:32.497
+courses, we'll talk about neutral networks
+with multiple output units as well.
+
+19
+00:01:32.497 --> 00:01:36.989
+And finally, for the input layer,
+
+20
+00:01:36.989 --> 00:01:40.443
+we also have n0 = nx = 2.
+
+21
+00:01:40.443 --> 00:01:45.860
+So now, let's think about
+the dimensions of z, w, and x.
+
+22
+00:01:45.860 --> 00:01:49.120
+z is the vector of activations for
+
+23
+00:01:49.120 --> 00:01:54.244
+this first hidden layer, so
+z is going to be 3 by 1,
+
+24
+00:01:54.244 --> 00:01:58.675
+it's going to be a 3-dimensional vector.
+
+25
+00:01:58.675 --> 00:02:03.093
+So I'm going to write it a n1
+by 1-dimensional vector,
+
+26
+00:02:03.093 --> 00:02:08.546
+n1 by 1-dimensional matrix,
+all right, so 3 by 1 in this case.
+
+27
+00:02:08.546 --> 00:02:12.319
+Now how about the input features x,
+x, we have two input features.
+
+28
+00:02:12.319 --> 00:02:18.622
+So x is in this example 2 by 1, but
+more generally, it would be n0 by 1.
+
+29
+00:02:18.622 --> 00:02:24.082
+So what we need is for
+the matrix w1 to be something that when we
+
+30
+00:02:24.082 --> 00:02:30.181
+multiply an n0 by 1 vector to it,
+we get an n1 by 1 vector, right?
+
+31
+00:02:30.181 --> 00:02:34.747
+So you have sort of a three
+dimensional vector equals
+
+32
+00:02:34.747 --> 00:02:38.600
+something times a two dimensional vector.
+
+33
+00:02:38.600 --> 00:02:42.993
+And so
+by the rules of matrix multiplication,
+
+34
+00:02:42.993 --> 00:02:46.041
+this has got be a 3 by 2 matrix.
+
+35
+00:02:46.041 --> 00:02:51.138
+Right, because a 3 by 2 matrix
+times a 2 by 1 matrix, or
+
+36
+00:02:51.138 --> 00:02:56.249
+times the 2 by 1 vector,
+that gives you a 3 by 1 vector.
+
+37
+00:02:56.249 --> 00:03:02.771
+And more generally, this is going to
+be an n1 by n0 dimensional matrix.
+
+38
+00:03:02.771 --> 00:03:07.167
+So what we figured out here is that
+
+39
+00:03:07.167 --> 00:03:12.665
+the dimensions of w1 has to be n1 by n0.
+
+40
+00:03:12.665 --> 00:03:20.191
+And more generally, the dimensions
+of wL must be nL by nL minus 1.
+
+41
+00:03:20.191 --> 00:03:26.021
+So for example, the dimensions of w2,
+
+42
+00:03:26.021 --> 00:03:31.508
+for this, it would have to be 5 by 3,
+
+43
+00:03:31.508 --> 00:03:35.119
+or it would be n2 by n1.
+
+44
+00:03:35.119 --> 00:03:40.036
+Because we're going to compute
+
+45
+00:03:40.036 --> 00:03:45.132
+z2 as w2 times a1, and again,
+
+46
+00:03:45.132 --> 00:03:50.059
+let's ignore the bias for now.
+
+47
+00:03:50.059 --> 00:03:54.584
+And so this is going to be 3 by 1,
+
+48
+00:03:54.584 --> 00:03:59.432
+and we need this to be 5 by 1, and so
+
+49
+00:03:59.432 --> 00:04:03.169
+this had better be 5 by 3.
+
+50
+00:04:03.169 --> 00:04:10.273
+And similarly, w3 is really
+the dimension of the next layer,
+
+51
+00:04:10.273 --> 00:04:15.501
+comma, the dimension
+of the previous layer,
+
+52
+00:04:15.501 --> 00:04:19.266
+so this is going to be 4 by 5, w4
+
+53
+00:04:22.055 --> 00:04:27.489
+Is going to be 2 by 4, and
+
+54
+00:04:27.489 --> 00:04:34.405
+w5 is going to be 1 by 2, okay?
+
+55
+00:04:34.405 --> 00:04:38.730
+So the general formula
+to check is that when
+
+56
+00:04:38.730 --> 00:04:43.416
+you're implementing the matrix for
+layer L,
+
+57
+00:04:43.416 --> 00:04:48.475
+that the dimension of that
+matrix be nL by nL-1.
+
+58
+00:04:48.475 --> 00:04:55.362
+Now let's think about
+the dimension of this vector b.
+
+59
+00:04:55.362 --> 00:05:01.017
+This is going to be a 3 by 1 vector,
+so you have to add that to another
+
+60
+00:05:01.017 --> 00:05:06.008
+3 by 1 vector in order to get
+a 3 by 1 vector as the output.
+
+61
+00:05:06.008 --> 00:05:11.287
+Or in this example, we need to add this,
+this is going to be 5 by 1,
+
+62
+00:05:11.287 --> 00:05:14.823
+so there's going to be
+another 5 by 1 vector.
+
+63
+00:05:14.823 --> 00:05:19.122
+In order for
+the sum of these two things I have in
+
+64
+00:05:19.122 --> 00:05:22.767
+the boxes to be itself a 5 by 1 vector.
+
+65
+00:05:22.767 --> 00:05:30.090
+So the more general rule is that
+in the example on the left,
+
+66
+00:05:30.090 --> 00:05:35.470
+b1 is n1 by 1, right, that's 3 by 1,
+
+67
+00:05:35.470 --> 00:05:41.156
+and in the second example,
+this is n2 by 1.
+
+68
+00:05:41.156 --> 00:05:45.891
+And so the more general case is that
+
+69
+00:05:45.891 --> 00:05:50.637
+bL should be nL by 1 dimensional.
+
+70
+00:05:50.637 --> 00:05:56.402
+So hopefully these two equations help
+you to double check that the dimensions
+
+71
+00:05:56.402 --> 00:06:02.091
+of your matrices w, as well as your
+vectors p, are the correct dimensions.
+
+72
+00:06:02.091 --> 00:06:06.206
+And of course,
+if you're implementing back propagation,
+
+73
+00:06:06.206 --> 00:06:10.657
+then the dimensions of dw should
+be the same as the dimension of w.
+
+74
+00:06:10.657 --> 00:06:16.373
+So dw should be the same dimension as w,
+
+75
+00:06:16.373 --> 00:06:22.276
+and db should be the same dimension as b.
+
+76
+00:06:22.276 --> 00:06:28.399
+Now the other key set of quantities
+whose dimensions to check are these z,
+
+77
+00:06:28.399 --> 00:06:33.658
+x, as well as a of L,
+which we didn't talk too much about here.
+
+78
+00:06:33.658 --> 00:06:39.856
+But because z of L is equal to g
+of a of L, applied element wise,
+
+79
+00:06:39.856 --> 00:06:46.914
+then z and a should have the same
+dimension in these types of networks.
+
+80
+00:06:46.914 --> 00:06:51.582
+Now let's see what happens when you have
+a vectorized implementation that looks at
+
+81
+00:06:51.582 --> 00:06:53.258
+multiple examples at a time.
+
+82
+00:06:53.258 --> 00:06:56.092
+Even for a vectorized implementation,
+
+83
+00:06:56.092 --> 00:07:00.687
+of course, the dimensions of wb,
+dw, and db will stay the same.
+
+84
+00:07:00.687 --> 00:07:04.929
+But the dimensions of z,
+a, as well as x will
+
+85
+00:07:04.929 --> 00:07:09.771
+change a bit in your
+vectorized implementation.
+
+86
+00:07:09.771 --> 00:07:13.420
+So previously,
+
+87
+00:07:13.420 --> 00:07:18.372
+we had z1 = w1x+b1
+
+88
+00:07:18.372 --> 00:07:23.845
+where this was n1 by 1,
+
+89
+00:07:23.845 --> 00:07:28.276
+this was n1 by n0,
+
+90
+00:07:28.276 --> 00:07:35.846
+x was n0 by 1, and b was n1 by 1.
+
+91
+00:07:35.846 --> 00:07:40.979
+Now, in a vectorized
+
+92
+00:07:40.979 --> 00:07:46.398
+implementation, you
+
+93
+00:07:46.398 --> 00:07:53.536
+would have z1 = w1x + b1.
+
+94
+00:07:53.536 --> 00:07:58.023
+Where now z1 is obtained
+by taking the z1 for
+
+95
+00:07:58.023 --> 00:08:03.575
+the individual examples,
+so there's z11, z12,
+
+96
+00:08:03.575 --> 00:08:10.207
+up to z1m, and stacking them as follows,
+and this gives you z1.
+
+97
+00:08:10.207 --> 00:08:15.042
+So the dimension of z1 is that,
+instead of being n1 by 1,
+
+98
+00:08:15.042 --> 00:08:20.285
+it ends up being n1 by m, and
+m is the size you're trying to set.
+
+99
+00:08:20.285 --> 00:08:26.140
+The dimensions of w1 stays the same,
+so it's still n1 by n0.
+
+100
+00:08:26.140 --> 00:08:29.201
+And x, instead of being n0 by 1 is now
+
+101
+00:08:29.201 --> 00:08:33.431
+all your training examples
+stacked horizontally.
+
+102
+00:08:33.431 --> 00:08:38.565
+So it's now n 0 by m, and so
+you notice that when you take
+
+103
+00:08:38.565 --> 00:08:43.833
+a n1 by n0 matrix and
+multiply that by an n0 by m matrix.
+
+104
+00:08:43.833 --> 00:08:50.160
+That together they actually give you an n1
+by m dimensional matrix, as expected.
+
+105
+00:08:50.160 --> 00:08:55.030
+Now, the final detail is that
+b1 is still n1 by 1, but
+
+106
+00:08:55.030 --> 00:09:01.147
+when you take this and add it to b,
+then through Python broadcasting,
+
+107
+00:09:01.147 --> 00:09:08.218
+this will get duplicated and turn n1 by
+m matrix, and then add the element wise.
+
+108
+00:09:08.218 --> 00:09:14.977
+So on the previous slide, we talked
+about the dimensions of wb, dw, and db.
+
+109
+00:09:14.977 --> 00:09:21.143
+Here, what we see is that whereas zL as
+
+110
+00:09:21.143 --> 00:09:26.922
+well as aL are of dimension nL by 1,
+
+111
+00:09:26.922 --> 00:09:34.650
+we have now instead that
+ZL as well AL are nL by m.
+
+112
+00:09:34.650 --> 00:09:40.410
+And a special case of this
+is when L is equal to 0,
+
+113
+00:09:40.410 --> 00:09:45.188
+in which case A0, which is equal to just
+
+114
+00:09:45.188 --> 00:09:49.543
+your training set input features X,
+
+115
+00:09:49.543 --> 00:09:54.616
+is going to be equal to
+n0 by m as expected.
+
+116
+00:09:54.616 --> 00:10:01.259
+And of course when you're
+implementing this in backpropagation,
+
+117
+00:10:01.259 --> 00:10:06.749
+we'll see later you,
+end up computing dZ as well as dA.
+
+118
+00:10:06.749 --> 00:10:11.327
+And so these will of course have
+
+119
+00:10:11.327 --> 00:10:15.736
+the same dimension as Z and A.
+
+120
+00:10:15.736 --> 00:10:19.467
+So I hope the little exercise we went
+through helps clarify the dimensions that
+
+121
+00:10:19.467 --> 00:10:21.685
+the various matrices
+you'd be working with.
+
+122
+00:10:21.685 --> 00:10:25.947
+When you implement backpropagation for
+a deep neural network, so long as you work
+
+123
+00:10:25.947 --> 00:10:30.350
+through your code and make sure that all
+the matrices' dimensions are consistent.
+
+124
+00:10:30.350 --> 00:10:31.825
+That will usually help,
+
+125
+00:10:31.825 --> 00:10:35.908
+it'll go some ways toward eliminating
+some cause of possible bugs.
+
+126
+00:10:35.908 --> 00:10:40.325
+So I hope that exercise for figuring out
+the dimensions of various matrices you'll
+
+127
+00:10:40.325 --> 00:10:41.979
+been working with is helpful.
+
+128
+00:10:41.979 --> 00:10:44.788
+When you implement a deep neural network,
+if you keep straight
+
+129
+00:10:44.788 --> 00:10:48.241
+the dimensions of these various matrices
+and vectors you're working with.
+
+130
+00:10:48.241 --> 00:10:52.162
+Hopefully they'll help you eliminate
+some cause of possible bugs,
+
+131
+00:10:52.162 --> 00:10:54.467
+it certainly helps me get my code right.
+
+132
+00:10:54.467 --> 00:10:58.882
+So next, we've now seen some of
+the mechanics of how to do forward
+
+133
+00:10:58.882 --> 00:11:01.227
+propagation in a neural network.
+
+134
+00:11:01.227 --> 00:11:04.163
+But why are deep neural networks so
+effective, and
+
+135
+00:11:04.163 --> 00:11:07.243
+why do they do better than
+shallow representations?
+
+136
+00:11:07.243 --> 00:11:09.939
+Let's spend a few minutes in
+the next video to discuss that.
