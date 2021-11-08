@@ -1,0 +1,716 @@
+WEBVTT
+
+1
+00:00:00.031 --> 00:00:04.629
+[MUSIC]
+
+2
+00:00:04.629 --> 00:00:07.489
+In the previous video,
+we discussed that it
+
+3
+00:00:07.489 --> 00:00:11.910
+can be nice to build a Markov chain
+to sample from sum distribution.
+
+4
+00:00:11.910 --> 00:00:14.948
+But how to build such Markov chain?
+
+5
+00:00:14.948 --> 00:00:18.003
+A simplest method for
+that is called Gibbs sampling.
+
+6
+00:00:18.003 --> 00:00:19.693
+Involves as follows.
+
+7
+00:00:19.693 --> 00:00:23.601
+So say you have a distribution,
+a three-dimensional one,
+
+8
+00:00:23.601 --> 00:00:26.216
+which we know up to normalization cost.
+
+9
+00:00:26.216 --> 00:00:28.844
+So we can compute this probability or
+
+10
+00:00:28.844 --> 00:00:34.370
+density in the continuous case at any
+given point, but up to normalization.
+
+11
+00:00:34.370 --> 00:00:38.034
+So the Gibbs sampling works as follows.
+
+12
+00:00:38.034 --> 00:00:42.095
+First of all, we start with some
+initial point, for example, all 0s.
+
+13
+00:00:42.095 --> 00:00:44.776
+And it doesn't matter where we start.
+
+14
+00:00:44.776 --> 00:00:48.860
+Well, it does matter for
+some convergence properties, and
+
+15
+00:00:48.860 --> 00:00:53.597
+stuff like that, but it doesn't matter for
+the sake of correctness.
+
+16
+00:00:53.597 --> 00:01:00.006
+And then, as we're starting to
+build our next iteration point,
+
+17
+00:01:00.006 --> 00:01:07.130
+we're going to build this next iteration
+point one dimension at a time.
+
+18
+00:01:07.130 --> 00:01:11.580
+So the first dimension of the next
+point will be a sample from
+
+19
+00:01:11.580 --> 00:01:16.386
+conditional distribution, on x1,
+given the varies of x2 and
+
+20
+00:01:16.386 --> 00:01:19.772
+x3, which we had from our initialization.
+
+21
+00:01:19.772 --> 00:01:25.540
+And you may ask, how can we sample
+from this conditional distribution?
+
+22
+00:01:25.540 --> 00:01:27.689
+It's also a hard problem, right?
+
+23
+00:01:27.689 --> 00:01:31.930
+But note that the conditional distribution
+is proportional to the joint distribution.
+
+24
+00:01:31.930 --> 00:01:36.548
+So we know it, again,
+up to normalization constant.
+
+25
+00:01:36.548 --> 00:01:39.032
+And sampling from
+one-dimensional distributions,
+
+26
+00:01:39.032 --> 00:01:42.709
+it's usually much easier of it, than
+something from my multidimensional one.
+
+27
+00:01:42.709 --> 00:01:44.751
+So we assume that we can do it.
+
+28
+00:01:44.751 --> 00:01:50.678
+In some particular practical cases we
+can invent a really efficient scheme for
+
+29
+00:01:50.678 --> 00:01:56.626
+analytically sampling from these kind
+of one-dimensional distributions.
+
+30
+00:01:56.626 --> 00:02:01.511
+In others, we have to use general purpose
+schemes, like rejection sampling.
+
+31
+00:02:01.511 --> 00:02:04.634
+But anyway,
+one-dimensional sampling is easy.
+
+32
+00:02:04.634 --> 00:02:07.907
+So let's go to the next sub-step.
+
+33
+00:02:07.907 --> 00:02:09.767
+On the next sub-step,
+
+34
+00:02:09.767 --> 00:02:15.722
+we're going to generate the second
+dimension of our first duration point.
+
+35
+00:02:15.722 --> 00:02:22.195
+And it's going to be generated from
+the conditional distribution on x2,
+
+36
+00:02:22.195 --> 00:02:26.921
+given x1 being the dimension
+we have just generated,
+
+37
+00:02:26.921 --> 00:02:31.460
+and x3 being the initialization
+point dimension.
+
+38
+00:02:31.460 --> 00:02:36.802
+And finally, we will generate the third
+dimension in the same fashion.
+
+39
+00:02:36.802 --> 00:02:40.933
+So we'll generate it from
+the conditional distribution,
+
+40
+00:02:40.933 --> 00:02:43.751
+given the stuff we have just generated.
+
+41
+00:02:43.751 --> 00:02:48.383
+And in the general case,
+this was the iteration one.
+
+42
+00:02:48.383 --> 00:02:53.028
+And these three sub-steps
+constitutes into just one
+
+43
+00:02:53.028 --> 00:02:56.234
+kind of big step of our Markov chain.
+
+44
+00:02:56.234 --> 00:02:59.926
+So it's a way we transition from x0 to x1.
+
+45
+00:02:59.926 --> 00:03:01.965
+And if you write it down for
+
+46
+00:03:01.965 --> 00:03:06.152
+general iteration number k,
+it will look like this.
+
+47
+00:03:06.152 --> 00:03:10.952
+So the point from duration k + 1 is
+generated one-dimension at a time,
+
+48
+00:03:10.952 --> 00:03:16.150
+by using some conditional distributions,
+which are conditioned on the stuff
+
+49
+00:03:16.150 --> 00:03:20.738
+we have from the previous duration,
+and from the current duration.
+
+50
+00:03:20.738 --> 00:03:24.729
+And note that this schema's
+really not parallel.
+
+51
+00:03:24.729 --> 00:03:29.525
+So each step depends on
+the previous steps to be executed.
+
+52
+00:03:29.525 --> 00:03:33.737
+And this means that no matter
+how many computers we have,
+
+53
+00:03:33.737 --> 00:03:37.073
+if we have a 1 million-dimensional space,
+
+54
+00:03:37.073 --> 00:03:43.159
+we'll have to sample these dimensions one
+at a time, which is kind of a downside.
+
+55
+00:03:43.159 --> 00:03:46.681
+But we'll discuss later
+how can we avoid it.
+
+56
+00:03:46.681 --> 00:03:52.980
+Anyway, this procedure gives you a way to
+move from x0 to x1, and to x2, and etc.
+
+57
+00:03:52.980 --> 00:03:58.208
+And let's prove that this
+indeed defines a Markov chain,
+
+58
+00:03:58.208 --> 00:04:01.846
+which converged to the distribution p.
+
+59
+00:04:01.846 --> 00:04:03.917
+So if we sample like this long enough,
+
+60
+00:04:03.917 --> 00:04:06.775
+we'll get samples from
+the desired distribution.
+
+61
+00:04:06.775 --> 00:04:09.538
+And we are going to do
+it on the blackboard.
+
+62
+00:04:12.630 --> 00:04:17.817
+So let's prove that the Gibbs
+sampling over the three sub-steps,
+
+63
+00:04:17.817 --> 00:04:22.640
+considered as one big step,
+indeed provides you a Markov chain
+
+64
+00:04:22.640 --> 00:04:26.289
+that converged to
+the desired distribution p.
+
+65
+00:04:26.289 --> 00:04:30.988
+So what we want to prove
+is that p of the new point,
+
+66
+00:04:30.988 --> 00:04:35.226
+x prime, y prime, and z prime, equals, so
+
+67
+00:04:35.226 --> 00:04:40.041
+we want to prove that it equals,
+to the one step for
+
+68
+00:04:40.041 --> 00:04:45.546
+the Gibbs sampling,
+starting from the distribution p,
+
+69
+00:04:45.546 --> 00:04:49.474
+and then doing one step of the sampling.
+
+70
+00:04:49.474 --> 00:04:55.481
+So here we'll have marginalizing
+out the previous step, x, y, and z.
+
+71
+00:04:55.481 --> 00:05:01.593
+And the transition probability,
+q, probability to go from x,
+
+72
+00:05:01.593 --> 00:05:05.225
+y, z, to x prime, y prime, z prime.
+
+73
+00:05:08.102 --> 00:05:10.371
+And times the probability p.
+
+74
+00:05:10.371 --> 00:05:15.571
+So we want to prove that these two
+things are equal to each other.
+
+75
+00:05:17.982 --> 00:05:21.333
+Let's look at the right hand
+side of this expression.
+
+76
+00:05:21.333 --> 00:05:25.768
+So we have sum with
+respect to the previous
+
+77
+00:05:25.768 --> 00:05:29.960
+point of the transition probability.
+
+78
+00:05:29.960 --> 00:05:34.672
+So how probable is it,
+under the Gibbs sampling, to move from x,
+
+79
+00:05:34.672 --> 00:05:37.431
+y, z, to x prime, y prime, z prime?
+
+80
+00:05:37.431 --> 00:05:44.483
+Well, we have to first of
+all move from x to x prime,
+
+81
+00:05:44.483 --> 00:05:49.076
+so that will be least conditional
+
+82
+00:05:49.076 --> 00:05:53.684
+probability, y = y, and z = z.
+
+83
+00:05:53.684 --> 00:05:56.720
+Then we have to assume that
+we move to x prime, and
+
+84
+00:05:56.720 --> 00:06:00.362
+then what is the probability
+that we move from y to y prime?
+
+85
+00:06:00.362 --> 00:06:05.122
+So it'll be y prime,
+given that we have already
+
+86
+00:06:05.122 --> 00:06:08.932
+moved to x prime, and started with z.
+
+87
+00:06:11.005 --> 00:06:16.086
+And finally,
+the third conditional probability,
+
+88
+00:06:16.086 --> 00:06:22.677
+that we move to z prime, given that
+we already moved to x and y prime.
+
+89
+00:06:27.350 --> 00:06:31.463
+So this is the transition probability q,
+this overall thing, and
+
+90
+00:06:31.463 --> 00:06:34.630
+times the starting probability,
+p (x, y, z).
+
+91
+00:06:34.630 --> 00:06:39.051
+So times p (x, y, z).
+
+92
+00:06:39.051 --> 00:06:43.371
+And we want to prove that this
+thing equals to the p (x prime,
+
+93
+00:06:43.371 --> 00:06:46.505
+y prime, z prime), because in this case,
+
+94
+00:06:46.505 --> 00:06:50.865
+we will prove that this p is
+stationary for our Markov chain.
+
+95
+00:06:50.865 --> 00:06:55.685
+And then, it means that the Markov chain
+converged to this distribution, p.
+
+96
+00:06:55.685 --> 00:06:59.987
+So first of all,
+it's not that this part, p of z prime,
+
+97
+00:06:59.987 --> 00:07:02.933
+it doesn't depend on x, y or z at all.
+
+98
+00:07:02.933 --> 00:07:05.461
+So we can move it outside the sum.
+
+99
+00:07:05.461 --> 00:07:12.805
+It'll be p (z prime | x prime,
+
+100
+00:07:12.805 --> 00:07:17.703
+y prime) times sum,
+
+101
+00:07:20.549 --> 00:07:22.172
+Of these two terms,
+
+102
+00:07:32.531 --> 00:07:36.099
+And then,
+times the probability of p (x, y, z).
+
+103
+00:07:36.099 --> 00:07:41.815
+And note here that, actually, the only
+part that depends on x is this one.
+
+104
+00:07:41.815 --> 00:07:46.733
+So it's p (x, y, z), which basically means
+that we can push the summation aside.
+
+105
+00:07:46.733 --> 00:07:50.448
+We can write here the sum with
+respect to only y and z, and
+
+106
+00:07:50.448 --> 00:07:53.465
+write the summations
+with respect to x here.
+
+107
+00:07:53.465 --> 00:07:59.790
+So it's summation with
+respect to all values of x,
+
+108
+00:07:59.790 --> 00:08:03.770
+from 1 to the cardinality of x.
+
+109
+00:08:03.770 --> 00:08:08.692
+And also, by the way,
+note that if our variables x, y, and
+
+110
+00:08:08.692 --> 00:08:14.316
+z would be continuous,
+we will have integrations instead of sums.
+
+111
+00:08:14.316 --> 00:08:19.043
+But the overall logic of the proof
+will be exactly the same.
+
+112
+00:08:19.043 --> 00:08:20.903
+Okay, so we have this expression.
+
+113
+00:08:24.305 --> 00:08:26.447
+These two are equal to each other.
+
+114
+00:08:29.522 --> 00:08:36.027
+And you can note that this part,
+we have just marginalized out x.
+
+115
+00:08:36.027 --> 00:08:42.450
+So we end up with p (y, z),
+the marginal distribution p (y, z).
+
+116
+00:08:42.450 --> 00:08:50.781
+Great, okay, now we can multiply
+this part by x prime | y,
+
+117
+00:08:50.781 --> 00:08:55.459
+z, to get a joint distribution.
+
+118
+00:08:55.459 --> 00:08:59.230
+So this thing will equal
+
+119
+00:08:59.230 --> 00:09:04.529
+to, Again, this part.
+
+120
+00:09:12.854 --> 00:09:15.753
+Times sum, we'll have,
+
+121
+00:09:21.936 --> 00:09:26.282
+Let's start with this term,
+p (y prime | x prime, z),
+
+122
+00:09:26.282 --> 00:09:31.798
+times the product of these two joints,
+which is the joint distribution.
+
+123
+00:09:31.798 --> 00:09:36.300
+And note that the only part that depends
+on y is this joint distribution.
+
+124
+00:09:36.300 --> 00:09:42.651
+So we can move this summation again, with
+respect to y, inside and right down here,
+
+125
+00:09:42.651 --> 00:09:48.385
+summation only with respect to z, and
+here the summation with respect to y.
+
+126
+00:09:48.385 --> 00:09:53.941
+So it will be p (x prime, y, z),
+
+127
+00:09:53.941 --> 00:10:01.241
+which is a product of these two terms,
+okay?
+
+128
+00:10:01.241 --> 00:10:06.213
+And again,
+note that when we marginalize out y here,
+
+129
+00:10:06.213 --> 00:10:09.205
+we end of with p (x prime, z).
+
+130
+00:10:20.442 --> 00:10:24.994
+And again, we can multiply these two terms
+together to get a joint distribution.
+
+131
+00:10:24.994 --> 00:10:27.443
+So finally, we have something like this.
+
+132
+00:10:33.869 --> 00:10:37.669
+It's, again, the first term,
+
+133
+00:10:37.669 --> 00:10:41.603
+p (z prime | x prime, y prime),
+
+134
+00:10:41.603 --> 00:10:48.253
+times summation with respect
+to z of p (y prime | x prime,
+
+135
+00:10:48.253 --> 00:10:52.622
+z), times the joint distribution.
+
+136
+00:10:52.622 --> 00:11:00.605
+So it's just the full joint distribution
+of these three terms, y prime, x prime, z.
+
+137
+00:11:02.655 --> 00:11:09.260
+And these parts, since we marginalized
+out z, again, it equals to p (y prime,
+
+138
+00:11:09.260 --> 00:11:13.844
+z prime),
+by the definition of the marginalization.
+
+139
+00:11:13.844 --> 00:11:17.437
+So it's like a rule of
+sum of probabilities.
+
+140
+00:11:20.954 --> 00:11:24.183
+And finally,
+by multiplying these two terms together,
+
+141
+00:11:24.183 --> 00:11:25.874
+we end up with what we wanted.
+
+142
+00:11:25.874 --> 00:11:28.755
+So this thing equals to,
+
+143
+00:11:33.011 --> 00:11:37.300
+P (z prime, x prime, y prime).
+
+144
+00:11:39.742 --> 00:11:41.205
+So we're done here.
+
+145
+00:11:41.205 --> 00:11:46.617
+We have just proven that if you start
+with distribution p on the step x,
+
+146
+00:11:46.617 --> 00:11:51.570
+y, z, and then make one step of
+this Gibbs sampling procedure,
+
+147
+00:11:51.570 --> 00:11:56.984
+one coordinates at a time,
+we'll end up with the same distribution,
+
+148
+00:11:56.984 --> 00:11:59.961
+p, p (x prime, y prime, z prime).
+
+149
+00:11:59.961 --> 00:12:03.150
+Which basically means that this
+distribution beam's stationary for
+
+150
+00:12:03.150 --> 00:12:04.128
+the Gibbs sampling.
+
+151
+00:12:04.128 --> 00:12:09.503
+And that's what will converge to this
+distribution from any starting point.
+
+152
+00:12:09.503 --> 00:12:13.515
+And basically, it means that if we
+use Gibbs sampling, it, indeed,
+
+153
+00:12:13.515 --> 00:12:17.537
+will eventually start to produce us
+samples from the distribution p.
+
+154
+00:12:17.537 --> 00:12:27.537
+[MUSIC]

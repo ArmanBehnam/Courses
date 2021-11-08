@@ -1,0 +1,785 @@
+WEBVTT
+
+1
+00:00:03.820 --> 00:00:08.750
+Hi, and welcome to week four of practical Bayesian methods.
+
+2
+00:00:08.750 --> 00:00:09.830
+This week, we're going to cover
+
+3
+00:00:09.830 --> 00:00:11.840
+the Markov chain Monte Carlo which
+
+4
+00:00:11.840 --> 00:00:14.495
+is kind of a silver bullet of probabilistic programming,
+
+5
+00:00:14.495 --> 00:00:17.590
+because it allows you to train or to
+
+6
+00:00:17.590 --> 00:00:21.405
+do imprints on almost any model without too much trouble.
+
+7
+00:00:21.405 --> 00:00:23.775
+We'll discuss some extensions of this technique.
+
+8
+00:00:23.775 --> 00:00:26.975
+So how to make it faster in some particular problems,
+
+9
+00:00:26.975 --> 00:00:29.243
+by exposing the structure of the problems,
+
+10
+00:00:29.243 --> 00:00:30.905
+and we'll also discuss some limitations,
+
+11
+00:00:30.905 --> 00:00:35.210
+like the speed of the method.
+
+12
+00:00:35.210 --> 00:00:40.404
+So, let's start the discussion of Markov chain Monte Carlo with the Monte Carlo part.
+
+13
+00:00:40.404 --> 00:00:44.420
+Monte Carlo was originated in the Manhattan Project which gave us
+
+14
+00:00:44.420 --> 00:00:51.740
+the atomic bomb and it was a quick and dirty answer to the question,
+
+15
+00:00:51.740 --> 00:00:56.355
+what to do until the mathematicians arrives.
+
+16
+00:00:56.355 --> 00:00:59.140
+The idea of Monte Carlo simulation is to,
+
+17
+00:00:59.140 --> 00:01:02.015
+so if you have a complicated model
+
+18
+00:01:02.015 --> 00:01:05.765
+of some problem and you want to predict something about this model,
+
+19
+00:01:05.765 --> 00:01:07.790
+instead of thinking carefully and,
+
+20
+00:01:07.790 --> 00:01:10.385
+you know, writing down equations and solving them,
+
+21
+00:01:10.385 --> 00:01:16.790
+you may just simulate your model lots and lots of times and then see,
+
+22
+00:01:16.790 --> 00:01:18.883
+for example, the average of the simulation
+
+23
+00:01:18.883 --> 00:01:22.515
+as some kind of smooth prediction of what will happen.
+
+24
+00:01:22.515 --> 00:01:25.075
+So, probably the reason why this thing was
+
+25
+00:01:25.075 --> 00:01:27.675
+invented in Manhattan Project is because it's one of
+
+26
+00:01:27.675 --> 00:01:32.270
+the first really huge scientific projects where we already
+
+27
+00:01:32.270 --> 00:01:38.115
+had lots of means to approximate integrals and to do these kind of simulations.
+
+28
+00:01:38.115 --> 00:01:43.850
+And second of all, we already had computers in some reasonably useful state,
+
+29
+00:01:43.850 --> 00:01:45.765
+where we can actually assimilate stuff,
+
+30
+00:01:45.765 --> 00:01:48.035
+not mentally but automatically.
+
+31
+00:01:48.035 --> 00:01:52.575
+And the Monte Carlo algorithm turned out to be pretty efficient,
+
+32
+00:01:52.575 --> 00:02:01.030
+and it made it to the list of top 10 algorithms of 20th century.
+
+33
+00:02:01.030 --> 00:02:04.490
+So the name Monte Carlo was given by the name of the city
+
+34
+00:02:04.490 --> 00:02:08.320
+Monte Carlo which is famous for its casinos,
+
+35
+00:02:08.320 --> 00:02:11.615
+and probably because, you know,
+
+36
+00:02:11.615 --> 00:02:16.235
+everything in Manhattan Project had to have its code name.
+
+37
+00:02:16.235 --> 00:02:22.850
+So let's see a small example of what I'm talking about.
+
+38
+00:02:22.850 --> 00:02:26.794
+So, what is Monte Carlo applied to some really simple problem.
+
+39
+00:02:26.794 --> 00:02:30.810
+Say you want to approximate the value of pi,
+
+40
+00:02:30.810 --> 00:02:35.180
+and you know that pi is the area of the unit circle,
+
+41
+00:02:35.180 --> 00:02:37.440
+a circle with radius one.
+
+42
+00:02:37.440 --> 00:02:38.900
+So we can, kind of,
+
+43
+00:02:38.900 --> 00:02:41.635
+use this information to approximate it.
+
+44
+00:02:41.635 --> 00:02:50.726
+And the idea here is that if you consider a rectangle from zero to one on both axes,
+
+45
+00:02:50.726 --> 00:02:55.085
+then this quarter of a circle which appears in this rectangle,
+
+46
+00:02:55.085 --> 00:02:58.930
+has exactly the area pi divided by four.
+
+47
+00:02:58.930 --> 00:03:00.810
+It's just one-fourth of the circle.
+
+48
+00:03:00.810 --> 00:03:04.220
+And its area equals to some integral which basically says
+
+49
+00:03:04.220 --> 00:03:08.300
+at each point whether this point is in the circle or not.
+
+50
+00:03:08.300 --> 00:03:14.310
+So if we integrate this thing along this rectangle, we'll get the area.
+
+51
+00:03:14.310 --> 00:03:18.230
+So how can we compute this integral? It's hard.
+
+52
+00:03:18.230 --> 00:03:20.980
+But we can throw lots and lots of points on
+
+53
+00:03:20.980 --> 00:03:26.825
+this unit rectangle and just see the fraction of those points that are put in the circle,
+
+54
+00:03:26.825 --> 00:03:28.987
+in this quarter of the circle,
+
+55
+00:03:28.987 --> 00:03:33.450
+and use this as an approximation to what the integral really is.
+
+56
+00:03:33.450 --> 00:03:35.420
+So, you can see that
+
+57
+00:03:35.420 --> 00:03:39.500
+this maybe not the best method to approximate the value of pi because here,
+
+58
+00:03:39.500 --> 00:03:42.560
+for example, you spend like 3000 samples.
+
+59
+00:03:42.560 --> 00:03:48.050
+So you assemble 3000 points and the pi was approximate as 3.1,
+
+60
+00:03:48.050 --> 00:03:52.480
+which is not the best accuracy you can get with this much computations.
+
+61
+00:03:52.480 --> 00:03:56.305
+But anyway, the method is really simple.
+
+62
+00:03:56.305 --> 00:03:59.135
+It's like two lines of code in almost any programming language.
+
+63
+00:03:59.135 --> 00:04:03.440
+And this is the general theme of Monte Carlo simulations.
+
+64
+00:04:03.440 --> 00:04:08.225
+So, Monte Carlo usually gives you something which is really easy to program,
+
+65
+00:04:08.225 --> 00:04:11.645
+which is really universally applicable to lots of and lots of problems,
+
+66
+00:04:11.645 --> 00:04:15.590
+which is very scalable to parallelization.
+
+67
+00:04:15.590 --> 00:04:17.600
+So, if you have like 100 computers,
+
+68
+00:04:17.600 --> 00:04:22.850
+then you can really easily parallelize this thing to be
+
+69
+00:04:22.850 --> 00:04:25.250
+100 times more efficient which is not
+
+70
+00:04:25.250 --> 00:04:28.109
+the case for many other algorithms which are much harder to parallelize.
+
+71
+00:04:28.109 --> 00:04:35.405
+And sometimes this Monte Carlo method can be slow compared to other alternatives.
+
+72
+00:04:35.405 --> 00:04:39.540
+So, usually, if you sit down carefully for a weekend,
+
+73
+00:04:39.540 --> 00:04:41.885
+like write down lots of equations and think,
+
+74
+00:04:41.885 --> 00:04:44.686
+then you may come up with a better way to do,
+
+75
+00:04:44.686 --> 00:04:48.185
+to solve your problem than to do just Monte Carlo simulation.
+
+76
+00:04:48.185 --> 00:04:51.010
+Sometimes not, but sometimes it's
+
+77
+00:04:51.010 --> 00:04:54.495
+just a quick and dirty approach which gives you the first approximation.
+
+78
+00:04:54.495 --> 00:04:56.450
+But anyway, it's very useful.
+
+79
+00:04:56.450 --> 00:05:00.485
+So, to be a little bit more general about this family of techniques,
+
+80
+00:05:00.485 --> 00:05:05.868
+let's say that we want to approximate some expected value of some function f,
+
+81
+00:05:05.868 --> 00:05:08.975
+with respect to some distribution p of x.
+
+82
+00:05:08.975 --> 00:05:11.155
+And we will use,
+
+83
+00:05:11.155 --> 00:05:17.145
+we will sample a few points for some end points from this distribution p of x,
+
+84
+00:05:17.145 --> 00:05:22.000
+and use the average of f of x size as the approximation.
+
+85
+00:05:22.000 --> 00:05:30.220
+So, here, we are kind of using sampled average instead of the expected value.
+
+86
+00:05:30.220 --> 00:05:35.510
+And this thing has lots of nice various co-properties like it's unbiased,
+
+87
+00:05:35.510 --> 00:05:38.535
+meaning that if you sample enough points,
+
+88
+00:05:38.535 --> 00:05:42.750
+you can get closer and closer to the actual true answer,
+
+89
+00:05:42.750 --> 00:05:44.715
+at least with high probability.
+
+90
+00:05:44.715 --> 00:05:51.285
+And anyway, we're [inaudible] how fast you will converge to that.
+
+91
+00:05:51.285 --> 00:05:53.765
+So, this is Monte Carlo.
+
+92
+00:05:53.765 --> 00:05:58.605
+And you may ask a question like, why do we care?
+
+93
+00:05:58.605 --> 00:06:01.645
+Why do we need to approximate expected values?
+
+94
+00:06:01.645 --> 00:06:03.910
+Well, in permalink programming,
+
+95
+00:06:03.910 --> 00:06:06.525
+there are probably a few reasons to do that.
+
+96
+00:06:06.525 --> 00:06:08.305
+Let's consider two of them.
+
+97
+00:06:08.305 --> 00:06:11.565
+So first of all, if you wanted to do full Bayesian inference,
+
+98
+00:06:11.565 --> 00:06:16.050
+like we covered a little bit in week one, then,
+
+99
+00:06:16.050 --> 00:06:21.355
+instead of having some pragmatic model and finding the best failure of parameters,
+
+100
+00:06:21.355 --> 00:06:26.914
+you may just want to tweak your parameters as latent variables.
+
+101
+00:06:26.914 --> 00:06:29.280
+And then for a new object X,
+
+102
+00:06:29.280 --> 00:06:30.521
+if you want to predict it's label,
+
+103
+00:06:30.521 --> 00:06:35.390
+for example, and you have some training data set x train and y train.
+
+104
+00:06:35.390 --> 00:06:39.230
+You may want to just integrate out this latent variable like this.
+
+105
+00:06:39.230 --> 00:06:41.360
+So, imagine that, for example,
+
+106
+00:06:41.360 --> 00:06:46.450
+x is image and you want to predict like whether it's an image of a cat or dog.
+
+107
+00:06:46.450 --> 00:06:53.105
+And then P of Y given X and W maybe for example a neural network.
+
+108
+00:06:53.105 --> 00:06:56.760
+With weights W and which takes
+
+109
+00:06:56.760 --> 00:07:00.770
+as inputs this image x and outputs your distribution over labels y.
+
+110
+00:07:00.770 --> 00:07:05.220
+And then, instead of using this just one neural network with some kind of
+
+111
+00:07:05.220 --> 00:07:07.770
+optimal or best set of weights
+
+112
+00:07:07.770 --> 00:07:12.135
+w you're considering all possible neural networks with this architecture.
+
+113
+00:07:12.135 --> 00:07:17.685
+So, for each possible value for weight's w,
+
+114
+00:07:17.685 --> 00:07:20.160
+you consider this neural network.
+
+115
+00:07:20.160 --> 00:07:23.255
+You pass your image through this neural network.
+
+116
+00:07:23.255 --> 00:07:29.310
+You write down the answers the P of Y and then you average all these predictions with
+
+117
+00:07:29.310 --> 00:07:31.965
+some weights which are given by
+
+118
+00:07:31.965 --> 00:07:36.745
+the Pasteur's division the weights P of W given the training data set.
+
+119
+00:07:36.745 --> 00:07:40.025
+So it's like an infinitely large ensemble of neural networks.
+
+120
+00:07:40.025 --> 00:07:42.750
+Where the weights of the ensemble are given by
+
+121
+00:07:42.750 --> 00:07:46.125
+the Pasteur's distribution P of W given the training data set.
+
+122
+00:07:46.125 --> 00:07:50.910
+And this P of W given the training data set gives you some idea about how well
+
+123
+00:07:50.910 --> 00:07:57.100
+these weights will behave as a weight for your neural network.
+
+124
+00:07:57.100 --> 00:08:00.330
+So this value will be higher
+
+125
+00:08:00.330 --> 00:08:05.295
+for reasonable weights and lower for the weights which doesn't make sense.
+
+126
+00:08:05.295 --> 00:08:08.440
+So this way, you're doing full base in inference.
+
+127
+00:08:08.440 --> 00:08:11.790
+You're having a few benefits of probabilistic modeling like you can,
+
+128
+00:08:11.790 --> 00:08:15.955
+for example, predict uncertainty in your predictions.
+
+129
+00:08:15.955 --> 00:08:20.080
+And well basically, instead of just fixed value of weights,
+
+130
+00:08:20.080 --> 00:08:22.020
+you have a distribution over weights.
+
+131
+00:08:22.020 --> 00:08:24.960
+And this thing is, of course, intractable.
+
+132
+00:08:24.960 --> 00:08:27.855
+So if you have a complicated function like in neural network here,
+
+133
+00:08:27.855 --> 00:08:30.110
+you can compute this integral analytically.
+
+134
+00:08:30.110 --> 00:08:32.420
+So you have to do some approximation.
+
+135
+00:08:32.420 --> 00:08:34.980
+And one of the way to do it is to just say that this thing
+
+136
+00:08:34.980 --> 00:08:38.520
+is just an expected value of this neural network.
+
+137
+00:08:38.520 --> 00:08:41.920
+So we have a neural network output and the computing
+
+138
+00:08:41.920 --> 00:08:44.055
+the expected failure of this neural network output
+
+139
+00:08:44.055 --> 00:08:47.080
+with respect to some distributional weights.
+
+140
+00:08:47.080 --> 00:08:49.500
+And so, we can approximate this thing with Monte Carlo.
+
+141
+00:08:49.500 --> 00:08:53.725
+If we can sample from P of W given the training data set.
+
+142
+00:08:53.725 --> 00:08:56.710
+So this is one example,
+
+143
+00:08:56.710 --> 00:08:59.590
+where the Monte Carlo can be
+
+144
+00:08:59.590 --> 00:09:02.875
+useful to approximate expected value in the probabilistic modeling.
+
+145
+00:09:02.875 --> 00:09:06.480
+And you may ask how we can
+
+146
+00:09:06.480 --> 00:09:11.100
+find this posterior distribution of the weights P of W in the training data set?
+
+147
+00:09:11.100 --> 00:09:15.940
+Well the posterior distribution is proportional to the joint distribution.
+
+148
+00:09:15.940 --> 00:09:18.850
+So likelihood P of Y train given X train and
+
+149
+00:09:18.850 --> 00:09:23.990
+W times the prior and W and divided by some normalization constant.
+
+150
+00:09:23.990 --> 00:09:29.440
+And so the numerator here is easy because you defined your model yourself.
+
+151
+00:09:29.440 --> 00:09:30.550
+You could have, for example,
+
+152
+00:09:30.550 --> 00:09:33.250
+defined P of W the prior to be
+
+153
+00:09:33.250 --> 00:09:37.590
+normal and the likelihood is just your output of your neural network.
+
+154
+00:09:37.590 --> 00:09:42.130
+So you can compute this thing for any values of Y, X,
+
+155
+00:09:42.130 --> 00:09:44.080
+and W. But then,
+
+156
+00:09:44.080 --> 00:09:49.650
+the denominator, the normalization constant Z is much harder.
+
+157
+00:09:49.650 --> 00:09:53.415
+It contains something to go on site so you can't ever compute it.
+
+158
+00:09:53.415 --> 00:09:57.310
+So it's kind of a general situation where you know
+
+159
+00:09:57.310 --> 00:10:03.245
+your distribution from which you want to sample but only up to normalization constant.
+
+160
+00:10:03.245 --> 00:10:07.450
+Right? And other example of these kind of
+
+161
+00:10:07.450 --> 00:10:11.080
+expected values approximation can be useful in probabilistic modeling
+
+162
+00:10:11.080 --> 00:10:19.060
+is the M-step of the expectation maximization algorithm which we covered in week two.
+
+163
+00:10:19.060 --> 00:10:24.190
+So, on the E step of expectation maximization,
+
+164
+00:10:24.190 --> 00:10:34.142
+we found the posterior distribution latent variable T given the data set and parameters.
+
+165
+00:10:34.142 --> 00:10:35.168
+And on the M-step,
+
+166
+00:10:35.168 --> 00:10:40.255
+we want to maximize the expected value of algorithm of the joint probability.
+
+167
+00:10:40.255 --> 00:10:43.330
+With respect to the parameters theta and
+
+168
+00:10:43.330 --> 00:10:48.245
+the expected value with respect to this posterior distribution Q.
+
+169
+00:10:48.245 --> 00:10:53.370
+So, here again, if the posterior distribution Q is too hard to work with,
+
+170
+00:10:53.370 --> 00:10:57.475
+and we can't integrate this thing analytically, we can do a few things.
+
+171
+00:10:57.475 --> 00:10:59.080
+We can, first of all,
+
+172
+00:10:59.080 --> 00:11:04.985
+we can approximate Q to be some to lay in some simple class like factorize distribution.
+
+173
+00:11:04.985 --> 00:11:06.910
+And that's what we did in the previous week,
+
+174
+00:11:06.910 --> 00:11:09.305
+week three about variational inference.
+
+175
+00:11:09.305 --> 00:11:11.890
+So we're approximating the posterior and then
+
+176
+00:11:11.890 --> 00:11:14.930
+computing these integral analytically for the simplified posterior.
+
+177
+00:11:14.930 --> 00:11:19.330
+Or we can use the exact posterior but we
+
+178
+00:11:19.330 --> 00:11:25.252
+can sample some data set of samples from this set
+
+179
+00:11:25.252 --> 00:11:27.790
+of latent variable values and
+
+180
+00:11:27.790 --> 00:11:30.570
+then approximate this expected value with just average with respect
+
+181
+00:11:30.570 --> 00:11:33.760
+to these samples and
+
+182
+00:11:33.760 --> 00:11:38.595
+then maximize this approximation instead of the true expected values.
+
+183
+00:11:38.595 --> 00:11:42.820
+So these are two examples of where you can need expect [inaudible] and
+
+184
+00:11:42.820 --> 00:11:47.325
+probabilistic modeling and how Monte Carlo simulation can help you here.
+
+185
+00:11:47.325 --> 00:11:52.083
+And in the following videos,
+
+186
+00:11:52.083 --> 00:11:55.040
+we are going to use just,
+
+187
+00:11:55.040 --> 00:12:01.120
+we're going to use the formulation of this problem is as like we want to learn how
+
+188
+00:12:01.120 --> 00:12:03.974
+to sample from a complicated probabilistic distribution
+
+189
+00:12:03.974 --> 00:12:06.905
+which we know up to normalization constant.
+
+190
+00:12:06.905 --> 00:12:12.370
+And we will always write like p of x meaning that x is the parameters you want to sample.
+
+191
+00:12:12.370 --> 00:12:13.895
+So here we had,
+
+192
+00:12:13.895 --> 00:12:18.910
+in the first example of full Bayesin interference we had p of w giving some data.
+
+193
+00:12:18.910 --> 00:12:26.080
+And in this second example we have p of latent variable giving some again data.
+
+194
+00:12:26.080 --> 00:12:28.150
+But in all cases, the full ingredients,
+
+195
+00:12:28.150 --> 00:12:29.390
+we will just write down,
+
+196
+00:12:29.390 --> 00:12:33.950
+you know, p of x meaning that it [inaudible] distribution we want to sample from.

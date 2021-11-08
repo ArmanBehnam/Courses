@@ -1,0 +1,888 @@
+WEBVTT
+
+1
+00:00:00.334 --> 00:00:04.719
+[MUSIC]
+
+2
+00:00:04.719 --> 00:00:05.460
+In this video,
+
+3
+00:00:05.460 --> 00:00:08.824
+we're going to cover sampling from
+one-dimensional distributions.
+
+4
+00:00:08.824 --> 00:00:13.645
+And let's start with the simplest case,
+a one-dimensional discrete distribution.
+
+5
+00:00:13.645 --> 00:00:16.869
+So say we have a random
+variable like this,
+
+6
+00:00:16.869 --> 00:00:20.992
+which takes the value of
+a1 with probability 0.6,
+
+7
+00:00:20.992 --> 00:00:27.107
+value a2 with probability 0.1, and
+the value a3 with probability 0.3.
+
+8
+00:00:27.107 --> 00:00:28.831
+How can we sample from it?
+
+9
+00:00:28.831 --> 00:00:31.668
+Well, we have to start from something.
+
+10
+00:00:31.668 --> 00:00:35.962
+It's hard to generate randomness from
+nothing on a deterministic computer.
+
+11
+00:00:35.962 --> 00:00:40.689
+So we're going to use this kind of
+function which can generate your random
+
+12
+00:00:40.689 --> 00:00:43.378
+number on the interval from zero to one.
+
+13
+00:00:43.378 --> 00:00:48.022
+And this function is included in almost
+any possible programming language's
+
+14
+00:00:48.022 --> 00:00:48.664
+library.
+
+15
+00:00:48.664 --> 00:00:50.698
+So it's usually there, and
+
+16
+00:00:50.698 --> 00:00:54.947
+we can use it to base our further
+sampling techniques on it.
+
+17
+00:00:54.947 --> 00:00:57.677
+But anyway, we have this function.
+
+18
+00:00:57.677 --> 00:01:00.936
+How can we generate a sample
+from this discrete distribution?
+
+19
+00:01:00.936 --> 00:01:06.832
+Well, let's start with a interval and
+let's decompose it into three chunks,
+
+20
+00:01:06.832 --> 00:01:09.912
+where the first chunk has length 0.6,
+
+21
+00:01:09.912 --> 00:01:15.546
+the second chunk has length 0.1,
+and the third chunk has length 0.3.
+
+22
+00:01:15.546 --> 00:01:22.520
+And let's say that we're going to generate
+a random number in this interval.
+
+23
+00:01:22.520 --> 00:01:27.679
+And let's say that if it appears in
+the first chunk, in the right one,
+
+24
+00:01:27.679 --> 00:01:32.154
+then we will say that we have
+just generated the value of a1.
+
+25
+00:01:32.154 --> 00:01:37.114
+So let's generate a random number from
+our function which just [INAUDIBLE]
+
+26
+00:01:37.114 --> 00:01:38.798
+point on this interval.
+
+27
+00:01:38.798 --> 00:01:43.172
+And let's say that we were to be
+somewhere around 0.9 for example.
+
+28
+00:01:43.172 --> 00:01:47.003
+It means we have just
+generated the value of a3.
+
+29
+00:01:47.003 --> 00:01:50.283
+So, why does it work?
+
+30
+00:01:50.283 --> 00:01:55.781
+Well, because, obviously, if you
+throw a random point on an interval,
+
+31
+00:01:55.781 --> 00:02:00.041
+then the probability that it's
+appeared in some chunk is
+
+32
+00:02:00.041 --> 00:02:03.162
+proportional to the length of the chunk.
+
+33
+00:02:03.162 --> 00:02:06.233
+And the length of the first chunk is 0.6,
+
+34
+00:02:06.233 --> 00:02:11.728
+which is exactly the probability we
+wanted to, a1 to be generated, and etc.
+
+35
+00:02:11.728 --> 00:02:16.083
+So this indeed is the correct procedure
+for generating random numbers
+
+36
+00:02:16.083 --> 00:02:19.857
+from discrete distributions
+with finite number of values.
+
+37
+00:02:19.857 --> 00:02:24.583
+And the bottom line here is that
+it's really easy to generate samples
+
+38
+00:02:24.583 --> 00:02:26.792
+from discrete distributions.
+
+39
+00:02:26.792 --> 00:02:30.532
+But note that here we
+had just three values.
+
+40
+00:02:30.532 --> 00:02:35.756
+If we for example had 1 million values, or
+1 billion values, it would be much harder.
+
+41
+00:02:35.756 --> 00:02:40.664
+Because we would have to spend
+amount of time proportional to
+
+42
+00:02:40.664 --> 00:02:45.668
+1 billion to separate this
+interval into 1 billion chunks of
+
+43
+00:02:45.668 --> 00:02:51.057
+appropriate sizes and
+then to find in which particular interval,
+
+44
+00:02:51.057 --> 00:02:55.509
+in which particular chunk
+the random value appeared.
+
+45
+00:02:55.509 --> 00:03:00.911
+But if you have finite number of discrete
+events and this number is not that large,
+
+46
+00:03:00.911 --> 00:03:04.907
+it's like 1,000,
+then you can really efficiently and
+
+47
+00:03:04.907 --> 00:03:08.298
+easily generate samples
+from this distribution.
+
+48
+00:03:08.298 --> 00:03:11.427
+Okay, let's move to
+continuous distributions.
+
+49
+00:03:11.427 --> 00:03:16.276
+So let's say for beginning that we want to
+
+50
+00:03:16.276 --> 00:03:21.560
+sample a point from a Gaussian, like this.
+
+51
+00:03:21.560 --> 00:03:23.714
+How can we do it?
+
+52
+00:03:23.714 --> 00:03:27.120
+Well, one way is to use
+the central limit theorem.
+
+53
+00:03:27.120 --> 00:03:31.904
+That says that if we have a few
+independent random values, and
+
+54
+00:03:31.904 --> 00:03:36.973
+if we sum them up together,
+we'll get something like Gaussian.
+
+55
+00:03:36.973 --> 00:03:41.884
+So if we just throw, say,
+12 random numbers from the uniform
+
+56
+00:03:41.884 --> 00:03:47.538
+distribution on an interval from 0
+to 1 and then add them all together,
+
+57
+00:03:47.538 --> 00:03:51.628
+we'll get something with
+expected value being 6.
+
+58
+00:03:51.628 --> 00:03:58.194
+Because expected value of each x i is 0.5,
+it's the center of the interval.
+
+59
+00:03:58.194 --> 00:04:06.528
+And the sum of 12 x i's will
+be will be from 0 to 12.
+
+60
+00:04:06.528 --> 00:04:09.975
+And the center of this interval is 6.
+
+61
+00:04:09.975 --> 00:04:13.995
+So I have to subtract 6 to make
+the expected value of this
+
+62
+00:04:13.995 --> 00:04:15.714
+distribution to be 0.
+
+63
+00:04:15.714 --> 00:04:21.633
+And in this way, our distribution will
+be actually not from minus infinity to
+
+64
+00:04:21.633 --> 00:04:27.204
+plus infinity like in the Gaussian case,
+but rather from minus 6 to 6.
+
+65
+00:04:27.204 --> 00:04:31.902
+So it's indeed an approximation,
+it can't generate you anything like
+
+66
+00:04:31.902 --> 00:04:35.220
+an actual Gaussian, but
+it's a pretty close one.
+
+67
+00:04:35.220 --> 00:04:40.776
+So although it cannot ever generate for
+example, a number of 100,
+
+68
+00:04:40.776 --> 00:04:47.102
+but the Gaussian itself is also very,
+very improbable to generate you 100.
+
+69
+00:04:47.102 --> 00:04:55.210
+So we can be okay with losing these highly
+improbable parts of your sample space.
+
+70
+00:04:55.210 --> 00:04:57.843
+And you may ask, why 12 here?
+
+71
+00:04:57.843 --> 00:05:03.308
+Well, just to make
+the variance of the resulting
+
+72
+00:05:03.308 --> 00:05:09.991
+random variable z to be equal
+to 1 as of standard Gaussian.
+
+73
+00:05:09.991 --> 00:05:13.702
+If you use for example not 12 but,
+I don't know, 100 values,
+
+74
+00:05:13.702 --> 00:05:17.952
+you would have to divide this thing by
+something to make its variance to be 1.
+
+75
+00:05:17.952 --> 00:05:22.519
+Or if you don't want to use these
+kind of loose approximations,
+
+76
+00:05:22.519 --> 00:05:27.432
+you can ask your favorite programming
+language for a function which
+
+77
+00:05:27.432 --> 00:05:32.369
+just generates you numbers from Gaussian,
+and it probably has it.
+
+78
+00:05:32.369 --> 00:05:36.509
+So it's a pretty standard thing
+to have in a programming language
+
+79
+00:05:36.509 --> 00:05:39.531
+to generate numbers from
+a standard Gaussian.
+
+80
+00:05:39.531 --> 00:05:42.763
+And this is kind of more efficient and
+
+81
+00:05:42.763 --> 00:05:48.715
+more accurate than just generating
+it from central limit theorem.
+
+82
+00:05:48.715 --> 00:05:50.735
+So, okay, Gaussians are easy.
+
+83
+00:05:50.735 --> 00:05:55.288
+But what if we have a more complicated
+distribution like this and
+
+84
+00:05:55.288 --> 00:05:57.917
+we don't know how to sample from it?
+
+85
+00:05:57.917 --> 00:06:02.436
+Again, as we discussed in the previous
+video, it can happen if for example,
+
+86
+00:06:02.436 --> 00:06:07.303
+this is a posterior distribution on some
+parameters or some latent variables, and
+
+87
+00:06:07.303 --> 00:06:11.078
+we may even know it up to
+normalization constant, not exactly.
+
+88
+00:06:11.078 --> 00:06:12.847
+So what do we do in this situation?
+
+89
+00:06:14.242 --> 00:06:16.907
+Well, we know how to
+sample from Gaussians.
+
+90
+00:06:16.907 --> 00:06:19.830
+So let's try to use it.
+
+91
+00:06:19.830 --> 00:06:24.718
+Let's upper bound our distribution
+with some Gaussian times
+
+92
+00:06:24.718 --> 00:06:28.573
+some constant, for
+example 2 in this example.
+
+93
+00:06:28.573 --> 00:06:33.387
+Because it's impossible to upper
+bound one distribution with another
+
+94
+00:06:33.387 --> 00:06:37.890
+one without a constant,
+without multiplying it with something.
+
+95
+00:06:37.890 --> 00:06:40.618
+Okay, so we have a distribution P of x,
+the blue curve,
+
+96
+00:06:40.618 --> 00:06:42.020
+which we want to sample from.
+
+97
+00:06:42.020 --> 00:06:46.328
+And we have the orange curve,
+which is 2 times some Gaussian,
+
+98
+00:06:46.328 --> 00:06:48.126
+which we can sample from.
+
+99
+00:06:48.126 --> 00:06:52.790
+So how can we generate
+samples from the blue curve?
+
+100
+00:06:52.790 --> 00:06:58.213
+Well, let's start with generating a sample
+from the orange curve, which we can do.
+
+101
+00:06:58.213 --> 00:07:03.558
+Now we, for example, with high
+probability, can get a number around 0.
+
+102
+00:07:03.558 --> 00:07:09.121
+Because it's around 0, it's somewhere
+where the orange density is high.
+
+103
+00:07:09.121 --> 00:07:13.294
+So there will be quite a few points there.
+
+104
+00:07:13.294 --> 00:07:18.370
+But the blue density is not high there,
+it's kind of a local minimum,
+
+105
+00:07:18.370 --> 00:07:21.222
+so we have to somehow correct for this.
+
+106
+00:07:21.222 --> 00:07:25.822
+We have to, for example, throw away some
+of the points which were generated in this
+
+107
+00:07:25.822 --> 00:07:28.596
+region where the actual
+blue probability is low.
+
+108
+00:07:28.596 --> 00:07:30.213
+So let's do just that.
+
+109
+00:07:30.213 --> 00:07:35.147
+Let's reject some of the points
+generated from the orange curve.
+
+110
+00:07:35.147 --> 00:07:39.807
+And what is the rule for
+ejecting the point?
+
+111
+00:07:39.807 --> 00:07:42.367
+Well, first of all,
+it should be probabilistic.
+
+112
+00:07:42.367 --> 00:07:47.230
+Because you can't just reject
+all points in some region.
+
+113
+00:07:47.230 --> 00:07:50.797
+Otherwise, the resulting
+distribution of your
+
+114
+00:07:50.797 --> 00:07:55.065
+accepted points will have 0
+probability in this region.
+
+115
+00:07:55.065 --> 00:08:00.870
+So we have to reject some of the points
+in some kind of probabilistic manner.
+
+116
+00:08:00.870 --> 00:08:07.182
+And the probability of each one to
+reject the particular point, so
+
+117
+00:08:07.182 --> 00:08:14.282
+point x tilde here should be proportional
+to the height of the blue curve and
+
+118
+00:08:14.282 --> 00:08:18.809
+with respect to the height
+of the orange curve.
+
+119
+00:08:18.809 --> 00:08:22.324
+So if in the current point
+the two curves coincide,
+
+120
+00:08:22.324 --> 00:08:26.677
+they have the same values,
+you don't want to reject anything.
+
+121
+00:08:26.677 --> 00:08:33.098
+You are happy to accept the point
+which was just generated.
+
+122
+00:08:33.098 --> 00:08:36.967
+If for example, at some region,
+the orange curve is high, but
+
+123
+00:08:36.967 --> 00:08:40.767
+the blue curve is 0,
+then you don't want to accept anything.
+
+124
+00:08:40.767 --> 00:08:43.500
+You want to reject all
+the points in these regions.
+
+125
+00:08:43.500 --> 00:08:50.998
+If it's somewhere in between, if for
+example, like here we have around 0.7,
+
+126
+00:08:50.998 --> 00:08:56.648
+proportion of the blue curve
+to the orange one around 0.7,
+
+127
+00:08:56.648 --> 00:09:00.125
+then we'll expect to keep 0.7, so
+
+128
+00:09:00.125 --> 00:09:05.694
+70% points in this region from
+the ones we were sampling.
+
+129
+00:09:05.694 --> 00:09:12.551
+So we can say that we have generated x
+tilde, which is from the orange curve.
+
+130
+00:09:12.551 --> 00:09:15.138
+Then we generate its y coordinate,
+
+131
+00:09:15.138 --> 00:09:19.285
+which is from 0 to the orange
+curve at the current point.
+
+132
+00:09:19.285 --> 00:09:24.092
+And then we'll reject
+this point if it appeared
+
+133
+00:09:24.092 --> 00:09:28.310
+in the red region so above the blue curve.
+
+134
+00:09:28.310 --> 00:09:32.321
+And we'll accept this point if it
+appeared below the blue curve.
+
+135
+00:09:33.569 --> 00:09:36.437
+You may ask, why does it work?
+
+136
+00:09:36.437 --> 00:09:42.014
+Well, if you look at the points that
+were generated by this procedure, before
+
+137
+00:09:42.014 --> 00:09:47.937
+rejecting anything, they will be uniformly
+distributed under the orange curve.
+
+138
+00:09:47.937 --> 00:09:52.162
+When we apply our rejection procedure,
+
+139
+00:09:52.162 --> 00:09:56.139
+we throw away the points that appeared
+
+140
+00:09:56.139 --> 00:10:00.998
+above the blue curve and
+below the orange one.
+
+141
+00:10:00.998 --> 00:10:05.877
+And what is left is the points that
+are uniformly distributed under the blue
+
+142
+00:10:05.877 --> 00:10:06.424
+curve.
+
+143
+00:10:06.424 --> 00:10:10.664
+And it's kind of natural
+that these points,
+
+144
+00:10:10.664 --> 00:10:16.810
+their x coordinates are distributed
+as the blue curve suggests.
+
+145
+00:10:16.810 --> 00:10:21.821
+So that's great, it's a procedure
+to generate samples from any
+
+146
+00:10:21.821 --> 00:10:27.209
+distribution you can upper bound
+with something you can sample from.
+
+147
+00:10:27.209 --> 00:10:29.437
+But how efficient is it?
+
+148
+00:10:29.437 --> 00:10:34.012
+So if you want to generate one point,
+how many points you will have to
+
+149
+00:10:34.012 --> 00:10:38.272
+generate from the orange curve
+before you accept one of them?
+
+150
+00:10:38.272 --> 00:10:42.639
+Well, the answer to this question
+is just 1 divided by the constant.
+
+151
+00:10:42.639 --> 00:10:48.261
+So one-half in our example,
+n1 divided by m in the general case.
+
+152
+00:10:48.261 --> 00:10:53.271
+And the reason for that is just
+because it's the ratio between
+
+153
+00:10:53.271 --> 00:11:00.323
+the area under the blue curve, which is 1
+because it's a probability distribution.
+
+154
+00:11:00.323 --> 00:11:02.568
+And the area under the orange curve,
+
+155
+00:11:02.568 --> 00:11:06.346
+which is m because it's m times
+a probability distribution.
+
+156
+00:11:06.346 --> 00:11:10.132
+So if we throw, informally,
+points in some area and
+
+157
+00:11:10.132 --> 00:11:14.522
+then reject some of them,
+then the probability of accepting
+
+158
+00:11:14.522 --> 00:11:18.843
+the point is proportional to
+the area where we accept them.
+
+159
+00:11:18.843 --> 00:11:23.784
+And note that here we can even use this
+method if we know our distribution after
+
+160
+00:11:23.784 --> 00:11:28.668
+normalization constant as it usually
+happens in probabilistic modeling.
+
+161
+00:11:28.668 --> 00:11:35.485
+So in this case, if you can still upper
+bound your unnormalized distribution,
+
+162
+00:11:35.485 --> 00:11:39.553
+you can say that this constant m,
+this tilde m,
+
+163
+00:11:39.553 --> 00:11:44.153
+just includes the normalization
+constant somehow.
+
+164
+00:11:44.153 --> 00:11:46.828
+So you don't know the normalization, but
+
+165
+00:11:46.828 --> 00:11:51.964
+you can upper bound the distribution with
+some constant and this will still work.
+
+166
+00:11:51.964 --> 00:11:56.322
+So, as a summary,
+this method is called rejection sampling.
+
+167
+00:11:56.322 --> 00:12:01.031
+And it's kind of universally applicable,
+so it's really often that you can
+
+168
+00:12:01.031 --> 00:12:05.385
+upper bound your distribution and
+generate samples from it like this.
+
+169
+00:12:05.385 --> 00:12:10.857
+But the downside is that if q and
+p are too different from each other,
+
+170
+00:12:10.857 --> 00:12:14.313
+then you have to choose
+large constant m and
+
+171
+00:12:14.313 --> 00:12:18.163
+then you will have to
+reject most of the points.
+
+172
+00:12:18.163 --> 00:12:23.150
+And so if, for example, m is 100, then to
+generate just one point from your actual
+
+173
+00:12:23.150 --> 00:12:27.587
+distribution, the blue curve,
+you'll have to generate 100 points and
+
+174
+00:12:27.587 --> 00:12:30.526
+then on average just one
+of them will be accepted.
+
+175
+00:12:30.526 --> 00:12:35.034
+And another problem with
+this approach is that if you
+
+176
+00:12:35.034 --> 00:12:39.748
+apply to multidimensional case,
+it will still work,
+
+177
+00:12:39.748 --> 00:12:44.474
+but the constant m will probably be very,
+very large.
+
+178
+00:12:44.474 --> 00:12:48.080
+So it's kind of exponential
+in the number of dimensions.
+
+179
+00:12:48.080 --> 00:12:52.953
+And it's really improbable that you will
+be able to upper-bound your complicated
+
+180
+00:12:52.953 --> 00:12:57.409
+distribution in ten-dimensional space
+with a constant smaller than, for
+
+181
+00:12:57.409 --> 00:12:58.816
+example, 1 million.
+
+182
+00:12:58.816 --> 00:13:02.688
+And having a constant 1 million means
+that to generate just one point,
+
+183
+00:13:02.688 --> 00:13:06.250
+you have to wait a million
+computational cycles, which is a lot.
+
+184
+00:13:06.250 --> 00:13:12.749
+So this is a method for one dimension or
+maybe a few dimensions,
+
+185
+00:13:12.749 --> 00:13:17.544
+but not like thousand-dimensional spaces.
+
+186
+00:13:17.544 --> 00:13:27.544
+[MUSIC]

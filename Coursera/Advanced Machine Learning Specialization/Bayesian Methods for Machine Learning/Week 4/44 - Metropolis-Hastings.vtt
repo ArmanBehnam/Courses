@@ -1,0 +1,449 @@
+WEBVTT
+
+1
+00:00:03.870 --> 00:00:08.380
+In the previous video we discussed one way
+
+2
+00:00:08.380 --> 00:00:11.930
+to build a Markov chains that converged to a zag distribution,
+
+3
+00:00:11.930 --> 00:00:14.135
+namely the Gibbs sampling.
+
+4
+00:00:14.135 --> 00:00:17.260
+And we have discussed that it has some downsides.
+
+5
+00:00:17.260 --> 00:00:20.425
+It produces highly correlated samples
+
+6
+00:00:20.425 --> 00:00:25.315
+and it converts somewhat slowly to the distribution.
+
+7
+00:00:25.315 --> 00:00:28.705
+And both of these downsides came from one property,
+
+8
+00:00:28.705 --> 00:00:33.150
+that Gibbs is doing kind of local and small steps in the sample space.
+
+9
+00:00:33.150 --> 00:00:37.893
+In this video, we're going to discuss some other scheme to build Markov chains,
+
+10
+00:00:37.893 --> 00:00:41.690
+which instead of producing just one predefined Markov chain,
+
+11
+00:00:41.690 --> 00:00:43.510
+will give you a whole family of Markov chains.
+
+12
+00:00:43.510 --> 00:00:47.435
+And you can choose the one that has the desired properties like,
+
+13
+00:00:47.435 --> 00:00:53.085
+it converges faster and or maybe it produces less correlated samples.
+
+14
+00:00:53.085 --> 00:00:58.900
+This family of techniques is called Metropolis-Hastings and the idea is
+
+15
+00:00:58.900 --> 00:01:06.285
+to apply the rejection sampling idea, two Markov chains.
+
+16
+00:01:06.285 --> 00:01:09.400
+So let's start with
+
+17
+00:01:09.400 --> 00:01:15.830
+sum Markov chain which maybe doesn't have anything to do with the desired distribution B.
+
+18
+00:01:15.830 --> 00:01:18.415
+But on the bright side,
+
+19
+00:01:18.415 --> 00:01:23.055
+this Markov chain Q is kind of through freely in the sample space.
+
+20
+00:01:23.055 --> 00:01:27.325
+It's doing very large steps and thus it can converge
+
+21
+00:01:27.325 --> 00:01:31.843
+faster and it produces almost uncorrelated samples.
+
+22
+00:01:31.843 --> 00:01:35.193
+It's a nice Markov chain but it doesn't produce what we want,
+
+23
+00:01:35.193 --> 00:01:37.070
+dissembles from the distribution B.
+
+24
+00:01:37.070 --> 00:01:39.745
+And now let's introduce a critic.
+
+25
+00:01:39.745 --> 00:01:42.325
+And a critic of something that says,
+
+26
+00:01:42.325 --> 00:01:45.870
+wait a minute you can go there right now,
+
+27
+00:01:45.870 --> 00:01:53.310
+so please stay where you are and wait until you generate some reasonable direction to go.
+
+28
+00:01:53.310 --> 00:01:58.330
+And the critic make sure that the Markov chain we have doesn't
+
+29
+00:01:58.330 --> 00:02:04.765
+go in some regions where the probability of our desired distribution B is low.
+
+30
+00:02:04.765 --> 00:02:07.405
+Well, at least it doesn't go there too often.
+
+31
+00:02:07.405 --> 00:02:10.265
+And we will accept the proposal,
+
+32
+00:02:10.265 --> 00:02:15.790
+the generated sample from the transition probabilities of the Markov chain Q with
+
+33
+00:02:15.790 --> 00:02:19.085
+probability given by the critic and otherwise
+
+34
+00:02:19.085 --> 00:02:24.175
+we will object and will stay where we were at the previous equation.
+
+35
+00:02:24.175 --> 00:02:28.370
+So, this is the general idea and
+
+36
+00:02:28.370 --> 00:02:32.810
+in the following part we will
+
+37
+00:02:32.810 --> 00:02:35.270
+discuss how to build such a critic for
+
+38
+00:02:35.270 --> 00:02:38.635
+a given Markov chain Q and the desired distribution B.
+
+39
+00:02:38.635 --> 00:02:45.190
+So first let's discuss how this overall scheme will look like in terms of a Markov chain.
+
+40
+00:02:45.190 --> 00:02:52.760
+So we had some Markov chain Q and we changed its procedure to generate points.
+
+41
+00:02:52.760 --> 00:02:57.335
+And so now this overall scheme generates its points like this.
+
+42
+00:02:57.335 --> 00:03:02.885
+It transitions from the point X to X prime with probability.
+
+43
+00:03:02.885 --> 00:03:07.442
+Well, first of all we need to generate this X prime from the proposal distribution Q
+
+44
+00:03:07.442 --> 00:03:12.425
+from the first Markov chain Q and then we have to accept this point.
+
+45
+00:03:12.425 --> 00:03:15.450
+And this happens with probability given by the critic.
+
+46
+00:03:15.450 --> 00:03:16.726
+So A of X to X prime.
+
+47
+00:03:16.726 --> 00:03:21.140
+This is true for all points that are not equal.
+
+48
+00:03:21.140 --> 00:03:24.145
+So if X not equal to X prime,
+
+49
+00:03:24.145 --> 00:03:29.490
+and if they're equal we have something a little bit more complicated because we again
+
+50
+00:03:29.490 --> 00:03:35.605
+could have proposed to move to X and then accepted that this proposal.
+
+51
+00:03:35.605 --> 00:03:40.720
+Or we can propose to move anywhere else and then reject that proposal,
+
+52
+00:03:40.720 --> 00:03:45.855
+which happens with probability one minus the probability given by the critic,
+
+53
+00:03:45.855 --> 00:03:48.816
+one is accepted in probability.
+
+54
+00:03:48.816 --> 00:03:53.320
+So, this is the transitional probability of overall Markov chain defined by
+
+55
+00:03:53.320 --> 00:03:59.705
+the process where we propose some points and then accept them with some probability.
+
+56
+00:03:59.705 --> 00:04:04.570
+And now we want our Markov chain to generate points from the desired distribution.
+
+57
+00:04:04.570 --> 00:04:10.560
+So, we want some distribution point to be stationary for this Markov chain
+
+58
+00:04:10.560 --> 00:04:13.710
+T. And the idea here is
+
+59
+00:04:13.710 --> 00:04:18.820
+to let alone the choice of the underlying command of Markov chain Q.
+
+60
+00:04:18.820 --> 00:04:24.400
+So give this freedom to the user of the method and try to choose A,
+
+61
+00:04:24.400 --> 00:04:29.565
+such that this quota holds.
+
+62
+00:04:29.565 --> 00:04:30.785
+So we have as input,
+
+63
+00:04:30.785 --> 00:04:35.120
+the Markov chain Q and the desired distribution pie.
+
+64
+00:04:35.120 --> 00:04:36.925
+And you want to choose the critic
+
+65
+00:04:36.925 --> 00:04:46.146
+such the distribution pie is indeed stationary for the final Markov chain G.
+
+66
+00:04:46.146 --> 00:04:49.600
+How can we do it?
+
+67
+00:04:49.600 --> 00:04:53.840
+Well, it's not easy because this equation is kind of complicated.
+
+68
+00:04:53.840 --> 00:04:57.300
+It has summation inside and this complicated definition of
+
+69
+00:04:57.300 --> 00:05:00.930
+the transition probability T. So,
+
+70
+00:05:00.930 --> 00:05:05.835
+to solve this problem we'll have to introduce one more concept,
+
+71
+00:05:05.835 --> 00:05:08.320
+which is called the Detailed Balance equation.
+
+72
+00:05:08.320 --> 00:05:13.540
+So, recall the definition of the stationary distribution, it's like this.
+
+73
+00:05:13.540 --> 00:05:18.075
+And Detailed balance equation is the following equation,
+
+74
+00:05:18.075 --> 00:05:22.570
+which gives you a sufficient condition for the stationary distribution.
+
+75
+00:05:22.570 --> 00:05:28.905
+So, if the detailed balance holds then the distribution pie isn't necessarily
+
+76
+00:05:28.905 --> 00:05:32.170
+a stationary one for
+
+77
+00:05:32.170 --> 00:05:38.770
+the transition probability D. And what does the Detailed Balance equation says us.
+
+78
+00:05:38.770 --> 00:05:44.115
+Well, it says that if we started from the distribution pie and made one step,
+
+79
+00:05:44.115 --> 00:05:45.580
+one timestep of our Markov chain G,
+
+80
+00:05:45.580 --> 00:05:49.230
+then the probability that we started
+
+81
+00:05:49.230 --> 00:05:53.375
+from X and move to X prime is the same as doing the reverse.
+
+82
+00:05:53.375 --> 00:05:57.275
+Is the same as starting from X prime and moving to X.
+
+83
+00:05:57.275 --> 00:05:59.685
+And if it's true, then the probability distribution pie is stationary for
+
+84
+00:05:59.685 --> 00:06:06.480
+G. And it's kind of easy to prove so let's just write down
+
+85
+00:06:06.480 --> 00:06:08.910
+the right hand side of the definition of
+
+86
+00:06:08.910 --> 00:06:12.930
+the stationary distribution and then substitute inside
+
+87
+00:06:12.930 --> 00:06:16.455
+that definition substitutes by
+
+88
+00:06:16.455 --> 00:06:20.940
+effects times the transition probability by the first equation,
+
+89
+00:06:20.940 --> 00:06:23.085
+by the detailed balance equation.
+
+90
+00:06:23.085 --> 00:06:26.990
+And thus we'll get a summation is the X of
+
+91
+00:06:26.990 --> 00:06:33.230
+this expression and the point expressed doesn't depend on x at all.
+
+92
+00:06:33.230 --> 00:06:40.075
+So we can move pie of X prime outside the summation to get something with this.
+
+93
+00:06:40.075 --> 00:06:44.170
+And finally summation of T of X brand X,
+
+94
+00:06:44.170 --> 00:06:50.020
+with respect to X is just one because this is some kind of probability distribution.
+
+95
+00:06:50.020 --> 00:06:54.995
+And if we sum out all possible outcomes, it will be one.
+
+96
+00:06:54.995 --> 00:06:58.660
+So, finally we have proven that if the Detailed Balance
+
+97
+00:06:58.660 --> 00:07:03.740
+holds then this solution isn't necessarily a stationary one.
+
+98
+00:07:03.740 --> 00:07:07.150
+So, returning to our problem.
+
+99
+00:07:07.150 --> 00:07:09.850
+We have a Markov chain Q,
+
+100
+00:07:09.850 --> 00:07:12.300
+which doesn't produce us samples which we all
+
+101
+00:07:12.300 --> 00:07:18.175
+want and we have a distribution of pie which we want to simplify.
+
+102
+00:07:18.175 --> 00:07:23.530
+Now we want to define a critic such
+
+103
+00:07:23.530 --> 00:07:31.507
+that the Markov chain that was created by this critic,
+
+104
+00:07:31.507 --> 00:07:35.485
+so the Markov chain T, will indeed produce samples from the distribution pie.
+
+105
+00:07:35.485 --> 00:07:38.795
+So, the distribution pie is stationary.
+
+106
+00:07:38.795 --> 00:07:43.450
+And since this property is hard to check,
+
+107
+00:07:43.450 --> 00:07:48.345
+instead we're going to just check that the distribution pie will be,
+
+108
+00:07:48.345 --> 00:07:51.920
+the detailed balance equation will be true for it.
+
+109
+00:07:51.920 --> 00:07:54.970
+So, in the next video,
+
+110
+00:07:54.970 --> 00:07:58.625
+we're going to use Blackboard to find the critic such that
+
+111
+00:07:58.625 --> 00:08:00.490
+this detailed balance equation holds for
+
+112
+00:08:00.490 --> 00:08:04.610
+the given Markov chain Q and the distribution pie.
