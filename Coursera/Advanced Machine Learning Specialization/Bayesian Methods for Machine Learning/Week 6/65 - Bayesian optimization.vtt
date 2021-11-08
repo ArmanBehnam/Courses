@@ -1,0 +1,589 @@
+WEBVTT
+
+1
+00:00:03.740 --> 00:00:09.815
+So we've seen how Gaussian process can be used for regression classification problems.
+
+2
+00:00:09.815 --> 00:00:14.025
+Now let's see how they can be used for optimization problems.
+
+3
+00:00:14.025 --> 00:00:17.670
+So, what is a Black-box optimization?
+
+4
+00:00:17.670 --> 00:00:21.900
+You have some function f(x) you don't know anything about it and you want to find
+
+5
+00:00:21.900 --> 00:00:26.539
+out what is the value of the maximum of this function.
+
+6
+00:00:26.539 --> 00:00:29.370
+In the cases when the gradient is known,
+
+7
+00:00:29.370 --> 00:00:32.625
+you can use a gradient descent with restarts.
+
+8
+00:00:32.625 --> 00:00:35.550
+In the case when gradient is unknown you can, for example,
+
+9
+00:00:35.550 --> 00:00:38.040
+numerically estimate the gradient or if
+
+10
+00:00:38.040 --> 00:00:42.130
+the function is not differential you can use grid search or random search.
+
+11
+00:00:42.130 --> 00:00:45.795
+However, there is one special case of
+
+12
+00:00:45.795 --> 00:00:51.000
+optimization problems when computing each point is really expensive.
+
+13
+00:00:51.000 --> 00:00:56.870
+For example, you want to find out where the oil is and you
+
+14
+00:00:56.870 --> 00:01:03.160
+should do some probe drilling to estimate the amount of oil in some points.
+
+15
+00:01:03.160 --> 00:01:04.775
+So X in this case would be
+
+16
+00:01:04.775 --> 00:01:09.470
+geographic coordinates and F of X would be for example the amount of oil.
+
+17
+00:01:09.470 --> 00:01:16.200
+In this case the cost of the sampled cost would be like $1 million.
+
+18
+00:01:16.200 --> 00:01:20.035
+If you would like to estimate the hyper parameters of
+
+19
+00:01:20.035 --> 00:01:24.280
+the neural network in this case the X
+
+20
+00:01:24.280 --> 00:01:28.525
+would be versus hyperparameters for example the size of the layers,
+
+21
+00:01:28.525 --> 00:01:30.790
+the number of layers and so on.
+
+22
+00:01:30.790 --> 00:01:34.660
+And F of X would be some objective function.
+
+23
+00:01:34.660 --> 00:01:38.280
+In this case the cost of one sample would be 10 hours.
+
+24
+00:01:38.280 --> 00:01:43.080
+Since you would have to wait for this time until the network will converge.
+
+25
+00:01:43.080 --> 00:01:45.710
+In the drug discovery,
+
+26
+00:01:45.710 --> 00:01:47.868
+it is even more important.
+
+27
+00:01:47.868 --> 00:01:50.870
+The X could be the drug and F of X would
+
+28
+00:01:50.870 --> 00:01:54.740
+be the effect of this against some severe disease.
+
+29
+00:01:54.740 --> 00:01:56.777
+In this case one sample,
+
+30
+00:01:56.777 --> 00:02:00.200
+that is one test of the proposed drug,
+
+31
+00:02:00.200 --> 00:02:04.010
+would cost you 2 months of clinical trials,
+
+32
+00:02:04.010 --> 00:02:08.570
+$10,000 for example for paying for assistance and
+
+33
+00:02:08.570 --> 00:02:13.940
+also maybe a life or a rat if you do experiments on the rats.
+
+34
+00:02:13.940 --> 00:02:17.425
+So these are cases when the cost of
+
+35
+00:02:17.425 --> 00:02:21.905
+evaluating a function at any point is really, really expensive.
+
+36
+00:02:21.905 --> 00:02:26.330
+And we will see how Gaussian process can be used to find the maximum of
+
+37
+00:02:26.330 --> 00:02:34.095
+the function by minimizing the number of samples that you have to make.
+
+38
+00:02:34.095 --> 00:02:38.110
+So again, our goal is to optimize a function that is to find
+
+39
+00:02:38.110 --> 00:02:43.360
+its maximum and also to minimize the number of trials.
+
+40
+00:02:43.360 --> 00:02:48.693
+The key here is to define a surrogate model.
+
+41
+00:02:48.693 --> 00:02:50.630
+A surrogate model, we'll call it Fhat,
+
+42
+00:02:50.630 --> 00:02:55.180
+shouldn't be approximately equal to the original function.
+
+43
+00:02:55.180 --> 00:02:58.170
+However, we want it to be cheap to evaluate
+
+44
+00:02:58.170 --> 00:03:02.805
+and also it should approximate the function well.
+
+45
+00:03:02.805 --> 00:03:05.953
+In this case we'd be able to find the maximum value for example
+
+46
+00:03:05.953 --> 00:03:13.050
+the surrogate model and then to sample the original function at this point.
+
+47
+00:03:13.050 --> 00:03:15.690
+We'll also need an acquisition function.
+
+48
+00:03:15.690 --> 00:03:17.895
+We will call it mewe of X.
+
+49
+00:03:17.895 --> 00:03:23.685
+It will show how likely for us it is to sample least for that point.
+
+50
+00:03:23.685 --> 00:03:29.810
+We should estimate the profit for optimization from sampling the point X.
+
+51
+00:03:29.810 --> 00:03:32.355
+And it should use a surrogate model
+
+52
+00:03:32.355 --> 00:03:36.280
+since the surrogate model is really cheap to evaluate.
+
+53
+00:03:36.280 --> 00:03:39.200
+So first of all,
+
+54
+00:03:39.200 --> 00:03:43.030
+let's see which surrogate model we will use.
+
+55
+00:03:43.030 --> 00:03:49.120
+The model should be able to approximate arbitrary complex functions.
+
+56
+00:03:49.120 --> 00:03:53.200
+So the natural choice here would be a nonparametric model.
+
+57
+00:03:53.200 --> 00:03:57.370
+Also it should be profitable to estimate
+
+58
+00:03:57.370 --> 00:04:02.580
+uncertainty so the Gaussian process is a really good choice for this case.
+
+59
+00:04:02.580 --> 00:04:05.630
+Now let's see what we need from an acquisition function.
+
+60
+00:04:05.630 --> 00:04:11.180
+It should balance between exploration and exploitation.
+
+61
+00:04:11.180 --> 00:04:15.975
+The exploration is that you search in regions with higher uncertainty.
+
+62
+00:04:15.975 --> 00:04:18.980
+Since the uncertainty there is high,
+
+63
+00:04:18.980 --> 00:04:22.950
+there is some chance that you'll get a new maximum layer.
+
+64
+00:04:22.950 --> 00:04:28.465
+Exploitation is searching in the regions where the value is already estimated to be high.
+
+65
+00:04:28.465 --> 00:04:30.350
+There may be low uncertainty,
+
+66
+00:04:30.350 --> 00:04:32.710
+but you will still be able to compute
+
+67
+00:04:32.710 --> 00:04:36.230
+the value of the position of the maximum more precisely.
+
+68
+00:04:36.230 --> 00:04:41.605
+So, now let's see three different kinds of acquisition function.
+
+69
+00:04:41.605 --> 00:04:46.230
+And the first is the maximum probability of improvement or MPI for short.
+
+70
+00:04:46.230 --> 00:04:51.522
+So, we have the current best value.
+
+71
+00:04:51.522 --> 00:04:54.420
+Let's write it down as f*.
+
+72
+00:04:54.420 --> 00:05:00.465
+And the acquisition function would be the probability that after sampling the point X,
+
+73
+00:05:00.465 --> 00:05:07.570
+that the value of this function would be greater or equal to the current best value.
+
+74
+00:05:07.570 --> 00:05:10.560
+So this is a probability that Fhat, the surrogate model,
+
+75
+00:05:10.560 --> 00:05:13.425
+would be a greater or equal to f*, the current best,
+
+76
+00:05:13.425 --> 00:05:17.595
+plus some parameter X1.
+
+77
+00:05:17.595 --> 00:05:19.160
+So, since everything is normal,
+
+78
+00:05:19.160 --> 00:05:21.320
+it is really easy to compute this value.
+
+79
+00:05:21.320 --> 00:05:25.162
+And it can be written using the cumulative objective function
+
+80
+00:05:25.162 --> 00:05:30.980
+of the normal distribution as shown on the right.
+
+81
+00:05:30.980 --> 00:05:34.240
+Another one is called an upper confidence bound.
+
+82
+00:05:34.240 --> 00:05:39.705
+And that is you try to take the mean value
+
+83
+00:05:39.705 --> 00:05:45.880
+and add etha times the variance of the surrogate model of this point.
+
+84
+00:05:45.880 --> 00:05:51.640
+So, for example you can sample at points where there is high mean or
+
+85
+00:05:51.640 --> 00:05:58.170
+the points where there is high variance by varying the value of etha.
+
+86
+00:05:58.170 --> 00:06:04.217
+The third acquisition function that we will see is called an Expected Improvement.
+
+87
+00:06:04.217 --> 00:06:05.430
+As the title suggests,
+
+88
+00:06:05.430 --> 00:06:08.040
+you just compute the expected value
+
+89
+00:06:08.040 --> 00:06:12.285
+of the gain that you'll get after sampling the new point.
+
+90
+00:06:12.285 --> 00:06:14.925
+Also, again, since everything is normal you can compute
+
+91
+00:06:14.925 --> 00:06:18.590
+an articulate and the formula would be like this.
+
+92
+00:06:18.590 --> 00:06:20.706
+So let's see an example.
+
+93
+00:06:20.706 --> 00:06:22.495
+We start with some few points,
+
+94
+00:06:22.495 --> 00:06:24.685
+in this case three points.
+
+95
+00:06:24.685 --> 00:06:28.830
+And while the process is in converge you train the Gaussian process.
+
+96
+00:06:28.830 --> 00:06:33.565
+You find the maximum of an acquisition function for example using
+
+97
+00:06:33.565 --> 00:06:38.070
+the gradient descent or some other optimization techniques.
+
+98
+00:06:38.070 --> 00:06:41.580
+And since computing the values of the surrogate model,
+
+99
+00:06:41.580 --> 00:06:45.740
+the Gaussian process are relatively cheap,
+
+100
+00:06:45.740 --> 00:06:50.205
+this process won't take much time.
+
+101
+00:06:50.205 --> 00:06:53.460
+And then you evaluate the function of
+
+102
+00:06:53.460 --> 00:06:59.040
+the position of the maximum of an acquisition function.
+
+103
+00:06:59.040 --> 00:07:02.143
+Then again you train the Gaussian process with new point,
+
+104
+00:07:02.143 --> 00:07:04.719
+you find you find the maximum again,
+
+105
+00:07:04.719 --> 00:07:06.830
+values at the new point, and so on.
+
+106
+00:07:06.830 --> 00:07:08.760
+So let's see how it works.
+
+107
+00:07:08.760 --> 00:07:10.910
+So again here I have three points.
+
+108
+00:07:10.910 --> 00:07:17.685
+Now I add a new one and you see below this is the plot of an acquisition function.
+
+109
+00:07:17.685 --> 00:07:20.660
+And we'll find the maximum fit.
+
+110
+00:07:20.660 --> 00:07:22.945
+It would be somewhere on the right.
+
+111
+00:07:22.945 --> 00:07:26.685
+And now you can see that the points on the left
+
+112
+00:07:26.685 --> 00:07:33.355
+have a relatively small value of the acquisition function.
+
+113
+00:07:33.355 --> 00:07:36.120
+So the mean is quite low relative to
+
+114
+00:07:36.120 --> 00:07:40.238
+the current best point and also the variance is small.
+
+115
+00:07:40.238 --> 00:07:44.310
+And it is very unlikely that we will ever be
+
+116
+00:07:44.310 --> 00:07:49.135
+able to get the point that has a value greater than the current optimum.
+
+117
+00:07:49.135 --> 00:07:55.043
+And so we'll sample near the current optimum for the rest of the experiment.
+
+118
+00:07:55.043 --> 00:07:59.766
+So as you see we change our function a bit
+
+119
+00:07:59.766 --> 00:08:06.030
+and now we're almost sure that the position of the maximum is somewhere near this point.
+
+120
+00:08:06.030 --> 00:08:08.477
+And so, finally, after sampling a few points,
+
+121
+00:08:08.477 --> 00:08:10.530
+we find the position of the maximum.
+
+122
+00:08:10.530 --> 00:08:15.570
+So, it is very important to compare random search in Gaussian process.
+
+123
+00:08:15.570 --> 00:08:21.300
+For random search, it is really easy to parallelize it.
+
+124
+00:08:21.300 --> 00:08:23.760
+For example, it is really easy to sample
+
+125
+00:08:23.760 --> 00:08:27.930
+some random points and then compute the value of the function then.
+
+126
+00:08:27.930 --> 00:08:29.760
+However for Gaussian process,
+
+127
+00:08:29.760 --> 00:08:35.880
+you have to come up with some heuristics to sample not one point but many.
+
+128
+00:08:35.880 --> 00:08:42.195
+And why heuristics is to take the maximum of an acquisition function and replace and
+
+129
+00:08:42.195 --> 00:08:45.390
+then add a new point to the Gaussian process at this point with
+
+130
+00:08:45.390 --> 00:08:48.890
+the value being the mean of the Gaussian process.
+
+131
+00:08:48.890 --> 00:08:51.540
+Then we compute the maximum of
+
+132
+00:08:51.540 --> 00:08:55.720
+the acquisition function again and take the maximum value of it again,
+
+133
+00:08:55.720 --> 00:08:58.988
+and repeat it as many times as you want.
+
+134
+00:08:58.988 --> 00:09:06.740
+And so you'll have a set of points and you'll be able to then sample them in parallel.
+
+135
+00:09:06.740 --> 00:09:13.642
+Now the random search actually needs many more points on average to converge,
+
+136
+00:09:13.642 --> 00:09:17.345
+and also it works poorly in high dimensional spaces.
+
+137
+00:09:17.345 --> 00:09:20.340
+For example, in the plot below you can see that the Gaussian process
+
+138
+00:09:20.340 --> 00:09:24.017
+converges much faster than the random search,
+
+139
+00:09:24.017 --> 00:09:27.870
+and also it converges at the better optimum.
+
+140
+00:09:27.870 --> 00:09:31.960
+Also the random search works for any function
+
+141
+00:09:31.960 --> 00:09:37.770
+since sampling the random X is usually quite cheap.
+
+142
+00:09:37.770 --> 00:09:41.070
+However, it is important to know that
+
+143
+00:09:41.070 --> 00:09:45.225
+using Bayesian optimization with Gaussian process is useful
+
+144
+00:09:45.225 --> 00:09:48.300
+only when each relation of the function is
+
+145
+00:09:48.300 --> 00:09:53.540
+expensive since training the Gaussian process also takes some time.
+
+146
+00:09:53.540 --> 00:09:58.725
+And if it takes more time than evaluating the true function,
+
+147
+00:09:58.725 --> 00:10:02.530
+then you'd better use the random search.

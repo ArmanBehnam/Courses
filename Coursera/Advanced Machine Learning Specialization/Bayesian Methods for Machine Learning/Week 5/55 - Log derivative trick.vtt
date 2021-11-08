@@ -1,0 +1,436 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.087
+[MUSIC]
+
+2
+00:00:01.087 --> 00:00:05.346
+Okay, so now let's discuss how to find
+
+3
+00:00:05.346 --> 00:00:10.776
+the gradient with respect
+to the parameters phi.
+
+4
+00:00:10.776 --> 00:00:15.350
+So here's our objective, and
+we want to differentiate it.
+
+5
+00:00:15.350 --> 00:00:20.415
+And again, let's rewrite
+the definition of the expected value
+
+6
+00:00:20.415 --> 00:00:25.501
+as an integral of probability
+times logarithm as the function.
+
+7
+00:00:25.501 --> 00:00:28.691
+And again, we can move the expected
+value inside the summation,
+
+8
+00:00:28.691 --> 00:00:31.660
+it will not change anything,
+and also inside the integral.
+
+9
+00:00:31.660 --> 00:00:34.585
+Again, if the functions are smooth and
+
+10
+00:00:34.585 --> 00:00:39.293
+nice then we can swap integration and
+differentiation signs.
+
+11
+00:00:39.293 --> 00:00:43.613
+However, in contrast to
+the case in our previous video,
+
+12
+00:00:43.613 --> 00:00:47.933
+we cannot put the differentiation
+sign here inside the,
+
+13
+00:00:47.933 --> 00:00:51.090
+so to push it forward near the logarithm.
+
+14
+00:00:51.090 --> 00:00:55.969
+Well, first of all, because
+the gradient of logarithm of p of x Is
+
+15
+00:00:55.969 --> 00:01:00.869
+zero because it doesn't depend on phi,
+so the gradient is zero.
+
+16
+00:01:00.869 --> 00:01:05.264
+And so the right-hand side of
+this expression is just zero,
+
+17
+00:01:05.264 --> 00:01:09.152
+and it's obviously not what
+the left-hand side is.
+
+18
+00:01:09.152 --> 00:01:13.696
+And the reason why we can't do that is
+because the q itself dependent on phi.
+
+19
+00:01:13.696 --> 00:01:19.707
+So we have to find this
+gradient of q respect to phi.
+
+20
+00:01:19.707 --> 00:01:24.509
+And if we do that,
+then the problem here is that we no
+
+21
+00:01:24.509 --> 00:01:27.538
+longer have an expected value.
+
+22
+00:01:27.538 --> 00:01:32.699
+So if you look at the first
+equation this slide,
+
+23
+00:01:32.699 --> 00:01:39.161
+it is sum of integrals of gradient
+of q times logarithm of p.
+
+24
+00:01:39.161 --> 00:01:42.898
+And this thing is not an expected value
+with respect to any distribution.
+
+25
+00:01:42.898 --> 00:01:45.705
+So you can't approximate
+it with Monte Carlo,
+
+26
+00:01:45.705 --> 00:01:48.512
+you can't sample from some distribution,
+and
+
+27
+00:01:48.512 --> 00:01:53.377
+then use the samples to approximate it,
+because there are no distribution here.
+
+28
+00:01:53.377 --> 00:01:57.535
+Here is just gradient for distribution,
+which is not a distribution, and
+
+29
+00:01:57.535 --> 00:02:01.238
+a logarithm of a distribution,
+which is also not a distribution.
+
+30
+00:02:01.238 --> 00:02:05.279
+So we can't approximate this
+thing with Monte Carlo.
+
+31
+00:02:05.279 --> 00:02:11.552
+And how can we do it, how can we
+approximate this gradient with something?
+
+32
+00:02:11.552 --> 00:02:15.060
+Well, one thing we can
+do is the following.
+
+33
+00:02:15.060 --> 00:02:19.492
+We can artificially add
+some distribution inside.
+
+34
+00:02:19.492 --> 00:02:24.286
+So we can multiply and
+divide by some distribution q.
+
+35
+00:02:24.286 --> 00:02:31.175
+And then we can treat this
+q as the probabilities.
+
+36
+00:02:31.175 --> 00:02:36.034
+And then the gradient of q times
+log p divided by q is the function
+
+37
+00:02:36.034 --> 00:02:39.718
+which we're computing
+the expected value of.
+
+38
+00:02:39.718 --> 00:02:44.012
+Or if you simplify this
+expression a little bit,
+
+39
+00:02:44.012 --> 00:02:49.248
+we can say that the gradient of
+q divided by q is just gradient
+
+40
+00:02:49.248 --> 00:02:55.872
+gradient of logarithm of q by the
+definition of the gradient of logarithm.
+
+41
+00:02:55.872 --> 00:02:59.537
+And then we can rewrite
+this formula as follows.
+
+42
+00:02:59.537 --> 00:03:04.389
+So it's an integral of
+q times the gradient of
+
+43
+00:03:04.389 --> 00:03:09.254
+logarithm of q times logarithm of p,
+right?
+
+44
+00:03:09.254 --> 00:03:15.934
+So it's just exact formula, we didn't lose
+anything on some kind of approximation.
+
+45
+00:03:15.934 --> 00:03:19.864
+And now we can say that this last
+expression is an expect value with
+
+46
+00:03:19.864 --> 00:03:20.730
+respect to q.
+
+47
+00:03:20.730 --> 00:03:27.079
+It's an expected value for this gradient
+of logarithm of q times logarithm of p.
+
+48
+00:03:27.079 --> 00:03:32.359
+And this sometimes called log-derivative
+trick, and works for any distribution.
+
+49
+00:03:32.359 --> 00:03:36.307
+So it allows you to differentiate
+some expected value,
+
+50
+00:03:36.307 --> 00:03:41.685
+even if the gradient of this expected
+value is not an expected value itself.
+
+51
+00:03:41.685 --> 00:03:46.759
+So now you have an expected value again,
+and you can sample from the q,
+
+52
+00:03:46.759 --> 00:03:50.718
+and then approximate this
+gradient with Monte Carlo.
+
+53
+00:03:50.718 --> 00:03:56.738
+It's a valid approach, and until recently
+people used it, and so it kind of worked.
+
+54
+00:03:56.738 --> 00:04:05.225
+But the problem here is that actually
+this expected value is a correct value.
+
+55
+00:04:05.225 --> 00:04:07.949
+So it's an exact expression,
+we didn't lose anything.
+
+56
+00:04:07.949 --> 00:04:11.232
+But if you try to approximate
+this thing with Monte Carlo,
+
+57
+00:04:11.232 --> 00:04:13.649
+we'll get a really loose approximation.
+
+58
+00:04:13.649 --> 00:04:19.027
+Because the variance of that will be high,
+and we'll have to sample lots and
+
+59
+00:04:19.027 --> 00:04:22.557
+lots and
+lots of points to get an approximation for
+
+60
+00:04:22.557 --> 00:04:26.021
+gradient that is at least
+a little bit accurate.
+
+61
+00:04:26.021 --> 00:04:31.114
+And the reason for that is because,
+we have this logarithm of p of x.
+
+62
+00:04:31.114 --> 00:04:37.291
+And when we start our training,
+this p of x is as low as possible, right?
+
+63
+00:04:37.291 --> 00:04:41.414
+because p of x is a distribution
+over natural images, and
+
+64
+00:04:41.414 --> 00:04:45.083
+has to assign some
+distribution to any image.
+
+65
+00:04:45.083 --> 00:04:48.886
+And so at the start, when we don't
+know anything about our data,
+
+66
+00:04:48.886 --> 00:04:52.148
+any image is really improbable
+according to our model.
+
+67
+00:04:52.148 --> 00:04:57.921
+So logarithm of this probability may
+be like -1 million or something.
+
+68
+00:04:57.921 --> 00:05:02.387
+So the model at the beginning doesn't
+get used to this training data.
+
+69
+00:05:02.387 --> 00:05:07.796
+So it thinks that these training
+images are really, really improbable.
+
+70
+00:05:07.796 --> 00:05:13.159
+And this means that we are finding
+an expected value of something,
+
+71
+00:05:13.159 --> 00:05:14.894
+times -1 million.
+
+72
+00:05:14.894 --> 00:05:19.357
+And then because the gradients
+of the first term,
+
+73
+00:05:19.357 --> 00:05:24.671
+the gradient of logarithm of q
+can be positive or negative,
+
+74
+00:05:24.671 --> 00:05:29.257
+then we do Monte Carlo,
+and average a few samples.
+
+75
+00:05:29.257 --> 00:05:36.051
+We'll get like -1 million plus
+900,000 minus 1,100,000 and etc.
+
+76
+00:05:36.051 --> 00:05:40.218
+So we'll get really, really high
+values in the absolute values, but
+
+77
+00:05:40.218 --> 00:05:42.200
+they will be of different signs.
+
+78
+00:05:42.200 --> 00:05:47.202
+And on others, they will be true,
+they will be around, I don't know, 100.
+
+79
+00:05:47.202 --> 00:05:50.747
+And this is exact value for
+the gradient in this case, for example.
+
+80
+00:05:50.747 --> 00:05:55.343
+But the variance will be so
+high that you will have to use lots and
+
+81
+00:05:55.343 --> 00:05:59.620
+lots of gradients to approximate
+this thing accurately.
+
+82
+00:05:59.620 --> 00:06:03.607
+And note that we didn't have this
+problem in the previous video,
+
+83
+00:06:03.607 --> 00:06:07.967
+because instead of logarithm of p,
+we had a gradient of logarithm of p.
+
+84
+00:06:07.967 --> 00:06:11.555
+And even if logarithm of p
+is really like -1 million,
+
+85
+00:06:11.555 --> 00:06:15.383
+then the gradient of that will
+probably not be that large.
+
+86
+00:06:15.383 --> 00:06:18.352
+So this is a problem,
+and in the next video,
+
+87
+00:06:18.352 --> 00:06:23.587
+we'll talk about one nice solution to
+this problem in this particular case.
+
+88
+00:06:23.587 --> 00:06:31.001
+So how can we estimate this gradient
+with a small variance estimate?
+
+89
+00:06:31.001 --> 00:06:41.001
+[MUSIC]

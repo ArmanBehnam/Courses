@@ -1,0 +1,465 @@
+WEBVTT
+
+1
+00:00:03.160 --> 00:00:08.325
+In this video, we'll see what are Gaussian processes.
+
+2
+00:00:08.325 --> 00:00:10.210
+But before we go on,
+
+3
+00:00:10.210 --> 00:00:12.190
+we should see what random processes are,
+
+4
+00:00:12.190 --> 00:00:17.160
+since Gaussian process is just a special case of a random process.
+
+5
+00:00:17.160 --> 00:00:19.045
+So, in a random process,
+
+6
+00:00:19.045 --> 00:00:22.667
+you have a new dimensional space,
+
+7
+00:00:22.667 --> 00:00:24.880
+R^d and for each point of the space,
+
+8
+00:00:24.880 --> 00:00:27.630
+you assign a random variable f(x).
+
+9
+00:00:27.630 --> 00:00:32.175
+So, those variables can have some correlation.
+
+10
+00:00:32.175 --> 00:00:35.620
+And using this, you'll have for example,
+
+11
+00:00:35.620 --> 00:00:40.740
+some smooth functions as samples or maybe non-smooth ones.
+
+12
+00:00:40.740 --> 00:00:46.300
+So, if you take f(x) at some point in this case for x=3,
+
+13
+00:00:46.300 --> 00:00:50.480
+you'll have one dimensional distribution that will look like,
+
+14
+00:00:50.480 --> 00:00:52.425
+for example this red curve.
+
+15
+00:00:52.425 --> 00:00:59.695
+You can also sample all the f(x) points through all of the space,
+
+16
+00:00:59.695 --> 00:01:02.860
+R^d, and in this case you'll have just a normal function
+
+17
+00:01:02.860 --> 00:01:07.455
+f. We can write down like this trajectory.
+
+18
+00:01:07.455 --> 00:01:14.915
+And so those functions after we sample the other invariables are called trajectories.
+
+19
+00:01:14.915 --> 00:01:17.360
+When the dimension of x=1,
+
+20
+00:01:17.360 --> 00:01:20.060
+we can say that it equals the time.
+
+21
+00:01:20.060 --> 00:01:23.550
+We're now ready to define the Gaussian process.
+
+22
+00:01:23.550 --> 00:01:27.000
+So, what I would like to say is that the joint distribution over
+
+23
+00:01:27.000 --> 00:01:31.475
+all points in R^d is Gaussian.
+
+24
+00:01:31.475 --> 00:01:35.650
+However, we didn't define the Gaussian for the infinite number of points.
+
+25
+00:01:35.650 --> 00:01:39.270
+We have multivaried Gaussian only for finite number of points,
+
+26
+00:01:39.270 --> 00:01:44.385
+and so what we can say is that for arbitrary number of points n,
+
+27
+00:01:44.385 --> 00:01:46.916
+it would take the endpoints x1 to xn,
+
+28
+00:01:46.916 --> 00:01:49.270
+their joint distribution will be normal.
+
+29
+00:01:49.270 --> 00:01:53.513
+And since we said that it happens for arbitrary number of points,
+
+30
+00:01:53.513 --> 00:01:55.995
+we can select n to be arbitrarily large.
+
+31
+00:01:55.995 --> 00:01:57.840
+And it would be something like,
+
+32
+00:01:57.840 --> 00:02:02.490
+the joint probability of all points approximately would be Gaussian.
+
+33
+00:02:02.490 --> 00:02:08.095
+So, when we take n points and take the joint and distribution with them,
+
+34
+00:02:08.095 --> 00:02:11.306
+it is called a finite-dimensional distribution.
+
+35
+00:02:11.306 --> 00:02:17.559
+Actually, using finite-dimensional distributions is useful for something.
+
+36
+00:02:17.559 --> 00:02:20.805
+For example, we cannot sample the whole function,
+
+37
+00:02:20.805 --> 00:02:23.700
+but we can sample it in like thousand points
+
+38
+00:02:23.700 --> 00:02:28.780
+and plot it by interpolating the space between them.
+
+39
+00:02:28.780 --> 00:02:37.211
+And actually, it is the case, it's what I used to draw this plot.
+
+40
+00:02:37.211 --> 00:02:43.820
+So, Gaussian process is franchised by the mean and the covariance matrix.
+
+41
+00:02:43.820 --> 00:02:49.530
+So, the mean would be the function that takes the random variable f(x) at each point
+
+42
+00:02:49.530 --> 00:02:56.035
+of the space and assigns the mean value of it to all points.
+
+43
+00:02:56.035 --> 00:03:01.485
+Also we have the covariance matrix that takes two points x1 and
+
+44
+00:03:01.485 --> 00:03:07.705
+x2 and returns the covariance between the line of variables f(x1) and f(x2).
+
+45
+00:03:07.705 --> 00:03:10.575
+And so it will be equal to sum of function K,
+
+46
+00:03:10.575 --> 00:03:14.310
+that depends simply on the positions of those two points.
+
+47
+00:03:14.310 --> 00:03:17.441
+We'll call this function kernel.
+
+48
+00:03:17.441 --> 00:03:20.200
+So, finally, it will have endpoints.
+
+49
+00:03:20.200 --> 00:03:25.620
+The joint distribution of them would be normal and with mean being
+
+50
+00:03:25.620 --> 00:03:31.405
+the vector where the components of it are the function m(x1),
+
+51
+00:03:31.405 --> 00:03:33.890
+m(x2) and so on, m(xn),
+
+52
+00:03:33.890 --> 00:03:36.915
+and the covariance matrix would have the function K
+
+53
+00:03:36.915 --> 00:03:39.960
+of different points and these elements.
+
+54
+00:03:39.960 --> 00:03:43.803
+For example, the first element would be K(x1,
+
+55
+00:03:43.803 --> 00:03:45.814
+x1) and so on.
+
+56
+00:03:45.814 --> 00:03:49.820
+We'll also need a notion of a stationary process.
+
+57
+00:03:49.820 --> 00:03:52.260
+The process is called stationary if it's
+
+58
+00:03:52.260 --> 00:03:57.220
+finite-dimensional distributions depend only on its relative positions of the points.
+
+59
+00:03:57.220 --> 00:04:01.755
+For example, here I have four points drawn as red,
+
+60
+00:04:01.755 --> 00:04:06.720
+and their joint distribution would be equal to the joint distribution of
+
+61
+00:04:06.720 --> 00:04:13.200
+the blue points since they're just obtained by shifting the red points to the right.
+
+62
+00:04:13.200 --> 00:04:14.290
+So let's play a game.
+
+63
+00:04:14.290 --> 00:04:17.310
+I have some samples from a Gaussian process,
+
+64
+00:04:17.310 --> 00:04:22.510
+and we should find out whether those are samples from the stationary process or not.
+
+65
+00:04:22.510 --> 00:04:26.255
+So, what do you think about this sample.
+
+66
+00:04:26.255 --> 00:04:30.055
+So, actually it is not stationary since here is seasonality.
+
+67
+00:04:30.055 --> 00:04:35.210
+If we take the points in the beginning of the period,
+
+68
+00:04:35.210 --> 00:04:38.350
+you will easily say that you are well,
+
+69
+00:04:38.350 --> 00:04:39.805
+in the beginning of that period.
+
+70
+00:04:39.805 --> 00:04:42.325
+And if we move it a bit to the right,
+
+71
+00:04:42.325 --> 00:04:46.325
+you'll say something like you're in the end of the period.
+
+72
+00:04:46.325 --> 00:04:51.675
+And so, the joint distribution would be different in different parts of the space.
+
+73
+00:04:51.675 --> 00:04:53.786
+And so it is not stationary.
+
+74
+00:04:53.786 --> 00:04:56.623
+What about this sample?
+
+75
+00:04:56.623 --> 00:05:00.520
+Well, again we have a trend here.
+
+76
+00:05:00.520 --> 00:05:03.880
+And so by computing the mean of for example,
+
+77
+00:05:03.880 --> 00:05:06.460
+some points, you can take 10 points,
+
+78
+00:05:06.460 --> 00:05:11.575
+compute their mean, and by using this mean you would be able to predict where,
+
+79
+00:05:11.575 --> 00:05:14.195
+in which part of the space you are.
+
+80
+00:05:14.195 --> 00:05:20.985
+And so this means that the process is not stationary. What about this one?
+
+81
+00:05:20.985 --> 00:05:25.518
+Well, seems like stationary.
+
+82
+00:05:25.518 --> 00:05:28.175
+So, for stationary process,
+
+83
+00:05:28.175 --> 00:05:30.930
+we shouldn't have trend.
+
+84
+00:05:30.930 --> 00:05:35.525
+This means that the mean variance should be constant over all space.
+
+85
+00:05:35.525 --> 00:05:39.100
+So m(x) as a function would be constant.
+
+86
+00:05:39.100 --> 00:05:44.063
+Also the kernel should depend only on the difference of the two points,
+
+87
+00:05:44.063 --> 00:05:46.595
+and this would mean that the joint distribution
+
+88
+00:05:46.595 --> 00:05:50.425
+depends only on the relative positions of the points.
+
+89
+00:05:50.425 --> 00:05:54.820
+So, we'll write it down as the K(x1 - x2).
+
+90
+00:05:54.820 --> 00:05:58.630
+Also using this citation,
+
+91
+00:05:58.630 --> 00:06:03.660
+it is really easy to compute the variance of the line of variable f(x).
+
+92
+00:06:03.660 --> 00:06:07.425
+The variance would actually be equal to the kernel at position zero,
+
+93
+00:06:07.425 --> 00:06:10.135
+since it would be equal to the covariance
+
+94
+00:06:10.135 --> 00:06:17.420
+between the line of variable f(x) with itself which actually equal to the variance.
+
+95
+00:06:17.420 --> 00:06:21.540
+Below I have the example of the kernel.
+
+96
+00:06:21.540 --> 00:06:25.430
+So, the covariance at 0 would be 1,
+
+97
+00:06:25.430 --> 00:06:28.930
+so the variance of f(x) is 1,
+
+98
+00:06:28.930 --> 00:06:30.850
+and as it goes further from the point,
+
+99
+00:06:30.850 --> 00:06:35.132
+the covariance becomes lower and lower.
+
+100
+00:06:35.132 --> 00:06:40.815
+There are many different kernels that you can use for training Gaussian process.
+
+101
+00:06:40.815 --> 00:06:46.953
+The most widely used one is called the radial basis function or RBF for short.
+
+102
+00:06:46.953 --> 00:06:52.435
+So, it equals to the sigma squared times the exponent of minus
+
+103
+00:06:52.435 --> 00:06:58.843
+the squared distance between the two points over 2l^2.
+
+104
+00:06:58.843 --> 00:07:01.405
+l is a parameter that is called a length scale,
+
+105
+00:07:01.405 --> 00:07:06.595
+and sigma squared just controls the variance at position zero,
+
+106
+00:07:06.595 --> 00:07:09.115
+which is a variance of f(x).
+
+107
+00:07:09.115 --> 00:07:15.268
+There are also many other kernels like a rational quadratic kernel or Brownian kernel.
+
+108
+00:07:15.268 --> 00:07:17.920
+They all have some different parameters and
+
+109
+00:07:17.920 --> 00:07:22.080
+will give you different samples from the process.
+
+110
+00:07:22.080 --> 00:07:27.510
+So, let's see the radial basis function a bit closer.
+
+111
+00:07:27.510 --> 00:07:31.053
+When the line scale parameter equals to 0.1,
+
+112
+00:07:31.053 --> 00:07:33.395
+the samples would look like this.
+
+113
+00:07:33.395 --> 00:07:35.610
+If we increase the length scale,
+
+114
+00:07:35.610 --> 00:07:43.304
+the samples would look a bit smoother and they'll change less rapidly.
+
+115
+00:07:43.304 --> 00:07:47.730
+And if we keep increasing the value of l,
+
+116
+00:07:47.730 --> 00:07:51.430
+we'll have almost constant functions.

@@ -1,0 +1,437 @@
+WEBVTT
+
+1
+00:00:03.770 --> 00:00:07.845
+Okay. So, we decided to model our distribution
+
+2
+00:00:07.845 --> 00:00:11.790
+through facts by using the continuous mixture of Gaussians.
+
+3
+00:00:11.790 --> 00:00:13.645
+So, let's develop this idea.
+
+4
+00:00:13.645 --> 00:00:16.247
+To define this model fully,
+
+5
+00:00:16.247 --> 00:00:19.585
+we have to define the prior and the likelihood.
+
+6
+00:00:19.585 --> 00:00:23.520
+And let's define the prior to be just standard norm, because, why not.
+
+7
+00:00:23.520 --> 00:00:26.080
+It will just force the latent variables t
+
+8
+00:00:26.080 --> 00:00:29.370
+to be around zero and with some unique variants.
+
+9
+00:00:29.370 --> 00:00:33.885
+And the likelihood, we decide that we will use Gaussians, right?
+
+10
+00:00:33.885 --> 00:00:37.585
+With parameters that depend on t somehow.
+
+11
+00:00:37.585 --> 00:00:41.919
+So, how can we define these parameters,
+
+12
+00:00:41.919 --> 00:00:45.040
+these pro-metric way to convert t to the parameters of the Gaussian?
+
+13
+00:00:45.040 --> 00:00:51.840
+Well, if we use linear function for Mu of t with some parameters w and b and a constant
+
+14
+00:00:51.840 --> 00:00:56.190
+for sigma of t. Which this Sigma zero can
+
+15
+00:00:56.190 --> 00:01:01.630
+be a parameter or maybe like all these identity matrix, it doesn't matter that much.
+
+16
+00:01:01.630 --> 00:01:04.170
+We'll get the usual PPCA model.
+
+17
+00:01:04.170 --> 00:01:09.570
+And, this probabilistic PPCA model is
+
+18
+00:01:09.570 --> 00:01:15.540
+really nice but it's not powerful enough for our kinds of natural images data.
+
+19
+00:01:15.540 --> 00:01:19.350
+So, let's think what can we change to make this model more powerful.
+
+20
+00:01:19.350 --> 00:01:23.610
+If a linear function is not powerful enough for our purposes,
+
+21
+00:01:23.610 --> 00:01:28.335
+let's use convolutional neural network because it works nice for images data.
+
+22
+00:01:28.335 --> 00:01:31.530
+Right? So, let's say that Mu of t is
+
+23
+00:01:31.530 --> 00:01:35.044
+some convolutional neural network apply it to the latent called
+
+24
+00:01:35.044 --> 00:01:43.965
+t. So it gets as input the latent t and outputs your image or a mean vector for an image.
+
+25
+00:01:43.965 --> 00:01:48.030
+And then Sigma t is also a commercial neural network which
+
+26
+00:01:48.030 --> 00:01:52.880
+takes living quarters input and output your covariance matrix Sigma.
+
+27
+00:01:52.880 --> 00:01:58.665
+This will define our model in some kind of parametric form.
+
+28
+00:01:58.665 --> 00:02:00.985
+So we have them all like this.
+
+29
+00:02:00.985 --> 00:02:05.505
+And let's emphasize that we have some weights and then you'll input
+
+30
+00:02:05.505 --> 00:02:11.280
+w. Let's put them in all parts far off our model definitions.
+
+31
+00:02:11.280 --> 00:02:12.540
+Do not forget about them.
+
+32
+00:02:12.540 --> 00:02:17.300
+We are going to train the model to have them all like this.
+
+33
+00:02:17.300 --> 00:02:22.470
+So pre-meal to facts given the weights of neuron that are w is a mixture of Gaussians,
+
+34
+00:02:22.470 --> 00:02:24.870
+where the parameters of the Gaussians depends on
+
+35
+00:02:24.870 --> 00:02:29.734
+the leading variable t for a convolutional neural network.
+
+36
+00:02:29.734 --> 00:02:37.030
+One problem here is that if for example your images are 100 by 100,
+
+37
+00:02:37.030 --> 00:02:43.420
+then you have just 10000 pixels in each image and it's pretty low resolution.
+
+38
+00:02:43.420 --> 00:02:46.375
+It's not high end in anyway,
+
+39
+00:02:46.375 --> 00:02:48.615
+but even in this case,
+
+40
+00:02:48.615 --> 00:02:54.210
+your covariance matrix will be 10,000 by 10,000. And that's a lot.
+
+41
+00:02:54.210 --> 00:02:58.800
+So we want to avoid that and it's not so reasonable to
+
+42
+00:02:58.800 --> 00:03:04.945
+ask our neural network to output your 10,000 by 10,000 image, or matrix.
+
+43
+00:03:04.945 --> 00:03:12.950
+To get rid of this problem let's just say that our covariance matrix will be diagonal.
+
+44
+00:03:12.950 --> 00:03:18.150
+Instead of outputting the whole large matrix Sigma,
+
+45
+00:03:18.150 --> 00:03:19.980
+we'll ask our neural network to produce
+
+46
+00:03:19.980 --> 00:03:23.800
+just the weights on the diagonal of this covariance matrix.
+
+47
+00:03:23.800 --> 00:03:28.600
+So we will have 10,000 Sigmas here for example and we will
+
+48
+00:03:28.600 --> 00:03:32.030
+put these numbers on the diagonal of
+
+49
+00:03:32.030 --> 00:03:35.820
+covariance matrix to define the actual normal distribution,
+
+50
+00:03:35.820 --> 00:03:42.880
+or condition on the latent variable t. Now our conditional distributions are vectorized.
+
+51
+00:03:42.880 --> 00:03:48.488
+It's Gaussians with zero off diagonal elements in the covariance matrix, but it's okay.
+
+52
+00:03:48.488 --> 00:03:52.635
+Mixture of vectors as Gaussian is not a factor as distribution.
+
+53
+00:03:52.635 --> 00:03:55.350
+So we don't have much problems here.
+
+54
+00:03:55.350 --> 00:03:58.695
+We have our model fully defined,
+
+55
+00:03:58.695 --> 00:04:00.450
+now have to train it somehow.
+
+56
+00:04:00.450 --> 00:04:04.875
+We have to train.
+
+57
+00:04:04.875 --> 00:04:08.585
+The natural way to do it is to use maximum likelihood estimation
+
+58
+00:04:08.585 --> 00:04:13.215
+so to maximize the density of our data set given the parameters;
+
+59
+00:04:13.215 --> 00:04:16.750
+the parameters of the conventional unit neural network.
+
+60
+00:04:16.750 --> 00:04:20.925
+This can be redefined by a sum integral where we marginalize
+
+61
+00:04:20.925 --> 00:04:25.260
+out the latent variable t. Since we have a latent variable,
+
+62
+00:04:25.260 --> 00:04:27.720
+let's use expectation maximization algorithm.
+
+63
+00:04:27.720 --> 00:04:33.090
+It is specifically invented for these kind of models.
+
+64
+00:04:33.090 --> 00:04:35.465
+And in the expectation maximization algorithm,
+
+65
+00:04:35.465 --> 00:04:37.500
+if you recall from week two,
+
+66
+00:04:37.500 --> 00:04:42.180
+we're building a lower bond on the logarithm of this marginal likelihood,
+
+67
+00:04:42.180 --> 00:04:46.065
+P of x given w and we are lower modeling
+
+68
+00:04:46.065 --> 00:04:51.465
+this value by something which depends on w and some new variational parameters Q.
+
+69
+00:04:51.465 --> 00:04:54.600
+And then we'll maximize this lower balance with respect to
+
+70
+00:04:54.600 --> 00:04:58.815
+both w and q to get this lower bound
+
+71
+00:04:58.815 --> 00:05:02.010
+as high as possible as accurate so as close to the
+
+72
+00:05:02.010 --> 00:05:06.585
+actual lower for the margin look like what is possible.
+
+73
+00:05:06.585 --> 00:05:11.420
+And the problem here is that when you step off of the play
+
+74
+00:05:11.420 --> 00:05:14.910
+an expectation maximisation algorithm we have to use we
+
+75
+00:05:14.910 --> 00:05:19.440
+have to find the best years original latent variables.
+
+76
+00:05:19.440 --> 00:05:22.950
+And this is intractable in this case because you have to compute
+
+77
+00:05:22.950 --> 00:05:27.630
+some integrals and your integrals contains convolutional neural networks in them.
+
+78
+00:05:27.630 --> 00:05:30.295
+And this is just too hard to do analytically.
+
+79
+00:05:30.295 --> 00:05:37.815
+So E-M is actually not the way to go here. So what else can we do?
+
+80
+00:05:37.815 --> 00:05:42.450
+Well in the previous week we discussed the Markov chain Monte Carlo and we can
+
+81
+00:05:42.450 --> 00:05:47.320
+use we can use this MCMC to approximate M-step of the expectation maximisation.
+
+82
+00:05:47.320 --> 00:05:51.705
+Right. Well. This way on the amstaff
+
+83
+00:05:51.705 --> 00:05:56.460
+we instead of using the expected value with respect to the Q.
+
+84
+00:05:56.460 --> 00:05:59.640
+Which is in the posterior distribution on the latent variables from
+
+85
+00:05:59.640 --> 00:06:05.100
+the previous iteration in that we will approximate this expected value with samples,
+
+86
+00:06:05.100 --> 00:06:11.210
+with an average and then we'll maximize this iteration instead of the expected value.
+
+87
+00:06:11.210 --> 00:06:12.975
+It's an option we can do that.
+
+88
+00:06:12.975 --> 00:06:17.775
+Well it's going to be kind of slow because this way on each iteration of
+
+89
+00:06:17.775 --> 00:06:23.450
+expectation optimization you have to run like hundreds of situation of Markov chain.
+
+90
+00:06:23.450 --> 00:06:28.425
+Wait until have converged and then start to collect samples.
+
+91
+00:06:28.425 --> 00:06:31.090
+So this way you will have kind of a mess that loop.
+
+92
+00:06:31.090 --> 00:06:35.730
+You will have all the reiterations of expectation maximisation and iterations of
+
+93
+00:06:35.730 --> 00:06:41.085
+Markov chain Monte Carlo and this will probably not be very fast to do.
+
+94
+00:06:41.085 --> 00:06:43.520
+So let's see what else can we do.
+
+95
+00:06:43.520 --> 00:06:46.869
+Well we can try variational inference and the idea of variational inference
+
+96
+00:06:46.869 --> 00:06:51.810
+is to maximize the same lower bound
+
+97
+00:06:51.810 --> 00:07:00.930
+but to restrict the distribution you do be vectorized.
+
+98
+00:07:00.930 --> 00:07:04.350
+So for example if the later they will charge for each data object
+
+99
+00:07:04.350 --> 00:07:08.465
+is 50 dimensional then this Q
+
+100
+00:07:08.465 --> 00:07:10.920
+I of T I will be just a product of
+
+101
+00:07:10.920 --> 00:07:16.260
+50 one dimensional distributions so it's a nice way to go,
+
+102
+00:07:16.260 --> 00:07:18.330
+it's a nice approach.
+
+103
+00:07:18.330 --> 00:07:23.430
+It will approximate your expectation maximisation but it usually works and pretty fast.
+
+104
+00:07:23.430 --> 00:07:26.775
+But it turns out that in this case even this is intractable.
+
+105
+00:07:26.775 --> 00:07:29.650
+So in this approximation is not enough to get
+
+106
+00:07:29.650 --> 00:07:34.790
+an efficient method for training your latent variable model.
+
+107
+00:07:34.790 --> 00:07:38.995
+And we have to approximate even further.
+
+108
+00:07:38.995 --> 00:07:42.900
+So we have to drive even less accurate approximation to be
+
+109
+00:07:42.900 --> 00:07:48.170
+able to build an efficient method for treating this kind of model.

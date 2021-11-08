@@ -1,0 +1,313 @@
+WEBVTT
+
+1
+00:00:04.110 --> 00:00:07.007
+Now that we know what Gaussian process are,
+
+2
+00:00:07.007 --> 00:00:10.620
+let's see how they can be applied to machine learning.
+
+3
+00:00:10.620 --> 00:00:13.020
+So you have some points x1,
+
+4
+00:00:13.020 --> 00:00:14.365
+x2 so an xn.
+
+5
+00:00:14.365 --> 00:00:15.950
+You know the values for them.
+
+6
+00:00:15.950 --> 00:00:19.635
+Those are f(x1), f(x2), f(xn).
+
+7
+00:00:19.635 --> 00:00:21.690
+And normally what you'd like to do is to
+
+8
+00:00:21.690 --> 00:00:25.900
+predict the value of the function at new point x.
+
+9
+00:00:25.900 --> 00:00:31.255
+For Gaussian process, we will go in a different direction.
+
+10
+00:00:31.255 --> 00:00:34.041
+That is, we will try to predict the full posterior
+
+11
+00:00:34.041 --> 00:00:37.645
+over the f(x) given all our data points.
+
+12
+00:00:37.645 --> 00:00:41.010
+So we would like to estimate the probability of f(x) with
+
+13
+00:00:41.010 --> 00:00:45.220
+prediction at new point given all previous points.
+
+14
+00:00:45.220 --> 00:00:49.170
+This will allow us to compute the mean for example and
+
+15
+00:00:49.170 --> 00:00:52.470
+also to compute the confidence intervals at each point.
+
+16
+00:00:52.470 --> 00:00:58.125
+This will allow us to estimate uncertainty of our predictions.
+
+17
+00:00:58.125 --> 00:01:01.020
+So how do we predict this?
+
+18
+00:01:01.020 --> 00:01:03.350
+Here we have our desired value,
+
+19
+00:01:03.350 --> 00:01:10.290
+the probability of the prediction given our points is equals to the ratio between
+
+20
+00:01:10.290 --> 00:01:14.010
+the joint probability over all points including the
+
+21
+00:01:14.010 --> 00:01:19.060
+new one over the joint probability over our data plans.
+
+22
+00:01:19.060 --> 00:01:20.835
+Those two are normals.
+
+23
+00:01:20.835 --> 00:01:30.935
+The one in the numerator would be normal with mean zero and the covariance matrix C2
+
+24
+00:01:30.935 --> 00:01:35.830
+and in denominator will have the normal with mean zero
+
+25
+00:01:35.830 --> 00:01:38.210
+and covariance matrix C. So
+
+26
+00:01:38.210 --> 00:01:41.410
+the current covariance matrix C would have the following form.
+
+27
+00:01:41.410 --> 00:01:45.080
+On the diagonal we'll have k(0).
+
+28
+00:01:45.080 --> 00:01:51.470
+This is the variance of the random process and on the off diagonal elements we'll have
+
+29
+00:01:51.470 --> 00:01:56.150
+the covariance of the kernel function
+
+30
+00:01:56.150 --> 00:02:00.920
+actually of the difference between the two corresponding points.
+
+31
+00:02:00.920 --> 00:02:03.655
+The C tilt would look like this.
+
+32
+00:02:03.655 --> 00:02:07.210
+It would be a matrix which has four blocks.
+
+33
+00:02:07.210 --> 00:02:09.400
+On the first block is K(0).
+
+34
+00:02:09.400 --> 00:02:12.840
+That is the covariance between f(x) with itself.
+
+35
+00:02:12.840 --> 00:02:16.670
+We'll have on the right lower part
+
+36
+00:02:16.670 --> 00:02:19.850
+of the covariance matrix C corresponding to the covariance of
+
+37
+00:02:19.850 --> 00:02:22.820
+the data points and we will also have the covariance between
+
+38
+00:02:22.820 --> 00:02:27.150
+the new data points and the data points that we had before.
+
+39
+00:02:27.150 --> 00:02:29.100
+So this would be the vector K,
+
+40
+00:02:29.100 --> 00:02:33.335
+its elements would be k(x) the new point minus the old points
+
+41
+00:02:33.335 --> 00:02:39.510
+x1 and the second position will have k(x-x2) and so on.
+
+42
+00:02:39.510 --> 00:02:45.050
+And so finally, we'll have the normal distribution of f(x)
+
+43
+00:02:45.050 --> 00:02:51.620
+given mu as mean and sigma square as variance.
+
+44
+00:02:51.620 --> 00:02:57.415
+Do you remember why we have the normal distribution as the posterior?
+
+45
+00:02:57.415 --> 00:03:02.630
+Well actually, this happens since the ratio between two Gaussians is also a Gaussian.
+
+46
+00:03:02.630 --> 00:03:08.400
+We have parabola under the x points when we divide two Gaussians,
+
+47
+00:03:08.400 --> 00:03:15.285
+we have the sum or the difference of two parabolas and this is actually a parabola again.
+
+48
+00:03:15.285 --> 00:03:18.115
+So the posterior again will be normal.
+
+49
+00:03:18.115 --> 00:03:21.420
+We've given mean and the variance.
+
+50
+00:03:21.420 --> 00:03:25.275
+One can derive the formulas for them and those would look like follows.
+
+51
+00:03:25.275 --> 00:03:32.025
+It would be k transposed C inversed f where f is the vector of the values.
+
+52
+00:03:32.025 --> 00:03:35.470
+It's like f(x1), f(x2) and so on.
+
+53
+00:03:35.470 --> 00:03:38.780
+The variance would be k(0),
+
+54
+00:03:38.780 --> 00:03:43.400
+the initial variance minus k transposed C inversed k and
+
+55
+00:03:43.400 --> 00:03:45.025
+these trends would show us
+
+56
+00:03:45.025 --> 00:03:49.725
+how much the variance decreased after we observed the new points.
+
+57
+00:03:49.725 --> 00:03:53.415
+So this is how the posterior distribution would look like.
+
+58
+00:03:53.415 --> 00:03:58.795
+So notice here that the variance at the data points is zero.
+
+59
+00:03:58.795 --> 00:04:00.310
+So since we observed their values,
+
+60
+00:04:00.310 --> 00:04:06.715
+we can surely say that the value is just f(x1) for example.
+
+61
+00:04:06.715 --> 00:04:09.075
+And as we move away from the points,
+
+62
+00:04:09.075 --> 00:04:15.005
+the variance then starts increasing and we are really far from the data points,
+
+63
+00:04:15.005 --> 00:04:18.770
+the process would be simply stationary.
+
+64
+00:04:18.770 --> 00:04:24.705
+So the mean will be zero and the variance would be equal to the initial variance.
+
+65
+00:04:24.705 --> 00:04:27.285
+This is k(0).
+
+66
+00:04:27.285 --> 00:04:36.320
+So, we should actually preprocess our data to make it like stationary in the prior.
+
+67
+00:04:36.320 --> 00:04:42.135
+We want our predictions to be stationary when we go away from the data points.
+
+68
+00:04:42.135 --> 00:04:44.940
+So we would like to expect that the mean value is
+
+69
+00:04:44.940 --> 00:04:49.335
+zero and the variance would be kept zero.
+
+70
+00:04:49.335 --> 00:04:51.430
+To make this true,
+
+71
+00:04:51.430 --> 00:04:58.190
+we should remove the trend and seasonality and also subtract mean and normalize.
+
+72
+00:04:58.190 --> 00:05:01.485
+And so after training Gaussian process,
+
+73
+00:05:01.485 --> 00:05:03.625
+we'll have some functioning list.
+
+74
+00:05:03.625 --> 00:05:07.350
+Should also remember to invert all those transformations
+
+75
+00:05:07.350 --> 00:05:12.480
+when you predict for a new point.
+
+76
+00:05:12.480 --> 00:05:15.290
+That is you have to denormalize,
+
+77
+00:05:15.290 --> 00:05:17.115
+you have to add mean,
+
+78
+00:05:17.115 --> 00:05:22.270
+add trend and seasonality and output your prediction.

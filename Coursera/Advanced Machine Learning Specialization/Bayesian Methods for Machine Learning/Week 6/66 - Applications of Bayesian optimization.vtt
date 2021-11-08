@@ -1,0 +1,328 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.594
+[MUSIC]
+
+2
+00:00:04.594 --> 00:00:08.038
+In this video,
+we'll see a couple of examples of how
+
+3
+00:00:08.038 --> 00:00:12.207
+Bayesian optimization can be
+applied to real world problems.
+
+4
+00:00:12.207 --> 00:00:15.778
+So the first one is hyperparameter tuning.
+
+5
+00:00:15.778 --> 00:00:20.725
+You usually train your neural networks and
+you have to retrain them
+
+6
+00:00:20.725 --> 00:00:25.671
+many times by finding optimal
+number of layers, the layer sizes,
+
+7
+00:00:25.671 --> 00:00:30.441
+whether to use dropout or not,
+to use batch normalization, and
+
+8
+00:00:30.441 --> 00:00:35.331
+which nonlinearity should you use,
+the RELU, SELU, and so on.
+
+9
+00:00:35.331 --> 00:00:40.246
+Also you have training parameters
+like learning rate, momentum, or
+
+10
+00:00:40.246 --> 00:00:43.596
+maybe it can change
+the different optimizers.
+
+11
+00:00:43.596 --> 00:00:47.226
+For example, and SGD.
+
+12
+00:00:47.226 --> 00:00:52.543
+So what you could do is you could use
+the Bayesian optimization to find
+
+13
+00:00:52.543 --> 00:00:57.686
+the best values of all of those
+parameters for you automatically.
+
+14
+00:00:57.686 --> 00:01:02.320
+It usually finds better optima than
+when you tune those by hand, and
+
+15
+00:01:02.320 --> 00:01:07.703
+also it allows for honest comparison
+with other methods when you do research.
+
+16
+00:01:07.703 --> 00:01:11.317
+For example,
+you came up with a brilliant method and
+
+17
+00:01:11.317 --> 00:01:15.176
+you spend a lot of time tuning
+the parameters for it, and
+
+18
+00:01:15.176 --> 00:01:19.878
+in your paper you want to compare
+your model with some other models.
+
+19
+00:01:19.878 --> 00:01:25.901
+And it is really tempting to not to spend
+much time tuning the parameters for
+
+20
+00:01:25.901 --> 00:01:27.340
+the other model.
+
+21
+00:01:27.340 --> 00:01:31.538
+However, what you could do is
+you could run the automatic
+
+22
+00:01:31.538 --> 00:01:35.476
+hyperparameter tuning to
+find the best variables for
+
+23
+00:01:35.476 --> 00:01:40.198
+those parameters for
+the model that you are comparing with, and
+
+24
+00:01:40.198 --> 00:01:43.891
+in this case the comparison
+would be more honest.
+
+25
+00:01:43.891 --> 00:01:47.516
+So the problem here actually is that
+we have a mixture of discrete and
+
+26
+00:01:47.516 --> 00:01:48.863
+continuous variables.
+
+27
+00:01:48.863 --> 00:01:53.937
+For example, we have the learning
+rate that is continuous, and we have
+
+28
+00:01:53.937 --> 00:01:59.870
+the parameter whether to use drop out or
+not, which is actually a binary decision.
+
+29
+00:01:59.870 --> 00:02:04.717
+So how can we mix the continuous and
+discrete variables for Gaussian process?
+
+30
+00:02:04.717 --> 00:02:06.850
+Well, the simple trick is like this.
+
+31
+00:02:06.850 --> 00:02:10.530
+You treat discrete variables as
+continuous when you fitting process.
+
+32
+00:02:10.530 --> 00:02:14.625
+So for example, when you use drop out,
+this would be the value one and
+
+33
+00:02:14.625 --> 00:02:17.673
+when you don't use it,
+it would be a value of zero.
+
+34
+00:02:17.673 --> 00:02:22.644
+And then when you try to maximize
+the acquisition function, you optimize
+
+35
+00:02:22.644 --> 00:02:27.467
+it by [INAUDIBLE] forcing whole
+possible values of discrete variables.
+
+36
+00:02:27.467 --> 00:02:32.168
+So for example, you will find
+the maximum of the acquisition
+
+37
+00:02:32.168 --> 00:02:36.961
+function without drop out,
+we'll find it with drop out, and
+
+38
+00:02:36.961 --> 00:02:40.670
+then select the one case
+that is better for you.
+
+39
+00:02:40.670 --> 00:02:43.739
+One special case is when
+all variables are discrete.
+
+40
+00:02:43.739 --> 00:02:47.375
+Those are called multi-armed bandits, and
+
+41
+00:02:47.375 --> 00:02:51.784
+they are widely used in
+information retrieval tasks.
+
+42
+00:02:51.784 --> 00:02:57.036
+For example, when you're building
+a search engine result page,
+
+43
+00:02:57.036 --> 00:03:02.005
+you can select a lot of
+hyperparameters that are discrete, and
+
+44
+00:03:02.005 --> 00:03:06.902
+for this case, the Bayesian
+optimization is really useful.
+
+45
+00:03:06.902 --> 00:03:10.136
+Another application is drug discovery.
+
+46
+00:03:10.136 --> 00:03:17.354
+We have some molecules that can probably
+be the drugs for some severe diseases.
+
+47
+00:03:17.354 --> 00:03:22.616
+In this case, I have the molecule of and
+we can represent it using string.
+
+48
+00:03:22.616 --> 00:03:25.550
+This string is called SMILES and
+
+49
+00:03:25.550 --> 00:03:30.450
+it can be constructed from
+the molecule very simply.
+
+50
+00:03:30.450 --> 00:03:35.606
+What you can do then is you can
+build an autoencoder that will try
+
+51
+00:03:35.606 --> 00:03:40.876
+to take the SMILES as an input and
+reproduce itself as an output.
+
+52
+00:03:40.876 --> 00:03:46.193
+You can use a variational autoencoder
+that we talked about in week
+
+53
+00:03:46.193 --> 00:03:52.282
+five to make the latent space dense,
+that is you can move along the space and
+
+54
+00:03:52.282 --> 00:03:58.009
+for each point, you will be able to
+reconstruct some valid molecule.
+
+55
+00:03:58.009 --> 00:04:04.687
+And now here's a trick, you know
+that some molecules are useful for
+
+56
+00:04:04.687 --> 00:04:08.565
+curing some diseases and some are not.
+
+57
+00:04:08.565 --> 00:04:13.494
+And so here I have a plot of a latent
+space, and in this latent space,
+
+58
+00:04:13.494 --> 00:04:16.780
+you want to find
+the position of the maximum,
+
+59
+00:04:16.780 --> 00:04:21.296
+that is the molecule that will be best for
+cures and diseases.
+
+60
+00:04:21.296 --> 00:04:24.642
+After you find the maximum
+in the latent space,
+
+61
+00:04:24.642 --> 00:04:29.579
+you simply plug it in to the decoder and
+reconstruct the molecule, and
+
+62
+00:04:29.579 --> 00:04:33.860
+then you can do some trials, for
+example in vitro or in viva.
+
+63
+00:04:33.860 --> 00:04:39.380
+And after this, you get the value
+of the point, the new value.
+
+64
+00:04:39.380 --> 00:04:41.363
+You add it to a model.
+
+65
+00:04:41.363 --> 00:04:43.543
+You reconstruct the Gaussian process and
+
+66
+00:04:43.543 --> 00:04:46.164
+find the new maximum of
+an acquisition function.
+
+67
+00:04:46.164 --> 00:04:51.098
+And just by [INAUDIBLE], you can quickly
+find new drugs for different diseases.
+
+68
+00:04:53.013 --> 00:05:03.013
+[MUSIC]

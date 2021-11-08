@@ -1,0 +1,446 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:00.524
+[MUSIC]
+
+2
+00:00:00.524 --> 00:00:05.022
+In this section we will review Dropout,
+and
+
+3
+00:00:05.022 --> 00:00:10.380
+review its connections
+with a Bayesian framework.
+
+4
+00:00:10.380 --> 00:00:16.079
+So Dropout was invented in 2011, and
+became popular regularization technique.
+
+5
+00:00:16.079 --> 00:00:16.970
+We know that it works.
+
+6
+00:00:16.970 --> 00:00:19.323
+We know that its params are fitting.
+
+7
+00:00:19.323 --> 00:00:22.929
+And the essence of Dropout is actually
+just injection of the noise to
+
+8
+00:00:22.929 --> 00:00:26.802
+the variance, or to the activations
+at each iteration of our training.
+
+9
+00:00:26.802 --> 00:00:31.940
+The magnitude of this noise is defined by
+user, and is usually called dropout rate.
+
+10
+00:00:31.940 --> 00:00:32.959
+The noise can be different.
+
+11
+00:00:32.959 --> 00:00:37.123
+For example, it can be Bernoulli noise,
+then we are talking about binary dropout.
+
+12
+00:00:37.123 --> 00:00:41.090
+Or it can be Gaussian noise,
+then we tell about Gaussian dropout.
+
+13
+00:00:41.090 --> 00:00:45.371
+Let us review Gaussian dropout in details.
+
+14
+00:00:45.371 --> 00:00:50.339
+At each iteration of training, we generate
+Gaussian noise with a mean of 1 and
+
+15
+00:00:50.339 --> 00:00:51.479
+variance Alpha.
+
+16
+00:00:51.479 --> 00:00:55.379
+Then I multiply each weight
+Theta ij to Epsilon ij,
+
+17
+00:00:55.379 --> 00:01:00.370
+Epsilon ij is this noise generated
+from Gaussian distribution,
+
+18
+00:01:00.370 --> 00:01:04.289
+and obtain noisified
+versions of the waves, wij.
+
+19
+00:01:04.289 --> 00:01:07.174
+Let us consider Gaussian
+dropout in details.
+
+20
+00:01:07.174 --> 00:01:09.086
+Additional iteration of training,
+
+21
+00:01:09.086 --> 00:01:12.239
+we multiply always Theta ij by
+Gaussian noise, Epsilon ij.
+
+22
+00:01:12.239 --> 00:01:16.481
+Epsilon ij goes from a Gaussian
+distribution with a mean of 1 and
+
+23
+00:01:16.481 --> 00:01:17.670
+variance Alpha.
+
+24
+00:01:17.670 --> 00:01:22.442
+Then I obtain noisified
+versions of the weights, wij.
+
+25
+00:01:22.442 --> 00:01:25.775
+And finally, we compute stochastic
+gradients of a triangle
+
+26
+00:01:25.775 --> 00:01:28.334
+gradient given these noisified weights, w.
+
+27
+00:01:28.334 --> 00:01:31.850
+But then we obtain exactly the same
+stochastic gradient as it would
+
+28
+00:01:31.850 --> 00:01:36.203
+be if we optimized the expectation with
+respect to Gaussian distribution over w.
+
+29
+00:01:36.203 --> 00:01:40.600
+With weight Theta, and variance Alpha
+Theta squared, obtaining our likelihood.
+
+30
+00:01:40.600 --> 00:01:45.845
+So the distribution itself
+is fully factorized.
+
+31
+00:01:45.845 --> 00:01:48.314
+To show it, let us first perform
+a little regularization trick.
+
+32
+00:01:48.314 --> 00:01:55.064
+So we change the distribution over
+w to the distribution over Epsilon.
+
+33
+00:01:55.064 --> 00:01:59.760
+Epsilon now has a min of 1 and variance of
+Alpha, and it is still fully factorized.
+
+34
+00:01:59.760 --> 00:02:07.574
+And the old likelihood is computed
+at the point Theta times Epsilon.
+
+35
+00:02:07.574 --> 00:02:10.528
+Now our probability density
+doesn't depend on theta, and
+
+36
+00:02:10.528 --> 00:02:13.373
+we may move the differentiation
+inside of our integral.
+
+37
+00:02:13.373 --> 00:02:18.201
+And then we may change the integral
+to its Monte Carlo estimate, and
+
+38
+00:02:18.201 --> 00:02:23.043
+obtain exactly the same expression
+as it was on the previous slide.
+
+39
+00:02:23.043 --> 00:02:26.999
+So now we know that Gaussian dropout
+optimizes the following objective.
+
+40
+00:02:26.999 --> 00:02:30.415
+This expectation with respect
+to the distribution over w,
+
+41
+00:02:30.415 --> 00:02:35.129
+the distribution is fully factorized and
+its Gaussian, with a mean of Theta ij and
+
+42
+00:02:35.129 --> 00:02:37.127
+variance Alpha Theta ij squared.
+
+43
+00:02:37.127 --> 00:02:40.260
+And the expectation is computed
+from obtaining a likelihood.
+
+44
+00:02:40.260 --> 00:02:45.108
+So this looks pretty much the same
+like the first term in ELBO, where as
+
+45
+00:02:45.108 --> 00:02:51.044
+an regularization approximation we used
+fully factorized Gaussian distribution.
+
+46
+00:02:51.044 --> 00:02:52.146
+But where is the second term?
+
+47
+00:02:52.146 --> 00:02:54.175
+Where is the KL divergence?
+
+48
+00:02:54.175 --> 00:02:57.628
+Remember that ELBO consists of 2 terms,
+the data term and
+
+49
+00:02:57.628 --> 00:03:00.947
+the negative KL divergence,
+that is our regularizer.
+
+50
+00:03:00.947 --> 00:03:02.543
+In Gaussian dropout,
+
+51
+00:03:02.543 --> 00:03:08.262
+we have shown that we are optimizing with
+respect to Theta of just the first term.
+
+52
+00:03:08.262 --> 00:03:12.151
+So we managed to find such
+prior distribution, p(W),
+
+53
+00:03:12.151 --> 00:03:17.590
+that the second term will depend only on
+Alpha, and it will not depend on Theta.
+
+54
+00:03:17.590 --> 00:03:22.358
+Now I've managed to prove that this
+two procedures are exactly equivalent.
+
+55
+00:03:22.358 --> 00:03:26.423
+So remember that in Gaussian dropout,
+Alpha is assumed to be fixed.
+
+56
+00:03:26.423 --> 00:03:30.425
+And if Alpha is fixed,
+then optimization of ELBO is equivalent to
+
+57
+00:03:30.425 --> 00:03:34.300
+the optimization of just the first
+term with respect to Theta.
+
+58
+00:03:34.300 --> 00:03:37.225
+Surprisingly such prior
+distribution exists, and
+
+59
+00:03:37.225 --> 00:03:39.356
+it is known from information theory.
+
+60
+00:03:39.356 --> 00:03:43.025
+So this is a so-called
+improper log-uniform prior.
+
+61
+00:03:43.025 --> 00:03:44.839
+It is fully factorized again,
+
+62
+00:03:44.839 --> 00:03:49.112
+and each of its factors is proportional
+to 1 over absolute value of wij.
+
+63
+00:03:49.112 --> 00:03:53.297
+This is improper distribution,
+so it can not be normalized.
+
+64
+00:03:53.297 --> 00:03:55.660
+Nevertheless, it has
+several quite nice purpose.
+
+65
+00:03:55.660 --> 00:04:01.352
+For example, if we consider the algorithm
+of absolute value of wij, in other words,
+
+66
+00:04:01.352 --> 00:04:06.663
+it is to show that it will be uniformly
+distributed from minus to plus infinity.
+
+67
+00:04:06.663 --> 00:04:10.480
+And again,
+this is improper probability distribution.
+
+68
+00:04:10.480 --> 00:04:16.880
+For us, it is important that this
+prior distribution, roughly speaking,
+
+69
+00:04:16.880 --> 00:04:21.988
+analysis the precision with
+which we are trying to find wij.
+
+70
+00:04:21.988 --> 00:04:25.996
+We may easily show that the counter
+divergence between our Gaussian numeration
+
+71
+00:04:25.996 --> 00:04:29.703
+approximation and such kind of prior
+distribution will be dependent only
+
+72
+00:04:29.703 --> 00:04:31.753
+on Alpha, and will not depend on Theta.
+
+73
+00:04:31.753 --> 00:04:35.352
+The counter divergence is still
+intractable function, but
+
+74
+00:04:35.352 --> 00:04:39.162
+now it is a function of just
+one-dimensional parameter Alpha,
+
+75
+00:04:39.162 --> 00:04:43.553
+and it can be easily approximated
+by smooth, differentiable function.
+
+76
+00:04:43.553 --> 00:04:46.437
+So in the figure you see the black dots.
+
+77
+00:04:46.437 --> 00:04:49.263
+This is the exact values
+of our KL divergence,
+
+78
+00:04:49.263 --> 00:04:51.373
+given different values of Alpha.
+
+79
+00:04:51.373 --> 00:04:54.968
+And the red curve is our smooth,
+differentiable approximation.
+
+80
+00:04:54.968 --> 00:04:59.613
+And the existence of this smooth,
+differential approximation means that
+
+81
+00:04:59.613 --> 00:05:03.901
+potentially we may optimize the KL
+divergence with expect to Alpha.
+
+82
+00:05:03.901 --> 00:05:07.853
+And hence, we optimize the ELBO with
+respect to both Theta and Alpha.
+
+83
+00:05:07.853 --> 00:05:11.383
+And this is what we are going
+to do in the next lecture.
+
+84
+00:05:11.383 --> 00:05:14.815
+So to conclude, dropouts is
+a popular regularization technique.
+
+85
+00:05:14.815 --> 00:05:21.008
+The essence of dropout is simple injection
+of the noise in each iteration you obtain.
+
+86
+00:05:21.008 --> 00:05:24.786
+In this lecture, we have shown
+that one of the popular dropouts,
+
+87
+00:05:24.786 --> 00:05:26.642
+so-called Gaussian dropout,
+
+88
+00:05:26.642 --> 00:05:31.330
+is exactly equivalent to a special kind
+of generalization Bayesian procedure.
+
+89
+00:05:31.330 --> 00:05:35.078
+And this understanding, the understanding
+that dropout is a particular case
+
+90
+00:05:35.078 --> 00:05:38.714
+of Bayesian inference, allows us to
+construct various generalizations of
+
+91
+00:05:38.714 --> 00:05:41.917
+dropout that may possess several
+quite interesting properties.
+
+92
+00:05:41.917 --> 00:05:43.922
+We'll review one of them
+in the next lecture.
+
+93
+00:05:43.922 --> 00:05:53.922
+[MUSIC]

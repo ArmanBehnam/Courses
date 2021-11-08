@@ -1,0 +1,361 @@
+WEBVTT
+
+1
+00:00:03.830 --> 00:00:07.200
+Welcome to week six. In this week,
+
+2
+00:00:07.200 --> 00:00:10.100
+we'll talk about non-parametric methods
+
+3
+00:00:10.100 --> 00:00:13.985
+and especially interesting would be the Gaussian process.
+
+4
+00:00:13.985 --> 00:00:17.715
+Let's start with seeing what are non-parametric methods.
+
+5
+00:00:17.715 --> 00:00:20.035
+We all know what parametric methods are.
+
+6
+00:00:20.035 --> 00:00:22.105
+We define a model that depends on
+
+7
+00:00:22.105 --> 00:00:25.830
+some parametrics theta and then we find optimal values for theta by
+
+8
+00:00:25.830 --> 00:00:32.580
+maximizing the maximum a posteriori or maybe taking the maximi destination.
+
+9
+00:00:32.580 --> 00:00:35.875
+We can fit a linear model for our data.
+
+10
+00:00:35.875 --> 00:00:38.395
+We'll have parameters A and B, in this case.
+
+11
+00:00:38.395 --> 00:00:41.250
+If the data becomes more complex,
+
+12
+00:00:41.250 --> 00:00:42.600
+we can add more parameters.
+
+13
+00:00:42.600 --> 00:00:44.520
+For example, we can fit a parabola.
+
+14
+00:00:44.520 --> 00:00:48.033
+In this case, we'll have three parameters,
+
+15
+00:00:48.033 --> 00:00:50.640
+but as data becomes more and more complex,
+
+16
+00:00:50.640 --> 00:00:53.585
+we need to add more and more parameters.
+
+17
+00:00:53.585 --> 00:00:55.935
+For example, in this case, I had to add
+
+18
+00:00:55.935 --> 00:00:59.810
+eight parameters and to fit a paranorminal of eighth degree.
+
+19
+00:00:59.810 --> 00:01:04.655
+Another case are non-parametric methods.
+
+20
+00:01:04.655 --> 00:01:10.110
+Non-parametric methods are the number of parameters depend on the data set size.
+
+21
+00:01:10.110 --> 00:01:14.140
+That is, as the number of data points increases,
+
+22
+00:01:14.140 --> 00:01:17.250
+the decision boundary becomes more and more complex.
+
+23
+00:01:17.250 --> 00:01:19.525
+In parametric methods, though,
+
+24
+00:01:19.525 --> 00:01:25.490
+the number of parameters are fixed and it doesn't matter how much data do we have.
+
+25
+00:01:25.490 --> 00:01:32.665
+One non-parametric method that you should know is K-nearest neighbors.
+
+26
+00:01:32.665 --> 00:01:36.545
+In this case, we do a prediction by finding K,
+
+27
+00:01:36.545 --> 00:01:41.920
+in this case five nearest neighbors depending on x,
+
+28
+00:01:41.920 --> 00:01:48.060
+and then the prediction will be the average of the target values for neighboring points.
+
+29
+00:01:48.060 --> 00:01:50.620
+This would be, for example, 1/5,
+
+30
+00:01:50.620 --> 00:01:54.520
+sum over the targets of the five nearest neighbors for
+
+31
+00:01:54.520 --> 00:01:59.895
+the points and the prediction would look as the red curve here.
+
+32
+00:01:59.895 --> 00:02:03.510
+It isn't smooth. To make it smoother,
+
+33
+00:02:03.510 --> 00:02:07.295
+we could use circles and Nadaraya-Watson regression.
+
+34
+00:02:07.295 --> 00:02:12.594
+In this case, we weigh the points by the distance.
+
+35
+00:02:12.594 --> 00:02:16.300
+I would like to say that the point that are really neighbor to
+
+36
+00:02:16.300 --> 00:02:22.980
+our point have the highest weight and the points that are far away have lower weights.
+
+37
+00:02:22.980 --> 00:02:24.670
+This can be written as follows.
+
+38
+00:02:24.670 --> 00:02:27.235
+It is Y of X, prediction at the point X
+
+39
+00:02:27.235 --> 00:02:31.820
+equals to the sum over all points in our data set.
+
+40
+00:02:31.820 --> 00:02:39.418
+WI of X, this is the weight of the point times the YI,
+
+41
+00:02:39.418 --> 00:02:42.015
+the target of the highest point.
+
+42
+00:02:42.015 --> 00:02:47.290
+The weight can be computed as the kernel function of X,
+
+43
+00:02:47.290 --> 00:02:50.166
+the point where we want to predict and XI,
+
+44
+00:02:50.166 --> 00:02:54.655
+where XI is the position of the highest point.
+
+45
+00:02:54.655 --> 00:02:58.060
+We should also ensure that the weight sum up to 1 and so we have to
+
+46
+00:02:58.060 --> 00:03:02.760
+divide the kernel by the sum over all points.
+
+47
+00:03:02.760 --> 00:03:06.310
+We can see different rows for the kernels.
+
+48
+00:03:06.310 --> 00:03:09.280
+The most popular one is so-called Gaussian kernel.
+
+49
+00:03:09.280 --> 00:03:12.788
+In Gaussian kernel, we measure the similarity,
+
+50
+00:03:12.788 --> 00:03:15.005
+the kernel of X1 and X2,
+
+51
+00:03:15.005 --> 00:03:19.120
+as the exponent of minus one or two sigma squared,
+
+52
+00:03:19.120 --> 00:03:21.880
+where sigma is a parameter of the kernel,
+
+53
+00:03:21.880 --> 00:03:26.950
+times the squared distance between the points and so the plots would look like this.
+
+54
+00:03:26.950 --> 00:03:30.190
+If we take a higher value of sigma,
+
+55
+00:03:30.190 --> 00:03:34.680
+the values would drop slower.
+
+56
+00:03:34.680 --> 00:03:40.530
+You would weight further points a bit higher
+
+57
+00:03:40.530 --> 00:03:47.430
+and if sigma is low then the kernel would quickly drop to zero.
+
+58
+00:03:47.430 --> 00:03:50.200
+We could also use a uniform kernel.
+
+59
+00:03:50.200 --> 00:03:52.206
+For the uniform kernel,
+
+60
+00:03:52.206 --> 00:03:56.030
+we equally weight the points that have
+
+61
+00:03:56.030 --> 00:04:00.160
+distance at most age. So, you'll see what we've seen.
+
+62
+00:04:00.160 --> 00:04:04.393
+There are parametric methods and non-parametric methods.
+
+63
+00:04:04.393 --> 00:04:06.730
+In parametric methods, you have some fixed number of
+
+64
+00:04:06.730 --> 00:04:10.810
+parameters and so the complexity is limited.
+
+65
+00:04:10.810 --> 00:04:13.720
+However, in non-parametric methods,
+
+66
+00:04:13.720 --> 00:04:18.630
+the decision boundary becomes more and more complex as number of data points increases.
+
+67
+00:04:18.630 --> 00:04:21.168
+We can say that roughly speaking,
+
+68
+00:04:21.168 --> 00:04:26.440
+the model is going to be obviously complex as the number of data points goes to infinity.
+
+69
+00:04:26.440 --> 00:04:30.190
+For parametric methods, the inference is quite fast.
+
+70
+00:04:30.190 --> 00:04:32.290
+So, for example, for linear regression if you
+
+71
+00:04:32.290 --> 00:04:34.660
+feed the weights then the prediction would be
+
+72
+00:04:34.660 --> 00:04:40.140
+just the scalar multiplication between the new point and the weight vector.
+
+73
+00:04:40.140 --> 00:04:42.310
+For non-parametric method, though,
+
+74
+00:04:42.310 --> 00:04:45.875
+you'll have to process all the data points to make a prediction.
+
+75
+00:04:45.875 --> 00:04:49.510
+For example, in Nadaraya-Watson algorithm you had to compute
+
+76
+00:04:49.510 --> 00:04:53.570
+the weights for all the data points.
+
+77
+00:04:53.570 --> 00:04:58.450
+In parametric methods, the loading is sometimes slow.
+
+78
+00:04:58.450 --> 00:05:01.660
+For example, training a neural network may take you hours or
+
+79
+00:05:01.660 --> 00:05:05.324
+even days while for non traditional methods,
+
+80
+00:05:05.324 --> 00:05:09.210
+the training is usually just remembering all the data.
+
+81
+00:05:09.210 --> 00:05:13.960
+It is actually a bit not true since for k-nearest neighbors,
+
+82
+00:05:13.960 --> 00:05:18.650
+for example, we can pre-computer some information to make a prediction a bit faster.
+
+83
+00:05:18.650 --> 00:05:21.605
+However, for most cases this is just the case,
+
+84
+00:05:21.605 --> 00:05:24.670
+you have to simply remember all the data.
+
+85
+00:05:24.670 --> 00:05:28.282
+So, we've seen what non-parametric methods are,
+
+86
+00:05:28.282 --> 00:05:34.665
+and the one method that we're particularly interested in are Gaussian process.
+
+87
+00:05:34.665 --> 00:05:37.270
+Those are aggression models that
+
+88
+00:05:37.270 --> 00:05:39.790
+we'll be able to estimate uncertainty of the predictions,
+
+89
+00:05:39.790 --> 00:05:45.255
+which is a very desirable property for complications like medicine.
+
+90
+00:05:45.255 --> 00:05:49.260
+We'll see in the next video what the Gaussian process are.

@@ -1,0 +1,897 @@
+WEBVTT
+
+1
+00:00:03.830 --> 00:00:08.140
+So let's see how can we improve the idea of variational inference,
+
+2
+00:00:08.140 --> 00:00:12.480
+such that it will be applicable to our latent variable model.
+
+3
+00:00:12.480 --> 00:00:16.215
+So again the idea of variational inference is to
+
+4
+00:00:16.215 --> 00:00:20.395
+maximize lower bound on the thing we want to maximize actually,
+
+5
+00:00:20.395 --> 00:00:23.700
+with respect to a constraint
+
+6
+00:00:23.700 --> 00:00:27.600
+that says that the variational distribution Q for each object should be factorized.
+
+7
+00:00:27.600 --> 00:00:31.620
+So product of one-dimensional distributions.
+
+8
+00:00:31.620 --> 00:00:35.685
+And let's emphasize the fact that each object has
+
+9
+00:00:35.685 --> 00:00:39.765
+its own individual variational distribution Q,
+
+10
+00:00:39.765 --> 00:00:44.455
+and these distributions are not connected in any way.
+
+11
+00:00:44.455 --> 00:00:48.510
+So, one idea we can use here is as follows.
+
+12
+00:00:48.510 --> 00:00:55.530
+So if saying that variational distribution Q for each object factorized is not enough,
+
+13
+00:00:55.530 --> 00:00:57.700
+let's approximate it even further.
+
+14
+00:00:57.700 --> 00:00:59.820
+And let's say that it's a Gaussian.
+
+15
+00:00:59.820 --> 00:01:02.435
+So not only factorized but a factorized Gaussian.
+
+16
+00:01:02.435 --> 00:01:04.315
+This way everything should be easier.
+
+17
+00:01:04.315 --> 00:01:09.393
+Right? So, every object has its own latent variable T_i.
+
+18
+00:01:09.393 --> 00:01:14.495
+And this latent variable T_i will have variational distribution Q_i,
+
+19
+00:01:14.495 --> 00:01:17.697
+which is a Gaussian with some parameters M_i and S_i,
+
+20
+00:01:17.697 --> 00:01:22.405
+which are parameters of our model which we want to train.
+
+21
+00:01:22.405 --> 00:01:26.475
+Then we will maximize our lower bound with respect to these parameters.
+
+22
+00:01:26.475 --> 00:01:29.625
+So, it's a nice idea,
+
+23
+00:01:29.625 --> 00:01:36.180
+but the problem here is that we just added a lot of parameters for each training objects.
+
+24
+00:01:36.180 --> 00:01:39.915
+So, for example if your latent variable Q_i is 50-dimensional,
+
+25
+00:01:39.915 --> 00:01:42.435
+so it's vector with 50 numbers,
+
+26
+00:01:42.435 --> 00:01:48.420
+then you just added 50 numbers for the vector M_i for each object,
+
+27
+00:01:48.420 --> 00:01:51.340
+and 50 numbers for the vector S_i for each object.
+
+28
+00:01:51.340 --> 00:01:55.540
+So 100 numbers, 100 parameters for each training object.
+
+29
+00:01:55.540 --> 00:01:58.056
+And if you have million of training objects,
+
+30
+00:01:58.056 --> 00:02:04.052
+then it's not a very good idea to add like 100 million parameters to your model,
+
+31
+00:02:04.052 --> 00:02:07.320
+just because of some approximation, right?
+
+32
+00:02:07.320 --> 00:02:08.475
+It will probably overfeed,
+
+33
+00:02:08.475 --> 00:02:11.085
+and it will probably be really hard to train because
+
+34
+00:02:11.085 --> 00:02:14.405
+of this really high number of parameters.
+
+35
+00:02:14.405 --> 00:02:18.188
+And also it's not obvious how to find these parameters, M and S,
+
+36
+00:02:18.188 --> 00:02:22.680
+for new objects to do inference,
+
+37
+00:02:22.680 --> 00:02:25.255
+to do some predictions or generation,
+
+38
+00:02:25.255 --> 00:02:27.970
+because for new objects,
+
+39
+00:02:27.970 --> 00:02:30.090
+you have to solve again
+
+40
+00:02:30.090 --> 00:02:34.570
+some optimization problem to find these parameters, and it can be slow.
+
+41
+00:02:34.570 --> 00:02:37.825
+Okay, so we said that
+
+42
+00:02:37.825 --> 00:02:43.425
+approximating the variational distribution with a factorized one is not enough.
+
+43
+00:02:43.425 --> 00:02:48.515
+Approximation of the factors of the variational distribution with Gaussian is nice,
+
+44
+00:02:48.515 --> 00:02:50.610
+but we have too many parameters for each object,
+
+45
+00:02:50.610 --> 00:02:53.900
+because each of these Gaussians are not connected to each other.
+
+46
+00:02:53.900 --> 00:02:55.895
+They have separate parameters.
+
+47
+00:02:55.895 --> 00:03:00.960
+So let's try to connect these variational distributions Q_i of individual objects.
+
+48
+00:03:00.960 --> 00:03:04.890
+One way we can do that is to say that they are all the same.
+
+49
+00:03:04.890 --> 00:03:08.035
+So Q_i's all equal to each other.
+
+50
+00:03:08.035 --> 00:03:10.655
+We can do that, but it will be too restrictive,
+
+51
+00:03:10.655 --> 00:03:13.420
+we'll not be able to train anything meaningful.
+
+52
+00:03:13.420 --> 00:03:18.379
+Other approach here is to say that all Q_i's are the same distribution,
+
+53
+00:03:18.379 --> 00:03:22.465
+but it depends on X_i's and weight.
+
+54
+00:03:22.465 --> 00:03:25.995
+So let's say that each Q_i is a normal distribution,
+
+55
+00:03:25.995 --> 00:03:29.990
+which has parameters that somehow depend on X_i.
+
+56
+00:03:29.990 --> 00:03:32.980
+So it turns out that actually now each Q_i is different,
+
+57
+00:03:32.980 --> 00:03:35.775
+but they all share the same parameterization.
+
+58
+00:03:35.775 --> 00:03:39.095
+So they all share the same form.
+
+59
+00:03:39.095 --> 00:03:41.010
+And now, even for new objects,
+
+60
+00:03:41.010 --> 00:03:45.020
+we can easily find its variational approximation Q.
+
+61
+00:03:45.020 --> 00:03:48.645
+We can pass this new object through the function M,
+
+62
+00:03:48.645 --> 00:03:50.265
+and for the function S,
+
+63
+00:03:50.265 --> 00:03:53.065
+and then find its parameters of its Gaussian.
+
+64
+00:03:53.065 --> 00:03:57.825
+And this way, we now need to maximize our lower bound
+
+65
+00:03:57.825 --> 00:04:02.770
+with respect to our original parameters W. And this parameter Phi,
+
+66
+00:04:02.770 --> 00:04:05.760
+that defines the parametric way on how we
+
+67
+00:04:05.760 --> 00:04:09.555
+convert X_i's to the parameters of the distribution.
+
+68
+00:04:09.555 --> 00:04:14.085
+And how can we define this with this function M of X_i,
+
+69
+00:04:14.085 --> 00:04:16.745
+and with parameters Phi.
+
+70
+00:04:16.745 --> 00:04:18.690
+Well, as we have already discussed,
+
+71
+00:04:18.690 --> 00:04:23.456
+convolutional neural networks are a really powerful tool to work with images, right?
+
+72
+00:04:23.456 --> 00:04:25.369
+So let's use them here too.
+
+73
+00:04:25.369 --> 00:04:29.340
+So now we will have a convolutional neural network with
+
+74
+00:04:29.340 --> 00:04:33.863
+parameters Phi that looks at your original input image,
+
+75
+00:04:33.863 --> 00:04:35.670
+for example of a cat,
+
+76
+00:04:35.670 --> 00:04:41.045
+and then transforms it to parameters of your variational distribution.
+
+77
+00:04:41.045 --> 00:04:45.450
+And this way, we defined how can
+
+78
+00:04:45.450 --> 00:04:51.160
+we approximate the variational distribution Q in this form, right?
+
+79
+00:04:51.160 --> 00:04:55.635
+Okay, so let's look closer into the object we are trying to maximize.
+
+80
+00:04:55.635 --> 00:04:57.330
+Recall that the lower bound is,
+
+81
+00:04:57.330 --> 00:04:59.880
+by definition, equal to the sum,
+
+82
+00:04:59.880 --> 00:05:04.400
+with respect to the objects in the data set of expected values of
+
+83
+00:05:04.400 --> 00:05:10.030
+sum logarithm with respect to the variation distribution Q_i, right?
+
+84
+00:05:10.030 --> 00:05:13.050
+And recall that in
+
+85
+00:05:13.050 --> 00:05:17.365
+the plane expectation maximization algorithm it
+
+86
+00:05:17.365 --> 00:05:21.615
+was really hard to approximate this expected value by sampling,
+
+87
+00:05:21.615 --> 00:05:23.760
+because the Q and
+
+88
+00:05:23.760 --> 00:05:25.800
+this expected value used to be
+
+89
+00:05:25.800 --> 00:05:29.035
+the true posterior distribution on the latent variable T_i.
+
+90
+00:05:29.035 --> 00:05:31.410
+And this true posterior is complicated,
+
+91
+00:05:31.410 --> 00:05:34.025
+and we know it up to normalization constant.
+
+92
+00:05:34.025 --> 00:05:38.543
+So we have to use Markov chain Monte Carlo to sample from it, which is slow.
+
+93
+00:05:38.543 --> 00:05:41.880
+But now we approximate Q with a Gaussian,
+
+94
+00:05:41.880 --> 00:05:45.216
+with known parameters which we know how to obtain.
+
+95
+00:05:45.216 --> 00:05:46.665
+So for any object,
+
+96
+00:05:46.665 --> 00:05:51.341
+we can pass it through our convolutional neural network with parameters Phi,
+
+97
+00:05:51.341 --> 00:05:54.360
+obtaining parameters M and S,
+
+98
+00:05:54.360 --> 00:05:58.080
+and then we can easily sample from these Gaussian,
+
+99
+00:05:58.080 --> 00:06:01.985
+from these Q, to approximate our expected value.
+
+100
+00:06:01.985 --> 00:06:06.815
+So now again, is a low half of this intractable expected value.
+
+101
+00:06:06.815 --> 00:06:11.150
+We can easily approximate it with sampling because sampling is now cheap,
+
+102
+00:06:11.150 --> 00:06:14.065
+it's just sampling from Gaussians.
+
+103
+00:06:14.065 --> 00:06:18.990
+And if we recall how the model defined,
+
+104
+00:06:18.990 --> 00:06:25.815
+the P of X_i on T, it's actually defined by another convolutional neural network.
+
+105
+00:06:25.815 --> 00:06:29.410
+So the overall workflow will be as follows.
+
+106
+00:06:29.410 --> 00:06:32.017
+We started with training image X,
+
+107
+00:06:32.017 --> 00:06:36.083
+we pass it through the first neural network with parameters Phi.
+
+108
+00:06:36.083 --> 00:06:40.744
+We get the parameters M and S of the variational distribution Q_i.
+
+109
+00:06:40.744 --> 00:06:44.910
+We sample from this distribution one data point,
+
+110
+00:06:44.910 --> 00:06:47.545
+which is something random.
+
+111
+00:06:47.545 --> 00:06:51.745
+It can be different depending on our random seat or something.
+
+112
+00:06:51.745 --> 00:06:57.870
+And then we pass this just sampled vector
+
+113
+00:06:57.870 --> 00:07:03.717
+of latent variable T_i into the second part of our neural network,
+
+114
+00:07:03.717 --> 00:07:07.855
+so into the convolutional neural network with parameters W. And this CNN,
+
+115
+00:07:07.855 --> 00:07:13.905
+this second part, outputs us the distribution on the images,
+
+116
+00:07:13.905 --> 00:07:18.213
+and actually we will try to make this whole structure to return
+
+117
+00:07:18.213 --> 00:07:24.815
+us the images that are as close to the input images as possible.
+
+118
+00:07:24.815 --> 00:07:28.980
+So this thing is looks really close to something called auto encoders in neural networks,
+
+119
+00:07:28.980 --> 00:07:31.540
+which is just a neural network which is trying
+
+120
+00:07:31.540 --> 00:07:36.960
+to output something which is as close as possible to the input.
+
+121
+00:07:36.960 --> 00:07:39.290
+And this model is called variational auto encoder,
+
+122
+00:07:39.290 --> 00:07:43.200
+because in contrast to the usual auto encoders,
+
+123
+00:07:43.200 --> 00:07:47.555
+it has some assembly inside and it has some variational approximations.
+
+124
+00:07:47.555 --> 00:07:51.830
+And the first part of this network is called encoder
+
+125
+00:07:51.830 --> 00:07:57.580
+because it encodes the images into latent code or into the distribution on latent code.
+
+126
+00:07:57.580 --> 00:08:01.155
+And the second part is called decoder,
+
+127
+00:08:01.155 --> 00:08:05.395
+because it decodes the latent code into an image.
+
+128
+00:08:05.395 --> 00:08:07.680
+Let's look what will happen if we
+
+129
+00:08:07.680 --> 00:08:11.910
+forget about the variance in the variational distribution q.
+
+130
+00:08:11.910 --> 00:08:17.315
+So let's say that we set s to be always zero, okay?
+
+131
+00:08:17.315 --> 00:08:21.200
+So for any M(X), S of X is 0.
+
+132
+00:08:21.200 --> 00:08:27.400
+Then the variational distribution QI is actually a deterministic one.
+
+133
+00:08:27.400 --> 00:08:31.940
+It always outputs you the main value, M of XI.
+
+134
+00:08:31.940 --> 00:08:34.505
+And in this case,
+
+135
+00:08:34.505 --> 00:08:38.420
+we are actually directly passing
+
+136
+00:08:38.420 --> 00:08:43.510
+this M of X into the second part of the network, into the decoder.
+
+137
+00:08:43.510 --> 00:08:46.450
+So this way were updating the usual autoencoder,
+
+138
+00:08:46.450 --> 00:08:50.350
+no stochastic elements inside.
+
+139
+00:08:50.350 --> 00:08:54.660
+So this variance in the variational distribution Q is actually
+
+140
+00:08:54.660 --> 00:08:58.835
+something that makes this model different from the usual autoencoder.
+
+141
+00:08:58.835 --> 00:09:04.690
+Okay, so let's look a little bit closer into the objective we're trying to maximize.
+
+142
+00:09:04.690 --> 00:09:08.430
+So this lower band, variational lower band,
+
+143
+00:09:08.430 --> 00:09:10.829
+it can be decomposed into a sum of two terms,
+
+144
+00:09:10.829 --> 00:09:15.490
+because the logarithm of a product is the sum of logarithms, right?
+
+145
+00:09:15.490 --> 00:09:21.955
+And the second term in this equation equals
+
+146
+00:09:21.955 --> 00:09:25.885
+to minus Kullback-Leibler divergence between
+
+147
+00:09:25.885 --> 00:09:30.755
+the variational distribution Q and the prime distribution P of Ti.
+
+148
+00:09:30.755 --> 00:09:36.064
+Just by definition. So KL divergence is something we discussed in week two,
+
+149
+00:09:36.064 --> 00:09:39.040
+and also week three and it's
+
+150
+00:09:39.040 --> 00:09:44.050
+something which measures some kind of a difference between distributions.
+
+151
+00:09:44.050 --> 00:09:50.855
+So when we maximize this minus KL we are actually trying to minimize KL
+
+152
+00:09:50.855 --> 00:09:53.900
+so we are trying to push the variational distribution
+
+153
+00:09:53.900 --> 00:09:57.970
+QI as close to the prior as possible.
+
+154
+00:09:57.970 --> 00:10:00.030
+And the prior is just the standard normal,
+
+155
+00:10:00.030 --> 00:10:02.120
+as we decided, okay?
+
+156
+00:10:02.120 --> 00:10:07.315
+This is the second term and the first term can be interpreted as follows,
+
+157
+00:10:07.315 --> 00:10:12.820
+if for simplicity we set all the output variances to be 1,
+
+158
+00:10:12.820 --> 00:10:17.350
+then this log likelihood of XI given Ti is
+
+159
+00:10:17.350 --> 00:10:23.535
+just minus euclidean distance between XI and the predicted mu of Ti.
+
+160
+00:10:23.535 --> 00:10:29.775
+So this thing is actually a reconstruction loss.
+
+161
+00:10:29.775 --> 00:10:34.710
+It tries to push XI as close to the reconstruction as possible.
+
+162
+00:10:34.710 --> 00:10:39.275
+And mu of Ti is just the mean output of our neural network.
+
+163
+00:10:39.275 --> 00:10:43.130
+So if we consider our whole variational autoencoder,
+
+164
+00:10:43.130 --> 00:10:46.515
+it takes as input an image X, XI,
+
+165
+00:10:46.515 --> 00:10:51.430
+and then it's our posterior mu of Ti plus some noise.
+
+166
+00:10:51.430 --> 00:10:53.255
+And if noise is constant,
+
+167
+00:10:53.255 --> 00:10:55.380
+then we're training this model,
+
+168
+00:10:55.380 --> 00:10:58.340
+we're just trying to make XI as close to mu of Ti as
+
+169
+00:10:58.340 --> 00:11:03.360
+possible which is basically the objective of the usual autoencoder.
+
+170
+00:11:03.360 --> 00:11:11.790
+And note that we are also computing the expected failure of
+
+171
+00:11:11.790 --> 00:11:14.910
+this reconstruction loss with respect to
+
+172
+00:11:14.910 --> 00:11:17.280
+the QI and QI is trying
+
+173
+00:11:17.280 --> 00:11:21.355
+to approximate the posterior distrobution of the latent variables.
+
+174
+00:11:21.355 --> 00:11:28.035
+So we're trying to say that for the latent variables Ti that are likely to cause X,
+
+175
+00:11:28.035 --> 00:11:31.035
+according to our approximation of QI,
+
+176
+00:11:31.035 --> 00:11:34.030
+we want the reconstruction loss to be low.
+
+177
+00:11:34.030 --> 00:11:41.265
+So we want for these particular sensible Ti's for this particular XI,
+
+178
+00:11:41.265 --> 00:11:47.200
+we want the reconstruction to be accurate.
+
+179
+00:11:47.200 --> 00:11:49.590
+And this is kind of the same,
+
+180
+00:11:49.590 --> 00:11:52.870
+not the same but it's really close to the usual autoencoder.
+
+181
+00:11:52.870 --> 00:11:56.075
+But the second part is what makes the difference.
+
+182
+00:11:56.075 --> 00:12:00.335
+This Kullback-Leibler divergence, it's something that
+
+183
+00:12:00.335 --> 00:12:06.090
+pushes the QI to be non-deterministic, to be stochastic.
+
+184
+00:12:06.090 --> 00:12:10.635
+So if you recall the idea that if we
+
+185
+00:12:10.635 --> 00:12:16.270
+set the QI variance to zero we get the usual autoencoder, right?
+
+186
+00:12:16.270 --> 00:12:17.830
+But why, while training the model,
+
+187
+00:12:17.830 --> 00:12:19.925
+will we not choose that?
+
+188
+00:12:19.925 --> 00:12:25.525
+Because if you reduce the number of noise inside it will be easier to train.
+
+189
+00:12:25.525 --> 00:12:29.685
+So why will it choose not to inject noise in itself?
+
+190
+00:12:29.685 --> 00:12:32.440
+Well, because of this regularization.
+
+191
+00:12:32.440 --> 00:12:35.263
+So this KL divergence,
+
+192
+00:12:35.263 --> 00:12:40.690
+it will not allow QI to be very deterministic because if
+
+193
+00:12:40.690 --> 00:12:43.410
+QI variance is zero then this KL term is
+
+194
+00:12:43.410 --> 00:12:47.925
+just infinity and we will not choose this kind of point of parameters.
+
+195
+00:12:47.925 --> 00:12:54.720
+This regularization forces the overall structure to have some noise inside.
+
+196
+00:12:54.720 --> 00:12:58.770
+And also notice that because of this KL divergence,
+
+197
+00:12:58.770 --> 00:13:03.870
+because we are forcing our QI to be close to the standard Gaussian,
+
+198
+00:13:03.870 --> 00:13:07.250
+we may now detect outliers because if we have
+
+199
+00:13:07.250 --> 00:13:12.547
+a usual image from the training data set or something close to the training data set,
+
+200
+00:13:12.547 --> 00:13:17.416
+then if you pass this image through our encoder,
+
+201
+00:13:17.416 --> 00:13:23.170
+then it will output as a distribution,
+
+202
+00:13:23.170 --> 00:13:26.130
+QI, which is close to the standard Gaussian.
+
+203
+00:13:26.130 --> 00:13:28.600
+Because they train it this way.
+
+204
+00:13:28.600 --> 00:13:31.320
+Because during training we try to force
+
+205
+00:13:31.320 --> 00:13:35.910
+all those distributions to lie close to the standard Gaussian.
+
+206
+00:13:35.910 --> 00:13:40.530
+But for a new image which the network never saw,
+
+207
+00:13:40.530 --> 00:13:44.055
+of some suspicious behavior or something else,
+
+208
+00:13:44.055 --> 00:13:51.265
+the conditional neural network of the encoder never saw these kind of images, right?
+
+209
+00:13:51.265 --> 00:13:57.930
+So it can output your distribution on Ti as far away from the Gaussian at it wants.
+
+210
+00:13:57.930 --> 00:14:00.850
+Because it wasn't trained to make them close to Gaussian.
+
+211
+00:14:00.850 --> 00:14:03.180
+And so by looking at the distance between
+
+212
+00:14:03.180 --> 00:14:06.645
+the variational distribution QI and the standard Gaussian,
+
+213
+00:14:06.645 --> 00:14:15.090
+you can understand how anomalistic this point is and you can detect outliers.
+
+214
+00:14:15.090 --> 00:14:18.890
+And also note that it's kind of easy to generate new points,
+
+215
+00:14:18.890 --> 00:14:22.245
+nearly to hallucinate new data in these kind of models.
+
+216
+00:14:22.245 --> 00:14:25.275
+So, because your model is defined this way,
+
+217
+00:14:25.275 --> 00:14:29.765
+as an integral with respect to P of T,
+
+218
+00:14:29.765 --> 00:14:31.935
+you can make a new point,
+
+219
+00:14:31.935 --> 00:14:34.230
+a new image in two steps.
+
+220
+00:14:34.230 --> 00:14:37.110
+First of all, sample Ti from the prior,
+
+221
+00:14:37.110 --> 00:14:39.675
+from the standard normal and then just
+
+222
+00:14:39.675 --> 00:14:42.580
+pass this sample from the standard Gaussian through
+
+223
+00:14:42.580 --> 00:14:49.200
+your decoder network to decode your latent code into an image,
+
+224
+00:14:49.200 --> 00:14:56.050
+and you will get some new samples of a fake silly picture or a fake ad or something.

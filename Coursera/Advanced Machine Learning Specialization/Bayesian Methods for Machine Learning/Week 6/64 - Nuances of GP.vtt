@@ -1,0 +1,757 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.583
+[MUSIC]
+
+2
+00:00:04.583 --> 00:00:08.886
+In this video, we'll see different
+tricks that are very useful for
+
+3
+00:00:08.886 --> 00:00:10.784
+training Gaussian process.
+
+4
+00:00:10.784 --> 00:00:15.820
+And the first one is, what you should
+do when you see noisy observations?
+
+5
+00:00:15.820 --> 00:00:20.993
+As youremember the mean would go
+exactly through the data points, and
+
+6
+00:00:20.993 --> 00:00:26.794
+also the covariance, and actually variance
+would be zero at the data points.
+
+7
+00:00:26.794 --> 00:00:30.890
+And if you fit the Gaussian
+process to a noisy signal
+
+8
+00:00:30.890 --> 00:00:35.374
+like this you will get this
+quickly changing function.
+
+9
+00:00:35.374 --> 00:00:40.665
+But actually you can see that there
+is something like a parabola here,
+
+10
+00:00:40.665 --> 00:00:43.093
+and also some noise component.
+
+11
+00:00:43.093 --> 00:00:47.772
+So let's modify our model in
+a way that it will have some
+
+12
+00:00:47.772 --> 00:00:50.530
+notion of the noise in the data.
+
+13
+00:00:50.530 --> 00:00:55.480
+The simplest way to do this is
+to add the independent Gaussian
+
+14
+00:00:55.480 --> 00:00:58.108
+noise to all random variables.
+
+15
+00:00:58.108 --> 00:01:01.333
+So have some new random variable f hat.
+
+16
+00:01:01.333 --> 00:01:06.315
+It would be equal to the original
+random process f of x plus some new
+
+17
+00:01:06.315 --> 00:01:08.683
+independent Gaussian noise.
+
+18
+00:01:08.683 --> 00:01:13.633
+This means that,
+we'll independently sample it for
+
+19
+00:01:13.633 --> 00:01:18.474
+each point of our space rd,
+that is different axis.
+
+20
+00:01:18.474 --> 00:01:25.341
+We'll say that the mean of the noise is 0,
+and the variance would be s squared.
+
+21
+00:01:25.341 --> 00:01:28.928
+In this case, the mean of
+the random process was to be 0.
+
+22
+00:01:28.928 --> 00:01:32.014
+Since we have the sum of two means,
+
+23
+00:01:32.014 --> 00:01:36.708
+the mean of f of x and epsilon,
+and those sum up to 0.
+
+24
+00:01:36.708 --> 00:01:39.290
+And the covariance would
+change in the following way.
+
+25
+00:01:39.290 --> 00:01:44.295
+The new covariance would be the old
+covariance K of xi minus xj,
+
+26
+00:01:44.295 --> 00:01:47.802
+plus s squared, the variance of the noise.
+
+27
+00:01:47.802 --> 00:01:53.633
+As an indicator that the points xi and
+xj are the same.
+
+28
+00:01:53.633 --> 00:01:58.906
+This happened since there's
+no covariance between
+
+29
+00:01:58.906 --> 00:02:03.348
+the noise samples in different positions.
+
+30
+00:02:03.348 --> 00:02:08.691
+And if we fit the model using this
+covariance matrix using this kernel,
+
+31
+00:02:08.691 --> 00:02:11.284
+we will get the following result.
+
+32
+00:02:11.284 --> 00:02:17.584
+So as you can see, we don't have
+the 0 variance data points anymore.
+
+33
+00:02:17.584 --> 00:02:21.908
+And also the mean function
+became a bit smoother.
+
+34
+00:02:21.908 --> 00:02:27.124
+However, this still isn't
+the best we can have.
+
+35
+00:02:27.124 --> 00:02:31.952
+We can change the parameters
+of the kernel a bit, and
+
+36
+00:02:31.952 --> 00:02:37.242
+find the optimal values for
+them, in this special case.
+
+37
+00:02:37.242 --> 00:02:41.324
+If for example we have
+the length scale equal to 0.01,
+
+38
+00:02:41.324 --> 00:02:46.760
+the covariance will drop really quickly
+to 0 as we move away from the points.
+
+39
+00:02:46.760 --> 00:02:48.439
+And so
+the prediction would look like this.
+
+40
+00:02:48.439 --> 00:02:50.835
+And this is like the complete garbage.
+
+41
+00:02:50.835 --> 00:02:57.944
+If we take the length scale to be equal
+to 10, then it would be too high.
+
+42
+00:02:57.944 --> 00:03:02.456
+And the prediction will
+change through really slowly.
+
+43
+00:03:02.456 --> 00:03:06.626
+And it would be 0 almost however and
+
+44
+00:03:06.626 --> 00:03:11.213
+the variance would be like two the basic
+
+45
+00:03:11.213 --> 00:03:15.388
+the variance of the prior process.
+
+46
+00:03:15.388 --> 00:03:20.186
+So here we select the l to be 2,
+somewhere in the middle, and
+
+47
+00:03:20.186 --> 00:03:23.020
+we'll have the process like this.
+
+48
+00:03:23.020 --> 00:03:28.745
+It actually has some drawbacks, since
+as you can see, at the position -3 and
+
+49
+00:03:28.745 --> 00:03:34.149
+3, the process could create and
+starts to reverse its prediction to 0.
+
+50
+00:03:34.149 --> 00:03:39.229
+So maybe we could change some
+other parameters a bit better,
+
+51
+00:03:39.229 --> 00:03:43.125
+like just letting sigma squared or
+x squared.
+
+52
+00:03:43.125 --> 00:03:48.122
+And maybe we'll be able to feed
+Gaussian processing better and
+
+53
+00:03:48.122 --> 00:03:52.659
+actually it turns out that we can so
+this automatically.
+
+54
+00:03:52.659 --> 00:03:56.187
+We can have all our parameters for
+
+55
+00:03:56.187 --> 00:04:02.235
+the Gaussian kernel will have
+sigma squared parameter,
+
+56
+00:04:02.235 --> 00:04:06.654
+l, and s squared, so three parameters.
+
+57
+00:04:06.654 --> 00:04:09.975
+We're going to tune them by
+maximizing the likelihood.
+
+58
+00:04:09.975 --> 00:04:14.915
+So we take our data points,
+f of x1, f of x2 sub 1, f of xn and
+
+59
+00:04:14.915 --> 00:04:21.387
+maximize the probability of this data
+process to observe given the parameters.
+
+60
+00:04:21.387 --> 00:04:26.852
+Since everything is Gaussian for
+Gaussian process, it will be also Gaussian
+
+61
+00:04:26.852 --> 00:04:32.327
+with mean 0 and the covariance matrix c
+as we have seen in the previous video.
+
+62
+00:04:32.327 --> 00:04:38.574
+If you write down what the probability
+just fraction is equal to read carefully.
+
+63
+00:04:38.574 --> 00:04:43.334
+You will see that you can optimize this
+value using simply the gradient ascent.
+
+64
+00:04:43.334 --> 00:04:48.141
+And using this you will be able to
+automatically find the optimal values for
+
+65
+00:04:48.141 --> 00:04:53.880
+the variance sigma squared, the variance s
+squared, and the length scale parameter l.
+
+66
+00:04:53.880 --> 00:04:58.560
+So if you run this procedure,
+you will get something like this.
+
+67
+00:04:58.560 --> 00:05:04.058
+So we estimated l to be 2,
+which actually is true.
+
+68
+00:05:04.058 --> 00:05:08.319
+However, we spent some
+time doing it by hand, and
+
+69
+00:05:08.319 --> 00:05:11.876
+this value was selected automatically.
+
+70
+00:05:11.876 --> 00:05:17.213
+Also, we were able to estimate
+that the variance of the process
+
+71
+00:05:17.213 --> 00:05:22.867
+should be 46.4 and
+the variance of the noise should be 0.7.
+
+72
+00:05:22.867 --> 00:05:28.879
+As you can see, also on the boundaries,
+the prediction became a bit better.
+
+73
+00:05:28.879 --> 00:05:33.826
+So the process doesn't reverse
+it's direction very quickly.
+
+74
+00:05:33.826 --> 00:05:40.849
+Let's see how the fitting of this
+process works for different data points.
+
+75
+00:05:40.849 --> 00:05:45.782
+In this case, I tried to fit the Gaussian
+process simply into a noise.
+
+76
+00:05:45.782 --> 00:05:51.026
+In this case,
+the Gaussian process estimated that the s
+
+77
+00:05:51.026 --> 00:05:56.394
+squared parameter versus
+the noise should be 0.79.
+
+78
+00:05:56.394 --> 00:06:01.239
+It really believes that all the data
+
+79
+00:06:01.239 --> 00:06:05.608
+that I gave him is signal noise.
+
+80
+00:06:05.608 --> 00:06:10.425
+If I try fit a Gaussian process
+into a data that I sampled
+
+81
+00:06:10.425 --> 00:06:14.826
+without noise,
+it will quickly understand it and
+
+82
+00:06:14.826 --> 00:06:19.465
+will put the noise variance
+parameter to almost 0.
+
+83
+00:06:19.465 --> 00:06:24.625
+So in this case it was like 5
+times 10 to the power of -17,
+
+84
+00:06:24.625 --> 00:06:27.816
+which is actually really close to 0.
+
+85
+00:06:27.816 --> 00:06:32.684
+If however I have the process that has
+some signal but it also has noise,
+
+86
+00:06:32.684 --> 00:06:36.419
+you automatically find that
+the noise variance should
+
+87
+00:06:36.419 --> 00:06:40.331
+be somewhere in-between 0 and
+some larger variables.
+
+88
+00:06:40.331 --> 00:06:44.244
+In this case it estimated to be 0.13.
+
+89
+00:06:44.244 --> 00:06:48.621
+All right,
+now let's see how Gaussian process can be
+
+90
+00:06:48.621 --> 00:06:51.836
+applied to classification problems.
+
+91
+00:06:51.836 --> 00:06:56.287
+Previously we saw how they can be use for
+regression, and for
+
+92
+00:06:56.287 --> 00:06:58.910
+classification it is a bit harder.
+
+93
+00:06:58.910 --> 00:07:03.673
+So have two labels,
+two possible labels plus 1 or -1.
+
+94
+00:07:03.673 --> 00:07:09.868
+We can use latent process f of x,
+this will show something like,
+
+95
+00:07:09.868 --> 00:07:14.591
+how sure we are in predicting this or
+that label.
+
+96
+00:07:14.591 --> 00:07:19.444
+And if we fit somehow the latent
+process f of x, we will be able to do
+
+97
+00:07:19.444 --> 00:07:24.854
+predictions by passing the latent
+process through a sigmoid function.
+
+98
+00:07:24.854 --> 00:07:29.651
+So the probability of the label
+y given f will be simply
+
+99
+00:07:29.651 --> 00:07:32.634
+an 1 over 1 + exponent of -yf,
+
+100
+00:07:32.634 --> 00:07:37.662
+which is the sigmoid function
+of the products y times f.
+
+101
+00:07:37.662 --> 00:07:44.781
+So to train this model, you will first
+have to estimate the latent process.
+
+102
+00:07:44.781 --> 00:07:50.322
+You'll have to estimate
+the probability of the latent process
+
+103
+00:07:50.322 --> 00:07:55.979
+in some arbitrary points given
+the labels that we already know.
+
+104
+00:07:55.979 --> 00:07:59.724
+So y1 of x1 for example could be plus 1,
+
+105
+00:07:59.724 --> 00:08:05.181
+y of x could be -1, and so
+those are just binary decisions.
+
+106
+00:08:05.181 --> 00:08:08.710
+So we estimated the latent process and
+
+107
+00:08:08.710 --> 00:08:13.242
+then we could use it to
+compute the predictions.
+
+108
+00:08:13.242 --> 00:08:18.163
+We could do this by marginalizing
+the general probability of labels and
+
+109
+00:08:18.163 --> 00:08:19.644
+the latent process.
+
+110
+00:08:19.644 --> 00:08:22.409
+This would be just the simple intro code,
+
+111
+00:08:22.409 --> 00:08:26.124
+the probability of the label
+given the latent process.
+
+112
+00:08:26.124 --> 00:08:28.860
+At time the probability
+of the latent process and
+
+113
+00:08:28.860 --> 00:08:31.939
+it is integrated over all
+possible latent processes.
+
+114
+00:08:31.939 --> 00:08:37.200
+So the mess here is a bit complex,
+so I'll skip it for
+
+115
+00:08:37.200 --> 00:08:41.877
+now and
+lets just see how the condition works.
+
+116
+00:08:41.877 --> 00:08:47.772
+So the first step as I said is
+estimation of the latent process.
+
+117
+00:08:47.772 --> 00:08:53.818
+So in this case I have the latent
+points marked as crosses here,
+
+118
+00:08:53.818 --> 00:08:59.076
+some have the value plus 1,
+some have the value -1.
+
+119
+00:08:59.076 --> 00:09:02.715
+And if we fit the latent
+processes look like this.
+
+120
+00:09:02.715 --> 00:09:10.381
+So as you can see, as we go to the area
+where all points have the labels +1,
+
+121
+00:09:10.381 --> 00:09:15.887
+the values for
+the latent process would be positive.
+
+122
+00:09:15.887 --> 00:09:16.485
+And for
+
+123
+00:09:16.485 --> 00:09:22.583
+the negative examples the probability
+of the process will be negative.
+
+124
+00:09:22.583 --> 00:09:26.198
+And here are our predictions,
+
+125
+00:09:26.198 --> 00:09:31.627
+I just took the latent process and
+[INAUDIBLE].
+
+126
+00:09:31.627 --> 00:09:36.627
+So as you can see it is almost
+one in the positions where there
+
+127
+00:09:36.627 --> 00:09:39.535
+are many positive points nearby.
+
+128
+00:09:39.535 --> 00:09:44.007
+The same happens for
+the negative examples, and
+
+129
+00:09:44.007 --> 00:09:50.567
+in the points where the targets
+change from plus 1 to -1 for example.
+
+130
+00:09:50.567 --> 00:09:56.081
+The variance would be high and
+the prediction would be,
+
+131
+00:09:56.081 --> 00:09:59.725
+won't be so certain in this points.
+
+132
+00:09:59.725 --> 00:10:03.761
+So for example,
+somewhere in between -1 and -2,
+
+133
+00:10:03.761 --> 00:10:08.524
+the value of the prediction
+would be somewhere around 0.5.
+
+134
+00:10:08.524 --> 00:10:12.616
+It is almost absolutely not
+sure about the prediction.
+
+135
+00:10:15.014 --> 00:10:21.662
+One last thing I want to tell you about,
+our inducing inputs.
+
+136
+00:10:21.662 --> 00:10:24.169
+When you train a Gaussian process,
+
+137
+00:10:24.169 --> 00:10:28.272
+it turns out that it is quite
+computationally expensive.
+
+138
+00:10:28.272 --> 00:10:33.112
+If you have end points then computing
+the prediction will cost you
+
+139
+00:10:33.112 --> 00:10:38.136
+an order of n cube, since you have
+to invert the covariance matrix.
+
+140
+00:10:38.136 --> 00:10:43.689
+There is one simple idea called inducing
+inputs to speed up the Gaussian process.
+
+141
+00:10:43.689 --> 00:10:48.408
+What you could is you could
+replace the dataset with a small
+
+142
+00:10:48.408 --> 00:10:50.341
+number of data points.
+
+143
+00:10:50.341 --> 00:10:55.564
+For example, those would be
+like support points in the SVM.
+
+144
+00:10:55.564 --> 00:10:59.867
+And then you will try to fit the Gaussian
+process using only those points.
+
+145
+00:10:59.867 --> 00:11:04.381
+You will select end points
+as inducing end points.
+
+146
+00:11:04.381 --> 00:11:08.668
+The precomputing would
+cost us m squared times n,
+
+147
+00:11:08.668 --> 00:11:13.680
+which is quite fast when we
+select small number of points.
+
+148
+00:11:13.680 --> 00:11:18.712
+Computing the mean would be an order of m,
+which is almost instantly.
+
+149
+00:11:18.712 --> 00:11:24.610
+And predicting the variance at h point
+will cost us an order of m squared.
+
+150
+00:11:24.610 --> 00:11:28.034
+You can optimize the position,
+so in these primes and
+
+151
+00:11:28.034 --> 00:11:31.698
+the division for
+them using maximal liked destination.
+
+152
+00:11:31.698 --> 00:11:33.500
+So let's see how it works.
+
+153
+00:11:33.500 --> 00:11:38.708
+Here I have 100 points and
+I fitted the Gaussian process using them.
+
+154
+00:11:38.708 --> 00:11:42.938
+However here,
+I selected 10 points informally, and
+
+155
+00:11:42.938 --> 00:11:45.731
+fit the Gaussian process into them.
+
+156
+00:11:45.731 --> 00:11:51.898
+And as you can see, the values of
+the Gaussian process didn't change much.
+
+157
+00:11:51.898 --> 00:11:54.983
+However, the cost of
+the prediction is much less,
+
+158
+00:11:54.983 --> 00:11:58.369
+since we have 10 times less
+points than we had before.
+
+159
+00:11:58.369 --> 00:12:08.369
+[MUSIC]

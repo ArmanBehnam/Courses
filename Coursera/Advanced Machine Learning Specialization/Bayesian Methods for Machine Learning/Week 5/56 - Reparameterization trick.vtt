@@ -1,0 +1,514 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.659
+[MUSIC]
+
+2
+00:00:04.659 --> 00:00:09.415
+So let's return to our problem
+of estimating the gradient of
+
+3
+00:00:09.415 --> 00:00:13.435
+the objective with respect
+to the parameters phi.
+
+4
+00:00:13.435 --> 00:00:18.465
+In the previous video, we discussed that
+if we use something called [INAUDIBLE].
+
+5
+00:00:18.465 --> 00:00:21.098
+We can build a stochastic
+approximation of this gradient.
+
+6
+00:00:21.098 --> 00:00:25.456
+But the variance of this stochastic
+approximation will be really high.
+
+7
+00:00:25.456 --> 00:00:28.670
+Therefore, will be really inefficient
+to use this approximation to train
+
+8
+00:00:28.670 --> 00:00:29.389
+the [INAUDIBLE].
+
+9
+00:00:29.389 --> 00:00:33.936
+So let's see,
+let's look at a really nice and simple and
+
+10
+00:00:33.936 --> 00:00:38.218
+brilliant idea on how to
+make this think much better.
+
+11
+00:00:38.218 --> 00:00:40.583
+Make this approximation much better.
+
+12
+00:00:40.583 --> 00:00:45.757
+So, let's make a change,
+let's first of all recall that
+
+13
+00:00:45.757 --> 00:00:51.047
+ti is a sample of distribution
+from q of ti, given x sin phi.
+
+14
+00:00:51.047 --> 00:00:53.272
+Let's make a change of labels.
+
+15
+00:00:53.272 --> 00:00:59.421
+So let's say, instead of sampling ti,
+we'll sample some new variable x and
+
+16
+00:00:59.421 --> 00:01:05.487
+y from the standard variable and
+then we'll make ti from this central line.
+
+17
+00:01:05.487 --> 00:01:10.443
+By multiplying kit for
+element y in this way by some
+
+18
+00:01:10.443 --> 00:01:16.109
+standard deviation, si, and
+by aiding the [INAUDIBLE].
+
+19
+00:01:16.109 --> 00:01:21.011
+So this way,
+the distribution of this expression
+
+20
+00:01:21.011 --> 00:01:25.677
+of this epsilon i times si
+plus mi is the same as,
+
+21
+00:01:25.677 --> 00:01:30.245
+it's just q,
+it's the same as [INAUDIBLE] ti.
+
+22
+00:01:30.245 --> 00:01:34.889
+So instead of sampling ti
+from this distribution q,
+
+23
+00:01:34.889 --> 00:01:41.548
+we can state sample epsilon and
+then apply this deterministic function g.
+
+24
+00:01:41.548 --> 00:01:43.685
+With this multiplying ys and
+
+25
+00:01:43.685 --> 00:01:48.323
+adding m to get the sample from
+the actual distribution of ti.
+
+26
+00:01:48.323 --> 00:01:50.752
+So we're doing a change of variables.
+
+27
+00:01:50.752 --> 00:01:54.867
+Instead of sampling from ti,
+we're sampling from epsilon i and
+
+28
+00:01:54.867 --> 00:01:57.391
+then converting it to a sample from ti.
+
+29
+00:01:57.391 --> 00:02:03.345
+And now we can change our objective,
+we can look at the objective and
+
+30
+00:02:03.345 --> 00:02:09.734
+instead of completing the integral
+with respect to the distribution q.
+
+31
+00:02:09.734 --> 00:02:12.309
+So expect the distribution q,
+
+32
+00:02:12.309 --> 00:02:18.358
+we can now complete the expected value
+with the distribution epsilon i.
+
+33
+00:02:18.358 --> 00:02:23.211
+And then instead of ti,
+use this function of epsilon i everywhere.
+
+34
+00:02:23.211 --> 00:02:26.126
+And this is an exact expression,
+we didn't lose anything,
+
+35
+00:02:26.126 --> 00:02:27.679
+we just changed the variables.
+
+36
+00:02:27.679 --> 00:02:33.352
+So instead of considering distribution
+on ti, we're considering distribution
+
+37
+00:02:33.352 --> 00:02:38.625
+on epsilon i and then converting these
+epsilon i samples to samples from ti.
+
+38
+00:02:38.625 --> 00:02:43.400
+And now this g,
+this function that converts
+
+39
+00:02:43.400 --> 00:02:48.318
+epsilon i to tis,
+it depends on xi and on phi.
+
+40
+00:02:48.318 --> 00:02:52.748
+And to convert your epsilon i,
+it passes your image xi through
+
+41
+00:02:52.748 --> 00:02:56.679
+a convolutional neural
+network with parameters phi.
+
+42
+00:02:56.679 --> 00:03:03.922
+And this si and mi, and then multiplies
+epsilon i by si and [INAUDIBLE] mi.
+
+43
+00:03:03.922 --> 00:03:07.613
+This is [INAUDIBLE] function,
+licensing of one.
+
+44
+00:03:07.613 --> 00:03:13.904
+And now we can push the gradient
+sign inside the expected value,
+
+45
+00:03:13.904 --> 00:03:21.729
+so past the probability of epsilon i
+because [INAUDIBLE] doesn't depend on phi.
+
+46
+00:03:21.729 --> 00:03:26.018
+It doesn't depend on the parameters,
+we are differentiation with respect to.
+
+47
+00:03:26.018 --> 00:03:27.098
+And this means, that now we have
+an expected value of some expression.
+
+48
+00:03:27.098 --> 00:03:32.152
+Without ever introducing some artificial
+
+49
+00:03:32.152 --> 00:03:37.354
+distributions like in the previous video.
+
+50
+00:03:37.354 --> 00:03:41.217
+We'll like obtain
+the expected value naturally.
+
+51
+00:03:41.217 --> 00:03:48.503
+And now these expected values with respect
+to the to the distribution epsilon i,
+
+52
+00:03:48.503 --> 00:03:53.551
+which is just standard normal
+without any parameters.
+
+53
+00:03:53.551 --> 00:03:59.715
+And now we can approximate this thing
+with a sample from standard normal.
+
+54
+00:03:59.715 --> 00:04:06.692
+And so ultimately we have
+re-written our objective,
+
+55
+00:04:06.692 --> 00:04:13.525
+so the gradient of our
+objective with respect to phi.
+
+56
+00:04:13.525 --> 00:04:17.951
+Is sum with respect to objects
+of expected value with respect
+
+57
+00:04:17.951 --> 00:04:21.876
+to standard normal of
+the gradient of some function.
+
+58
+00:04:21.876 --> 00:04:27.165
+Which is just standard gradient
+of your whole neural network,
+
+59
+00:04:27.165 --> 00:04:31.465
+which defines you the whole
+operation [INAUDIBLE].
+
+60
+00:04:31.465 --> 00:04:35.236
+Andnow you can redraw
+this pictures as follows.
+
+61
+00:04:35.236 --> 00:04:38.495
+You have an input image x.
+
+62
+00:04:38.495 --> 00:04:42.765
+You pass it through a convolutional
+neural network with parameters phi.
+
+63
+00:04:42.765 --> 00:04:47.275
+You compute the regional parameters m and
+s,
+
+64
+00:04:47.275 --> 00:04:54.529
+then you sample one vector from
+standard normal distribution epsilon.
+
+65
+00:04:54.529 --> 00:04:59.158
+And then you use all these free values,
+m, n, s and
+
+66
+00:04:59.158 --> 00:05:03.166
+epsilon to deterministically compute ti.
+
+67
+00:05:03.166 --> 00:05:08.167
+And then you put this ti inside this
+second convolutional neural network.
+
+68
+00:05:08.167 --> 00:05:08.700
+So when you define your model like this,
+you have
+
+69
+00:05:08.700 --> 00:05:09.243
+only one place where you
+have stochastic units.
+
+70
+00:05:09.243 --> 00:05:14.163
+This epsilon i from standard
+
+71
+00:05:14.163 --> 00:05:18.265
+normal distribution.
+
+72
+00:05:18.265 --> 00:05:23.140
+And this way, you can differentiate
+your whole neural structure
+
+73
+00:05:23.140 --> 00:05:26.338
+with respect to phi and w without trouble.
+
+74
+00:05:26.338 --> 00:05:28.639
+So you're going to just
+use tender flow and
+
+75
+00:05:28.639 --> 00:05:32.236
+it will find you gradients with
+respect to all the parameters.
+
+76
+00:05:32.236 --> 00:05:36.936
+Because you don't have now some different
+shapes with through dissembling,
+
+77
+00:05:36.936 --> 00:05:40.567
+dissembling is kind of outside procedure,
+it's just yes or
+
+78
+00:05:40.567 --> 00:05:42.645
+nos to determine each functions.
+
+79
+00:05:42.645 --> 00:05:47.097
+And this is basically implementation of
+theory we have just discussed within this
+
+80
+00:05:47.097 --> 00:05:48.392
+urban mutualization.
+
+81
+00:05:48.392 --> 00:05:53.713
+And now we're going to approximate our
+gradients by just assembling one point,
+
+82
+00:05:53.713 --> 00:05:57.992
+and then using these gradient
+of law of this complex function.
+
+83
+00:05:57.992 --> 00:06:04.324
+And this complex function like
+log of p of xi given g and
+
+84
+00:06:04.324 --> 00:06:12.080
+w is just this full neural network
+with both encoder and decoder.
+
+85
+00:06:12.080 --> 00:06:16.779
+So to summarize,
+we have just get the model that allows
+
+86
+00:06:16.779 --> 00:06:21.172
+you to fit probability distribution,
+like p of x,
+
+87
+00:06:21.172 --> 00:06:27.017
+into a complicated structure of data,
+for example, into images.
+
+88
+00:06:27.017 --> 00:06:30.189
+And it uses a model of
+infinite mixture of Gaussians.
+
+89
+00:06:30.189 --> 00:06:35.261
+But to define the parameters of these
+Gaussians, it uses a variational
+
+90
+00:06:35.261 --> 00:06:40.940
+neural network with parameters that
+are trained with variational inference.
+
+91
+00:06:40.940 --> 00:06:45.934
+And for learning, we can't use the usual
+expectation maximization because we
+
+92
+00:06:45.934 --> 00:06:47.361
+have to approximate.
+
+93
+00:06:47.361 --> 00:06:52.301
+And we can't also use variational
+expectation maximization because it also
+
+94
+00:06:52.301 --> 00:06:53.142
+[INAUDIBLE].
+
+95
+00:06:53.142 --> 00:06:58.757
+So we draft kind of stochastic
+version of variational inference.
+
+96
+00:06:58.757 --> 00:07:01.495
+That is applicable to,
+first of all, large data sets,
+
+97
+00:07:01.495 --> 00:07:03.139
+because we can use mini batches.
+
+98
+00:07:03.139 --> 00:07:07.927
+And second of all, it's applicable
+to the small, so you couldn't
+
+99
+00:07:07.927 --> 00:07:12.634
+have used the usual variational
+inference for this complicated.
+
+100
+00:07:12.634 --> 00:07:17.385
+Because it has neural networks inside and
+every integral is intractable.
+
+101
+00:07:17.385 --> 00:07:21.901
+And the model with that is
+called variational autoencoder,
+
+102
+00:07:21.901 --> 00:07:26.770
+it's like the plain usual autoencoder but
+It has noise inside and
+
+103
+00:07:26.770 --> 00:07:31.482
+uses [INAUDIBLE] regularization
+to make sure that noise stays.
+
+104
+00:07:31.482 --> 00:07:35.891
+That the [INAUDIBLE] chooses
+the right amount of noise to use.
+
+105
+00:07:35.891 --> 00:07:42.488
+And can be used to for example, generate
+nice images or to handle missing data or
+
+106
+00:07:42.488 --> 00:07:46.628
+to find [INAUDIBLE] in the data and
+stuff like that.
+
+107
+00:07:46.628 --> 00:07:56.628
+[MUSIC]

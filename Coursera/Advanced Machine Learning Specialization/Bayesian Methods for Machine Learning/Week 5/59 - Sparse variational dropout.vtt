@@ -1,0 +1,329 @@
+WEBVTT
+
+1
+00:00:03.610 --> 00:00:07.770
+In the previous lecture, we have shown the equivalence of a Gaussian dropout with
+
+2
+00:00:07.770 --> 00:00:11.250
+a special kind of variational base and inference.
+
+3
+00:00:11.250 --> 00:00:16.190
+So we have proved that Gaussian dropout certainly optimizes
+
+4
+00:00:16.190 --> 00:00:20.240
+the following ELBO and in this ELBO the second term doesn't
+
+5
+00:00:20.240 --> 00:00:25.350
+depend on theta so it can be ignored if we optimize only with respect to theta.
+
+6
+00:00:25.350 --> 00:00:28.790
+And now, the question is why not to optimize
+
+7
+00:00:28.790 --> 00:00:31.895
+both with respect to theta and alpha because remember that
+
+8
+00:00:31.895 --> 00:00:38.870
+our variational approximation our q_w depends on theta and also of alpha.
+
+9
+00:00:38.870 --> 00:00:41.760
+And remember that the more relational parameters we
+
+10
+00:00:41.760 --> 00:00:44.775
+have because it worked with the two Basuto distribution.
+
+11
+00:00:44.775 --> 00:00:48.530
+So we will only get our approximation better and better.
+
+12
+00:00:48.530 --> 00:00:54.130
+So then why not optimize ELBO with respect to theta and alpha?
+
+13
+00:00:54.130 --> 00:00:56.715
+It's important to know that
+
+14
+00:00:56.715 --> 00:01:01.075
+it wasn't possible until we came with a Bayesian interpretation of Gaussian dropout.
+
+15
+00:01:01.075 --> 00:01:05.570
+Really, It will try to optimize with just the first term,
+
+16
+00:01:05.570 --> 00:01:08.395
+the theta term with respect to both theta and alpha.
+
+17
+00:01:08.395 --> 00:01:12.240
+We would quickly end up with zero values of alpha. Why so?
+
+18
+00:01:12.240 --> 00:01:17.805
+Because we know that the maximum value of the first term is achieved when
+
+19
+00:01:17.805 --> 00:01:21.410
+our distribution is delta function at w_m_o and
+
+20
+00:01:21.410 --> 00:01:25.500
+delta function means zero variance and zero variance means zero alpha.
+
+21
+00:01:25.500 --> 00:01:31.355
+So we may obtain some non-zero values of alpha only if we optimize both terms,
+
+22
+00:01:31.355 --> 00:01:33.430
+the theta term and our regularizer.
+
+23
+00:01:33.430 --> 00:01:37.460
+So now our variational approximation looks as follows,
+
+24
+00:01:37.460 --> 00:01:41.280
+so this is fully factorized it goes in distribution with respect to all weights
+
+25
+00:01:41.280 --> 00:01:46.020
+w_i_j with the mean theta i_j and with variance alpha theta i_j squared.
+
+26
+00:01:46.020 --> 00:01:47.590
+But we may go even further.
+
+27
+00:01:47.590 --> 00:01:51.195
+Why not to assign individual to department to each weight?
+
+28
+00:01:51.195 --> 00:01:55.425
+Why not to say that our variational approximation looks as follows,
+
+29
+00:01:55.425 --> 00:01:59.220
+so this is fully factorized Gaussian distribution over w_i_j with
+
+30
+00:01:59.220 --> 00:02:04.185
+the mean theta i_j and with variants alpha i_j times theta i_j squared.
+
+31
+00:02:04.185 --> 00:02:07.265
+So we may now assign individual department,
+
+32
+00:02:07.265 --> 00:02:09.740
+individual alpha to each of the weights.
+
+33
+00:02:09.740 --> 00:02:14.895
+And again, this will make our approximation only tighter.
+
+34
+00:02:14.895 --> 00:02:19.055
+We only come close to the true posterior distribution.
+
+35
+00:02:19.055 --> 00:02:23.450
+But before we proceed let us examine the purposes
+
+36
+00:02:23.450 --> 00:02:28.275
+of our regulizer with dependence on alpha.
+
+37
+00:02:28.275 --> 00:02:33.500
+Remember that we may approximate it with a small differential function and we see
+
+38
+00:02:33.500 --> 00:02:37.850
+that the maximum value of this regularizer is achieved when alpha goes to plus infinity.
+
+39
+00:02:37.850 --> 00:02:43.550
+This means that the second term of our ELBO encourages a larger values of alphas.
+
+40
+00:02:43.550 --> 00:02:46.510
+And that's quite interesting because we may easily
+
+41
+00:02:46.510 --> 00:02:49.635
+prove that if alpha j goes to plus infinity
+
+42
+00:02:49.635 --> 00:02:52.800
+then the corresponding theta i_j which is the mean
+
+43
+00:02:52.800 --> 00:02:55.825
+in our variational approximation converts to zero.
+
+44
+00:02:55.825 --> 00:03:02.110
+In such a way that alpha i_j times theta i_j squared also converts to zero.
+
+45
+00:03:02.110 --> 00:03:07.325
+What this means that our variational approximation,
+
+46
+00:03:07.325 --> 00:03:12.260
+our q_w_i_j becomes delta function
+
+47
+00:03:12.260 --> 00:03:17.175
+when alpha j goes to plus infinity and delta function stands at zero.
+
+48
+00:03:17.175 --> 00:03:21.290
+And delta function stands at zero means that the corresponding w_i_j
+
+49
+00:03:21.290 --> 00:03:25.540
+is exactly zero and this means that we may simply skip this connection.
+
+50
+00:03:25.540 --> 00:03:27.390
+Simply remove the corresponding weight from
+
+51
+00:03:27.390 --> 00:03:31.225
+our neural network thus effectively sparcifying it.
+
+52
+00:03:31.225 --> 00:03:37.950
+So the whole procedure which is known as a sparse variational dropout looks as follows.
+
+53
+00:03:37.950 --> 00:03:41.615
+First, we assign log-uniform prior distribution over the weights,
+
+54
+00:03:41.615 --> 00:03:44.065
+which is fully factorized prior distribution.
+
+55
+00:03:44.065 --> 00:03:48.330
+Then I fix variational family of distributions q of w given theta alpha.
+
+56
+00:03:48.330 --> 00:03:53.390
+And again, this fully factorized distribution or o weight w_i_j with
+
+57
+00:03:53.390 --> 00:03:59.080
+a mean theta i_j and with variants given by alpha i_j times theta i_j squared.
+
+58
+00:03:59.080 --> 00:04:02.710
+And finally, we perform a stochastic variational inference trying to
+
+59
+00:04:02.710 --> 00:04:07.165
+optimize our ELBO both with respect to thetas and with respect to all alphas.
+
+60
+00:04:07.165 --> 00:04:09.890
+And in the end, we remove all weights
+
+61
+00:04:09.890 --> 00:04:12.910
+whose alphas exceeded some predefined large threshold.
+
+62
+00:04:12.910 --> 00:04:15.900
+And surprisingly, this procedure works quite well.
+
+63
+00:04:15.900 --> 00:04:19.890
+So in this picture you see the behavior of convolution kernels from
+
+64
+00:04:19.890 --> 00:04:24.245
+convolution layers and the fragments of weight matrix from fully connected squares.
+
+65
+00:04:24.245 --> 00:04:27.980
+So you see that as training progresses the more and more weights,
+
+66
+00:04:27.980 --> 00:04:32.445
+and the more and more coefficients and convolution kernels converge to zero.
+
+67
+00:04:32.445 --> 00:04:39.860
+The compression in fact exceeds 200 and pay attention that the accuracy doesn't decrease.
+
+68
+00:04:39.860 --> 00:04:41.795
+So we're keeping the same accuracy.
+
+69
+00:04:41.795 --> 00:04:44.490
+This is the baseline while effectively
+
+70
+00:04:44.490 --> 00:04:48.990
+compressing the whole network in hundredths of times.
+
+71
+00:04:48.990 --> 00:04:54.065
+This only became possible due to this Bayesian dropout.
+
+72
+00:04:54.065 --> 00:05:01.205
+So to conclude, it is known that modern deep architectures are very redundant.
+
+73
+00:05:01.205 --> 00:05:04.580
+But it is quite problematic to remove this redundancy and one of
+
+74
+00:05:04.580 --> 00:05:06.260
+the most successful ways to do this is
+
+75
+00:05:06.260 --> 00:05:10.550
+the Bayesian dropout or sparse variational dropout.
+
+76
+00:05:10.550 --> 00:05:14.540
+Variational Bayesian inference is a highly skilled procedure that allows
+
+77
+00:05:14.540 --> 00:05:15.650
+to optimize millions of
+
+78
+00:05:15.650 --> 00:05:18.520
+variational parameters and this
+
+79
+00:05:18.520 --> 00:05:19.380
+is just one of
+
+80
+00:05:19.380 --> 00:05:23.195
+many examples of successful combinations of Bayesian methods and deep learning.
+
+81
+00:05:23.195 --> 00:05:27.380
+More examples of successful application of Bayesian methods for DNNs you may find
+
+82
+00:05:27.380 --> 00:05:29.720
+in additional reading materials.

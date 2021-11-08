@@ -1,0 +1,389 @@
+WEBVTT
+
+1
+00:00:04.040 --> 00:00:07.365
+Welcome to week five of our course.
+
+2
+00:00:07.365 --> 00:00:14.310
+This week we're going to talk about how to scale Bayesian methods to large data sets.
+
+3
+00:00:14.310 --> 00:00:16.665
+So, even like 10 years ago,
+
+4
+00:00:16.665 --> 00:00:19.500
+people used to think that Bayesian methods are mostly
+
+5
+00:00:19.500 --> 00:00:22.560
+suited for small data sets because first of all,
+
+6
+00:00:22.560 --> 00:00:26.236
+they're expensive, computation expensive.
+
+7
+00:00:26.236 --> 00:00:31.215
+So if you want to do full Bayesian inference on like one million training examples,
+
+8
+00:00:31.215 --> 00:00:35.015
+you are going to face lots of troubles.
+
+9
+00:00:35.015 --> 00:00:39.180
+And second of all, there may not be beneficial anyway in the case of
+
+10
+00:00:39.180 --> 00:00:43.510
+large data because people used to think that the main idea,
+
+11
+00:00:43.510 --> 00:00:47.520
+the main benefit of Bayesian methods is to utilize your model,
+
+12
+00:00:47.520 --> 00:00:52.895
+and to be able to extract as much information as possible from small data set.
+
+13
+00:00:52.895 --> 00:00:55.675
+And if you have free large data set, then you don't need that,
+
+14
+00:00:55.675 --> 00:00:59.285
+you can use any method you want and it will work just fine.
+
+15
+00:00:59.285 --> 00:01:00.683
+But things changed then,
+
+16
+00:01:00.683 --> 00:01:03.190
+Bayesian methods met deep learning,
+
+17
+00:01:03.190 --> 00:01:06.090
+and people started to make
+
+18
+00:01:06.090 --> 00:01:10.670
+some mixture models that has neural networks instead of a probabilistic model.
+
+19
+00:01:10.670 --> 00:01:12.908
+And this is what this week will be about,
+
+20
+00:01:12.908 --> 00:01:16.185
+how to combine neural networks with the Bayesian methods.
+
+21
+00:01:16.185 --> 00:01:18.885
+So we'll discuss that.
+
+22
+00:01:18.885 --> 00:01:21.360
+We'll discuss how to combine these two ideas.
+
+23
+00:01:21.360 --> 00:01:25.365
+We'll see a particular example of variational old encoder,
+
+24
+00:01:25.365 --> 00:01:27.690
+which allows you to generate nice samples,
+
+25
+00:01:27.690 --> 00:01:33.440
+nice images by using neural network which has some probabilistic interpretation.
+
+26
+00:01:33.440 --> 00:01:37.620
+And then, in the second module of Professor Dmitry Vetrov,
+
+27
+00:01:37.620 --> 00:01:41.205
+will tell you about scalable methods for Bayesian neural networks,
+
+28
+00:01:41.205 --> 00:01:43.770
+and about his cutting edge research in
+
+29
+00:01:43.770 --> 00:01:47.375
+this area that allowed him to compress neural networks by a lot,
+
+30
+00:01:47.375 --> 00:01:53.810
+and then to fight severe over fitting on some complicated data sets.
+
+31
+00:01:53.810 --> 00:01:55.065
+So, to start with,
+
+32
+00:01:55.065 --> 00:02:03.295
+let's discuss a little bit of the concept of estimation being unbiased.
+
+33
+00:02:03.295 --> 00:02:06.854
+We have already touched on that in the previous week, on week four,
+
+34
+00:02:06.854 --> 00:02:08.279
+on Markov Chain Monte Carlo,
+
+35
+00:02:08.279 --> 00:02:12.625
+but let's make our self a little bit more clear here.
+
+36
+00:02:12.625 --> 00:02:17.783
+We'll need that to build unbiased estimates for gradients of some neural networks.
+
+37
+00:02:17.783 --> 00:02:21.995
+So, let's say you want to estimate an expected value.
+
+38
+00:02:21.995 --> 00:02:24.225
+If you're using Monte Carlo estimation,
+
+39
+00:02:24.225 --> 00:02:27.115
+you will substitute that with an average
+
+40
+00:02:27.115 --> 00:02:32.210
+with respect to samples taken from that distribution, pure facts.
+
+41
+00:02:32.210 --> 00:02:35.250
+And this idea may look like this.
+
+42
+00:02:35.250 --> 00:02:38.421
+So here, the blue line is your distribution,
+
+43
+00:02:38.421 --> 00:02:42.615
+pure facts and you can generate samples from it like this.
+
+44
+00:02:42.615 --> 00:02:48.555
+And then you can take the average of your f_x on this data set and it can look like this,
+
+45
+00:02:48.555 --> 00:02:51.775
+for example like red cross here.
+
+46
+00:02:51.775 --> 00:02:54.180
+And this is actually a random variable.
+
+47
+00:02:54.180 --> 00:02:55.695
+So if you repeat this process,
+
+48
+00:02:55.695 --> 00:02:58.305
+if you generate other set of samples, and repeat,
+
+49
+00:02:58.305 --> 00:03:01.085
+and again look right down the average of them,
+
+50
+00:03:01.085 --> 00:03:05.280
+you will get some other approximation of your expected value.
+
+51
+00:03:05.280 --> 00:03:07.980
+And by repeating this process more and more times,
+
+52
+00:03:07.980 --> 00:03:11.530
+you can get samples from your random variable R.
+
+53
+00:03:11.530 --> 00:03:16.575
+And this random variable has its own distribution,
+
+54
+00:03:16.575 --> 00:03:19.650
+and its average, its expected value,
+
+55
+00:03:19.650 --> 00:03:26.280
+exactly equals to the expected value of f_x which we wanted to estimate.
+
+56
+00:03:26.280 --> 00:03:30.455
+So you can see that all these samples from the random variable R,
+
+57
+00:03:30.455 --> 00:03:35.125
+are close to the expected value which we want to estimate, are around it.
+
+58
+00:03:35.125 --> 00:03:38.430
+And which will basically means that if we use
+
+59
+00:03:38.430 --> 00:03:41.910
+more samples like hundreds samples for each estimation,
+
+60
+00:03:41.910 --> 00:03:45.855
+then we will make more accurate predictions.
+
+61
+00:03:45.855 --> 00:03:50.245
+So, then these samples of
+
+62
+00:03:50.245 --> 00:03:56.545
+the averages of R will like close to the expect value which we want to approximate.
+
+63
+00:03:56.545 --> 00:03:58.785
+And the more samples we use like this,
+
+64
+00:03:58.785 --> 00:04:00.850
+the more accurate the prediction becomes.
+
+65
+00:04:00.850 --> 00:04:04.160
+So, it more and more peaked around the true value.
+
+66
+00:04:04.160 --> 00:04:05.460
+And if you put it formally,
+
+67
+00:04:05.460 --> 00:04:08.320
+this is the definition of an unbiased estimate.
+
+68
+00:04:08.320 --> 00:04:10.470
+An estimate R is called unbiased if
+
+69
+00:04:10.470 --> 00:04:14.225
+its expected value equals to the thing we want to approximate.
+
+70
+00:04:14.225 --> 00:04:16.130
+So, if here is true, then
+
+71
+00:04:16.130 --> 00:04:22.180
+all the samples of R lies around the expected value which we want to approximate.
+
+72
+00:04:22.180 --> 00:04:24.575
+But how can it not be true?
+
+73
+00:04:24.575 --> 00:04:28.360
+Well, if you look for example at the log from the expected value,
+
+74
+00:04:28.360 --> 00:04:31.274
+and try to approximate it with Monte Carlo,
+
+75
+00:04:31.274 --> 00:04:36.710
+it's kind of natural to approximate it like log of the sample average.
+
+76
+00:04:36.710 --> 00:04:41.515
+But it turns out that it's not an unbiased estimate.
+
+77
+00:04:41.515 --> 00:04:47.155
+So, if you look at the samples here, they will be,
+
+78
+00:04:47.155 --> 00:04:51.210
+all the samples of the variant variable G,
+
+79
+00:04:51.210 --> 00:04:55.460
+will lay to the left of the actual expected value.
+
+80
+00:04:55.460 --> 00:05:02.100
+So, you're underestimating your true value which you want to approximate even on average.
+
+81
+00:05:02.100 --> 00:05:06.490
+So all this red crosses are like not around the true value,
+
+82
+00:05:06.490 --> 00:05:07.900
+but around some smaller value,
+
+83
+00:05:07.900 --> 00:05:10.210
+and thus you're not doing the right job,
+
+84
+00:05:10.210 --> 00:05:17.990
+you're doing biased estimation of your function logarithm of an expected value.
+
+85
+00:05:17.990 --> 00:05:21.700
+And to summarize, so an estimate is called unbiased if
+
+86
+00:05:21.700 --> 00:05:27.455
+its expected values equal to the thing which you want approximate.
+
+87
+00:05:27.455 --> 00:05:33.910
+And it's entirely non trivial to understand if your estimator is unbiased or not.
+
+88
+00:05:33.910 --> 00:05:36.260
+So for the simplest estimator,
+
+89
+00:05:36.260 --> 00:05:39.045
+an expected value of function can be unbiasedly estimated
+
+90
+00:05:39.045 --> 00:05:42.475
+as an average with respect to samples.
+
+91
+00:05:42.475 --> 00:05:45.040
+For anything more complicated than that,
+
+92
+00:05:45.040 --> 00:05:51.545
+you have to think carefully and check that you're not going to biased territory.
+
+93
+00:05:51.545 --> 00:05:54.905
+And if you don't want to check or if you can't do it,
+
+94
+00:05:54.905 --> 00:05:57.430
+then you're better to reduce
+
+95
+00:05:57.430 --> 00:06:02.083
+your particular problem to the form of just expected value of some function,
+
+96
+00:06:02.083 --> 00:06:06.055
+and then estimate this with these sample average.
+
+97
+00:06:06.055 --> 00:06:12.490
+So this is a way to go to be sure that your estimation is unbiased.

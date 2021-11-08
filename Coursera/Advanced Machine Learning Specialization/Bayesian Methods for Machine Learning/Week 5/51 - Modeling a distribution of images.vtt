@@ -1,0 +1,665 @@
+WEBVTT
+
+1
+00:00:03.890 --> 00:00:07.455
+Let's start with discussing a problem of fitting
+
+2
+00:00:07.455 --> 00:00:11.119
+a distribution P of X into a data-set of points.
+
+3
+00:00:11.119 --> 00:00:14.955
+Why? Well, we have already discussed this problem in week one,
+
+4
+00:00:14.955 --> 00:00:19.810
+when we discussed how to fit a Gaussian to a data-set of points,
+
+5
+00:00:19.810 --> 00:00:21.210
+we discussed it in week two,
+
+6
+00:00:21.210 --> 00:00:23.070
+when we discussed clustering problem,
+
+7
+00:00:23.070 --> 00:00:27.550
+and how we can solve it by fitting the Gaussian mixture model into our data.
+
+8
+00:00:27.550 --> 00:00:29.235
+And also, we discussed
+
+9
+00:00:29.235 --> 00:00:34.035
+probabilistic PC which is kind of an infinite mixture of Gaussians.
+
+10
+00:00:34.035 --> 00:00:36.330
+But now, we will want
+
+11
+00:00:36.330 --> 00:00:42.750
+to return to this question because it turns out that the methods we covered,
+
+12
+00:00:42.750 --> 00:00:47.520
+like Gaussian or Gaussian mixture model on the probabilistic PC,
+
+13
+00:00:47.520 --> 00:00:55.905
+are not enough to capture the complicated objects like images, like natural images.
+
+14
+00:00:55.905 --> 00:00:57.955
+So, you may want to fit
+
+15
+00:00:57.955 --> 00:01:02.265
+your data-set of natural images into a probabilistic distribution,
+
+16
+00:01:02.265 --> 00:01:05.290
+for example, to generate new data.
+
+17
+00:01:05.290 --> 00:01:08.865
+And, if you try to do that with Gaussian mixture model, it will work,
+
+18
+00:01:08.865 --> 00:01:15.180
+but it will not work as well as some more sophisticated models we will discuss this week.
+
+19
+00:01:15.180 --> 00:01:17.700
+And so, in this example for example,
+
+20
+00:01:17.700 --> 00:01:25.950
+we generated some fake celebrity faces by using a generative model,
+
+21
+00:01:25.950 --> 00:01:28.275
+and you can do these kinds of things if you
+
+22
+00:01:28.275 --> 00:01:30.870
+have a probability distribution of your training data,
+
+23
+00:01:30.870 --> 00:01:33.645
+so you can sample new images from this distribution.
+
+24
+00:01:33.645 --> 00:01:37.900
+And also you can, if you have such a model, like P of X,
+
+25
+00:01:37.900 --> 00:01:43.910
+you can also do a kind of Photoshop of the future applications, like here.
+
+26
+00:01:43.910 --> 00:01:46.260
+So you can, with a few brush strokes,
+
+27
+00:01:46.260 --> 00:01:48.405
+you can change a few pixels in your image,
+
+28
+00:01:48.405 --> 00:01:50.960
+and the program will try to recolor everything else,
+
+29
+00:01:50.960 --> 00:01:53.645
+so the picture will stay for the realistic.
+
+30
+00:01:53.645 --> 00:01:56.835
+So, it will change the color of the hair and etc.
+
+31
+00:01:56.835 --> 00:02:01.420
+So, one more reason to try
+
+32
+00:02:01.420 --> 00:02:06.375
+to fit distribution P of X into some complicated structured data like images,
+
+33
+00:02:06.375 --> 00:02:09.410
+is to detect anomalies.
+
+34
+00:02:09.410 --> 00:02:14.180
+So, for example, you have a bank and you have a sequence of transactions, and then,
+
+35
+00:02:14.180 --> 00:02:19.900
+if you fit your probabilistic model into this sequence of transactions,
+
+36
+00:02:19.900 --> 00:02:23.320
+for a new transaction you can predict how probable
+
+37
+00:02:23.320 --> 00:02:26.680
+this transaction is according to our model,
+
+38
+00:02:26.680 --> 00:02:28.968
+our current training data-set,
+
+39
+00:02:28.968 --> 00:02:31.640
+and if this particular transaction is not very probable,
+
+40
+00:02:31.640 --> 00:02:37.015
+then we may say that it's kind of suspicious and we may ask humans to check it.
+
+41
+00:02:37.015 --> 00:02:39.810
+And also, for example, if you have security camera footage,
+
+42
+00:02:39.810 --> 00:02:45.460
+you can train the model on your normal day security camera, and then,
+
+43
+00:02:45.460 --> 00:02:50.350
+if something suspicious happens then you can detect that by seeing that
+
+44
+00:02:50.350 --> 00:02:52.360
+some images from your cameras have
+
+45
+00:02:52.360 --> 00:02:56.480
+a low probability P of your image according to your model.
+
+46
+00:02:56.480 --> 00:03:00.115
+So, you can detect anomalies, detect suspicious behavior.
+
+47
+00:03:00.115 --> 00:03:01.495
+And, one more reason is,
+
+48
+00:03:01.495 --> 00:03:03.940
+you may want to handle missing data.
+
+49
+00:03:03.940 --> 00:03:08.470
+For example, you have some images with obscured parts,
+
+50
+00:03:08.470 --> 00:03:10.105
+and you want to do predictions.
+
+51
+00:03:10.105 --> 00:03:11.945
+In this case, if you have P of X,
+
+52
+00:03:11.945 --> 00:03:13.735
+so probability of your data,
+
+53
+00:03:13.735 --> 00:03:16.685
+it will help you greatly to deal with it.
+
+54
+00:03:16.685 --> 00:03:19.690
+And finally, sometimes people try to
+
+55
+00:03:19.690 --> 00:03:25.250
+represent some highly structured data in low dimensional embeddings.
+
+56
+00:03:25.250 --> 00:03:30.225
+And, this is not some inherent property for modeling data with P of X but,
+
+57
+00:03:30.225 --> 00:03:32.225
+as we will see in the models we will cover,
+
+58
+00:03:32.225 --> 00:03:34.485
+it kind of comes naturally.
+
+59
+00:03:34.485 --> 00:03:39.820
+So, it will give a latent code to any object it sees,
+
+60
+00:03:39.820 --> 00:03:46.720
+and then we can use this latent code to explore the space of our objects kind of nicely.
+
+61
+00:03:46.720 --> 00:03:51.880
+So, for example, people sometimes build these kind of latent codes for molecules and
+
+62
+00:03:51.880 --> 00:03:57.600
+then try to discover new drugs by exploring this space of molecules in this latent space.
+
+63
+00:03:57.600 --> 00:04:00.130
+Okay, so, let's say we're convinced,
+
+64
+00:04:00.130 --> 00:04:08.075
+we want to model P of X of some natural images or other types of structured data.
+
+65
+00:04:08.075 --> 00:04:10.580
+How can we do it?
+
+66
+00:04:10.580 --> 00:04:14.950
+Well, probably the most natural approach is to say that,
+
+67
+00:04:14.950 --> 00:04:17.230
+let's use a convolutional neural network
+
+68
+00:04:17.230 --> 00:04:20.320
+because it's something that works really well for images.
+
+69
+00:04:20.320 --> 00:04:24.835
+And, let's say that our convolution neural network will look at the image,
+
+70
+00:04:24.835 --> 00:04:28.520
+and then return your probability of this image, right?
+
+71
+00:04:28.520 --> 00:04:31.520
+It will like, it's the simplest possible parametric model
+
+72
+00:04:31.520 --> 00:04:34.765
+of something that returns your probability for any image.
+
+73
+00:04:34.765 --> 00:04:36.740
+And, to make things more stable,
+
+74
+00:04:36.740 --> 00:04:40.520
+let's say that CNN will actually return your logarithm of probability.
+
+75
+00:04:40.520 --> 00:04:46.710
+The problem with this approach is that you have to normalize your distribution.
+
+76
+00:04:46.710 --> 00:04:49.360
+You have to make your distribution to sum up to one,
+
+77
+00:04:49.360 --> 00:04:54.805
+with respect to sum according to all possible images in the world,
+
+78
+00:04:54.805 --> 00:04:57.060
+and there are billions of them.
+
+79
+00:04:57.060 --> 00:05:00.375
+So, this normalization constant is very expensive to compute,
+
+80
+00:05:00.375 --> 00:05:07.345
+and you have to compute it to do the training or inference in the proper manner.
+
+81
+00:05:07.345 --> 00:05:09.120
+So, this thing is infeasible.
+
+82
+00:05:09.120 --> 00:05:10.850
+You can't do that because of normalization.
+
+83
+00:05:10.850 --> 00:05:13.620
+So, what else can you do?
+
+84
+00:05:13.620 --> 00:05:15.570
+Well, you can use the chain rule.
+
+85
+00:05:15.570 --> 00:05:18.040
+If you recall from week one,
+
+86
+00:05:18.040 --> 00:05:20.580
+any probabilistic distribution can be
+
+87
+00:05:20.580 --> 00:05:23.785
+decomposed into a product of some condition distributions,
+
+88
+00:05:23.785 --> 00:05:25.645
+and we can apply it to natural images,
+
+89
+00:05:25.645 --> 00:05:27.485
+for example, like this.
+
+90
+00:05:27.485 --> 00:05:29.850
+So, we have an image, in this case,
+
+91
+00:05:29.850 --> 00:05:33.060
+it's a three by three pixel image, but of course,
+
+92
+00:05:33.060 --> 00:05:37.440
+in a practical situation you will use 100 by 100 for example,
+
+93
+00:05:37.440 --> 00:05:40.430
+or an even more high resolution image.
+
+94
+00:05:40.430 --> 00:05:45.805
+And, you can enumerate each pixel of this image somehow, like for example,
+
+95
+00:05:45.805 --> 00:05:49.725
+a row by row fashion and then you can say that the distribution
+
+96
+00:05:49.725 --> 00:05:55.060
+of this whole image is the same as the joint distribution of the pixels.
+
+97
+00:05:55.060 --> 00:05:57.645
+And, this joint distribution decomposes into
+
+98
+00:05:57.645 --> 00:06:02.150
+the product of conditional distributions by the chain rule.
+
+99
+00:06:02.150 --> 00:06:08.015
+So, the distribution on the whole image equals to the probability of the first pixel,
+
+100
+00:06:08.015 --> 00:06:10.620
+marginal probability, plus the probability of
+
+101
+00:06:10.620 --> 00:06:13.950
+the second pixel given the first one, and etc.
+
+102
+00:06:13.950 --> 00:06:17.280
+And, now you may try to build these kind of
+
+103
+00:06:17.280 --> 00:06:23.570
+conditional probability models to model your overall joint probability.
+
+104
+00:06:23.570 --> 00:06:27.390
+And, if your model for conditional probability is flexible enough,
+
+105
+00:06:27.390 --> 00:06:29.730
+you will not lose anything because you can
+
+106
+00:06:29.730 --> 00:06:33.280
+represent in this way any probability distribution.
+
+107
+00:06:33.280 --> 00:06:35.670
+And, the natural idea how to represent
+
+108
+00:06:35.670 --> 00:06:39.150
+these conditional probabilities is with recurrent neural network.
+
+109
+00:06:39.150 --> 00:06:43.935
+Which basically will read your image pixel by pixel,
+
+110
+00:06:43.935 --> 00:06:46.815
+and then outputs your prediction for the next pixel.
+
+111
+00:06:46.815 --> 00:06:50.795
+Prediction for brightness for next pixel for example,
+
+112
+00:06:50.795 --> 00:06:54.780
+and this approach makes modeling much easier because now normalization
+
+113
+00:06:54.780 --> 00:06:59.805
+constant has to think only about one dimensional distribution.
+
+114
+00:06:59.805 --> 00:07:03.145
+So, if for example, your image is grayscale,
+
+115
+00:07:03.145 --> 00:07:09.220
+then each pixel can be decoded with the number from zero to 255.
+
+116
+00:07:09.220 --> 00:07:10.780
+So, the brightness level,
+
+117
+00:07:10.780 --> 00:07:14.640
+and then your normalization constant can be computed by just summing up
+
+118
+00:07:14.640 --> 00:07:19.920
+with respect to all these 256 values, so it's easy.
+
+119
+00:07:19.920 --> 00:07:21.658
+It's a really nice approach,
+
+120
+00:07:21.658 --> 00:07:23.957
+check it out if you have time,
+
+121
+00:07:23.957 --> 00:07:30.210
+but a downside of that is you have to generate your new images one pixel at a time.
+
+122
+00:07:30.210 --> 00:07:33.150
+So, if you want to generate a new image you have
+
+123
+00:07:33.150 --> 00:07:35.970
+to first of all generate X1 from the marginal distribution X1,
+
+124
+00:07:35.970 --> 00:07:40.320
+then you will feed this just generated X1 into the RNN,
+
+125
+00:07:40.320 --> 00:07:45.125
+it will output your distribution on the next pixel and etc.
+
+126
+00:07:45.125 --> 00:07:47.625
+So, no matter how many computers you have,
+
+127
+00:07:47.625 --> 00:07:54.355
+one high resolution image can take like minutes which is really long.
+
+128
+00:07:54.355 --> 00:07:59.970
+And so, we may want to look at something else.
+
+129
+00:07:59.970 --> 00:08:05.265
+One more thing you can do, is to say that your distribution over pixels is independent.
+
+130
+00:08:05.265 --> 00:08:08.835
+So, each pixel is independent of the others.
+
+131
+00:08:08.835 --> 00:08:12.375
+In this case, you can easily feed this kind of distribution into your data,
+
+132
+00:08:12.375 --> 00:08:17.710
+but it turns out to be a too restrictive assumption to say about your data.
+
+133
+00:08:17.710 --> 00:08:21.465
+So, even in this simple example of a data-set of handwritten digits,
+
+134
+00:08:21.465 --> 00:08:24.720
+if you have like 10,000 of these small images,
+
+135
+00:08:24.720 --> 00:08:27.726
+and you train this kind of factorised model on them,
+
+136
+00:08:27.726 --> 00:08:32.665
+you will get really not nice looking samples like this.
+
+137
+00:08:32.665 --> 00:08:36.360
+That's because the assumption that each pixel is independent
+
+138
+00:08:36.360 --> 00:08:40.880
+of the others is really not held on true data.
+
+139
+00:08:40.880 --> 00:08:44.175
+So, for example, if you saw one half of the image,
+
+140
+00:08:44.175 --> 00:08:46.365
+you can probably restore the other half
+
+141
+00:08:46.365 --> 00:08:50.585
+quite accurately which means that they're not independent.
+
+142
+00:08:50.585 --> 00:08:52.745
+So, this assumption is too restrictive.
+
+143
+00:08:52.745 --> 00:08:55.200
+One more thing you can do is,
+
+144
+00:08:55.200 --> 00:08:57.700
+you can use Gaussian mixture model.
+
+145
+00:08:57.700 --> 00:09:02.970
+And, this thing is like really flexible in theory,
+
+146
+00:09:02.970 --> 00:09:05.735
+it can represent any probability distribution,
+
+147
+00:09:05.735 --> 00:09:10.530
+but in practice for complicated data like natural images,
+
+148
+00:09:10.530 --> 00:09:13.530
+it can be really inefficient.
+
+149
+00:09:13.530 --> 00:09:19.108
+So, we will have to use maybe thousands of Gaussians, of components,
+
+150
+00:09:19.108 --> 00:09:20.400
+and in this case
+
+151
+00:09:20.400 --> 00:09:23.670
+the overall methods will
+
+152
+00:09:23.670 --> 00:09:27.510
+fail to capture the structure because it'll be too hard to train it.
+
+153
+00:09:27.510 --> 00:09:32.798
+One more thing we can try is an infinite mixture of Gaussians like the probabilistic B,
+
+154
+00:09:32.798 --> 00:09:35.170
+C, E, methods we covered in week two.
+
+155
+00:09:35.170 --> 00:09:37.845
+So, here the idea is that each object,
+
+156
+00:09:37.845 --> 00:09:41.790
+each image X has a corresponding latent variable T,
+
+157
+00:09:41.790 --> 00:09:44.655
+and the image X is caused by this T,
+
+158
+00:09:44.655 --> 00:09:47.520
+so we can marginalize out T. And,
+
+159
+00:09:47.520 --> 00:09:50.815
+the conditional distribution X given T is a Gaussian.
+
+160
+00:09:50.815 --> 00:09:54.510
+So, we kind of have a mixture of infinitely many Gaussians, for each value of T,
+
+161
+00:09:54.510 --> 00:09:59.440
+there's one Gaussian and we mix them with weights.
+
+162
+00:09:59.440 --> 00:10:03.235
+Note here that, even if the Gaussians are factorized,
+
+163
+00:10:03.235 --> 00:10:07.610
+so they have independent components for each dimension, the mixture is not.
+
+164
+00:10:07.610 --> 00:10:11.550
+So, this is a little bit more powerful model than the Gaussian mixture model,
+
+165
+00:10:11.550 --> 00:10:14.765
+and we will discuss in the next videos how we can
+
+166
+00:10:14.765 --> 00:10:19.940
+make it even more powerful by using neural networks inside this model.
