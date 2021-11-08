@@ -1,0 +1,674 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.222
+[MUSIC]
+
+2
+00:00:04.222 --> 00:00:09.017
+Let's see how the Metropolis-Hastings can
+work in this simple, one-dimensional case.
+
+3
+00:00:09.017 --> 00:00:13.462
+Again, it's not that useful
+in one dimension, but
+
+4
+00:00:13.462 --> 00:00:17.716
+it's chosen just for
+illustrational purposes.
+
+5
+00:00:17.716 --> 00:00:23.932
+So let's say we want to sample from this
+two model distribution of the blue curve.
+
+6
+00:00:23.932 --> 00:00:28.735
+And let's say we start with the orange
+point, which is at the position 0 and
+
+7
+00:00:28.735 --> 00:00:32.429
+it's at the iteration 0, so
+it's our initialization.
+
+8
+00:00:32.429 --> 00:00:36.017
+Let's see how
+the interpretation works here.
+
+9
+00:00:36.017 --> 00:00:39.755
+First of all,
+let's choose the proposal distribution Q.
+
+10
+00:00:39.755 --> 00:00:42.195
+And to make everything simpler,
+
+11
+00:00:42.195 --> 00:00:47.261
+let's just use standard normal
+centered around the current point.
+
+12
+00:00:47.261 --> 00:00:51.563
+So at each duration,
+the mark of chain Q will propose to move
+
+13
+00:00:51.563 --> 00:00:56.307
+somewhere around the current
+point with some small variance 1.
+
+14
+00:00:56.307 --> 00:00:58.837
+And for example the first duration,
+
+15
+00:00:58.837 --> 00:01:03.331
+the Markov chain may propose this point,
+which is the right one.
+
+16
+00:01:03.331 --> 00:01:07.906
+So now we have to compute
+the acceptance probability, so
+
+17
+00:01:07.906 --> 00:01:11.446
+whether we want to accept this point or
+not.
+
+18
+00:01:11.446 --> 00:01:16.943
+This the definition of the acceptance
+probability, we have just proved
+
+19
+00:01:16.943 --> 00:01:22.093
+in the previous video, but
+note that in this case the ratio we have.
+
+20
+00:01:22.093 --> 00:01:27.667
+So the Q(x' -> x), and
+the Q(x' -> x), just the same.
+
+21
+00:01:27.667 --> 00:01:32.571
+So it is the property of our
+current proposal illustration Q,
+
+22
+00:01:32.571 --> 00:01:36.642
+that it doesn't depend on
+the order of arguments.
+
+23
+00:01:36.642 --> 00:01:40.713
+Which means that we can just vanish
+this Q, and what is left is just
+
+24
+00:01:40.713 --> 00:01:45.026
+the ratio of the densities at the new
+point, and at the previous one.
+
+25
+00:01:45.026 --> 00:01:50.330
+Which kind of makes sense,
+it just says that if the new point is more
+
+26
+00:01:50.330 --> 00:01:57.079
+probable than the previous one, we'll
+definitely accept it with probability 1.
+
+27
+00:01:57.079 --> 00:02:02.069
+If it's not the case, then we'll think
+like may be we'll accept it, maybe we'll
+
+28
+00:02:02.069 --> 00:02:06.861
+may be not depending on how less probable
+the new point is than the previous one.
+
+29
+00:02:06.861 --> 00:02:10.742
+So in this particular case, for
+this particular red dot proposal,
+
+30
+00:02:10.742 --> 00:02:14.093
+the new point is much more
+probable than the previous one.
+
+31
+00:02:14.093 --> 00:02:19.187
+It's like almost four times more probable
+which means that the probability
+
+32
+00:02:19.187 --> 00:02:23.496
+of acceptance here is 1 and
+we'll definitely keep this point.
+
+33
+00:02:23.496 --> 00:02:27.176
+So the end of situation 1 is
+moving to this new point.
+
+34
+00:02:27.176 --> 00:02:29.377
+Okay what about iteration two?
+
+35
+00:02:29.377 --> 00:02:32.104
+Let's sample again a point
+from the proposal and
+
+36
+00:02:32.104 --> 00:02:34.708
+we'll be somewhere around here for
+example.
+
+37
+00:02:34.708 --> 00:02:39.068
+Again computing
+the acceptance probability,
+
+38
+00:02:39.068 --> 00:02:43.977
+here we moved a little bit
+to the hard dense division.
+
+39
+00:02:43.977 --> 00:02:48.945
+It's not that much higher, but since it's
+higher then we will definitely accept
+
+40
+00:02:48.945 --> 00:02:53.421
+this point, so with probability 1
+we're keeping at this point, okay.
+
+41
+00:02:53.421 --> 00:02:57.890
+New proposal, this one is really,
+it's trying to move
+
+42
+00:02:57.890 --> 00:03:02.742
+to a really non probable region
+according to David Lugov, so
+
+43
+00:03:02.742 --> 00:03:07.022
+we'll keep this point with
+probability point 13,
+
+44
+00:03:07.022 --> 00:03:11.682
+and now we're flipping a biased
+coin with probability for
+
+45
+00:03:11.682 --> 00:03:15.106
+2 in which tells us to
+accept this point and
+
+46
+00:03:15.106 --> 00:03:19.043
+with the probability 87
+to reject this point.
+
+47
+00:03:19.043 --> 00:03:21.421
+So we flipped our biased coin, and
+
+48
+00:03:21.421 --> 00:03:25.858
+it told us to in this particular example,
+to reject this point.
+
+49
+00:03:25.858 --> 00:03:26.837
+Okay, why not?
+
+50
+00:03:26.837 --> 00:03:31.797
+Another proposal, it asks us to move here.
+
+51
+00:03:31.797 --> 00:03:34.765
+And this thing is much more
+probable than it appears, 1.
+
+52
+00:03:34.765 --> 00:03:38.192
+And we will keep this
+point with probability 73.
+
+53
+00:03:38.192 --> 00:03:41.539
+So most definitely keep this 1.
+
+54
+00:03:41.539 --> 00:03:46.959
+Again, we are flipping a biased coin, and
+now it tells us again to reject the point.
+
+55
+00:03:46.959 --> 00:03:49.157
+Well, why not, it happens sometimes.
+
+56
+00:03:49.157 --> 00:03:53.568
+It was more probable to accept it but
+we happen to reject it.
+
+57
+00:03:53.568 --> 00:03:59.250
+So again we are staying at the same
+place we were at the previous iteration.
+
+58
+00:03:59.250 --> 00:04:05.490
+And finally if you repeat this process for
+long enough, you will get a log like this.
+
+59
+00:04:05.490 --> 00:04:11.862
+So you will move In your sample space and
+here we have like 50 iterations and
+
+60
+00:04:11.862 --> 00:04:17.950
+sometimes you will stop it the same
+place and this plot will become flat.
+
+61
+00:04:17.950 --> 00:04:20.887
+But generally you will move around and
+
+62
+00:04:20.887 --> 00:04:24.832
+you can plot a histogram of
+the journey at points and
+
+63
+00:04:24.832 --> 00:04:29.633
+it looks kind of close to
+the Gaussian you want to sample from.
+
+64
+00:04:29.633 --> 00:04:33.751
+So in this case we didn't get
+exactly the samples we wanted,
+
+65
+00:04:33.751 --> 00:04:37.075
+the histogram is not
+exactly like the Gaussian.
+
+66
+00:04:37.075 --> 00:04:41.323
+I'm sorry not the Gaussian, but
+the blue curve, but it's close, so
+
+67
+00:04:41.323 --> 00:04:46.004
+it's a reasonable way to sample from
+the blue curve in this particular case.
+
+68
+00:04:46.004 --> 00:04:49.884
+Now the question is what happens
+if we change our proposal.
+
+69
+00:04:49.884 --> 00:04:54.447
+So let's say we use a Gaussian
+with less variance.
+
+70
+00:04:54.447 --> 00:04:57.538
+So we propose always to move just
+
+71
+00:04:57.538 --> 00:05:02.464
+with tiny little steps
+around the previous point.
+
+72
+00:05:02.464 --> 00:05:07.925
+Well, it kind of works, but
+in [INAUDIBLE] situations it doesn't
+
+73
+00:05:07.925 --> 00:05:13.403
+proceed to move outside the low
+density region where it started.
+
+74
+00:05:13.403 --> 00:05:17.598
+So in 50 iterations,
+it haven't converged yet, and
+
+75
+00:05:17.598 --> 00:05:22.700
+it will definitely converge at some
+point but we don't know where.
+
+76
+00:05:22.700 --> 00:05:27.540
+And this means that it's much
+less efficient choice here to use
+
+77
+00:05:27.540 --> 00:05:29.102
+these small steps.
+
+78
+00:05:29.102 --> 00:05:30.697
+What about large steps?
+
+79
+00:05:30.697 --> 00:05:36.331
+Well, if we increase the variance of
+our proposal distribution Q to be 100,
+
+80
+00:05:36.331 --> 00:05:41.126
+then we'll get large steps which is
+nice in terms of convergence and
+
+81
+00:05:41.126 --> 00:05:42.912
+uncorrelated samples.
+
+82
+00:05:42.912 --> 00:05:46.920
+But it will stay at the same place for
+really long periods.
+
+83
+00:05:46.920 --> 00:05:54.655
+Because it will be often that we state the
+nice place at the high probable place and
+
+84
+00:05:54.655 --> 00:06:02.070
+the mark of chain Q proposes us to move
+far away from it and we we don't like it.
+
+85
+00:06:02.070 --> 00:06:03.925
+So we stay where we were.
+
+86
+00:06:03.925 --> 00:06:07.579
+And this means that our actual
+symbols will be kind of correlated,
+
+87
+00:06:07.579 --> 00:06:11.364
+because we always stay at the same
+place and we waste the resources and
+
+88
+00:06:11.364 --> 00:06:12.946
+capacity of our computers.
+
+89
+00:06:12.946 --> 00:06:18.328
+I want to share with you one more thing
+about the Metropolis Hastings approach,
+
+90
+00:06:18.328 --> 00:06:22.102
+it's a really cool perspective
+on it which tells us that
+
+91
+00:06:22.102 --> 00:06:26.457
+Metropolis Hastings can be
+considered as a correction scheme.
+
+92
+00:06:26.457 --> 00:06:30.361
+So if you have a slightly wrong
+version of your assembly color theme,
+
+93
+00:06:30.361 --> 00:06:32.998
+you can correct it with
+Metropolis Hastings.
+
+94
+00:06:32.998 --> 00:06:39.037
+Let's look at one example, so recall
+the Gibbs scheme, the Gibbs sampling.
+
+95
+00:06:39.037 --> 00:06:43.650
+We used to assemble points at
+one dimension at a time and
+
+96
+00:06:43.650 --> 00:06:48.966
+the Gibbs scheme is inherently
+not parallel, so we'll have to
+
+97
+00:06:48.966 --> 00:06:55.613
+know all the information from the previous
+sub steps to make the next sub step.
+
+98
+00:06:55.613 --> 00:07:00.067
+Okay, let's try to make
+it parallel [COUGH]
+
+99
+00:07:00.067 --> 00:07:04.275
+let's briefly give sampling scheme and
+
+100
+00:07:04.275 --> 00:07:09.732
+use the information from
+the previous situations.
+
+101
+00:07:09.732 --> 00:07:14.880
+So the sub-steps will not
+depend on each other.
+
+102
+00:07:14.880 --> 00:07:20.361
+Briefly, If we have million-dimensional
+space, and if we have million computers,
+
+103
+00:07:20.361 --> 00:07:25.256
+we can do every sub-steps in parallel,
+and we'll be really, really fast.
+
+104
+00:07:25.256 --> 00:07:29.784
+But the problem is that we broke our
+scheme, we no longer have any conversion
+
+105
+00:07:29.784 --> 00:07:34.269
+guarantees, that it will convert to
+the true distribution which we want.
+
+106
+00:07:34.269 --> 00:07:35.971
+And it will not, actually.
+
+107
+00:07:35.971 --> 00:07:38.746
+So it will generate samples
+from some wrong distribution.
+
+108
+00:07:38.746 --> 00:07:40.669
+What can we do here?
+
+109
+00:07:40.669 --> 00:07:46.276
+Well, we can use this thing as a proposal
+distribution for the Metropolis Hastings
+
+110
+00:07:46.276 --> 00:07:51.500
+and then correct it with the from
+the Metropolis Hastings approach.
+
+111
+00:07:51.500 --> 00:07:56.198
+And since this particular proposal
+distribution is not arbitrary,
+
+112
+00:07:56.198 --> 00:07:58.225
+it's already almost right.
+
+113
+00:07:58.225 --> 00:08:01.424
+Almost generating your points
+from your desired distribution.
+
+114
+00:08:01.424 --> 00:08:03.614
+Then you will not reject too many points.
+
+115
+00:08:03.614 --> 00:08:07.440
+Because this is already almost
+the thing that you want to do.
+
+116
+00:08:07.440 --> 00:08:11.305
+So, you will just occasionally
+reject one point or another.
+
+117
+00:08:11.305 --> 00:08:16.247
+But generally it will, it may be
+much much more efficient overall,
+
+118
+00:08:16.247 --> 00:08:19.727
+because now you can do
+give subject a parallel.
+
+119
+00:08:19.727 --> 00:08:21.317
+So to summarize.
+
+120
+00:08:21.317 --> 00:08:27.350
+Metropolis Hastings approach is rejection
+sampling idea applied to Markov Chains.
+
+121
+00:08:27.350 --> 00:08:32.381
+And the nice thing about this
+approach is that it gives you a whole
+
+122
+00:08:32.381 --> 00:08:37.422
+family of Markov Chains and
+you can choose the one that you like.
+
+123
+00:08:37.422 --> 00:08:42.160
+Another bright property of this
+algorithm is that it works for
+
+124
+00:08:42.160 --> 00:08:47.901
+normalized probabilities and densities,
+as well as the Gibbs sampling,
+
+125
+00:08:47.901 --> 00:08:51.471
+and then it's also kind
+of easy to implement.
+
+126
+00:08:51.471 --> 00:08:55.081
+It is a bit harder than
+the Gibbs sampling maybe, but
+
+127
+00:08:55.081 --> 00:08:57.389
+anyways like five lines of code.
+
+128
+00:08:57.389 --> 00:09:02.171
+And the negative features are that
+samples are less correlated, but
+
+129
+00:09:02.171 --> 00:09:04.241
+still somewhat correlated.
+
+130
+00:09:04.241 --> 00:09:08.849
+And also, the property that it
+gives you a whole family of
+
+131
+00:09:08.849 --> 00:09:12.505
+Markov Chains is kind
+of a two-sided thing.
+
+132
+00:09:12.505 --> 00:09:17.107
+So first of all, it gives you flexibility
+to choose the right thing for
+
+133
+00:09:17.107 --> 00:09:18.905
+your particular problem.
+
+134
+00:09:18.905 --> 00:09:24.628
+But second of all it forces you to think,
+it forces you to choose something.
+
+135
+00:09:24.628 --> 00:09:28.534
+And may be hard in some cases,
+and harder to automate.
+
+136
+00:09:28.534 --> 00:09:32.620
+So if something works always, you don't
+always have to think at any point.
+
+137
+00:09:32.620 --> 00:09:36.036
+You can just automate the whole process.
+
+138
+00:09:36.036 --> 00:09:39.717
+And to apply in you usually
+have to think a little bit and
+
+139
+00:09:39.717 --> 00:09:44.246
+understand which proposal will make
+sense for your particular obligation.
+
+140
+00:09:44.246 --> 00:09:54.246
+[MUSIC]

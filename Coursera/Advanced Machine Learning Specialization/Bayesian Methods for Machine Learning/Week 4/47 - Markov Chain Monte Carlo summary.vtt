@@ -1,0 +1,565 @@
+WEBVTT
+
+1
+00:00:03.770 --> 00:00:07.585
+So, let's summarize what we learned so far.
+
+2
+00:00:07.585 --> 00:00:09.885
+We discussed Markov Chain Monte Carlo methods,
+
+3
+00:00:09.885 --> 00:00:15.195
+and the Monte Carlo part is about approximating expected values by sampling.
+
+4
+00:00:15.195 --> 00:00:18.315
+And the main question here is how to sample.
+
+5
+00:00:18.315 --> 00:00:20.850
+How can we generate samples from
+
+6
+00:00:20.850 --> 00:00:24.926
+a complicated distribution which we may know up to normalization constant,
+
+7
+00:00:24.926 --> 00:00:27.420
+which usually happens in probabilistic modeling?
+
+8
+00:00:27.420 --> 00:00:31.065
+To do that we discussed two main methods.
+
+9
+00:00:31.065 --> 00:00:35.295
+Both of them are coming from the Markov Chain Monte Carlo family,
+
+10
+00:00:35.295 --> 00:00:39.510
+and the idea of Markov Chain Monte Carlo is to build a dynamic system,
+
+11
+00:00:39.510 --> 00:00:42.280
+such that if you simulate it long enough,
+
+12
+00:00:42.280 --> 00:00:45.450
+it's state start to look like samples from a desired distribution.
+
+13
+00:00:45.450 --> 00:00:48.795
+In this dynamic system called Markov Chain,
+
+14
+00:00:48.795 --> 00:00:50.940
+we discussed two ways to build a Markov Chain that
+
+15
+00:00:50.940 --> 00:00:53.790
+converges to your distribution you want to sample from.
+
+16
+00:00:53.790 --> 00:00:56.325
+The first method here is Gibbs sampling,
+
+17
+00:00:56.325 --> 00:00:59.035
+which reduces the problem of sampling from
+
+18
+00:00:59.035 --> 00:01:04.290
+multidimensional distribution to a sequence of one dimensional samplings.
+
+19
+00:01:04.290 --> 00:01:06.570
+And one dimensional samplings are usually much easier
+
+20
+00:01:06.570 --> 00:01:09.000
+because we've first of all some efficient methods
+
+21
+00:01:09.000 --> 00:01:14.300
+for one dimensional sampling cyclic chain all purpose methods like rejection sampling.
+
+22
+00:01:14.300 --> 00:01:18.010
+Second of all, sometimes you can even compute the normalization constant,
+
+23
+00:01:18.010 --> 00:01:21.990
+because integrating things in one mention is much easier.
+
+24
+00:01:21.990 --> 00:01:24.330
+And finally, sometimes you can even find
+
+25
+00:01:24.330 --> 00:01:28.530
+analytical solutions to this one dimensional sampling problem.
+
+26
+00:01:28.530 --> 00:01:35.005
+If your original multidimensional sampling is structured enough.
+
+27
+00:01:35.005 --> 00:01:37.780
+But we discussed some downsides to this Gibbs sampling,
+
+28
+00:01:37.780 --> 00:01:43.340
+is that, is generate highly correlated updates.
+
+29
+00:01:43.340 --> 00:01:47.040
+And this means that it converge slowly and that you have to use lots
+
+30
+00:01:47.040 --> 00:01:52.165
+and lots of samples to approximate your expected value accurately enough.
+
+31
+00:01:52.165 --> 00:01:55.495
+The second method we discussed here is Metropolis Hastings,
+
+32
+00:01:55.495 --> 00:01:58.935
+and it gives you a whole family of Markov Chains,
+
+33
+00:01:58.935 --> 00:02:02.569
+which are all converged to the desired distribution you want,
+
+34
+00:02:02.569 --> 00:02:05.010
+and it kind of gives you more freedom,
+
+35
+00:02:05.010 --> 00:02:06.305
+you can choose, right?
+
+36
+00:02:06.305 --> 00:02:10.320
+But with this freedom comes great responsibility. You have to choose wisely.
+
+37
+00:02:10.320 --> 00:02:14.895
+If you choose this Markov Chain to be not well suited for your purpose like,
+
+38
+00:02:14.895 --> 00:02:19.725
+if you choose Markov Chain that converge slowly or has again highly correlated samples,
+
+39
+00:02:19.725 --> 00:02:21.660
+then you will waste lots of resources and
+
+40
+00:02:21.660 --> 00:02:24.330
+the methods available will not be very efficient.
+
+41
+00:02:24.330 --> 00:02:28.445
+So let's put this Markov Chain Monte Carlo methods in the context.
+
+42
+00:02:28.445 --> 00:02:33.350
+Let's compare it to the variational inference we covered in the previous week.
+
+43
+00:02:33.350 --> 00:02:37.920
+Again the Monte Carlo is about approximating the expected values.
+
+44
+00:02:37.920 --> 00:02:40.230
+So substituting them with average with
+
+45
+00:02:40.230 --> 00:02:42.880
+respect to samples you obtained from your distribution.
+
+46
+00:02:42.880 --> 00:02:47.490
+And the main property here is that this approximation is unbiased.
+
+47
+00:02:47.490 --> 00:02:48.765
+So, the more you wait,
+
+48
+00:02:48.765 --> 00:02:50.205
+the more accuracy you get,
+
+49
+00:02:50.205 --> 00:02:54.835
+and you can get this accuracy as low as you want if you're willing to wait long enough.
+
+50
+00:02:54.835 --> 00:03:01.165
+If you want to express this property a little bit more mathematically,
+
+51
+00:03:01.165 --> 00:03:03.310
+you can write down like this.
+
+52
+00:03:03.310 --> 00:03:09.195
+So, this average, this approximation is a random variable itself, right?
+
+53
+00:03:09.195 --> 00:03:12.210
+So if you repeat this process of obtaining samples and
+
+54
+00:03:12.210 --> 00:03:15.210
+then averaging them to get an approximation,
+
+55
+00:03:15.210 --> 00:03:16.950
+you'll get another approximation.
+
+56
+00:03:16.950 --> 00:03:18.360
+So to run a variable,
+
+57
+00:03:18.360 --> 00:03:22.082
+[inaudible] different approximations on different samples.
+
+58
+00:03:22.082 --> 00:03:24.835
+And an estimate like this is called unbiased,
+
+59
+00:03:24.835 --> 00:03:30.640
+if its expected value is equal to the thing you want to approximate.
+
+60
+00:03:30.640 --> 00:03:35.530
+So, on average your approximation is correct.
+
+61
+00:03:35.530 --> 00:03:41.495
+And if you wait long enough this approximation will converge to the right answer.
+
+62
+00:03:41.495 --> 00:03:44.935
+And this is something that is not true for Variational Inference.
+
+63
+00:03:44.935 --> 00:03:46.425
+So, in Variational Inference,
+
+64
+00:03:46.425 --> 00:03:48.510
+we're trying to approximate the distribution we
+
+65
+00:03:48.510 --> 00:03:51.030
+want to sample from or we want to work with,
+
+66
+00:03:51.030 --> 00:03:54.345
+with distribution from some simple family,
+
+67
+00:03:54.345 --> 00:03:57.245
+like for example of family of factorised distributions.
+
+68
+00:03:57.245 --> 00:04:01.380
+And of course in iterations, Variational Inference will become better and better.
+
+69
+00:04:01.380 --> 00:04:05.700
+Because so you think better and better approximation of
+
+70
+00:04:05.700 --> 00:04:09.722
+your distribution in this class of factorised distributions.
+
+71
+00:04:09.722 --> 00:04:11.643
+But you can't get your error to zero,
+
+72
+00:04:11.643 --> 00:04:13.920
+because you can never approximate
+
+73
+00:04:13.920 --> 00:04:19.405
+your complicated distribution arbitrarily well with a factorized one.
+
+74
+00:04:19.405 --> 00:04:25.470
+So, a typical picture for this describing distribution is like this.
+
+75
+00:04:25.470 --> 00:04:29.773
+You have your problem and you are trying to solve it with Markov Chain Monte Carlo,
+
+76
+00:04:29.773 --> 00:04:32.490
+and it kind of works and gives you a solution which is
+
+77
+00:04:32.490 --> 00:04:36.330
+better and better and better with time and it approaching to zero error.
+
+78
+00:04:36.330 --> 00:04:38.390
+Then you use Variational Inference,
+
+79
+00:04:38.390 --> 00:04:42.840
+it usually gives you a nice solution much faster but it stagnates.
+
+80
+00:04:42.840 --> 00:04:48.440
+It can't get past some critical value fairer and can get you to zero.
+
+81
+00:04:48.440 --> 00:04:54.450
+So, to put this Markov Chain Monte Carlo even more in the context,
+
+82
+00:04:54.450 --> 00:05:00.205
+we can recall the table we had in the end of week three about Variational Inference.
+
+83
+00:05:00.205 --> 00:05:04.095
+The table of approximate method store solve for
+
+84
+00:05:04.095 --> 00:05:08.990
+probabilistic modeling problems we have covered so far.
+
+85
+00:05:08.990 --> 00:05:12.135
+So first of all, there is Full Bayesian Inference,
+
+86
+00:05:12.135 --> 00:05:17.640
+where you model all your parameters and latent variables as latent variables.
+
+87
+00:05:17.640 --> 00:05:21.240
+So, you don't train anything in the usual sense.
+
+88
+00:05:21.240 --> 00:05:24.350
+You're not trying to find the best fitters for parameters,
+
+89
+00:05:24.350 --> 00:05:28.550
+but instead you're trying to marginalize how they'll think you don't know.
+
+90
+00:05:28.550 --> 00:05:32.430
+This one theoritically get the best results.
+
+91
+00:05:32.430 --> 00:05:35.553
+But on most for practical models,
+
+92
+00:05:35.553 --> 00:05:37.975
+this Full Bayesian Inferences isn't feasible,
+
+93
+00:05:37.975 --> 00:05:39.850
+and you have to do some approximations.
+
+94
+00:05:39.850 --> 00:05:43.730
+And one of them is to do a midfield or variational inference.
+
+95
+00:05:43.730 --> 00:05:48.905
+Where you assume that your posterior distribution is factorized,
+
+96
+00:05:48.905 --> 00:05:50.565
+and you're trying to approximate
+
+97
+00:05:50.565 --> 00:05:55.100
+your posterior distribution in these factorized family as well as you can.
+
+98
+00:05:55.100 --> 00:05:57.750
+Now we have just added one more method here.
+
+99
+00:05:57.750 --> 00:06:01.480
+We can approximate this Full Bayesian inference
+
+100
+00:06:01.480 --> 00:06:04.562
+by sampling from the posterior distribution,
+
+101
+00:06:04.562 --> 00:06:06.740
+and using these samples to obtain,
+
+102
+00:06:06.740 --> 00:06:12.285
+to estimate the values you care about.
+
+103
+00:06:12.285 --> 00:06:17.710
+So, we can use Gibbs sampling or Metropolis Hastings here and assemble a few points
+
+104
+00:06:17.710 --> 00:06:19.900
+from the posterior distribution so far from
+
+105
+00:06:19.900 --> 00:06:23.960
+the all latent variables and then use them to approximate.
+
+106
+00:06:23.960 --> 00:06:29.125
+Then if you can do in that or if you don't want to because it processes slow,
+
+107
+00:06:29.125 --> 00:06:32.545
+you can use the expectation maximization algorithm.
+
+108
+00:06:32.545 --> 00:06:41.110
+Which basically tries to find the maximum likelihood estimation on the parameters theta,
+
+109
+00:06:41.110 --> 00:06:43.765
+so it doesn't treat theta as latent variable,
+
+110
+00:06:43.765 --> 00:06:46.115
+but instead it treats theta as parameters,
+
+111
+00:06:46.115 --> 00:06:52.155
+and is trying to find the best theta for these parameters by using some iterative scheme.
+
+112
+00:06:52.155 --> 00:06:56.045
+And this expectation maximization algorithm is also sometimes intractable.
+
+113
+00:06:56.045 --> 00:06:58.859
+So, sometimes it's very hard to do E or M step.
+
+114
+00:06:58.859 --> 00:07:02.050
+And in these cases you can do again midfield
+
+115
+00:07:02.050 --> 00:07:06.450
+variational inference with applied to expectation maximization.
+
+116
+00:07:06.450 --> 00:07:08.020
+So basically on the E step,
+
+117
+00:07:08.020 --> 00:07:09.885
+you can approximate your posterior,
+
+118
+00:07:09.885 --> 00:07:14.160
+your variational distribution cue with a factorized one,
+
+119
+00:07:14.160 --> 00:07:17.195
+or again, you can do Markov Chain Monte Carlo for EM.
+
+120
+00:07:17.195 --> 00:07:18.442
+So on the EM step,
+
+121
+00:07:18.442 --> 00:07:19.818
+instead of working with
+
+122
+00:07:19.818 --> 00:07:25.060
+a distribution cue directly
+
+123
+00:07:25.060 --> 00:07:28.975
+and trying to find expected value with respect to this distribution,
+
+124
+00:07:28.975 --> 00:07:33.720
+you can acquire samples from this posterior on the latent variables,
+
+125
+00:07:33.720 --> 00:07:39.700
+and then use the samples to approximate the expected value on the EM step,
+
+126
+00:07:39.700 --> 00:07:45.475
+and maximize this approximation instead of the original expected value.
+
+127
+00:07:45.475 --> 00:07:47.533
+As of the final summary,
+
+128
+00:07:47.533 --> 00:07:50.590
+Markov Chain Monte Carlo is a method that allows you
+
+129
+00:07:50.590 --> 00:07:54.100
+to do training or inferencing probabilistic models,
+
+130
+00:07:54.100 --> 00:07:56.290
+and it's really easy to implement.
+
+131
+00:07:56.290 --> 00:08:01.375
+It's really easy to parallelize at least in terms of like if you have 100 computers,
+
+132
+00:08:01.375 --> 00:08:06.115
+you can run 100 independent cue centers for example on each computer,
+
+133
+00:08:06.115 --> 00:08:11.460
+and then combine the samples obtained from all these servers.
+
+134
+00:08:11.460 --> 00:08:13.500
+And finally, it gives you unbiased estimates.
+
+135
+00:08:13.500 --> 00:08:18.640
+So in principle, if you wait long enough you can get as low accuracy as you may want.
+
+136
+00:08:18.640 --> 00:08:19.992
+On the negative side,
+
+137
+00:08:19.992 --> 00:08:25.070
+sometimes this Markov Chain Monte Carlo methods are slower than the others.
+
+138
+00:08:25.070 --> 00:08:27.440
+But because they're so widely applicable,
+
+139
+00:08:27.440 --> 00:08:30.405
+sometimes is just the only choice.
+
+140
+00:08:30.405 --> 00:08:32.770
+So, in the next videos we will cover
+
+141
+00:08:32.770 --> 00:08:38.190
+a few practical examples of how can you apply Markov Chain Monte Carlo to your problems.
