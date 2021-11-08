@@ -1,0 +1,701 @@
+WEBVTT
+
+1
+00:00:03.280 --> 00:00:06.370
+In the last video of this week,
+
+2
+00:00:06.370 --> 00:00:12.030
+let's discuss how can we apply Markov chain Monte Carlo to Bayesian Neural Networks.
+
+3
+00:00:12.030 --> 00:00:14.655
+So this is your usual neural network,
+
+4
+00:00:14.655 --> 00:00:17.250
+and it has weights on each h, right?
+
+5
+00:00:17.250 --> 00:00:20.150
+So each connection has some weights which would train
+
+6
+00:00:20.150 --> 00:00:24.324
+during basically fitting our neural network into data.
+
+7
+00:00:24.324 --> 00:00:26.175
+Basing neural networks instead of weights,
+
+8
+00:00:26.175 --> 00:00:28.340
+they have distributions and weights.
+
+9
+00:00:28.340 --> 00:00:31.090
+So we treat w, the weights,
+
+10
+00:00:31.090 --> 00:00:33.125
+as a latent variable,
+
+11
+00:00:33.125 --> 00:00:36.175
+and then to do predictions, we marginalize w out.
+
+12
+00:00:36.175 --> 00:00:40.765
+And this way, instead of just hard set failure for W11 like three,
+
+13
+00:00:40.765 --> 00:00:43.020
+we'll have a distribution on w in
+
+14
+00:00:43.020 --> 00:00:46.575
+posterior distribution which we'll use to obtain the predictions.
+
+15
+00:00:46.575 --> 00:00:51.630
+And so, to make a prediction for new data object
+
+16
+00:00:51.630 --> 00:00:54.225
+x or and though using
+
+17
+00:00:54.225 --> 00:00:58.950
+the training data set of objects X_train and Y_train, we do the following.
+
+18
+00:00:58.950 --> 00:01:02.790
+We say that this thing equals to integral where we
+
+19
+00:01:02.790 --> 00:01:07.628
+marginalize our w. So we consider all possible values for the weights w,
+
+20
+00:01:07.628 --> 00:01:10.945
+and we average the predictions with the respect to them.
+
+21
+00:01:10.945 --> 00:01:13.950
+So here you have p of y given x and w,
+
+22
+00:01:13.950 --> 00:01:18.395
+is your usual neural network output.
+
+23
+00:01:18.395 --> 00:01:22.425
+So, you have your image x, for example,
+
+24
+00:01:22.425 --> 00:01:25.500
+and you pass it through your neural network with parameters
+
+25
+00:01:25.500 --> 00:01:29.100
+w. And then you record these predictions.
+
+26
+00:01:29.100 --> 00:01:32.760
+And you do that for all possible values for
+
+27
+00:01:32.760 --> 00:01:37.680
+the parameters w. So there are infinitely many values for W,
+
+28
+00:01:37.680 --> 00:01:41.865
+and for each of them you pass your image through the corresponding neural network,
+
+29
+00:01:41.865 --> 00:01:44.775
+and write down the prediction.
+
+30
+00:01:44.775 --> 00:01:48.292
+And then you average all these predictions with weights,
+
+31
+00:01:48.292 --> 00:01:53.375
+where weights are the posterior distribution on w,
+
+32
+00:01:53.375 --> 00:01:56.815
+which basically says us, how probable is that these particular w was
+
+33
+00:01:56.815 --> 00:02:01.505
+according to the training data set.
+
+34
+00:02:01.505 --> 00:02:04.500
+So, you have kind of an infinitely large ensemble
+
+35
+00:02:04.500 --> 00:02:07.573
+of neural networks with all possible weights,
+
+36
+00:02:07.573 --> 00:02:12.780
+and with basically importance being proportional
+
+37
+00:02:12.780 --> 00:02:15.390
+to the posterior distribution w. And this is
+
+38
+00:02:15.390 --> 00:02:18.135
+full base in inference applied in neural networks,
+
+39
+00:02:18.135 --> 00:02:22.710
+and this way we can get some benefits from our produced programming in neural networks.
+
+40
+00:02:22.710 --> 00:02:24.720
+So again, estimate uncertainty,
+
+41
+00:02:24.720 --> 00:02:30.045
+we may tune some hyperparameters naturally and stuff like that.
+
+42
+00:02:30.045 --> 00:02:33.690
+And so we may notice here that this prediction,
+
+43
+00:02:33.690 --> 00:02:40.035
+this integral, equals to an expected value of your output from your neural network,
+
+44
+00:02:40.035 --> 00:02:44.724
+with respect to the posterior distribution w. So,
+
+45
+00:02:44.724 --> 00:02:48.330
+basically it's an expected output
+
+46
+00:02:48.330 --> 00:02:52.340
+of your neural network with weights defined by the posterior.
+
+47
+00:02:52.340 --> 00:02:54.525
+And so to solve this problem,
+
+48
+00:02:54.525 --> 00:02:58.020
+let's use your favorite Markov chain Monte Carlo procedure.
+
+49
+00:02:58.020 --> 00:03:02.078
+So let's approximate this expected failure with sampling,
+
+50
+00:03:02.078 --> 00:03:03.965
+for example with Gibbs sampling.
+
+51
+00:03:03.965 --> 00:03:09.955
+And if require a few samples from the posterior distribution w,
+
+52
+00:03:09.955 --> 00:03:11.765
+we can use that Ws,
+
+53
+00:03:11.765 --> 00:03:14.685
+that weights of neural network and then,
+
+54
+00:03:14.685 --> 00:03:16.800
+if we have like, for example, 10 samples.
+
+55
+00:03:16.800 --> 00:03:19.080
+For each sample is a neural network,
+
+56
+00:03:19.080 --> 00:03:20.820
+is a weights for some network.
+
+57
+00:03:20.820 --> 00:03:22.240
+And then for new image,
+
+58
+00:03:22.240 --> 00:03:24.630
+we can just pass it through all this 10 neural networks,
+
+59
+00:03:24.630 --> 00:03:27.570
+and then average their predictions to get approximation of
+
+60
+00:03:27.570 --> 00:03:30.915
+the full weight in inference with an integral.
+
+61
+00:03:30.915 --> 00:03:33.540
+And how can we sample from the posterior?
+
+62
+00:03:33.540 --> 00:03:36.970
+Well, we know it after normalization counts, as usually.
+
+63
+00:03:36.970 --> 00:03:43.590
+So, here this posterior distribution W is proportional to the likelihood,
+
+64
+00:03:43.590 --> 00:03:46.890
+so basically the prediction of a neural network on the training data
+
+65
+00:03:46.890 --> 00:03:50.490
+set with parameters W times the prior,
+
+66
+00:03:50.490 --> 00:03:52.950
+p of w which you can define as you wish,
+
+67
+00:03:52.950 --> 00:03:55.980
+for example, just a standard normal distribution.
+
+68
+00:03:55.980 --> 00:03:59.685
+And you have to divide by normalization constant, which you've done now.
+
+69
+00:03:59.685 --> 00:04:03.800
+But it's okay because Gibbs sampling doesn't care, right?
+
+70
+00:04:03.800 --> 00:04:06.135
+So it's a valid approach,
+
+71
+00:04:06.135 --> 00:04:09.165
+but I think the problem here is that
+
+72
+00:04:09.165 --> 00:04:13.427
+Gibbs sampling or Metropolis-Hastings sampling for that matter,
+
+73
+00:04:13.427 --> 00:04:18.155
+it depends on the whole data set to make its steps, right?
+
+74
+00:04:18.155 --> 00:04:19.965
+We discussed at the end of the previous video,
+
+75
+00:04:19.965 --> 00:04:26.210
+that sometimes Gibbs sampling is okay with using mini-batches to make moves,
+
+76
+00:04:26.210 --> 00:04:28.045
+but sometimes it's not.
+
+77
+00:04:28.045 --> 00:04:29.618
+And as far as I know,
+
+78
+00:04:29.618 --> 00:04:30.860
+in Bayesian neural networks,
+
+79
+00:04:30.860 --> 00:04:34.425
+it's not a good idea to use Gibbs sampling with the mini-batches.
+
+80
+00:04:34.425 --> 00:04:36.795
+So, we'll have to do something else.
+
+81
+00:04:36.795 --> 00:04:39.168
+If we don't want to, you know,
+
+82
+00:04:39.168 --> 00:04:43.370
+when we ran our Bayesian neural network on large data set,
+
+83
+00:04:43.370 --> 00:04:46.500
+we don't want to spend time proportional
+
+84
+00:04:46.500 --> 00:04:51.790
+to the size of the whole large data set or at each duration of training.
+
+85
+00:04:51.790 --> 00:04:55.120
+Want to avoid that. So let's see what else can we do.
+
+86
+00:04:55.120 --> 00:05:04.226
+And here comes the really nice idea of something called, Langevin Monte Carlo.
+
+87
+00:05:04.226 --> 00:05:07.130
+So it forces false.
+
+88
+00:05:07.130 --> 00:05:11.920
+Say, we want to sample from the posterior distribution p of w given some data.
+
+89
+00:05:11.920 --> 00:05:14.485
+So train in data X_train and Y_train.
+
+90
+00:05:14.485 --> 00:05:19.760
+Let's start from some initial value for the base w,
+
+91
+00:05:19.760 --> 00:05:25.260
+and then in iterations do updates like this.
+
+92
+00:05:25.260 --> 00:05:31.435
+So here, we update our w to be our previous w, plus epsilon,
+
+93
+00:05:31.435 --> 00:05:32.850
+which is kind of learning create,
+
+94
+00:05:32.850 --> 00:05:36.783
+times gradient of our logarithm of the posterior,
+
+95
+00:05:36.783 --> 00:05:39.590
+plus some random noise.
+
+96
+00:05:39.590 --> 00:05:42.700
+So the first part of this expression is actually
+
+97
+00:05:42.700 --> 00:05:47.595
+a usual gradient ascent applied to train the weights of your neural network.
+
+98
+00:05:47.595 --> 00:05:50.230
+And you can see it here clearly.
+
+99
+00:05:50.230 --> 00:05:53.875
+So if you look at your posterior p of w given data,
+
+100
+00:05:53.875 --> 00:05:57.460
+it will be proportional to logarithm of prior,
+
+101
+00:05:57.460 --> 00:06:00.850
+plus logarithm of the condition distribution,
+
+102
+00:06:00.850 --> 00:06:04.330
+p of y given x and w. And you can write it as
+
+103
+00:06:04.330 --> 00:06:07.865
+follows by using the purpose of logarithm that,
+
+104
+00:06:07.865 --> 00:06:11.140
+like logarithm of multiplication is sum of logarithms.
+
+105
+00:06:11.140 --> 00:06:15.412
+And you should also have a normalization constant, here is that.
+
+106
+00:06:15.412 --> 00:06:17.135
+But is a constant with respect to
+
+107
+00:06:17.135 --> 00:06:20.945
+our optimization problem so we don't care about it, right?
+
+108
+00:06:20.945 --> 00:06:24.795
+And on practice this first term,
+
+109
+00:06:24.795 --> 00:06:29.035
+the prior, if you took a logarithm of a standard to normal distribution for example,
+
+110
+00:06:29.035 --> 00:06:33.700
+it just gets some constant times the Euclidean norm of your weights
+
+111
+00:06:33.700 --> 00:06:40.500
+w. So it's your usual weight decay which people oftenly use in neural networks.
+
+112
+00:06:40.500 --> 00:06:42.750
+And the second term is, usual cross entropy.
+
+113
+00:06:42.750 --> 00:06:46.560
+Usual objective that people use to train neural networks.
+
+114
+00:06:46.560 --> 00:06:51.355
+So this particular update is actually a gradient descent or ascent
+
+115
+00:06:51.355 --> 00:06:54.280
+with step size epsilon applied to
+
+116
+00:06:54.280 --> 00:06:58.010
+your neural network to find the best possible values for parameters.
+
+117
+00:06:58.010 --> 00:06:59.538
+But on each iteration,
+
+118
+00:06:59.538 --> 00:07:05.810
+you add some Gaussian noise with variants being epsilon.
+
+119
+00:07:05.810 --> 00:07:08.735
+So proportional to your learning crate.
+
+120
+00:07:08.735 --> 00:07:14.305
+And if you do that, and if you choose your learning crate to be infinitely small,
+
+121
+00:07:14.305 --> 00:07:17.920
+you can prove that this procedure will eventually
+
+122
+00:07:17.920 --> 00:07:22.150
+generate your sample from the desired distribution, p of w given data.
+
+123
+00:07:22.150 --> 00:07:26.345
+So basically, if you omit the noise,
+
+124
+00:07:26.345 --> 00:07:28.940
+you will just have the usual gradient ascent.
+
+125
+00:07:28.940 --> 00:07:31.295
+And if you use infinitely small learning crate,
+
+126
+00:07:31.295 --> 00:07:36.940
+then you will definitely goes to just the local maximum around the current point, right?
+
+127
+00:07:36.940 --> 00:07:39.740
+But if you add the noise in each iteration,
+
+128
+00:07:39.740 --> 00:07:45.095
+theoretically you can end up in any point in the parameter space, like any point.
+
+129
+00:07:45.095 --> 00:07:48.140
+But of course, with more probability,
+
+130
+00:07:48.140 --> 00:07:51.330
+you will end up somewhere around the local maximum.
+
+131
+00:07:51.330 --> 00:07:54.670
+If you're doing that, you will actually a sample from a posterior distribution.
+
+132
+00:07:54.670 --> 00:07:56.985
+So you will end up in points with
+
+133
+00:07:56.985 --> 00:08:00.680
+high probability of more often than in points with low probability.
+
+134
+00:08:00.680 --> 00:08:07.670
+On practice, you will never use infinitely small learning crate, of course.
+
+135
+00:08:07.670 --> 00:08:12.800
+But one thing you can do about it is to correct this scheme with Metropolis-Hastings.
+
+136
+00:08:12.800 --> 00:08:15.440
+So you can say that theoretically,
+
+137
+00:08:15.440 --> 00:08:17.790
+I should use infinitely small learning crate.
+
+138
+00:08:17.790 --> 00:08:20.845
+I use not infinitely small but like .1,
+
+139
+00:08:20.845 --> 00:08:24.770
+so I have to correct, I'm standing from the wrong distribution.
+
+140
+00:08:24.770 --> 00:08:28.400
+And I can do Metropolis-Hastings correction to reject
+
+141
+00:08:28.400 --> 00:08:33.045
+some of the moves and then to guarantee that I will sample from the current distribution.
+
+142
+00:08:33.045 --> 00:08:35.840
+But, since we want to do
+
+143
+00:08:35.840 --> 00:08:39.440
+some large scale optimization here and to work with mini-batches,
+
+144
+00:08:39.440 --> 00:08:43.775
+we will not use this Metropolis- Hastings corrections because it's not scalable,
+
+145
+00:08:43.775 --> 00:08:47.840
+and we'll just use small learning crate and hope for the best.
+
+146
+00:08:47.840 --> 00:08:52.720
+So this way, we will not actually derive samples from the true posterior distribution w,
+
+147
+00:08:52.720 --> 00:08:56.120
+but will be close enough if your learning crate is small enough,
+
+148
+00:08:56.120 --> 00:08:59.980
+is close enough to the infinitely small, right?
+
+149
+00:08:59.980 --> 00:09:02.420
+So the overall scheme is false.
+
+150
+00:09:02.420 --> 00:09:06.505
+We initialized some ways of your neural network,
+
+151
+00:09:06.505 --> 00:09:12.735
+then we do a few iterations or epochs of your favorite SGD.
+
+152
+00:09:12.735 --> 00:09:15.740
+But on each iteration, you add some noise,
+
+153
+00:09:15.740 --> 00:09:22.775
+some Gaussian noise with a variance being equal to the learning crate, to your update.
+
+154
+00:09:22.775 --> 00:09:27.530
+And notice here also that you can't change learning crate at all,
+
+155
+00:09:27.530 --> 00:09:30.770
+at any stage of your symbolic or you will also break
+
+156
+00:09:30.770 --> 00:09:35.985
+the properties of this Langevin Monte Carlo idea.
+
+157
+00:09:35.985 --> 00:09:39.950
+And then after doing a few iterations like hundred of them,
+
+158
+00:09:39.950 --> 00:09:41.625
+you may say that, okay,
+
+159
+00:09:41.625 --> 00:09:44.265
+I believe that now I have already converged.
+
+160
+00:09:44.265 --> 00:09:48.290
+So, let's collect the full learning samples
+
+161
+00:09:48.290 --> 00:09:53.425
+and use them as actual samples from the posterior distribution.
+
+162
+00:09:53.425 --> 00:09:56.410
+That's the usual idea of Monte Carlo.
+
+163
+00:09:56.410 --> 00:10:00.710
+And then finally, for a new point you can just diverge the predictions
+
+164
+00:10:00.710 --> 00:10:07.100
+of your hundred slightly different neural networks
+
+165
+00:10:07.100 --> 00:10:12.530
+on these new objects to get the prediction for your object.
+
+166
+00:10:12.530 --> 00:10:15.100
+But this is really expensive, right?
+
+167
+00:10:15.100 --> 00:10:19.655
+So there is this really nice and cool idea that we can use
+
+168
+00:10:19.655 --> 00:10:25.100
+a separate neural network that will approximate the behavior of these in sample.
+
+169
+00:10:25.100 --> 00:10:30.390
+So we are simultaneously training these Bayesian neural network.
+
+170
+00:10:30.390 --> 00:10:31.852
+And simultaneously with that,
+
+171
+00:10:31.852 --> 00:10:37.310
+we're using its behavior to train a student neural network that will
+
+172
+00:10:37.310 --> 00:10:44.175
+try to mimic the behavior of this Bayesian neural network in the usual one.
+
+173
+00:10:44.175 --> 00:10:46.430
+And so it has quite a few details
+
+174
+00:10:46.430 --> 00:10:49.400
+there on how to do it efficiently, but it's really cool.
+
+175
+00:10:49.400 --> 00:10:53.160
+So if you're interested in these kind of things, check it out.
